@@ -527,13 +527,17 @@ class FilterList extends React.Component<Props, State> {
 
           updateProduct(filterUrl, listdata).then(plpList => {
             changeLoader?.(false);
-            productImpression(
-              plpList,
-              categoryShopL1 || "PLP",
-              this.props.currency,
-              plpList.results.data.length
-            );
-            this.createFilterfromUrl(false);
+            try {
+              productImpression(
+                plpList,
+                categoryShopL1 || "PLP",
+                this.props.currency,
+                plpList.results.data.length
+              );
+            } catch (e) {
+              console.log("plp GA error====", e);
+            }
+            // this.createFilterfromUrl(false);
             const pricearray: any = [],
               currentCurrency =
                 "price" +
@@ -582,13 +586,14 @@ class FilterList extends React.Component<Props, State> {
                   this.state.shouldScroll &&
                   this.props.history.action === "POP"
                 ) {
+                  console.log("PLP product search called======");
                   this.handleProductSearch();
                 }
               }
             );
-            this.props.updateFacets(
-              this.getSortedFacets(plpList.results.facets)
-            );
+            // this.props.updateFacets(
+            //   this.getSortedFacets(plpList.results.facets)
+            // );
           });
 
           // if (categoryShop) {
@@ -630,11 +635,13 @@ class FilterList extends React.Component<Props, State> {
 
   stateChange = (location: any, action: any) => {
     if (action == "REPLACE") {
+      console.log("PLP replace called======");
       this.props.onStateChange?.();
     } else if (
       action == "PUSH" &&
       location.pathname.includes("/catalogue/category/")
     ) {
+      console.log("PLP push called======");
       this.setState(
         {
           filter: {
