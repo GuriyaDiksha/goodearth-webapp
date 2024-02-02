@@ -192,6 +192,11 @@ class PLP extends React.Component<
     observer.observe(document, config);
   }
 
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+    console.log("error =================================", error);
+    console.log("errorInfo ===================================", errorInfo);
+  }
+
   componentWillUnmount() {
     moveChatUp();
     window.removeEventListener(
