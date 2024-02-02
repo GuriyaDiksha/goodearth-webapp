@@ -554,7 +554,8 @@ const CartItems: React.FC<BasketItem> = memo(
                         [globalStyles.hiddenEye]: isGiftCard || bridalProfile
                       },
                       styles.wishlistDisplay,
-                      styles.disableMobile
+                      styles.disableMobile,
+                      globalStyles.voffset2
                     )}
                   >
                     <WishlistButton
