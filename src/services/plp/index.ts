@@ -63,14 +63,20 @@ export default {
     url: string,
     listdata: any
   ) {
-    const res = await API.get<PlpProps>(
-      dispatch,
-      `${__API_HOST__ + `/myapi/search/` + url}`
-    );
-    dispatch(updatePlpProduct(res.results.data));
-    res.results.data = listdata.concat(res.results.data);
-    dispatch(updateProduct({ ...res }));
-    return res;
+    try {
+      const res = await API.get<PlpProps>(
+        dispatch,
+        `${__API_HOST__ + `/myapi/search/` + url}`
+      );
+      console.log("PLP api called response=======", res);
+
+      dispatch(updatePlpProduct(res.results.data));
+      res.results.data = listdata.concat(res.results.data);
+      dispatch(updateProduct({ ...res }));
+      return res;
+    } catch (err) {
+      console.log("PLP api called error=======", err);
+    }
   },
   fetchPlpTemplates: async function(dispatch: Dispatch, categoryShop: string) {
     const res = await API.get<PlpTemplatesData>(
