@@ -510,7 +510,7 @@ class FilterList extends React.Component<Props, State> {
           changeLoader?.(true);
           let filterUrl = "?" + nextUrl.split("?")[1];
           // const pageSize = mobile ? 10 : 20;
-          const pageSize = 40;
+          const pageSize = 20;
           const urlParams = new URLSearchParams(
             this.props.history.location.search
           );
@@ -624,7 +624,7 @@ class FilterList extends React.Component<Props, State> {
       ?.split(">")[1]
       ?.trim();
     // const pageSize = mobile ? 10 : 20;
-    const pageSize = 40;
+    const pageSize = 20;
     const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
 
     if (!isPageSizeExist) {
