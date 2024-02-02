@@ -59,6 +59,18 @@ export type BridalItemData = {
   sku: string;
   productDeliveryDate: string;
   productAvailable: boolean;
+  childAttributes: {
+    id: number;
+    sku: string;
+    price: PriceRecord;
+    discountedPrice: PriceRecord;
+    stock: number;
+    showStockThreshold: boolean;
+    othersBasketCount: number;
+    size: string;
+    isBridalProduct: boolean;
+    color: string;
+  }[];
 };
 
 export type BridalPublicProfileData = {
