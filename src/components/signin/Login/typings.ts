@@ -36,4 +36,5 @@ export type loginState = {
   showEmailVerification: boolean;
   usrWithNoOrder: boolean;
   phoneNo?: string;
+  isUserActive?: boolean;
 };

@@ -16,3 +16,5 @@ export const countryCurrencyCode = {
   SG: "SGD",
   AU: "USD"
 };
+
+export const maximumOtpAttempt = 5;
