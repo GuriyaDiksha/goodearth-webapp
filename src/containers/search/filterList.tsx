@@ -639,7 +639,11 @@ class FilterList extends React.Component<Props, State> {
       });
     }
     // html.clientHeight <= (window.pageYOffset + window.innerHeight-100)
-    if (windowBottom + 2000 >= docHeight && this.state.scrollload) {
+    if (
+      windowBottom + 2000 >= docHeight &&
+      this.state.scrollload &&
+      this.state.flag
+    ) {
       this.appendData();
     }
   };
@@ -711,90 +715,94 @@ class FilterList extends React.Component<Props, State> {
     } = this.props;
     const { filter } = this.state;
     if (nextUrl) {
-      this.setState({
-        disableSelectedbox: true
-      });
-    }
-    if (nextUrl && this.state.flag && this.state.scrollload) {
-      this.setState({ flag: false });
-      let filterUrl = "?" + nextUrl.split("?")[1];
-      // const pageSize = mobile ? 10 : 20;
-      const pageSize = 40;
-      const queryString = this.props.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      const searchValue: any = urlParams.get("q") || "";
-      const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
-      if (!isPageSizeExist) {
-        filterUrl = filterUrl + `&page_size=${pageSize}`;
-      }
-      this.setState({ isLoading: true });
-      changeLoader?.(true);
-      updateProduct(filterUrl, listdata)
-        .then(searchList => {
-          changeLoader?.(false);
-          productImpression(
-            searchList,
-            searchValue || "PLP",
-            this.props.currency,
-            searchList.results.data.length
+      this.setState(
+        {
+          disableSelectedbox: true,
+          flag: false
+        },
+        () => {
+          let filterUrl = "?" + nextUrl.split("?")[1];
+          // const pageSize = mobile ? 10 : 20;
+          const pageSize = 40;
+          const queryString = this.props.location.search;
+          const urlParams = new URLSearchParams(queryString);
+          const searchValue: any = urlParams.get("q") || "";
+          const isPageSizeExist = new URLSearchParams(filterUrl).get(
+            "page_size"
           );
-          this.createFilterfromUrl();
-          const pricearray: any = [],
-            currentCurrency =
-              "price" +
-              currency[0].toUpperCase() +
-              currency.substring(1).toLowerCase();
-          searchList.results.filtered_facets[currentCurrency]?.map(function(
-            a: any
-          ) {
-            pricearray.push(+a[0]);
-          });
-          if (pricearray.length > 0) {
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.min(a, b);
-              })
-            );
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.max(a, b);
-              })
-            );
+          if (!isPageSizeExist) {
+            filterUrl = filterUrl + `&page_size=${pageSize}`;
           }
-
-          if (filter.price.min_price) {
-            currentRange.push(filter.price.min_price);
-            currentRange.push(filter.price.max_price);
-          } else {
-            currentRange = minMaxvalue;
-          }
-
-          this.setState(
-            {
-              rangevalue: currentRange,
-              initialrangevalue: {
-                min: minMaxvalue[0],
-                max: minMaxvalue[1]
-              },
-              disableSelectedbox: false,
-              scrollload: true,
-              flag: true,
-              totalItems: searchList.count
-            },
-            () => {
-              if (!this.state.scrollView && this.state.shouldScroll) {
-                this.handleProductSearch();
+          this.setState({ isLoading: true });
+          changeLoader?.(true);
+          updateProduct(filterUrl, listdata)
+            .then(searchList => {
+              changeLoader?.(false);
+              productImpression(
+                searchList,
+                searchValue || "PLP",
+                this.props.currency,
+                searchList.results.data.length
+              );
+              this.createFilterfromUrl();
+              const pricearray: any = [],
+                currentCurrency =
+                  "price" +
+                  currency[0].toUpperCase() +
+                  currency.substring(1).toLowerCase();
+              searchList.results.filtered_facets[currentCurrency]?.map(function(
+                a: any
+              ) {
+                pricearray.push(+a[0]);
+              });
+              if (pricearray.length > 0) {
+                minMaxvalue.push(
+                  pricearray.reduce(function(a: number, b: number) {
+                    return Math.min(a, b);
+                  })
+                );
+                minMaxvalue.push(
+                  pricearray.reduce(function(a: number, b: number) {
+                    return Math.max(a, b);
+                  })
+                );
               }
-            }
-          );
-          this.props.updateFacets(
-            this.getSortedFacets(searchList.results.facets)
-          );
-        })
-        .finally(() => {
-          this.setState({ isLoading: false });
-          changeLoader?.(false);
-        });
+
+              if (filter.price.min_price) {
+                currentRange.push(filter.price.min_price);
+                currentRange.push(filter.price.max_price);
+              } else {
+                currentRange = minMaxvalue;
+              }
+
+              this.setState(
+                {
+                  rangevalue: currentRange,
+                  initialrangevalue: {
+                    min: minMaxvalue[0],
+                    max: minMaxvalue[1]
+                  },
+                  disableSelectedbox: false,
+                  scrollload: true,
+                  flag: true,
+                  totalItems: searchList.count
+                },
+                () => {
+                  if (!this.state.scrollView && this.state.shouldScroll) {
+                    this.handleProductSearch();
+                  }
+                }
+              );
+              this.props.updateFacets(
+                this.getSortedFacets(searchList.results.facets)
+              );
+            })
+            .finally(() => {
+              this.setState({ isLoading: false });
+              changeLoader?.(false);
+            });
+        }
+      );
     }
   };
 

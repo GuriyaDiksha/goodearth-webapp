@@ -834,6 +834,15 @@ const AddressSection: React.FC<AddressProps & {
                   </label>
                 ]}
               />
+              {user.customerGroup == "loyalty_cerise_club" ||
+              user.customerGroup == "loyalty_cerise_sitara" ? (
+                <div className={cs(styles.ceriseGstDisclaimer)}>
+                  Note: You will not be earning any cerise loyalty points on GST
+                  billing
+                </div>
+              ) : (
+                ""
+              )}
               {/* </span>
                 </div> */}
               {/* <div
