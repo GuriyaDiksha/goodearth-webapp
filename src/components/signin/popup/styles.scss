@@ -35,8 +35,9 @@
     &.popup {
       overflow-y: scroll;
       overflow-x: hidden;
-      height: 80vh !important;
-      height: 80vh !important;
+      // height: 80vh !important;
+      max-height: 80vh !important;
+      min-height: 40vh !important;
       left: 50%;
       transform: translateX(-50%);
       width: 428px;
@@ -91,7 +92,7 @@
 
 @media screen and (max-width: 992px) {
   .popup-form-bg {
-    height: 100vh !important;
+    // height: 100vh !important;
 
     overflow-y: scroll;
     z-index: 0;
