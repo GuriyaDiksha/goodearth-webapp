@@ -15,3 +15,5 @@ export const countryCurrencyCode = {
   AE: "AED",
   SG: "SGD"
 };
+
+export const maximumOtpAttempt = 5;
