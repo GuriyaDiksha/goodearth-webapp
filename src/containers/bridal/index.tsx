@@ -570,11 +570,11 @@ class BridalCheckout extends React.Component<Props, State> {
                     disabled={this.canCheckoutRegistry() ? false : true}
                     className={
                       this.canCheckoutRegistry()
-                        ? cs(globalStyles.aquaBtn)
+                        ? cs(styles.ctaBtn, styles.aquaCta)
                         : cs(
-                            globalStyles.aquaBtn,
-                            globalStyles.disabledBtn,
-                            styles.disabledBtn
+                            styles.ctaBtn,
+                            styles.fullDisabledBtn
+                            // styles.disabledBtn
                           )
                     }
                     value="REVIEW BAG & CHECKOUT >"
