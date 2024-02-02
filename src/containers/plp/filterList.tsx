@@ -393,20 +393,28 @@ class FilterList extends React.Component<Props, State> {
     );
     const windowBottom = windowHeight + window.pageYOffset;
     //new speed controller
-    const value = innerfilter.scrollTop;
-    if (this.state.scrolllastvalue < window.scrollY) {
-      innerfilter.scrollTo(0, value + 4);
-      this.setState({
-        scrolllastvalue: window.scrollY
-      });
-    } else {
-      innerfilter.scrollTo(0, value - 4);
-      this.setState({
-        scrolllastvalue: window.scrollY
-      });
+    if (!this.props.mobile) {
+      const value = innerfilter.scrollTop;
+      if (this.state.scrolllastvalue < window.scrollY) {
+        innerfilter.scrollTo(0, value + 4);
+        this.setState({
+          scrolllastvalue: window.scrollY
+        });
+      } else {
+        innerfilter.scrollTo(0, value - 4);
+        this.setState({
+          scrolllastvalue: window.scrollY
+        });
+      }
     }
+
     // html.clientHeight <= (window.pageYOffset + window.innerHeight-100)
-    if (windowBottom + 2000 >= docHeight && this.state.scrollload) {
+    if (
+      windowBottom + 2000 >= docHeight &&
+      this.state.scrollload &&
+      this.state.flag
+    ) {
+      console.log("plp appendata called====");
       this.appendData();
     }
 
@@ -489,146 +497,156 @@ class FilterList extends React.Component<Props, State> {
       listdata,
       currency,
       updateProduct,
-      fetchPlpTemplates,
       changeLoader
     } = this.props;
     const { filter } = this.state;
     if (nextUrl) {
-      this.setState({
-        disableSelectedbox: true
-      });
-    }
-    if (nextUrl && this.state.flag && this.state.scrollload) {
-      this.setState({ flag: false });
-      changeLoader?.(true);
-      const filterUrl = "?" + nextUrl.split("?")[1];
-      // const pageSize = mobile ? 10 : 20;
-      const pageSize = 20;
-      const urlParams = new URLSearchParams(this.props.history.location.search);
-      const categoryShop = urlParams.get("category_shop");
-      const categoryShopL1 = urlParams
-        .get("category_shop")
-        ?.split(">")[1]
-        ?.trim();
-      updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
-        plpList => {
-          changeLoader?.(false);
-          productImpression(
-            plpList,
-            categoryShopL1 || "PLP",
-            this.props.currency,
-            plpList.results.data.length
+      this.setState(
+        {
+          disableSelectedbox: true,
+          flag: false
+        },
+        () => {
+          changeLoader?.(true);
+          let filterUrl = "?" + nextUrl.split("?")[1];
+          // const pageSize = mobile ? 10 : 20;
+          const pageSize = 20;
+          const urlParams = new URLSearchParams(
+            this.props.history.location.search
           );
-          this.createFilterfromUrl(false);
-          const pricearray: any = [],
-            currentCurrency =
-              "price" +
-              currency[0].toUpperCase() +
-              currency.substring(1).toLowerCase();
-          plpList.results.filtered_facets[currentCurrency]?.map(function(
-            a: any
-          ) {
-            pricearray.push(+a[0]);
-          });
-          if (pricearray.length > 0) {
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.min(a, b);
-              })
-            );
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.max(a, b);
-              })
-            );
-          }
+          const categoryShopL1 = urlParams
+            .get("category_shop")
+            ?.split(">")[1]
+            ?.trim();
+          const isPageSizeExist = new URLSearchParams(filterUrl).get(
+            "page_size"
+          );
 
-          if (filter.price.min_price) {
-            currentRange.push(filter.price.min_price);
-            currentRange.push(filter.price.max_price);
-          } else {
-            currentRange = minMaxvalue;
+          if (!isPageSizeExist) {
+            filterUrl = filterUrl + `&page_size=${pageSize}`;
           }
+          console.log("plp before API called====");
 
-          this.setState(
-            {
-              rangevalue: currentRange,
-              initialrangevalue: {
-                min: minMaxvalue[0],
-                max: minMaxvalue[1]
-              },
-              disableSelectedbox: false,
-              scrollload: true,
-              flag: true,
-              totalItems: plpList.count
-            },
-            () => {
-              if (
-                !this.state.scrollView &&
-                this.state.shouldScroll &&
-                this.props.history.action === "POP"
-              ) {
-                this.handleProductSearch();
-              }
+          updateProduct(filterUrl, listdata).then(plpList => {
+            console.log("plp after API called====");
+            changeLoader?.(false);
+            try {
+              productImpression(
+                plpList,
+                categoryShopL1 || "PLP",
+                this.props.currency,
+                plpList.results.data.length
+              );
+            } catch (e) {
+              console.log("plp GA error====", e);
             }
-          );
-          this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+            // this.createFilterfromUrl(false);
+            const pricearray: any = [],
+              currentCurrency =
+                "price" +
+                currency[0].toUpperCase() +
+                currency.substring(1).toLowerCase();
+            plpList.results.filtered_facets[currentCurrency]?.map(function(
+              a: any
+            ) {
+              pricearray.push(+a[0]);
+            });
+            if (pricearray.length > 0) {
+              minMaxvalue.push(
+                pricearray.reduce(function(a: number, b: number) {
+                  return Math.min(a, b);
+                })
+              );
+              minMaxvalue.push(
+                pricearray.reduce(function(a: number, b: number) {
+                  return Math.max(a, b);
+                })
+              );
+            }
+
+            if (filter.price.min_price) {
+              currentRange.push(filter.price.min_price);
+              currentRange.push(filter.price.max_price);
+            } else {
+              currentRange = minMaxvalue;
+            }
+
+            this.setState(
+              {
+                rangevalue: currentRange,
+                initialrangevalue: {
+                  min: minMaxvalue[0],
+                  max: minMaxvalue[1]
+                },
+                disableSelectedbox: false,
+                scrollload: true,
+                flag: true,
+                totalItems: plpList.count
+              },
+              () => {
+                console.log("plp state updates====");
+                if (
+                  !this.state.scrollView &&
+                  this.state.shouldScroll &&
+                  this.props.history.action === "POP"
+                ) {
+                  console.log("PLP product search called======");
+                  this.handleProductSearch();
+                }
+              }
+            );
+
+            // this.props.updateFacets(
+            //   this.getSortedFacets(plpList.results.facets)
+            // );
+          });
+
+          // if (categoryShop) {
+          //   fetchPlpTemplates(categoryShop);
+          // }
         }
       );
-
-      if (categoryShop) {
-        fetchPlpTemplates(categoryShop);
-      }
     }
   };
 
   updateDataFromAPI = (onload?: string, currency?: string) => {
-    const {
-      mobile,
-      fetchPlpProducts,
-      fetchPlpTemplates,
-      history,
-      changeLoader
-    } = this.props;
+    const { mobile, fetchPlpProducts, history, changeLoader } = this.props;
 
     if (!onload && mobile) {
       return true;
     }
     changeLoader?.(true);
     const url = decodeURI(history.location.search);
-    const filterUrl = "?" + url.split("?")[1];
+    let filterUrl = "?" + url.split("?")[1];
     const urlParams = new URLSearchParams(history.location.search);
-    const categoryShop = urlParams.get("category_shop");
     const categoryShopL1 = urlParams
       .get("category_shop")
       ?.split(">")[1]
       ?.trim();
     // const pageSize = mobile ? 10 : 20;
     const pageSize = 20;
-    fetchPlpProducts(filterUrl + `&page_size=${pageSize}`, currency).then(
-      plpList => {
-        productImpression(
-          plpList,
-          categoryShopL1 || "PLP",
-          this.props.currency
-        );
-        changeLoader?.(false);
-        this.createList(plpList, false);
-        this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
-      }
-    );
-    if (categoryShop) {
-      fetchPlpTemplates(categoryShop);
+    const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
+
+    if (!isPageSizeExist) {
+      filterUrl = filterUrl + `&page_size=${pageSize}`;
     }
+    fetchPlpProducts(filterUrl, currency).then(plpList => {
+      productImpression(plpList, categoryShopL1 || "PLP", this.props.currency);
+      changeLoader?.(false);
+      this.createList(plpList, false);
+      this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+    });
   };
 
   stateChange = (location: any, action: any) => {
     if (action == "REPLACE") {
+      console.log("PLP replace called======");
       this.props.onStateChange?.();
     } else if (
       action == "PUSH" &&
       location.pathname.includes("/catalogue/category/")
     ) {
+      console.log("PLP push called======");
       this.setState(
         {
           filter: {
@@ -707,15 +725,21 @@ class FilterList extends React.Component<Props, State> {
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     // const urlParams2 = new URLSearchParams(nextProps.history.location.search);
     // const categoryShop2 = urlParams2.get("category_shop")?.split(">")[1];
-    const url = decodeURI(
-      nextProps?.history.location.search.replace(/\+/g, " ")
-    );
-    const re = /[?&]+([^=&]+)=([^&]*)/gi;
-    let match;
-    const vars: any = {};
-    while ((match = re.exec(url))) {
-      vars[match[1]] = match[2];
-    }
+    // const url = decodeURI(
+    //   nextProps?.history.location.search.replace(/\+/g, " ")
+    // );
+    // const re = /[?&]+([^=&]+)=([^&]*)/gi;
+    // let match;
+    // const vars: any = {};
+    // while ((match = re.exec(url))) {
+    //   vars[match[1]] = match[2];
+    // }
+
+    const urlParams = new URLSearchParams(this.props.history.location.search);
+    const categoryShop1 = urlParams.get("category_shop");
+
+    const urlParams2 = new URLSearchParams(nextProps.history.location.search);
+    const categoryShop2 = urlParams2.get("category_shop");
 
     if (
       nextProps.onload &&
@@ -726,6 +750,13 @@ class FilterList extends React.Component<Props, State> {
       this.createList(nextProps.data, true);
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
       this.handleAnimation("category", false);
+
+      this.setState({
+        activeindex: 0,
+        showFilterByDiscountMenu: false,
+        showProductFilter: false,
+        showmenulevel1: false
+      });
     }
     if (
       this.props.currency != nextProps.currency ||
@@ -748,23 +779,27 @@ class FilterList extends React.Component<Props, State> {
         }
       );
     }
-
-    if (
-      Object.entries(vars).length === 2 &&
-      Object.entries(vars).filter(
-        e => e[0] === "source" || e[0] === "category_shop"
-      ).length === 2
-    ) {
-      this.setState({
-        activeindex: 0,
-        showFilterByDiscountMenu: false,
-        showProductFilter: false,
-        showmenulevel1: false
-      });
-    }
+    //Commented: for not closing filter section on clear all filteres
+    // if (
+    //   Object.entries(vars).length === 2 &&
+    //   Object.entries(vars).filter(
+    //     e => e[0] === "source" || e[0] === "category_shop"
+    //   ).length === 2
+    // ) {
+    //   this.setState({
+    //     activeindex: 0,
+    //     showFilterByDiscountMenu: false,
+    //     showProductFilter: false,
+    //     showmenulevel1: false
+    //   });
+    // }
 
     if (this.props.mobileMenuOpenState !== nextProps.mobileMenuOpenState) {
       this.props.onChangeFilterState(false, false);
+    }
+
+    if (categoryShop1 !== categoryShop2 && categoryShop2 && categoryShop1) {
+      this.props.fetchPlpTemplates(categoryShop2);
     }
   };
 
@@ -970,8 +1005,6 @@ class FilterList extends React.Component<Props, State> {
         }
         if (allOptions.length > 0) {
           Object.keys(filterBackup).map((filterObject: any, j: number) => {
-            console.log("Options", allOptions);
-            console.log("To delete", filterObject);
             if (!allOptions.includes(filterObject)) {
               delete filter[filterTypes[i]][filterObject];
             }

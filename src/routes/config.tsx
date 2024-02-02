@@ -235,6 +235,12 @@ const routes: RouteConfig = [
     exact: true
   },
   {
+    path: ROUTES.INTERNATIONALSALE,
+    component: loadable(() => import("containers/InternationalSale")),
+    action: async () => null,
+    exact: true
+  },
+  {
     path: ROUTES.SITEMAP,
     component: loadable(() => import("containers/Sitemap")),
     action: async () => null,
@@ -286,7 +292,8 @@ const makerRoutes = [
   ROUTES.VIRTUALSHOPPINGSALON,
   ROUTES.GUIDETOLIGHTING,
   ROUTES.INNERSPACE,
-  ROUTES.LILANURPARFUMS
+  ROUTES.LILANURPARFUMS,
+  ROUTES.PEHCHAANNAQASHI
 ];
 
 const makerSmartnav = [

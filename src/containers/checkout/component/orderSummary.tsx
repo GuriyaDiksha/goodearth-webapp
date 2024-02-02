@@ -705,10 +705,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
             )}
             key={index + "getDiscount"}
           >
-            <span className={styles.subtotal}>
+            <span className={cs(styles.subtotal, globalStyles.gold)}>
               {discount.name == "price-discount" ? "DISCOUNT" : discount.name}
             </span>
-            <span className={styles.subtotal}>
+            <span className={cs(styles.subtotal, globalStyles.gold)}>
               (-) {displayPriceWithCommasFloat(discount.amount, currency)}
             </span>
           </div>

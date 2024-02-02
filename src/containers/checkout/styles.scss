@@ -1614,3 +1614,9 @@ span.add-new-address {
 .hide-label{
     display: none;
 }
+
+.cerise-gst-disclaimer {
+  @include b5_10px_montserrat_aqua();
+  padding-left: 30px;
+  letter-spacing: 0.3px;
+}

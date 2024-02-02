@@ -15,7 +15,7 @@ const initActionPLP: InitAction = async (
   const promises: any[] = [
     PlpService.onLoadPlpPage(
       dispatch,
-      search,
+      search + `&page_size=${20}`,
       currency || "INR",
       categoryShopL1 || ""
     ).catch(error => {
