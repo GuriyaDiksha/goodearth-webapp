@@ -47,7 +47,7 @@ export type BridalItemData = {
   productImage: string;
   productUrl: string;
   collection: string | null;
-  color: string[] | null;
+  colors: string[] | null;
   price: PriceRecord;
   discountedPrice: PriceRecord;
   badgeImage: string;

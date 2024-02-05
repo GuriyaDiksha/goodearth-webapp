@@ -164,15 +164,33 @@ const OrderSummary: React.FC<OrderProps> = props => {
     return count;
   };
 
+  const colorName = (value: string) => {
+    let cName = value
+      .split("-")
+      .slice(1)
+      .join();
+    if (cName[cName.length - 1] == "s") {
+      cName = cName.slice(0, -1);
+    }
+    return cName;
+  };
+
   const getSizeAndQty = (data: any, qty: any) => {
     const size = data.find(function(attribute: any) {
       if (attribute.name == "Size") {
         return attribute;
       }
     });
+
+    const color = data.find(function(attribute: any) {
+      if (attribute.name == "Color") {
+        return attribute;
+      }
+    });
     return size ? (
       <span className={globalStyles.marginT5}>
-        Size: {size.value} | QTY: {qty}
+        Size: {size.value} {color && `| Color: ${colorName(color?.value)}`} |
+        QTY: {qty}
       </span>
     ) : null;
   };
