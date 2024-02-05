@@ -143,47 +143,47 @@ class BridalCheckout extends React.Component<Props, State> {
       ({
         id,
         sku,
-        price,
-        discountedPrice,
+        priceRecords,
+        discountedPriceRecords,
         stock,
         othersBasketCount,
         size,
         color,
-        isBridalProduct
+        isBridalProduct,
+        showStockThreshold
       }) => {
         return {
-          discountedPriceRecords: discountedPrice,
+          discountedPriceRecords: discountedPriceRecords,
           id: id,
           isBridalProduct: isBridalProduct,
           sku: sku,
-          priceRecords: price,
+          priceRecords: priceRecords,
           size: size,
           color: color,
-          stock: stock
+          stock: stock,
+          showStockThreshold: showStockThreshold
         };
       }
     );
     let selectedIndex;
-    // let price = bridalItem.price[currency];
+    let price = bridalItem.price[currency];
     childAttributes.map((v, i) => {
-      debugger;
       if (v.size === bridalItem?.size) {
         selectedIndex = i;
-        // price = v.priceRecords[currency];
+        price = v.priceRecords[currency];
       }
     });
     const props = {
-      price: bridalItem.price,
+      price: price,
+      discountedPrice: bridalItem.discountedPrice[currency],
       currency: currency,
       title: bridalItem.productName,
       childAttributes: childAttributes,
       collection: bridalItem.collection,
-      // selectedIndex: selectedIndex,
+      selectedIndex: selectedIndex,
       isSale: this.props.isSale,
       discount: bridalItem.discount,
       badgeType: bridalItem.badgeType,
-      discountedPrice:
-        bridalItem.discountedPrice[this.state.bridalProfile.currency],
       list: "bridalItems",
       sliderImages: [],
       collections: bridalItem?.collection
