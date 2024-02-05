@@ -57,10 +57,13 @@ const AddressList: React.FC<Props> = props => {
         activeStep == "BILLING" &&
         props.currentCallBackComponent == "checkout-billing"
       ) {
-        if (isBridal) {
-          addressDatas = addressDatas.filter(
-            address => address.id != bridalAddressId
-          );
+        if (addressDatas) {
+          addressDatas = addressDatas.filter(address => !address.isTulsi);
+          if (isBridal) {
+            addressDatas = addressDatas.filter(
+              address => address.id != bridalAddressId
+            );
+          }
         }
       }
       // if (props.addressDataList && props.addressDataList.length > 0) {
