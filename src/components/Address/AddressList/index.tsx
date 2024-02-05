@@ -30,12 +30,16 @@ const AddressList: React.FC<Props> = props => {
     if (addressDataList.length > 0) {
       let addressDatas = addressDataList;
       if (
+        (activeStep == "BILLING" &&
+          props.currentCallBackComponent == "checkout-billing") ||
         props.currentCallBackComponent == "account" ||
         props.currentCallBackComponent == "bridal" ||
         props.currentCallBackComponent == "bridal-edit"
       ) {
         if (addressDatas) {
-          addressDatas = addressDatas.filter(address => !address.isTulsi);
+          addressDatas = addressDatas.filter(
+            address => address.emailId == email && !address.isTulsi
+          );
           // if (isBridal) {
           //   addressDatas = addressDatas.filter(
           //     address => address.id != bridalAddressId
@@ -51,19 +55,6 @@ const AddressList: React.FC<Props> = props => {
           addressDatas = addressDatas.filter(
             address => address.isBridal && address.id == bridalAddressId
           );
-        }
-      }
-      if (
-        activeStep == "BILLING" &&
-        props.currentCallBackComponent == "checkout-billing"
-      ) {
-        if (addressDatas) {
-          addressDatas = addressDatas.filter(address => !address.isTulsi);
-          if (isBridal) {
-            addressDatas = addressDatas.filter(
-              address => address.id != bridalAddressId
-            );
-          }
         }
       }
       // if (props.addressDataList && props.addressDataList.length > 0) {
