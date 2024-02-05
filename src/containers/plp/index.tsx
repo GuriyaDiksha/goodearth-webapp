@@ -144,20 +144,20 @@ class PLP extends React.Component<
         "Page Name": "PlpView"
       });
     }
-    window.addEventListener(
-      "scroll",
-      throttle(() => {
-        if (this.props.mobile) {
-          this.setProductCount();
-        }
-        // plp filter scroll top
-        if (window.scrollY == 0) {
-          const filterDiv = document.getElementById("inner_filter");
-          // console.log(filterDiv);
-          filterDiv?.scrollTo(0, 0);
-        }
-      }, 50)
-    );
+    // window.addEventListener(
+    //   "scroll",
+    //   throttle(() => {
+    //     if (this.props.mobile) {
+    //       this.setProductCount();
+    //     }
+    //     // plp filter scroll top
+    //     if (window.scrollY == 0) {
+    //       const filterDiv = document.getElementById("inner_filter");
+    //       // console.log(filterDiv);
+    //       filterDiv?.scrollTo(0, 0);
+    //     }
+    //   }, 50)
+    // );
     if (this.props.device.mobile) {
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
@@ -193,15 +193,15 @@ class PLP extends React.Component<
 
   componentWillUnmount() {
     moveChatUp();
-    window.removeEventListener(
-      "scroll",
-      throttle(() => {
-        const header =
-          document?.getElementById("myHeader")?.style.position || "";
-        this.setState({ header });
-        this.setProductCount();
-      }, 100)
-    );
+    // window.removeEventListener(
+    //   "scroll",
+    //   throttle(() => {
+    //     const header =
+    //       document?.getElementById("myHeader")?.style.position || "";
+    //     this.setState({ header });
+    //     this.setProductCount();
+    //   }, 100)
+    // );
   }
 
   componentDidUpdate(nextProps: Props) {
