@@ -95,6 +95,7 @@ const ShareLink: React.FC<Props> = props => {
       className={cs(
         styles.sizeBlockBridal,
         styles.ht,
+        styles.bottom30,
         { [styles.centerpageDesktop]: !mobile },
         { [styles.centerpageMobile]: mobile },
         globalStyles.textCenter

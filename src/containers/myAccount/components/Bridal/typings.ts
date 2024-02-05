@@ -38,6 +38,19 @@ export type BridalProfileData = {
   userAddressId: number;
 };
 
+export type childAttributes = {
+  id: number;
+  sku: string;
+  priceRecords: PriceRecord;
+  discountedPriceRecords: PriceRecord;
+  stock: number;
+  showStockThreshold: boolean;
+  othersBasketCount: number;
+  size: string;
+  isBridalProduct: boolean;
+  color: string;
+};
+
 export type BridalItemData = {
   id: number;
   productId: ProductID;
@@ -59,6 +72,7 @@ export type BridalItemData = {
   sku: string;
   productDeliveryDate: string;
   productAvailable: boolean;
+  childAttributes: childAttributes[];
 };
 
 export type BridalPublicProfileData = {

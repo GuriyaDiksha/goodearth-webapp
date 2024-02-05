@@ -19,22 +19,22 @@ type Props = {
 const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
   const [qtyCurrent, setQtyCurrent] = useState(1);
   const [buttonStatus, setButtonStatus] = useState(false);
-  const [btnDisable, setBtnDisable] = useState(globalStyles.aquaBtn);
+  const [btnDisable, setBtnDisable] = useState(styles.ctaBtn);
   const [btnContent, setBtnContent] = useState("ADD TO BAG");
   const [err, setErr] = useState("");
 
   useEffect(() => {
     if (!bridalItem.productAvailable) {
       setButtonStatus(true);
-      setBtnDisable(cs(globalStyles.aquaBtn, styles.fullDisabledBtn));
+      setBtnDisable(cs(styles.ctaBtn, styles.fullDisabledBtn));
       setBtnContent("NOT AVAILABLE");
     } else if (bridalItem.qtyRemaining == 0) {
       setButtonStatus(true);
-      setBtnDisable(cs(globalStyles.aquaBtn, styles.fullDisabledBtn));
+      setBtnDisable(cs(styles.ctaBtn, styles.fullDisabledBtn));
       setBtnContent("Fulfilled");
     } else if (bridalItem.stock == 0) {
       setButtonStatus(true);
-      setBtnDisable(cs(globalStyles.aquaBtn, styles.fullDisabledBtn));
+      setBtnDisable(cs(styles.fullDisabledBtn));
       setBtnContent("Notify Me");
     }
   }, []);
@@ -196,14 +196,16 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
       </div>
       <div className={cs(bootstrap.row, globalStyles.voffset4)}>
         <button
-          className={btnDisable}
+          className={cs(btnDisable, {
+            [styles.aquaCta]: btnContent == "ADD TO BAG"
+          })}
           onClick={addToBag}
           disabled={buttonStatus}
         >
           {btnContent}
         </button>
       </div>
-      {bridalItem.productDeliveryDate && (
+      {/* {bridalItem.productDeliveryDate && (
         <div className={bootstrap.row}>
           <div
             className={cs(
@@ -212,7 +214,7 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
               globalStyles.voffset3
             )}
           >
-            {/* <div className={globalStyles.c10LR}>
+            <div className={globalStyles.c10LR}>
               Estimated delivery on or before:{" "}
               <span className={styles.black}>
                 {bridalItem.productDeliveryDate}{" "}
@@ -224,10 +226,10 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
               {btnContent == "Fulfilled" || btnContent == "Notify Me"
                 ? btnContent
                 : ""}
-            </div> */}
+            </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

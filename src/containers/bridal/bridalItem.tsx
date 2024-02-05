@@ -9,10 +9,10 @@ import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
-import cartIcon from "../../images/bridal/icons_cartregistry-details.svg";
 import { showGrowlMessage } from "../../utils/validate";
 import { displayPriceWithCommas } from "utils/utility";
 import Button from "components/Button";
+
 const mapStateToProps = (state: AppState) => {
   return {
     isSale: state.info.isSale,
@@ -49,11 +49,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     }
   };
 };
+
 type Props = {
   bridalItem: BridalItemData;
   bridalId: number;
   index: number;
   onMobileAdd: (index: number) => void;
+  notifyMe: (index: number) => void;
   currency: Currency;
 } & ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
@@ -90,7 +92,7 @@ class BridalItem extends React.Component<Props, State> {
       });
     } else if (this.props.bridalItem.stock == 0) {
       this.setState({
-        buttonStatus: true,
+        // buttonStatus: true,
         btnDisable: cs(globalStyles.aquaBtn, globalStyles.disabledBtn),
         btnContent: "NOTIFY ME"
       });
@@ -138,6 +140,11 @@ class BridalItem extends React.Component<Props, State> {
   addToBag = () => {
     const productUrl = `${__DOMAIN__}/myapi/product/${this.props.bridalItem.productId}`;
     this.props.addToBag(this.state.qtyCurrent, productUrl, this.props.bridalId);
+  };
+
+  openNotifyMePopup = () => {
+    const mobileAddIndex = this.props.index;
+    this.props.notifyMe(mobileAddIndex);
   };
 
   mobileAddToBag = () => {
@@ -285,10 +292,22 @@ class BridalItem extends React.Component<Props, State> {
                         </div> */}
                         <div
                           className={cs(styles.mobQtyStatus)}
-                          onClick={this.mobileAddToBag}
+                          onClick={
+                            this.props.bridalItem.stock == 0
+                              ? this.openNotifyMePopup
+                              : this.mobileAddToBag
+                          }
                         >
                           {/* <img src={cartIcon} width="40" height="40" /> */}
-                          <span>+ CHECK QUANTITY & ADD TO BAG</span>
+                          {this.props.bridalItem.stock == 0 ? (
+                            <span className={styles.charcolaColor}>
+                              NOTIFY ME
+                            </span>
+                          ) : (
+                            <span className={styles.aquaColor}>
+                              + CHECK QUANTITY & ADD TO BAG
+                            </span>
+                          )}
                         </div>
                       </>
                     )}
@@ -400,28 +419,38 @@ class BridalItem extends React.Component<Props, State> {
                   {!mobile && (
                     <>
                       <Button
-                        // className={this.state.btnDisable}
-                        onClick={this.addToBag}
+                        onClick={
+                          this.props.bridalItem.stock == 0
+                            ? this.openNotifyMePopup
+                            : this.addToBag
+                        }
                         disabled={this.state.buttonStatus}
                         label={this.state.btnContent}
-                        // variant="mediumAquaCta300"
-                        variant="smallAquaCta"
+                        // variant={this.props.bridalItem.stock == 0 ? "smallMedCharcoalCta" : "smallAquaCta"}
+                        variant={
+                          this.state.btnContent == "NOTIFY ME"
+                            ? "smallLightGreyCta"
+                            : "smallAquaCta"
+                        }
                       />
 
-                      {this.props.bridalItem.productDeliveryDate && (
-                        <div
-                          className={cs(
-                            globalStyles.c10LR,
-                            globalStyles.voffset2
+                      {this.props.bridalItem.stock == 0 ||
+                      !this.props.bridalItem.productAvailable
+                        ? ""
+                        : this.props.bridalItem.productDeliveryDate && (
+                            <div
+                              className={cs(
+                                globalStyles.c10LR,
+                                globalStyles.voffset2
+                              )}
+                            >
+                              Estimated delivery on or before:{" "}
+                              <span className={styles.black}>
+                                {" "}
+                                {this.props.bridalItem.productDeliveryDate}
+                              </span>
+                            </div>
                           )}
-                        >
-                          Estimated delivery on or before:{" "}
-                          <span className={styles.black}>
-                            {" "}
-                            {this.props.bridalItem.productDeliveryDate}
-                          </span>
-                        </div>
-                      )}
                     </>
                   )}
                   {/* <div className={globalStyles.cerise}>
@@ -434,14 +463,18 @@ class BridalItem extends React.Component<Props, State> {
               </div>
             </div>
           </div>
-          {mobile && this.props.bridalItem.productDeliveryDate && (
-            <div className={cs(styles.estimateMsg)}>
-              Estimated delivery on or before:{" "}
-              <span className={styles.black}>
-                {this.props.bridalItem.productDeliveryDate}{" "}
-              </span>
-            </div>
-          )}
+          {this.props.bridalItem.stock == 0 ||
+          !this.props.bridalItem.productAvailable
+            ? ""
+            : mobile &&
+              this.props.bridalItem.productDeliveryDate && (
+                <div className={cs(styles.estimateMsg)}>
+                  Estimated delivery on or before:{" "}
+                  <span className={styles.black}>
+                    {this.props.bridalItem.productDeliveryDate}{" "}
+                  </span>
+                </div>
+              )}
           <hr className="hr" />
         </div>
       </div>

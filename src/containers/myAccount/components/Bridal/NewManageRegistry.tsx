@@ -124,7 +124,8 @@ const NewManageRegistry: React.FC<Props> = ({
                 <hr />
                 <div className={cs(styles.flexHeader)}>
                   <div className={cs(styles.topRegisteryName)}>
-                    {registryName && !coRegistrantName && (
+                    {registryName}
+                    {/* {registryName && !coRegistrantName && (
                       <span>
                         {registrantName}&#39;s&nbsp;{registryName}
                       </span>
@@ -134,7 +135,7 @@ const NewManageRegistry: React.FC<Props> = ({
                         {registrantName}&nbsp;{coRegistrantName}&#39;s&nbsp;
                         {registryName}
                       </span>
-                    )}
+                    )} */}
                   </div>
                   <div className={cs(styles.editLink)}>
                     <a className="" onClick={editRegistryForm}>

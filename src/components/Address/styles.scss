@@ -475,7 +475,7 @@ body:has(.mobile) {
     letter-spacing: 0.36px;
     // margin-top: 10px;
     word-wrap: break-word;
-    display: flex;
+    // display: flex;
    // justify-content: space-between;
     // margin-top: 10px;
     .radio {
@@ -900,8 +900,15 @@ margin-top: 5px;
   padding: 5px 0;
 }
 
+.display-flex{
+  display: flex;
+  justify-content: space-between;
+}
+.title-width{
+  width: 80%;
+}
 .bridal-address{
-  width: 30%;
+  width: 20%;
   text-align: right;
 }
 
@@ -909,10 +916,6 @@ margin-top: 5px;
   float: right;
   margin: auto;
   width: 10%;
-}
-
-.title-width{
-  width: 70%;
 }
 
 .bridal-predefined{

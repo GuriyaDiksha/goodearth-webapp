@@ -63,43 +63,50 @@ const AddressItemBridal: React.FC<Props> = ({
                   />
                   <span className={styles.checkmark}></span>
                 </div>
-                <div
-                  className={cs(
-                    styles.lineHead,
-                    styles.titleWidth,
-                    globalStyles.textCapitalize
-                  )}
-                >
-                  {title}
-                  {addressData.registrantName && !addressData.coRegistrantName && (
-                    <span>
-                      {addressData.registrantName}&#39;s&nbsp;
-                      {addressData.occasion}&nbsp;Registry
-                    </span>
-                  )}
-                  {addressData.registrantName && addressData.coRegistrantName && (
-                    <span>
-                      {addressData.registrantName}&nbsp;&&nbsp;
-                      {addressData.coRegistrantName}&#39;s&nbsp;
-                      {addressData.occasion}&nbsp;Registry
-                    </span>
-                  )}
-                </div>
-
-                <div
-                  className={cs(styles.defaultAddressDiv, styles.bridalAddress)}
-                >
-                  <svg
-                    viewBox="0 5 40 40"
-                    width="35"
-                    height="35"
-                    preserveAspectRatio="xMidYMid meet"
-                    x="0"
-                    y="0"
-                    className={styles.ceriseBridalRings}
+                <div className={styles.displayFlex}>
+                  <div
+                    className={cs(
+                      styles.lineHead,
+                      styles.titleWidth,
+                      globalStyles.textCapitalize
+                    )}
                   >
-                    <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                  </svg>
+                    {title}
+                    {addressData.registrantName &&
+                      !addressData.coRegistrantName && (
+                        <span>
+                          {addressData.registrantName}&#39;s&nbsp;
+                          {addressData.occasion}&nbsp;Registry
+                        </span>
+                      )}
+                    {addressData.registrantName &&
+                      addressData.coRegistrantName && (
+                        <span>
+                          {addressData.registrantName}&nbsp;&&nbsp;
+                          {addressData.coRegistrantName}&#39;s&nbsp;
+                          {addressData.occasion}&nbsp;Registry
+                        </span>
+                      )}
+                  </div>
+
+                  <div
+                    className={cs(
+                      styles.defaultAddressDiv,
+                      styles.bridalAddress
+                    )}
+                  >
+                    <svg
+                      viewBox="0 5 40 40"
+                      width="35"
+                      height="35"
+                      preserveAspectRatio="xMidYMid meet"
+                      x="0"
+                      y="0"
+                      className={styles.ceriseBridalRings}
+                    >
+                      <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                    </svg>
+                  </div>
                 </div>
               </div>
 
