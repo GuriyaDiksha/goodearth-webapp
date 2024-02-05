@@ -705,10 +705,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
             )}
             key={index + "getDiscount"}
           >
-            <span className={styles.subtotal}>
+            <span className={cs(styles.subtotal, globalStyles.gold)}>
               {discount.name == "price-discount" ? "DISCOUNT" : discount.name}
             </span>
-            <span className={styles.subtotal}>
+            <span className={cs(styles.subtotal, globalStyles.gold)}>
               (-) {displayPriceWithCommasFloat(discount.amount, currency)}
             </span>
           </div>
@@ -1168,7 +1168,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       }
                     )}
                   >
-                    {fullText ? deliveryText : deliveryText.substr(0, 85)}
+                    {deliveryText && deliveryText}
+                    {/* {fullText ? deliveryText : deliveryText.substr(0, 85)}
                     {deliveryText.length > 85 ? (
                       <span
                         className={cs(
@@ -1184,7 +1185,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       </span>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </div>
                 )}
                 {!mobile

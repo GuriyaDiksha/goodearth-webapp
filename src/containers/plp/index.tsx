@@ -150,6 +150,8 @@ class PLP extends React.Component<
     //     if (this.props.mobile) {
     //       this.setProductCount();
     //     }
+
+    //Commented: code commented for on every filter selection filter section is going on top
     //     // plp filter scroll top
     //     if (window.scrollY == 0) {
     //       const filterDiv = document.getElementById("inner_filter");
@@ -189,6 +191,11 @@ class PLP extends React.Component<
     });
     const config = { subtree: true, childList: true };
     observer.observe(document, config);
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+    console.log("error =================================", error);
+    console.log("errorInfo ===================================", errorInfo);
   }
 
   componentWillUnmount() {

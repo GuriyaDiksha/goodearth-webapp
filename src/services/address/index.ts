@@ -143,12 +143,18 @@ export default {
     return data;
   },
   fetchCustomDuties: async (dispatch: Dispatch, currency: string) => {
-    const data = await API.post<CustomDuties>(
-      dispatch,
-      `${__API_HOST__}/myapi/shipping/custom_duties/`,
-      { currency }
-    );
-    dispatch(updateCustomDuties(data));
+    let data;
+    try {
+      data = await API.post<CustomDuties>(
+        dispatch,
+        `${__API_HOST__}/myapi/shipping/custom_duties/`,
+        { currency: currency || "USD" }
+      );
+      dispatch(updateCustomDuties(data));
+    } catch (e) {
+      dispatch(updateCustomDuties({ visible: false, message: "" }));
+    }
+
     return data;
   },
   validateGST: async (dispatch: Dispatch, validateGSTData: validateGSTData) => {

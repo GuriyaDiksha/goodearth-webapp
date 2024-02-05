@@ -905,7 +905,7 @@
 .deliver-message {
   border: 0;
   padding: 20px;
-  max-width: 100%;
+  width: 100%;
   background-color: #f9f8f5;
   font-size: 14px;
   opacity: 0.7;
@@ -931,7 +931,7 @@
 }
 
 .deliver-subheading {
-  width: 60%;
+  width: 100%;
   text-align: left;
   margin: 0px 24px;
   @include b4_12px_montserrat_charcoal();
@@ -1826,4 +1826,8 @@
   @include b5_10px_montserrat_aqua();
   padding-bottom: 10px;
   letter-spacing: 0.3px;
+}
+
+.text-align-left{
+  text-align: left;
 }

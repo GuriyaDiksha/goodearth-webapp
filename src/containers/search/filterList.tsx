@@ -835,7 +835,8 @@ class FilterList extends React.Component<Props, State> {
         productImpression(
           searchList,
           searchValue || "PLP",
-          this.props.currency
+          this.props.currency,
+          this.props.salestatus
         );
 
         this.createList(searchList);
