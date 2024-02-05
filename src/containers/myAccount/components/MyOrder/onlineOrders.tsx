@@ -10,10 +10,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import invoice from "../../../../images/invoice.svg";
 import invoiceDisabled from "../../../../images/invoiceDisabled.svg";
-import {
-  displayPriceWithCommas,
-  displayPriceWithCommasFloat
-} from "utils/utility";
+import { displayPriceWithCommasFloat } from "utils/utility";
 import Button from "components/Button";
 
 const OnlineOrders: React.FC<OrdersProps> = props => {
@@ -351,7 +348,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             >
               <span className={styles.label}>{Object.keys(gccn)?.[0]}</span>
               <span className={styles.value}>
-                {`(-) ${displayPriceWithCommas(
+                {`(-) ${displayPriceWithCommasFloat(
                   Object.values(gccn)?.[0],
                   item.currency
                 )}`}
