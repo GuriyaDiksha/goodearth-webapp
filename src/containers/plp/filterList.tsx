@@ -414,7 +414,6 @@ class FilterList extends React.Component<Props, State> {
       this.state.scrollload &&
       this.state.flag
     ) {
-      console.log("plp appendata called====");
       this.appendData();
     }
 
@@ -525,11 +524,9 @@ class FilterList extends React.Component<Props, State> {
           if (!isPageSizeExist) {
             filterUrl = filterUrl + `&page_size=${pageSize}`;
           }
-          console.log("plp before API called====");
 
           updateProduct(filterUrl, listdata)
             .then(plpList => {
-              console.log("plp after API called====");
               changeLoader?.(false);
               try {
                 productImpression(
@@ -585,7 +582,6 @@ class FilterList extends React.Component<Props, State> {
                   totalItems: plpList.count
                 },
                 () => {
-                  console.log("plp state updates====");
                   if (
                     !this.state.scrollView &&
                     this.state.shouldScroll &&
@@ -643,13 +639,11 @@ class FilterList extends React.Component<Props, State> {
 
   stateChange = (location: any, action: any) => {
     if (action == "REPLACE") {
-      console.log("PLP replace called======");
       this.props.onStateChange?.();
     } else if (
       action == "PUSH" &&
       location.pathname.includes("/catalogue/category/")
     ) {
-      console.log("PLP push called======");
       this.setState(
         {
           filter: {

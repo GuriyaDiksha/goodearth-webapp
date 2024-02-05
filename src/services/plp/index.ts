@@ -68,14 +68,12 @@ export default {
         dispatch,
         `${__API_HOST__ + `/myapi/search/` + url}`
       );
-      console.log("PLP api called response=======", res);
 
       dispatch(updatePlpProduct(res.results.data));
       res.results.data = listdata.concat(res.results.data);
       dispatch(updateProduct({ ...res }));
       return res;
     } catch (err) {
-      console.log("PLP api called error=======", err);
       throw err;
     }
   },
