@@ -136,12 +136,17 @@ class PdpQuantity extends React.Component<QuantityItem, State> {
             +
           </span>
         </div>
-        {this.state.showError && !isSaleErrorMsgOn ? (
+        {/* {this.state.showError && !isSaleErrorMsgOn ? (
           <p className={cs(errorMsgClass, { [styles.left]: source == "pdp" })}>
             {this.state.showError ? this.state.errorMsg : ""}
           </p>
         ) : (
           ""
+        )} */}
+        {this.state.showError && (
+          <p className={cs(errorMsgClass, { [styles.left]: source == "pdp" })}>
+            {this.state.showError ? this.state.errorMsg : ""}
+          </p>
         )}
       </>
     );

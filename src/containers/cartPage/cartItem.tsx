@@ -15,6 +15,7 @@ import CookieService from "services/cookie";
 import PdpQuantity from "components/quantity/pdpQuantity";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
+import globalStyles from "styles/global.scss";
 
 const CartItems: React.FC<BasketItem> = memo(
   ({
@@ -399,7 +400,7 @@ const CartItems: React.FC<BasketItem> = memo(
             <div className={cs(styles.rowMain, globalStyles.gutterBetween)}>
               <div className={cs(bootstrap.colLg8, bootstrap.col12)}>
                 <div className={cs(styles.section, styles.sectionInfo)}>
-                  <div>
+                  <div className={globalStyles.marginB20}>
                     {collection && (
                       <div
                         className={cs(styles.collectionName, {
