@@ -76,6 +76,7 @@ export default {
       return res;
     } catch (err) {
       console.log("PLP api called error=======", err);
+      throw err;
     }
   },
   fetchPlpTemplates: async function(dispatch: Dispatch, categoryShop: string) {

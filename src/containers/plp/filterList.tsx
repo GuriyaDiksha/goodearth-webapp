@@ -510,7 +510,7 @@ class FilterList extends React.Component<Props, State> {
           changeLoader?.(true);
           let filterUrl = "?" + nextUrl.split("?")[1];
           // const pageSize = mobile ? 10 : 20;
-          const pageSize = 20;
+          const pageSize = 40;
           const urlParams = new URLSearchParams(
             this.props.history.location.search
           );
@@ -527,79 +527,82 @@ class FilterList extends React.Component<Props, State> {
           }
           console.log("plp before API called====");
 
-          updateProduct(filterUrl, listdata).then(plpList => {
-            console.log("plp after API called====");
-            changeLoader?.(false);
-            try {
-              productImpression(
-                plpList,
-                categoryShopL1 || "PLP",
-                this.props.currency,
-                plpList.results.data.length
-              );
-            } catch (e) {
-              console.log("plp GA error====", e);
-            }
-            // this.createFilterfromUrl(false);
-            const pricearray: any = [],
-              currentCurrency =
-                "price" +
-                currency[0].toUpperCase() +
-                currency.substring(1).toLowerCase();
-            plpList.results.filtered_facets[currentCurrency]?.map(function(
-              a: any
-            ) {
-              pricearray.push(+a[0]);
-            });
-            if (pricearray.length > 0) {
-              minMaxvalue.push(
-                pricearray.reduce(function(a: number, b: number) {
-                  return Math.min(a, b);
-                })
-              );
-              minMaxvalue.push(
-                pricearray.reduce(function(a: number, b: number) {
-                  return Math.max(a, b);
-                })
-              );
-            }
-
-            if (filter.price.min_price) {
-              currentRange.push(filter.price.min_price);
-              currentRange.push(filter.price.max_price);
-            } else {
-              currentRange = minMaxvalue;
-            }
-
-            this.setState(
-              {
-                rangevalue: currentRange,
-                initialrangevalue: {
-                  min: minMaxvalue[0],
-                  max: minMaxvalue[1]
-                },
-                disableSelectedbox: false,
-                scrollload: true,
-                flag: true,
-                totalItems: plpList.count
-              },
-              () => {
-                console.log("plp state updates====");
-                if (
-                  !this.state.scrollView &&
-                  this.state.shouldScroll &&
-                  this.props.history.action === "POP"
-                ) {
-                  console.log("PLP product search called======");
-                  this.handleProductSearch();
-                }
+          updateProduct(filterUrl, listdata)
+            .then(plpList => {
+              console.log("plp after API called====");
+              changeLoader?.(false);
+              try {
+                productImpression(
+                  plpList,
+                  categoryShopL1 || "PLP",
+                  this.props.currency,
+                  plpList.results.data.length
+                );
+              } catch (e) {
+                console.log("plp GA error====", e);
               }
-            );
+              // this.createFilterfromUrl(false);
+              const pricearray: any = [],
+                currentCurrency =
+                  "price" +
+                  currency[0].toUpperCase() +
+                  currency.substring(1).toLowerCase();
+              plpList.results.filtered_facets[currentCurrency]?.map(function(
+                a: any
+              ) {
+                pricearray.push(+a[0]);
+              });
+              if (pricearray.length > 0) {
+                minMaxvalue.push(
+                  pricearray.reduce(function(a: number, b: number) {
+                    return Math.min(a, b);
+                  })
+                );
+                minMaxvalue.push(
+                  pricearray.reduce(function(a: number, b: number) {
+                    return Math.max(a, b);
+                  })
+                );
+              }
 
-            // this.props.updateFacets(
-            //   this.getSortedFacets(plpList.results.facets)
-            // );
-          });
+              if (filter.price.min_price) {
+                currentRange.push(filter.price.min_price);
+                currentRange.push(filter.price.max_price);
+              } else {
+                currentRange = minMaxvalue;
+              }
+
+              this.setState(
+                {
+                  rangevalue: currentRange,
+                  initialrangevalue: {
+                    min: minMaxvalue[0],
+                    max: minMaxvalue[1]
+                  },
+                  disableSelectedbox: false,
+                  scrollload: true,
+                  flag: true,
+                  totalItems: plpList.count
+                },
+                () => {
+                  console.log("plp state updates====");
+                  if (
+                    !this.state.scrollView &&
+                    this.state.shouldScroll &&
+                    this.props.history.action === "POP"
+                  ) {
+                    console.log("PLP product search called======");
+                    this.handleProductSearch();
+                  }
+                }
+              );
+              // this.props.updateFacets(
+              //   this.getSortedFacets(plpList.results.facets)
+              // );
+            })
+            .catch(err => {
+              console.log("PLP appendata error", err);
+            });
 
           // if (categoryShop) {
           //   fetchPlpTemplates(categoryShop);
@@ -624,7 +627,7 @@ class FilterList extends React.Component<Props, State> {
       ?.split(">")[1]
       ?.trim();
     // const pageSize = mobile ? 10 : 20;
-    const pageSize = 20;
+    const pageSize = 40;
     const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
 
     if (!isPageSizeExist) {
