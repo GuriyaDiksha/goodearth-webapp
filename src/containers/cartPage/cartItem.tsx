@@ -516,12 +516,6 @@ const CartItems: React.FC<BasketItem> = memo(
                           )}
                         </div>
 
-                        {console.log(
-                          "check====" + saleStatus,
-                          childAttributes[0].showStockThreshold &&
-                            childAttributes[0].stock > 0,
-                          childAttributes[0].othersBasketCount > 0
-                        )}
                         {saleStatus &&
                           ((childAttributes[0].showStockThreshold &&
                             childAttributes[0].stock > 0 &&
