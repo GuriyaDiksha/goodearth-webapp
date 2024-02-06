@@ -1120,7 +1120,11 @@ const ProductDetails: React.FC<Props> = ({
                             selectedSize.stock > 0 &&
                             `${
                               selectedSize.othersBasketCount > 0
-                                ? ` ${selectedSize.othersBasketCount} others have this item in their bag.`
+                                ? ` ${selectedSize.othersBasketCount} other${
+                                    selectedSize.othersBasketCount > 1
+                                      ? "s"
+                                      : ""
+                                  } have this item in their bag.`
                                 : ""
                             } Only ${selectedSize.stock} Left!`}
                         </span>

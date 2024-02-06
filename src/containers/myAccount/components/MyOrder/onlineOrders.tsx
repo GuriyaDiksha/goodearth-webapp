@@ -119,6 +119,17 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     }, 300);
   };
 
+  const colorName = (value: string) => {
+    let cName = value
+      .split("-")
+      .slice(1)
+      .join();
+    if (cName[cName.length - 1] == "s") {
+      cName = cName.slice(0, -1);
+    }
+    return cName;
+  };
+
   const renderOrder = (item: any, index: number) => {
     const data: any = orderdata;
     const html = [],
@@ -261,6 +272,11 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               {item.product.size && (
                 <div className={styles.size}>
                   {`Size: ${item.product.size}`}
+                </div>
+              )}
+              {item?.product?.colors?.length && (
+                <div className={styles.size}>
+                  Color:{colorName(item.product?.colors?.[0])}
                 </div>
               )}
               <div className={styles.quantity}>{`Qty: ${item.quantity}`}</div>
