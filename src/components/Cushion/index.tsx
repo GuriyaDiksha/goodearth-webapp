@@ -264,7 +264,11 @@ class CushionBag extends React.Component<Props, State> {
                             selectedSize.stock > 0 &&
                             `${
                               selectedSize.othersBasketCount > 0
-                                ? `${selectedSize.othersBasketCount} others have this item in their bag.`
+                                ? `${selectedSize.othersBasketCount} other${
+                                    selectedSize.othersBasketCount > 1
+                                      ? "s"
+                                      : ""
+                                  } have this item in their bag.`
                                 : ""
                             } Only ${selectedSize.stock} Left!`}
                         </span>
@@ -280,7 +284,11 @@ class CushionBag extends React.Component<Props, State> {
                   selectedSize.stock > 0 &&
                   selectedSize.showStockThreshold &&
                   `${selectedSize.othersBasketCount &&
-                    `${selectedSize.othersBasketCount} others have this item in their bag. Only ${selectedSize.stock} Left!`}`}
+                    `${selectedSize.othersBasketCount} other${
+                      selectedSize.othersBasketCount > 1 ? "s" : ""
+                    } have this item in their bag. Only ${
+                      selectedSize.stock
+                    } Left!`}`}
               </span>
             )}
             <div>
