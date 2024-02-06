@@ -62,7 +62,7 @@ const Delivery: React.FC<PopupProps> = props => {
                 globalStyles.marginLR35
               )}
             >
-              <div>
+              <div className={styles.textAlignLeft}>
                 <textarea
                   rows={5}
                   cols={100}

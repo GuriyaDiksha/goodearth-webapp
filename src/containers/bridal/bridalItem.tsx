@@ -128,6 +128,17 @@ class BridalItem extends React.Component<Props, State> {
     this.props.onMobileAdd(mobileAddIndex);
   };
 
+  colorName = (value: string) => {
+    let cName = value
+      .split("-")
+      .slice(1)
+      .join();
+    if (cName[cName.length - 1] == "s") {
+      cName = cName.slice(0, -1);
+    }
+    return cName;
+  };
+
   render() {
     const { mobile } = this.props;
     return (
@@ -197,6 +208,14 @@ class BridalItem extends React.Component<Props, State> {
                     <div className={styles.smallfont}>
                       SIZE: {this.props.bridalItem.size}
                     </div>
+                    {this.props.bridalItem?.colors?.length && (
+                      <div
+                        className={cs(styles.smallfont, globalStyles.voffset1)}
+                      >
+                        COLOR:{" "}
+                        {this.colorName(this.props.bridalItem.colors?.[0])}
+                      </div>
+                    )}
                     <div
                       className={cs(styles.smallfont, globalStyles.voffset1)}
                     >

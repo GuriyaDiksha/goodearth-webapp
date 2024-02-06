@@ -17,6 +17,11 @@
         align-items: center;
         justify-content: space-between;
         user-select: none;
+
+        &.disable{
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     }
     .caret{
         border-top: 6px dashed;

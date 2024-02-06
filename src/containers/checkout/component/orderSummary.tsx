@@ -164,15 +164,33 @@ const OrderSummary: React.FC<OrderProps> = props => {
     return count;
   };
 
+  const colorName = (value: string) => {
+    let cName = value
+      .split("-")
+      .slice(1)
+      .join();
+    if (cName[cName.length - 1] == "s") {
+      cName = cName.slice(0, -1);
+    }
+    return cName;
+  };
+
   const getSizeAndQty = (data: any, qty: any) => {
     const size = data.find(function(attribute: any) {
       if (attribute.name == "Size") {
         return attribute;
       }
     });
+
+    const color = data.find(function(attribute: any) {
+      if (attribute.name == "Color") {
+        return attribute;
+      }
+    });
     return size ? (
       <span className={globalStyles.marginT5}>
-        Size: {size.value} | QTY: {qty}
+        Size: {size.value} {color && `| Color: ${colorName(color?.value)}`} |
+        QTY: {qty}
       </span>
     ) : null;
   };
@@ -705,10 +723,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
             )}
             key={index + "getDiscount"}
           >
-            <span className={styles.subtotal}>
+            <span className={cs(styles.subtotal, globalStyles.gold)}>
               {discount.name == "price-discount" ? "DISCOUNT" : discount.name}
             </span>
-            <span className={styles.subtotal}>
+            <span className={cs(styles.subtotal, globalStyles.gold)}>
               (-) {displayPriceWithCommasFloat(discount.amount, currency)}
             </span>
           </div>
@@ -1168,7 +1186,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       }
                     )}
                   >
-                    {fullText ? deliveryText : deliveryText.substr(0, 85)}
+                    {deliveryText && deliveryText}
+                    {/* {fullText ? deliveryText : deliveryText.substr(0, 85)}
                     {deliveryText.length > 85 ? (
                       <span
                         className={cs(
@@ -1184,7 +1203,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       </span>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </div>
                 )}
                 {!mobile

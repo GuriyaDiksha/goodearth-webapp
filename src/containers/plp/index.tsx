@@ -150,12 +150,14 @@ class PLP extends React.Component<
         if (this.props.mobile) {
           this.setProductCount();
         }
-        // plp filter scroll top
-        if (window.scrollY == 0) {
-          const filterDiv = document.getElementById("inner_filter");
-          // console.log(filterDiv);
-          filterDiv?.scrollTo(0, 0);
-        }
+
+        //Commented: code commented for on every filter selection filter section is going on top
+        //     // plp filter scroll top
+        //     if (window.scrollY == 0) {
+        //       const filterDiv = document.getElementById("inner_filter");
+        //       // console.log(filterDiv);
+        //       filterDiv?.scrollTo(0, 0);
+        //     }
       }, 50)
     );
     if (this.props.device.mobile) {
