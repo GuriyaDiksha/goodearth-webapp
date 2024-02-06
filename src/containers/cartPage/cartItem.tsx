@@ -15,7 +15,6 @@ import CookieService from "services/cookie";
 import PdpQuantity from "components/quantity/pdpQuantity";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
-import globalStyles from "styles/global.scss";
 
 const CartItems: React.FC<BasketItem> = memo(
   ({
@@ -517,6 +516,12 @@ const CartItems: React.FC<BasketItem> = memo(
                           )}
                         </div>
 
+                        {console.log(
+                          "check====" + saleStatus,
+                          childAttributes[0].showStockThreshold &&
+                            childAttributes[0].stock > 0,
+                          childAttributes[0].othersBasketCount > 0
+                        )}
                         {saleStatus &&
                           ((childAttributes[0].showStockThreshold &&
                             childAttributes[0].stock > 0 &&
