@@ -121,7 +121,8 @@ const BridalItemsList: React.FC<Props> = props => {
     qtyBought,
     qtyRemaining,
     badgeType,
-    colors
+    colors,
+    groupedProductsCount
   } = props.product;
 
   const colorName = (value: string) => {
@@ -194,7 +195,7 @@ const BridalItemsList: React.FC<Props> = props => {
                   <div className={cs(styles.smallfont, globalStyles.voffset2)}>
                     SIZE: {size}
                   </div>
-                  {colors?.length && (
+                  {colors?.length && groupedProductsCount && (
                     <div
                       className={cs(styles.smallfont, globalStyles.voffset1)}
                     >

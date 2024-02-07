@@ -55,6 +55,7 @@ type Props = {
   index: number;
   onMobileAdd: (index: number) => void;
   currency: Currency;
+  groupedProductsCount?: number;
 } & ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
@@ -208,14 +209,18 @@ class BridalItem extends React.Component<Props, State> {
                     <div className={styles.smallfont}>
                       SIZE: {this.props.bridalItem.size}
                     </div>
-                    {this.props.bridalItem?.colors?.length && (
-                      <div
-                        className={cs(styles.smallfont, globalStyles.voffset1)}
-                      >
-                        COLOR:{" "}
-                        {this.colorName(this.props.bridalItem.colors?.[0])}
-                      </div>
-                    )}
+                    {this.props.bridalItem?.colors?.length &&
+                      this.props?.bridalItem?.groupedProductsCount && (
+                        <div
+                          className={cs(
+                            styles.smallfont,
+                            globalStyles.voffset1
+                          )}
+                        >
+                          COLOR:{" "}
+                          {this.colorName(this.props.bridalItem.colors?.[0])}
+                        </div>
+                      )}
                     <div
                       className={cs(styles.smallfont, globalStyles.voffset1)}
                     >
