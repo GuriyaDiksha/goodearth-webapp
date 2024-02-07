@@ -289,18 +289,6 @@ class Search extends React.Component<
     });
     const config = { subtree: true, childList: true };
     observer.observe(document, config);
-
-    window.addEventListener("scroll", () => {
-      const bottomMenu = document.getElementById("header_container");
-      const fliterSticky = document.getElementById("fliter_sticky");
-      if (window.scrollY < 50) {
-        bottomMenu?.classList.remove(styles.hideBottomMenu);
-        fliterSticky?.classList.remove(styles.hideFilterSticky);
-      } else {
-        bottomMenu?.classList.add(styles.hideBottomMenu);
-        fliterSticky?.classList.add(styles.hideFilterSticky);
-      }
-    });
   }
 
   componentWillUnmount() {
