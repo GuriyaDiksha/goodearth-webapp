@@ -187,9 +187,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
         return attribute;
       }
     });
-    return size ? (
+    return size || qty || color?.value ? (
       <span className={globalStyles.marginT5}>
-        Size: {size.value} {color && `| Color: ${colorName(color?.value)}`} |
+        {size && `Size: ${size.value} |`}{" "}
+        {color && `Color: ${colorName(color?.value)} |`}
         QTY: {qty}
       </span>
     ) : null;
