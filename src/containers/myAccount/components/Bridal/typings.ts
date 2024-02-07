@@ -57,6 +57,7 @@ export type BridalItemData = {
   sku: string;
   productDeliveryDate: string;
   productAvailable: boolean;
+  groupedProductsCount?: number;
 };
 
 export type BridalPublicProfileData = {

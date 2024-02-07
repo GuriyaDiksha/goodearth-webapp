@@ -753,12 +753,13 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                       <>Size:&nbsp; {item.product.size}</>
                                     )}
                                   </div>
-                                  {item?.product?.colors?.length && (
-                                    <div className={styles.productDetails}>
-                                      Color:&nbsp;{" "}
-                                      {colorName(item.product?.colors?.[0])}
-                                    </div>
-                                  )}
+                                  {item?.product?.colors?.length &&
+                                    item?.product?.groupedProductsCount && (
+                                      <div className={styles.productDetails}>
+                                        Color:&nbsp;{" "}
+                                        {colorName(item.product?.colors?.[0])}
+                                      </div>
+                                    )}
                                   <div className={styles.productDetails}>
                                     Qty:&nbsp; {item.quantity}
                                   </div>
