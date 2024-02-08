@@ -191,12 +191,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
         return attribute;
       }
     });
-    return size ||
-      qty ||
-      (color?.value && groupedProductsCount && groupedProductsCount > 0) ? (
+    return size || qty || color?.value ? (
       <span className={globalStyles.marginT5}>
-        {size && `Size: ${size.value} |`}{" "}
-        {color && `Color: ${colorName(color?.value)} |`}
+        {size && `Size: ${size.value} | `}{" "}
+        {color?.value && groupedProductsCount && groupedProductsCount > 0
+          ? `Color: ${colorName(color?.value)} | `
+          : ""}
         QTY: {qty}
       </span>
     ) : null;
