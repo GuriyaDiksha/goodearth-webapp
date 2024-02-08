@@ -709,7 +709,7 @@ class MainLogin extends React.Component<Props, loginState> {
             setIsSuccessMsg={this.props.setIsSuccessMsg}
             products={this.props.basket.products}
             currency={this.props.currency}
-            nextStep={this.props.nextStep}
+            // nextStep={this.props.nextStep}
             sortBy={this.props.sortBy}
             phoneNo={this.state.phoneNo}
           />

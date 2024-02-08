@@ -1,5 +1,5 @@
 import React from "react";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import createAbsoluteGrid from "react-absolute-grid";
@@ -36,6 +36,7 @@ import {
 } from "utils/utility";
 import Button from "components/Button";
 import { updateNextUrl } from "actions/info";
+import linkIcon from "./../../images/linkIcon.svg";
 
 let AbsoluteGrid: any;
 
@@ -598,13 +599,7 @@ class Wishlist extends React.Component<Props, State> {
     return (
       <div>
         <span>{"(" + this.state.wishlistCount + " items) Subtotal: "}</span>
-        <span
-          className={cs(
-            globalStyles.cerise,
-            styles.cerise,
-            globalStyles.italic
-          )}
-        >
+        <span>
           {Number.isSafeInteger(+this.state.totalPrice)
             ? displayPriceWithCommas(this.state.totalPrice, this.props.currency)
             : displayPriceWithCommasFloat(
@@ -931,19 +926,16 @@ class Wishlist extends React.Component<Props, State> {
                   Saved Items
                 </div>
                 <div className={bootstrapStyles.col2}>
-                  <i
-                    className={cs(
-                      iconStyles.icon,
-                      iconStyles.iconSort,
-                      styles.iconSort
-                      // globalStyles.cerise
-                    )}
+                  <div
+                    className={cs(styles.iconSort)}
                     onClick={
                       this.state.wishlistCount > 0
                         ? () => this.setState({ filterListing: true })
                         : () => null
                     }
-                  ></i>
+                  >
+                    SORT
+                  </div>
                 </div>
                 <div
                   className={
@@ -1027,7 +1019,7 @@ class Wishlist extends React.Component<Props, State> {
                 globalStyles.verticalMiddle
               )}
             >
-              <p className={styles.filterText}>SORT BY:</p>
+              <p className={styles.filterText}>SORT</p>
               <SecondaryHeaderDropdown
                 id="sort-dropdown-wishlist"
                 items={options}
@@ -1065,7 +1057,7 @@ class Wishlist extends React.Component<Props, State> {
                 </p>
                 <Button
                   label={"Login"}
-                  variant="smallMedCharcoalCta"
+                  variant="smallAquaCta"
                   onClick={() => this.props.openLogin()}
                 />
               </div>
@@ -1105,8 +1097,8 @@ class Wishlist extends React.Component<Props, State> {
                         : this.props.openLogin("/wishlist")
                     }
                   >
-                    <i className={cs(iconStyles.icon, styles.iconLink)}></i>
-                    SHARE LIST
+                    <img src={linkIcon} alt="link" />
+                    <span>SHARE LIST</span>
                   </div>
                 )}
               </div>
@@ -1126,7 +1118,7 @@ class Wishlist extends React.Component<Props, State> {
                 this.props.isShared &&
                 emptySharedWishlistContent}
             </div>
-            {this.state.wishlistCount > 0 && (
+            {/* {this.state.wishlistCount > 0 && (
               <div className={cs({ [globalStyles.textCenter]: mobile })}>
                 <div
                   className={cs(styles.wishlistBottom, styles.wishlistSubtotal)}
@@ -1134,7 +1126,7 @@ class Wishlist extends React.Component<Props, State> {
                   {this.getWishlistSubtotal()}
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
         <div className="">

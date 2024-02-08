@@ -54,9 +54,13 @@ const ShareWishlistLink: React.FC<Props> = props => {
 
   useEffect(() => {
     console.log("Inside useEffect");
+
     const whatsappUrl = mobile
       ? "whatsapp://send?text="
-      : "https://web.whatsapp.com/send?text=Some sample text";
+      : "https://web.whatsapp.com/send?text=" +
+        `My Good Earth Saved List %0D%0A%0D%0A Here is a link to my favourite products: %0D%0A%0D%0A ${encodeURIComponent(
+          wishlist_link
+        )}`;
     const whatsappElement = document.getElementById(
       "whatsappShare"
     ) as HTMLAnchorElement;
@@ -112,11 +116,11 @@ const ShareWishlistLink: React.FC<Props> = props => {
                     <div>
                       <div className={cs(styles.shareTxtBoxWishlist)}>
                         <input type="text" value={wishlist_link} id="myInput" />
+                        <p className={styles.note}>
+                          Please note, this link will be auto-updated whenever
+                          the Saved List is updated.
+                        </p>
                       </div>
-                      <p className={styles.note}>
-                        Please note, this link will be auto-updated whenever the
-                        Saved List is updated.
-                      </p>
                     </div>
                     <img
                       src={copy}

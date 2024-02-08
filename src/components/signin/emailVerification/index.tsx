@@ -19,6 +19,9 @@ import Button from "components/Button";
 import { Currency } from "typings/currency";
 import { censorEmail, censorPhoneNumber } from "utils/utility";
 import { AppState } from "reducers/typings";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
+import ModalStyles from "components/Modal/styles.scss";
 
 type Props = {
   successMsg: string;
@@ -29,7 +32,7 @@ type Props = {
   setIsSuccessMsg?: (arg: boolean) => void;
   isCheckout?: boolean;
   currency: Currency;
-  nextStep?: () => void;
+  // nextStep?: () => void;
   products?: any;
   sortBy?: string;
   phoneNo?: string;
@@ -44,7 +47,7 @@ const EmailVerification: React.FC<Props> = ({
   socialLogin,
   isCheckout,
   currency,
-  nextStep,
+  // nextStep,
   products,
   sortBy,
   phoneNo,
@@ -60,6 +63,7 @@ const EmailVerification: React.FC<Props> = ({
   const dispatch = useDispatch();
   const history = useHistory();
   const { mobile } = useSelector((state: AppState) => state.device);
+  const { nextUrl } = useSelector((state: AppState) => state.info);
 
   const showLogin = () => {
     localStorage.setItem("tempEmail", email);
@@ -137,13 +141,28 @@ const EmailVerification: React.FC<Props> = ({
           });
         }
         // this.context.closeModal();
-        nextStep?.();
+        // nextStep?.();
         // const history = this.props.history
         // const path = history.location.pathname;
         // if (path.split("/")[1] == "password-reset") {
         //   const searchParams = new URLSearchParams(history.location.search);
         //   history.push(searchParams.get("redirect_to") || "");
         // }
+
+        if (nextUrl === "/wishlist") {
+          dispatch(
+            updateComponent(
+              POPUP.SHAREWISHLIST,
+              null,
+              mobile ? false : true,
+              mobile ? ModalStyles.bottomAlignSlideUp : "",
+              mobile ? "slide-up-bottom-align" : ""
+            )
+          );
+          dispatch(updateModal(true));
+        } else {
+          history.push(nextUrl);
+        }
 
         const boid = new URLSearchParams(history.location.search).get("bo_id");
 

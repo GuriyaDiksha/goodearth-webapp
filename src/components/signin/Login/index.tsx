@@ -62,20 +62,20 @@ const LoginForm = (props: any) => {
       // } else {
       //}
 
-      if (nextUrl === "/wishlist") {
-        dispatch(
-          updateComponent(
-            POPUP.SHAREWISHLIST,
-            null,
-            mobile ? false : true,
-            mobile ? ModalStyles.bottomAlignSlideUp : "",
-            mobile ? "slide-up-bottom-align" : ""
-          )
-        );
-        dispatch(updateModal(true));
-      } else {
-        history.push(nextUrl);
-      }
+      // if (nextUrl === "/wishlist") {
+      //   dispatch(
+      //     updateComponent(
+      //       POPUP.SHAREWISHLIST,
+      //       null,
+      //       mobile ? false : true,
+      //       mobile ? ModalStyles.bottomAlignSlideUp : "",
+      //       mobile ? "slide-up-bottom-align" : ""
+      //     )
+      //   );
+      //   dispatch(updateModal(true));
+      // } else {
+      history.push(nextUrl);
+      // }
       dispatch(updateNextUrl(""));
     }
   };
