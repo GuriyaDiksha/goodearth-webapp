@@ -210,17 +210,15 @@ class BridalItem extends React.Component<Props, State> {
                       SIZE: {this.props.bridalItem.size}
                     </div>
                     {this.props.bridalItem?.colors?.length &&
-                      this.props?.bridalItem?.groupedProductsCount && (
-                        <div
-                          className={cs(
-                            styles.smallfont,
-                            globalStyles.voffset1
-                          )}
-                        >
-                          COLOR:{" "}
-                          {this.colorName(this.props.bridalItem.colors?.[0])}
-                        </div>
-                      )}
+                    this.props?.bridalItem?.groupedProductsCount &&
+                    this.props?.bridalItem?.groupedProductsCount > 0 ? (
+                      <div
+                        className={cs(styles.smallfont, globalStyles.voffset1)}
+                      >
+                        COLOR:{" "}
+                        {this.colorName(this.props.bridalItem.colors?.[0])}
+                      </div>
+                    ) : null}
                     <div
                       className={cs(styles.smallfont, globalStyles.voffset1)}
                     >

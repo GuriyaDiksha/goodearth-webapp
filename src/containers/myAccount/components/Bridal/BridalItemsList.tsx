@@ -195,13 +195,15 @@ const BridalItemsList: React.FC<Props> = props => {
                   <div className={cs(styles.smallfont, globalStyles.voffset2)}>
                     SIZE: {size}
                   </div>
-                  {colors?.length && groupedProductsCount && (
+                  {colors?.length &&
+                  groupedProductsCount &&
+                  groupedProductsCount > 0 ? (
                     <div
                       className={cs(styles.smallfont, globalStyles.voffset1)}
                     >
                       COLOR: {colorName(colors?.[0])}
                     </div>
-                  )}
+                  ) : null}
                   <div className={cs(styles.smallfont, globalStyles.voffset1)}>
                     SKU: {sku}
                   </div>
