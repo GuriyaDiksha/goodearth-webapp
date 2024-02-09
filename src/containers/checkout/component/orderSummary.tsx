@@ -1230,7 +1230,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <div
                     className={cs(
                       globalStyles.c10LR,
-                      globalStyles.voffset2,
+                      globalStyles.voffset3v1,
                       globalStyles.marginB10,
                       globalStyles.textCenter,
                       styles.summaryPadding
