@@ -8,12 +8,6 @@ import iconStyles from "../../styles/iconFonts.scss";
 import { AppState } from "reducers/typings";
 import { useDispatch, useSelector } from "react-redux";
 import WishlistService from "services/wishlist";
-import iconWhatsApp from "../../images/bridal/icons_whatsapp.svg";
-import iconEmail from "../../images/bridal/icons_email.svg";
-// import { BridalDetailsType } from './typings';
-// import Modal from '../../components/common/popup/Modal';
-// import InputField from 'components/common/signin/inputField'
-// import Config from "components/config"
 import bgOne from "./../../images/left.svg";
 import bgTwo from "./../../images/right.svg";
 import eye from "./../../images/eye.svg";
@@ -21,13 +15,7 @@ import copy from "./../../images/copy.svg";
 import wup from "./../../images/wup.svg";
 import { showGrowlMessage } from "utils/validate";
 
-type Props = {
-  // changeScreen: () => void;
-  shareUrl: string;
-};
-
-const ShareWishlistLink: React.FC<Props> = props => {
-  const [txt, setTxt] = useState("copy");
+const ShareWishlistLink = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
   const { firstName, lastName } = useSelector((state: AppState) => state.user);
   const { wishlist_link } = useSelector((state: AppState) => state.wishlist);
@@ -42,7 +30,6 @@ const ShareWishlistLink: React.FC<Props> = props => {
       copyText.select();
     }
     document.execCommand("copy");
-    setTxt("copied");
     showGrowlMessage(
       dispatch,
       "The link of this Saved List has been copied to your clipboard!"
@@ -147,7 +134,12 @@ const ShareWishlistLink: React.FC<Props> = props => {
       {wishlist_link && (
         <div className={styles.footer}>
           <div className={styles.imgTextWrp}>
-            <img src={eye} className={cs(styles.eye)} width="25" />
+            <img
+              src={eye}
+              className={cs(styles.eye)}
+              width={mobile ? "20" : "25"}
+              height={"25"}
+            />
 
             <p className={styles.footerNote}>
               People with this link can view your Saved list

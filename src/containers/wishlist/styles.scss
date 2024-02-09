@@ -114,6 +114,11 @@
     border-bottom: 1px solid $gold;
     width: fit-content;
     margin: 10px auto;
+
+    &.disable{
+      color: $light-charcoal;
+      border-bottom: 1px solid $light-charcoal;
+    }
 }
 .wishlist-header {
     color: #000;
@@ -130,7 +135,7 @@
 
 .image-content {
     text-align: center;
-    height: 110px;
+    height: 70px;
     margin-top: 15px;
     width: 100%;
 }
@@ -437,10 +442,8 @@ icon-cross {
 }
 
 .npf-msg {
-  font-size: 20px;
+  @include b4_12px_montserrat_charcoal();
   letter-spacing: 1px;
-  color: tint(#000, 50%);
-  font-style: italic;
   span {
     color: $cerise;
   }
@@ -458,9 +461,7 @@ icon-cross {
     .search-heading {
     font-size: 25px;
     h2 {
-      font-size: 25px;
-      font-family: "Baskerville","Amiri","Serif";
-      color: #333;
+      @include h6_16px_lora_charcoal();
       line-height: 40px;
       margin-top: 40px;
     }
@@ -472,12 +473,8 @@ icon-cross {
     }
     .wishlist-heading {
       h2 {
-        font-family: "Baskerville","Amiri","Serif";
-        color: #333;
+        @include h3_20px_lora_medCharcoal();
         margin-top: 10px;
-        text-transform: uppercase;
-        font-family: $font-Lato;
-        font-size: 20px;
         line-height: 40px;
       }
       }
@@ -540,16 +537,12 @@ icon-cross {
   right: 0;
 }
 .search-feature {
-  text-decoration: underline;
   cursor: pointer;
   margin-top: 6px;
-  font-size: 12px;
-  font-weight: bold;
   a {
-    color: #ab1e56;
-    text-decoration: underline;
+    text-transform: uppercase;
+   @include b4_12px_montserrat_charcoal();
   }
-  text-transform: uppercase;
   letter-spacing: 1px;
 }
 .badge-position-plp {
@@ -720,6 +713,7 @@ icon-cross {
       }
       .wup-link{
         margin-top: 10px;
+        z-index: 99;
       }
       .share-txt-box-wishlist {
         position: relative;
@@ -799,6 +793,10 @@ icon-cross {
     @include b5_10px_montserrat_white();
     border-bottom: 1px solid $white;
     cursor: pointer;
+  }
+
+  @media screen and (max-width:768px) {
+    padding: 3px 20px;
   }
 }
 

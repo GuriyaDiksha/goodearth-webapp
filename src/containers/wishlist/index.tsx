@@ -927,7 +927,9 @@ class Wishlist extends React.Component<Props, State> {
                 </div>
                 <div className={bootstrapStyles.col2}>
                   <div
-                    className={cs(styles.iconSort)}
+                    className={cs(styles.iconSort, {
+                      [styles.disable]: this.state.wishlistCount === 0
+                    })}
                     onClick={
                       this.state.wishlistCount > 0
                         ? () => this.setState({ filterListing: true })
@@ -982,7 +984,7 @@ class Wishlist extends React.Component<Props, State> {
                                 onClick={() => this.setWishlistFilter(data)}
                                 className={
                                   this.state.currentFilter == data.value
-                                    ? globalStyles.cerise
+                                    ? globalStyles.gold
                                     : ""
                                 }
                               >
