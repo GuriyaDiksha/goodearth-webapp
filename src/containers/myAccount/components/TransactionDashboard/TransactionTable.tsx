@@ -181,7 +181,7 @@ const TransactionTable = ({ mobile }: Props) => {
       state: isShow
     });
   };
-  debugger;
+
   return (
     <>
       <div className={styles.transactionTableBackground}>
