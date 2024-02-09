@@ -275,11 +275,11 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 </div>
               )}
               {item?.product?.colors?.length &&
-                item?.product?.groupedProductsCount > 0 && (
-                  <div className={styles.size}>
-                    Color:{colorName(item.product?.colors?.[0])}
-                  </div>
-                )}
+              item?.product?.groupedProductsCount > 0 ? (
+                <div className={styles.size}>
+                  Color:{colorName(item.product?.colors?.[0])}
+                </div>
+              ) : null}
               <div className={styles.quantity}>{`Qty: ${item.quantity}`}</div>
             </div>
           </div>
