@@ -178,7 +178,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const getSizeAndQty = (
     data: any,
     qty: any,
-    groupedProductsCount?: number,
+    groupedProductsCount: number,
     isGC: boolean
   ) => {
     const size = data.find(function(attribute: any) {
