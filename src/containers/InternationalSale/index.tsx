@@ -225,8 +225,8 @@ const InternationalSale: React.FC = () => {
       )}
     >
       <h4>
-        Make the most out of your Good Earth favourites. Sign up to discover our
-        latest collections, insider stories and expert tips.
+        Unlock everlasting joy with your favourite home and apparel designs at
+        upto 50% off. Sign up to get a reminder for the Good Earth Sale.
       </h4>
       <Formsy
         onValidSubmit={handleSubmit}
