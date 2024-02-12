@@ -102,6 +102,7 @@ const CreateRegistryNew: React.FC = () => {
     } else {
       setDateErrorMsg("");
       setCurrentModule("address");
+      window.scrollTo(0, 0);
     }
   };
 
