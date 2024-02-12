@@ -178,7 +178,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
   const getSizeAndQty = (
     data: any,
     qty: any,
-    groupedProductsCount?: number
+    groupedProductsCount?: number,
+    isGC: boolean
   ) => {
     const size = data.find(function(attribute: any) {
       if (attribute.name == "Size") {
@@ -191,7 +192,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
         return attribute;
       }
     });
-    return size || qty || color?.value ? (
+    return (size || qty || color?.value) && !isGC ? (
       <span className={globalStyles.marginT5}>
         {size && `Size: ${size.value} | `}{" "}
         {color?.value && groupedProductsCount && groupedProductsCount > 0
@@ -327,7 +328,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     {getSizeAndQty(
                       item.product.attributes,
                       item.quantity,
-                      item?.product?.groupedProductsCount
+                      item?.product?.groupedProductsCount,
+                      item.product.structure == "GiftCard"
                     )}
                   </span>
                   {item.product.structure == "GiftCard" && (
