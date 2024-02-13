@@ -732,12 +732,17 @@ export const gaEventsForSearch = (
   const recentSearch = localStorage.getItem("recentSearchValue");
   const popularSearch = localStorage.getItem("popularSearch");
   const inputValue = localStorage.getItem("inputValue");
+  const viewAllResults = localStorage.getItem("viewAllResults");
 
   if (
     userConsent.includes(GA_CALLS) &&
-    (popularSearch || recentSearch || inputValue || clickType)
+    (popularSearch || recentSearch || inputValue || clickType || viewAllResults)
   ) {
-    if (data?.results?.data?.length || (clickType && data?.length)) {
+    if (
+      data?.results?.data?.length ||
+      (clickType && data?.length) ||
+      clickType === "Products"
+    ) {
       dataLayer.push({
         event: "search_bar_results_found",
         click_type: recentSearch
@@ -747,7 +752,11 @@ export const gaEventsForSearch = (
           : clickType
           ? clickType
           : "Input",
-        cta_name: ctaName,
+        cta_name: ctaName
+          ? ctaName
+          : viewAllResults
+          ? "View all results"
+          : recentSearch || popularSearch || inputValue,
         search_term: recentSearch || popularSearch || inputValue
       });
     } else {
@@ -757,13 +766,17 @@ export const gaEventsForSearch = (
           ? "Recent search"
           : popularSearch
           ? "Popular search"
+          : clickType
+          ? clickType
           : "Input",
+        cta_name: viewAllResults ? "View all results" : ctaName,
         search_term: recentSearch || popularSearch || inputValue
       });
     }
     localStorage.removeItem("recentSearchValue");
     localStorage.removeItem("popularSearch");
     localStorage.removeItem("inputValue");
+    localStorage.removeItem("viewAllResults");
   }
 };
 
