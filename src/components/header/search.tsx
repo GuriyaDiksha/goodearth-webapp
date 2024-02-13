@@ -304,7 +304,7 @@ class Search extends React.Component<Props, State> {
 
   onClickSearch = (event: any) => {
     if (this.state.searchValue.trim().length > 0) {
-      localStorage.setItem("viewAllResults", this.state.searchValue.trim());
+      localStorage.setItem("inputValue", this.state.searchValue.trim());
       this.props.history.push(
         `/search/${this.state.url.split("/autocomplete")[1]}`
       );

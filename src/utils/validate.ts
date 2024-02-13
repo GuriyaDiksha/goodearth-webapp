@@ -732,11 +732,11 @@ export const gaEventsForSearch = (
   const recentSearch = localStorage.getItem("recentSearchValue");
   const popularSearch = localStorage.getItem("popularSearch");
   const inputValue = localStorage.getItem("inputValue");
-  const viewAllResults = localStorage.getItem("viewAllResults");
+  const serachTerm = localStorage.getItem("search");
 
   if (
     userConsent.includes(GA_CALLS) &&
-    (popularSearch || recentSearch || inputValue || clickType || viewAllResults)
+    (popularSearch || recentSearch || inputValue || clickType)
   ) {
     if (
       data?.results?.data?.length ||
@@ -752,12 +752,9 @@ export const gaEventsForSearch = (
           : clickType
           ? clickType
           : "Input",
-        cta_name: ctaName
-          ? ctaName
-          : viewAllResults
-          ? "View all results"
-          : recentSearch || popularSearch || inputValue,
-        search_term: recentSearch || popularSearch || inputValue
+        cta_name:
+          ctaName || recentSearch || popularSearch || "View all results",
+        search_term: recentSearch || popularSearch || inputValue || serachTerm
       });
     } else {
       dataLayer.push({
@@ -769,8 +766,9 @@ export const gaEventsForSearch = (
           : clickType
           ? clickType
           : "Input",
-        cta_name: viewAllResults ? "View all results" : ctaName,
-        search_term: recentSearch || popularSearch || inputValue
+        cta_name:
+          ctaName || recentSearch || popularSearch || "View all results",
+        search_term: recentSearch || popularSearch || inputValue || serachTerm
       });
     }
     localStorage.removeItem("recentSearchValue");
