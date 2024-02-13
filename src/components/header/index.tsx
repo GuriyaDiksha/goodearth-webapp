@@ -1213,7 +1213,7 @@ class Header extends React.Component<Props, State> {
             />
           )}
           <div className={cs(styles.minimumWidth, styles.headerBg)}>
-            <div className={bootstrap.row}>
+            <div className={cs(bootstrap.row, styles.menuForTablet)}>
               {mobile || tablet ? (
                 <div
                   className={cs(
