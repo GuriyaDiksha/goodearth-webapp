@@ -223,7 +223,9 @@ const BridalItemsList: React.FC<Props> = props => {
                       </div>
                     )}
                     <div className={cs(styles.sizeSku)}>
-                      <div className={cs(styles.smallfont)}>SIZE: {size}</div>
+                      {size && (
+                        <div className={cs(styles.smallfont)}>SIZE: {size}</div>
+                      )}
                       <div className={cs(styles.smallfont)}>SKU: {sku}</div>
                     </div>
                   </div>

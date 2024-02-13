@@ -275,10 +275,13 @@ class BridalItem extends React.Component<Props, State> {
                         </span>
                       </div>
                     )}
+
                     <div className={styles.sizeSku}>
-                      <div className={styles.smallfont}>
-                        SIZE: {this.props.bridalItem.size}
-                      </div>
+                      {this.props.bridalItem.size && (
+                        <div className={styles.smallfont}>
+                          SIZE: {this.props.bridalItem.size}
+                        </div>
+                      )}
                       <div className={cs(styles.smallfont)}>
                         SKU: {this.props.bridalItem.sku}
                       </div>
