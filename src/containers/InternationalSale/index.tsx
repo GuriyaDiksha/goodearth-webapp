@@ -226,7 +226,7 @@ const InternationalSale: React.FC = () => {
     >
       <h4>
         Unlock everlasting joy with your favourite home and apparel designs at
-        upto 50% off. Sign up to get a reminder for the Good Earth Sale.
+        upto 60% off. Sign up to get a reminder for the Good Earth Sale.
       </h4>
       <Formsy
         onValidSubmit={handleSubmit}
