@@ -993,13 +993,11 @@ const ProductDetails: React.FC<Props> = ({
                 >
                   {currency === "INR" && (
                     <span
-                      className={cs(
-                        styles.mrp,
-                        badgeType == "B_flat" ||
+                      className={cs(styles.mrp, {
+                        [globalStyles.gold]:
+                          badgeType == "B_flat" ||
                           (info.isSale && discount && discountedPriceRecords)
-                          ? globalStyles.gold
-                          : ""
-                      )}
+                      })}
                     >
                       MRP.
                     </span>
@@ -1018,10 +1016,10 @@ const ProductDetails: React.FC<Props> = ({
                     </span>
                   ) : (
                     <span
-                      className={cs(
-                        styles.normalPrice,
-                        badgeType == "B_flat" ? globalStyles.gold : ""
-                      )}
+                      className={cs(styles.normalPrice, {
+                        [globalStyles.gold]: badgeType == "B_flat",
+                        [globalStyles.fontSize16]: badgeType == "B_flat"
+                      })}
                     >
                       {" "}
                       {displayPriceWithCommas(price, currency)}
@@ -1120,7 +1118,11 @@ const ProductDetails: React.FC<Props> = ({
                             selectedSize.stock > 0 &&
                             `${
                               selectedSize.othersBasketCount > 0
-                                ? ` ${selectedSize.othersBasketCount} others have this item in their bag.`
+                                ? ` ${selectedSize.othersBasketCount} other${
+                                    selectedSize.othersBasketCount > 1
+                                      ? "s"
+                                      : ""
+                                  } have this item in their bag.`
                                 : ""
                             } Only ${selectedSize.stock} Left!`}
                         </span>
@@ -1174,10 +1176,13 @@ const ProductDetails: React.FC<Props> = ({
                   selectedSize &&
                   selectedSize.stock > 0 &&
                   selectedSize.showStockThreshold &&
-                  `${selectedSize.othersBasketCount &&
-                    ` ${selectedSize.othersBasketCount} others have this item in their bag.`} Only ${
-                    selectedSize.stock
-                  } Left!`}
+                  `${
+                    selectedSize.othersBasketCount > 0
+                      ? ` ${selectedSize.othersBasketCount} other${
+                          selectedSize.othersBasketCount > 1 ? "s" : ""
+                        } have this item in their bag.`
+                      : ""
+                  } Only ${selectedSize.stock} Left!`}
               </span>
             )}
             <div

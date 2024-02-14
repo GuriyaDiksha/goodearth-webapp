@@ -20,6 +20,7 @@ import { USR_WITH_NO_ORDER } from "constants/messages";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import Button from "components/Button";
+import { maximumOtpAttempt } from "constants/currency";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -61,7 +62,8 @@ class MainLogin extends React.Component<Props, loginState> {
       showCurrentSection: "email",
       showEmailVerification: false,
       usrWithNoOrder: false,
-      phoneNo: ""
+      phoneNo: "",
+      isUserActive: true
     };
   }
   static contextType = Context;
@@ -82,80 +84,95 @@ class MainLogin extends React.Component<Props, loginState> {
           phoneNo: data?.phoneNo
         });
       } else {
-        if (data.invalidDomain) {
+        if (!data.isUserActive) {
           this.setState(
             {
-              showerror: data.message
+              showerror: data.message,
+              isUserActive: data.isUserActive,
+              isLoginDisabled: true
             },
             () => {
               errorTracking([this.state.showerror], location.href);
             }
           );
         } else {
-          if (data.emailExist) {
-            if (data.passwordExist) {
-              if (this.props.source == "password-reset") {
-                this.setState(
-                  {
-                    showCurrentSection: "login",
-                    msg: "",
-                    highlight: false,
-                    successMsg: ""
-                  },
-                  () => {
-                    this.passwordInput.current &&
-                      this.passwordInput.current.focus();
-                    this.passwordInput.current &&
-                      !this.props.isBo &&
-                      this.passwordInput.current.scrollIntoView(true);
-                  }
-                );
+          if (data.invalidDomain) {
+            this.setState(
+              {
+                highlight: true,
+                showerror: data.message
+              },
+              () => {
+                errorTracking([this.state.showerror], location.href);
+              }
+            );
+          } else {
+            if (data.emailExist) {
+              if (data.passwordExist) {
+                if (this.props.source == "password-reset") {
+                  this.setState(
+                    {
+                      showCurrentSection: "login",
+                      msg: "",
+                      highlight: false,
+                      successMsg: ""
+                    },
+                    () => {
+                      this.passwordInput.current &&
+                        this.passwordInput.current.focus();
+                      this.passwordInput.current &&
+                        !this.props.isBo &&
+                        this.passwordInput.current.scrollIntoView(true);
+                    }
+                  );
+                } else {
+                  this.setState(
+                    {
+                      showCurrentSection: "login",
+                      msg: "",
+                      highlight: false,
+                      successMsg: "",
+                      heading: "Welcome Back!",
+                      subHeading: "Enter your password to sign in."
+                    },
+                    () => {
+                      this.passwordInput.current &&
+                        this.passwordInput.current.focus();
+                      this.passwordInput.current &&
+                        !this.props.isBo &&
+                        this.passwordInput.current.scrollIntoView(true);
+                    }
+                  );
+                }
               } else {
-                this.setState(
-                  {
-                    showCurrentSection: "login",
-                    msg: "",
-                    highlight: false,
-                    successMsg: "",
-                    heading: "Welcome Back!",
-                    subHeading: "Enter your password to sign in."
-                  },
-                  () => {
-                    this.passwordInput.current &&
-                      this.passwordInput.current.focus();
-                    this.passwordInput.current &&
-                      !this.props.isBo &&
-                      this.passwordInput.current.scrollIntoView(true);
-                  }
-                );
+                // const error = [
+                //   "Looks like you are signing in for the first time. ",
+                //   <br key={2} />,
+                //   "Please ",
+                //   <span
+                //     className={cs(
+                //       // globalStyles.errorMsg,
+                //       globalStyles.linkTextUnderline
+                //     )}
+                //     key={1}
+                //     onClick={this.handleResetPassword}
+                //   >
+                //     set a new password
+                //   </span>,
+                //   " to Login!"
+                // ];
+                if (maximumOtpAttempt == data.attempt_count)
+                  this.setState({
+                    msg: data.message,
+                    highlight: true,
+                    isLoginDisabled: true
+                  });
+                this.emailInput.current && this.emailInput.current.focus();
               }
             } else {
-              const error = [
-                "Looks like you are signing in for the first time. ",
-                <br key={2} />,
-                "Please ",
-                <span
-                  className={cs(
-                    // globalStyles.errorMsg,
-                    globalStyles.linkTextUnderline
-                  )}
-                  key={1}
-                  onClick={this.handleResetPassword}
-                >
-                  set a new password
-                </span>,
-                " to Login!"
-              ];
-              this.setState({
-                msg: error,
-                highlight: true,
-                isLoginDisabled: true
-              });
-              this.emailInput.current && this.emailInput.current.focus();
+              localStorage.setItem("tempEmail", this.state.email);
+              this.props.showRegister?.();
             }
-          } else {
-            localStorage.setItem("tempEmail", this.state.email);
-            this.props.showRegister?.();
           }
         }
       }
@@ -565,6 +582,15 @@ class MainLogin extends React.Component<Props, loginState> {
             {this.state.showerror ? (
               <p className={cs(styles.errorMsg, styles.mainLoginError)}>
                 {this.state.showerror}
+                {!this.state.isUserActive && (
+                  <a
+                    className={cs(styles.underlineText)}
+                    href="mailto:customercare@goodearth.in"
+                    key="email"
+                  >
+                    customercare@goodearth.in
+                  </a>
+                )}
               </p>
             ) : (
               ""
