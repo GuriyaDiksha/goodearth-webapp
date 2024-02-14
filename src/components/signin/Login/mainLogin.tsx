@@ -21,6 +21,7 @@ import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import Button from "components/Button";
 import { maximumOtpAttempt } from "constants/currency";
+import { truncate } from "fs/promises";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -75,6 +76,7 @@ class MainLogin extends React.Component<Props, loginState> {
       ? "checkout"
       : "";
   async checkMailValidation() {
+    debugger;
     if (this.state.email) {
       const data = await this.props.checkUserPassword(this.state.email);
       if (data.otpSent) {
@@ -99,6 +101,7 @@ class MainLogin extends React.Component<Props, loginState> {
           if (data.invalidDomain) {
             this.setState(
               {
+                highlight: true,
                 showerror: data.message
               },
               () => {
@@ -295,6 +298,7 @@ class MainLogin extends React.Component<Props, loginState> {
     }
   };
   handleSubmit = (event: React.FormEvent) => {
+    debugger;
     event.preventDefault();
     this.myBlur(undefined, "submit");
     this.myBlurP();
