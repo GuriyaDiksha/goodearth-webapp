@@ -726,13 +726,13 @@ export function productImpression(
 export const gaEventsForSearch = (
   data: any,
   clickType?: string,
-  ctaName?: string
+  ctaName?: string,
+  serachVal?: string
 ) => {
   const userConsent = CookieService.getCookie("consent").split(",");
   const recentSearch = localStorage.getItem("recentSearchValue");
   const popularSearch = localStorage.getItem("popularSearch");
   const inputValue = localStorage.getItem("inputValue");
-  const serachTerm = localStorage.getItem("search");
 
   if (
     userConsent.includes(GA_CALLS) &&
@@ -754,7 +754,7 @@ export const gaEventsForSearch = (
           : "Input",
         cta_name:
           ctaName || recentSearch || popularSearch || "View all results",
-        search_term: recentSearch || popularSearch || inputValue || serachTerm
+        search_term: recentSearch || popularSearch || inputValue || serachVal
       });
     } else {
       dataLayer.push({
@@ -768,7 +768,7 @@ export const gaEventsForSearch = (
           : "Input",
         cta_name:
           ctaName || recentSearch || popularSearch || "View all results",
-        search_term: recentSearch || popularSearch || inputValue || serachTerm
+        search_term: recentSearch || popularSearch || inputValue || serachVal
       });
     }
     localStorage.removeItem("recentSearchValue");
