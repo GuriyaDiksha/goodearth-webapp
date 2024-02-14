@@ -262,7 +262,8 @@ class Search extends React.Component<Props, State> {
       gaEventsForSearch(
         data,
         "Products",
-        this.getTextFromHtml(data?.product || data?.title)
+        this.getTextFromHtml(data?.product || data?.title),
+        this.state.searchValue
       );
     }
     // this.props.toggle();
@@ -423,7 +424,8 @@ class Search extends React.Component<Props, State> {
                   gaEventsForSearch(
                     data,
                     "Collections",
-                    this.getTextFromHtml(item.collection)
+                    this.getTextFromHtml(item.collection),
+                    this.state.searchValue
                   );
                   this.props.hideSearch();
                 }}
@@ -447,7 +449,8 @@ class Search extends React.Component<Props, State> {
                       gaEventsForSearch(
                         data,
                         "Collections",
-                        this.getTextFromHtml(item.collection)
+                        this.getTextFromHtml(item.collection),
+                        this.state.searchValue
                       );
                       this.props.hideSearch();
                     }}
@@ -951,7 +954,9 @@ class Search extends React.Component<Props, State> {
                                 gaEventsForSearch(
                                   categories,
                                   "Categories",
-                                  this.getTextFromHtml(cat.category)
+                                  `${cat.parent.replace(" > ", "/")}/` +
+                                    this.getTextFromHtml(cat.category),
+                                  this.state.searchValue
                                 );
 
                                 this.props.hideSearch();
