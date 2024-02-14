@@ -419,6 +419,8 @@ $banner-mobile-height:180px;
 
 @media screen and (max-width: 991px){
     .page-container{
+        position: relative;
+        z-index: 8;
         .banner{
             height: $banner-mobile-height;
             width: 100%;
