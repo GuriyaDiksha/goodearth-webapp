@@ -4,7 +4,6 @@ import { MobileDropdownMenuProps } from "./typing";
 import styles from "./styles.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import iconStyles from "../../styles/iconFonts.scss";
-import useOutsideDetection from "./../../hooks/useOutsideDetetion";
 import globalStyles from "styles/global.scss";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
@@ -77,8 +76,6 @@ const PlpDropdownMenu = ({
     toggleSort && toggleSort(true);
   };
 
-  const { ref } = useOutsideDetection<HTMLDivElement>(onOutsideClick);
-
   useIsomorphicLayoutEffect(() => {
     if (showCaret) {
       onInsideClick();
@@ -120,6 +117,7 @@ const PlpDropdownMenu = ({
 
   return (
     <div
+      id="fliter_sticky"
       className={cs(styles.cSort, bootstrap.col12, styles.filterSticky, {
         [styles.hide]: scrollDown,
         [styles.openMenuIndex]:
@@ -270,7 +268,7 @@ const PlpDropdownMenu = ({
                       onClick={() => {
                         onIClickSelected(data);
                       }}
-                      key={data.name}
+                      key={data.value}
                       className={cs({
                         [styles.goldColor]: displayValue == data.value
                       })}

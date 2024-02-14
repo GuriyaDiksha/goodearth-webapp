@@ -634,6 +634,7 @@ class Search extends React.Component<
                   onChange={this.onchangeFilter}
                   value={this.state.sortValue}
                   className={styles.searchHeaderDropdown}
+                  disabled={!this.props.data?.results?.data?.length}
                 />
               </div>
             </Fragment>
