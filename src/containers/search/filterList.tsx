@@ -27,6 +27,7 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     currency: state.currency,
     salestatus: state.info.isSale,
+    scrollDown: state.info.scrollDown,
     facets: state.searchList.data.results.facets,
     facetObject: state.searchList.facetObject,
     nextUrl: state.searchList.data.next,
@@ -607,7 +608,7 @@ class FilterList extends React.Component<Props, State> {
       }
     );
   };
-
+  prevScroll = 0;
   handleScroll = (event: any) => {
     const windowHeight =
       "innerHeight" in window
@@ -645,6 +646,20 @@ class FilterList extends React.Component<Props, State> {
       this.state.flag
     ) {
       this.appendData();
+    }
+    // to check if scrolling down
+    if (this.props.mobile) {
+      const scroll = window.pageYOffset || document.documentElement.scrollTop;
+      if (this.prevScroll < scroll - 5) {
+        if (!this.props.scrollDown) {
+          this.props.updateScrollDown(true);
+        }
+      } else if (this.prevScroll > scroll) {
+        if (this.props.scrollDown) {
+          this.props.updateScrollDown(false);
+        }
+      }
+      this.prevScroll = scroll;
     }
   };
 
@@ -852,6 +867,7 @@ class FilterList extends React.Component<Props, State> {
 
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
+    this.props.updateScrollDown(false);
     this.unlisten = this.props.history.listen(this.stateChange);
 
     const header = document.getElementById("myHeader");

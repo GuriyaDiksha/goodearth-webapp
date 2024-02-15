@@ -398,8 +398,8 @@ const CartItems: React.FC<BasketItem> = memo(
           >
             <div className={cs(styles.rowMain, globalStyles.gutterBetween)}>
               <div className={cs(bootstrap.colLg8, bootstrap.col12)}>
-                <div className={cs(styles.section, styles.sectionInfo)}>
-                  <div className={globalStyles.marginB20}>
+                <div className={cs("sectionInfo", styles.sectionInfo)}>
+                  <div>
                     {collection && (
                       <div
                         className={cs(styles.collectionName, {

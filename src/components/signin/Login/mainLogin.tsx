@@ -99,6 +99,7 @@ class MainLogin extends React.Component<Props, loginState> {
           if (data.invalidDomain) {
             this.setState(
               {
+                highlight: true,
                 showerror: data.message
               },
               () => {
@@ -107,7 +108,6 @@ class MainLogin extends React.Component<Props, loginState> {
             );
           } else {
             if (data.emailExist) {
-              debugger;
               if (data.passwordExist) {
                 if (this.props.source == "password-reset") {
                   this.setState(

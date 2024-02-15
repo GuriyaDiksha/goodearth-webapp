@@ -753,12 +753,14 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                       <>Size:&nbsp; {item.product.size}</>
                                     )}
                                   </div>
-                                  {item?.product?.colors?.length && (
+                                  {item?.product?.colors?.length &&
+                                  item?.product?.groupedProductsCount &&
+                                  item?.product?.groupedProductsCount > 0 ? (
                                     <div className={styles.productDetails}>
                                       Color:&nbsp;{" "}
                                       {colorName(item.product?.colors?.[0])}
                                     </div>
-                                  )}
+                                  ) : null}
                                   <div className={styles.productDetails}>
                                     Qty:&nbsp; {item.quantity}
                                   </div>

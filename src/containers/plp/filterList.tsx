@@ -587,7 +587,6 @@ class FilterList extends React.Component<Props, State> {
                     this.state.shouldScroll &&
                     this.props.history.action === "POP"
                   ) {
-                    console.log("PLP product search called======");
                     this.handleProductSearch();
                   }
                 }

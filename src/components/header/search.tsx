@@ -209,6 +209,12 @@ class Search extends React.Component<Props, State> {
     this.props.changeModalState(false);
   }
 
+  getTextFromHtml = (html: any) => {
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    return div.textContent || div.innerText || "";
+  };
+
   showProduct(data: PartialProductItem | WidgetImage, indices: number) {
     const itemData = data as PartialProductItem;
     const products: any = [];
@@ -253,6 +259,12 @@ class Search extends React.Component<Props, State> {
           }
         }
       });
+      gaEventsForSearch(
+        data,
+        "Products",
+        this.getTextFromHtml(data?.product || data?.title),
+        this.state.searchValue
+      );
     }
     // this.props.toggle();
     this.props.hideSearch();
@@ -409,7 +421,12 @@ class Search extends React.Component<Props, State> {
                 to={item.link}
                 onClick={() => {
                   // this.props.toggle();
-                  gaEventsForSearch(data, "Collections", item.collection);
+                  gaEventsForSearch(
+                    data,
+                    "Collections",
+                    this.getTextFromHtml(item.collection),
+                    this.state.searchValue
+                  );
                   this.props.hideSearch();
                 }}
               >
@@ -429,7 +446,12 @@ class Search extends React.Component<Props, State> {
                     to={item.link}
                     onClick={() => {
                       // this.props.toggle();
-                      gaEventsForSearch(data, "Collections", item.collection);
+                      gaEventsForSearch(
+                        data,
+                        "Collections",
+                        this.getTextFromHtml(item.collection),
+                        this.state.searchValue
+                      );
                       this.props.hideSearch();
                     }}
                   >
@@ -769,15 +791,15 @@ class Search extends React.Component<Props, State> {
                                 <Link
                                   to={cat.link}
                                   onClick={(e: any) => {
+                                    localStorage.setItem(
+                                      "popularSearch",
+                                      cat?.name
+                                    );
                                     if (
                                       !cat.link &&
                                       this.searchBoxRef &&
                                       this.searchBoxRef.current
                                     ) {
-                                      localStorage.setItem(
-                                        "popularSearch",
-                                        cat?.name
-                                      );
                                       this.props.history.push(
                                         "/search/?q=" + cat.name
                                       );
@@ -932,7 +954,9 @@ class Search extends React.Component<Props, State> {
                                 gaEventsForSearch(
                                   categories,
                                   "Categories",
-                                  cat.category
+                                  `${cat.parent.replace(" > ", "/")}/` +
+                                    this.getTextFromHtml(cat.category),
+                                  this.state.searchValue
                                 );
 
                                 this.props.hideSearch();
