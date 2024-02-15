@@ -226,9 +226,9 @@ class MainLogin extends React.Component<Props, loginState> {
     //   this.firstEmailInput.current?.focus();
     // }
     // localStorage.removeItem("tempEmail");
-    this.firstEmailInput.current?.focus();
-    const autoFocus = document.getElementById("auto_focus");
-    autoFocus?.focus();
+    setTimeout(() => {
+      this.firstEmailInput.current?.focus();
+    }, 500);
 
     const subHeading = this.props.isCerise
       ? "Please enter your registered e-mail address to login to your Cerise account."

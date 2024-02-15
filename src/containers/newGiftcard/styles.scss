@@ -419,8 +419,6 @@ $banner-mobile-height:180px;
 
 @media screen and (max-width: 991px){
     .page-container{
-        position: relative;
-        z-index: 8;
         .banner{
             height: $banner-mobile-height;
             width: 100%;
@@ -642,7 +640,7 @@ $banner-mobile-height:180px;
                 letter-spacing: 0.50px;
             }
         }
-        .add-to-bag {
+        .buy-now-cta{
             position: fixed;
             bottom: 0px;
             left: 0px;
