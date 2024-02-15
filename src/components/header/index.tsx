@@ -154,7 +154,7 @@ class Header extends React.Component<Props, State> {
       this.props.cookies,
       bridalKey,
       this.props.sortBy,
-      this.props.location.pathname
+      this.props.history?.location?.pathname
     );
     if (
       typeof document != "undefined" &&
