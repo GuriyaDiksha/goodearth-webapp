@@ -227,6 +227,8 @@ class MainLogin extends React.Component<Props, loginState> {
     // }
     // localStorage.removeItem("tempEmail");
     this.firstEmailInput.current?.focus();
+    const autoFocus = document.getElementById("auto_focus");
+    autoFocus?.focus();
 
     const subHeading = this.props.isCerise
       ? "Please enter your registered e-mail address to login to your Cerise account."
@@ -566,6 +568,7 @@ class MainLogin extends React.Component<Props, loginState> {
         <div className={styles.categorylabel}>
           <div>
             <InputField
+              id="auto_focus"
               value={this.state.email || this.props.email}
               placeholder={"Email ID"}
               label={"Email ID*"}
