@@ -172,7 +172,7 @@ class BridalItem extends React.Component<Props, State> {
                       </div>
                     </div>
                     <div className={styles.productPrice}>
-                      {this.props.isSale && this.props.bridalItem.discount ? (
+                      {this.props.bridalItem.discount ? (
                         <span className={styles.productPrice}>
                           <span className={styles.discountprice}>
                             {displayPriceWithCommas(
