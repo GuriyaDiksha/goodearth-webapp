@@ -276,12 +276,16 @@ class Search extends React.Component<Props, State> {
   }
 
   titleCase(str: string) {
-    const splitStr = str.toLowerCase().split(" ");
-    splitStr?.map((val, i) => {
-      splitStr[i] = val.charAt(0).toUpperCase() + val.substring(1);
-    });
+    if (str.match(/^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/)) {
+      const splitStr = str.toLowerCase().split(" ");
+      splitStr?.map((val, i) => {
+        splitStr[i] = val.charAt(0).toUpperCase() + val.substring(1);
+      });
 
-    return splitStr.join(" ");
+      return splitStr.join(" ");
+    }
+
+    return str;
   }
 
   recentSearch(value: string | null) {
