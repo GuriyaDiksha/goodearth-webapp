@@ -289,7 +289,7 @@ class Search extends React.Component<Props, State> {
     const searchArr = CookieService.getCookie("recentSearch")
       ? JSON.parse(CookieService.getCookie("recentSearch"))
       : [];
-
+    console.log("search recent search ===", this.state.searchValue);
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(SEARCH_HISTORY)) {
       CookieService.setCookie(
@@ -304,12 +304,15 @@ class Search extends React.Component<Props, State> {
   }
 
   onClickSearch = (event: any) => {
-    if (this.state.searchValue.trim().length > 0) {
-      localStorage.setItem("inputValue", this.state.searchValue.trim());
+    console.log("search ===", this.state.searchValue);
+    if (this.state.searchValue?.trim().length > 0) {
+      console.log("search inside if ===", this.state.searchValue);
+      localStorage.setItem("inputValue", this.state.searchValue?.trim());
       this.props.history.push(
-        `/search/${this.state.url.split("/autocomplete")[1]}`
+        `/search/${this.state?.url?.split("/autocomplete")?.[1]}`
       );
       // this.closeSearch();
+      console.log("search outside if ===", this.state.searchValue);
       this.props.hideSearch();
       this.recentSearch(null);
       return false;
