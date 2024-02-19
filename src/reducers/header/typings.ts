@@ -41,6 +41,7 @@ export type HeaderState = {
   sizeChartData: SizeChartData;
   mobileMenuOpenState: boolean;
   showSearchPopup: boolean;
+  showmobileSort: boolean;
 };
 
 export type HeaderActions = ActionType<typeof Actions>;

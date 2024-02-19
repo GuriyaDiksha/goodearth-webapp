@@ -38,6 +38,9 @@
 .header-index {
   z-index: 1000009 !important;
 }
+.show-sort-header-index{
+  z-index: 3 !important; //added for sort menu open on mobile
+}
 // .header-index-home {
 //   z-index: 1000002 !important;
 // }
