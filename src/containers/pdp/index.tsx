@@ -461,6 +461,8 @@ class PDPContainer extends React.Component<Props, State> {
     document.removeEventListener("scroll", this.onScroll);
     if (this.props.device.mobile) {
       const elem = document.getElementById("pincode-bar");
+      const headerContainer = document.getElementById("header_container");
+
       elem &&
         elem.classList.contains(globalStyles.hiddenEye) &&
         elem.classList.remove(globalStyles.hiddenEye);
@@ -471,6 +473,10 @@ class PDPContainer extends React.Component<Props, State> {
       }
       if (chatButtonElem) {
         chatButtonElem.style.bottom = "10px";
+      }
+
+      if (headerContainer) {
+        headerContainer.style.display = "block";
       }
     }
     window.removeEventListener(
