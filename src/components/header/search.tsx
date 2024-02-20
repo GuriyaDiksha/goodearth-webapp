@@ -293,7 +293,18 @@ class Search extends React.Component<Props, State> {
     const searchArr = CookieService.getCookie("recentSearch")
       ? JSON.parse(CookieService.getCookie("recentSearch"))
       : [];
-    console.log("search recent search ===", this.state.searchValue);
+
+    console.log(
+      "search recent search ===",
+      searchValue,
+      searchArr,
+      JSON.stringify(
+        [this.titleCase(searchValue), ...searchArr]
+          .filter(this.onlyUnique)
+          .slice(0, 5)
+      )
+    );
+
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(SEARCH_HISTORY)) {
       CookieService.setCookie(
