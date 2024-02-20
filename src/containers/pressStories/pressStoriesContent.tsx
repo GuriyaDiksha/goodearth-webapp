@@ -129,6 +129,11 @@ class PressStoriesContent extends React.Component<
     window.scrollTo(0, 0);
     removeFroala();
   }
+  componentDidUpdate() {
+    this.state.isSortOpen
+      ? document.body.classList.add(globalStyles.noScroll)
+      : document.body.classList.remove(globalStyles.noScroll);
+  }
 
   onSelect = (data: DropdownItem) => {
     this.onChangeFilter(data.value);
