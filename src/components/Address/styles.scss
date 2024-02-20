@@ -80,7 +80,7 @@ body:has(.mobile) {
   // min-height: 320px;
   border: 1px solid #eaeaea;
   cursor: pointer;
-  max-width: 366px;
+  max-width: 556px;
   margin: auto;
   min-height: 170px;
 
@@ -96,17 +96,9 @@ body:has(.mobile) {
     }
   }
 
-  &.cerise{
-    width: 556px;
-    max-width: 556px;
-    margin: 0;
-
-    @media screen and (max-width:767px) {
-
-      width: 100%;
-      
-    }
-  }
+  // &.cerise{
+  //   margin: 0;
+  // }
 
   .address-wrapper {
     max-width: 93%;
