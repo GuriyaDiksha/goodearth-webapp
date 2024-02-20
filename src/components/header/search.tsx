@@ -150,8 +150,8 @@ class Search extends React.Component<Props, State> {
       });
     document.addEventListener("mousedown", this.handleClickOutside);
     this.setState({
-      recentSearchs: CookieService.getCookie("recentSearch")
-        ? JSON.parse(CookieService.getCookie("recentSearch"))
+      recentSearchs: localStorage.getItem("recentSearch")
+        ? JSON.parse(localStorage.getItem("recentSearch") || "[]")
         : []
     });
   }
@@ -189,8 +189,8 @@ class Search extends React.Component<Props, State> {
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     this.setState({
-      recentSearchs: CookieService.getCookie("recentSearch")
-        ? JSON.parse(CookieService.getCookie("recentSearch"))
+      recentSearchs: localStorage.getItem("recentSearch")
+        ? JSON.parse(localStorage.getItem("recentSearch") || "[]")
         : []
     });
     if (nextProps.location.pathname !== this.props.location.pathname) {
@@ -290,8 +290,8 @@ class Search extends React.Component<Props, State> {
 
   recentSearch(value: string | null) {
     const searchValue = value || this.state.searchValue;
-    const searchArr = CookieService.getCookie("recentSearch")
-      ? JSON.parse(CookieService.getCookie("recentSearch"))
+    const searchArr = localStorage.getItem("recentSearch")
+      ? JSON.parse(localStorage.getItem("recentSearch") || "[]")
       : [];
 
     console.log(
@@ -307,13 +307,15 @@ class Search extends React.Component<Props, State> {
 
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(SEARCH_HISTORY)) {
-      const arr = [this.titleCase(searchValue), ...searchArr]
-        .filter(this.onlyUnique)
-        .slice(0, 5);
+      const arr = JSON.stringify(
+        [this.titleCase(searchValue), ...searchArr]
+          .filter(this.onlyUnique)
+          .slice(0, 5)
+      );
 
-      console.log("search recent search arr ===", arr, JSON.stringify(arr));
+      console.log("search recent search arr ===", arr);
 
-      CookieService.setCookie("recentSearch", JSON.stringify(arr));
+      localStorage.setItem("recentSearch", arr);
     }
   }
 
@@ -865,7 +867,7 @@ class Search extends React.Component<Props, State> {
                           <button
                             onClick={() => {
                               this.setState({ recentSearchs: [] });
-                              CookieService.setCookie(
+                              localStorage.setItem(
                                 "recentSearch",
                                 JSON.stringify([])
                               );
@@ -902,7 +904,7 @@ class Search extends React.Component<Props, State> {
                                     e => e !== ele
                                   )
                                 });
-                                CookieService.setCookie(
+                                localStorage.setItem(
                                   "recentSearch",
                                   JSON.stringify(
                                     recentSearchs.filter(e => e !== ele)
