@@ -37,7 +37,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     onLoadAPiCall: (
       isLoggedIn: boolean,
-      basketcall: boolean,
       cookies: Cookies,
       bridalKey?: string,
       sortBy = "added_on",

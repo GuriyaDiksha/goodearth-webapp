@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { useDispatch } from "react-redux";
 import { updateScrollDown } from "actions/info";
+import { updateShowMobileSort } from "actions/header";
 
 const PlpDropdownMenu = ({
   filterCount,
@@ -23,7 +24,6 @@ const PlpDropdownMenu = ({
 }: MobileDropdownMenuProps): JSX.Element => {
   const [menuOpen, setOpenState] = useState(open || false);
   const [displayValue, setDisplayValue] = useState(value || "");
-  const [showmobileSort, setShowmobileSort] = useState(false);
   const [showmobileFilterList, setShowmobileFilterList] = useState(false);
   const [mobileFilter, setMobileFilter] = useState(false);
   const canUseDOM = !!(
@@ -39,7 +39,7 @@ const PlpDropdownMenu = ({
   );
   const { mobile } = useSelector((state: AppState) => state.device);
 
-  const { mobileMenuOpenState, showSearchPopup } = useSelector(
+  const { mobileMenuOpenState, showSearchPopup, showmobileSort } = useSelector(
     (state: AppState) => state.header
   );
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ const PlpDropdownMenu = ({
       onStateChange(true);
     } else {
       dispatch(updateScrollDown(true));
-      setShowmobileSort(true);
+      dispatch(updateShowMobileSort(true));
       setShowmobileFilterList(true);
       setOpenState(true);
       toggleSort && toggleSort(false);
@@ -59,7 +59,7 @@ const PlpDropdownMenu = ({
   const onInsideClick = () => {
     dispatch(updateScrollDown(false));
     setOpenState(!menuOpen);
-    setShowmobileSort(false);
+    dispatch(updateShowMobileSort(false));
     setShowmobileFilterList(false);
     setMobileFilter(false);
     onStateChange(false);
@@ -69,7 +69,7 @@ const PlpDropdownMenu = ({
   const onOutsideClick = () => {
     dispatch(updateScrollDown(false));
     setOpenState(false);
-    setShowmobileSort(false);
+    dispatch(updateShowMobileSort(false));
     setShowmobileFilterList(false);
     setMobileFilter(false);
     onStateChange(false);
@@ -96,7 +96,7 @@ const PlpDropdownMenu = ({
   const onIClickSelected = (data: any) => {
     setDisplayValue(data.value);
     setOpenState(false);
-    setShowmobileSort(false);
+    dispatch(updateShowMobileSort(false));
     setShowmobileFilterList(false);
     onChange(data.value, data.label);
   };

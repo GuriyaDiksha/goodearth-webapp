@@ -497,6 +497,8 @@ font-weight: bold;
 
 .no-scroll {
   overflow: hidden;
+  touch-action: none;
+  -ms-touch-action: none;
 }
 
 .fixed {

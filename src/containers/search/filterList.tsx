@@ -107,7 +107,11 @@ class FilterList extends React.Component<Props, State> {
   createFilterfromUrl = () => {
     const vars: any = {};
     const { history } = this.props;
-    const url = decodeURIComponent(history.location.search.replace(/\+/g, " "));
+    const url = decodeURIComponent(
+      history.location.search
+        .replace(/\+/g, " ")
+        .replace(/%(?![0-9A-Fa-f]{2})/g, "%25")
+    );
     const { filter } = this.state;
 
     const re = /[?&]+([^=&]+)=([^&]*)/gi;
@@ -513,7 +517,10 @@ class FilterList extends React.Component<Props, State> {
             discountVars = "";
             Object.keys(discount).map(data => {
               if (discount[data].isChecked) {
-                data = encodeURIComponent(data).replace(/%20/g, "+");
+                data = encodeURIComponent(data.replace(/%25/g, "%")).replace(
+                  /%20/g,
+                  "+"
+                );
                 data = data.replace("disc_", "");
                 discountVars == ""
                   ? (discountVars = data)
@@ -534,7 +541,7 @@ class FilterList extends React.Component<Props, State> {
     colorVars != "" ? (filterUrl += "&current_color=" + colorVars) : "";
     sizeVars != "" ? (filterUrl += "&available_size=" + sizeVars) : "";
     searchValue = this.state.filter.q.q
-      ? encodeURIComponent(this.state.filter.q.q)
+      ? encodeURIComponent(this.state.filter.q.q.replace(/%25/g, "%"))
       : "";
     categoryShopVars != ""
       ? (filterUrl += "&category_shop=" + categoryShopVars)
@@ -829,7 +836,9 @@ class FilterList extends React.Component<Props, State> {
     // this.setState({
     //     disableSelectedbox: true
     // });
-    const url = decodeURIComponent(history.location.search);
+    const url = decodeURIComponent(
+      history.location.search.replace(/%(?![0-9A-Fa-f]{2})/g, "%25")
+    );
     let filterUrl = "?" + url.split("?")[1];
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
