@@ -598,7 +598,18 @@ class CollectionSpecific extends React.Component<
           />
         )}
         <section id="collection_banner">
-          <div className={cs(bootstrap.row, styles.firstBlock)}>
+          <div
+            className={
+              widgetImages?.length
+                ? cs(bootstrap.row, styles.firstBlock)
+                : mobile
+                ? showTemplates.Banner
+                  ? cs(bootstrap.row, styles.imageContainerMobileBanner)
+                  : cs(bootstrap.row, styles.imageContainerMobile)
+                : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
+            }
+            id="product_images"
+          >
             {/* First check for widgetImages data if available then show that 
              else collection specific banner section will show */}
             {widgetImages?.length ? (
@@ -635,27 +646,14 @@ class CollectionSpecific extends React.Component<
                 </div>
               </>
             ) : (
-              <div
-                className={
-                  mobile
-                    ? banner
-                      ? cs(bootstrap.row, styles.imageContainerMobileBanner)
-                      : cs(bootstrap.row, styles.imageContainerMobile)
-                    : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
-                }
-                id="product_images"
-              >
-                <div className={styles.templateBanner}>
-                  {showTemplates.Banner && (
-                    <Banner
-                      data={showTemplates.Banner}
-                      mobile={mobile}
-                      tablet={tablet}
-                      colbanner={false}
-                    />
-                  )}
-                </div>
-              </div>
+              showTemplates.Banner && (
+                <Banner
+                  data={showTemplates.Banner}
+                  mobile={mobile}
+                  tablet={tablet}
+                  colbanner={false}
+                />
+              )
             )}
           </div>
         </section>

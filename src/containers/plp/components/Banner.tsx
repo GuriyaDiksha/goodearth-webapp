@@ -14,22 +14,24 @@ type Props = {
 };
 const Banner: React.FC<Props> = ({ data, mobile, tablet }) => {
   const [colbanner, setColbanner] = useState(false);
+
   useEffect(() => {
     setTimeout(() => {
       setColbanner(true);
     }, 1000);
   }, []);
+
   return (
     <>
       {colbanner ? (
         <div className={styles.colBanner}>
           <div
             className={cs(
-              bootstrap.colLg8,
-              bootstrap.col12,
-              styles.setWidth,
-              { [styles.templatePadding]: !mobile },
-              { [styles.templatePaddingUpperMobile]: mobile }
+              // bootstrap.colLg8,
+              bootstrap.col12
+              // styles.setWidth,
+              // { [styles.templatePadding]: !mobile },
+              // { [styles.templatePaddingUpperMobile]: mobile }
             )}
           >
             {data.mediaType == "image" ? (
@@ -49,11 +51,11 @@ const Banner: React.FC<Props> = ({ data, mobile, tablet }) => {
           </div>
           <div
             className={cs(
-              { [bootstrap.colMd4]: !tablet },
-              bootstrap.col12,
-              styles.setWidth,
-              styles.btContent,
-              styles.templatePadding
+              // { [bootstrap.colMd4]: !tablet },
+              bootstrap.col12
+              // styles.setWidth,
+              // styles.btContent,
+              // styles.templatePadding
             )}
           >
             {data.heading && (
