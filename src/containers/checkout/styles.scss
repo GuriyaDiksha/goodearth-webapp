@@ -1607,7 +1607,8 @@ span.add-new-address {
   }
 }
 .sale-time-msg{
-  @include b4_12px_lato();
+  // @include b4_12px_lato();
+  @include b4_12px_montserrat_regular_charcoal();
 }
 
 .hide-label{

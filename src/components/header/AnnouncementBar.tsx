@@ -175,9 +175,9 @@ const AnnouncementBar: React.FC<Props> = ({
                       {ReactHtmlParser(ele?.content)}
                     </a>
                   ) : (
-                    <a className={styles.noUrl}>
+                    <div className={styles.noUrl}>
                       {ReactHtmlParser(ele?.content)}
-                    </a>
+                    </div>
                   )}
                 </div>
                 {/* CTA */}

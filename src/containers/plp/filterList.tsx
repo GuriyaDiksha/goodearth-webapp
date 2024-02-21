@@ -406,7 +406,11 @@ class FilterList extends React.Component<Props, State> {
       });
     }
     // html.clientHeight <= (window.pageYOffset + window.innerHeight-100)
-    if (windowBottom + 2000 >= docHeight && this.state.scrollload) {
+    if (
+      windowBottom + 2000 >= docHeight &&
+      this.state.scrollload &&
+      this.state.flag
+    ) {
       this.appendData();
     }
 
@@ -489,137 +493,136 @@ class FilterList extends React.Component<Props, State> {
       listdata,
       currency,
       updateProduct,
-      fetchPlpTemplates,
       changeLoader
     } = this.props;
     const { filter } = this.state;
     if (nextUrl) {
-      this.setState({
-        disableSelectedbox: true
-      });
-    }
-    if (nextUrl && this.state.flag && this.state.scrollload) {
-      this.setState({ flag: false });
-      changeLoader?.(true);
-      const filterUrl = "?" + nextUrl.split("?")[1];
-      // const pageSize = mobile ? 10 : 20;
-      const pageSize = 20;
-      const urlParams = new URLSearchParams(this.props.history.location.search);
-      const categoryShop = urlParams.get("category_shop");
-      const categoryShopL1 = urlParams
-        .get("category_shop")
-        ?.split(">")[1]
-        ?.trim();
-      updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
-        plpList => {
-          changeLoader?.(false);
-          productImpression(
-            plpList,
-            categoryShopL1 || "PLP",
-            this.props.currency,
-            plpList.results.data.length
+      this.setState(
+        {
+          disableSelectedbox: true,
+          flag: false
+        },
+        () => {
+          changeLoader?.(true);
+          let filterUrl = "?" + nextUrl.split("?")[1];
+          // const pageSize = mobile ? 10 : 20;
+          const pageSize = 40;
+          const urlParams = new URLSearchParams(
+            this.props.history.location.search
           );
-          this.createFilterfromUrl(false);
-          const pricearray: any = [],
-            currentCurrency =
-              "price" +
-              currency[0].toUpperCase() +
-              currency.substring(1).toLowerCase();
-          plpList.results.filtered_facets[currentCurrency]?.map(function(
-            a: any
-          ) {
-            pricearray.push(+a[0]);
-          });
-          if (pricearray.length > 0) {
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.min(a, b);
-              })
-            );
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.max(a, b);
-              })
-            );
+          const categoryShopL1 = urlParams
+            .get("category_shop")
+            ?.split(">")[1]
+            ?.trim();
+          const isPageSizeExist = new URLSearchParams(filterUrl).get(
+            "page_size"
+          );
+
+          if (!isPageSizeExist) {
+            filterUrl = filterUrl + `&page_size=${pageSize}`;
           }
 
-          if (filter.price.min_price) {
-            currentRange.push(filter.price.min_price);
-            currentRange.push(filter.price.max_price);
-          } else {
-            currentRange = minMaxvalue;
-          }
-
-          this.setState(
-            {
-              rangevalue: currentRange,
-              initialrangevalue: {
-                min: minMaxvalue[0],
-                max: minMaxvalue[1]
-              },
-              disableSelectedbox: false,
-              scrollload: true,
-              flag: true,
-              totalItems: plpList.count
-            },
-            () => {
-              if (
-                !this.state.scrollView &&
-                this.state.shouldScroll &&
-                this.props.history.action === "POP"
-              ) {
-                this.handleProductSearch();
-              }
+          updateProduct(filterUrl, listdata).then(plpList => {
+            changeLoader?.(false);
+            productImpression(
+              plpList,
+              categoryShopL1 || "PLP",
+              this.props.currency,
+              plpList.results.data.length
+            );
+            this.createFilterfromUrl(false);
+            const pricearray: any = [],
+              currentCurrency =
+                "price" +
+                currency[0].toUpperCase() +
+                currency.substring(1).toLowerCase();
+            plpList.results.filtered_facets[currentCurrency]?.map(function(
+              a: any
+            ) {
+              pricearray.push(+a[0]);
+            });
+            if (pricearray.length > 0) {
+              minMaxvalue.push(
+                pricearray.reduce(function(a: number, b: number) {
+                  return Math.min(a, b);
+                })
+              );
+              minMaxvalue.push(
+                pricearray.reduce(function(a: number, b: number) {
+                  return Math.max(a, b);
+                })
+              );
             }
-          );
-          this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+
+            if (filter.price.min_price) {
+              currentRange.push(filter.price.min_price);
+              currentRange.push(filter.price.max_price);
+            } else {
+              currentRange = minMaxvalue;
+            }
+
+            this.setState(
+              {
+                rangevalue: currentRange,
+                initialrangevalue: {
+                  min: minMaxvalue[0],
+                  max: minMaxvalue[1]
+                },
+                disableSelectedbox: false,
+                scrollload: true,
+                flag: true,
+                totalItems: plpList.count
+              },
+              () => {
+                if (
+                  !this.state.scrollView &&
+                  this.state.shouldScroll &&
+                  this.props.history.action === "POP"
+                ) {
+                  this.handleProductSearch();
+                }
+              }
+            );
+            this.props.updateFacets(
+              this.getSortedFacets(plpList.results.facets)
+            );
+          });
+
+          // if (categoryShop) {
+          //   fetchPlpTemplates(categoryShop);
+          // }
         }
       );
-
-      if (categoryShop) {
-        fetchPlpTemplates(categoryShop);
-      }
     }
   };
 
   updateDataFromAPI = (onload?: string, currency?: string) => {
-    const {
-      mobile,
-      fetchPlpProducts,
-      fetchPlpTemplates,
-      history,
-      changeLoader
-    } = this.props;
+    const { mobile, fetchPlpProducts, history, changeLoader } = this.props;
 
     if (!onload && mobile) {
       return true;
     }
     changeLoader?.(true);
     const url = decodeURI(history.location.search);
-    const filterUrl = "?" + url.split("?")[1];
+    let filterUrl = "?" + url.split("?")[1];
     const urlParams = new URLSearchParams(history.location.search);
-    const categoryShop = urlParams.get("category_shop");
     const categoryShopL1 = urlParams
       .get("category_shop")
       ?.split(">")[1]
       ?.trim();
     // const pageSize = mobile ? 10 : 20;
-    const pageSize = 20;
-    fetchPlpProducts(filterUrl + `&page_size=${pageSize}`, currency).then(
-      plpList => {
-        productImpression(
-          plpList,
-          categoryShopL1 || "PLP",
-          this.props.currency
-        );
-        changeLoader?.(false);
-        this.createList(plpList, false);
-        this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
-      }
-    );
-    if (categoryShop) {
-      fetchPlpTemplates(categoryShop);
+    const pageSize = 40;
+    const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
+
+    if (!isPageSizeExist) {
+      filterUrl = filterUrl + `&page_size=${pageSize}`;
     }
+    fetchPlpProducts(filterUrl, currency).then(plpList => {
+      productImpression(plpList, categoryShopL1 || "PLP", this.props.currency);
+      changeLoader?.(false);
+      this.createList(plpList, false);
+      this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+    });
   };
 
   stateChange = (location: any, action: any) => {
@@ -717,6 +720,12 @@ class FilterList extends React.Component<Props, State> {
       vars[match[1]] = match[2];
     }
 
+    const urlParams = new URLSearchParams(this.props.history.location.search);
+    const categoryShop1 = urlParams.get("category_shop");
+
+    const urlParams2 = new URLSearchParams(nextProps.history.location.search);
+    const categoryShop2 = urlParams2.get("category_shop");
+
     if (
       nextProps.onload &&
       nextProps.facets.categoryShop &&
@@ -765,6 +774,10 @@ class FilterList extends React.Component<Props, State> {
 
     if (this.props.mobileMenuOpenState !== nextProps.mobileMenuOpenState) {
       this.props.onChangeFilterState(false, false);
+    }
+
+    if (categoryShop1 !== categoryShop2 && categoryShop2 && categoryShop1) {
+      this.props.fetchPlpTemplates(categoryShop2);
     }
   };
 
@@ -970,8 +983,6 @@ class FilterList extends React.Component<Props, State> {
         }
         if (allOptions.length > 0) {
           Object.keys(filterBackup).map((filterObject: any, j: number) => {
-            console.log("Options", allOptions);
-            console.log("To delete", filterObject);
             if (!allOptions.includes(filterObject)) {
               delete filter[filterTypes[i]][filterObject];
             }
