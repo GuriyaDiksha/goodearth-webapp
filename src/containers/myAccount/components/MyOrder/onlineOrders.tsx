@@ -10,10 +10,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import invoice from "../../../../images/invoice.svg";
 import invoiceDisabled from "../../../../images/invoiceDisabled.svg";
-import {
-  displayPriceWithCommas,
-  displayPriceWithCommasFloat
-} from "utils/utility";
+import { displayPriceWithCommasFloat } from "utils/utility";
 import Button from "components/Button";
 
 const OnlineOrders: React.FC<OrdersProps> = props => {
@@ -120,6 +117,17 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         orderElem.scrollIntoView({ block: "center", behavior: "smooth" });
       }
     }, 300);
+  };
+
+  const colorName = (value: string) => {
+    let cName = value
+      .split("-")
+      .slice(1)
+      .join();
+    if (cName[cName.length - 1] == "s") {
+      cName = cName.slice(0, -1);
+    }
+    return cName;
   };
 
   const renderOrder = (item: any, index: number) => {
@@ -276,6 +284,12 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   {`Size: ${item.product.size}`}
                 </div>
               )}
+              {item?.product?.colors?.length &&
+              item?.product?.groupedProductsCount > 0 ? (
+                <div className={styles.size}>
+                  Color:{colorName(item.product?.colors?.[0])}
+                </div>
+              ) : null}
               <div className={styles.quantity}>{`Qty: ${item.quantity}`}</div>
             </div>
           </div>
@@ -361,7 +375,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             >
               <span className={styles.label}>{Object.keys(gccn)?.[0]}</span>
               <span className={styles.value}>
-                {`(-) ${displayPriceWithCommas(
+                {`(-) ${displayPriceWithCommasFloat(
                   Object.values(gccn)?.[0],
                   item.currency
                 )}`}

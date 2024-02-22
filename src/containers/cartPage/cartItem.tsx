@@ -399,7 +399,7 @@ const CartItems: React.FC<BasketItem> = memo(
           >
             <div className={cs(styles.rowMain, globalStyles.gutterBetween)}>
               <div className={cs(bootstrap.colLg8, bootstrap.col12)}>
-                <div className={cs(styles.section, styles.sectionInfo)}>
+                <div className={cs("sectionInfo", styles.sectionInfo)}>
                   <div>
                     {collection && (
                       <div
@@ -563,7 +563,8 @@ const CartItems: React.FC<BasketItem> = memo(
                         [globalStyles.hiddenEye]: isGiftCard || bridalProfile
                       },
                       styles.wishlistDisplay,
-                      styles.disableMobile
+                      styles.disableMobile,
+                      globalStyles.voffset2
                     )}
                   >
                     <WishlistButton

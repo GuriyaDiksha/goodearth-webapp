@@ -62,7 +62,7 @@ export type BridalItemData = {
   productImage: string;
   productUrl: string;
   collection: string | null;
-  color: string[] | null;
+  colors: string[] | null;
   price: PriceRecord;
   discountedPrice: PriceRecord;
   badgeImage: string;
@@ -73,6 +73,7 @@ export type BridalItemData = {
   productDeliveryDate: string;
   productAvailable: boolean;
   childAttributes: childAttributes[];
+  groupedProductsCount?: number;
 };
 
 export type BridalPublicProfileData = {

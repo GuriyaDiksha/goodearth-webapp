@@ -33,7 +33,8 @@ const initialState: HeaderState = {
     isCorporatePDP: false
   },
   mobileMenuOpenState: false,
-  showSearchPopup: false
+  showSearchPopup: false,
+  showmobileSort: false
 };
 
 export const header = (
@@ -101,6 +102,11 @@ export const header = (
     case "UPDATE_SHOW_SEARCH_POPUP": {
       const newState = { ...state };
       newState.showSearchPopup = action.payload;
+      return newState;
+    }
+    case "UPDATE_SHOW_MOBILE_SORT": {
+      const newState = { ...state };
+      newState.showmobileSort = action?.payload;
       return newState;
     }
   }

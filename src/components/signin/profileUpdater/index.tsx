@@ -77,7 +77,7 @@ class ProfileUpdater extends React.Component<Props, State> {
     super(props);
     this.state = {
       data: {},
-      updateProfile: false,
+      updateProfile: true,
       subscribe: false,
       showerror: "",
       loginVia: "email",
@@ -93,7 +93,7 @@ class ProfileUpdater extends React.Component<Props, State> {
     this.setState(
       {
         loginVia,
-        updateProfile: false,
+        // updateProfile: false,
         data: data
       },
       () => {
@@ -362,7 +362,7 @@ class ProfileUpdater extends React.Component<Props, State> {
               keyPress={e => (e.key == " Enter" ? e.preventDefault() : "")}
               required
               handleChange={() => {
-                this.setState({ updateProfile: true });
+                // this.setState({ updateProfile: true });
               }}
               disable={firstName ? true : false}
               className={cs({ [styles.disabledInput]: firstName })}
@@ -376,7 +376,7 @@ class ProfileUpdater extends React.Component<Props, State> {
               label={"Last Name"}
               keyPress={e => (e.key == " Enter" ? e.preventDefault() : "")}
               handleChange={() => {
-                this.setState({ updateProfile: true });
+                // this.setState({ updateProfile: true });
               }}
               disable={lastName ? true : false}
               className={cs({ [styles.disabledInput]: lastName })}
@@ -391,7 +391,7 @@ class ProfileUpdater extends React.Component<Props, State> {
               label="Select Gender*"
               placeholder="Select Gender*"
               handleChange={() => {
-                this.setState({ updateProfile: true });
+                // this.setState({ updateProfile: true });
               }}
               disable={gender ? true : false}
               className={cs({ [styles.disabledInput]: gender })}
@@ -427,7 +427,7 @@ class ProfileUpdater extends React.Component<Props, State> {
                   placeholder="Select State*"
                   options={this.state.stateOptions}
                   handleChange={() => {
-                    this.setState({ updateProfile: true });
+                    // this.setState({ updateProfile: true });
                   }}
                   value=""
                   validations={{

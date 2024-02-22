@@ -393,18 +393,21 @@ class FilterList extends React.Component<Props, State> {
     );
     const windowBottom = windowHeight + window.pageYOffset;
     //new speed controller
-    const value = innerfilter.scrollTop;
-    if (this.state.scrolllastvalue < window.scrollY) {
-      innerfilter.scrollTo(0, value + 4);
-      this.setState({
-        scrolllastvalue: window.scrollY
-      });
-    } else {
-      innerfilter.scrollTo(0, value - 4);
-      this.setState({
-        scrolllastvalue: window.scrollY
-      });
+    if (!this.props.mobile) {
+      const value = innerfilter.scrollTop;
+      if (this.state.scrolllastvalue < window.scrollY) {
+        innerfilter.scrollTo(0, value + 4);
+        this.setState({
+          scrolllastvalue: window.scrollY
+        });
+      } else {
+        innerfilter.scrollTo(0, value - 4);
+        this.setState({
+          scrolllastvalue: window.scrollY
+        });
+      }
     }
+
     // html.clientHeight <= (window.pageYOffset + window.innerHeight-100)
     if (
       windowBottom + 2000 >= docHeight &&
@@ -522,71 +525,79 @@ class FilterList extends React.Component<Props, State> {
             filterUrl = filterUrl + `&page_size=${pageSize}`;
           }
 
-          updateProduct(filterUrl, listdata).then(plpList => {
-            changeLoader?.(false);
-            productImpression(
-              plpList,
-              categoryShopL1 || "PLP",
-              this.props.currency,
-              plpList.results.data.length
-            );
-            this.createFilterfromUrl(false);
-            const pricearray: any = [],
-              currentCurrency =
-                "price" +
-                currency[0].toUpperCase() +
-                currency.substring(1).toLowerCase();
-            plpList.results.filtered_facets[currentCurrency]?.map(function(
-              a: any
-            ) {
-              pricearray.push(+a[0]);
-            });
-            if (pricearray.length > 0) {
-              minMaxvalue.push(
-                pricearray.reduce(function(a: number, b: number) {
-                  return Math.min(a, b);
-                })
-              );
-              minMaxvalue.push(
-                pricearray.reduce(function(a: number, b: number) {
-                  return Math.max(a, b);
-                })
-              );
-            }
-
-            if (filter.price.min_price) {
-              currentRange.push(filter.price.min_price);
-              currentRange.push(filter.price.max_price);
-            } else {
-              currentRange = minMaxvalue;
-            }
-
-            this.setState(
-              {
-                rangevalue: currentRange,
-                initialrangevalue: {
-                  min: minMaxvalue[0],
-                  max: minMaxvalue[1]
-                },
-                disableSelectedbox: false,
-                scrollload: true,
-                flag: true,
-                totalItems: plpList.count
-              },
-              () => {
-                if (
-                  !this.state.scrollView &&
-                  this.state.shouldScroll &&
-                  this.props.history.action === "POP"
-                ) {
-                  this.handleProductSearch();
-                }
+          updateProduct(filterUrl, listdata)
+            .then(plpList => {
+              changeLoader?.(false);
+              try {
+                productImpression(
+                  plpList,
+                  categoryShopL1 || "PLP",
+                  this.props.currency,
+                  plpList.results.data.length
+                );
+              } catch (e) {
+                console.log("plp GA error====", e);
               }
-            );
-            this.props.updateFacets(
-              this.getSortedFacets(plpList.results.facets)
-            );
-          });
+              // this.createFilterfromUrl(false);
+              const pricearray: any = [],
+                currentCurrency =
+                  "price" +
+                  currency[0].toUpperCase() +
+                  currency.substring(1).toLowerCase();
+              plpList.results.filtered_facets[currentCurrency]?.map(function(
+                a: any
+              ) {
+                pricearray.push(+a[0]);
+              });
+              if (pricearray.length > 0) {
+                minMaxvalue.push(
+                  pricearray.reduce(function(a: number, b: number) {
+                    return Math.min(a, b);
+                  })
+                );
+                minMaxvalue.push(
+                  pricearray.reduce(function(a: number, b: number) {
+                    return Math.max(a, b);
+                  })
+                );
+              }
+
+              if (filter.price.min_price) {
+                currentRange.push(filter.price.min_price);
+                currentRange.push(filter.price.max_price);
+              } else {
+                currentRange = minMaxvalue;
+              }
+
+              this.setState(
+                {
+                  rangevalue: currentRange,
+                  initialrangevalue: {
+                    min: minMaxvalue[0],
+                    max: minMaxvalue[1]
+                  },
+                  disableSelectedbox: false,
+                  scrollload: true,
+                  flag: true,
+                  totalItems: plpList.count
+                },
+                () => {
+                  if (
+                    !this.state.scrollView &&
+                    this.state.shouldScroll &&
+                    this.props.history.action === "POP"
+                  ) {
+                    this.handleProductSearch();
+                  }
+                }
+              );
+              // this.props.updateFacets(
+              //   this.getSortedFacets(plpList.results.facets)
+              // );
+            })
+            .catch(err => {
+              console.log("PLP appendata error", err);
+            });
 
           // if (categoryShop) {
           //   fetchPlpTemplates(categoryShop);
@@ -710,15 +721,15 @@ class FilterList extends React.Component<Props, State> {
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     // const urlParams2 = new URLSearchParams(nextProps.history.location.search);
     // const categoryShop2 = urlParams2.get("category_shop")?.split(">")[1];
-    const url = decodeURI(
-      nextProps?.history.location.search.replace(/\+/g, " ")
-    );
-    const re = /[?&]+([^=&]+)=([^&]*)/gi;
-    let match;
-    const vars: any = {};
-    while ((match = re.exec(url))) {
-      vars[match[1]] = match[2];
-    }
+    // const url = decodeURI(
+    //   nextProps?.history.location.search.replace(/\+/g, " ")
+    // );
+    // const re = /[?&]+([^=&]+)=([^&]*)/gi;
+    // let match;
+    // const vars: any = {};
+    // while ((match = re.exec(url))) {
+    //   vars[match[1]] = match[2];
+    // }
 
     const urlParams = new URLSearchParams(this.props.history.location.search);
     const categoryShop1 = urlParams.get("category_shop");
@@ -735,6 +746,13 @@ class FilterList extends React.Component<Props, State> {
       this.createList(nextProps.data, true);
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
       this.handleAnimation("category", false);
+
+      this.setState({
+        activeindex: 0,
+        showFilterByDiscountMenu: false,
+        showProductFilter: false,
+        showmenulevel1: false
+      });
     }
     if (
       this.props.currency != nextProps.currency ||
@@ -757,20 +775,20 @@ class FilterList extends React.Component<Props, State> {
         }
       );
     }
-
-    if (
-      Object.entries(vars).length === 2 &&
-      Object.entries(vars).filter(
-        e => e[0] === "source" || e[0] === "category_shop"
-      ).length === 2
-    ) {
-      this.setState({
-        activeindex: 0,
-        showFilterByDiscountMenu: false,
-        showProductFilter: false,
-        showmenulevel1: false
-      });
-    }
+    //Commented: for not closing filter section on clear all filteres
+    // if (
+    //   Object.entries(vars).length === 2 &&
+    //   Object.entries(vars).filter(
+    //     e => e[0] === "source" || e[0] === "category_shop"
+    //   ).length === 2
+    // ) {
+    //   this.setState({
+    //     activeindex: 0,
+    //     showFilterByDiscountMenu: false,
+    //     showProductFilter: false,
+    //     showmenulevel1: false
+    //   });
+    // }
 
     if (this.props.mobileMenuOpenState !== nextProps.mobileMenuOpenState) {
       this.props.onChangeFilterState(false, false);

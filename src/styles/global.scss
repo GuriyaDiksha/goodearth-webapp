@@ -498,6 +498,8 @@ font-weight: bold;
 
 .no-scroll {
   overflow: hidden;
+  touch-action: none;
+  -ms-touch-action: none;
 }
 
 .fixed {
@@ -696,6 +698,10 @@ font-weight: bold;
 }
 .font-size-12 {
   font-size: 12px !important;
+}
+
+.font-size-16 {
+  font-size: 16px !important;
 }
 
 .cross-center, .v-center {

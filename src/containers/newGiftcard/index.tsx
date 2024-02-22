@@ -936,13 +936,17 @@ class NewGiftcard extends React.Component<Props, State> {
           </div>
         )}
         {mobile && (
-          <Button
-            variant="mediumAquaCta366"
-            onClick={this.onSubmit}
-            label={"BUY NOW"}
-            disabled={!(!formDisabled && selectedCountry != "" && cardId != "")}
-            className={cs(globalStyles.btnFullWidth, styles.addToBag)}
-          />
+          <div className={styles.buyNowCta}>
+            <Button
+              variant="mediumAquaCta366"
+              onClick={this.onSubmit}
+              label={"BUY NOW"}
+              disabled={
+                !(!formDisabled && selectedCountry != "" && cardId != "")
+              }
+              className={cs(globalStyles.btnFullWidth, styles.addToBag)}
+            />
+          </div>
         )}
         {mobile && (
           <div

@@ -73,7 +73,8 @@ const mapStateToProps = (state: AppState) => {
     filler: state.filler,
     openModal: state.modal.openModal,
     scrollDown: state.info.scrollDown,
-    user: state.user
+    user: state.user,
+    showmobileSort: state.header.showmobileSort
   };
 };
 
@@ -157,7 +158,7 @@ class Header extends React.Component<Props, State> {
       this.props.bridalId,
       bridalKey,
       this.props.sortBy,
-      this.props.location.pathname
+      this.props.history?.location?.pathname
     );
     if (
       typeof document != "undefined" &&
@@ -1075,6 +1076,7 @@ class Header extends React.Component<Props, State> {
     const isCartPage = this.props.location.pathname.indexOf("/cart") > -1;
 
     const { showMenu } = this.state;
+    const { showmobileSort } = this.props;
     // const isCeriseCustomer = slab
     //   ? slab.toLowerCase() == "cerise" ||
     //     slab.toLowerCase() == "cerise sitara" ||
@@ -1198,8 +1200,9 @@ class Header extends React.Component<Props, State> {
           className={cs(
             {
               [styles.headerIndex]: showMenu,
+              [styles.showSortHeaderIndex]: showmobileSort,
               [styles.plpIndex]: isPlpPage && !mobile,
-              [styles.plpIndexMobile]: isPlpPage && mobile
+              [styles.plpIndexMobile]: isPlpPage && mobile && !showmobileSort
             },
             styles.headerContainer
           )}

@@ -57,6 +57,7 @@ type Props = {
   onMobileAdd: (index: number) => void;
   notifyMe: (index: number) => void;
   currency: Currency;
+  groupedProductsCount?: number;
 } & ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
 
@@ -232,7 +233,7 @@ class BridalItem extends React.Component<Props, State> {
                     </div>
                     {this.props.bridalItem.price[this.props.currency] != 0 ? (
                       <div className={styles.productPrice}>
-                        {this.props.isSale && this.props.bridalItem.discount ? (
+                        {this.props.bridalItem.discount ? (
                           <span className={styles.productPrice}>
                             <span className={styles.discountprice}>
                               {displayPriceWithCommas(
@@ -285,6 +286,19 @@ class BridalItem extends React.Component<Props, State> {
                       <div className={cs(styles.smallfont)}>
                         SKU: {this.props.bridalItem.sku}
                       </div>
+                      {this.props.bridalItem?.colors?.length &&
+                      this.props?.bridalItem?.groupedProductsCount &&
+                      this.props?.bridalItem?.groupedProductsCount > 0 ? (
+                        <div
+                          className={cs(
+                            styles.smallfont,
+                            globalStyles.voffset1
+                          )}
+                        >
+                          COLOR:{" "}
+                          {this.colorName(this.props.bridalItem.colors?.[0])}
+                        </div>
+                      ) : null}
                     </div>
                     {mobile && (
                       <>
