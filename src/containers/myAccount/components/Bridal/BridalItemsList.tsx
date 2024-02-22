@@ -44,7 +44,9 @@ const BridalItemsList: React.FC<Props> = props => {
     qtyRemaining,
     badgeType,
     stock,
-    productAvailable
+    productAvailable,
+    colors,
+    groupedProductsCount
   } = props.product;
 
   const mobileAddToBag = () => {
@@ -137,22 +139,6 @@ const BridalItemsList: React.FC<Props> = props => {
         });
     }
   };
-  const {
-    discountedPrice,
-    productName,
-    productUrl,
-    collection,
-    productImage,
-    discount,
-    price,
-    sku,
-    size,
-    qtyBought,
-    qtyRemaining,
-    badgeType,
-    colors,
-    groupedProductsCount
-  } = props.product;
 
   const colorName = (value: string) => {
     let cName = value
