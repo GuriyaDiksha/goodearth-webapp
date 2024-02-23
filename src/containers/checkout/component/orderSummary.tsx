@@ -164,15 +164,41 @@ const OrderSummary: React.FC<OrderProps> = props => {
     return count;
   };
 
-  const getSizeAndQty = (data: any, qty: any) => {
+  const colorName = (value: string) => {
+    let cName = value
+      .split("-")
+      .slice(1)
+      .join();
+    if (cName[cName.length - 1] == "s") {
+      cName = cName.slice(0, -1);
+    }
+    return cName;
+  };
+
+  const getSizeAndQty = (
+    data: any,
+    qty: any,
+    groupedProductsCount: number,
+    isGC: boolean
+  ) => {
     const size = data.find(function(attribute: any) {
       if (attribute.name == "Size") {
         return attribute;
       }
     });
-    return size ? (
+
+    const color = data.find(function(attribute: any) {
+      if (attribute.name == "Color") {
+        return attribute;
+      }
+    });
+    return (size || qty || color?.value) && !isGC ? (
       <span className={globalStyles.marginT5}>
-        Size: {size.value} | QTY: {qty}
+        {size && `Size: ${size.value} | `}{" "}
+        {color?.value && groupedProductsCount && groupedProductsCount > 0
+          ? `Color: ${colorName(color?.value)} | `
+          : ""}
+        QTY: {qty}
       </span>
     ) : null;
   };
@@ -299,7 +325,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   )}
 
                   <span className={cs(styles.productSize)}>
-                    {getSizeAndQty(item.product.attributes, item.quantity)}
+                    {getSizeAndQty(
+                      item.product.attributes,
+                      item.quantity,
+                      item?.product?.groupedProductsCount,
+                      item.product.structure == "GiftCard"
+                    )}
                   </span>
                   {item.product.structure == "GiftCard" && (
                     <>
@@ -705,10 +736,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
             )}
             key={index + "getDiscount"}
           >
-            <span className={styles.subtotal}>
+            <span className={cs(styles.subtotal, globalStyles.gold)}>
               {discount.name == "price-discount" ? "DISCOUNT" : discount.name}
             </span>
-            <span className={styles.subtotal}>
+            <span className={cs(styles.subtotal, globalStyles.gold)}>
               (-) {displayPriceWithCommasFloat(discount.amount, currency)}
             </span>
           </div>
@@ -1168,7 +1199,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       }
                     )}
                   >
-                    {fullText ? deliveryText : deliveryText.substr(0, 85)}
+                    {deliveryText && deliveryText}
+                    {/* {fullText ? deliveryText : deliveryText.substr(0, 85)}
                     {deliveryText.length > 85 ? (
                       <span
                         className={cs(
@@ -1184,7 +1216,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       </span>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </div>
                 )}
                 {!mobile
@@ -1200,7 +1232,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <div
                     className={cs(
                       globalStyles.c10LR,
-                      globalStyles.voffset2,
+                      globalStyles.voffset3v1,
                       globalStyles.marginB10,
                       globalStyles.textCenter,
                       styles.summaryPadding

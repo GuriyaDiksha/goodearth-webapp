@@ -21,12 +21,16 @@ const mapActionsToProps = (dispatch: Dispatch) => {
       dispatch(updateFilterState(data));
     },
     updateProduct: async (filterUrl: string, listdata: any) => {
-      const data = await PlpService.updateProduct(
-        dispatch,
-        filterUrl,
-        listdata
-      );
-      return data;
+      try {
+        const data = await PlpService.updateProduct(
+          dispatch,
+          filterUrl,
+          listdata
+        );
+        return data;
+      } catch (e) {
+        throw e;
+      }
     },
     fetchPlpProducts: async (filterUrl: string, currency?: string) => {
       const data = await PlpService.fetchPlpProducts(

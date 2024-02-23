@@ -458,3 +458,78 @@
 
 }
 
+.tooltip {
+    margin-left: 15px;
+    &.height-fix {
+      height: 40px;
+    }
+    img {
+        height: 15px;
+        position: absolute;
+        top: 0px;
+        cursor: pointer;
+        z-index: 1;
+    }
+    .tooltip-msg{
+        @include b5_10px_montserrat_charcoal();
+        letter-spacing: 0.24px;
+        line-height: 15px;
+        font-weight: $light;
+        font-size: 11px !important;
+        border-radius: 5px;
+        text-align: left;
+        padding: 5px;
+        background-color: #fff;
+        height: 80px;
+        width: 146px;
+        @media screen and (max-width: 768px){
+          height: 95px;
+          width: 117px;
+            &.show{
+              bottom: 2px !important;
+              left: 62px !important;
+            }
+        }
+        @media screen and (max-width:992px) {
+            height: 95px;
+            width: 117px;
+            &.show{
+              bottom: 2% !important;
+              left: 57% !important;
+            }
+          }
+        box-shadow: 0px 3px 6px #00000029;
+        display: none;
+        &.show{
+            display: block;
+            position: absolute;
+            bottom: 20px;
+            left: 88px;
+        }
+    }
+    .manage-line {
+      position: absolute;
+      top: 10px;
+      left: 30px;
+    }
+    .manage-line ~ .tooltip {
+      .tooltip-msg {
+        &.show {
+          bottom: 34px;
+          left: -10px;
+          @media screen and (max-width: 768px){
+            bottom: 50px !important;
+          }
+        }
+      } 
+      img {
+        top: -8px;
+        left: -10px;
+      }
+    }
+    .tooltip-link{
+        text-decoration: underline;
+        @include b5_10px_montserrat_charcoal();
+        font-size: 11px !important;
+    }
+  }

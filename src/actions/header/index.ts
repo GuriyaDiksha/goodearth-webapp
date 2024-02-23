@@ -41,3 +41,6 @@ export const updateMobileMenuOpenState = (data: boolean) =>
 
 export const updateShowSearchPopup = (data: boolean) =>
   actionCreator("UPDATE_SHOW_SEARCH_POPUP", data);
+
+export const updateShowMobileSort = (data: boolean) =>
+  actionCreator("UPDATE_SHOW_MOBILE_SORT", data);
