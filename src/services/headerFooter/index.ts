@@ -23,19 +23,21 @@ export default {
     currency?: Currency,
     customerGroup?: string
   ): Promise<MegaMenuData[]> => {
-    let menu: MegaMenuData[] | null = null;
-    if (
-      typeof document == "undefined" &&
-      __API_HOST__ == "https://pb.goodearth.in"
-    ) {
-      menu = CacheService.get(
-        `menu-${currency || ""}-${customerGroup || ""}`
-      ) as MegaMenuData[];
-    }
-    if (menu) {
-      dispatch(updateheader(menu));
-      return menu;
-    }
+    //Temporary hide foe interantaional sale currency issue
+    // let menu: MegaMenuData[] | null = null;
+    // if (
+    //   typeof document == "undefined" &&
+    //   __API_HOST__ == "https://pb.goodearth.in"
+    // ) {
+    //   menu = CacheService.get(
+    //     `menu-${currency || ""}-${customerGroup || ""}`
+    //   ) as MegaMenuData[];
+    // }
+    // if (menu) {
+    //   dispatch(updateheader(menu));
+    //   return menu;
+    // }
+
     // let headerData = CacheService.get("headerData") as HeaderData[];
 
     // if (headerData && __API_HOST__ == "https://pb.goodearth.in") {
@@ -49,15 +51,15 @@ export default {
     dispatch(updateheader(res.data as MegaMenuData[]));
     // headerData = res.results as HeaderData[];
     // CacheService.set("headerData", headerData);
-    if (
-      typeof document == "undefined" &&
-      __API_HOST__ == "https://pb.goodearth.in"
-    ) {
-      CacheService.set(
-        `menu-${res.currency}-${res.customerGroup}`,
-        res.data as MegaMenuData[]
-      );
-    }
+    // if (
+    //   typeof document == "undefined" &&
+    //   __API_HOST__ == "https://pb.goodearth.in"
+    // ) {
+    //   CacheService.set(
+    //     `menu-${res.currency}-${res.customerGroup}`,
+    //     res.data as MegaMenuData[]
+    //   );
+    // }
     return res.data;
   },
   fetchFooterDetails: async (dispatch: Dispatch): Promise<FooterDataProps> => {
@@ -65,10 +67,10 @@ export default {
     // if (typeof document == "undefined") {
     //   footerData = CacheService.get("footerData") as FooterDataProps;
     // }
-    if (footerData && __API_HOST__ == "https://pb.goodearth.in") {
-      dispatch(updatefooter(footerData));
-      return footerData;
-    }
+    // if (footerData && __API_HOST__ == "https://pb.goodearth.in") {
+    //   dispatch(updatefooter(footerData));
+    //   return footerData;
+    // }
 
     const res = await API.get<any>(
       dispatch,
