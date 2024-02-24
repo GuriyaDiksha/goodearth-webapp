@@ -543,13 +543,7 @@ export default {
         method: "GET"
       })
         .then(resp => resp.json())
-        .then(oldData => {
-          const data = {
-            ip: "12.12.12.12",
-            continent_name: "North America",
-            country_name: "United States",
-            currency: { code: "USD" }
-          };
+        .then(data => {
           CookieService.setCookie("region", data?.continent_name, 365);
           CookieService.setCookie("ip", data?.ip, 365);
           CookieService.setCookie("country", data?.country_name, 365);
