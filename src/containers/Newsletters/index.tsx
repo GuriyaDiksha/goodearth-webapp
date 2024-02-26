@@ -48,7 +48,7 @@ const Newsletters: React.FC = () => {
   const location = history.location;
   const { countryData } = useSelector((state: AppState) => state.address);
   const countryRef: RefObject<HTMLInputElement> = useRef(null);
-  const isAlphaError = "Only alphabets are allowed";
+  const isAlphaError = "Please enter only alphabetic characters";
   const isExistyError = "This field is required";
   // const [isAddressChanged, setIsAddressChanged] = useState(false);
   // const [isCountryChanged, setIsCountryChanged] = useState(false);

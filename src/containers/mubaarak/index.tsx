@@ -156,7 +156,7 @@ const NotificationForm: React.FC = () => {
               }}
               validationErrors={{
                 maxLength: "Max limit reached.",
-                isAlpha: "Only alphabets are allowed."
+                isAlpha: "Please enter only alphabetic characters."
               }}
             />
           </div>
@@ -171,7 +171,7 @@ const NotificationForm: React.FC = () => {
               }}
               validationErrors={{
                 maxLength: "Max limit reached.",
-                isAlpha: "Only alphabets are allowed."
+                isAlpha: "Please enter only alphabetic characters."
               }}
             />
           </div>

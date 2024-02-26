@@ -565,7 +565,9 @@ const AddressSection: React.FC<AddressProps & {
       validate = false;
     }
     if (!pancardCheck) {
-      setPanCheck("Please confirm that the data you have provided is correct");
+      setPanCheck(
+        "Please confirm that the information you have provided is correct"
+      );
       validate = false;
     }
     return validate;
@@ -603,7 +605,7 @@ const AddressSection: React.FC<AddressProps & {
       billingAddressId === 0 &&
       currentCallBackComponent === "checkout-billing"
     ) {
-      setBillingError("Please select billing address");
+      setBillingError("Please select a Billing Address");
       return false;
     }
 

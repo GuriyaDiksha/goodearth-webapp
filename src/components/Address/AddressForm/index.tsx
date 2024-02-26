@@ -409,7 +409,7 @@ const AddressForm: React.FC<Props> = props => {
 
   const isExistyError = "This field is required";
   const isAlphanumericError = "Only alphabets and numbers are allowed";
-  const isAlphaError = "Only alphabets are allowed";
+  const isAlphaError = "Please enter only alphabetic characters";
   const isEmailError = "Please enter the correct email";
 
   useEffect(() => {
@@ -615,7 +615,7 @@ const AddressForm: React.FC<Props> = props => {
               validationErrors={{
                 isExisty: "Please enter your First Name",
                 isWords: isAlphaError,
-                maxLength: "You cannot type in more than 15 characters"
+                maxLength: "Please do not exceed the limit of 15 characters"
               }}
             />
           </div>
@@ -634,7 +634,7 @@ const AddressForm: React.FC<Props> = props => {
               validationErrors={{
                 isExisty: "Please enter your Last Name",
                 isWords: isAlphaError,
-                maxLength: "You cannot type in more than 15 characters"
+                maxLength: "Please do not exceed the limit of 15 characters"
               }}
             />
           </div>
@@ -658,7 +658,7 @@ const AddressForm: React.FC<Props> = props => {
                   }
                 }}
                 validationErrors={{
-                  isExisty: "Please fill this field",
+                  isExisty: "Please enter a Pin/Zip code",
                   isValidPostcode: "Please enter a valid Pin/Zip code"
                 }}
                 changeState={changeState}
@@ -687,7 +687,7 @@ const AddressForm: React.FC<Props> = props => {
                   maxLength: 20
                 }}
                 validationErrors={{
-                  isExisty: "Please fill this field",
+                  isExisty: "Please enter a Pin/Zip code",
                   matchRegexp: isAlphanumericError,
                   maxLength: "Maximum Length is 20 characters"
                 }}
@@ -878,7 +878,7 @@ const AddressForm: React.FC<Props> = props => {
                 isCodeValid: "Required",
                 isValidCode: "Enter valid code"
               }}
-            /> */}
+            />  */}
 
             <SelectDropdown
               value=""
@@ -898,8 +898,8 @@ const AddressForm: React.FC<Props> = props => {
                 }
               }}
               validationErrors={{
-                isCodeValid: "Required",
-                isValidCode: "Enter valid code"
+                isCodeValid: "Please select a Country Code",
+                isValidCode: "Please enter a valid country code"
               }}
               allowFilter={true}
               options={[]}

@@ -112,7 +112,9 @@ const PinCode: React.FC<Props & InjectedProps<string | null>> = props => {
   cls += props.disable ? styles.disabledInput : "";
   let errorMessage = isError ? props.errorMessage || props.error : null;
   errorMessage =
-    isError && errorMessage == null ? "Please fill this field" : errorMessage;
+    isError && errorMessage == null
+      ? "Please enter a Pin/Zip code"
+      : errorMessage;
   const inputProps = {
     placeholder: placeholder,
     value: props.value,
