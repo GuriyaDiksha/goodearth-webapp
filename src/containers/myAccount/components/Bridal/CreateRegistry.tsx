@@ -13,7 +13,9 @@ import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import Button from "components/Button";
 import { AppState } from "reducers/typings";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import LoginService from "services/login";
+import { updateCountryData } from "actions/address";
 
 const CreateRegistry: React.FC = () => {
   const { setCurrentModule, setCurrentModuleData, data } = useContext(
@@ -21,6 +23,7 @@ const CreateRegistry: React.FC = () => {
   );
   const [selectId, setSelectId] = useState(data.occasion ? data.occasion : "");
   const { mobile } = useSelector((state: AppState) => state.device);
+  const dispatch = useDispatch();
 
   const setRegistry = (data: string) => {
     setSelectId(data);
@@ -33,6 +36,11 @@ const CreateRegistry: React.FC = () => {
 
   useEffect(() => {
     window.addEventListener("beforeunload", confirmPopup);
+
+    LoginService.fetchCountryData(dispatch).then(countryData => {
+      dispatch(updateCountryData(countryData));
+    });
+
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       pageViewGTM("MyAccount");

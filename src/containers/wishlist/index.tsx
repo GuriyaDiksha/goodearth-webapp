@@ -352,6 +352,9 @@ class Wishlist extends React.Component<Props, State> {
         false
       );
     }
+    this.state.filterListing
+      ? document.body.classList.add(globalStyles.noScroll)
+      : document.body.classList.remove(globalStyles.noScroll);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
