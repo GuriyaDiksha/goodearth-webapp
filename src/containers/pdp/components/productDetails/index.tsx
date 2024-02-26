@@ -1192,7 +1192,7 @@ const ProductDetails: React.FC<Props> = ({
             >
               <div
                 className={cs(bootstrap.col8, {
-                  [bootstrap.colMd12]: mobile && !tablet
+                  [bootstrap.colMd12]: mobile
                 })}
               >
                 {!(

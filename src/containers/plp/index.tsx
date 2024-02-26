@@ -968,6 +968,7 @@ class PLP extends React.Component<
                               currency={currency}
                               key={item.id}
                               mobile={mobile}
+                              tablet={tablet}
                               isVisible={index < 3 ? true : undefined}
                               onClickQuickView={this.onClickQuickView}
                               isCorporate={this.state.corporoateGifting}
