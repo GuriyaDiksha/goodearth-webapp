@@ -198,6 +198,13 @@ const MyAccount: React.FC<Props> = props => {
       ? cs(styles.ceriseSitaraClub, loyaltyStyles.ceriseDashboardContainer)
       : ""
   );
+
+  useEffect(() => {
+    accountListing
+      ? document.body.classList.add(globalStyles.noScroll)
+      : document.body.classList.remove(globalStyles.noScroll);
+  }, [accountListing]);
+
   return (
     <div
       className={cs(styles.containerStart, {
