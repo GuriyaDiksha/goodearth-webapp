@@ -162,7 +162,6 @@ class Header extends React.Component<Props, State> {
       user.email &&
       (!user.gender || !user.country || !user.lastName || !user.firstName)
     ) {
-      debugger;
       this.props.updateProfile();
     }
     const queryString = this.props.location.search;
@@ -345,15 +344,15 @@ class Header extends React.Component<Props, State> {
       if (gridList) {
         if (scrollDown || window?.pageYOffset != 0) {
           (gridList as HTMLElement).style.top = "0px";
-          console.log("top 0");
+          // console.log("top 0");
         } else {
           if (tim) {
             console.log(tim);
             (gridList as HTMLElement).style.top = "93px";
-            console.log("top 93");
+            // console.log("top 93");
           } else {
             (gridList as HTMLElement).style.top = "53px";
-            console.log("top 53");
+            // console.log("top 53");
           }
         }
       }

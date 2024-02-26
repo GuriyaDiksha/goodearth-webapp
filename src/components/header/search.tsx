@@ -3,7 +3,7 @@ import React from "react";
 // import {connect} from 'react-redux'
 // import axios from 'axios';
 // import Config from 'components/config'
-import { productImpression } from "utils/validate";
+import { gaEventsForSearch, productImpression } from "utils/validate";
 import { currencyCodes } from "constants/currency";
 import { AppState } from "reducers/typings";
 import { Dispatch } from "redux";
@@ -182,6 +182,8 @@ class Search extends React.Component<Props, State> {
     //   e.preventDefault();
     //   return false;
     // }
+    localStorage.setItem("inputValue", this.state.searchValue.trim());
+
     this.setState({ searchValue: e.target.value });
   }, 300);
 
@@ -206,6 +208,12 @@ class Search extends React.Component<Props, State> {
     this.props.history.push(data.ctaUrl);
     this.props.changeModalState(false);
   }
+
+  getTextFromHtml = (html: any) => {
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    return div.textContent || div.innerText || "";
+  };
 
   showProduct(data: PartialProductItem | WidgetImage, indices: number) {
     const itemData = data as PartialProductItem;
@@ -251,6 +259,12 @@ class Search extends React.Component<Props, State> {
           }
         }
       });
+      gaEventsForSearch(
+        data,
+        "Products",
+        this.getTextFromHtml(data?.product || data?.title),
+        this.state.searchValue
+      );
     }
     // this.props.toggle();
     this.props.hideSearch();
@@ -407,6 +421,12 @@ class Search extends React.Component<Props, State> {
                 to={item.link}
                 onClick={() => {
                   // this.props.toggle();
+                  gaEventsForSearch(
+                    data,
+                    "Collections",
+                    this.getTextFromHtml(item.collection),
+                    this.state.searchValue
+                  );
                   this.props.hideSearch();
                 }}
               >
@@ -426,6 +446,12 @@ class Search extends React.Component<Props, State> {
                     to={item.link}
                     onClick={() => {
                       // this.props.toggle();
+                      gaEventsForSearch(
+                        data,
+                        "Collections",
+                        this.getTextFromHtml(item.collection),
+                        this.state.searchValue
+                      );
                       this.props.hideSearch();
                     }}
                   >
@@ -765,15 +791,15 @@ class Search extends React.Component<Props, State> {
                                 <Link
                                   to={cat.link}
                                   onClick={(e: any) => {
+                                    localStorage.setItem(
+                                      "popularSearch",
+                                      cat?.name
+                                    );
                                     if (
                                       !cat.link &&
                                       this.searchBoxRef &&
                                       this.searchBoxRef.current
                                     ) {
-                                      localStorage.setItem(
-                                        "popularSearch",
-                                        cat?.name
-                                      );
                                       this.props.history.push(
                                         "/search/?q=" + cat.name
                                       );
@@ -925,6 +951,14 @@ class Search extends React.Component<Props, State> {
                               to={cat.link}
                               onClick={() => {
                                 //this.props.toggle();
+                                gaEventsForSearch(
+                                  categories,
+                                  "Categories",
+                                  `${cat.parent.replace(" > ", "/")}/` +
+                                    this.getTextFromHtml(cat.category),
+                                  this.state.searchValue
+                                );
+
                                 this.props.hideSearch();
                               }}
                               key={ind}

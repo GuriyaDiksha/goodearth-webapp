@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import FilterDropdown from "./FilterDropdown";
 import bootstrap from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import Close from "./../../../../icons/imastClose.svg";
@@ -16,6 +16,8 @@ import Loader from "components/Loader";
 import moment from "moment";
 import { scrollToGivenId } from "utils/validate";
 import { Link } from "react-router-dom";
+import tooltipIcon from "images/tooltip.svg";
+import tooltipOpenIcon from "images/tooltip-open.svg";
 
 type Props = {
   mobile: boolean;
@@ -29,6 +31,11 @@ const TransactionTable = ({ mobile }: Props) => {
   const [dropDownValue, setDropdownValue] = useState("L12M");
   const [dropDownValue2, setDropdownValue2] = useState("ALL");
   const [currentPage, setCurrentPage] = useState(1);
+  const [numberError, setNumberError] = useState("");
+  const [showTip, setShowTip] = useState<{ id?: string; state?: boolean }>({
+    id: "0",
+    state: false
+  });
   const [isLoading, setLoading] = useState(false);
   const [oldFilterState, setOldFilterState] = useState({
     dropDownValue: "",
@@ -48,7 +55,14 @@ const TransactionTable = ({ mobile }: Props) => {
     info: { isLoyaltyFilterOpen }
   } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
-
+  const impactRef = useRef<HTMLInputElement>(null);
+  const handleClickOutside = (evt: any) => {
+    evt.stopPropagation();
+    console.log(impactRef.current?.contains(evt.target));
+    if (impactRef.current && !impactRef.current.contains(evt.target)) {
+      setShowTip({ id: showTip["id"], state: false });
+    }
+  };
   const fetchTransaction = (payload: TransactionPayload) => {
     setLoading(true);
     LoyaltyService.getTransaction(dispatch, payload)
@@ -83,6 +97,14 @@ const TransactionTable = ({ mobile }: Props) => {
       PageNumber: currentPage,
       PaginationFilter: 1
     });
+  }, []);
+
+  useEffect(() => {
+    setNumberError("");
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const onChangeFilter = (val: string, isMonthFilter: boolean) => {
@@ -372,6 +394,52 @@ const TransactionTable = ({ mobile }: Props) => {
                     )}
                   >
                     {ele?.Description}
+                    {/* {ele?.isGst && ele?.Description == "NA" ? (
+                      <>
+                        &nbsp;&nbsp;&nbsp;
+                        <div
+                          id={ind + "t"}
+                          className={styles.tooltip}
+                          ref={impactRef}
+                        >
+                          <img
+                            src={
+                              showTip?.id === ind + "t" && showTip.state
+                                ? tooltipOpenIcon
+                                : tooltipIcon
+                            }
+                            onClick={e => {
+                              debugger;
+                              e.stopPropagation();
+                              e.preventDefault();
+                              setShowTip({
+                                id: ind + "t",
+                                state: !showTip["state"]
+                              });
+                            }}
+                          />
+                          <div
+                            className={cs(styles.tooltipMsg, {
+                              [styles.show]:
+                                showTip?.id === ind + "t" && showTip.state
+                            })}
+                          >
+                            No cerise loyalty points were earned on this order
+                            as it was billed with GST */}
+                    {/* <Link
+                              className={cs(styles.tooltipLink, {
+                                [styles.show]: showTip
+                              })}
+                              to="/account/my-orders"
+                            >
+                              order details
+                            </Link> */}
+                    {/* </div>
+                        </div>
+                      </>
+                    ) : (
+                      ""
+                    )} */}
                   </p>
                   <p
                     className={cs(
@@ -391,7 +459,6 @@ const TransactionTable = ({ mobile }: Props) => {
                         }`
                       : ele?.Points}
                   </p>
-
                   {ele?.Description !== "Welcome Bonus" && (
                     <p
                       className={cs(

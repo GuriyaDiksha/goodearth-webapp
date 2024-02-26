@@ -19,6 +19,8 @@
     input[type="radio"]:checked + label, [type="checkbox"]:not(:checked) + label,
     input[type="checkbox"]:checked + label {
         padding-left: 30px;
+        padding-top: 0px;
+        padding-bottom: 0px;
     }
 
     input[type="radio"]:not(:checked) + label:after,

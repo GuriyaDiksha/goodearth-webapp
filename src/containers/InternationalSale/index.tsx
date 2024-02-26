@@ -14,7 +14,6 @@ import HeaderService from "services/headerFooter";
 import LoginService from "services/login";
 import MakerEnhance from "components/maker";
 import { updateCountryData } from "actions/address";
-import FormSelect from "components/Formsy/FormSelect";
 import { Country } from "components/Formsy/CountryCode/typings";
 import Button from "components/Button";
 import SelectDropdown from "components/Formsy/SelectDropdown";
@@ -31,14 +30,12 @@ type CountryOptions = {
   label: string;
   code2: string;
   isd: string | undefined;
-  states: StateOptions[];
 };
 
-const Newsletters: React.FC = () => {
+const InternationalSale: React.FC = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
   const { showTimer } = useSelector((state: AppState) => state.info);
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
-  const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [enableSubmit, setEnableSubmit] = useState(false);
@@ -47,8 +44,9 @@ const Newsletters: React.FC = () => {
   const location = history.location;
   const { countryData } = useSelector((state: AppState) => state.address);
   const countryRef: RefObject<HTMLInputElement> = useRef(null);
-  const isAlphaError = "Please enter only alphabetic characters";
+  const isAlphaError = "Only alphabets are allowed";
   const isExistyError = "This field is required";
+  const { currency } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -63,6 +61,10 @@ const Newsletters: React.FC = () => {
     setIsLoading(false);
   }, []);
 
+  useEffect(() => {
+    if (currency === "INR") history.push("/");
+  }, [currency]);
+
   // *************** Open State option **************
   const EnquiryFormRef = useRef<Formsy>(null);
   const onCountrySelect = (option: any, defaultCountry?: string) => {
@@ -74,7 +76,6 @@ const Newsletters: React.FC = () => {
         form &&
           form.updateInputsWithValue(
             {
-              state: "",
               country: selectedCountry
             },
             false
@@ -91,24 +92,18 @@ const Newsletters: React.FC = () => {
         }
       }
 
-      const { states, isd } = countryOptions.filter(
+      const { isd } = countryOptions.filter(
         country => country.value == selectedCountry
       )[0];
 
       if (form) {
         // reset state
-        const { state } = form.getModel();
-        if (state) {
-          form.updateInputsWithValue({
-            state: ""
-          });
-        }
+
         form.updateInputsWithValue({
           countrycode: isd,
           country: selectedCountry
         });
       }
-      setStateOptions(states);
       setEnableSubmit(true);
     }
   };
@@ -116,24 +111,21 @@ const Newsletters: React.FC = () => {
 
   const changeCountryData = (countryData: Country[]) => {
     const countryOptions = countryData.map(country => {
-      const states = country.regionSet.map(state => {
-        return Object.assign({}, state, {
-          value: state.nameAscii,
-          label: state.nameAscii
-        });
-      });
       return Object.assign(
         {},
         {
           value: country.nameAscii,
           label: country.nameAscii,
           code2: country.code2,
-          isd: country.isdCode,
-          states: states
+          isd: country.isdCode
         }
       );
     });
-    setCountryOptions(countryOptions);
+    setCountryOptions(
+      countryOptions.filter(
+        country => country?.value?.toLocaleLowerCase() !== "india"
+      )
+    );
   };
 
   useEffect(() => {
@@ -172,10 +164,12 @@ const Newsletters: React.FC = () => {
       .then(data => {
         if (data.status) {
           setSuccessMsg(
-            "Thank you. You have successfully signed-up to our newsletter."
+            "Thank  you for signing up! You will receive a reminder when our sale is live!"
           );
         } else {
-          setSuccessMsg("You have already signed up for our newsletters.");
+          setSuccessMsg(
+            "You have already signed up for reminder notifications for our upcoming Sale."
+          );
         }
         // resetForm();
         setEnableSubmit(false);
@@ -185,7 +179,9 @@ const Newsletters: React.FC = () => {
         if (errors && typeof errors[0] == "string") {
           setSuccessMsg(errors[0]);
         } else {
-          setSuccessMsg("You have already signed up for our newsletters.");
+          setSuccessMsg(
+            "You have already signed up for reminder notifications for our upcoming Sale."
+          );
         }
       })
       .finally(() => {
@@ -198,12 +194,12 @@ const Newsletters: React.FC = () => {
   };
   const prepareFormData = (model: any) => {
     const formData = new FormData();
-    const { email, name, country, state } = model;
+    const { email, name, country, city } = model;
     formData.append("email", email ? email.toString().toLowerCase() : "");
     formData.append("name", name || "");
     formData.append("country", country || "");
-    formData.append("state", state || "");
-    formData.append("source", "Newsletter Signup");
+    formData.append("city", city || "");
+    formData.append("source", "HFH24 Reminder");
 
     return formData;
   };
@@ -229,8 +225,8 @@ const Newsletters: React.FC = () => {
       )}
     >
       <h4>
-        Make the most out of your Good Earth favourites. Sign up to discover our
-        latest collections, insider stories and expert tips.
+        Unlock everlasting joy with your favourite home and apparel designs at
+        upto 60% off. Sign up to get a reminder for the Good Earth Sale.
       </h4>
       <Formsy
         onValidSubmit={handleSubmit}
@@ -301,13 +297,24 @@ const Newsletters: React.FC = () => {
               inputRef={countryRef}
             />
           </div>
-          <div className="select-group text-left">
-            <FormSelect
-              name="state"
-              label={"State"}
-              placeholder={"Select State"}
-              options={stateOptions}
-              value=""
+          <div>
+            <FormInput
+              label="City"
+              placeholder="City"
+              name="city"
+              validations={{
+                maxLength: 40,
+                isWords: true
+              }}
+              handleChange={event => {
+                event.target.value
+                  ? setEnableSubmit(true)
+                  : setEnableSubmit(false);
+              }}
+              validationErrors={{
+                maxLength: "Max limit reached.",
+                isWords: isAlphaError
+              }}
             />
           </div>
           <div className={styles.label}>
@@ -336,7 +343,7 @@ const Newsletters: React.FC = () => {
             type="submit"
             disabled={!enableSubmit}
             className={cs(globalStyles.btnFullWidth, globalStyles.marginT10)}
-            label="Sign Up"
+            label="Sign up for a reminder"
             variant="largeAquaCta"
           />
         </div>
@@ -369,4 +376,4 @@ const Newsletters: React.FC = () => {
   );
 };
 
-export default Newsletters;
+export default InternationalSale;

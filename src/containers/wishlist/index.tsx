@@ -966,6 +966,7 @@ class Wishlist extends React.Component<Props, State> {
                 items={options}
                 value={this.state.defaultOption.value}
                 onChange={this.onChangeFilter}
+                disabled={this.props.wishlistCountData === 0}
               />
             </div>
           </SecondaryHeader>

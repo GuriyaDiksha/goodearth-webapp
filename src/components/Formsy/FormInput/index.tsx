@@ -66,11 +66,11 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
       case "firstName":
         return "Please enter your First Name";
       case "name":
-        return "Please enter Name";
+        return "Please enter your Name";
       case "lastName":
         return "Please enter your Last Name";
       case "dateOfBirth":
-        return "Please enter valid date of birth";
+        return "Please enter a valid Date of Birth";
       case "phoneNo":
       case "phoneNumber":
         return "Please enter your Contact Number";
@@ -81,11 +81,11 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
       case "password2":
         return "Please enter at least 6 characters for the Password";
       case "registrantName":
-        return "Plese enter registrant's name";
+        return "Please enter Registrant's Name";
       case "coRegistrantName":
-        return "Please enter co-registrant's name";
+        return "Please enter Co-Registrant's Name";
       case "registryName":
-        return "Please enter registry name";
+        return "Please enter Registry Name";
       case "recipientName":
         return "Please enter Recipient's Name";
       case "recipientEmailConfirm":
@@ -96,7 +96,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
       case "senderName":
         return "Please enter Sender's Name";
       case "giftCardCode":
-        return "Please enter Gift Card Code";
+        return "Please enter a valid Gift Card Code";
       case "orderNumber":
         return "Please enter a valid Order Number";
       case "city":

@@ -472,7 +472,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isEnglish: "Only alphabets are allowed"
+                isEnglish: "Please enter only alphabetic characters"
               }}
               required
               showLabel={true}
@@ -495,7 +495,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isEnglish: "Only alphabets are allowed"
+                isEnglish: "Please enter only alphabetic characters"
               }}
               required
               showLabel={true}
@@ -553,8 +553,8 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isValidDate: "Please enter valid date of birth",
-                isMinAllowedDate: "Please enter valid date of birth",
+                isValidDate: "Please enter a valid Date of Birth",
+                isMinAllowedDate: "Please enter a valid Date of Birth",
                 isMaxAllowedDate: "Age should be at least 15 years"
               }}
               showLabel={true}
@@ -590,7 +590,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isCodeValid: "Required"
+                isCodeValid: "Please select a Country Code"
               }}
               allowFilter={true}
               showLabel={true}
@@ -686,7 +686,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                equalsField: "The Password entered doesn't match",
+                equalsField: "The entered password does not match.",
                 isValid:
                   "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
               }}

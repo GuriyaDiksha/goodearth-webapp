@@ -341,7 +341,7 @@ class PDPContainer extends React.Component<Props, State> {
         "Page referrer url": CookieService.getCookie("prevUrl")
       });
     }
-    PDP(data, currency);
+    PDP(data, currency, this.props.isSale);
 
     moveChatDown();
 
@@ -483,7 +483,7 @@ class PDPContainer extends React.Component<Props, State> {
     const { data, currency } = nextProps;
     if (this.props?.id && this.props?.id != nextProps?.id) {
       pageViewGTM("PDP");
-      PDP(nextProps?.data, this.props?.currency);
+      PDP(nextProps?.data, this.props?.currency, this.props.isSale);
       if (data && data?.looksProducts && data?.looksProducts?.length >= 2) {
         MoreFromCollectionProductImpression(
           data.looksProducts,
@@ -505,7 +505,7 @@ class PDPContainer extends React.Component<Props, State> {
       !this.props?.data?.title &&
       nextProps?.data?.title
     ) {
-      PDP(nextProps?.data, this.props?.currency);
+      PDP(nextProps?.data, this.props?.currency, this.props.isSale);
       if (data && data?.looksProducts && data?.looksProducts?.length >= 2) {
         MoreFromCollectionProductImpression(
           data.looksProducts,
@@ -515,7 +515,7 @@ class PDPContainer extends React.Component<Props, State> {
       }
     }
     if (!this.props?.data && nextProps.data?.title) {
-      PDP(nextProps?.data, this.props?.currency);
+      PDP(nextProps?.data, this.props?.currency, this.props.isSale);
       if (data && data?.looksProducts && data.looksProducts?.length >= 2) {
         MoreFromCollectionProductImpression(
           data?.looksProducts,

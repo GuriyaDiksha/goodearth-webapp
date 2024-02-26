@@ -57,11 +57,11 @@ const WallpaperPopup: React.FC<Props> = ({ currency, price }) => {
     if (!widthError && !heightError) {
       let error = false;
       if (!width) {
-        setWidthError("Please enter Number");
+        setWidthError("Please enter Width");
         error = true;
       }
       if (!height) {
-        setHeightError("Please enter Number");
+        setHeightError("Please enter Height");
         error = true;
       }
       if (error) {
