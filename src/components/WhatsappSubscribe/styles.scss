@@ -112,7 +112,16 @@
 }
 
 .whatsapp-no-err{
-    @include err_13px_lora_italic_cerise();
+    // @include err_13px_lora_italic_cerise();
+    font-size: 13px !important;
+    font-style: italic !important;
+    color: #ab1e56 !important;
+    font-weight: 500 !important;
+    font-family: "Lora", "serif" !important;
+    letter-spacing: 0.3px !important;
+    text-align: left;
+    line-height: 15px !important;
+    margin-top: 6px !important;
 }
 
 .whatsapp-checkout {
