@@ -620,92 +620,92 @@ class MainLogin extends React.Component<Props, loginState> {
   };
 
   render() {
-    const formContent = (
-      <form onSubmit={this.handleSubmit.bind(this)}>
-        <div className={styles.categorylabel}>
-          <div>
-            <InputField
-              value={this.state.email}
-              placeholder={"Email ID"}
-              label={"Email ID*"}
-              border={this.state.highlight}
-              error={this.state.msg}
-              inputRef={this.emailInput}
-              disable={this.state.isPasswordDisabled}
-              disablePassword={this.disablePassword}
-              showLabel={true}
-            />
-          </div>
-          {/* <div>
-            <InputField
-              placeholder={""}
-              value={this.state.password}
-              keyUp={e => this.handleKeyUp(e, "password")}
-              handleChange={e => this.handleChange(e, "password")}
-              handlePaste={e => this.handlePaste(e, "password")}
-              label={"Password*"}
-              border={this.state.highlightp}
-              inputRef={this.passwordInput}
-              isPlaceholderVisible={this.state.isPasswordDisabled}
-              error={this.state.msgp}
-              type={this.state.showPassword ? "text" : "password"}
-              className={inputStyles.password}
-              showLabel={true}
-            />
-            <span
-              className={styles.togglePasswordBtn}
-              onClick={() => this.togglePassword()}
-            >
-              <img src={this.state.showPassword ? show : hide} />
-            </span>
-          </div>
-          <div className={globalStyles.textRight}>
-            <span
-              className={cs(styles.forgotPassword, globalStyles.pointer)}
-              onClick={e => {
-                this.props.goForgotPassword(
-                  e,
-                  (this.emailInput.current && this.emailInput.current.value) ||
-                    "",
-                  this.props.isBo
-                );
-              }}
-            >
-              FORGOT PASSWORD
-            </span>
-          </div> */}
-          <div>
-            {this.state.showerror ? (
-              <p className={cs(styles.errorMsg, styles.mainLoginError)}>
-                {this.state.showerror}
-              </p>
-            ) : (
-              ""
-            )}
-            <Button
-              type="submit"
-              className={globalStyles.btnFullWidth}
-              label="Login to my account"
-              disabled={this.state.isSecondStepLoginDisabled}
-              variant="largeMedCharcoalCta"
-            />
-            {this.props.isBo ? (
-              ""
-            ) : (
-              <Button
-                type="submit"
-                className={cs(styles.changeEmailBtn, {
-                  [globalStyles.btnFullWidth]: this.props.mobile
-                })}
-                label="Go Back"
-                onClick={this.changeEmail}
-                variant="outlineMediumMedCharcoalCta366"
-              />
-            )}
-          </div>
-        </div>
-      </form>
-    );
+    // const formContent = (
+    //   <form onSubmit={this.handleSubmit.bind(this)}>
+    //     <div className={styles.categorylabel}>
+    //       <div>
+    //         <InputField
+    //           value={this.state.email}
+    //           placeholder={"Email ID"}
+    //           label={"Email ID*"}
+    //           border={this.state.highlight}
+    //           error={this.state.msg}
+    //           inputRef={this.emailInput}
+    //           disable={this.state.isPasswordDisabled}
+    //           disablePassword={this.disablePassword}
+    //           showLabel={true}
+    //         />
+    //       </div>
+    //       {/* <div>
+    //         <InputField
+    //           placeholder={""}
+    //           value={this.state.password}
+    //           keyUp={e => this.handleKeyUp(e, "password")}
+    //           handleChange={e => this.handleChange(e, "password")}
+    //           handlePaste={e => this.handlePaste(e, "password")}
+    //           label={"Password*"}
+    //           border={this.state.highlightp}
+    //           inputRef={this.passwordInput}
+    //           isPlaceholderVisible={this.state.isPasswordDisabled}
+    //           error={this.state.msgp}
+    //           type={this.state.showPassword ? "text" : "password"}
+    //           className={inputStyles.password}
+    //           showLabel={true}
+    //         />
+    //         <span
+    //           className={styles.togglePasswordBtn}
+    //           onClick={() => this.togglePassword()}
+    //         >
+    //           <img src={this.state.showPassword ? show : hide} />
+    //         </span>
+    //       </div>
+    //       <div className={globalStyles.textRight}>
+    //         <span
+    //           className={cs(styles.forgotPassword, globalStyles.pointer)}
+    //           onClick={e => {
+    //             this.props.goForgotPassword(
+    //               e,
+    //               (this.emailInput.current && this.emailInput.current.value) ||
+    //                 "",
+    //               this.props.isBo
+    //             );
+    //           }}
+    //         >
+    //           FORGOT PASSWORD
+    //         </span>
+    //       </div> */}
+    //       <div>
+    //         {this.state.showerror ? (
+    //           <p className={cs(styles.errorMsg, styles.mainLoginError)}>
+    //             {this.state.showerror}
+    //           </p>
+    //         ) : (
+    //           ""
+    //         )}
+    //         <Button
+    //           type="submit"
+    //           className={globalStyles.btnFullWidth}
+    //           label="Login to my account"
+    //           disabled={this.state.isSecondStepLoginDisabled}
+    //           variant="largeMedCharcoalCta"
+    //         />
+    //         {this.props.isBo ? (
+    //           ""
+    //         ) : (
+    //           <Button
+    //             type="submit"
+    //             className={cs(styles.changeEmailBtn, {
+    //               [globalStyles.btnFullWidth]: this.props.mobile
+    //             })}
+    //             label="Go Back"
+    //             onClick={this.changeEmail}
+    //             variant="outlineMediumMedCharcoalCta366"
+    //           />
+    //         )}
+    //       </div>
+    //     </div>
+    //   </form>
+    // );
     const footer = (
       <>
         <div className={cs(globalStyles.textCenter, styles.socialLogin)}>

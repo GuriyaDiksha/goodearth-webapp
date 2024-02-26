@@ -21,7 +21,6 @@ import styles from "./styles.scss";
 import fontStyles from "styles/iconFonts.scss";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "../../styles/global.scss";
-import iconStyles from "../../styles/iconFonts.scss";
 import cs from "classnames";
 import ReactHtmlParser from "react-html-parser";
 import { AppState } from "reducers/typings";
@@ -843,7 +842,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       profileItems,
       loginItem
     } = this.props;
-    const wishlistIcon = wishlistCount > 0;
+    // const wishlistIcon = wishlistCount > 0;
     const lowerMenu = (
       <div
         className={cs(styles.lowerMenu, {

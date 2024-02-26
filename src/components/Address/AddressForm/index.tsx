@@ -17,7 +17,6 @@ import styles from "../styles.scss";
 import cs from "classnames";
 import { useSelector, useDispatch } from "react-redux";
 import LoginService from "services/login";
-import FormCheckbox from "components/Formsy/FormCheckbox";
 import { AddressData, AddressFormData } from "../typings";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { AppState } from "reducers/typings";
@@ -75,14 +74,14 @@ const AddressForm: React.FC<Props> = props => {
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
   const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
   const { addressData } = props;
-  const { countryData, pinCodeData, addressList } = useSelector(
+  const { countryData, pinCodeData } = useSelector(
     (state: AppState) => state.address
   );
   const isdList = countryData.map(list => {
     return list.isdCode;
   });
   const { setBridalAddress, bridalProfile } = useContext(BridalContext);
-  const { email, isLoggedIn } = useSelector((state: AppState) => state.user);
+  const { email } = useSelector((state: AppState) => state.user);
   const { mobile } = useSelector((state: AppState) => state.device);
   const countryRef: RefObject<HTMLInputElement> = useRef(null);
   const countryCodeRef: RefObject<HTMLInputElement> = React.createRef();
@@ -490,7 +489,6 @@ const AddressForm: React.FC<Props> = props => {
     setNickname(e.target.value);
     setIsAddressChanged(true);
   };
-  const bridalUser = { userId: 0 };
 
   return (
     <div

@@ -16,7 +16,6 @@ import cs from "classnames";
 import iconStyles from "styles/iconFonts.scss";
 import MyProfile from "./components/MyProfile";
 import PastOrders from "./components/MyOrder";
-import ChangePassword from "./components/ChangePassword";
 import { useSelector, useDispatch } from "react-redux";
 import { AccountMenuItem } from "./typings";
 import CheckBalance from "./components/Balance";

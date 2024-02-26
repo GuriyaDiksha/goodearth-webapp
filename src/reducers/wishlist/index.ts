@@ -1,5 +1,4 @@
 import { State, WishlistActions } from "./typings";
-import debounce from "lodash/debounce";
 
 const initialState: State = {
   items: [],

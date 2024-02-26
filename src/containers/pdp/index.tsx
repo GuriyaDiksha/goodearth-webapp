@@ -1470,7 +1470,7 @@ class PDPContainer extends React.Component<Props, State> {
                 {media_type === "Image" || type === "main" ? (
                   <div className={cs(styles.container)}>
                     <img
-                      fetchpriority={i < 2 ? "high" : "low"}
+                      // fetchpriority={i < 2 ? "high" : "low"}
                       alt={data?.altText || data?.title}
                       // aspectRatio="62:93"
                       src={productImage?.replace("/Micro/", "/Medium/")}

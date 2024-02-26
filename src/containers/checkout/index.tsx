@@ -88,20 +88,20 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       shippingAddress: AddressData,
       user: User,
       isBridal = false,
-      history: any,
-      boId: string
+      history: any
+      // boId: string
     ) => {
       const data = await AddressService.specifyShippingAddress(
         dispatch,
         shippingAddressId,
         isBridal,
         history,
-        boId
+        undefined
       );
       const userData = { ...user, shippingData: shippingAddress };
       dispatch(updateUser(userData));
       // isLoading(true);
-      AddressService.fetchAddressList(dispatch, boId, isGcCheckout).then(
+      AddressService.fetchAddressList(dispatch, undefined, isGcCheckout).then(
         addressList => {
           dispatch(updateAddressList(addressList));
         }
@@ -112,14 +112,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     specifyBillingAddress: async (
       specifyBillingAddressData: specifyBillingAddressData,
-      boId: string,
       user: User
     ) => {
       const data = await AddressService.specifyBillingAddress(
         dispatch,
         specifyBillingAddressData
       );
-      AddressService.fetchAddressList(dispatch, boId, isGcCheckout).then(
+      AddressService.fetchAddressList(dispatch, undefined, isGcCheckout).then(
         addressList => {
           dispatch(updateAddressList(addressList));
         }
@@ -131,10 +130,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       );
       return data;
     },
-    fetchAddressBridal: async (boId: string) => {
+    fetchAddressBridal: async () => {
       const addressList = await AddressService.fetchAddressList(
         dispatch,
-        boId,
+        undefined,
         isGcCheckout
       );
       dispatch(updateAddressList(addressList));
@@ -358,8 +357,6 @@ class Checkout extends React.Component<Props, State> {
     pageViewGTM("Checkout");
     localStorage.setItem("openGCExitModal", "false");
     const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup3");
-    const queryString = this.props.location.search;
-    const urlParams = new URLSearchParams(queryString);
     // const boId = urlParams.get("bo_id");
     // const boId = urlParams.get("bo_id");
 
@@ -676,7 +673,7 @@ class Checkout extends React.Component<Props, State> {
         this.setState({ isGoodearthShipping: true });
       }
       if (!nextProps.basket.bridal && this.props.basket.bridal) {
-        this.props.fetchAddressBridal(this?.state?.boId);
+        this.props.fetchAddressBridal();
       }
     } else {
       // this.props.updateShipping(nextProps.user.shippingData?.id || 0)
@@ -809,7 +806,6 @@ class Checkout extends React.Component<Props, State> {
     this.setState({ isLoading: true }, () => {
       if (activeStep == STEP_SHIPPING && address) {
         const { bridal } = this.props.basket;
-        const { boId } = this.state;
 
         const userConsent = CookieService.getCookie("consent").split(",");
 
@@ -819,8 +815,7 @@ class Checkout extends React.Component<Props, State> {
             address,
             this.props.user,
             bridal,
-            this.props.history,
-            boId
+            this.props.history
           )
           .then(data => {
             if (userConsent.includes(GA_CALLS)) {
@@ -1017,7 +1012,7 @@ class Checkout extends React.Component<Props, State> {
             );
           }
           this.props
-            .specifyBillingAddress(data, this?.state?.boId, this.props.user)
+            .specifyBillingAddress(data, this.props.user)
             .then(() => {
               const userConsent = CookieService.getCookie("consent").split(",");
               if (userConsent.includes(GA_CALLS)) {
@@ -1062,12 +1057,10 @@ class Checkout extends React.Component<Props, State> {
                       this.props.showPromo &&
                       this.props.basket.voucherDiscounts.length === 0
                     ) {
-                      document
-                        .getElementById("promo-section")
-                        ?.scrollIntoView({
-                          block: "center",
-                          behavior: "smooth"
-                        });
+                      document.getElementById("promo-section")?.scrollIntoView({
+                        block: "center",
+                        behavior: "smooth"
+                      });
                     } else {
                       if (document.getElementById("cerise-section")) {
                         document
