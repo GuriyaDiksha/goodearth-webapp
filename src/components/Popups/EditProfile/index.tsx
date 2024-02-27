@@ -18,8 +18,6 @@ const EditProfile: React.FC = () => {
   const [reqSent, setReqSent] = useState(false);
   const dispatch = useDispatch();
 
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator?.userAgent);
-
   const onRequestSend = () => {
     const formData: any = {};
     formData["email"] = email || "";
@@ -96,13 +94,7 @@ const EditProfile: React.FC = () => {
               <div>
                 {error && <p className={styles.error}>{error} </p>}
                 <div className={cs(styles.charLimit)}>
-                  Char Limit:{" "}
-                  {248 -
-                    (textarea.length +
-                      (isSafari
-                        ? textarea?.match(/(\r\n|\n|\r)/g)?.length || 0
-                        : 0))}{" "}
-                  / 248
+                  Char Limit: {248 - textarea.length} / 248
                 </div>
               </div>
             </div>

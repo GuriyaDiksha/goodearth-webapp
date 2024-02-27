@@ -120,8 +120,22 @@ const BridalItemsList: React.FC<Props> = props => {
     size,
     qtyBought,
     qtyRemaining,
-    badgeType
+    badgeType,
+    colors,
+    groupedProductsCount
   } = props.product;
+
+  const colorName = (value: string) => {
+    let cName = value
+      .split("-")
+      .slice(1)
+      .join();
+    if (cName[cName.length - 1] == "s") {
+      cName = cName.slice(0, -1);
+    }
+    return cName;
+  };
+
   return (
     <div className={cs(styles.cart, styles.cartContainer)}>
       <div className={cs("cart-item", styles.bridalPublic)}>
@@ -181,6 +195,15 @@ const BridalItemsList: React.FC<Props> = props => {
                   <div className={cs(styles.smallfont, globalStyles.voffset2)}>
                     SIZE: {size}
                   </div>
+                  {colors?.length &&
+                  groupedProductsCount &&
+                  groupedProductsCount > 0 ? (
+                    <div
+                      className={cs(styles.smallfont, globalStyles.voffset1)}
+                    >
+                      COLOR: {colorName(colors?.[0])}
+                    </div>
+                  ) : null}
                   <div className={cs(styles.smallfont, globalStyles.voffset1)}>
                     SKU: {sku}
                   </div>

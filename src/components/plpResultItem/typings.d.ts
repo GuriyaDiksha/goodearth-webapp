@@ -14,4 +14,5 @@ export type PLPResultItemProps = {
   page: string;
   loader?: boolean;
   isSearch?: boolean;
+  tablet?: boolean;
 };

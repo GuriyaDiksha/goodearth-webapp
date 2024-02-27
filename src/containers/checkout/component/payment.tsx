@@ -376,7 +376,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           const errorType = error.response?.data.errorType;
           if (errorType && errorType == "qty") {
             msg =
-              "Some of the products in your cart have been updated/become unavailable. Please refresh before proceeding.";
+              "Some items in your cart have been modified or are no longer available. Kindly refresh before proceeding.";
           }
           setPaymentError(msg);
           errorTracking([msg], location.href);
@@ -433,8 +433,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       } else {
         setWhatsappNoErr("");
       }
-      setPaymentError("Please select a payment method");
-      errorTracking(["Please select a payment method"], location.href);
+      setPaymentError("Please select a Payment Method");
+      errorTracking(["Please select a Payment Method"], location.href);
       document.getElementById("payment-section")?.scrollIntoView();
     }
   };
@@ -829,12 +829,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                         placeholder={"Add message (optional)"}
                         autoComplete="new-password"
                         onChange={(e: any) => {
-                          if (e.target.value.length <= 250) {
-                            setTextarea(e.target.value);
-                          } else if (e.target.value.length >= 250) {
-                            setTextarea(e.target.value.substring(0, 250));
-                          }
+                          setTextarea(e.target.value);
                         }}
+                        maxLength={250}
                       />
                       <div
                         className={cs(
@@ -843,12 +840,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                           styles.charLimitText
                         )}
                       >
-                        Char Limit:{" "}
-                        {250 -
-                          (textarea.length +
-                            (isSafari
-                              ? textarea?.match(/(\r\n|\n|\r)/g)?.length || 0
-                              : 0))}
+                        Char Limit: {250 - textarea.length}
                         /250
                       </div>
                     </div>

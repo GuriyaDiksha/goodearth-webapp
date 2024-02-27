@@ -161,7 +161,7 @@ const NotifyMePopup: React.FC<Props> = ({
 
     if (!value) {
       valid = false;
-      message = "This field is required";
+      message = "Please enter your Email ID";
     } else if (!re.test(value)) {
       valid = false;
       message = "Please enter a valid Email ID";
@@ -325,7 +325,7 @@ const NotifyMePopup: React.FC<Props> = ({
         }
       } else {
         // setSizeErrorMsg("Please select a Size to proceed");
-        errorTracking(["Please select a Size to proceed"], location.href);
+        errorTracking(["Please select a size to continue"], location.href);
       }
     }
   };
@@ -455,7 +455,7 @@ const NotifyMePopup: React.FC<Props> = ({
                 />
                 {sizeerror && (
                   <p className={styles.sizeError}>
-                    Please select a size to proceed
+                    Please select a size to continue
                   </p>
                 )}
                 {isSale &&

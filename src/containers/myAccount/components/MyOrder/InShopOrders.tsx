@@ -7,11 +7,9 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import { useDispatch } from "react-redux";
-// import InShopOrderDetails from "./InShopOrderDetails";
 import noPlpImage from "images/noimageplp.png";
 import invoice from "../../../../images/invoice.svg";
 import invoiceDisabled from "../../../../images/invoiceDisabled.svg";
-import { displayPriceWithCommas } from "utils/utility";
 import Button from "components/Button";
 import { displayPriceWithCommasFloat } from "utils/utility";
 

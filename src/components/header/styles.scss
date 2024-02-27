@@ -38,6 +38,9 @@
 .header-index {
   z-index: 1000009 !important;
 }
+.show-sort-header-index{
+  z-index: 3 !important; //added for sort menu open on mobile
+}
 // .header-index-home {
 //   z-index: 1000002 !important;
 // }
@@ -1668,6 +1671,7 @@ ul.inner-menu-mobile {
   width: 100%;
   background-color:#f3f3f3;
   color: $cerise;
+  font-family: $font-Montserrat;
   .timer-txt {
     font-size: 12px;
     line-height: 40px;
@@ -1676,18 +1680,19 @@ ul.inner-menu-mobile {
   .timer-cta-btn {
     padding: 2px 8px;
     width: fit-content;
-    font-size: 12px;
+    font-size: 11px;
     margin-top: 8px;
   }
   .timer {
     padding: 0 10px;
-    font-weight: bold;
+    font-weight: 400;
+    padding-top: 3px;
     .timer-label {
       font-size: 10px;
       color: #333;
     }
     .timer-value {
-      font-size: 14px;
+      font-size: 12px;
     }
     table {
       text-align: center;
