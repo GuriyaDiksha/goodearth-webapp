@@ -886,8 +886,8 @@ const AddressSection: React.FC<AddressProps & {
                     <input
                       type="text"
                       className={cs(
-                        { [styles.disabledInput]: !!user.panPassport },
                         styles.input,
+                        { [styles.disabledInput]: !!user.panPassport },
                         styles.marginR10,
                         { [styles.panError]: panError }
                       )}

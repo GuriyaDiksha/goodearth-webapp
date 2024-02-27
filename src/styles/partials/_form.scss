@@ -33,11 +33,15 @@
 }
 
 .disabled-input {
-  background-color: $white !important;
-  color: tint(#000, 50%);
+  background: #E5E5E526 !important;
+  color: #9F9F9F !important;
+  // background-color: $white !important;
+  // color: tint(#000, 50%);
   &input, input, select {
-  background-color: $white !important;
-  color: tint(#000, 50%);
+    background: #E5E5E526 !important;
+    color: #9F9F9F !important;
+  // background-color: $white !important;
+  // color: tint(#000, 50%);
   }
   .Dropdown-control {
   background-color: $white !important;
