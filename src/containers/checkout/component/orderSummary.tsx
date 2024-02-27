@@ -2,7 +2,6 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "./orderStyles.scss";
-import paymentStyles from "../styles.scss";
 import { OrderProps } from "./typings";
 import { currencyCode } from "typings/currency";
 import { useLocation, NavLink, useHistory, Link } from "react-router-dom";
@@ -18,7 +17,6 @@ import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommasFloat } from "utils/utility";
 import Button from "components/Button";
-// import { currencyCodes } from "constants/currency";
 import checkoutIcon from "../../../images/checkout.svg";
 import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
 import Loader from "components/Loader";
@@ -32,7 +30,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
     page,
     shippingAddress,
     salestatus,
-    validbo,
     setCheckoutMobileOrderSummary,
     onsubmit,
     isPaymentNeeded,
@@ -175,7 +172,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
     return cName;
   };
 
-  const getSizeAndQty = (data: any, qty: any) => {
+  const getSizeAndQty = (
+    data: any,
+    qty: any,
+    groupedProductsCount: number,
+    isGC: boolean
+  ) => {
     const size = data.find(function(attribute: any) {
       if (attribute.name == "Size") {
         return attribute;
@@ -187,9 +189,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
         return attribute;
       }
     });
-    return size ? (
+    return (size || qty || color?.value) && !isGC ? (
       <span className={globalStyles.marginT5}>
-        Size: {size.value} {color && `| Color: ${colorName(color?.value)}`} |
+        {size && `Size: ${size.value} | `}{" "}
+        {color?.value && groupedProductsCount && groupedProductsCount > 0
+          ? `Color: ${colorName(color?.value)} | `
+          : ""}
         QTY: {qty}
       </span>
     ) : null;
@@ -317,7 +322,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   )}
 
                   <span className={cs(styles.productSize)}>
-                    {getSizeAndQty(item.product.attributes, item.quantity)}
+                    {getSizeAndQty(
+                      item.product.attributes,
+                      item.quantity,
+                      item?.product?.groupedProductsCount,
+                      item.product.structure == "GiftCard"
+                    )}
                   </span>
                   {item.product.structure == "GiftCard" && (
                     <>
@@ -1219,7 +1229,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <div
                     className={cs(
                       globalStyles.c10LR,
-                      globalStyles.voffset2,
+                      globalStyles.voffset3v1,
                       globalStyles.marginB10,
                       globalStyles.textCenter,
                       styles.summaryPadding

@@ -726,7 +726,8 @@ export function productImpression(
 export const gaEventsForSearch = (
   data: any,
   clickType?: string,
-  ctaName?: string
+  ctaName?: string,
+  serachVal?: string
 ) => {
   const userConsent = CookieService.getCookie("consent").split(",");
   const recentSearch = localStorage.getItem("recentSearchValue");
@@ -737,7 +738,11 @@ export const gaEventsForSearch = (
     userConsent.includes(GA_CALLS) &&
     (popularSearch || recentSearch || inputValue || clickType)
   ) {
-    if (data?.results?.data?.length || (clickType && data?.length)) {
+    if (
+      data?.results?.data?.length ||
+      (clickType && data?.length) ||
+      clickType === "Products"
+    ) {
       dataLayer.push({
         event: "search_bar_results_found",
         click_type: recentSearch
@@ -747,8 +752,9 @@ export const gaEventsForSearch = (
           : clickType
           ? clickType
           : "Input",
-        cta_name: ctaName,
-        search_term: recentSearch || popularSearch || inputValue
+        cta_name:
+          ctaName || recentSearch || popularSearch || "View all results",
+        search_term: recentSearch || popularSearch || inputValue || serachVal
       });
     } else {
       dataLayer.push({
@@ -757,13 +763,18 @@ export const gaEventsForSearch = (
           ? "Recent search"
           : popularSearch
           ? "Popular search"
+          : clickType
+          ? clickType
           : "Input",
-        search_term: recentSearch || popularSearch || inputValue
+        cta_name:
+          ctaName || recentSearch || popularSearch || "View all results",
+        search_term: recentSearch || popularSearch || inputValue || serachVal
       });
     }
     localStorage.removeItem("recentSearchValue");
     localStorage.removeItem("popularSearch");
     localStorage.removeItem("inputValue");
+    localStorage.removeItem("viewAllResults");
   }
 };
 

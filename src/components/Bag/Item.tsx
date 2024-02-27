@@ -18,7 +18,6 @@ import PdpQuantity from "components/quantity/pdpQuantity";
 import { showGrowlMessage } from "utils/validate";
 import { updateBasket } from "actions/basket";
 import { displayPriceWithCommas } from "utils/utility";
-import { currencyCodes } from "constants/currency";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({

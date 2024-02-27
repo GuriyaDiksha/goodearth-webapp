@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
-import logoImage from "images/gelogoCerise.svg";
 import BanarasMotifImage from "../../images/banaras-motif.png";
 import AccountServices from "services/account";
 import moment from "moment";
@@ -753,12 +752,14 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                       <>Size:&nbsp; {item.product.size}</>
                                     )}
                                   </div>
-                                  {item?.product?.colors?.length && (
+                                  {item?.product?.colors?.length &&
+                                  item?.product?.groupedProductsCount &&
+                                  item?.product?.groupedProductsCount > 0 ? (
                                     <div className={styles.productDetails}>
                                       Color:&nbsp;{" "}
                                       {colorName(item.product?.colors?.[0])}
                                     </div>
-                                  )}
+                                  ) : null}
                                   <div className={styles.productDetails}>
                                     Qty:&nbsp; {item.quantity}
                                   </div>

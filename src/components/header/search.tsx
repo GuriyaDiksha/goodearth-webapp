@@ -150,8 +150,8 @@ class Search extends React.Component<Props, State> {
       });
     document.addEventListener("mousedown", this.handleClickOutside);
     this.setState({
-      recentSearchs: CookieService.getCookie("recentSearch")
-        ? JSON.parse(CookieService.getCookie("recentSearch"))
+      recentSearchs: localStorage.getItem("recentSearch")
+        ? JSON.parse(localStorage.getItem("recentSearch") || "[]")
         : []
     });
   }
@@ -189,8 +189,8 @@ class Search extends React.Component<Props, State> {
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     this.setState({
-      recentSearchs: CookieService.getCookie("recentSearch")
-        ? JSON.parse(CookieService.getCookie("recentSearch"))
+      recentSearchs: localStorage.getItem("recentSearch")
+        ? JSON.parse(localStorage.getItem("recentSearch") || "[]")
         : []
     });
     if (nextProps.location.pathname !== this.props.location.pathname) {
@@ -208,6 +208,12 @@ class Search extends React.Component<Props, State> {
     this.props.history.push(data.ctaUrl);
     this.props.changeModalState(false);
   }
+
+  getTextFromHtml = (html: any) => {
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    return div.textContent || div.innerText || "";
+  };
 
   showProduct(data: PartialProductItem | WidgetImage, indices: number) {
     const itemData = data as PartialProductItem;
@@ -253,6 +259,12 @@ class Search extends React.Component<Props, State> {
           }
         }
       });
+      gaEventsForSearch(
+        data,
+        "Products",
+        this.getTextFromHtml(data?.product || data?.title),
+        this.state.searchValue
+      );
     }
     // this.props.toggle();
     this.props.hideSearch();
@@ -264,40 +276,44 @@ class Search extends React.Component<Props, State> {
   }
 
   titleCase(str: string) {
-    const splitStr = str.toLowerCase().split(" ");
-    splitStr?.map((val, i) => {
-      splitStr[i] = val.charAt(0).toUpperCase() + val.substring(1);
-    });
+    if (str.match(/^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/)) {
+      const splitStr = str.toLowerCase().split(" ");
+      splitStr?.map((val, i) => {
+        splitStr[i] = val.charAt(0).toUpperCase() + val.substring(1);
+      });
 
-    return splitStr.join(" ");
+      return splitStr.join(" ");
+    }
+
+    return str;
   }
 
   recentSearch(value: string | null) {
     const searchValue = value || this.state.searchValue;
-    const searchArr = CookieService.getCookie("recentSearch")
-      ? JSON.parse(CookieService.getCookie("recentSearch"))
+    const searchArr = localStorage.getItem("recentSearch")
+      ? JSON.parse(localStorage.getItem("recentSearch") || "[]")
       : [];
 
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(SEARCH_HISTORY)) {
-      CookieService.setCookie(
-        "recentSearch",
-        JSON.stringify(
-          [this.titleCase(searchValue), ...searchArr]
-            .filter(this.onlyUnique)
-            .slice(0, 5)
-        )
+      const arr = JSON.stringify(
+        [this.titleCase(searchValue), ...searchArr]
+          .filter(this.onlyUnique)
+          .slice(0, 5)
       );
+
+      localStorage.setItem("recentSearch", arr);
     }
   }
 
   onClickSearch = (event: any) => {
-    if (this.state.searchValue.trim().length > 0) {
-      localStorage.setItem("inputValue", this.state.searchValue.trim());
+    if (this.state.searchValue?.trim().length > 0) {
+      localStorage.setItem("inputValue", this.state.searchValue?.trim());
       this.props.history.push(
-        `/search/${this.state.url.split("/autocomplete")[1]}`
+        `/search/${this.state?.url?.split("/autocomplete")?.[1]}`
       );
       // this.closeSearch();
+
       this.props.hideSearch();
       this.recentSearch(null);
       return false;
@@ -409,7 +425,12 @@ class Search extends React.Component<Props, State> {
                 to={item.link}
                 onClick={() => {
                   // this.props.toggle();
-                  gaEventsForSearch(data, "Collections", item.collection);
+                  gaEventsForSearch(
+                    data,
+                    "Collections",
+                    this.getTextFromHtml(item.collection),
+                    this.state.searchValue
+                  );
                   this.props.hideSearch();
                 }}
               >
@@ -429,7 +450,12 @@ class Search extends React.Component<Props, State> {
                     to={item.link}
                     onClick={() => {
                       // this.props.toggle();
-                      gaEventsForSearch(data, "Collections", item.collection);
+                      gaEventsForSearch(
+                        data,
+                        "Collections",
+                        this.getTextFromHtml(item.collection),
+                        this.state.searchValue
+                      );
                       this.props.hideSearch();
                     }}
                   >
@@ -769,15 +795,15 @@ class Search extends React.Component<Props, State> {
                                 <Link
                                   to={cat.link}
                                   onClick={(e: any) => {
+                                    localStorage.setItem(
+                                      "popularSearch",
+                                      cat?.name
+                                    );
                                     if (
                                       !cat.link &&
                                       this.searchBoxRef &&
                                       this.searchBoxRef.current
                                     ) {
-                                      localStorage.setItem(
-                                        "popularSearch",
-                                        cat?.name
-                                      );
                                       this.props.history.push(
                                         "/search/?q=" + cat.name
                                       );
@@ -826,7 +852,7 @@ class Search extends React.Component<Props, State> {
                           <button
                             onClick={() => {
                               this.setState({ recentSearchs: [] });
-                              CookieService.setCookie(
+                              localStorage.setItem(
                                 "recentSearch",
                                 JSON.stringify([])
                               );
@@ -863,7 +889,7 @@ class Search extends React.Component<Props, State> {
                                     e => e !== ele
                                   )
                                 });
-                                CookieService.setCookie(
+                                localStorage.setItem(
                                   "recentSearch",
                                   JSON.stringify(
                                     recentSearchs.filter(e => e !== ele)
@@ -932,7 +958,9 @@ class Search extends React.Component<Props, State> {
                                 gaEventsForSearch(
                                   categories,
                                   "Categories",
-                                  cat.category
+                                  `${cat.parent.replace(" > ", "/")}/` +
+                                    this.getTextFromHtml(cat.category),
+                                  this.state.searchValue
                                 );
 
                                 this.props.hideSearch();

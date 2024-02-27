@@ -16,7 +16,6 @@ import cs from "classnames";
 import iconStyles from "styles/iconFonts.scss";
 import MyProfile from "./components/MyProfile";
 import PastOrders from "./components/MyOrder";
-import ChangePassword from "./components/ChangePassword";
 import { useSelector, useDispatch } from "react-redux";
 import { AccountMenuItem } from "./typings";
 import CheckBalance from "./components/Balance";
@@ -199,6 +198,13 @@ const MyAccount: React.FC<Props> = props => {
       ? cs(styles.ceriseSitaraClub, loyaltyStyles.ceriseDashboardContainer)
       : ""
   );
+
+  useEffect(() => {
+    accountListing
+      ? document.body.classList.add(globalStyles.noScroll)
+      : document.body.classList.remove(globalStyles.noScroll);
+  }, [accountListing]);
+
   return (
     <div
       className={cs(styles.containerStart, {

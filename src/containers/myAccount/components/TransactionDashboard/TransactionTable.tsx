@@ -394,7 +394,7 @@ const TransactionTable = ({ mobile }: Props) => {
                     )}
                   >
                     {ele?.Description}
-                    {ele?.Description == "NA" ? (
+                    {/* {ele?.isGst && ele?.Description == "NA" ? (
                       <>
                         &nbsp;&nbsp;&nbsp;
                         <div
@@ -425,8 +425,8 @@ const TransactionTable = ({ mobile }: Props) => {
                             })}
                           >
                             No cerise loyalty points were earned on this order
-                            as it was billed with GST
-                            {/* <Link
+                            as it was billed with GST */}
+                    {/* <Link
                               className={cs(styles.tooltipLink, {
                                 [styles.show]: showTip
                               })}
@@ -434,12 +434,12 @@ const TransactionTable = ({ mobile }: Props) => {
                             >
                               order details
                             </Link> */}
-                          </div>
+                    {/* </div>
                         </div>
                       </>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </p>
                   <p
                     className={cs(

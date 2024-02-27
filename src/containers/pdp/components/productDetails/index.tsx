@@ -325,7 +325,7 @@ const ProductDetails: React.FC<Props> = ({
         setQuantity(value);
         setSizeError("");
       } else {
-        setSizeError("Please select a size to proceed");
+        setSizeError("Please select a size to continue");
       }
     },
     [selectedSize]
@@ -426,7 +426,6 @@ const ProductDetails: React.FC<Props> = ({
     categoryname = arr[arr.length - 2];
     subcategoryname = arr[arr.length - 1];
     category = category.replace(/>/g, "/");
-    const l1 = arr[arr.length - 3];
     const category3 = sliderImages.filter(ele => ele?.icon).length
       ? "3d"
       : "non 3d";
@@ -557,8 +556,8 @@ const ProductDetails: React.FC<Props> = ({
 
   const addToBasket = () => {
     if (!selectedSize) {
-      setSizeError("Please select a size to proceed");
-      errorTracking(["Please select a size to proceed"], window.location.href);
+      setSizeError("Please select a size to continue");
+      errorTracking(["Please select a size to continue"], window.location.href);
       showError();
       closeZoomModal();
     } else {
@@ -588,8 +587,8 @@ const ProductDetails: React.FC<Props> = ({
 
   const checkAvailability = () => {
     if (!selectedSize) {
-      setSizeError("Please select a size to proceed");
-      errorTracking(["Please select a size to proceed"], window.location.href);
+      setSizeError("Please select a size to continue");
+      errorTracking(["Please select a size to continue"], window.location.href);
       showError();
     } else {
       setIsLoading(true);
@@ -629,7 +628,7 @@ const ProductDetails: React.FC<Props> = ({
     }
     if (childAttributes[0].size) {
       if (!selectedSize) {
-        setSizeError("Please select a size to proceed");
+        setSizeError("Please select a size to continue");
         showError();
         return false;
       }
@@ -761,7 +760,7 @@ const ProductDetails: React.FC<Props> = ({
   const sizeSelectClick = () => {
     // setSizeerror(true);
     closeZoomModal();
-    setSizeError("Please select a size to proceed");
+    setSizeError("Please select a size to continue");
     showError();
   };
 
@@ -993,13 +992,11 @@ const ProductDetails: React.FC<Props> = ({
                 >
                   {currency === "INR" && (
                     <span
-                      className={cs(
-                        styles.mrp,
-                        badgeType == "B_flat" ||
+                      className={cs(styles.mrp, {
+                        [globalStyles.gold]:
+                          badgeType == "B_flat" ||
                           (info.isSale && discount && discountedPriceRecords)
-                          ? globalStyles.gold
-                          : ""
-                      )}
+                      })}
                     >
                       MRP.
                     </span>
@@ -1018,10 +1015,10 @@ const ProductDetails: React.FC<Props> = ({
                     </span>
                   ) : (
                     <span
-                      className={cs(
-                        styles.normalPrice,
-                        badgeType == "B_flat" ? globalStyles.gold : ""
-                      )}
+                      className={cs(styles.normalPrice, {
+                        [globalStyles.gold]: badgeType == "B_flat",
+                        [globalStyles.fontSize16]: badgeType == "B_flat"
+                      })}
                     >
                       {" "}
                       {displayPriceWithCommas(price, currency)}
@@ -1120,7 +1117,11 @@ const ProductDetails: React.FC<Props> = ({
                             selectedSize.stock > 0 &&
                             `${
                               selectedSize.othersBasketCount > 0
-                                ? ` ${selectedSize.othersBasketCount} others have this item in their bag.`
+                                ? ` ${selectedSize.othersBasketCount} other${
+                                    selectedSize.othersBasketCount > 1
+                                      ? "s"
+                                      : ""
+                                  } have this item in their bag.`
                                 : ""
                             } Only ${selectedSize.stock} Left!`}
                         </span>
@@ -1174,12 +1175,13 @@ const ProductDetails: React.FC<Props> = ({
                   selectedSize &&
                   selectedSize.stock > 0 &&
                   selectedSize.showStockThreshold &&
-                  `${selectedSize.othersBasketCount &&
-                    ` ${selectedSize.othersBasketCount} other${
-                      selectedSize.othersBasketCount > 1 ? "s" : ""
-                    } have this item in their bag.`} Only ${
-                    selectedSize.stock
-                  } Left!`}
+                  `${
+                    selectedSize.othersBasketCount > 0
+                      ? ` ${selectedSize.othersBasketCount} other${
+                          selectedSize.othersBasketCount > 1 ? "s" : ""
+                        } have this item in their bag.`
+                      : ""
+                  } Only ${selectedSize.stock} Left!`}
               </span>
             )}
             <div
@@ -1190,7 +1192,7 @@ const ProductDetails: React.FC<Props> = ({
             >
               <div
                 className={cs(bootstrap.col8, {
-                  [bootstrap.colMd12]: mobile && !tablet
+                  [bootstrap.colMd12]: mobile
                 })}
               >
                 {!(
