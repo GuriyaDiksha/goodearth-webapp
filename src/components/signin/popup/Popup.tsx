@@ -21,9 +21,6 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
   const [isSuccessMsg, setIsSuccessMsg] = useState(false);
 
   const location = useLocation();
-  const queryString = location.search;
-  const urlParams = new URLSearchParams(queryString);
-  // const boId = urlParams.get("bo_id");
   const history = useHistory();
 
   const closePopup = () => {

@@ -2,6 +2,7 @@ import { Dispatch } from "redux";
 
 import { updateFilterState, updateOnload, updateFacets } from "actions/search";
 import SearchService from "services/search";
+import { updateScrollDown } from "actions/info";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
@@ -28,6 +29,9 @@ const mapActionsToProps = (dispatch: Dispatch) => {
     },
     updateOnload: (data: boolean) => {
       dispatch(updateOnload(data));
+    },
+    updateScrollDown: (scrollDown: boolean) => {
+      dispatch(updateScrollDown(scrollDown));
     }
   };
 };

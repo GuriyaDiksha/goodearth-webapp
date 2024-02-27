@@ -92,7 +92,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
         }
       }
 
-      const { states, isd, value } = countryOptions.filter(
+      const { isd } = countryOptions.filter(
         country => country.value == selectedCountry
       )[0];
 

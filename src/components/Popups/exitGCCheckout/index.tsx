@@ -21,7 +21,7 @@ const exitGCCheckout: React.FC<PopupProps> = props => {
   const { closeModal } = useContext(Context);
   const history = useHistory();
   //const currency = useSelector((state: AppState) => state.currency);
-  const { mobile } = useSelector((state: AppState) => state.device);
+  const { mobile, tablet } = useSelector((state: AppState) => state.device);
 
   return (
     <div>
@@ -29,11 +29,10 @@ const exitGCCheckout: React.FC<PopupProps> = props => {
         className={cs(
           styles.sizeBlockPopup,
           styles.sizeBlockNotFixed,
-          styles.centerpageDesktopFs,
           globalStyles.textCenter,
           styles.freeShippingPopup,
           styles.customHeight,
-          { [styles.mobilePopup]: mobile }
+          { [styles.mobilePopup]: mobile, [globalStyles.paddBottom20]: mobile }
         )}
       >
         <div className={cs(styles.gcTnc)}>

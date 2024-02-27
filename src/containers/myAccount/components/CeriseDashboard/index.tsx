@@ -25,7 +25,7 @@ const CeriseDashboard = () => {
         />
       </div>
       <Rewards />
-      <Address />
+      {/* <Address /> */}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import cs from "classnames";
 import iconStyles from "../../styles/iconFonts.scss";
 import createAbsoluteGrid from "react-absolute-grid";
@@ -352,6 +352,9 @@ class Wishlist extends React.Component<Props, State> {
         false
       );
     }
+    this.state.filterListing
+      ? document.body.classList.add(globalStyles.noScroll)
+      : document.body.classList.remove(globalStyles.noScroll);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -966,6 +969,7 @@ class Wishlist extends React.Component<Props, State> {
                 items={options}
                 value={this.state.defaultOption.value}
                 onChange={this.onChangeFilter}
+                disabled={this.props.wishlistCountData === 0}
               />
             </div>
           </SecondaryHeader>
