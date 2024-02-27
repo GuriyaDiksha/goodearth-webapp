@@ -13,6 +13,7 @@ export const countryCurrencyCode = {
   US: "USD",
   GB: "GBP",
   AE: "AED",
-  SG: "SGD",
-  AU: "USD"
+  SG: "SGD"
 };
+
+export const maximumOtpAttempt = 5;

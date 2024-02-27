@@ -109,7 +109,7 @@ const ResetPassword: React.FC<Props> = props => {
       } else {
         ResetPasswordFormRef.current?.updateInputsWithError({
           password1:
-            "Please verify that your password follows all rules displayed"
+            "Please ensure that your password adheres to the rules as indicated"
         });
       }
     }
@@ -217,7 +217,7 @@ const ResetPassword: React.FC<Props> = props => {
               }}
               validationErrors={{
                 isValid:
-                  "Please verify that your password follows all rules displayed"
+                  "Please ensure that your password adheres to the rules as indicated"
               }}
               required
               showLabel={true}
@@ -275,9 +275,9 @@ const ResetPassword: React.FC<Props> = props => {
                 }
               }}
               validationErrors={{
-                equalsField: "The password entered doesn't match",
+                equalsField: "The entered password does not match.",
                 isValid:
-                  "Please verify that your password follows all rules displayed"
+                  "Please ensure that your password adheres to the rules as indicated"
               }}
               required
               showLabel={true}

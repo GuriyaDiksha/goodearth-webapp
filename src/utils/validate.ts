@@ -523,7 +523,8 @@ export function productImpression(
   data: any,
   list: any,
   currency: Currency,
-  position?: any
+  position?: any,
+  isSale?: boolean
 ) {
   try {
     const product: any = [];
@@ -649,9 +650,10 @@ export function productImpression(
               affiliation: "NA",
               coupon: "NA", // Pass the coupon if available
               currency: currency, // Pass the currency code
-              discount: child1.discountedPriceRecords
-                ? child1.discountedPriceRecords[currency]
-                : "NA", // Pass the discount amount
+              discount:
+                isSale && child1.discountedPriceRecords
+                  ? child1.discountedPriceRecords[currency]
+                  : "NA", // Pass the discount amount
               index: index,
               item_brand: "goodearth",
               item_category: category?.split(">")?.join("/"),
@@ -721,7 +723,12 @@ export function productImpression(
   }
 }
 
-export const gaEventsForSearch = (data: any) => {
+export const gaEventsForSearch = (
+  data: any,
+  clickType?: string,
+  ctaName?: string,
+  serachVal?: string
+) => {
   const userConsent = CookieService.getCookie("consent").split(",");
   const recentSearch = localStorage.getItem("recentSearchValue");
   const popularSearch = localStorage.getItem("popularSearch");
@@ -729,17 +736,25 @@ export const gaEventsForSearch = (data: any) => {
 
   if (
     userConsent.includes(GA_CALLS) &&
-    (popularSearch || recentSearch || inputValue)
+    (popularSearch || recentSearch || inputValue || clickType)
   ) {
-    if (data?.results?.data?.length) {
+    if (
+      data?.results?.data?.length ||
+      (clickType && data?.length) ||
+      clickType === "Products"
+    ) {
       dataLayer.push({
         event: "search_bar_results_found",
         click_type: recentSearch
           ? "Recent search"
           : popularSearch
           ? "Popular search"
+          : clickType
+          ? clickType
           : "Input",
-        search_term: recentSearch || popularSearch || inputValue
+        cta_name:
+          ctaName || recentSearch || popularSearch || "View all results",
+        search_term: recentSearch || popularSearch || inputValue || serachVal
       });
     } else {
       dataLayer.push({
@@ -748,13 +763,18 @@ export const gaEventsForSearch = (data: any) => {
           ? "Recent search"
           : popularSearch
           ? "Popular search"
+          : clickType
+          ? clickType
           : "Input",
-        search_term: recentSearch || popularSearch || inputValue
+        cta_name:
+          ctaName || recentSearch || popularSearch || "View all results",
+        search_term: recentSearch || popularSearch || inputValue || serachVal
       });
     }
     localStorage.removeItem("recentSearchValue");
     localStorage.removeItem("popularSearch");
     localStorage.removeItem("inputValue");
+    localStorage.removeItem("viewAllResults");
   }
 };
 
@@ -894,7 +914,7 @@ export function promotionImpression(data: any) {
   }
 }
 
-export function PDP(data: any, currency: Currency) {
+export function PDP(data: any, currency: Currency, isSale?: boolean) {
   try {
     const products: any = [];
     if (!data) return false;
@@ -941,9 +961,10 @@ export function PDP(data: any, currency: Currency) {
           affiliation: "NA",
           coupon: "NA", // Pass the coupon if available
           currency: currency, // Pass the currency code
-          discount: child.discountedPriceRecords
-            ? child.discountedPriceRecords[currency]
-            : "NA", // Pass the discount amount
+          discount:
+            isSale && child.discountedPriceRecords
+              ? child.discountedPriceRecords[currency]
+              : "NA", // Pass the discount amount
           index: index,
           item_brand: "goodearth",
           item_category: category?.split(">")?.join("/"),
@@ -951,7 +972,7 @@ export function PDP(data: any, currency: Currency) {
           item_category3: data.sliderImages?.some((key: any) => key.icon)
             ? "3d"
             : "non 3d",
-          item_list_id: "",
+          item_list_id: "NA",
           item_list_name: search !== "" ? search : "NA",
           item_variant: child.color,
           item_category4: "NA",

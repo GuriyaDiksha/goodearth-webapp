@@ -634,6 +634,7 @@ class Search extends React.Component<
                   onChange={this.onchangeFilter}
                   value={this.state.sortValue}
                   className={styles.searchHeaderDropdown}
+                  disabled={!this.props.data?.results?.data?.length}
                 />
               </div>
             </Fragment>
@@ -822,6 +823,7 @@ class Search extends React.Component<
                           currency={currency}
                           key={item.id}
                           mobile={mobile}
+                          tablet={tablet}
                           onClickQuickView={this.onClickQuickView}
                           loader={this.state.flag}
                           isCorporate={

@@ -5,7 +5,7 @@ import { AppState } from "reducers/typings";
 import globalStyles from "styles/global.scss";
 // import styles from "../styles.scss";
 import cs from "classnames";
-import { AddressData, AddressFormData } from "../typings";
+import { AddressData } from "../typings";
 import AddressList from "components/Address/AddressList";
 import AddressForm from "../AddressForm";
 import MyAddress from "containers/myAccount/components/MyAddress";
