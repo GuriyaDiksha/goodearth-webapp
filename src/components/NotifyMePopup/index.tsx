@@ -291,6 +291,7 @@ const NotifyMePopup: React.FC<Props> = ({
           if (typeof err?.response?.data != "object") {
             showGrowlMessage(dispatch, err?.response?.data);
             errorTracking([err?.response?.data], window.location.href);
+            closeModal();
           }
         })
         .finally(() => {
