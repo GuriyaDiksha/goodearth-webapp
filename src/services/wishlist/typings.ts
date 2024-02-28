@@ -5,6 +5,7 @@ export type WishlistResponse = {
   sortedDiscount: boolean;
   owner_name: string;
   message?: string;
+  sharable_link?: string;
 };
 
 export type WishlistCountResponse = {

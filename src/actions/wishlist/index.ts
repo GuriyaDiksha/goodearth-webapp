@@ -5,15 +5,17 @@ export const updateWishlist = (
   items: WishlistItem[],
   sortBy = "added_on",
   sortedDiscount = false,
-  owner_name = "",
-  message = ""
+  owner_name = "", //Added for shared wishlist
+  message = "", //Added for shared wishlist
+  sharable_link = "" //Added for shared current user's wishlist
 ) =>
   actionCreator("UPDATE_WISHLIST", {
     items,
     sortBy,
     sortedDiscount,
     owner_name,
-    message
+    message,
+    wishlist_link: sharable_link
   });
 
 export const createSharedLink = (payload: createSharedLinkResponse) =>

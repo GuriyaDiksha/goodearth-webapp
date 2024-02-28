@@ -21,7 +21,16 @@ export default {
       `${__API_HOST__}/myapi/wishlist/?sort_by=${sortBy}`
     );
 
-    dispatch(updateWishlist(res.data, sortBy, res.sortedDiscount));
+    dispatch(
+      updateWishlist(
+        res.data,
+        sortBy,
+        res.sortedDiscount,
+        res.owner_name,
+        "",
+        res.sharable_link
+      )
+    );
   },
 
   updateWishlistShared: async function(
