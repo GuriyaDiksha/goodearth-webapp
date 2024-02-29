@@ -50,7 +50,7 @@ const BridalItemsList: React.FC<Props> = props => {
   } = props.product;
 
   const mobileAddToBag = () => {
-    if (stock == 0 || price[props.currency] == 0) {
+    if (stock == 0 || price[props.currency] == 0 || !productAvailable) {
     } else {
       const mobileAddIndex = props.mIndex;
       props.onMobileAdd(mobileAddIndex);
@@ -240,25 +240,23 @@ const BridalItemsList: React.FC<Props> = props => {
                       {size && (
                         <div className={cs(styles.smallfont)}>SIZE: {size}</div>
                       )}
+                      {colors?.length &&
+                      groupedProductsCount &&
+                      groupedProductsCount > 0 ? (
+                        <div className={cs(styles.smallfont)}>
+                          COLOR: {colorName(colors?.[0])}
+                        </div>
+                      ) : null}
                       <div className={cs(styles.smallfont)}>SKU: {sku}</div>
                     </div>
-                    {colors?.length &&
-                    groupedProductsCount &&
-                    groupedProductsCount > 0 ? (
-                      <div
-                        className={cs(styles.smallfont, globalStyles.voffset1)}
-                      >
-                        COLOR: {colorName(colors?.[0])}
-                      </div>
-                    ) : null}
                   </div>
                   {props.mobile && (
                     <div
-                      className={cs(
-                        styles.mobQtyRemaining,
-                        { [styles.aquaText]: qtyRemaining == 0 },
-                        { [styles.blurTxt]: price[props.currency] == 0 }
-                      )}
+                      className={cs(styles.mobQtyRemaining, {
+                        [styles.aquaText]: qtyRemaining == 0,
+                        [styles.blurTxt]: price[props.currency] == 0,
+                        [styles.blur]: !productAvailable
+                      })}
                     >
                       <div>Quantity Remaining: {qtyRemaining}</div>
                     </div>
@@ -287,7 +285,8 @@ const BridalItemsList: React.FC<Props> = props => {
                       <div
                         className={cs(styles.mobQtyStatus, {
                           [styles.blurTxt]:
-                            stock == 0 || price[props.currency] == 0
+                            stock == 0 || price[props.currency] == 0,
+                          [styles.blur]: !productAvailable
                         })}
                         onClick={mobileAddToBag}
                       >

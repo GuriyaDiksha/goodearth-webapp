@@ -155,6 +155,17 @@ class BridalItem extends React.Component<Props, State> {
     }
   };
 
+  colorName = (value: string) => {
+    let cName = value
+      .split("-")
+      .slice(1)
+      .join();
+    if (cName[cName.length - 1] == "s") {
+      cName = cName.slice(0, -1);
+    }
+    return cName;
+  };
+
   render() {
     const { mobile } = this.props;
     return (
@@ -283,22 +294,17 @@ class BridalItem extends React.Component<Props, State> {
                           SIZE: {this.props.bridalItem.size}
                         </div>
                       )}
-                      <div className={cs(styles.smallfont)}>
-                        SKU: {this.props.bridalItem.sku}
-                      </div>
                       {this.props.bridalItem?.colors?.length &&
                       this.props?.bridalItem?.groupedProductsCount &&
                       this.props?.bridalItem?.groupedProductsCount > 0 ? (
-                        <div
-                          className={cs(
-                            styles.smallfont,
-                            globalStyles.voffset1
-                          )}
-                        >
+                        <div className={cs(styles.smallfont)}>
                           COLOR:{" "}
                           {this.colorName(this.props.bridalItem.colors?.[0])}
                         </div>
                       ) : null}
+                      <div className={cs(styles.smallfont)}>
+                        SKU: {this.props.bridalItem.sku}
+                      </div>
                     </div>
                     {mobile && (
                       <>

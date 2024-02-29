@@ -146,7 +146,8 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
                 <div
                   className={cs(globalStyles.voffset4, {
                     [styles.aquaText]:
-                      currentQty - props.itemData.qtyBought == 0
+                      // currentQty - props.itemData.qtyBought == 0
+                      currentQty <= props.itemData.qtyBought
                   })}
                 >
                   <div className={styles.textMuted}>Quantity Remaining</div>
@@ -157,7 +158,10 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
                       globalStyles.voffset1
                     )}
                   >
-                    {currentQty - props.itemData.qtyBought}
+                    {/* {currentQty - props.itemData.qtyBought} */}
+                    {currentQty >= props.itemData.qtyBought
+                      ? currentQty - props.itemData.qtyBought
+                      : 0}
                   </div>
                 </div>
               </div>
