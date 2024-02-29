@@ -21,6 +21,8 @@ import Price from "components/Price";
 import SkeletonImage from "components/plpResultItem/skeleton";
 import { GA_CALLS } from "constants/cookieConsent";
 import Button from "components/Button";
+import iconStyles from "styles/iconFonts.scss";
+import plpThreeSixty from "./../../icons/plp-three-sixty.svg";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -187,7 +189,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
         >
           <Link to={product.url}> NOTIFY ME</Link>
         </div>
-        {!mobile && (
+        {/* {!mobile && (
           <div className={styles.combodiv}>
             <div
               className={
@@ -220,7 +222,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
               </div>
             )}
           </div>
-        )}
+        )} */}
       </div>
       <div className={styles.imageContent}>
         {isCollection ? (
@@ -280,16 +282,18 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
         )}
         <div className={cs(styles.actions, bootstrapStyles.row)}>
           {button}
-          {mobile && !isCorporate && (
+
+          {!isCorporate && (
             <div
               className={cs(
                 globalStyles.textCenter,
-                bootstrapStyles.col3,
-                // globalStyles.mobileWishlist,
+                globalStyles.listRightBottomPosition,
+                globalStyles.desktopWishlist,
+                { [globalStyles.mobileWishlist]: mobile }
+                // styles.wishlistBtnContainer
                 // {
                 //   [styles.wishlistBtnContainer]: mobile
                 // }
-                styles.wishlistBtnContainer
               )}
             >
               <WishlistButton
@@ -302,8 +306,67 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
                 id={product.id}
                 showText={false}
                 key={product.id}
-                mobile={false}
+                //  mobile={mobile}
               />
+            </div>
+          )}
+
+          {!isCorporate && product?.code && (
+            <div
+              className={cs(
+                globalStyles.textCenter,
+                globalStyles.listRightBottomPosition,
+                globalStyles.threeSixtyIconPositionDesktop,
+                { [globalStyles.threeSixtyIconPositionMobile]: mobile }
+              )}
+            >
+              <div
+                className={cs(
+                  globalStyles.iconContainer,
+                  globalStyles.threeSixtyContainer
+                )}
+              >
+                <img src={plpThreeSixty} alt="360" />
+              </div>
+            </div>
+          )}
+
+          {!isCorporate && product?.badge_text && (
+            <div
+              className={cs(
+                globalStyles.textCenter,
+                globalStyles.listLeftBottomPosition,
+                globalStyles.badgePositionDesktop,
+                { [globalStyles.badgePositionMobile]: mobile }
+              )}
+            >
+              <div className={cs(globalStyles.badgeContainer)}>
+                {product?.badge_text}
+              </div>
+            </div>
+          )}
+
+          {!isCorporate && (
+            <div
+              className={cs(
+                globalStyles.textCenter,
+                globalStyles.cartIconPositionDesktop,
+                globalStyles.listRightBottomPosition,
+                { [globalStyles.cartIconPositionMobile]: mobile }
+                // styles.wishlistBtnContainer
+                // {
+                //   [styles.wishlistBtnContainer]: mobile
+                // }
+              )}
+            >
+              <div
+                className={cs(
+                  iconStyles.icon,
+                  globalStyles.iconContainer,
+                  iconStyles.iconCart
+                )}
+                onClick={onClickQuickview}
+              ></div>
             </div>
           )}
         </div>

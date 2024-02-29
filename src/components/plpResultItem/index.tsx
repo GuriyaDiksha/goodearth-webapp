@@ -18,6 +18,8 @@ import { plpProductClick, getPageType } from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import PlpResultImageSlider from "components/PlpResultImageSlider";
+import iconStyles from "styles/iconFonts.scss";
+import plpThreeSixty from "./../../icons/plp-three-sixty.svg";
 
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -174,14 +176,16 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         id={"" + product.id}
         onMouseLeave={onMouseLeave}
       >
-        {mobile && !isCorporate && (
+        {!isCorporate && (
           <div
             className={cs(
               globalStyles.textCenter,
-              globalStyles.mobileWishlist,
-              {
-                [styles.wishlistBtnContainer]: mobile
-              }
+              globalStyles.desktopWishlist,
+              { [globalStyles.mobileWishlist]: mobile }
+              // styles.wishlistBtnContainer
+              // {
+              //   [styles.wishlistBtnContainer]: mobile
+              // }
             )}
           >
             <WishlistButton
@@ -194,8 +198,64 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               id={product.id}
               showText={false}
               key={product.id}
-              mobile={mobile}
+              //  mobile={mobile}
             />
+          </div>
+        )}
+
+        {!isCorporate && product?.code && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.threeSixtyIconPositionDesktop,
+              { [globalStyles.threeSixtyIconPositionMobile]: mobile }
+            )}
+          >
+            <div
+              className={cs(
+                globalStyles.iconContainer,
+                globalStyles.threeSixtyContainer
+              )}
+            >
+              <img src={plpThreeSixty} alt="360" />
+            </div>
+          </div>
+        )}
+
+        {!isCorporate && product?.badge_text && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.badgePositionDesktop,
+              { [globalStyles.badgePositionMobile]: mobile }
+            )}
+          >
+            <div className={cs(globalStyles.badgeContainer)}>
+              {product?.badge_text}
+            </div>
+          </div>
+        )}
+
+        {!isCorporate && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.cartIconPositionDesktop,
+              { [globalStyles.cartIconPositionMobile]: mobile }
+              // styles.wishlistBtnContainer
+              // {
+              //   [styles.wishlistBtnContainer]: mobile
+              // }
+            )}
+          >
+            <div
+              className={cs(
+                iconStyles.icon,
+                globalStyles.iconContainer,
+                iconStyles.iconCart
+              )}
+              onClick={onClickQuickview}
+            ></div>
           </div>
         )}
         <Link
@@ -203,9 +263,11 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           onMouseEnter={onMouseEnter}
           onClick={gtmProductClick}
         >
-          {mobile ? (
-            <PlpResultImageSlider>{mobileSlides}</PlpResultImageSlider>
-          ) : (
+          {/* {mobile ? ( */}
+          <PlpResultImageSlider mobile={mobile}>
+            {mobileSlides}
+          </PlpResultImageSlider>
+          {/* ) : (
             <LazyImage
               aspectRatio="62:93"
               src={image}
@@ -217,7 +279,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                 e.target.src = noPlpImage;
               }}
             />
-          )}
+          )} */}
         </Link>
         <div
           className={cs(
@@ -230,7 +292,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         >
           <Link to={product.url}> NOTIFY ME</Link>
         </div>
-        {!mobile && (
+        {/* {!mobile && (
           <div className={styles.combodiv}>
             <div
               className={
@@ -267,8 +329,9 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               </div>
             )}
           </div>
-        )}
+        )} */}
       </div>
+
       <div className={styles.imageContent}>
         {/* {isCollection ? (
           <p className={styles.collectionName}>{product.collection}</p>

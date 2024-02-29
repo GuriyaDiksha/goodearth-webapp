@@ -6,11 +6,13 @@ type Props = {
   dots?: boolean;
   val?: any;
   type?: string;
+  mobile: boolean;
 };
 
-const PlpResultImageSlider: React.FC<Props> = ({ children }) => {
+const PlpResultImageSlider: React.FC<Props> = ({ children, mobile }) => {
   const settings = {
-    dots: true,
+    dots: mobile ? true : false,
+    arrows: mobile ? false : true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
