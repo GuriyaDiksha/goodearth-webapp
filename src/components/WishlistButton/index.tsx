@@ -23,6 +23,7 @@ import { ChildProductAttributes } from "typings/product";
 import { updateLoader } from "actions/info";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import globalStyles from "styles/global.scss";
 
 const WishlistButton: React.FC<Props> = ({
   gtmListType,
@@ -36,7 +37,7 @@ const WishlistButton: React.FC<Props> = ({
   childAttributes,
   className,
   iconClassName,
-  mobile,
+  // mobile,
   basketLineId,
   parentWidth,
   source,
@@ -245,11 +246,12 @@ const WishlistButton: React.FC<Props> = ({
                 iconStyles.icon,
                 styles.wishlistIcon,
                 iconClassName,
+                globalStyles.iconContainer,
                 {
                   [iconStyles.iconWishlistAdded]: addedToWishlist,
                   [iconStyles.iconWishlist]: !addedToWishlist,
-                  [styles.addedToWishlist]: addedToWishlist && showText,
-                  [styles.mobileWishlist]: mobile
+                  [styles.addedToWishlist]: addedToWishlist && showText
+                  // [styles.mobileWishlist]: mobile
                 }
               )}
               title={

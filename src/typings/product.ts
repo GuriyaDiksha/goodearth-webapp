@@ -33,6 +33,8 @@ export interface PLPProductItem {
   partner?: string;
   altText: string;
   groupedProductsCount?: number;
+  code?: string;
+  badge_text?: string;
 }
 
 export interface PartialProductItem extends PLPProductItem {
