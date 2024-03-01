@@ -203,9 +203,8 @@
   }
 
 .gc-head {
-    text-transform: uppercase;
-    font-size: 14px;
-    letter-spacing: 1px;
+    @include b4_12px_medium_charcoal_caps();
+    letter-spacing: 0.36px;
 }
   
 .blank {
@@ -1741,11 +1740,14 @@ margin-bottom: 50px !important;
     width: 100%;
     font-family: "Montserrat", "sans-serif";
     font-size: 12px !important;
-    line-height: 12px;
-    letter-spacing: 0.54px;
+    line-height: 19px;
+    letter-spacing: 0.36px;
     padding: 0 10px;
     color: #191919;
     border: 1px solid #D8D8D8;
+}
+.reg-form-label input::placeholder{
+  font-family: "Montserrat", "sans-serif";
 }
 // .reg-form-label input:focus{
 //   border: 1px solid #D8D8D8!important;

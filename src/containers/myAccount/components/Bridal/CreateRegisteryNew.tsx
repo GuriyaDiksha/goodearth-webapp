@@ -389,7 +389,7 @@ const CreateRegistryNew: React.FC = () => {
                     }}
                     onClickOutside={OnOutsideClick}
                     dateFormat="dd/MM/yyyy"
-                    placeholderText="dd/mm/yyyy"
+                    placeholderText="DD/MM/YYYY"
                     // required
                   />
                   <div className={cs(styles.calIcon)} onClick={onClick}>

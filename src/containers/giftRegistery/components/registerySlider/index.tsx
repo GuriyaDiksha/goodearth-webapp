@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import cs from "classnames";
 import styles from "./styles.scss";
 import spa from "./../../../../images/registery/spa.jpg";
-import cushions from "./../../../../images/registery/cushions.png";
+import cushions from "./../../../../images/registery/cushion.jpg";
 import decor from "./../../../../images/registery/decor.jpg";
 import apparel from "./../../../../images/registery/apparel.jpg";
 import dinnerware from "./../../../../images/registery/dinnerware.jpg";
