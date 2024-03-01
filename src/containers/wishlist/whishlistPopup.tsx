@@ -86,7 +86,11 @@ const ShareWishlistLink = () => {
             <div>
               <div className={globalStyles.voffset7}>
                 <h2>
-                  Share {firstName} {lastName}&apos;s
+                  Share{" "}
+                  {`${firstName} ${lastName}`
+                    .toLowerCase()
+                    .replace(/\b(\w)/g, x => x.toUpperCase())}
+                  &apos;s
                 </h2>
                 <h2>Saved List</h2>
               </div>

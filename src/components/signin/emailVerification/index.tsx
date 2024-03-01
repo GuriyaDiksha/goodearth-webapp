@@ -22,6 +22,7 @@ import { AppState } from "reducers/typings";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import ModalStyles from "components/Modal/styles.scss";
+import { updateNextUrl } from "actions/info";
 
 type Props = {
   successMsg: string;
@@ -149,7 +150,11 @@ const EmailVerification: React.FC<Props> = ({
         //   history.push(searchParams.get("redirect_to") || "");
         // }
 
-        if (nextUrl === "/wishlist") {
+        const isShareLinkClicked = JSON.parse(
+          localStorage.getItem("isShareLinkClicked") || "false"
+        );
+
+        if (nextUrl === "/wishlist" && isShareLinkClicked) {
           dispatch(
             updateComponent(
               POPUP.SHAREWISHLIST,
@@ -163,6 +168,9 @@ const EmailVerification: React.FC<Props> = ({
         } else {
           history.push(nextUrl);
         }
+
+        localStorage.removeItem("isShareLinkClicked");
+        dispatch(updateNextUrl(""));
 
         const boid = new URLSearchParams(history.location.search).get("bo_id");
 

@@ -2,9 +2,7 @@
 @import "../../styles/partials/mixins";
 
 .heading {
-    color: #666;
-    letter-spacing: 1px;
-    font-size: 14px;
+  @include b4_12px_montserrat_charcoal_caps();
     line-height: 48px;
 }
 
@@ -147,10 +145,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     a {
-       @include b3_14px_montserrat_caps_charcoal();
+       @include b3_14px_montserrat_charcoal();
     }
     span {
-      @include b3_14px_montserrat_caps_charcoal();
+      @include b3_14px_montserrat_charcoal();
     }
     a:hover {
        font-weight: 500;
@@ -190,7 +188,8 @@ span{
     }
     &.strikeprice {
       text-decoration: line-through;
-      color: $light-charcoal    }
+      color: $light-charcoal;
+      font-size: 12px;    }
 }
   
 .wishlist-block-outer {
@@ -419,7 +418,7 @@ icon-cross {
     position: absolute;
     right: 10px;
     top: 10px;
-    font-size: 25px;
+    font-size: 28px;
     color: tint(#000, 60%);
     font-weight: bold;
     background-color: $white;
@@ -628,7 +627,7 @@ icon-cross {
   float: right;
   // font-size: 12px;
   cursor: pointer;
-  @include b6_9px_montserrat_charcoal();
+  @include b5_10px_montserrat_charcoal_caps();
 
   span{
     border-bottom: 1px solid $charcoal19;

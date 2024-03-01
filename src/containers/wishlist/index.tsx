@@ -80,7 +80,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     countWishlist: async () => await WishlistService.countWishlist(dispatch),
     updateWishlistSequencing: async (sequencing: [number, number][]) =>
       await WishlistService.updateWishlistSequencing(dispatch, sequencing),
-    openLogin: (url?: string) => {
+    openLogin: (url: string, isShareLinkClicked: boolean) => {
+      //Stored this value for share wishlist popup
+      localStorage.setItem("isShareLinkClicked", String(isShareLinkClicked));
+
       LoginService.showLogin(dispatch);
       if (url) {
         dispatch(updateNextUrl(url));
@@ -388,6 +391,7 @@ class Wishlist extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
+    localStorage.removeItem("isShareLinkClicked");
     window.removeEventListener("resize", debounce(this.updateStyle, 100));
   }
 
@@ -407,9 +411,9 @@ class Wishlist extends React.Component<Props, State> {
         false
       );
     }
-    this.state.filterListing
-      ? document.body.classList.add(globalStyles.noScroll)
-      : document.body.classList.remove(globalStyles.noScroll);
+    // this.state.filterListing
+    //   ? document.body.classList.add(globalStyles.noScroll)
+    //   : document.body.classList.remove(globalStyles.noScroll);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -601,7 +605,11 @@ class Wishlist extends React.Component<Props, State> {
   getWishlistSubtotal() {
     return (
       <div>
-        <span>{"(" + this.state.wishlistCount + " items) Subtotal: "}</span>
+        <span>
+          {"(" +
+            this.state.wishlistCount +
+            ` item${this.state.wishlistCount === 1 ? "" : "s"}) Subtotal: `}
+        </span>
         <span>
           {Number.isSafeInteger(+this.state.totalPrice)
             ? displayPriceWithCommas(this.state.totalPrice, this.props.currency)
@@ -763,6 +771,19 @@ class Wishlist extends React.Component<Props, State> {
       default:
         break;
     }
+    document.body.classList.remove(globalStyles.noScroll);
+  };
+
+  onSortClick = () => {
+    if (this.state.wishlistCount > 0) {
+      this.setState({ filterListing: true });
+      document.body.classList.add(globalStyles.noScroll);
+    }
+  };
+
+  onCloseFilter = () => {
+    this.setState({ filterListing: false });
+    document.body.classList.remove(globalStyles.noScroll);
   };
 
   render() {
@@ -933,11 +954,7 @@ class Wishlist extends React.Component<Props, State> {
                     className={cs(styles.iconSort, {
                       [styles.disable]: this.state.wishlistCount === 0
                     })}
-                    onClick={
-                      this.state.wishlistCount > 0
-                        ? () => this.setState({ filterListing: true })
-                        : () => null
-                    }
+                    onClick={() => this.onSortClick()}
                   >
                     SORT
                   </div>
@@ -957,9 +974,7 @@ class Wishlist extends React.Component<Props, State> {
                   >
                     <div className={styles.filterCross}>
                       <span>Saved Items</span>
-                      <span
-                        onClick={() => this.setState({ filterListing: false })}
-                      >
+                      <span onClick={() => this.onCloseFilter()}>
                         <i
                           className={cs(
                             iconStyles.icon,
@@ -1047,24 +1062,24 @@ class Wishlist extends React.Component<Props, State> {
               <div className={styles.innerContainer}>
                 <h3 className={styles.heading}>Your Saved List</h3>
                 <p className={styles.subheading}>
-                  {this.state.wishlistCount > 0 ? (
-                    <>
-                      Here are your saved items. Login to share the list and
-                      <br />
-                      continue where you left off.
-                    </>
-                  ) : (
+                  {/* {this.state.wishlistCount > 0 ? ( */}
+                  <>
+                    Here are your saved items. Login to share the list and
+                    <br />
+                    continue where you left off.
+                  </>
+                  {/* ) : (
                     <>
                       Looking for your saved items?
                       <br />
                       Login to pick up where you left off
                     </>
-                  )}
+                  )} */}
                 </p>
                 <Button
                   label={"Login"}
-                  variant="smallAquaCta"
-                  onClick={() => this.props.openLogin()}
+                  variant="smallMedCharcoalCta"
+                  onClick={() => this.props.openLogin("/wishlist", false)}
                 />
               </div>
             </div>
@@ -1073,7 +1088,10 @@ class Wishlist extends React.Component<Props, State> {
           {this.props.isShared && this.props.ownerName && (
             <div className={styles.sharedWrapper}>
               <h2 className={styles.heading}>
-                {this.props.ownerName}&apos;s Saved List
+                {this.props.ownerName
+                  .toLowerCase()
+                  .replace(/\b(\w)/g, x => x.toUpperCase())}
+                &apos;s Saved List
               </h2>
               <p className={styles.subheading}>
                 A wishlist has been shared with you. Start shopping!
@@ -1100,7 +1118,7 @@ class Wishlist extends React.Component<Props, State> {
                     onClick={() =>
                       this.props.isLoggedIn
                         ? this.props.openSharePopup(this.props.mobile)
-                        : this.props.openLogin("/wishlist")
+                        : this.props.openLogin("/wishlist", true)
                     }
                   >
                     <img src={linkIcon} alt="link" />
