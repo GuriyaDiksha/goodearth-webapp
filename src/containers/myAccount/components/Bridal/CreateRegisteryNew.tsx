@@ -31,6 +31,9 @@ import DatePicker from "react-datepicker";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../../../styles/reactDatepicker.css";
+import { useDispatch, useSelector } from "react-redux";
+import LoginService from "services/login";
+import { updateCountryData } from "actions/address";
 
 const CreateRegistryNew: React.FC = () => {
   const { setCurrentModule, setCurrentModuleData, data } = useContext(
@@ -58,8 +61,12 @@ const CreateRegistryNew: React.FC = () => {
   };
 
   const [dateErrorMsg, setDateErrorMsg] = useState("");
+  const dispatch = useDispatch();
   useEffect(() => {
     window.addEventListener("beforeunload", confirmPopup);
+    LoginService.fetchCountryData(dispatch).then(countryData => {
+      dispatch(updateCountryData(countryData));
+    });
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       pageViewGTM("MyAccount");
