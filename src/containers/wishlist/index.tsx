@@ -608,7 +608,8 @@ class Wishlist extends React.Component<Props, State> {
         <span>
           {"(" +
             this.state.wishlistCount +
-            ` item${this.state.wishlistCount === 1 ? "" : "s"}) Subtotal: `}
+            ` item${this.state.wishlistCount === 1 ? "" : "s"}) Subtotal:`}
+          &nbsp;
         </span>
         <span>
           {Number.isSafeInteger(+this.state.totalPrice)
@@ -927,129 +928,136 @@ class Wishlist extends React.Component<Props, State> {
     );
 
     return (
-      <div className={bootstrapStyles.containerFluid}>
-        {mobile ? (
-          <div
-            className={cs(
-              bootstrapStyles.row,
-              { [styles.pageBody]: !mobile },
-              { [styles.pageBodyMobile]: mobile },
-              {
-                [styles.pageBodyTimer]: this.props.showTimer
-              }
-            )}
-          >
-            <div className={cs(styles.cSort, styles.subheaderAccount)}>
-              <div
-                className={cs(bootstrapStyles.col12, styles.productNumber)}
-                style={{ borderBottom: "1px solid #efeaea" }}
-              >
+      <div
+        className={cs(bootstrapStyles.containerFluid, {
+          [styles.pageBodyTimer]: this.props.showTimer && mobile
+        })}
+      >
+        {!this.props.isShared &&
+          (mobile ? (
+            <div
+              className={cs(
+                bootstrapStyles.row,
+                { [styles.pageBody]: !mobile },
+                { [styles.pageBodyMobile]: mobile },
+                {
+                  [styles.pageBodyTimer]: this.props.showTimer
+                }
+              )}
+            >
+              <div className={cs(styles.cSort, styles.subheaderAccount)}>
                 <div
-                  className={cs(bootstrapStyles.col10, styles.wishlistHeader)}
-                >
-                  Saved Items
-                </div>
-                <div className={bootstrapStyles.col2}>
-                  <div
-                    className={cs(styles.iconSort, {
-                      [styles.disable]: this.state.wishlistCount === 0
-                    })}
-                    onClick={() => this.onSortClick()}
-                  >
-                    SORT
-                  </div>
-                </div>
-                <div
-                  className={
-                    this.state.filterListing
-                      ? bootstrapStyles.row
-                      : globalStyles.hidden
-                  }
+                  className={cs(bootstrapStyles.col12, styles.productNumber)}
+                  style={{ borderBottom: "1px solid #efeaea" }}
                 >
                   <div
-                    className={cs(styles.mobileFilterHeader, {
-                      [styles.mobileFilterHeaderTimer]: this.props.showTimer
-                    })}
-                    id="filterHeader"
+                    className={cs(bootstrapStyles.col10, styles.wishlistHeader)}
                   >
-                    <div className={styles.filterCross}>
-                      <span>Saved Items</span>
-                      <span onClick={() => this.onCloseFilter()}>
-                        <i
-                          className={cs(
-                            iconStyles.icon,
-                            iconStyles.iconCrossNarrowBig,
-                            styles.iconClose
-                          )}
-                        ></i>
-                      </span>
-                    </div>
+                    Saved Items
                   </div>
-                  <div className={bootstrapStyles.row}>
+                  <div className={bootstrapStyles.col2}>
                     <div
-                      id="mobileFilterMenu"
-                      className={cs(
-                        bootstrapStyles.col12,
-                        styles.mobileFilterMenu,
-                        { [styles.mobileFilterMenuTimer]: this.props.showTimer }
-                      )}
+                      className={cs(styles.iconSort, {
+                        [styles.disable]: this.state.wishlistCount === 0
+                      })}
+                      onClick={() => this.onSortClick()}
                     >
-                      <ul className={styles.sort}>
-                        {options.map((data, index) => {
-                          return (
-                            <li key={index}>
-                              <a
-                                onClick={() => this.setWishlistFilter(data)}
-                                className={
-                                  this.state.currentFilter == data.value
-                                    ? globalStyles.gold
-                                    : ""
-                                }
-                              >
-                                {data.label}
-                              </a>
-                            </li>
-                          );
-                        })}
-                      </ul>
+                      SORT
+                    </div>
+                  </div>
+                  <div
+                    className={
+                      this.state.filterListing
+                        ? bootstrapStyles.row
+                        : globalStyles.hidden
+                    }
+                  >
+                    <div
+                      className={cs(styles.mobileFilterHeader, {
+                        [styles.mobileFilterHeaderTimer]: this.props.showTimer
+                      })}
+                      id="filterHeader"
+                    >
+                      <div className={styles.filterCross}>
+                        <span>Saved Items</span>
+                        <span onClick={() => this.onCloseFilter()}>
+                          <i
+                            className={cs(
+                              iconStyles.icon,
+                              iconStyles.iconCrossNarrowBig,
+                              styles.iconClose
+                            )}
+                          ></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div className={bootstrapStyles.row}>
+                      <div
+                        id="mobileFilterMenu"
+                        className={cs(
+                          bootstrapStyles.col12,
+                          styles.mobileFilterMenu,
+                          {
+                            [styles.mobileFilterMenuTimer]: this.props.showTimer
+                          }
+                        )}
+                      >
+                        <ul className={styles.sort}>
+                          {options.map((data, index) => {
+                            return (
+                              <li key={index}>
+                                <a
+                                  onClick={() => this.setWishlistFilter(data)}
+                                  className={
+                                    this.state.currentFilter == data.value
+                                      ? globalStyles.gold
+                                      : ""
+                                  }
+                                >
+                                  {data.label}
+                                </a>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        ) : (
-          <SecondaryHeader>
-            <div
-              className={cs(
-                bootstrapStyles.colMd7,
-                bootstrapStyles.offsetMd1,
-                styles.careersHeader,
-                globalStyles.verticalMiddle
-              )}
-            >
-              <div>
-                <span className={styles.heading}>SAVED ITEMS</span>
+          ) : (
+            <SecondaryHeader>
+              <div
+                className={cs(
+                  bootstrapStyles.colMd7,
+                  bootstrapStyles.offsetMd1,
+                  styles.careersHeader,
+                  globalStyles.verticalMiddle
+                )}
+              >
+                <div>
+                  <span className={styles.heading}>SAVED ITEMS</span>
+                </div>
               </div>
-            </div>
-            <div
-              className={cs(
-                bootstrapStyles.colMd3,
-                bootstrapStyles.offsetMd1,
-                globalStyles.verticalMiddle
-              )}
-            >
-              <p className={styles.filterText}>SORT</p>
-              <SecondaryHeaderDropdown
-                id="sort-dropdown-wishlist"
-                items={options}
-                value={this.state.defaultOption.value}
-                onChange={this.onChangeFilter}
-                disabled={this.props.wishlistCountData === 0}
-              />
-            </div>
-          </SecondaryHeader>
-        )}
+              <div
+                className={cs(
+                  bootstrapStyles.colMd3,
+                  bootstrapStyles.offsetMd1,
+                  globalStyles.verticalMiddle
+                )}
+              >
+                <p className={styles.filterText}>SORT</p>
+                <SecondaryHeaderDropdown
+                  id="sort-dropdown-wishlist"
+                  items={options}
+                  value={this.state.defaultOption.value}
+                  onChange={this.onChangeFilter}
+                  disabled={this.props.wishlistCountData === 0}
+                />
+              </div>
+            </SecondaryHeader>
+          ))}
         <div
           className={cs(
             bootstrapStyles.row,
@@ -1094,7 +1102,8 @@ class Wishlist extends React.Component<Props, State> {
                 &apos;s Saved List
               </h2>
               <p className={styles.subheading}>
-                A wishlist has been shared with you. Start shopping!
+                A wishlist has been shared with you.{mobile && <br />} Start
+                shopping!
               </p>
             </div>
           )}

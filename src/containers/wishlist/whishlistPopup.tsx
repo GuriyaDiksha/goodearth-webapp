@@ -22,6 +22,7 @@ const ShareWishlistLink = () => {
   const dispatch = useDispatch();
 
   const copyLink = (event: React.MouseEvent) => {
+    event.preventDefault();
     const copyText = document.getElementById("myInput") as HTMLInputElement;
     const isIOSDevice = navigator.userAgent.match(/ipad|iphone/i);
     if (isIOSDevice) {
@@ -42,12 +43,13 @@ const ShareWishlistLink = () => {
   useEffect(() => {
     console.log("Inside useEffect");
 
-    const whatsappUrl = mobile
-      ? "whatsapp://send?text="
-      : "https://web.whatsapp.com/send?text=" +
-        `My Good Earth Saved List %0D%0A%0D%0A Here is a link to my favourite products: %0D%0A%0D%0A ${encodeURIComponent(
-          wishlist_link
-        )}`;
+    const whatsappUrl =
+      (mobile
+        ? "whatsapp://send?text="
+        : "https://web.whatsapp.com/send?text=") +
+      `My Good Earth Saved List %0D%0A%0D%0A Here is a link to my favourite products: %0D%0A%0D%0A ${encodeURIComponent(
+        wishlist_link
+      )}`;
     const whatsappElement = document.getElementById(
       "whatsappShare"
     ) as HTMLAnchorElement;
@@ -103,22 +105,38 @@ const ShareWishlistLink = () => {
               )}
               {wishlist_link && (
                 <>
-                  <div className={cs(globalStyles.voffset3, styles.wrapper)}>
-                    <div>
-                      <div className={cs(styles.shareTxtBoxWishlist)}>
-                        <input type="text" value={wishlist_link} id="myInput" />
-                        <p className={styles.note}>
-                          Please note, this link will be auto-updated whenever
-                          the Saved List is updated.
-                        </p>
-                      </div>
+                  <div
+                    className={cs(globalStyles.voffset3, styles.wrapper)}
+                    onClick={e => e.stopPropagation()}
+                  >
+                    <div
+                      className={cs(styles.shareTxtBoxWishlist)}
+                      onClick={e => e.stopPropagation()}
+                    >
+                      <input
+                        type="text"
+                        value={wishlist_link}
+                        id="myInput"
+                        disabled
+                      />
+                      <p className={styles.note}>
+                        Please note, this link will be auto-updated whenever the
+                        Saved List is updated.
+                      </p>
                     </div>
-                    <img
-                      src={copy}
+
+                    <div
                       className={styles.copyIcon}
-                      width="25"
-                      onClick={copyLink}
-                    />
+                      onClick={e => e.stopPropagation()}
+                    >
+                      <img
+                        src={copy}
+                        width="25"
+                        height={"25"}
+                        onClick={copyLink}
+                      />
+                    </div>
+
                     <a
                       id="whatsappShare"
                       data-action="share/whatsapp/share"
@@ -126,7 +144,7 @@ const ShareWishlistLink = () => {
                       target="_blank"
                       className={styles.wupLink}
                     >
-                      <img src={wup} width="25" />
+                      <img src={wup} width="25" height={"25px"} />
                     </a>
                   </div>
                 </>

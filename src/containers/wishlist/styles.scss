@@ -73,15 +73,18 @@
 
 .img-bottom {
     background-color: $lightest-grey;
-    height: 53px;
+    min-height: 53px;
     position: absolute;
     bottom: 0;
     width: 100%;
     padding: 15px 0;
     font-size: 11px;
+    max-height: 100%;
 
     div{
       height: 100%;
+      width: 100%;
+    line-height: 2;
     }
 
     .size {
@@ -90,7 +93,6 @@
     float: left;
     text-align: center;
     cursor: pointer;
-    color: tint(#000, 40%);
     span {
        @include b5_10px_montserrat_charcoal();
     }
@@ -98,11 +100,14 @@
     .atb {
       height: 100%;
     width: 55%;
-    float: left;
+    float: right;
     text-align: center;
     border-left: 1px solid tint(#000, 80%);
     cursor: pointer;
     @include b4_12px_medium_aqua_caps();
+    @media screen and (max-width:767px) {
+      font-size: 10px;
+    }
     }
 
 }
@@ -144,6 +149,10 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    @media screen and (max-width:767px) {
+      padding: 0 5px;
+    }
     a {
        @include b3_14px_montserrat_charcoal();
     }
@@ -711,7 +720,8 @@ icon-cross {
         }
       }
       .wup-link{
-        margin-top: 10px;
+        height: 25px;
+        margin: 12px 0;
         z-index: 99;
       }
       .share-txt-box-wishlist {
@@ -732,7 +742,7 @@ icon-cross {
       }
       .copy-icon{
         margin: 12px 8px;
-        height: fit-content;
+        height: 25px;
         cursor: pointer;
       }
       .note{
@@ -835,6 +845,10 @@ icon-cross {
 .empty-shared-wishlist-content{
   text-align: center;
   margin-top: 10%;
+
+  @media screen and (max-width:767px) {
+    margin-top: 50%;
+  }
   p{
     @include h6_16px_lora_charcoal();
     margin-bottom: 10px;

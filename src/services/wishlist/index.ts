@@ -38,10 +38,6 @@ export default {
     uid?: string,
     sortBy = "added_on"
   ) {
-    debugger;
-
-    console.log("updateWishlistShared", uid, sortBy);
-
     try {
       const res = await API.get<WishlistResponse>(
         dispatch,
