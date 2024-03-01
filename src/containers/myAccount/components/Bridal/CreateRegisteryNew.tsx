@@ -166,6 +166,8 @@ const CreateRegistryNew: React.FC = () => {
   };
   const onClick = () => {
     pickerRef.setOpen(true);
+    const dateInput = document.getElementById("datePicker");
+    dateInput?.focus();
   };
   const onChange = (date: Date) => {
     setDate(date);
