@@ -85,7 +85,7 @@ body:has(.mobile) {
     max-width: 93%;
   }
   &.default {
-    border: 2px solid $aqua;
+    border: 1px solid $aqua;
 
     .cerise-bridal-rings {
       top: 24px !important;
@@ -122,14 +122,14 @@ body:has(.mobile) {
       }
     }
     &.shipping-border {
-      border: 2px solid #8cb8aa;
+      border: 1px solid #8cb8aa;
       padding: 35px 25px 110px 25px;
     }
     &.diabled-border{
       // border: 2px solid $cerise;
       // padding: 35px 25px 84px 25px;
       padding: 30px 30px 30px 40px;
-      border: 2px solid #4C4C4C;
+      border: 1px solid #4C4C4C;
       min-height: 260px;
     }
     .ship-to-this-btn {
@@ -445,7 +445,7 @@ body:has(.mobile) {
 }
 
 .address-item {
-  border: 2px solid #eeeeee;
+  border: 1px solid #eeeeee;
   border-bottom: none;
   //margin-top: 20px;
   -webkit-box-flex: 1;
@@ -582,7 +582,7 @@ body:has(.mobile) {
     // width: 100%;
     cursor: unset!important;
     padding: 30px 30px 30px 40px;
-    border: 2px solid #4C4C4C;
+    border: 1px solid #4C4C4C;
     min-height: 260px;
   }
 }
@@ -712,7 +712,7 @@ body:has(.mobile) {
   }
 
   .address-item-container {
-    border: 2px solid #eaeaea;
+    border: 1px solid #eaeaea;
     min-height: 240px;
 
     &.default-address {
@@ -934,7 +934,7 @@ div > .address-in-use {
 .is-active-item{
   background: transparent!important;
   padding: 30px 30px 30px 40px!important;
-  border: 2px solid #4C4C4C!important;
+  border: 1px solid #4C4C4C!important;
   min-height: 260px;
 }
 .is-active-item input{

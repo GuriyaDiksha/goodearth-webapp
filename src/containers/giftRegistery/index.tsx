@@ -26,7 +26,7 @@ const Registery: React.FC<Props> = ({ mobileFaq }) => {
         <Route key="landing" exact path="/gift-registry">
           <div className={cs(styles.registeryContainer)}>
             <div className={cs(styles.registeryBanner)}>
-              <div className="bannerImg">
+              <div className={cs(styles.bannerImg)}>
                 {!mobile ? (
                   <img src={regitery_desktopBanner} width="100%" />
                 ) : (
@@ -171,9 +171,12 @@ const Registery: React.FC<Props> = ({ mobileFaq }) => {
               <div className={cs(styles.assistanceContent)}>
                 For any assistance, enquiries or feedback, please reach out to
                 us on: <br />
-                +91 9582 999 555 / +91 9582 999 888 <br />
+                <a href="tel:(+91 9582 999 555)">+91 9582 999 555</a> /{" "}
+                <a href="tel:(+91 9582 999 888)">+91 9582 999 888</a> <br />
                 Monday through Saturday 9:00 am - 5:00 pm IST <br />
-                customercare@goodearth.in
+                <a href="mailto:customercare@goodearth.in">
+                  customercare@goodearth.in
+                </a>
               </div>
               <div className={cs(styles.assistanceLink)}>
                 <a

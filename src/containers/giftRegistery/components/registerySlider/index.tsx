@@ -3,12 +3,12 @@ import Slider from "react-slick";
 // import { Settings} from 'react-slick';
 import cs from "classnames";
 import styles from "./styles.scss";
-import spa from "./../../../../images/registery/spa.png";
+import spa from "./../../../../images/registery/spa.jpg";
 import cushions from "./../../../../images/registery/cushions.png";
-import decor from "./../../../../images/registery/decor.png";
-import apparel from "./../../../../images/registery/apparel.png";
-import dinnerware from "./../../../../images/registery/dinnerware.png";
-// import teaset from "./../../../../images/registery/teaset.png";
+import decor from "./../../../../images/registery/decor.jpg";
+import apparel from "./../../../../images/registery/apparel.jpg";
+import dinnerware from "./../../../../images/registery/dinnerware.jpg";
+// import teaset from "./../../../../images/registery/teaset.jpg";
 
 // export type Props = {
 //     setting: Settings;
@@ -40,12 +40,7 @@ const RegisterySlider: React.FC = () => {
         <div className={cs(styles.sliderItem)}>
           <div className={cs(styles.sliderImg)}>
             <a href="https://www.goodearth.in/catalogue/category/living/dining_28/?source=plp&category_shop=Home+%3E+Dining+%3E+Dinnerware">
-              <img
-                src={dinnerware}
-                width="98%"
-                height="450px"
-                alt="dinnerware"
-              />
+              <img src={dinnerware} alt="dinnerware" />
             </a>
           </div>
           <div className={cs(styles.sliderTitle)}>
@@ -57,7 +52,7 @@ const RegisterySlider: React.FC = () => {
         <div className={cs(styles.sliderItem)}>
           <div className={cs(styles.sliderImg)}>
             <a href="https://www.goodearth.in/catalogue/category/women/uppers_3/?source=plp&category_shop=Apparel+%3E+Sustain+Woman">
-              <img src={apparel} width="98%" height="450px" alt="apparel" />
+              <img src={apparel} alt="apparel" />
             </a>
           </div>
           <div className={cs(styles.sliderTitle)}>
@@ -67,13 +62,13 @@ const RegisterySlider: React.FC = () => {
           </div>
         </div>
         {/* <div className={cs(styles.sliderItem)}>
-            <div className={cs(styles.sliderImg)}><img src={teaset} width="98%" height="450px" /></div>
+            <div className={cs(styles.sliderImg)}><img src={teaset} alt="teaset" /></div>
             <div className={cs(styles.sliderTitle)}>TEASET</div>
         </div> */}
         <div className={cs(styles.sliderItem)}>
           <div className={cs(styles.sliderImg)}>
             <a href="https://www.goodearth.in/catalogue/category/living/wellness_64/?source=plp&category_shop=Home+%3E+Ancient+Rituals">
-              <img src={spa} width="98%" height="450px" alt="spa" />
+              <img src={spa} alt="spa" />
             </a>
           </div>
           <div className={cs(styles.sliderTitle)}>
@@ -85,7 +80,7 @@ const RegisterySlider: React.FC = () => {
         <div className={cs(styles.sliderItem)}>
           <div className={cs(styles.sliderImg)}>
             <a href="https://www.goodearth.in/catalogue/category/living/bed-bath_194/?source=plp&category_shop=Home+%3E+Home+Textiles+%3E+Cushions">
-              <img src={cushions} width="98%" height="450px" alt="cushions" />
+              <img src={cushions} alt="cushions" />
             </a>
           </div>
           <div className={cs(styles.sliderTitle)}>
@@ -97,7 +92,7 @@ const RegisterySlider: React.FC = () => {
         <div className={cs(styles.sliderItem)}>
           <div className={cs(styles.sliderImg)}>
             <a href="https://www.goodearth.in/catalogue/category/living/decor_49/?source=plp&category_shop=Home+%3E+Decor">
-              <img src={decor} width="98%" height="450px" alt="decor" />
+              <img src={decor} alt="decor" />
             </a>
           </div>
           <div className={cs(styles.sliderTitle)}>

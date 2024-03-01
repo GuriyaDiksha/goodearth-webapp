@@ -1408,7 +1408,6 @@ margin-bottom: 50px !important;
 
   .collection-name {
     @include plp_coll_name_desktop();
-    display: none;
   }
 
   .product-name {
@@ -1888,8 +1887,11 @@ margin-bottom: 50px !important;
   font-size: 12px;
   line-height: 20px;
   letter-spacing: 0.36px;
-  color: #191919;
+  color: $gold;
   margin: 25px 0;
+  a{
+    color: $gold;
+  }
 }
 .assistance-link{
   font-family: $font-Montserrat;
