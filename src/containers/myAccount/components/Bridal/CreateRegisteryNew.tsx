@@ -62,6 +62,7 @@ const CreateRegistryNew: React.FC = () => {
 
   const [dateErrorMsg, setDateErrorMsg] = useState("");
   const dispatch = useDispatch();
+  const [otherChoice, setOtherChoice] = useState("");
   useEffect(() => {
     window.addEventListener("beforeunload", confirmPopup);
     LoginService.fetchCountryData(dispatch).then(countryData => {
@@ -76,6 +77,13 @@ const CreateRegistryNew: React.FC = () => {
         "Event Action": "Details page",
         "Event Label": data.occasion
       });
+    }
+    if (data.occassion_choice == "Others") {
+      setSelectId("others");
+      setOtherChoice(data.occasion);
+    } else {
+      setOtherChoice("");
+      // setSelectId("");
     }
   }, []);
 
@@ -149,14 +157,14 @@ const CreateRegistryNew: React.FC = () => {
     }
   };
 
-  const [otherChoice, setOtherChoice] = useState("");
-  const onChangeOther = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOtherChoice(event.target.value);
-    const occasionChoice =
-      occasionChoiceRef.current?.value.trim() == ""
-        ? ""
-        : occasionChoiceRef.current?.value;
-  };
+  // const [otherChoice, setOtherChoice] = useState("");
+  // const onChangeOther = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setOtherChoice(event.target.value);
+  //   const occasionChoice =
+  //     occasionChoiceRef.current?.value.trim() == ""
+  //       ? ""
+  //       : occasionChoiceRef.current?.value;
+  // };
 
   //************** date picker *****************
   //   const [updateDate, setUpdateDate] = useState(data.eventDate ? true : false);
@@ -302,7 +310,7 @@ const CreateRegistryNew: React.FC = () => {
                           }}
                           required={selectId == "others"}
                           value={otherChoice || ""}
-                          handleChange={onChangeOther}
+                          handleChange={handleUpdateProfileChange}
                         />
                       </li>
                     </div>
