@@ -369,7 +369,7 @@ class BridalCheckout extends React.Component<Props, State> {
                     <hr className="hr" />
                     {registrantName}
                     {coRegistrantName && (
-                      <span>&nbsp;& &nbsp;{coRegistrantName}</span>
+                      <span>&nbsp;&&nbsp;{coRegistrantName}</span>
                     )}
                   </div>
                   <hr className="hr" />

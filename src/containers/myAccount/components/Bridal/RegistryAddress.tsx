@@ -402,7 +402,7 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
                               /> */}
       </div>
 
-      {isBridal && mode == "list" && (
+      {/* {isBridal && mode == "list" && (
         <div
           className={cs(
             bootstrapStyles.row,
@@ -416,7 +416,7 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
             <i className={styles.arrowDown}></i>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* {(mode == "edit" || mode == "new") &&
         currentCallBackComponent == "bridal" && (

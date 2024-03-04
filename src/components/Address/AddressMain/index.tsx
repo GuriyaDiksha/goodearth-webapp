@@ -477,8 +477,10 @@ const AddressMain: React.FC<Props> = props => {
                       variant="mediumMedCharcoalCta366"
                       id="address_button"
                       className={cs(
+                        globalStyles.marginB20,
                         globalStyles.charcoalBtn,
-                        globalStyles.charcoalBtnHover
+                        globalStyles.charcoalBtnHover,
+                        { [globalStyles.btnFullWidth]: mobile }
                         // {
                         //   [globalStyles.disabledBtn]:
                         //     currentCallBackComponent == "bridal" &&

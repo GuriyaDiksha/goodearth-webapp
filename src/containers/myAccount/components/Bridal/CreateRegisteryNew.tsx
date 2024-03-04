@@ -34,8 +34,11 @@ import "../../../../styles/reactDatepicker.css";
 import { useDispatch, useSelector } from "react-redux";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
+import Button from "components/Button";
+import { AppState } from "reducers/typings";
 
 const CreateRegistryNew: React.FC = () => {
+  const { mobile } = useSelector((state: AppState) => state.device);
   const { setCurrentModule, setCurrentModuleData, data } = useContext(
     BridalContext
   );
@@ -112,8 +115,9 @@ const CreateRegistryNew: React.FC = () => {
     const eDate = document.getElementById("datePicker") as HTMLInputElement;
     const eDateVal = eDate?.value;
     if (eDateVal == "") {
-      setDateErrorMsg("Please enter occasion's date");
+      setDateErrorMsg("Please enter Occasion Date");
       eDate.classList.add(globalStyles.errorBorder);
+      eDate.classList.contains("errorBorder") ? eDate.focus() : "";
     } else {
       setDateErrorMsg("");
       setCurrentModule("address");
@@ -401,15 +405,23 @@ const CreateRegistryNew: React.FC = () => {
                     </p>
                   )}
                 </div>
-                <div>
-                  <input
+                <div className={globalStyles.textCenter}>
+                  {/* <input
                     type="submit"
                     // disabled={!updateProfile}
                     className={cs(
-                      globalStyles.charcoalBtn
+                      globalStyles.mediumMedCharcoalCta366
                       // {[globalStyles.disabledBtn]: !updateProfile}
                     )}
                     value="PROCEED"
+                  /> */}
+                  <Button
+                    variant="mediumMedCharcoalCta366"
+                    type="submit"
+                    label={"PROCEED"}
+                    className={cs(globalStyles.marginB20, {
+                      [globalStyles.btnFullWidth]: mobile
+                    })}
                   />
                 </div>
               </div>

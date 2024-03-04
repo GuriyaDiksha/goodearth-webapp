@@ -44,6 +44,7 @@
     position: relative;
     line-height: 21px;
     letter-spacing: 0.42px;
+    align-items: center;
 }
 
 .accordion-text {
@@ -121,8 +122,8 @@
 .horizontal{
     position: absolute;
     right: 5px;
-    width: 11px;
-    height: 11px;
+    width: 16px;
+    height: 16px;
     font-family: $font-Montserrat;
 
     &:before,
