@@ -47,25 +47,53 @@ const CreateRegistryNew: React.FC = () => {
   );
   const occasion = selectId;
   const occasionInCaps = occasion[0].toUpperCase() + occasion.slice(1);
-  // const [active, setActive] = useState(false);
-  const [updateProfile, setUpdateProfile] = useState(
-    data.coRegistrantName && data.registrantName && data.eventDate
-      ? true
-      : false
-  );
   const [isOpen] = useState(false);
   const [date, setDate] = useState(
     data.eventDate ? moment(data.eventDate, "YYYY-MM-DD").toDate() : undefined
   );
+  const [dateErrorMsg, setDateErrorMsg] = useState("");
+  const dispatch = useDispatch();
+  const [otherChoice, setOtherChoice] = useState("");
+
   const BridalDetailsFormRef = createRef<Formsy>();
+  const occasionChoiceRef = useRef<HTMLInputElement>(null);
+  const regName = useRef<HTMLInputElement>(null);
+  const registrantNameRef = useRef<HTMLInputElement>(null);
+  const coRegistrantNameRef = useRef<HTMLInputElement>(null);
 
   const setRegistry = (data: string) => {
     setSelectId(data);
   };
 
-  const [dateErrorMsg, setDateErrorMsg] = useState("");
-  const dispatch = useDispatch();
-  const [otherChoice, setOtherChoice] = useState("");
+  const onInputChange = (e: any) => {
+    e.currentTarget.value.trim();
+  };
+
+  //************** date picker *****************
+  let pickerRef: any = null;
+  const OnOutsideClick = () => {
+    pickerRef.setOpen(false);
+  };
+
+  const onClickCalIcon = () => {
+    pickerRef.setOpen(true);
+    const dateInput = document.getElementById("datePicker");
+    dateInput?.focus();
+  };
+
+  const onDateChange = (date: Date) => {
+    setDate(date);
+    setDateErrorMsg("");
+  };
+
+  const onCtaClick = () => {
+    if (date) {
+      setDateErrorMsg("");
+    } else {
+      setDateErrorMsg("Please enter Occasion Date");
+    }
+  };
+
   useEffect(() => {
     window.addEventListener("beforeunload", confirmPopup);
     LoginService.fetchCountryData(dispatch).then(countryData => {
@@ -86,15 +114,10 @@ const CreateRegistryNew: React.FC = () => {
       setOtherChoice(data.occasion);
     } else {
       setOtherChoice("");
-      // setSelectId("");
     }
   }, []);
 
-  const handleSubmit = (
-    model: any,
-    resetForm: any,
-    updateInputsWithError: any
-  ) => {
+  const handleSubmit = (model: any) => {
     const {
       occassion_choice,
       registrantName,
@@ -103,7 +126,6 @@ const CreateRegistryNew: React.FC = () => {
     } = model;
     const occasion = selectId;
     const occasionInCaps = occasion[0].toUpperCase() + occasion.slice(1);
-    // if (!updateProfile) return false;
     setCurrentModuleData("create", {
       occasion: selectId == "others" ? occassion_choice : occasion,
       occassion_choice: occassion_choice ? "Others" : occasionInCaps,
@@ -112,78 +134,13 @@ const CreateRegistryNew: React.FC = () => {
       coRegistrantName: coRegistrantName ? coRegistrantName : "",
       registryName: registryName
     });
-    const eDate = document.getElementById("datePicker") as HTMLInputElement;
-    const eDateVal = eDate?.value;
-    if (eDateVal == "") {
-      setDateErrorMsg("Please enter Occasion Date");
-      eDate.classList.add(globalStyles.errorBorder);
-    } else {
+    if (date) {
       setDateErrorMsg("");
       setCurrentModule("address");
       window.scrollTo(0, 0);
+    } else {
+      setDateErrorMsg("Please enter Occasion Date");
     }
-  };
-
-  const handleChange = () => {
-    setUpdateProfile(true);
-  };
-
-  const occasionChoiceRef = useRef<HTMLInputElement>(null);
-  const registrantNameRef = useRef<HTMLInputElement>(null);
-  const coRegistrantNameRef = useRef<HTMLInputElement>(null);
-  const regName = useRef<HTMLInputElement>(null);
-
-  const handleUpdateProfileChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const occasionChoice =
-      occasionChoiceRef.current?.value.trim() == ""
-        ? ""
-        : occasionChoiceRef.current?.value;
-    const registrantName =
-      registrantNameRef.current?.value.trim() == ""
-        ? ""
-        : registrantNameRef.current?.value;
-    const coRegistrantName =
-      coRegistrantNameRef.current?.value.trim() == ""
-        ? ""
-        : coRegistrantNameRef.current?.value;
-    const registryName =
-      regName.current?.value.trim() == "" ? "" : regName.current?.value;
-    if (occasionChoice && registrantName && registryName && !updateProfile) {
-      setUpdateProfile(true);
-    } else if (
-      (!occasionChoice || !registrantName || !registryName) &&
-      updateProfile
-    ) {
-      setUpdateProfile(false);
-    }
-  };
-
-  // const [otherChoice, setOtherChoice] = useState("");
-  // const onChangeOther = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setOtherChoice(event.target.value);
-  //   const occasionChoice =
-  //     occasionChoiceRef.current?.value.trim() == ""
-  //       ? ""
-  //       : occasionChoiceRef.current?.value;
-  // };
-
-  //************** date picker *****************
-  //   const [updateDate, setUpdateDate] = useState(data.eventDate ? true : false);
-  let pickerRef: any = null;
-  const OnOutsideClick = () => {
-    pickerRef.setOpen(false);
-  };
-  const onClick = () => {
-    pickerRef.setOpen(true);
-    const dateInput = document.getElementById("datePicker");
-    dateInput?.focus();
-  };
-  const onChange = (date: Date) => {
-    setDate(date);
-    setUpdateProfile(true);
-    // setUpdateDate(true);
   };
 
   return (
@@ -228,12 +185,7 @@ const CreateRegistryNew: React.FC = () => {
           </div>
           <div className={cs(styles.registeryForm)}>
             <div className={cs(styles.regFormHeading)}>1. REGISTRY DETAILS</div>
-            <Formsy
-              ref={BridalDetailsFormRef}
-              onValidSubmit={handleSubmit}
-              onChange={handleChange}
-              // onInvalidSubmit={handleInvalidSubmit}
-            >
+            <Formsy ref={BridalDetailsFormRef} onValidSubmit={handleSubmit}>
               <div className={styles.categorylabel}>
                 <div className={cs(styles.radioBtn)}>
                   <ul className="ul">
@@ -313,7 +265,7 @@ const CreateRegistryNew: React.FC = () => {
                           }}
                           required={selectId == "others"}
                           value={otherChoice || ""}
-                          handleChange={handleUpdateProfileChange}
+                          handleChange={onInputChange}
                         />
                       </li>
                     </div>
@@ -335,7 +287,7 @@ const CreateRegistryNew: React.FC = () => {
                     }}
                     required
                     value={data.registryName || ""}
-                    handleChange={handleUpdateProfileChange}
+                    handleChange={onInputChange}
                   />
                 </div>
                 <div>
@@ -354,7 +306,7 @@ const CreateRegistryNew: React.FC = () => {
                     }}
                     required
                     value={data.registrantName || ""}
-                    handleChange={handleUpdateProfileChange}
+                    handleChange={onInputChange}
                   />
                 </div>
                 <div>
@@ -372,13 +324,10 @@ const CreateRegistryNew: React.FC = () => {
                       maxLength: "You can not enter more than 50 characters"
                     }}
                     value={data.coRegistrantName || ""}
-                    handleChange={handleUpdateProfileChange}
+                    handleChange={onInputChange}
                   />
                 </div>
-                <div
-                  className={cs(styles.datePicker, styles.regFormLabel)}
-                  onClick={() => setDateErrorMsg("")}
-                >
+                <div className={cs(styles.datePicker, styles.regFormLabel)}>
                   <label className={styles.eventLabel}>Occasion Date*</label>
                   <DatePicker
                     id="datePicker"
@@ -386,35 +335,30 @@ const CreateRegistryNew: React.FC = () => {
                     startOpen={isOpen}
                     minDate={new Date()}
                     selected={date}
-                    onChange={onChange}
+                    onChange={onDateChange}
                     ref={node => {
                       pickerRef = node;
                     }}
                     onClickOutside={OnOutsideClick}
                     dateFormat="dd/MM/yyyy"
                     placeholderText="DD/MM/YYYY"
-                    // required
+                    className={cs({ [globalStyles.errorBorder]: dateErrorMsg })}
+                    onKeyDown={e => {
+                      e.preventDefault();
+                    }}
                   />
-                  <div className={cs(styles.calIcon)} onClick={onClick}>
+                  <div className={cs(styles.calIcon)} onClick={onClickCalIcon}>
                     <img src={calendarIcon} width="35" height="35" />
                   </div>
-                  {dateErrorMsg != "" && (
+                  {dateErrorMsg && (
                     <p className={cs(styles.dateErrorMsg, styles.errorMsg)}>
                       {dateErrorMsg}
                     </p>
                   )}
                 </div>
                 <div className={globalStyles.textCenter}>
-                  {/* <input
-                    type="submit"
-                    // disabled={!updateProfile}
-                    className={cs(
-                      globalStyles.mediumMedCharcoalCta366
-                      // {[globalStyles.disabledBtn]: !updateProfile}
-                    )}
-                    value="PROCEED"
-                  /> */}
                   <Button
+                    onClick={onCtaClick}
                     variant="mediumMedCharcoalCta366"
                     type="submit"
                     label={"PROCEED"}
