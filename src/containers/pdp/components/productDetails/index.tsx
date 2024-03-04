@@ -1436,7 +1436,7 @@ const ProductDetails: React.FC<Props> = ({
                     <img src={addReg} width="20px" height="20px"></img>
                   )}
                 </div>
-                <p className={cs(styles.label)}>
+                <p className={cs(styles.label, styles.paddingT3)}>
                   {selectedSize && isRegistry[selectedSize.size]
                     ? "added to registry"
                     : "add to registry"}

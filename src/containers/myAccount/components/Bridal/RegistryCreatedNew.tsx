@@ -118,13 +118,7 @@ const RegistryCreatedNew: React.FC<Props> = ({
           Good Earth Registry
         </div>
         <div className={bootstrapStyles.row}>
-          <div
-            className={cs(
-              bootstrapStyles.col12,
-              globalStyles.voffset5,
-              styles.mobileHeadSpace
-            )}
-          >
+          <div className={cs(bootstrapStyles.col12, styles.mobileHeadSpace)}>
             <div className={styles.add}>
               <address className={cs(styles.orderBlock, styles.manageAdd)}>
                 <hr />
