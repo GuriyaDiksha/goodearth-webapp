@@ -64,7 +64,7 @@ const SelectDropdown: React.FC<Props &
       case "gender":
         return "Please select your gender";
       case "country":
-        return "Please select your country";
+        return "Please select your Country";
       case "state":
         return "Please select your state";
       case "preferredContact":
