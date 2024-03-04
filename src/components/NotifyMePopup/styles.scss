@@ -133,26 +133,24 @@
 
 .size-error {
     @include error-msg();
-    font-size: 14px;
+    font-size: 13px;
     font-family: $font-Lora;
     font-style: italic;
     font-weight: normal;
     letter-spacing: 0.3px;
     padding-left: 6px;
+    color: $gold !important;
 }
 
 span{
     &.discountprice {
-        color: $gold;
-        font-family: $font-Lato;
-        font-size: 16px;
+        color: $gold !important;
+        @include b1_16px_charcoal_montserrat();
       }
       &.strikeprice {
-        font-size: 16px;
         text-decoration: line-through;
-        color: #9F9F9F !important;
-        font-family: $font-Lato;
         display: block;
+        @include b3_14px_montserrat_medcharcoal();
       }
 }
 

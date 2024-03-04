@@ -37,6 +37,7 @@ import {
 import Button from "components/Button";
 import { updateNextUrl } from "actions/info";
 import linkIcon from "./../../images/linkIcon.svg";
+import { isEqual } from "lodash";
 
 let AbsoluteGrid: any;
 
@@ -54,7 +55,9 @@ const mapStateToProps = (state: AppState) => {
     isShared: state.router.location.pathname.includes("shared-wishlist"),
     ownerName: state.wishlist.owner_name,
     message: state.wishlist.message,
-    isSuccess: state.wishlist.is_success
+    isSuccess: state.wishlist.is_success,
+    user: state.user,
+    openModal: state.modal.openModal
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -184,6 +187,21 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         )
       );
       dispatch(updateModal(true));
+    },
+    openWishlistPopup: (mobile: boolean) => {
+      dispatch(
+        updateComponent(
+          POPUP.SHAREWISHLIST,
+          null,
+          mobile ? false : true,
+          mobile ? ModalStyles.bottomAlignSlideUp : "",
+          mobile ? "slide-up-bottom-align" : ""
+        )
+      );
+      dispatch(updateModal(true));
+    },
+    updateComponent: () => {
+      dispatch(updateNextUrl(""));
     }
   };
 };
@@ -366,10 +384,8 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    if (this.props.isShared) {
-      // Call get wishlist only in case of shared because there is no init action
-      this.getWishlist(this.state.defaultOption.value);
-    }
+    this.getWishlist(this.state.defaultOption.value);
+
     this.container = document.getElementById("wishlist");
     this.root = createRoot(this.container);
     window.addEventListener("resize", debounce(this.updateStyle, 100));
@@ -391,7 +407,6 @@ class Wishlist extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    localStorage.removeItem("isShareLinkClicked");
     window.removeEventListener("resize", debounce(this.updateStyle, 100));
   }
 
@@ -417,7 +432,13 @@ class Wishlist extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    const { user } = this.props;
+    const isShareLinkClicked = JSON.parse(
+      localStorage.getItem("isShareLinkClicked") || "false"
+    );
+    // if(!this.state.isLoading && !isEqual(nextProps.wishlistData,wishlistData)){
     this.updateGrid(nextProps);
+    // }
     if (
       this.props.currency !== nextProps.currency ||
       this.props.isSale !== nextProps.isSale
@@ -448,6 +469,36 @@ class Wishlist extends React.Component<Props, State> {
         },
         false
       );
+    }
+
+    if (isEqual(user, nextProps.user)) {
+      if (
+        nextProps.user.email &&
+        nextProps.user.gender &&
+        nextProps.user.country &&
+        nextProps.user.lastName &&
+        nextProps.user.firstName
+      ) {
+        if (isShareLinkClicked) {
+          this.props.openWishlistPopup(this.props.mobile);
+          this.setState({
+            isLoading: false
+          });
+          localStorage.removeItem("isShareLinkClicked");
+        }
+      } else if (
+        nextProps.user.email &&
+        isShareLinkClicked &&
+        !nextProps.openModal &&
+        (!nextProps.user.gender ||
+          !nextProps.user.country ||
+          !nextProps.user.lastName ||
+          !nextProps.user.firstName)
+      ) {
+        this.setState({
+          isLoading: true
+        });
+      }
     }
   }
 

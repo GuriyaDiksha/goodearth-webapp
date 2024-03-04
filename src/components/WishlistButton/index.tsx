@@ -23,6 +23,7 @@ import { ChildProductAttributes } from "typings/product";
 import { updateLoader } from "actions/info";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import { useHistory } from "react-router";
 
 const WishlistButton: React.FC<Props> = ({
   gtmListType,
@@ -56,6 +57,8 @@ const WishlistButton: React.FC<Props> = ({
       (basketLineId && wishlistChildItems.indexOf(id) != -1)
   );
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const gtmPushAddToWishlist = (addWishlist?: boolean) => {
     try {
       if (gtmListType) {
@@ -192,7 +195,8 @@ const WishlistButton: React.FC<Props> = ({
           basketLineId,
           size || childAttributes?.[0].size || "",
           source,
-          sortBy
+          sortBy,
+          history.location.pathname.includes("shared-wishlist")
         )
           .then(() => {
             onMoveToWishlist?.();

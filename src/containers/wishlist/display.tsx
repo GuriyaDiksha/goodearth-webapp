@@ -58,7 +58,7 @@ const SampleDisplay: React.FC<Props> = props => {
         }
       });
     }
-    return flag ? "Select Size" : "Size: -";
+    return flag ? "Select Size" : "Size: NA";
   };
 
   const renderWishlist = (data: WishListGridItem) => {
@@ -210,7 +210,7 @@ const SampleDisplay: React.FC<Props> = props => {
               </span>
             )}
           </p>
-          <span className={cs(globalStyles.errorMsg)}>
+          <span className={cs(globalStyles.errorMsg, globalStyles.gold)}>
             {isSale && showStockMessage && `Only ${stock} Left!`}
           </span>
         </div>

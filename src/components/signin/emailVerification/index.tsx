@@ -19,10 +19,6 @@ import Button from "components/Button";
 import { Currency } from "typings/currency";
 import { censorEmail, censorPhoneNumber } from "utils/utility";
 import { AppState } from "reducers/typings";
-import { updateComponent, updateModal } from "actions/modal";
-import { POPUP } from "constants/components";
-import ModalStyles from "components/Modal/styles.scss";
-import { updateNextUrl } from "actions/info";
 
 type Props = {
   successMsg: string;
@@ -64,7 +60,6 @@ const EmailVerification: React.FC<Props> = ({
   const dispatch = useDispatch();
   const history = useHistory();
   const { mobile } = useSelector((state: AppState) => state.device);
-  const { nextUrl } = useSelector((state: AppState) => state.info);
 
   const showLogin = () => {
     localStorage.setItem("tempEmail", email);
@@ -149,28 +144,6 @@ const EmailVerification: React.FC<Props> = ({
         //   const searchParams = new URLSearchParams(history.location.search);
         //   history.push(searchParams.get("redirect_to") || "");
         // }
-
-        const isShareLinkClicked = JSON.parse(
-          localStorage.getItem("isShareLinkClicked") || "false"
-        );
-
-        if (nextUrl === "/wishlist" && isShareLinkClicked) {
-          dispatch(
-            updateComponent(
-              POPUP.SHAREWISHLIST,
-              null,
-              mobile ? false : true,
-              mobile ? ModalStyles.bottomAlignSlideUp : "",
-              mobile ? "slide-up-bottom-align" : ""
-            )
-          );
-          dispatch(updateModal(true));
-        } else {
-          history.push(nextUrl);
-        }
-
-        localStorage.removeItem("isShareLinkClicked");
-        dispatch(updateNextUrl(""));
 
         const boid = new URLSearchParams(history.location.search).get("bo_id");
 

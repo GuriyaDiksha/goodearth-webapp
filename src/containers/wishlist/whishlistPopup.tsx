@@ -113,12 +113,7 @@ const ShareWishlistLink = () => {
                       className={cs(styles.shareTxtBoxWishlist)}
                       onClick={e => e.stopPropagation()}
                     >
-                      <input
-                        type="text"
-                        value={wishlist_link}
-                        id="myInput"
-                        disabled
-                      />
+                      <input type="text" value={wishlist_link} id="myInput" />
                       <p className={styles.note}>
                         Please note, this link will be auto-updated whenever the
                         Saved List is updated.

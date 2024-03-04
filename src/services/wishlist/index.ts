@@ -130,7 +130,8 @@ export default {
     basketLineId: ProductID,
     size: string,
     source?: string,
-    sortBy?: string
+    sortBy?: string,
+    isShared?: boolean
   ) {
     const res = await API.post<WishlistResponse & ApiResponse>(
       dispatch,
@@ -143,11 +144,13 @@ export default {
     );
 
     if (res.success) {
-      dispatch(updateWishlist(res.data, sortBy));
+      if (!isShared) {
+        dispatch(updateWishlist(res.data, sortBy));
+      }
       BasketService.fetchBasket(dispatch, source);
     }
   },
-  undoMoveToWishlist: async function(dispatch: Dispatch, source?: string) {
+  undoMoveToWishlist: async function(dispatch: Dispatch, isShared?: boolean) {
     const res = await API.post<{
       basket: Basket;
       isSuccess: boolean;
@@ -179,7 +182,9 @@ export default {
         res.basket.unshippableProducts
       );
     }
-    await this.updateWishlist(dispatch);
+    if (!isShared) {
+      await this.updateWishlist(dispatch);
+    }
     await this.countWishlist(dispatch);
     return res;
   },
