@@ -148,19 +148,6 @@ class SideMenu extends React.Component<Props, State> {
         type: "link"
       },
       {
-        label: `Good Earth Registry ${
-          isLoggedIn && bridataCountData > 0 ? "(" + bridataCountData + ")" : ""
-        }`,
-        // href: isLoggedIn ? "/account/bridal" : "",
-        // onClick: isLoggedIn
-        //   ? () => null
-        //   : () => this.props.goLogin(undefined, "/account/bridal"),
-        // type: isLoggedIn ? "link" : "button",
-        href: isLoggedIn ? "/account/bridal" : "/gift-registry",
-        type: "link",
-        value: "Good Earth Registry"
-      },
-      {
         label: "Activate Gift Card",
         href: "/account/giftcard-activation",
         type: "link",
@@ -180,6 +167,19 @@ class SideMenu extends React.Component<Props, State> {
         href: "/account/check-balance",
         type: "link",
         value: "Check Balance"
+      },
+      {
+        label: `Good Earth Registry ${
+          isLoggedIn && bridataCountData > 0 ? "(" + bridataCountData + ")" : ""
+        }`,
+        // href: isLoggedIn ? "/account/bridal" : "",
+        // onClick: isLoggedIn
+        //   ? () => null
+        //   : () => this.props.goLogin(undefined, "/account/bridal"),
+        // type: isLoggedIn ? "link" : "button",
+        href: isLoggedIn ? "/account/bridal" : "/gift-registry",
+        type: "link",
+        value: "Good Earth Registry"
       }
       // {
       //   label: isLoggedIn ? "Logout" : "Login",

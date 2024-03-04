@@ -139,7 +139,7 @@ const ShareLink: React.FC<Props> = props => {
                   target="_blank"
                 >
                   <div className={styles.shareIcon}>
-                    <img src={iconWhatsApp} width="35" alt="wa_icon" />
+                    <img src={iconWhatsApp} width="20" alt="wa_icon" />
                   </div>
                 </a>
                 <a
@@ -149,7 +149,7 @@ const ShareLink: React.FC<Props> = props => {
                   target="_blank"
                 >
                   <div className={styles.shareIcon}>
-                    <img src={iconEmail} width="33" alt="mail_icon" />
+                    <img src={iconEmail} width="20" alt="mail_icon" />
                   </div>
                 </a>
               </div>

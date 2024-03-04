@@ -1019,25 +1019,24 @@ class Header extends React.Component<Props, State> {
         type: "link"
       },
       {
+        label: "Activate Gift Card",
+        href: "/account/giftcard-activation",
+        type: "link",
+        value: "Activate Gift Card"
+      },
+      {
+        label: "Check Balance",
+        href: "/account/check-balance",
+        type: "link",
+        value: "Check Balance"
+      },
+      {
         label: `Good Earth Registry ${
           isLoggedIn && bridalCountData > 0 ? "(" + bridalCountData + ")" : ""
         }`,
         href: isLoggedIn ? "/account/bridal" : "/gift-registry",
         type: "link",
         value: "Good Earth Registry"
-      },
-      {
-        label: "Activate Gift Card",
-        href: "/account/giftcard-activation",
-        type: "link",
-        value: "Activate Gift Card"
-      },
-
-      {
-        label: "Check Balance",
-        href: "/account/check-balance",
-        type: "link",
-        value: "Check Balance"
       }
       // {
       //   label: "Cerise Program",

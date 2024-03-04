@@ -137,7 +137,7 @@
 .bridal-section {
     display: flex;
     align-items: center;
-    margin-top: 40px;
+    margin: 25px 0 15px;
     .label {
         color: #9C7D50;
         font-family: $font-Montserrat;
@@ -426,4 +426,15 @@
 
 .badge-padding{
     padding-bottom: 10px;
+}
+.view-details a{
+    font-family: $font-Montserrat;
+    font-size: 12px;
+    letter-spacing: 0.36px;
+    color: #191919;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    &:hover{
+        color: $aqua;
+    }
 }

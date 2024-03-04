@@ -4,7 +4,8 @@ import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
-import bridalRing from "../../../images/bridal/rings.svg";
+// import bridalRing from "../../../images/bridal/rings.svg";
+import bridalGiftIcon from "../../../images/registery/addedReg.svg";
 import { AddressContext } from "../AddressMain/context";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
@@ -95,7 +96,7 @@ const AddressItemBridal: React.FC<Props> = ({
                       styles.bridalAddress
                     )}
                   >
-                    <svg
+                    {/* <svg
                       viewBox="0 5 40 40"
                       width="35"
                       height="35"
@@ -105,7 +106,13 @@ const AddressItemBridal: React.FC<Props> = ({
                       className={styles.ceriseBridalRings}
                     >
                       <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                    </svg>
+                    </svg> */}
+                    <img
+                      className={styles.ceriseBridalRings}
+                      src={bridalGiftIcon}
+                      width="30"
+                      alt="gift_reg_icon"
+                    />
                   </div>
                 </div>
               </div>

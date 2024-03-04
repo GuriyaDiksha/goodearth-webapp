@@ -713,7 +713,7 @@ const AddressItem: React.FC<Props> = props => {
                       <img
                         className={styles.ceriseBridalRings}
                         src={addedReg}
-                        width="35"
+                        width="30"
                         alt="gift_reg_icon"
                       />
                     )}
@@ -785,7 +785,7 @@ const AddressItem: React.FC<Props> = props => {
                         <img
                           className={styles.ceriseBridalRings}
                           src={addedReg}
-                          width="35"
+                          width="30"
                           alt="gift_reg_icon"
                         />
                       )}
@@ -867,7 +867,7 @@ const AddressItem: React.FC<Props> = props => {
                         <img
                           className={styles.ceriseBridalRings}
                           src={addedReg}
-                          width="35"
+                          width="30"
                           alt="gift_reg_icon"
                         />
                       )}
@@ -1010,7 +1010,7 @@ const AddressItem: React.FC<Props> = props => {
                       <img
                         className={styles.ceriseBridalRings}
                         src={addedReg}
-                        width="35"
+                        width="30"
                         alt="gift_reg_icon"
                       />
                     )}

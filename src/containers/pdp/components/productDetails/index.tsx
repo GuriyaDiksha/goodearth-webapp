@@ -1365,24 +1365,6 @@ const ProductDetails: React.FC<Props> = ({
                 ) : (
                   ""
                 )}
-                {isQuickview ? (
-                  <Link
-                    to={url}
-                    className={cs(styles.moreDetails, {
-                      [styles.lh45]: withBadge
-                    })}
-                    onClick={() => {
-                      changeModalState(false);
-                      const listPath = `${source || "PLP"}`;
-                      CookieService.setCookie("listPath", listPath);
-                      dispatch(updateQuickviewId(0));
-                    }}
-                  >
-                    view more details
-                  </Link>
-                ) : (
-                  ""
-                )}
               </div>
               <div
                 className={cs(bootstrap.col4, globalStyles.textCenter, {
@@ -1462,6 +1444,22 @@ const ProductDetails: React.FC<Props> = ({
               </div>
             )}
 
+            {isQuickview && (
+              <div className={styles.viewDetails}>
+                <Link
+                  to={url}
+                  className={cs({ [styles.lh45]: withBadge })}
+                  onClick={() => {
+                    changeModalState(false);
+                    const listPath = `${source || "PLP"}`;
+                    CookieService.setCookie("listPath", listPath);
+                    dispatch(updateQuickviewId(0));
+                  }}
+                >
+                  VIEW DETAILS
+                </Link>
+              </div>
+            )}
             {!isQuickview && (
               <div
                 className={cs(

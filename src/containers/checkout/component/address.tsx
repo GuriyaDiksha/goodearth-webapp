@@ -39,7 +39,8 @@ import { countryCurrencyCode } from "constants/currency";
 import ModalStyles from "components/Modal/styles.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
-import bridalRing from "../../../images/bridal/rings.svg";
+// import bridalRing from "../../../images/bridal/rings.svg";
+import bridalGiftIcon from "../../../images/registery/addedReg.svg";
 import { useLocation } from "react-router";
 
 const AddressSection: React.FC<AddressProps & {
@@ -350,7 +351,7 @@ const AddressSection: React.FC<AddressProps & {
               )}
             </span>
             <div className={cs(styles.defaultAddressDiv, styles.bridalAddress)}>
-              <svg
+              {/* <svg
                 viewBox="0 5 40 40"
                 width="35"
                 height="35"
@@ -360,7 +361,13 @@ const AddressSection: React.FC<AddressProps & {
                 className={styles.ceriseBridalRings}
               >
                 <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-              </svg>
+              </svg> */}
+              <img
+                className={styles.ceriseBridalRings}
+                src={bridalGiftIcon}
+                width="30"
+                alt="gift_reg_icon"
+              />
             </div>
           </div>
 
