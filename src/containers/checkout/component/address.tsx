@@ -365,7 +365,7 @@ const AddressSection: React.FC<AddressProps & {
               <img
                 className={styles.ceriseBridalRings}
                 src={bridalGiftIcon}
-                width="30"
+                width="25"
                 alt="gift_reg_icon"
               />
             </div>

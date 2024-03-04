@@ -117,7 +117,6 @@ const CreateRegistryNew: React.FC = () => {
     if (eDateVal == "") {
       setDateErrorMsg("Please enter Occasion Date");
       eDate.classList.add(globalStyles.errorBorder);
-      eDate.classList.contains("errorBorder") ? eDate.focus() : "";
     } else {
       setDateErrorMsg("");
       setCurrentModule("address");
