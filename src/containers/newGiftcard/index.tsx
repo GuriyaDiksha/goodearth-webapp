@@ -783,7 +783,7 @@ class NewGiftcard extends React.Component<Props, State> {
                       isEmail: "Please enter a valid Email ID",
                       maxLength:
                         "You are allowed to enter upto 75 characters only",
-                      equalsField: "The Email ID entered doesn't match"
+                      equalsField: "The entered Email ID does not match"
                     }}
                     required
                   />
