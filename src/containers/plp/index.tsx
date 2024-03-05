@@ -972,6 +972,8 @@ class PLP extends React.Component<
                               onClickQuickView={this.onClickQuickView}
                               isCorporate={this.state.corporoateGifting}
                               loader={this.state.flag}
+                              notifyMeClick={this.notifyMeClick}
+                              onEnquireClick={this.onEnquireClick}
                             />
                           )}
                         </div>

@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  EventHandler,
+  useEffect,
+  useMemo,
+  useState,
+  MouseEvent
+} from "react";
 import { Link, useHistory } from "react-router-dom";
 import { PLPResultItemProps } from "./typings.d";
 import styles from "./styles.scss";
@@ -18,8 +24,8 @@ import { plpProductClick, getPageType } from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import PlpResultImageSlider from "components/PlpResultImageSlider";
-import iconStyles from "styles/iconFonts.scss";
 import plpThreeSixty from "./../../icons/plp-three-sixty.svg";
+import cartIcon from "./../../icons/plp_cart.svg";
 
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -34,7 +40,9 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     position,
     page,
     loader,
-    isSearch
+    isSearch,
+    onEnquireClick,
+    notifyMeClick
   } = props;
   const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
@@ -45,6 +53,13 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   } = useSelector((state: AppState) => state);
   const [isAnimate, setIsAnimate] = useState(false);
   const history = useHistory();
+
+  let allOutOfStock = true;
+  product.childAttributes?.forEach(({ stock }) => {
+    if (stock > 0) {
+      allOutOfStock = false;
+    }
+  });
 
   useEffect(() => {
     if (mobile) {
@@ -155,6 +170,50 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
       );
     });
 
+  const button = useMemo(() => {
+    // let buttonText: string,
+    let action: EventHandler<MouseEvent>;
+    if (isCorporate) {
+      // buttonText = "Enquire Now";
+      action = () => onEnquireClick(product.id, product.partner);
+    } else if (allOutOfStock) {
+      // buttonText = "Notify Me";
+      action = () => notifyMeClick(product);
+    } else {
+      // buttonText = "Add to Bag";
+      action = () => notifyMeClick(product);
+    }
+    return (
+      <div
+        className={cs(
+          globalStyles.textCenter,
+          globalStyles.cartIconPositionDesktop,
+          { [globalStyles.cartIconPositionMobile]: mobile }
+        )}
+      >
+        <img
+          src={cartIcon}
+          height={mobile ? 25 : 30}
+          width={mobile ? 25 : 30}
+          alt="cartIcon"
+          onClick={mobile ? action : onClickQuickview}
+        />
+      </div>
+      // <Button
+      //   className={cs(
+      //     styles.addToBagListView,
+      //     // styles.productBtn,
+      //     bootstrapStyles.col8,
+      //     globalStyles.btnFullWidth,
+      //     { [styles.enquireNotifyMe]: isCorporate || allOutOfStock }
+      //   )}
+      //   onClick={action}
+      //   label={buttonText}
+      //   variant="smallAquaCta"
+      // />
+    );
+  }, []);
+
   return loader ? (
     <div className={styles.plpMain}>
       <SkeletonImage />
@@ -198,7 +257,8 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               id={product.id}
               showText={false}
               key={product.id}
-              //  mobile={mobile}
+              mobile={mobile}
+              isPlpTile={true}
             />
           </div>
         )}
@@ -236,28 +296,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           </div>
         )}
 
-        {!isCorporate && (
-          <div
-            className={cs(
-              globalStyles.textCenter,
-              globalStyles.cartIconPositionDesktop,
-              { [globalStyles.cartIconPositionMobile]: mobile }
-              // styles.wishlistBtnContainer
-              // {
-              //   [styles.wishlistBtnContainer]: mobile
-              // }
-            )}
-          >
-            <div
-              className={cs(
-                iconStyles.icon,
-                globalStyles.iconContainer,
-                iconStyles.iconCart
-              )}
-              onClick={onClickQuickview}
-            ></div>
-          </div>
-        )}
+        {button}
         <Link
           to={product.url}
           onMouseEnter={onMouseEnter}

@@ -24,6 +24,8 @@ import { updateLoader } from "actions/info";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import globalStyles from "styles/global.scss";
+import wishlistIcon from "./../../icons/plp-wishlist.svg";
+import wishlistAddedIcon from "./../../icons/plp-wishlist_added.svg";
 
 const WishlistButton: React.FC<Props> = ({
   gtmListType,
@@ -37,13 +39,14 @@ const WishlistButton: React.FC<Props> = ({
   childAttributes,
   className,
   iconClassName,
-  // mobile,
+  mobile,
   basketLineId,
   parentWidth,
   source,
   // inWishlist,
   onMoveToWishlist,
-  onComplete
+  onComplete,
+  isPlpTile
 }) => {
   const { wishlistItems, wishlistChildItems } = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
@@ -239,6 +242,14 @@ const WishlistButton: React.FC<Props> = ({
         {gtmListType == "cart" ||
           (gtmListType == "MiniBag" ? (
             ""
+          ) : isPlpTile ? (
+            <img
+              src={addedToWishlist ? wishlistAddedIcon : wishlistIcon}
+              height={30}
+              width={30}
+              alt="wishlist"
+              onClick={onClick}
+            />
           ) : (
             <div
               style={parentWidth ? { width: "100%" } : {}}
@@ -246,12 +257,11 @@ const WishlistButton: React.FC<Props> = ({
                 iconStyles.icon,
                 styles.wishlistIcon,
                 iconClassName,
-                globalStyles.iconContainer,
                 {
                   [iconStyles.iconWishlistAdded]: addedToWishlist,
                   [iconStyles.iconWishlist]: !addedToWishlist,
-                  [styles.addedToWishlist]: addedToWishlist && showText
-                  // [styles.mobileWishlist]: mobile
+                  [styles.addedToWishlist]: addedToWishlist && showText,
+                  [styles.mobileWishlist]: mobile
                 }
               )}
               title={

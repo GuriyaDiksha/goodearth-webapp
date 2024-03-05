@@ -24,4 +24,5 @@ export type Props = {
   inWishlist?: boolean;
   parentWidth?: boolean;
   onComplete?: () => void;
+  isPlpTile?: boolean;
 };
