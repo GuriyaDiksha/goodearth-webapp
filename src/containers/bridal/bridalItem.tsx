@@ -79,7 +79,10 @@ class BridalItem extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    if (!this.props.bridalItem.productAvailable) {
+    if (
+      !this.props.bridalItem.productAvailable ||
+      this.props.bridalItem.price[this.props.currency] == 0
+    ) {
       this.setState({
         buttonStatus: true,
         btnDisable: cs(globalStyles.aquaBtn, globalStyles.disabledBtn),
@@ -103,6 +106,7 @@ class BridalItem extends React.Component<Props, State> {
   increaseState = () => {
     if (
       !this.props.bridalItem.productAvailable ||
+      this.props.bridalItem.price[this.props.currency] == 0 ||
       this.props.bridalItem.stock == 0 ||
       this.props.bridalItem.qtyRemaining == 0
     ) {
@@ -126,6 +130,7 @@ class BridalItem extends React.Component<Props, State> {
     // }
     if (
       !this.props.bridalItem.productAvailable ||
+      this.props.bridalItem.price[this.props.currency] == 0 ||
       this.props.bridalItem.stock == 0 ||
       this.props.bridalItem.qtyRemaining == 0
     ) {
@@ -350,7 +355,10 @@ class BridalItem extends React.Component<Props, State> {
                             className={cs(styles.widgetQty, {
                               [styles.disableQty]:
                                 this.props.bridalItem.stock == 0 ||
-                                this.props.bridalItem.qtyRemaining == 0
+                                this.props.bridalItem.qtyRemaining == 0 ||
+                                this.props.bridalItem.price[
+                                  this.props.currency
+                                ] == 0
                             })}
                           >
                             <span
