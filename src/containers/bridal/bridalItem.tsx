@@ -154,7 +154,10 @@ class BridalItem extends React.Component<Props, State> {
   };
 
   mobileAddToBag = () => {
-    if (this.props.bridalItem.productAvailable) {
+    if (
+      this.props.bridalItem.productAvailable &&
+      this.props.bridalItem.price[this.props.currency] != 0
+    ) {
       const mobileAddIndex = this.props.index;
       this.props.onMobileAdd(mobileAddIndex);
     }
@@ -332,7 +335,14 @@ class BridalItem extends React.Component<Props, State> {
                               NOTIFY ME
                             </span>
                           ) : (
-                            <span className={styles.aquaColor}>
+                            <span
+                              className={cs(styles.aquaColor, {
+                                [styles.blur]:
+                                  this.props.bridalItem.price[
+                                    this.props.currency
+                                  ] == 0
+                              })}
+                            >
                               + CHECK QUANTITY & ADD TO BAG
                             </span>
                           )}

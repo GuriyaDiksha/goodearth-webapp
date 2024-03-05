@@ -456,7 +456,7 @@ const CartItems: React.FC<BasketItem> = memo(
                           </span>
                         )}
                       </div>
-                      <div className={globalStyles.voffset2}>
+                      <div className={cs({ [globalStyles.voffset2]: !mobile })}>
                         {bridalProfile && (
                           <img src={addedReg} width="25" alt="gift_reg_icon" />
                         )}
@@ -632,7 +632,7 @@ const CartItems: React.FC<BasketItem> = memo(
                           : displayPriceWithCommas(price, currency)}
                       </span>
                     )}
-                    <div className={globalStyles.voffset2}>
+                    <div className={cs({ [globalStyles.voffset2]: !mobile })}>
                       {bridalProfile && (
                         <img src={addedReg} width="25" alt="gift_reg_icon" />
                       )}
