@@ -44,7 +44,14 @@ const SampleDisplay: React.FC<Props> = props => {
 
   const openPopup = (productId: number) => {
     const { item, currency, mobile } = props;
-    props.grid.openPopup(item, currency, props.sortBy, isSale, mobile);
+    props.grid.openPopup(
+      item,
+      currency,
+      props.sortBy,
+      isSale,
+      mobile,
+      isShared
+    );
   };
 
   const sizeText = (item: WishListGridItem) => {

@@ -112,7 +112,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       currency: Currency,
       sortBy: string,
       isSale?: boolean,
-      mobile?: boolean
+      mobile?: boolean,
+      isShared?: boolean
     ) => {
       const childAttributes = item.stockDetails.map(
         ({
@@ -145,13 +146,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         }
       });
       const changeSize = async (size: string, quantity?: number) => {
-        await WishlistService.modifyWishlistItem(
-          dispatch,
-          item.id,
-          size,
-          quantity,
-          sortBy
-        );
+        if (!isShared) {
+          await WishlistService.modifyWishlistItem(
+            dispatch,
+            item.id,
+            size,
+            quantity,
+            sortBy
+          );
+        }
       };
 
       const index = item.category.length - 1;
