@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  EventHandler,
+  MouseEvent,
+  useEffect,
+  useMemo,
+  useState
+} from "react";
 import { Link, useHistory } from "react-router-dom";
 import { PLPResultItemProps } from "./typings";
 import "../../styles/myslick.css";
@@ -19,7 +25,7 @@ import CookieService from "services/cookie";
 import Price from "components/Price";
 import SkeletonImage from "components/plpResultItem/skeleton";
 import { GA_CALLS } from "constants/cookieConsent";
-import iconStyles from "styles/iconFonts.scss";
+import cartIcon from "./../../icons/plp_cart.svg";
 import plpThreeSixty from "./../../icons/plp-three-sixty.svg";
 import PlpResultImageSlider from "components/PlpResultImageSlider";
 
@@ -36,7 +42,9 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
     position,
     page,
     onClickQuickView,
-    loader
+    loader,
+    onEnquireClick,
+    notifyMeClick
   } = props;
   const code = currencyCode[currency as Currency];
   const {
@@ -102,32 +110,47 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
     }
   }, [mobile]);
 
-  // const image = product.plpImages ? product.plpImages[0] : "";
-  // const button = useMemo(() => {
-  //   let buttonText: string, action: EventHandler<MouseEvent>;
-  //   if (isCorporate) {
-  //     buttonText = "Enquire Now";
-  //     action = () => onEnquireClick(product.id, product.partner);
-  //   } else if (allOutOfStock) {
-  //     buttonText = "Notify Me";
-  //     action = () => notifyMeClick(product);
-  //   } else {
-  //     buttonText = "Add to Bag";
-  //     action = () => notifyMeClick(product);
-  //   }
-  //   return (
-  //     <Button
-  //       className={cs(
-  //         // styles.addToBagListView,
-  //         bootstrapStyles.col6,
-  //         bootstrapStyles.offset3
-  //       )}
-  //       onClick={action}
-  //       label={buttonText}
-  //       variant="smallAquaCta"
-  //     />
-  //   );
-  // }, []);
+  const image = product.plpImages ? product.plpImages[0] : "";
+  const button = useMemo(() => {
+    // let buttonText: string,
+    let action: EventHandler<MouseEvent>;
+    if (isCorporate) {
+      // buttonText = "Enquire Now";
+      action = () => onEnquireClick(product.id, product.partner);
+    } else if (allOutOfStock) {
+      // buttonText = "Notify Me";
+      action = () => notifyMeClick(product);
+    } else {
+      // buttonText = "Add to Bag";
+      action = () => notifyMeClick(product);
+    }
+    return (
+      // <Button
+      //   className={cs(
+      //     // styles.addToBagListView,
+      //     bootstrapStyles.col6,
+      //     bootstrapStyles.offset3
+      //   )}
+      //   onClick={action}
+      //   label={buttonText}
+      //   variant="smallAquaCta"
+      // />
+      <div
+        className={cs(
+          globalStyles.textCenter,
+          globalStyles.cartIconPositionDesktop
+        )}
+      >
+        <img
+          src={cartIcon}
+          height={30}
+          width={30}
+          alt="cartIcon"
+          onClick={action}
+        />
+      </div>
+    );
+  }, []);
   const isStockAvailable = isCorporate || product.inStock;
 
   const onClickQuickview = (): void => {
@@ -210,7 +233,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
               id={product.id}
               showText={false}
               key={product.id}
-              //  mobile={mobile}
+              mobile={mobile}
             />
           </div>
         )}
@@ -248,28 +271,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
           </div>
         )}
 
-        {!isCorporate && (
-          <div
-            className={cs(
-              globalStyles.textCenter,
-              globalStyles.cartIconPositionDesktop,
-              { [globalStyles.cartIconPositionMobile]: mobile }
-              // styles.wishlistBtnContainer
-              // {
-              //   [styles.wishlistBtnContainer]: mobile
-              // }
-            )}
-          >
-            <div
-              className={cs(
-                iconStyles.icon,
-                globalStyles.iconContainer,
-                iconStyles.iconCart
-              )}
-              onClick={onClickQuickview}
-            ></div>
-          </div>
-        )}
+        {button}
         <Link to={product.url} onClick={gtmProductClick}>
           <PlpResultImageSlider mobile={true}>
             {mobileSlides}

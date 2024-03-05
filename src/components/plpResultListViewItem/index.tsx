@@ -15,14 +15,14 @@ import LazyImage from "components/LazyImage";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import { getPageType, plpProductClick } from "utils/validate";
-import MobileSlider from "components/MobileSlider";
 import CookieService from "services/cookie";
 import Price from "components/Price";
 import SkeletonImage from "components/plpResultItem/skeleton";
 import { GA_CALLS } from "constants/cookieConsent";
-import Button from "components/Button";
 import iconStyles from "styles/iconFonts.scss";
 import plpThreeSixty from "./../../icons/plp-three-sixty.svg";
+import PlpResultImageSlider from "components/PlpResultImageSlider";
+import cartIcon from "./../../icons/plp_cart.svg";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -100,30 +100,47 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   };
 
   const button = useMemo(() => {
-    let buttonText: string, action: EventHandler<MouseEvent>;
+    // let buttonText: string,
+    let action: EventHandler<MouseEvent>;
     if (isCorporate) {
-      buttonText = "Enquire Now";
+      // buttonText = "Enquire Now";
       action = () => onEnquireClick(product.id, product.partner);
     } else if (allOutOfStock) {
-      buttonText = "Notify Me";
+      // buttonText = "Notify Me";
       action = () => notifyMeClick(product);
     } else {
-      buttonText = "Add to Bag";
+      // buttonText = "Add to Bag";
       action = () => notifyMeClick(product);
     }
     return (
-      <Button
+      <div
         className={cs(
-          styles.addToBagListView,
-          // styles.productBtn,
-          bootstrapStyles.col8,
-          globalStyles.btnFullWidth,
-          { [styles.enquireNotifyMe]: isCorporate || allOutOfStock }
+          globalStyles.textCenter,
+          globalStyles.cartIconPositionDesktop,
+          globalStyles.listRightBottomPosition,
+          { [globalStyles.cartIconPositionMobile]: mobile }
         )}
-        onClick={action}
-        label={buttonText}
-        variant="smallAquaCta"
-      />
+      >
+        <img
+          src={cartIcon}
+          height={30}
+          width={30}
+          alt="cartIcon"
+          onClick={action}
+        />
+      </div>
+      // <Button
+      //   className={cs(
+      //     styles.addToBagListView,
+      //     // styles.productBtn,
+      //     bootstrapStyles.col8,
+      //     globalStyles.btnFullWidth,
+      //     { [styles.enquireNotifyMe]: isCorporate || allOutOfStock }
+      //   )}
+      //   onClick={action}
+      //   label={buttonText}
+      //   variant="smallAquaCta"
+      // />
     );
   }, []);
   const isStockAvailable = isCorporate || product.inStock;
@@ -176,7 +193,9 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
       )}
       <div className={styles.imageBoxnew} id={"" + product.id}>
         <Link to={product.url} onClick={gtmProductClick}>
-          <MobileSlider>{mobileSlides}</MobileSlider>
+          <PlpResultImageSlider mobile={mobile}>
+            {mobileSlides}
+          </PlpResultImageSlider>
         </Link>
         <div
           className={cs(
@@ -281,13 +300,13 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           </div>
         )}
         <div className={cs(styles.actions, bootstrapStyles.row)}>
-          {button}
+          {/* {button} */}
 
           {!isCorporate && (
             <div
               className={cs(
                 globalStyles.textCenter,
-                globalStyles.listRightBottomPosition,
+                globalStyles.listRightPosition,
                 globalStyles.desktopWishlist,
                 { [globalStyles.mobileWishlist]: mobile }
                 // styles.wishlistBtnContainer
@@ -306,7 +325,8 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
                 id={product.id}
                 showText={false}
                 key={product.id}
-                //  mobile={mobile}
+                mobile={false} //sending false becuase icon height will be same as desktop
+                isPlpTile={true}
               />
             </div>
           )}
@@ -346,29 +366,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             </div>
           )}
 
-          {!isCorporate && (
-            <div
-              className={cs(
-                globalStyles.textCenter,
-                globalStyles.cartIconPositionDesktop,
-                globalStyles.listRightBottomPosition,
-                { [globalStyles.cartIconPositionMobile]: mobile }
-                // styles.wishlistBtnContainer
-                // {
-                //   [styles.wishlistBtnContainer]: mobile
-                // }
-              )}
-            >
-              <div
-                className={cs(
-                  iconStyles.icon,
-                  globalStyles.iconContainer,
-                  iconStyles.iconCart
-                )}
-                onClick={onClickQuickview}
-              ></div>
-            </div>
-          )}
+          {button}
         </div>
       </div>
     </div>

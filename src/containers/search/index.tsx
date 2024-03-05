@@ -833,6 +833,8 @@ class Search extends React.Component<
                               : false
                           }
                           isSearch={true}
+                          notifyMeClick={this.notifyMeClick}
+                          onEnquireClick={this.onEnquireClick}
                         />
                       ) : (
                         <PlpResultListViewItem
