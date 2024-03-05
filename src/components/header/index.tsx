@@ -228,6 +228,9 @@ class Header extends React.Component<Props, State> {
         if (that.props.showStock) {
           that.props.closeInShopAvailability();
         }
+        if (that.props.filler.show) {
+          that.props.closeFillerPurchase();
+        }
       }
     });
     const config = { subtree: true, childList: true };
