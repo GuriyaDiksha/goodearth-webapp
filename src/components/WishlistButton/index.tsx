@@ -24,8 +24,6 @@ import { updateLoader } from "actions/info";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import globalStyles from "styles/global.scss";
-import wishlistIcon from "./../../icons/plp-wishlist.svg";
-import wishlistAddedIcon from "./../../icons/plp-wishlist_added.svg";
 
 const WishlistButton: React.FC<Props> = ({
   gtmListType,
@@ -46,7 +44,8 @@ const WishlistButton: React.FC<Props> = ({
   // inWishlist,
   onMoveToWishlist,
   onComplete,
-  isPlpTile
+  isPlpTile,
+  tablet
 }) => {
   const { wishlistItems, wishlistChildItems } = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
@@ -242,14 +241,6 @@ const WishlistButton: React.FC<Props> = ({
         {gtmListType == "cart" ||
           (gtmListType == "MiniBag" ? (
             ""
-          ) : isPlpTile ? (
-            <img
-              src={addedToWishlist ? wishlistAddedIcon : wishlistIcon}
-              height={30}
-              width={30}
-              alt="wishlist"
-              onClick={onClick}
-            />
           ) : (
             <div
               style={parentWidth ? { width: "100%" } : {}}
@@ -258,10 +249,15 @@ const WishlistButton: React.FC<Props> = ({
                 styles.wishlistIcon,
                 iconClassName,
                 {
-                  [iconStyles.iconWishlistAdded]: addedToWishlist,
-                  [iconStyles.iconWishlist]: !addedToWishlist,
+                  [iconStyles.iconWishlistAdded]: addedToWishlist && !isPlpTile,
+                  [iconStyles.iconWishlist]: !addedToWishlist && !isPlpTile,
                   [styles.addedToWishlist]: addedToWishlist && showText,
-                  [styles.mobileWishlist]: mobile
+                  [iconStyles.iconPlpWishlistAdded]:
+                    addedToWishlist && isPlpTile,
+                  [iconStyles.iconPlpWishlist]: !addedToWishlist && isPlpTile,
+                  [globalStyles.tabletIconSize]: tablet && isPlpTile,
+                  [styles.mobileWishlist]: mobile && !isPlpTile,
+                  [globalStyles.iconContainer]: isPlpTile
                 }
               )}
               title={

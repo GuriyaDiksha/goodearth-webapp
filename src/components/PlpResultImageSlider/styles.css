@@ -68,8 +68,8 @@
     width: 20px;
 }
 
-.imageSlideronatiner .slick-slide img{
-    left: 1px !important;
+.imageSlideronatiner .slick-list {
+   margin: 0 -1px;
 }
 
 @keyframes swipeLeft{

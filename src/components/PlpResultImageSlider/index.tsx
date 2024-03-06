@@ -14,9 +14,7 @@ const PlpResultImageSlider: React.FC<Props> = ({ children, mobile }) => {
     dots: mobile ? true : false,
     arrows: mobile ? false : true,
     infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
+    speed: 500
   };
   return (
     <div className={"imageSlideronatiner"}>

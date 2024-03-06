@@ -25,4 +25,5 @@ export type Props = {
   parentWidth?: boolean;
   onComplete?: () => void;
   isPlpTile?: boolean;
+  tablet?: boolean;
 };
