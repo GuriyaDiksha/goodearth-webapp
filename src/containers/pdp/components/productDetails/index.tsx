@@ -628,6 +628,9 @@ const ProductDetails: React.FC<Props> = ({
       (selectedSize && isRegistry[selectedSize.size])
     ) {
       showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_AGAIN);
+      setTimeout(() => {
+        closeModal ? closeModal() : null;
+      }, 3000);
       return false;
     }
     if (childAttributes[0].size) {
@@ -654,6 +657,9 @@ const ProductDetails: React.FC<Props> = ({
           bridalId !== 0 && BridalService.countBridal(dispatch, bridalId);
         }
         showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
+        setTimeout(() => {
+          closeModal ? closeModal() : null;
+        }, 3000);
         const registry = Object.assign({}, isRegistry);
         const userConsent = CookieService.getCookie("consent").split(",");
         if (userConsent.includes(GA_CALLS)) {
