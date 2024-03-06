@@ -64,7 +64,7 @@
 }
 
 .price {
-    font-size: 16px;
+    font-size: 14px;
     //line-height: 30px;
     font-family: $font-Montserrat;
     text-align: right;
@@ -133,7 +133,7 @@
 
 .size-error {
     @include error-msg();
-    font-size: 13px;
+    font-size: 14px !important;
     font-family: $font-Lora;
     font-style: italic;
     font-weight: normal;

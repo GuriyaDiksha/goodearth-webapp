@@ -72,7 +72,8 @@ const mapStateToProps = (state: AppState) => {
     openModal: state.modal.openModal,
     scrollDown: state.info.scrollDown,
     user: state.user,
-    showmobileSort: state.header.showmobileSort
+    showmobileSort: state.header.showmobileSort,
+    isShared: state.router.location.pathname.includes("shared-wishlist")
   };
 };
 
@@ -982,12 +983,13 @@ class Header extends React.Component<Props, State> {
       handleLogOut,
       location,
       mobile,
-      tablet
+      tablet,
+      isShared
       // slab,
       // customerGroup
     } = this.props;
-    // const wishlistCount = wishlistData.length;
-    const wishlistCount = wishlistCountData;
+    const wishlistCount = isShared ? wishlistCountData : wishlistData.length;
+    // const wishlistCount = wishlistCountData;
     let bagCount = 0;
     const item = this.props.cart.lineItems;
     for (let i = 0; i < item.length; i++) {
@@ -1341,7 +1343,7 @@ class Header extends React.Component<Props, State> {
                     toggleSearch={this.showSearch}
                     mobile={mobile}
                     wishlistData={wishlistData}
-                    wishlistCountData={wishlistCountData}
+                    wishlistCountData={wishlistCount}
                     currency={this.props.currency}
                     sidebagData={this.props.cart}
                   />

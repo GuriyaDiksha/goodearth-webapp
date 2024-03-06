@@ -61,7 +61,7 @@
       position: absolute;
       right: 10px;
       top: 10px;
-      font-size: 25px;
+      font-size: 28px;
       color: tint(#000, 60%);
       font-weight: bold;
       background-color: $white;
@@ -157,7 +157,7 @@
        @include b3_14px_montserrat_charcoal();
     }
     span {
-      @include b3_14px_montserrat_charcoal();
+      @include b3_14px_montserrat_medcharcoal();
     }
     a:hover {
        font-weight: 500;
@@ -194,11 +194,12 @@
 span{
   &.discountprice {
       color: $gold;
+      font-size: 16px !important;
     }
     &.strikeprice {
       text-decoration: line-through;
       color: $light-charcoal;
-      font-size: 12px;    }
+      font-size: 14px;    }
 }
   
 .wishlist-block-outer {
@@ -860,4 +861,8 @@ icon-cross {
       background-color: #fff;
     }
   }
+}
+
+.err-msg{
+  font-size: 14px !important;
 }

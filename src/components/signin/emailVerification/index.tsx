@@ -19,6 +19,7 @@ import Button from "components/Button";
 import { Currency } from "typings/currency";
 import { censorEmail, censorPhoneNumber } from "utils/utility";
 import { AppState } from "reducers/typings";
+import ModalStyles from "components/Modal/styles.scss";
 
 type Props = {
   successMsg: string;
@@ -102,7 +103,9 @@ const EmailVerification: React.FC<Props> = ({
         otp,
         currency,
         source,
-        sortBy
+        sortBy,
+        mobile,
+        mobile ? ModalStyles.bottomAlignSlideUp : ""
       );
 
       if (res?.token) {

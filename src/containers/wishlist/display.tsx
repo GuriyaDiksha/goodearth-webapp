@@ -217,7 +217,13 @@ const SampleDisplay: React.FC<Props> = props => {
               </span>
             )}
           </p>
-          <span className={cs(globalStyles.errorMsg, globalStyles.gold)}>
+          <span
+            className={cs(
+              globalStyles.errorMsg,
+              globalStyles.gold,
+              styles.errMsg
+            )}
+          >
             {isSale && showStockMessage && `Only ${stock} Left!`}
           </span>
         </div>
