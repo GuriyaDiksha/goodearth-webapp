@@ -25,7 +25,7 @@ import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import PlpResultImageSlider from "components/PlpResultImageSlider";
 import plpThreeSixty from "./../../icons/plp-three-sixty.svg";
-import cartIcon from "./../../icons/plp_cart.svg";
+import iconStyles from "styles/iconFonts.scss";
 
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -189,15 +189,20 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           globalStyles.textCenter,
           globalStyles.cartIconPositionDesktop,
           { [globalStyles.cartIconPositionMobile]: mobile }
+          // styles.wishlistBtnContainer
+          // {
+          //   [styles.wishlistBtnContainer]: mobile
+          // }
         )}
       >
-        <img
-          src={cartIcon}
-          height={mobile ? 25 : 30}
-          width={mobile ? 25 : 30}
-          alt="cartIcon"
+        <div
+          className={cs(
+            iconStyles.icon,
+            globalStyles.iconContainer,
+            iconStyles.iconPlpCart
+          )}
           onClick={mobile ? action : onClickQuickview}
-        />
+        ></div>
       </div>
       // <Button
       //   className={cs(
@@ -240,7 +245,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             className={cs(
               globalStyles.textCenter,
               globalStyles.desktopWishlist,
-              { [globalStyles.mobileWishlist]: mobile }
+              { [globalStyles.mobileWishlistPlp]: mobile }
               // styles.wishlistBtnContainer
               // {
               //   [styles.wishlistBtnContainer]: mobile

@@ -25,7 +25,7 @@ import CookieService from "services/cookie";
 import Price from "components/Price";
 import SkeletonImage from "components/plpResultItem/skeleton";
 import { GA_CALLS } from "constants/cookieConsent";
-import cartIcon from "./../../icons/plp_cart.svg";
+import iconStyles from "styles/iconFonts.scss";
 import plpThreeSixty from "./../../icons/plp-three-sixty.svg";
 import PlpResultImageSlider from "components/PlpResultImageSlider";
 
@@ -138,16 +138,22 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
       <div
         className={cs(
           globalStyles.textCenter,
-          globalStyles.cartIconPositionDesktop
+          globalStyles.cartIconPositionDesktop,
+          { [globalStyles.cartIconPositionMobile]: mobile }
+          // styles.wishlistBtnContainer
+          // {
+          //   [styles.wishlistBtnContainer]: mobile
+          // }
         )}
       >
-        <img
-          src={cartIcon}
-          height={30}
-          width={30}
-          alt="cartIcon"
+        <div
+          className={cs(
+            iconStyles.icon,
+            globalStyles.iconContainer,
+            iconStyles.iconPlpCart
+          )}
           onClick={action}
-        />
+        ></div>
       </div>
     );
   }, []);
@@ -216,7 +222,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
             className={cs(
               globalStyles.textCenter,
               globalStyles.desktopWishlist,
-              { [globalStyles.mobileWishlist]: mobile }
+              { [globalStyles.mobileWishlistPlp]: mobile }
               // styles.wishlistBtnContainer
               // {
               //   [styles.wishlistBtnContainer]: mobile
@@ -234,6 +240,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
               showText={false}
               key={product.id}
               mobile={mobile}
+              tablet={true}
             />
           </div>
         )}

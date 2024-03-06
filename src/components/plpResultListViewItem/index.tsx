@@ -119,15 +119,20 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           globalStyles.cartIconPositionDesktop,
           globalStyles.listRightBottomPosition,
           { [globalStyles.cartIconPositionMobile]: mobile }
+          // styles.wishlistBtnContainer
+          // {
+          //   [styles.wishlistBtnContainer]: mobile
+          // }
         )}
       >
-        <img
-          src={cartIcon}
-          height={30}
-          width={30}
-          alt="cartIcon"
+        <div
+          className={cs(
+            iconStyles.icon,
+            globalStyles.iconContainer,
+            iconStyles.iconPlpCart
+          )}
           onClick={action}
-        />
+        ></div>
       </div>
       // <Button
       //   className={cs(
@@ -308,7 +313,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
                 globalStyles.textCenter,
                 globalStyles.listRightPosition,
                 globalStyles.desktopWishlist,
-                { [globalStyles.mobileWishlist]: mobile }
+                { [globalStyles.mobileWishlistPlp]: mobile }
                 // styles.wishlistBtnContainer
                 // {
                 //   [styles.wishlistBtnContainer]: mobile
