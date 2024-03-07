@@ -244,22 +244,18 @@ const WishlistButton: React.FC<Props> = ({
           ) : (
             <div
               style={parentWidth ? { width: "100%" } : {}}
-              className={cs(
-                iconStyles.icon,
-                styles.wishlistIcon,
-                iconClassName,
-                {
-                  [iconStyles.iconWishlistAdded]: addedToWishlist && !isPlpTile,
-                  [iconStyles.iconWishlist]: !addedToWishlist && !isPlpTile,
-                  [styles.addedToWishlist]: addedToWishlist && showText,
-                  [iconStyles.iconPlpWishlistAdded]:
-                    addedToWishlist && isPlpTile,
-                  [iconStyles.iconPlpWishlist]: !addedToWishlist && isPlpTile,
-                  [globalStyles.tabletIconSize]: tablet && isPlpTile,
-                  [styles.mobileWishlist]: mobile && !isPlpTile,
-                  [globalStyles.iconContainer]: isPlpTile
-                }
-              )}
+              className={cs(iconStyles.icon, iconClassName, {
+                [iconStyles.iconWishlistAdded]: addedToWishlist && !isPlpTile,
+                [iconStyles.iconWishlist]: !addedToWishlist && !isPlpTile,
+                [styles.addedToWishlist]: addedToWishlist && showText,
+                [iconStyles.iconPlpWishlistAdded]: addedToWishlist && isPlpTile,
+                [iconStyles.iconPlpWishlist]: !addedToWishlist && isPlpTile,
+                [globalStyles.tabletIconSize]: tablet && isPlpTile,
+                [styles.mobileWishlist]: mobile && !isPlpTile,
+                [globalStyles.iconContainer]: isPlpTile,
+                [styles.wishlistPaddingTop]: isPlpTile,
+                [styles.wishlistIcon]: !isPlpTile
+              })}
               title={
                 basketLineId
                   ? addedToWishlist
