@@ -545,7 +545,7 @@ class Footer extends React.Component<Props, FooterState> {
                                               "good earth registry" &&
                                             this.props.isLoggedIn ? (
                                               <Link
-                                                to={"/gift-registry"}
+                                                to={"/the-good-earth-registry"}
                                                 onClick={() => {
                                                   if (
                                                     this.props.location
@@ -918,7 +918,7 @@ class Footer extends React.Component<Props, FooterState> {
                                               child.text.toLowerCase() ==
                                                 "good earth registry" &&
                                               this.props.isLoggedIn
-                                                ? "/gift-registry"
+                                                ? "/the-good-earth-registry"
                                                 : child.link
                                             }
                                             onClick={() => {
