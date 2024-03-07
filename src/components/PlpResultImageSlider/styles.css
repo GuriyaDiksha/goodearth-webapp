@@ -14,13 +14,12 @@
 }
 
 .imageSlideronatiner .slick-slider .slick-dots li.slick-active button{
-    opacity: 1 !important;
+    opacity: 1;
 }
 .imageSlideronatiner .slick-slider .slick-dots li button{
-    /* box-shadow: 1px 1px 1px #00000065; */
-    border: 1px solid green !important;
-    opacity: 0.4 !important;
-    background-color: red;
+    box-shadow: 1px 1px 1px #00000065;
+    opacity: 0.4;
+    background-color: white;
     font-size: 0;
     line-height: 0;
     display: block;
@@ -29,7 +28,7 @@
     border-radius: 50%;
     padding: 2px;
     cursor: pointer;
-    color: red;
+    color: white;
     border: 0;
     outline: none;
     margin: 0 auto;
