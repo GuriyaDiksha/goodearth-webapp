@@ -24,6 +24,7 @@ import initActionBridal from "containers/bridal/initAction";
 import initActionCheckout from "containers/checkout/initAction";
 import initActionCart from "containers/cartPage/initAction";
 import initActionCareer from "containers/careerNew/initAction";
+import initActionRegistery from "containers/giftRegistery/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -80,6 +81,12 @@ const routes: RouteConfig = [
     path: ROUTES.CAREER,
     component: loadable(() => import("containers/careerNew")),
     action: initActionCareer,
+    exact: false
+  },
+  {
+    path: ROUTES.REGISTERY,
+    component: loadable(() => import("containers/giftRegistery")),
+    action: initActionRegistery,
     exact: false
   },
   {
