@@ -11,6 +11,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 // import { removeFroala } from "utils/validate";
 import AnnouncementBarSlider from "./AnnouncementBarSlider";
+import gift_icon_white from "../../images/registery/gift_icon_white.svg";
 
 type Props = {
   clearBridalSession: (source: string) => void;
@@ -26,7 +27,9 @@ const AnnouncementBar: React.FC<Props> = ({
     bgColorcode,
     bridalBgColorcode,
     registrantName,
-    coRegistrantName
+    coRegistrantName,
+    occasionName,
+    registryName
   } = useSelector((state: AppState) => state.header.announcementData);
   const { mobile } = useSelector((state: AppState) => state.device);
   const dispatch = useDispatch();
@@ -68,9 +71,16 @@ const AnnouncementBar: React.FC<Props> = ({
               data.length > 1 || !isBridalRegistryPage ? "" : styles.width100
             }
           >
-            <div style={{ backgroundColor: bridalBgColorcode, height: "40px" }}>
+            <div
+              style={{
+                backgroundColor: bridalBgColorcode
+                  ? bridalBgColorcode
+                  : "#9C7D50",
+                height: "40px"
+              }}
+            >
               <>
-                <svg
+                {/* <svg
                   style={{ verticalAlign: "bottom" }}
                   viewBox="-5 -5 50 50"
                   width="30"
@@ -81,29 +91,44 @@ const AnnouncementBar: React.FC<Props> = ({
                   className={styles.bridalRing}
                 >
                   <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                </svg>{" "}
+                </svg>{" "} 
                 {registrantName} & {coRegistrantName}
                 &#39;s Bridal Registry (Public Link){" "}
-                <b
-                  style={{
-                    textDecoration: "underline",
-                    cursor: "pointer"
-                  }}
-                >
-                  <span
-                    onClick={() =>
-                      clearBridalSession(
-                        location.pathname.includes("checkout")
-                          ? "checkout"
-                          : location.pathname.includes("cart")
-                          ? "cart"
-                          : ""
-                      )
-                    }
+                */}
+                <div className={styles.flexDiv}>
+                  <img src={gift_icon_white} width="25" alt="gift_reg_icon" />
+                  &nbsp;
+                  {registrantName && !coRegistrantName && (
+                    <span>{registrantName}&#39;s</span>
+                  )}
+                  {registrantName && coRegistrantName && (
+                    <span>
+                      {registrantName}&nbsp;&&nbsp;{coRegistrantName}&#39;s
+                    </span>
+                  )}
+                  &nbsp;{occasionName}
+                  &nbsp;(Public Link)&nbsp;
+                  <b
+                    style={{
+                      textDecoration: "underline",
+                      cursor: "pointer"
+                    }}
                   >
-                    Close
-                  </span>
-                </b>
+                    <span
+                      onClick={() =>
+                        clearBridalSession(
+                          location.pathname.includes("checkout")
+                            ? "checkout"
+                            : location.pathname.includes("cart")
+                            ? "cart"
+                            : ""
+                        )
+                      }
+                    >
+                      Close
+                    </span>
+                  </b>
+                </div>
               </>
             </div>
           </div>

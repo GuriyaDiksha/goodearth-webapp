@@ -31,6 +31,13 @@ import Button from "components/Button";
 import SelectDropdown from "components/Formsy/SelectDropdown";
 import iconStyles from "styles/iconFonts.scss";
 import { cloneDeep } from "lodash";
+import BridalService from "services/bridal";
+import {
+  BridalDetailsType,
+  BridalProfileData
+} from "containers/myAccount/components/Bridal/typings";
+import { updateAddressList } from "actions/address";
+import { updateUser } from "actions/user";
 
 type Props = {
   addressData?: AddressData;
@@ -69,6 +76,20 @@ const AddressForm: React.FC<Props> = props => {
     currentCallBackComponent
   } = useContext(AddressContext);
 
+  const { bridalId } = useSelector((state: AppState) => state.user);
+  const [bridalProfile1, setBridalProfile] = useState<BridalProfileData>();
+  const [shareLink, setShareLink] = useState("");
+  const [bridalDetails, setBridalDetails] = useState<BridalDetailsType>({
+    occasion: "",
+    registrantName: "",
+    registryName: "",
+    coRegistrantName: "",
+    userAddress: undefined,
+    eventDate: ""
+  });
+  const { user } = useSelector((state: AppState) => state);
+  const address = props.addressData;
+
   const { currency } = useSelector((state: AppState) => state);
   const [isIndia, setIsIndia] = useState(currency === "INR");
   const [showPincode, setShowPincode] = useState(true);
@@ -81,7 +102,9 @@ const AddressForm: React.FC<Props> = props => {
   const isdList = countryData.map(list => {
     return list.isdCode;
   });
-  const { setBridalAddress, bridalProfile } = useContext(BridalContext);
+  const { changeBridalAddress, setBridalAddress, bridalProfile } = useContext(
+    BridalContext
+  );
   const { email, isLoggedIn } = useSelector((state: AppState) => state.user);
   const { mobile } = useSelector((state: AppState) => state.device);
   const countryRef: RefObject<HTMLInputElement> = useRef(null);
@@ -280,6 +303,56 @@ const AddressForm: React.FC<Props> = props => {
     }, 0);
   };
 
+  const getBridalProfileData = async () => {
+    const data = await BridalService.fetchBridalProfile(dispatch, bridalId);
+    if (data) {
+      setBridalProfile(data);
+      setBridalDetails(Object.assign({}, data, { userAddress: undefined }));
+      setShareLink(`${__DOMAIN__}/${data.shareLink}`);
+      dispatch(
+        updateUser(
+          Object.assign({}, user, {
+            bridalId: data.bridalId,
+            bridalCurrency: data.currency
+          })
+        )
+      );
+    }
+    return data;
+  };
+
+  const changeAddress = (newAddressId: number) => {
+    getBridalProfileData()
+      .then(_data => {
+        AddressService.fetchAddressList(dispatch).then(data => {
+          dispatch(updateAddressList(data));
+          const items = data;
+          for (let i = 0; i < items.length; i++) {
+            if (items[i].id == newAddressId) {
+              setBridalAddress(items[i]);
+              break;
+            }
+          }
+        });
+      })
+      .catch(err => {
+        console.error("Axios Error: ", err.response.data);
+      });
+  };
+
+  const changeBridalAddressOnEdit = (addressId: number) => {
+    const data = {
+      bridalId: bridalId,
+      addressId
+    };
+    BridalService.updateBridalAddress(dispatch, data).then(res => {
+      setBridalProfile(res[0]);
+      setShareLink(`${__DOMAIN__}/${res[0].shareLink}`);
+      changeAddress(data.addressId);
+      // setCurrentScreenValue("manageregistryfull");
+    });
+  };
+
   const submitAddress = (model: any, resetForm: any, invalidateForm: any) => {
     setErrorMessage("");
     setIsLoading(true);
@@ -361,11 +434,15 @@ const AddressForm: React.FC<Props> = props => {
             )[0];
             if (bridalAddress) {
               setBridalAddress(bridalAddress);
+              changeBridalAddress(id);
             }
           }
           setIsAddressChanged(false);
           setIsLoading(false);
           closeAddressForm(id);
+          if (currentCallBackComponent == "account" && address?.isBridal) {
+            changeBridalAddressOnEdit(id);
+          }
         })
         .catch(err => {
           const errData = err.response.data;
@@ -539,7 +616,7 @@ const AddressForm: React.FC<Props> = props => {
         onInvalidSubmit={handleInvalidSubmit}
       >
         <div
-          className={cs(styles.categorylabel, {
+          className={cs(globalStyles.voffset6, styles.categorylabel, {
             [styles.checkoutMobilePopup]:
               (mobile && currentCallBackComponent == "checkout-shipping") ||
               currentCallBackComponent == "checkout-billing"

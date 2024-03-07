@@ -145,10 +145,20 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             {data.isBridalOrder && (
               <div className={styles.row}>
                 <span className={styles.bridalInfo}>
-                  {data.registrantName}
-                  &nbsp; & &nbsp;{data.coRegistrantName}
-                  {"'s "}
-                  {data.occasion} Registry
+                  {data.registrantName && !data.coRegistrantName && (
+                    <span>
+                      {data.registrantName}&#39;s&nbsp;
+                      {data.occasion}&nbsp;Registry&nbsp;
+                    </span>
+                  )}
+                  {data.registrantName && data.coRegistrantName && (
+                    <span>
+                      {data.registrantName}&nbsp;&&nbsp;
+                      {data.coRegistrantName}
+                      &#39;s&nbsp;
+                      {data.occasion}&nbsp;Registry&nbsp;
+                    </span>
+                  )}
                 </span>
                 <span className={styles.bridalMessage}></span>
                 <span>Address predefined by registrant</span>

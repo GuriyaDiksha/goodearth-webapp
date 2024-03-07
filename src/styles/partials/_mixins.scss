@@ -176,7 +176,7 @@
   
 @mixin plp_prod_name_desktop {
     font-size: 14px;
-    font-family: $font-Lato;
+    font-family: $font-Lora;
 }
 
 @mixin plp_prod_quantity {
@@ -351,9 +351,11 @@
 
 @mixin plp_prod_name_desktop {
   font-size: 14px;
-  font-family: $font-Lato;
-  color: #000;
+  font-family: $font-Lora;
+  color: #191919;
   text-transform: capitalize;
+  line-height: 22px;
+  letter-spacing: 0.28px;
 }
 
 @mixin plp_prod_price_desktop {
@@ -394,10 +396,12 @@
 /*******************************  Login  **************************/
 
 @mixin c10-L-R {
-  font-size: 12px;
-  font-family: $font-Lato;
-  color: tint(#000, 40%);
-  letter-spacing: 1px;
+  font-size: 10px;
+  font-family: $font-Montserrat;
+  // color: tint(#000, 40%);
+  color: #191919;
+  letter-spacing: 0.3px;
+  line-height: 16px;
 }
 
 @mixin c22-A-I {
@@ -1171,8 +1175,8 @@ $list: $grey 92%, $white 8%;
 }
 
 @mixin b5_10px_montserrat_charcoal{
-  font-family: $font-Montserrat !important;
-  font-size: 10px !important;
+  font-family: $font-Montserrat;
+  font-size: 10px;
   font-weight: $regular;
   color: $charcoal19;
 }

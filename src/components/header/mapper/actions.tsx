@@ -37,11 +37,16 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     onLoadAPiCall: (
       isLoggedIn: boolean,
+      // basketcall: boolean,
       cookies: Cookies,
+      bridalId: number,
       bridalKey?: string,
       sortBy = "added_on",
       page?: string
     ) => {
+      if (bridalId > 0) {
+        BridalService.countBridal(dispatch, bridalId);
+      }
       MetaService.updateMeta(dispatch, cookies, bridalKey);
       if (page?.includes("shared-wishlist")) {
         WishlistService.countWishlist(dispatch);
