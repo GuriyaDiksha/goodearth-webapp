@@ -264,14 +264,14 @@ class Wishlist extends React.Component<Props, State> {
     );
   }
 
-  getWishlist = (sortBy: string) => {
+  getWishlist = (sortBy: string, isUnmount?: boolean) => {
     this.setState({
       isLoading: true
     });
     if (!sortBy && this.state.defaultOption.value) {
       sortBy = this.state.defaultOption.value;
     }
-    if (!this.props.isShared) {
+    if (!this.props.isShared || isUnmount) {
       this.props
         .updateWishlist(sortBy)
         .then(res => {
@@ -411,6 +411,9 @@ class Wishlist extends React.Component<Props, State> {
 
   componentWillUnmount() {
     window.removeEventListener("resize", debounce(this.updateStyle, 100));
+    if (this.props.isShared) {
+      this.getWishlist(this.state.defaultOption.value, true);
+    }
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -1107,7 +1110,7 @@ class Wishlist extends React.Component<Props, State> {
                   items={options}
                   value={this.state.defaultOption.value}
                   onChange={this.onChangeFilter}
-                  disabled={this.props.wishlistCountData === 0}
+                  disabled={this.props.wishlistData.length === 0}
                 />
               </div>
             </SecondaryHeader>

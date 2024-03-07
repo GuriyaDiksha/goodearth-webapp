@@ -8,6 +8,7 @@ import API from "utils/api";
 import { ProductID } from "typings/id";
 import { ApiResponse } from "typings/api";
 import BasketService from "services/basket";
+import WishlistService from "services/wishlist";
 import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
 import { showGrowlMessage } from "../../utils/validate";
@@ -74,7 +75,8 @@ export default {
   addToWishlist: async function(
     dispatch: Dispatch,
     productId: ProductID,
-    size?: string
+    size?: string,
+    isShared?: boolean
   ) {
     const res = await API.post<WishlistResponse & ApiResponse>(
       dispatch,
@@ -84,7 +86,11 @@ export default {
         size
       }
     );
-    dispatch(updateWishlist(res.data, "added_on"));
+    if (isShared) {
+      WishlistService.countWishlist(dispatch);
+    } else {
+      dispatch(updateWishlist(res.data, "added_on"));
+    }
     return res;
   },
 
@@ -93,7 +99,8 @@ export default {
     productId?: ProductID,
     id?: number,
     sortBy = "added_on",
-    size?: string
+    size?: string,
+    isShared?: boolean
   ) {
     const res = await API.delete<WishlistResponse & ApiResponse>(
       dispatch,
@@ -105,7 +112,12 @@ export default {
         size
       }
     );
-    dispatch(updateWishlist(res.data, sortBy));
+
+    if (isShared) {
+      WishlistService.countWishlist(dispatch);
+    } else {
+      dispatch(updateWishlist(res.data, sortBy));
+    }
     return res;
   },
 
@@ -144,9 +156,12 @@ export default {
     );
 
     if (res.success) {
-      if (!isShared) {
+      if (isShared) {
+        WishlistService.countWishlist(dispatch);
+      } else {
         dispatch(updateWishlist(res.data, sortBy));
       }
+
       BasketService.fetchBasket(dispatch, source);
     }
   },

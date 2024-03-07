@@ -14,7 +14,6 @@ import eye from "./../../images/eye.svg";
 import copy from "./../../images/copy.svg";
 import wup from "./../../images/wup.svg";
 import { showGrowlMessage } from "utils/validate";
-import { copyToClipboard } from "utils/clipboard";
 
 const ShareWishlistLink = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -24,9 +23,17 @@ const ShareWishlistLink = () => {
 
   const copyLink = (event: React.MouseEvent) => {
     event.preventDefault();
-    event.stopPropagation();
 
-    copyToClipboard(wishlist_link);
+    const copyText = document.getElementById("myInput") as HTMLInputElement;
+    const isIOSDevice = navigator.userAgent.match(/ipad|iphone/i);
+    if (isIOSDevice) {
+      copyText.setSelectionRange(0, copyText.value.length);
+    } else {
+      copyText.select();
+    }
+    document.execCommand("copy");
+
+    event.stopPropagation();
 
     showGrowlMessage(
       dispatch,
@@ -108,12 +115,7 @@ const ShareWishlistLink = () => {
                       className={cs(styles.shareTxtBoxWishlist)}
                       onClick={e => e.stopPropagation()}
                     >
-                      <input
-                        type="text"
-                        value={wishlist_link}
-                        id="myInput"
-                        disabled
-                      />
+                      <input type="text" value={wishlist_link} id="myInput" />
                       <p className={styles.note}>
                         Please note, this link will be auto-updated whenever the
                         Saved List is updated.

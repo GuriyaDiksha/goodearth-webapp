@@ -175,6 +175,8 @@ const WishlistButton: React.FC<Props> = ({
   };
 
   const onClick = useCallback(async () => {
+    const isShared = history.location.pathname.includes("shared-wishlist");
+
     dispatch(updateLoader(true));
     if (basketLineId) {
       if (addedToWishlist) {
@@ -183,10 +185,12 @@ const WishlistButton: React.FC<Props> = ({
           id,
           undefined,
           sortBy,
-          size
+          size,
+          isShared
         ).finally(() => {
           dispatch(updateLoader(false));
           onComplete && onComplete();
+
           // WishlistService.countWishlist(dispatch);
         });
       } else {
@@ -196,7 +200,7 @@ const WishlistButton: React.FC<Props> = ({
           size || childAttributes?.[0].size || "",
           source,
           sortBy,
-          history.location.pathname.includes("shared-wishlist")
+          isShared
         )
           .then(() => {
             onMoveToWishlist?.();
@@ -210,14 +214,22 @@ const WishlistButton: React.FC<Props> = ({
       }
     } else {
       if (addedToWishlist) {
-        WishlistService.removeFromWishlist(store.dispatch, id).finally(() => {
+        WishlistService.removeFromWishlist(
+          store.dispatch,
+          id,
+          undefined,
+          undefined,
+          undefined,
+          isShared
+        ).finally(() => {
           dispatch(updateLoader(false));
           onComplete && onComplete();
           gtmPushAddToWishlist(false);
+
           // WishlistService.countWishlist(dispatch);
         });
       } else {
-        WishlistService.addToWishlist(store.dispatch, id, size)
+        WishlistService.addToWishlist(store.dispatch, id, size, isShared)
           .then(() => {
             gtmPushAddToWishlist(true);
             // WishlistService.countWishlist(dispatch);
