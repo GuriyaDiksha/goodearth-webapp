@@ -60,6 +60,8 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     meta: state.meta,
     isLoggedIn: state.user.isLoggedIn,
+    bridalId: state.user.bridalId,
+    bridalCount: state.bridal.count,
     slab: state.user.slab,
     cookies: state.cookies,
     showTimer: state.info.showTimer,
@@ -153,6 +155,7 @@ class Header extends React.Component<Props, State> {
     this.props.onLoadAPiCall(
       this.props.isLoggedIn,
       this.props.cookies,
+      this.props.bridalId,
       bridalKey,
       this.props.sortBy,
       this.props.history?.location?.pathname
@@ -976,6 +979,7 @@ class Header extends React.Component<Props, State> {
     const { isLoggedIn } = this.context;
     const {
       wishlistData,
+      bridalCount,
       wishlistCountData,
       meta,
       goLogin,
@@ -988,6 +992,7 @@ class Header extends React.Component<Props, State> {
     } = this.props;
     // const wishlistCount = wishlistData.length;
     const wishlistCount = wishlistCountData;
+    const bridalCountData = bridalCount;
     let bagCount = 0;
     const item = this.props.cart.lineItems;
     for (let i = 0; i < item.length; i++) {
@@ -1013,19 +1018,25 @@ class Header extends React.Component<Props, State> {
         href: "/account/track-order",
         type: "link"
       },
-
       {
         label: "Activate Gift Card",
         href: "/account/giftcard-activation",
         type: "link",
         value: "Activate Gift Card"
       },
-
       {
         label: "Check Balance",
         href: "/account/check-balance",
         type: "link",
         value: "Check Balance"
+      },
+      {
+        label: `Good Earth Registry ${
+          isLoggedIn && bridalCountData > 0 ? "(" + bridalCountData + ")" : ""
+        }`,
+        href: isLoggedIn ? "/account/bridal" : "/gift-registry",
+        type: "link",
+        value: "Good Earth Registry"
       }
       // {
       //   label: "Cerise Program",
@@ -1344,6 +1355,7 @@ class Header extends React.Component<Props, State> {
                     wishlistCountData={wishlistCountData}
                     currency={this.props.currency}
                     sidebagData={this.props.cart}
+                    bridalCountData={bridalCountData}
                   />
                 )}
                 {(mobile || tablet) && (

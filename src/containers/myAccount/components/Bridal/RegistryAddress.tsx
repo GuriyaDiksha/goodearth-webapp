@@ -35,6 +35,7 @@ import cs from "classnames";
 import AddressService from "services/address";
 
 import { updateAddressList } from "actions/address";
+import gift_icon from "../../../../images/registery/gift_icon.svg";
 
 const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
   // const [ showAddresses, setShowAddresses ] = useState(true);
@@ -184,23 +185,32 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
           <div
             className={cs(
               bootstrapStyles.col10,
-
               bootstrapStyles.offset1,
-
-              globalStyles.textCenter
+              styles.registeryAddressHeader
             )}
           >
-            <i
+            {/* <i
               className={cs(styles.arrowUp, globalStyles.pointer)}
               onClick={() => setCurrentModule("details")}
-            ></i>
+            ></i> */}
 
             <p
               className={styles.backGc}
-              onClick={() => setCurrentModule("details")}
+              onClick={() => setCurrentModule("create")}
             >
-              <a>Back To Your Details</a>
+              <a>
+                <i className="arrow left"></i>
+                <span>BACK</span>
+              </a>
             </p>
+            <div className={cs(styles.giftIconAddress)}>
+              <img src={gift_icon} width="50px" height="50px" />
+            </div>
+            <div
+              className={cs(styles.registryFormHeading, globalStyles.voffset6)}
+            >
+              Good Earth Registry
+            </div>
           </div>
         </div>
       ) : (
@@ -210,23 +220,29 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
       {/* {(mode == "new" || mode == "edit") &&
         currentCallBackComponent == "bridal" && (
           <div
-            className={cs(
-              globalStyles.textLeft,
-
-              globalStyles.voffset4,
-
-              styles.letterSpacing1
-            )}
+            className={cs(styles.backBtnTop, bootstrapStyles.offsetMd1)}
+            onClick={closeAddressForm}
           >
-            <span
-              className={cs(
-                bootstrapStyles.col10,
+            &lt; &nbsp;SAVED A
+          </div>
+          // <div
+          //   className={cs(
+          //     globalStyles.textLeft,
 
-                bootstrapStyles.offset1,
+          //     globalStyles.voffset4,
 
-                bootstrapStyles.colMd8,
+          //     styles.letterSpacing1
+          //   )}
+          // >
+          //   <span
+          //     className={cs(
+          //       bootstrapStyles.col10,
 
-                bootstrapStyles.offsetMd2,
+          //       bootstrapStyles.offset1,
+
+          //       bootstrapStyles.colMd10,
+
+          //       bootstrapStyles.offsetMd2,
 
                 globalStyles.pointer
               )}
@@ -262,67 +278,92 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
           }
         )}
       >
-        {isBridal && mode == "list" && (
-          <div className={cs(styles.gcHead, globalStyles.voffset4)}>
-            {" "}
-            4. SHIPPING ADDRESS
-          </div>
-        )}
-
-        {!isBridal && (
-          <div
-            className={cs(globalStyles.c22AI, globalStyles.spMobileVoffset6)}
-          >
-            {" "}
-            Manage Your Addresses
-          </div>
-        )}
-
-        {(mode == "edit" || mode == "new") && isBridal && (
-          <div className={cs(globalStyles.textCenter, globalStyles.c22AI)}>
-            Manage Shipping Address
-          </div>
-        )}
-
-        {isBridal ? (
-          ""
-        ) : (
-          <div className={globalStyles.c10LR}>
-            Add multiple billing and shipping addresses.
-          </div>
-        )}
-
-        {isBridal && mode == "list" && (
-          <div
-            className={cs(
-              styles.formSubheading,
-
-              styles.formHeading,
-
-              globalStyles.pointer
+        <div
+          className={cs(isBridal && mode == "list" ? styles.flexHeader : "")}
+        >
+          <div className={cs(styles.regShipping)}>
+            {isBridal && mode == "list" && (
+              <div className={cs(styles.gcHead, globalStyles.voffset4)}>
+                {" "}
+                2. SHIPPING ADDRESS
+              </div>
             )}
-          >
-            {mobile ? (
-              <span
-                className={styles.addNewAddress}
-                onClick={() => {
-                  openAddressForm();
-                }}
+          </div>
+
+          <div className={cs(styles.regAddAddress)}>
+            {!isBridal && (
+              <div
+                className={cs(
+                  globalStyles.c22AI,
+                  globalStyles.spMobileVoffset6
+                )}
               >
-                + ADD ADDRESS
-              </span>
+                {" "}
+                Manage Your Addresses
+              </div>
+            )}
+
+            {(mode == "edit" || mode == "new") && isBridal && (
+              <div className={globalStyles.voffset5}>
+                {/* <div className={cs(styles.backBtnTop)} onClick={closeAddressForm}>
+                  &lt; &nbsp;BACK
+                </div> */}
+                <div
+                  className={cs(
+                    globalStyles.textCenter,
+                    globalStyles.c22AI,
+                    styles.registryFormHeading
+                  )}
+                >
+                  Manage Shipping Address
+                </div>
+                <div className={styles.registryFormSubheading}>
+                  Add multiple billing and shipping addresses.
+                </div>
+              </div>
+            )}
+
+            {isBridal ? (
+              ""
             ) : (
-              <span
-                className={styles.addNewAddress}
-                onClick={() => {
-                  openAddressForm();
-                }}
+              <div className={globalStyles.c10LR}>
+                Add multiple billing and shipping addresses.
+              </div>
+            )}
+
+            {isBridal && mode == "list" && (
+              <div
+                className={cs(
+                  styles.formSubheading,
+
+                  styles.formHeading,
+
+                  globalStyles.pointer
+                )}
               >
-                + ADD NEW ADDRESS
-              </span>
+                {mobile ? (
+                  <span
+                    className={styles.addNewAddress}
+                    onClick={() => {
+                      openAddressForm();
+                    }}
+                  >
+                    + ADD ADDRESS
+                  </span>
+                ) : (
+                  <span
+                    className={styles.addNewAddress}
+                    onClick={() => {
+                      openAddressForm();
+                    }}
+                  >
+                    + ADD NEW ADDRESS
+                  </span>
+                )}
+              </div>
             )}
           </div>
-        )}
+        </div>
 
         {props.children}
 
@@ -361,7 +402,7 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
                               /> */}
       </div>
 
-      {isBridal && mode == "list" && (
+      {/* {isBridal && mode == "list" && (
         <div
           className={cs(
             bootstrapStyles.row,
@@ -375,7 +416,7 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
             <i className={styles.arrowDown}></i>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* {(mode == "edit" || mode == "new") &&
         currentCallBackComponent == "bridal" && (
@@ -389,8 +430,8 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
 
               // globalStyles.voffset4,
 
-              // styles.letterSpacing1
-              cs(styles.backBtnCenter, styles.backBtnProfile)
+              styles.letterSpacing1,
+              styles.posUnset
             )}
           >
             <span

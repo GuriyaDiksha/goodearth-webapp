@@ -31,6 +31,7 @@ export const enum ROUTES {
   CORPORATEGIFTING = "/corporate-gifts-catalogue",
   GIFTINGLANDING = "/gifting",
   BRIDAL = "/the-good-earth-registry",
+  REGISTERY = "/gift-registry",
   LOYALTYLANDING = "/cerise",
   ERROR = "/error-page",
   ERR404 = "/404",
@@ -81,7 +82,8 @@ export const enum ROUTES {
   LILANURPARFUMS = "/lilanur-parfums",
   PEHCHAANNAQASHI = "/pehchaan-naqashi-of-kashmir",
   INTERNATIONALSALE = "/internationalsale",
-  MEMORYKEEPERS = "/memory-keepers"
+  MEMORYKEEPERS = "/memory-keepers",
+  HARVESTATTHETABLE = "/harvest-at-the-table"
 }
 
 export type RouteConfig = RouteObject[];
