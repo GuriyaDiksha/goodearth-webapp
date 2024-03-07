@@ -196,7 +196,38 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           <img src={product.justAddedBadge} />
         </div>
       )}
+
       <div className={styles.imageBoxnew} id={"" + product.id}>
+        {!isCorporate && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.listRightPosition,
+              globalStyles.desktopWishlist,
+              { [globalStyles.mobileWishlistPlp]: mobile }
+              // styles.wishlistBtnContainer
+              // {
+              //   [styles.wishlistBtnContainer]: mobile
+              // }
+            )}
+          >
+            <WishlistButton
+              gtmListType="Search"
+              title={product.title}
+              childAttributes={product.childAttributes}
+              priceRecords={product.priceRecords}
+              discountedPriceRecords={product.discountedPriceRecords}
+              categories={product.categories}
+              id={product.id}
+              showText={false}
+              key={product.id}
+              mobile={false} //sending false becuase icon height will be same as desktop
+              isPlpTile={true}
+            />
+          </div>
+        )}
+        {button}
+
         <Link to={product.url} onClick={gtmProductClick}>
           <PlpResultImageSlider mobile={mobile}>
             {mobileSlides}
@@ -307,35 +338,6 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
         <div className={cs(styles.actions, bootstrapStyles.row)}>
           {/* {button} */}
 
-          {!isCorporate && (
-            <div
-              className={cs(
-                globalStyles.textCenter,
-                globalStyles.listRightPosition,
-                globalStyles.desktopWishlist,
-                { [globalStyles.mobileWishlistPlp]: mobile }
-                // styles.wishlistBtnContainer
-                // {
-                //   [styles.wishlistBtnContainer]: mobile
-                // }
-              )}
-            >
-              <WishlistButton
-                gtmListType="Search"
-                title={product.title}
-                childAttributes={product.childAttributes}
-                priceRecords={product.priceRecords}
-                discountedPriceRecords={product.discountedPriceRecords}
-                categories={product.categories}
-                id={product.id}
-                showText={false}
-                key={product.id}
-                mobile={false} //sending false becuase icon height will be same as desktop
-                isPlpTile={true}
-              />
-            </div>
-          )}
-
           {!isCorporate && product?.code && (
             <div
               className={cs(
@@ -370,8 +372,6 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
               </div>
             </div>
           )}
-
-          {button}
         </div>
       </div>
     </div>
