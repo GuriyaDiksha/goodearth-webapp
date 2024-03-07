@@ -431,9 +431,7 @@ const NotifyMePopup: React.FC<Props> = ({
                     : displayPriceWithCommas(price, currency)}
                 </span>
               ) : (
-                <span
-                  className={badgeType == "B_flat" ? globalStyles.gold : ""}
-                >
+                <span className={badgeType == "B_flat" ? styles.flatPrice : ""}>
                   {selectedSize
                     ? displayPriceWithCommas(
                         selectedSize.priceRecords[currency],
