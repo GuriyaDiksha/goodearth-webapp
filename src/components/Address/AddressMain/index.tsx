@@ -34,6 +34,7 @@ import { CONFIG } from "constants/util";
 import {
   updateBillingAddressId,
   updateShippingAddressId
+  // updateBridalAddressId
 } from "actions/address";
 import { countryCurrencyCode } from "constants/currency";
 import Button from "components/Button";
@@ -304,6 +305,7 @@ const AddressMain: React.FC<Props> = props => {
       } else if (currentCallBackComponent === "checkout-billing") {
         dispatch(updateBillingAddressId(addressData?.id));
         setIsLoading(false);
+        setIsLoading(false);
       }
       // else {
       // AddressService.updateAddress(dispatch, formData, id, addressId)
@@ -351,6 +353,54 @@ const AddressMain: React.FC<Props> = props => {
     });
     setIsdList(isdList);
   }, [countryData]);
+
+  // const {
+  //   step,
+  //   changeBridalAddress,
+  //   setCurrentModule,
+  //   setCurrentModuleData
+  // } = useContext(BridalContext);
+
+  // const handleSelect = (address: AddressData) => {
+  //   switch (currentCallBackComponent) {
+  //     case "bridal":
+  //       if (step == "manage") {
+  //         changeBridalAddress(address.id);
+  //       } else {
+  //         setCurrentModuleData("address", {
+  //           userAddress: address
+  //         });
+  //       }
+  //       break;
+  //     case "bridal-edit":
+  //       if (step == "create") {
+  //         changeBridalAddress(address.id);
+  //       } else {
+  //         setCurrentModuleData("address", {
+  //           userAddress: address
+  //         });
+  //         // setSelectId(address.id);
+  //         setCurrentModule("created");
+  //       }
+  //       break;
+  //   }
+  // };
+
+  // const address = props.addressData;
+
+  // const onSelectBridalAddress = (address: AddressData) => {
+  //   if (address) {
+  //     const isValid = isAddressValid(address);
+  //     if (isValid) {
+  //       // this.props.onSelectAddress(address);
+  //       handleSelect(address);
+  //     } else {
+  //       // this.manageAddressPostcode("edit", address);
+  //       openAddressForm(address);
+  //     }
+  //   }
+  // };
+
   const addressContent = (
     <>
       {mode == "list" && (
@@ -426,14 +476,21 @@ const AddressMain: React.FC<Props> = props => {
                     <Button
                       variant="mediumMedCharcoalCta366"
                       id="address_button"
-                      className={cs({ [globalStyles.btnFullWidth]: mobile })}
-                      disabled={
-                        currentCallBackComponent == "bridal" && !userAddress?.id
-                      }
+                      className={cs(
+                        globalStyles.marginB20,
+                        globalStyles.charcoalBtn,
+                        globalStyles.charcoalBtnHover,
+                        { [globalStyles.btnFullWidth]: mobile }
+                        // {
+                        //   [globalStyles.disabledBtn]:
+                        //     currentCallBackComponent == "bridal" &&
+                        //     !userAddress?.id
+                        // }
+                      )}
                       label={
                         currentCallBackComponent == "bridal"
-                          ? "create registry"
-                          : "add a new address"
+                          ? "select & create registry"
+                          : "+ add a new address"
                       }
                       onClick={() => {
                         if (
@@ -450,6 +507,34 @@ const AddressMain: React.FC<Props> = props => {
                 </ul>
               </div>
             )}
+
+          {currentCallBackComponent == "bridal-edit" && (
+            <div className={globalStyles.voffset4}>
+              <ul>
+                <li>
+                  <input
+                    type="button"
+                    id="address_button"
+                    className={cs(
+                      globalStyles.charcoalBtn,
+                      globalStyles.charcoalBtnHover
+                    )}
+                    value="update details"
+                    onClick={() => {
+                      if (
+                        currentCallBackComponent == "bridal-edit" &&
+                        props.editRegistryAddress
+                      ) {
+                        props.editRegistryAddress();
+                      } else {
+                        openAddressForm();
+                      }
+                    }}
+                  />
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       )}
       {mode == "new" && (
