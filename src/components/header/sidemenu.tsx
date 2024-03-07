@@ -177,7 +177,7 @@ class SideMenu extends React.Component<Props, State> {
         //   ? () => null
         //   : () => this.props.goLogin(undefined, "/account/bridal"),
         // type: isLoggedIn ? "link" : "button",
-        href: isLoggedIn ? "/account/bridal" : "/gift-registry",
+        href: isLoggedIn ? "/account/bridal" : "/the-good-earth-registry",
         type: "link",
         value: "Good Earth Registry"
       }
