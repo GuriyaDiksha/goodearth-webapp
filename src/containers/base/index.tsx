@@ -359,11 +359,13 @@ const BaseLayout: React.FC = () => {
                   currency: goCurrencyValue.toString().toUpperCase()
                 };
                 LoginService.changeCurrency(dispatch, data).then(res => {
-                  LoginService.reloadPage(
-                    dispatch,
-                    data?.currency,
-                    customerGroup
-                  );
+                  setTimeout(() => {
+                    LoginService.reloadPage(
+                      dispatch,
+                      data?.currency,
+                      customerGroup
+                    );
+                  }, 2000);
                 });
               } else {
                 CookieService.setCookie(
