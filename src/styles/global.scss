@@ -475,12 +475,119 @@ font-weight: bold;
 .hidden-eye {
   visibility: hidden !important;
 }
+
+.icon-container{
+  background-color: #F8F8F8;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 30px !important;
+  line-height: 30px !important;
+  box-shadow: 0px 1px 1px #00000038;
+}
+
+.tablet-icon-size{
+  font-size: 15px !important;
+}
+
 .mobile-wishlist{
   position: absolute;
   right: 10px;
   top: 8px;
   z-index: 2;
 }
+
+.mobile-wishlist-plp{
+  top: 8px;
+}
+
+.desktop-wishlist{
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  z-index: 2;
+  cursor: pointer;
+
+  img{
+    box-shadow: 0px 1px 1px #00000038;
+    border-radius: 50%;
+  }
+}
+
+.cart-icon-position-desktop{
+  position: absolute;
+  right: 10px;
+  bottom: 12px;
+  z-index: 2;
+  cursor: pointer;
+
+  img{
+    box-shadow: 0px 1px 1px #00000038;
+    border-radius: 50%;
+  }
+}
+
+.three-sixty-container{
+  background-color: transparent;
+}
+
+.three-sixty-icon-position-desktop{
+  position: absolute;
+  right: 10px;
+  top: 58px;
+  z-index: 2;
+  cursor: pointer;
+}
+.three-sixty-icon-position-mobile{
+  top: 53px;
+}
+
+.badge-container{
+  background-color: #fff;
+  max-width: fit-content;
+  height: 25px;
+  border-radius: 0px 20px 20px 0px;
+  font-size: 18px !important;
+  line-height: 25px !important;
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+  box-shadow: 1px 1px 1px #0000001C;
+  padding: 0 9px;
+  @include b5_10px_montserrat_charcoal();
+
+  @media screen and (max-width:767px) {
+    font-size: 8px;
+  }
+}
+
+.badge-position-desktop{
+  position: absolute;
+  left: 0px;
+  bottom: 15px;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.badge-position-mobile{
+  bottom: 8px;
+}
+
+.list-right-bottom-position{
+  right: 15px;
+  bottom: 15px;
+}
+
+.list-right-top-position{
+  right: 15px;
+  top: 15px;
+}
+
+.list-left-bottom-position{
+  left: 30px;
+  bottom: 130px;
+}
+
+
 
 .form-field-container {
   position: relative;
