@@ -42,7 +42,8 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     loader,
     isSearch,
     onEnquireClick,
-    notifyMeClick
+    notifyMeClick,
+    tablet
   } = props;
   const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
@@ -62,7 +63,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   });
 
   useEffect(() => {
-    if (mobile) {
+    if (mobile || tablet) {
       const val = localStorage.getItem("plp") || "";
       if (!val.split(",").includes(history.location.pathname)) {
         setIsAnimate(true);
@@ -74,7 +75,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         : history.location.pathname;
       localStorage.setItem("plp", arr);
     }
-  }, [mobile]);
+  }, [mobile, tablet]);
 
   const onMouseEnter = (): void => {
     product.plpImages?.[1] ? setPrimaryimage(false) : "";

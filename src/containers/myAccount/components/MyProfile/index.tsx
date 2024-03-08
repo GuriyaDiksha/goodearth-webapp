@@ -552,8 +552,8 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                   }
                 }}
                 validationErrors={{
-                  isValidDate: "Please enter valid date of birth",
-                  isMinAllowedDate: "Please enter valid date of birth",
+                  isValidDate: "Please enter a valid Date of Birth",
+                  isMinAllowedDate: "Please enter a valid Date of Birth",
                   isMaxAllowedDate: "Age should be at least 15 years"
                 }}
               />
@@ -681,8 +681,8 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                     }
                   }}
                   validationErrors={{
-                    isCodeValid: "Required",
-                    isValidCode: "Enter valid code"
+                    isCodeValid: "Please select a Country Code",
+                    isValidCode: "Please enter a valid country code"
                   }}
                   allowFilter={true}
                   showLabel={true}

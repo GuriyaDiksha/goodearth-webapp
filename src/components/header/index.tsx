@@ -154,7 +154,8 @@ class Header extends React.Component<Props, State> {
     }
     this.props.onLoadAPiCall(
       this.props.isLoggedIn,
-      this.props.cookies,
+      false,
+      this.props?.cookies,
       this.props.bridalId,
       bridalKey,
       this.props.sortBy,
