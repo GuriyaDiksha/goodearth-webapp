@@ -21,7 +21,7 @@ const FormTime: React.FC<Props &
     props.errorMessage && !!props.disable
       ? props.errorMessage
       : !props.isPristine && !props.isValid && !props.disable
-      ? "This field is required"
+      ? "Please select a suitable time to contact"
       : "";
   return (
     <>
