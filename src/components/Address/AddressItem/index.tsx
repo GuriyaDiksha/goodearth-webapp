@@ -99,16 +99,15 @@ const AddressItem: React.FC<Props> = props => {
       .catch(err => {
         const error = err.response.data;
 
-        if (typeof error == "string") {
-          maindiv.getElementsByTagName("div")[0].style =
-            "border : 1px solid #ab1e56";
+        if (typeof error == "string" && maindiv) {
+          maindiv.getElementsByTagName("div")[0].style.border =
+            "1px solid #ab1e56";
           setDeleteError(error);
         }
       })
       .finally(() => setIsLoading(false));
-    if (deleteError) {
-      maindiv.getElementsByTagName("div")[0].style =
-        "border : 1px solid #ab1e56";
+    if (deleteError && maindiv) {
+      maindiv.getElementsByTagName("div")[0].style.border = "1px solid #ab1e56";
     }
   };
 

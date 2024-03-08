@@ -333,7 +333,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({
                 isWords: true
               }}
               validationErrors={{
-                isWords: "Only alphabets are allowed"
+                isWords: "Please enter only alphabetic characters"
               }}
               required
             />
@@ -450,8 +450,8 @@ const CorporateEnquiryPopup: React.FC<Props> = ({
                     isExisty: true
                   }}
                   validationErrors={{
-                    isINRPhone: "Phone number should be 10 digit",
-                    isExisty: "Please enter a valid phone number"
+                    isINRPhone: "Please enter a valid Contact Number",
+                    isExisty: "Please enter a valid Contact Number"
                   }}
                   required
                   keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
@@ -499,7 +499,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({
                     }
                   }}
                   validationErrors={{
-                    isRequired: "Required"
+                    isRequired: "Please select a suitable time to contact"
                   }}
                   value=""
                   required

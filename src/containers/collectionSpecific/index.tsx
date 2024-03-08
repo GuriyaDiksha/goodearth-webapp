@@ -725,7 +725,6 @@ class CollectionSpecific extends React.Component<
                       data={showTemplates.Banner}
                       mobile={mobile}
                       tablet={tablet}
-                      colbanner={false}
                     />
                   )}
                 </div>
@@ -831,6 +830,7 @@ class CollectionSpecific extends React.Component<
                       currency={this.props.currency}
                       key={data.id + "plpitem"}
                       mobile={mobile}
+                      tablet={tablet}
                       onClickQuickView={this.onClickQuickView}
                       isCollection={true}
                       loader={
