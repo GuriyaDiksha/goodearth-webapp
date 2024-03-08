@@ -80,7 +80,8 @@ export const enum ROUTES {
   INNERSPACE = "/inner-spaces",
   LILANURPARFUMS = "/lilanur-parfums",
   PEHCHAANNAQASHI = "/pehchaan-naqashi-of-kashmir",
-  INTERNATIONALSALE = "/internationalsale"
+  INTERNATIONALSALE = "/internationalsale",
+  MEMORYKEEPERS = "/memory-keepers"
 }
 
 export type RouteConfig = RouteObject[];
