@@ -84,6 +84,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     showNotify: (message: string) => {
       showGrowlMessage(dispatch, message, 6000);
     },
+    showRegistryMix: (message: string) => {
+      showGrowlMessage(dispatch, message, 0);
+    },
     specifyShippingAddress: async (
       shippingAddressId: number,
       shippingAddress: AddressData,
@@ -501,7 +504,7 @@ class Checkout extends React.Component<Props, State> {
           this.props.showNotify(REGISTRY_OWNER_CHECKOUT);
         }
         if (this.checkToMessage(res)) {
-          this.props.showNotify(REGISTRY_MIXED_SHIPPING);
+          this.props.showRegistryMix(REGISTRY_MIXED_SHIPPING);
         }
         // if (
         //   res?.loyalty?.length &&
