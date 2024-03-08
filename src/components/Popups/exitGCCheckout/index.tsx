@@ -32,7 +32,11 @@ const exitGCCheckout: React.FC<PopupProps> = props => {
           globalStyles.textCenter,
           styles.freeShippingPopup,
           styles.customHeight,
-          { [styles.mobilePopup]: mobile, [globalStyles.paddBottom20]: mobile }
+          {
+            [styles.mobilePopup]: mobile,
+            [globalStyles.paddBottom20]: mobile,
+            [styles.centerpageDesktopFs]: !mobile && !tablet
+          }
         )}
       >
         <div className={cs(styles.gcTnc)}>
