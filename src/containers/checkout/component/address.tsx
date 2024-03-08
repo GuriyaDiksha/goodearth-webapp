@@ -39,7 +39,8 @@ import { countryCurrencyCode } from "constants/currency";
 import ModalStyles from "components/Modal/styles.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
-import bridalRing from "../../../images/bridal/rings.svg";
+// import bridalRing from "../../../images/bridal/rings.svg";
+import bridalGiftIcon from "../../../images/registery/addedReg.svg";
 import { useLocation } from "react-router";
 
 const AddressSection: React.FC<AddressProps & {
@@ -335,11 +336,22 @@ const AddressSection: React.FC<AddressProps & {
                 globalStyles.textCapitalize
               )}
             >
-              {address.registrantName} & {address.coRegistrantName}&#39;s &nbsp;
-              {address.occasion} Registry
+              {address.registrantName && !address.coRegistrantName && (
+                <span>
+                  {address.registrantName}&#39;s&nbsp;
+                  {address.occasion}&nbsp;Registry
+                </span>
+              )}
+              {address.registrantName && address.coRegistrantName && (
+                <span>
+                  {address.registrantName}&nbsp;&&nbsp;
+                  {address.coRegistrantName}&#39;s&nbsp;
+                  {address.occasion}&nbsp;Registry
+                </span>
+              )}
             </span>
             <div className={cs(styles.defaultAddressDiv, styles.bridalAddress)}>
-              <svg
+              {/* <svg
                 viewBox="0 5 40 40"
                 width="35"
                 height="35"
@@ -349,7 +361,13 @@ const AddressSection: React.FC<AddressProps & {
                 className={styles.ceriseBridalRings}
               >
                 <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-              </svg>
+              </svg> */}
+              <img
+                className={styles.ceriseBridalRings}
+                src={bridalGiftIcon}
+                width="25"
+                alt="gift_reg_icon"
+              />
             </div>
           </div>
 

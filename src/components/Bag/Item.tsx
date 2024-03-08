@@ -18,6 +18,8 @@ import PdpQuantity from "components/quantity/pdpQuantity";
 import { showGrowlMessage } from "utils/validate";
 import { updateBasket } from "actions/basket";
 import { displayPriceWithCommas } from "utils/utility";
+import { currencyCodes } from "constants/currency";
+import addedReg from "../../images/registery/addedReg.svg";
 
 const LineItems: React.FC<BasketItem> = memo(
   ({
@@ -299,7 +301,7 @@ const LineItems: React.FC<BasketItem> = memo(
                     <img width="200" src={salesBadgeImage} alt="sales-badge" />
                   </div>
                 )}
-                <div className={cs(styles.cartRing, styles.bridalIcon)}>
+                {/* <div className={cs(styles.cartRing, styles.bridalIcon)}>
                   {bridalProfile && (
                     <svg
                       viewBox="-5 -5 50 50"
@@ -313,7 +315,7 @@ const LineItems: React.FC<BasketItem> = memo(
                       <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                     </svg>
                   )}
-                </div>
+                </div> */}
                 <img
                   className={styles.productImage}
                   alt={product.altText || product.title}
@@ -342,39 +344,46 @@ const LineItems: React.FC<BasketItem> = memo(
                   {title}
                 </Link>
               </div>
-              <div
-                className={cs(
-                  styles.productPrice,
-                  product.stockRecords[0].numInStock < 1 && styles.outOfStock
-                )}
-              >
-                {saleStatus && discount && discountedPriceRecords ? (
-                  <span className={styles.discountprice}>
-                    {displayPriceWithCommas(
-                      discountedPriceRecords[currency],
-                      currency
-                    )}
-                    &nbsp; &nbsp;
-                  </span>
-                ) : (
-                  ""
-                )}
-                {saleStatus && discount ? (
-                  <span className={styles.strikeprice}>
-                    {isGiftCard
-                      ? displayPriceWithCommas(GCValue, currency)
-                      : displayPriceWithCommas(price, currency)}
-                  </span>
-                ) : (
-                  <span
-                    className={badgeType == "B_flat" ? globalStyles.gold : ""}
-                  >
-                    {" "}
-                    {isGiftCard
-                      ? displayPriceWithCommas(GCValue, currency)
-                      : displayPriceWithCommas(price, currency)}
-                  </span>
-                )}
+              <div className={bridalProfile ? styles.flexPriceIcon : ""}>
+                <div
+                  className={cs(
+                    styles.productPrice,
+                    product.stockRecords[0].numInStock < 1 && styles.outOfStock
+                  )}
+                >
+                  {saleStatus && discount && discountedPriceRecords ? (
+                    <span className={styles.discountprice}>
+                      {displayPriceWithCommas(
+                        discountedPriceRecords[currency],
+                        currency
+                      )}
+                      &nbsp; &nbsp;
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                  {saleStatus && discount ? (
+                    <span className={styles.strikeprice}>
+                      {isGiftCard
+                        ? displayPriceWithCommas(GCValue, currency)
+                        : displayPriceWithCommas(price, currency)}
+                    </span>
+                  ) : (
+                    <span
+                      className={badgeType == "B_flat" ? globalStyles.gold : ""}
+                    >
+                      {" "}
+                      {isGiftCard
+                        ? displayPriceWithCommas(GCValue, currency)
+                        : displayPriceWithCommas(price, currency)}
+                    </span>
+                  )}
+                </div>
+                <div className={globalStyles.voffset2}>
+                  {bridalProfile && (
+                    <img src={addedReg} width="25" alt="gift_reg_icon" />
+                  )}
+                </div>
               </div>
               <div
                 className={cs(

@@ -836,6 +836,7 @@ class PLP extends React.Component<
                   data={showTemplates.Banner?.[0]}
                   mobile={mobile}
                   tablet={tablet}
+                  colbanner={false}
                 />
               ) : null}
             </div>
@@ -973,6 +974,8 @@ class PLP extends React.Component<
                               onClickQuickView={this.onClickQuickView}
                               isCorporate={this.state.corporoateGifting}
                               loader={this.state.flag}
+                              notifyMeClick={this.notifyMeClick}
+                              onEnquireClick={this.onEnquireClick}
                             />
                           )}
                         </div>

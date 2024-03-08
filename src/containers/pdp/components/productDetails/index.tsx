@@ -75,6 +75,9 @@ import PdpSkeleton from "../pdpSkeleton";
 import { isEmpty } from "lodash";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
+import addReg from "../../../../images/registery/addReg.svg";
+import addedReg from "../../../../images/registery/addedReg.svg";
+import { countBridal } from "actions/bridal";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -624,6 +627,9 @@ const ProductDetails: React.FC<Props> = ({
       (selectedSize && isRegistry[selectedSize.size])
     ) {
       showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_AGAIN);
+      setTimeout(() => {
+        closeModal ? closeModal() : null;
+      }, 3000);
       return false;
     }
     if (childAttributes[0].size) {
@@ -646,7 +652,13 @@ const ProductDetails: React.FC<Props> = ({
     formData["qtyRequested"] = quantity;
     BridalService.addToRegistry(dispatch, formData)
       .then(res => {
+        {
+          bridalId !== 0 && BridalService.countBridal(dispatch, bridalId);
+        }
         showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
+        setTimeout(() => {
+          closeModal ? closeModal() : null;
+        }, 3000);
         const registry = Object.assign({}, isRegistry);
         const userConsent = CookieService.getCookie("consent").split(",");
         if (userConsent.includes(GA_CALLS)) {
@@ -1186,7 +1198,8 @@ const ProductDetails: React.FC<Props> = ({
             )}
             <div
               className={cs(bootstrap.row, {
-                [globalStyles.marginT30]: !mobile,
+                [globalStyles.marginT30]:
+                  !mobile && selectedSize && selectedSize.stock > 0,
                 [styles.spacerQuickview]: isQuickview && withBadge
               })}
             >
@@ -1197,46 +1210,48 @@ const ProductDetails: React.FC<Props> = ({
               >
                 {!(
                   invisibleFields && invisibleFields.indexOf("quantity") > -1
-                ) && (
-                  <div className={bootstrap.row}>
-                    <div
-                      className={cs(
-                        bootstrap.col12,
-                        bootstrap.colSm3,
-                        { [bootstrap.colMd6]: mobile },
-                        styles.label,
-                        styles.quantity,
-                        styles.qtyLabel,
-                        { [styles.mobileMargin]: mobile }
-                      )}
-                    >
-                      Quantity
+                ) &&
+                  selectedSize &&
+                  selectedSize.stock > 0 && (
+                    <div className={bootstrap.row}>
+                      <div
+                        className={cs(
+                          bootstrap.col12,
+                          bootstrap.colSm3,
+                          { [bootstrap.colMd6]: mobile },
+                          styles.label,
+                          styles.quantity,
+                          styles.qtyLabel,
+                          { [styles.mobileMargin]: mobile }
+                        )}
+                      >
+                        Quantity
+                      </div>
+                      <div
+                        className={cs(
+                          bootstrap.col12,
+                          bootstrap.colSm9,
+                          styles.qtyComponent,
+                          { [bootstrap.colMd4]: mobile },
+                          styles.widgetQty
+                        )}
+                      >
+                        <PdpQuantity
+                          source="pdp"
+                          key={selectedSize?.sku}
+                          id={selectedSize?.id || 0}
+                          minValue={minQuantity}
+                          maxValue={corporatePDP ? 1 : maxQuantity}
+                          currentValue={quantity}
+                          onChange={onQuantityChange}
+                          errorMsgClass={styles.sizeErrorMessage}
+                          // errorMsg={selectedSize ? "Available qty in stock is" : ""}
+                        />
+                      </div>
                     </div>
-                    <div
-                      className={cs(
-                        bootstrap.col12,
-                        bootstrap.colSm9,
-                        styles.qtyComponent,
-                        { [bootstrap.colMd4]: mobile },
-                        styles.widgetQty
-                      )}
-                    >
-                      <PdpQuantity
-                        source="pdp"
-                        key={selectedSize?.sku}
-                        id={selectedSize?.id || 0}
-                        minValue={minQuantity}
-                        maxValue={corporatePDP ? 1 : maxQuantity}
-                        currentValue={quantity}
-                        onChange={onQuantityChange}
-                        errorMsgClass={styles.sizeErrorMessage}
-                        // errorMsg={selectedSize ? "Available qty in stock is" : ""}
-                      />
-                    </div>
-                  </div>
-                )}
+                  )}
               </div>
-              {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
+              {/* {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
                 <div
                   className={cs(
                     bootstrap.col4,
@@ -1267,7 +1282,7 @@ const ProductDetails: React.FC<Props> = ({
                       : "add to registry"}
                   </p>
                 </div>
-              )}
+              )} */}
             </div>
             {badgeMessage && !isQuickview ? (
               <div
@@ -1358,24 +1373,6 @@ const ProductDetails: React.FC<Props> = ({
                 ) : (
                   ""
                 )}
-                {isQuickview ? (
-                  <Link
-                    to={url}
-                    className={cs(styles.moreDetails, {
-                      [styles.lh45]: withBadge
-                    })}
-                    onClick={() => {
-                      changeModalState(false);
-                      const listPath = `${source || "PLP"}`;
-                      CookieService.setCookie("listPath", listPath);
-                      dispatch(updateQuickviewId(0));
-                    }}
-                  >
-                    view more details
-                  </Link>
-                ) : (
-                  ""
-                )}
               </div>
               <div
                 className={cs(bootstrap.col4, globalStyles.textCenter, {
@@ -1420,12 +1417,63 @@ const ProductDetails: React.FC<Props> = ({
                 ""
               )}
             </div>
+
+            {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
+              <div
+                className={cs(
+                  // bootstrap.col4,
+                  // globalStyles.textCenter,
+                  styles.bridalSection
+                )}
+                onClick={addToRegistry}
+              >
+                <div
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconRing,
+                    styles.bridalRing,
+                    {
+                      [styles.active]:
+                        selectedSize && isRegistry[selectedSize.size]
+                    }
+                  )}
+                >
+                  {selectedSize && isRegistry[selectedSize.size] ? (
+                    <img src={addedReg} width="20px" height="20px"></img>
+                  ) : (
+                    <img src={addReg} width="20px" height="20px"></img>
+                  )}
+                </div>
+                <p className={cs(styles.label, styles.paddingT3)}>
+                  {selectedSize && isRegistry[selectedSize.size]
+                    ? "added to registry"
+                    : "add to registry"}
+                </p>
+              </div>
+            )}
+
+            {isQuickview && (
+              <div className={styles.viewDetails}>
+                <Link
+                  to={url}
+                  className={cs({ [styles.lh45]: withBadge })}
+                  onClick={() => {
+                    changeModalState(false);
+                    const listPath = `${source || "PLP"}`;
+                    CookieService.setCookie("listPath", listPath);
+                    dispatch(updateQuickviewId(0));
+                  }}
+                >
+                  VIEW DETAILS
+                </Link>
+              </div>
+            )}
             {!isQuickview && (
               <div
                 className={cs(
                   bootstrap.col12,
                   bootstrap.colMd9,
-                  globalStyles.voffset3,
+                  globalStyles.voffset2,
                   styles.padding
                 )}
               >

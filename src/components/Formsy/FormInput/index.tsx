@@ -80,10 +80,13 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         return "Please enter at least 6 characters for the Password";
       case "password2":
         return "Please enter at least 6 characters for the Password";
+      case "occassion_choice":
+        return "Please enter Occasion's Name";
       case "registrantName":
         return "Please enter Registrant's Name";
+        return "Please enter Registrant's Name";
       case "coRegistrantName":
-        return "Please enter Co-Registrant's Name";
+        return "Please enter Co-registrant's Name";
       case "registryName":
         return "Please enter Registry Name";
       case "recipientName":
