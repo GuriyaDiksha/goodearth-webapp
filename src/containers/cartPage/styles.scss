@@ -791,6 +791,7 @@ hr {
 }
 .out-of-stock-error{
   padding-top: 5px;
+  @include err_14px_lora_italic_gold();
 }
 
 .continue-shopping-btn-wrapper{
