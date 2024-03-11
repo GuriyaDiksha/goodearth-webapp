@@ -24,6 +24,7 @@ import { updateLoader } from "actions/info";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { useHistory } from "react-router";
+import globalStyles from "styles/global.scss";
 
 const WishlistButton: React.FC<Props> = ({
   gtmListType,
@@ -43,7 +44,9 @@ const WishlistButton: React.FC<Props> = ({
   source,
   // inWishlist,
   onMoveToWishlist,
-  onComplete
+  onComplete,
+  isPlpTile,
+  tablet
 }) => {
   const { wishlistItems, wishlistChildItems } = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
@@ -257,17 +260,18 @@ const WishlistButton: React.FC<Props> = ({
           ) : (
             <div
               style={parentWidth ? { width: "100%" } : {}}
-              className={cs(
-                iconStyles.icon,
-                styles.wishlistIcon,
-                iconClassName,
-                {
-                  [iconStyles.iconWishlistAdded]: addedToWishlist,
-                  [iconStyles.iconWishlist]: !addedToWishlist,
-                  [styles.addedToWishlist]: addedToWishlist && showText,
-                  [styles.mobileWishlist]: mobile
-                }
-              )}
+              className={cs(iconStyles.icon, iconClassName, {
+                [iconStyles.iconWishlistAdded]: addedToWishlist && !isPlpTile,
+                [iconStyles.iconWishlist]: !addedToWishlist && !isPlpTile,
+                [styles.addedToWishlist]: addedToWishlist && showText,
+                [iconStyles.iconPlpWishlistAdded]: addedToWishlist && isPlpTile,
+                [iconStyles.iconPlpWishlist]: !addedToWishlist && isPlpTile,
+                [globalStyles.tabletIconSize]: tablet && isPlpTile,
+                [styles.mobileWishlist]: mobile && !isPlpTile,
+                [globalStyles.iconContainer]: isPlpTile,
+                [styles.wishlistPaddingTop]: isPlpTile,
+                [styles.wishlistIcon]: !isPlpTile
+              })}
               title={
                 basketLineId
                   ? addedToWishlist
