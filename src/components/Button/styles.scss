@@ -109,6 +109,16 @@
     }
 }
 
+.small-light-grey-cta{
+    @include medium_light_grey_cta();
+    @include small_cta();
+    &:disabled{
+        @media screen and (min-width:992px) {
+        @include disabled_cta();
+        @include small_cta();}
+    }
+}
+
 .small-aqua-cta{
     @include small_aqua_cta();
     &:hover:not(.stop-hover) {

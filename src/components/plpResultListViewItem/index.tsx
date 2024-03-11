@@ -15,12 +15,14 @@ import LazyImage from "components/LazyImage";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import { getPageType, plpProductClick } from "utils/validate";
-import MobileSlider from "components/MobileSlider";
 import CookieService from "services/cookie";
 import Price from "components/Price";
 import SkeletonImage from "components/plpResultItem/skeleton";
 import { GA_CALLS } from "constants/cookieConsent";
-import Button from "components/Button";
+import iconStyles from "styles/iconFonts.scss";
+import plpThreeSixty from "./../../icons/plp-three-sixty.svg";
+import PlpResultImageSlider from "components/PlpResultImageSlider";
+import cartIcon from "./../../icons/plp_cart.svg";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -98,30 +100,52 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   };
 
   const button = useMemo(() => {
-    let buttonText: string, action: EventHandler<MouseEvent>;
+    // let buttonText: string,
+    let action: EventHandler<MouseEvent>;
     if (isCorporate) {
-      buttonText = "Enquire Now";
+      // buttonText = "Enquire Now";
       action = () => onEnquireClick(product.id, product.partner);
     } else if (allOutOfStock) {
-      buttonText = "Notify Me";
+      // buttonText = "Notify Me";
       action = () => notifyMeClick(product);
     } else {
-      buttonText = "Add to Bag";
+      // buttonText = "Add to Bag";
       action = () => notifyMeClick(product);
     }
     return (
-      <Button
+      <div
         className={cs(
-          styles.addToBagListView,
-          // styles.productBtn,
-          bootstrapStyles.col8,
-          globalStyles.btnFullWidth,
-          { [styles.enquireNotifyMe]: isCorporate || allOutOfStock }
+          globalStyles.textCenter,
+          globalStyles.cartIconPositionDesktop,
+          globalStyles.listRightBottomPosition,
+          { [globalStyles.cartIconPositionMobile]: mobile }
+          // styles.wishlistBtnContainer
+          // {
+          //   [styles.wishlistBtnContainer]: mobile
+          // }
         )}
-        onClick={action}
-        label={buttonText}
-        variant="smallAquaCta"
-      />
+      >
+        <div
+          className={cs(
+            iconStyles.icon,
+            globalStyles.iconContainer,
+            iconStyles.iconPlpCart
+          )}
+          onClick={action}
+        ></div>
+      </div>
+      // <Button
+      //   className={cs(
+      //     styles.addToBagListView,
+      //     // styles.productBtn,
+      //     bootstrapStyles.col8,
+      //     globalStyles.btnFullWidth,
+      //     { [styles.enquireNotifyMe]: isCorporate || allOutOfStock }
+      //   )}
+      //   onClick={action}
+      //   label={buttonText}
+      //   variant="smallAquaCta"
+      // />
     );
   }, []);
   const isStockAvailable = isCorporate || product.inStock;
@@ -172,9 +196,42 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           <img src={product.justAddedBadge} />
         </div>
       )}
+
       <div className={styles.imageBoxnew} id={"" + product.id}>
+        {!isCorporate && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.listRightPosition,
+              globalStyles.desktopWishlist,
+              { [globalStyles.mobileWishlistPlp]: mobile }
+              // styles.wishlistBtnContainer
+              // {
+              //   [styles.wishlistBtnContainer]: mobile
+              // }
+            )}
+          >
+            <WishlistButton
+              gtmListType="Search"
+              title={product.title}
+              childAttributes={product.childAttributes}
+              priceRecords={product.priceRecords}
+              discountedPriceRecords={product.discountedPriceRecords}
+              categories={product.categories}
+              id={product.id}
+              showText={false}
+              key={product.id}
+              mobile={false} //sending false becuase icon height will be same as desktop
+              isPlpTile={true}
+            />
+          </div>
+        )}
+        {button}
+
         <Link to={product.url} onClick={gtmProductClick}>
-          <MobileSlider>{mobileSlides}</MobileSlider>
+          <PlpResultImageSlider mobile={mobile}>
+            {mobileSlides}
+          </PlpResultImageSlider>
         </Link>
         <div
           className={cs(
@@ -187,7 +244,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
         >
           <Link to={product.url}> NOTIFY ME</Link>
         </div>
-        {!mobile && (
+        {/* {!mobile && (
           <div className={styles.combodiv}>
             <div
               className={
@@ -220,7 +277,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
               </div>
             )}
           </div>
-        )}
+        )} */}
       </div>
       <div className={styles.imageContent}>
         {isCollection ? (
@@ -279,31 +336,40 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           </div>
         )}
         <div className={cs(styles.actions, bootstrapStyles.row)}>
-          {button}
-          {mobile && !isCorporate && (
+          {/* {button} */}
+
+          {!isCorporate && product?.code && (
             <div
               className={cs(
                 globalStyles.textCenter,
-                bootstrapStyles.col3,
-                // globalStyles.mobileWishlist,
-                // {
-                //   [styles.wishlistBtnContainer]: mobile
-                // }
-                styles.wishlistBtnContainer
+                globalStyles.listRightBottomPosition,
+                globalStyles.threeSixtyIconPositionDesktop,
+                { [globalStyles.threeSixtyIconPositionMobile]: mobile }
               )}
             >
-              <WishlistButton
-                gtmListType="Search"
-                title={product.title}
-                childAttributes={product.childAttributes}
-                priceRecords={product.priceRecords}
-                discountedPriceRecords={product.discountedPriceRecords}
-                categories={product.categories}
-                id={product.id}
-                showText={false}
-                key={product.id}
-                mobile={false}
-              />
+              <div
+                className={cs(
+                  globalStyles.iconContainer,
+                  globalStyles.threeSixtyContainer
+                )}
+              >
+                <img src={plpThreeSixty} alt="360" />
+              </div>
+            </div>
+          )}
+
+          {!isCorporate && product?.badge_text && (
+            <div
+              className={cs(
+                globalStyles.textCenter,
+                globalStyles.listLeftBottomPosition,
+                globalStyles.badgePositionDesktop,
+                { [globalStyles.badgePositionMobile]: mobile }
+              )}
+            >
+              <div className={cs(globalStyles.badgeContainer)}>
+                {product?.badge_text}
+              </div>
             </div>
           )}
         </div>

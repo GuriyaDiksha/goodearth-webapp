@@ -4,6 +4,9 @@
 .cerise-card-left-container{
     height: 100%;
     cursor: auto;
+    @media(min-width:768px)and(max-width:992px){
+        padding-left: 65px;
+    }
     @media (max-width: 992px) {
         position: relative;
         float: left;
@@ -13,7 +16,9 @@
         &.show-inner-menu{
             float: right;
             width: 51%;
-        
+            @media(min-width:768px)and(max-width:992px){
+                padding-left: 80px;
+            }
             img{
               width: 100%;
             }
@@ -29,6 +34,10 @@
         @media (max-width: 992px) {
            width: 50%;
            height: 60vh;
+        }
+        @media(min-width:768px)and(max-width:992px){
+            width: 414px!important;
+            height:auto!important;
         }
     }
 }

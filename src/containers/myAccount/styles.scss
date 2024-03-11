@@ -106,11 +106,14 @@ input[type="password"]{
 .account-form-bg-mobile {
   // height: 100vh !important;
   height: auto !important;
-  overflow: scroll;
-  z-index: 0;
+  // overflow: scroll;
+  // z-index: 0;
   padding-bottom: 20px;
   background-color: white;
 }
+// .bridal-form-bg{
+//   padding-bottom: 0;
+// }
 .c-sort {
   .product-number {
     .c-sort-header {

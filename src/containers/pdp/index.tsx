@@ -409,7 +409,8 @@ class PDPContainer extends React.Component<Props, State> {
         // const scrollAfterDiv = document.getElementById("more_collection_div");
         const dockedDiv = document.getElementById("docked_div");
         const scrollAfterDiv = document.getElementById("product_detail_sec");
-        // const headerContainer = document.getElementById("header_container");
+        const headerContainer = document.getElementById("header_container");
+
         if (scrollAfterDiv) {
           const rect = scrollAfterDiv.getBoundingClientRect();
           const scrollBottom = rect.bottom + 100; // added 100 for padding of div
@@ -423,11 +424,17 @@ class PDPContainer extends React.Component<Props, State> {
               if (scrollAfterDiv) {
                 scrollAfterDiv.style.cssText = "z-index: 5";
               }
+              if (headerContainer) {
+                headerContainer.style.display = "block";
+              }
             } else {
               dockedDiv.style.cssText =
                 "position: fixed;bottom: 0;transition: transform .3s ease-out,-webkit-transform .3s ease-out;";
               if (scrollAfterDiv) {
                 scrollAfterDiv.style.cssText = "z-index: 6";
+              }
+              if (headerContainer) {
+                headerContainer.style.display = "none";
               }
             }
           }
@@ -454,6 +461,8 @@ class PDPContainer extends React.Component<Props, State> {
     document.removeEventListener("scroll", this.onScroll);
     if (this.props.device.mobile) {
       const elem = document.getElementById("pincode-bar");
+      const headerContainer = document.getElementById("header_container");
+
       elem &&
         elem.classList.contains(globalStyles.hiddenEye) &&
         elem.classList.remove(globalStyles.hiddenEye);
@@ -464,6 +473,10 @@ class PDPContainer extends React.Component<Props, State> {
       }
       if (chatButtonElem) {
         chatButtonElem.style.bottom = "10px";
+      }
+
+      if (headerContainer) {
+        headerContainer.style.display = "block";
       }
     }
     window.removeEventListener(
@@ -1470,7 +1483,7 @@ class PDPContainer extends React.Component<Props, State> {
                 {media_type === "Image" || type === "main" ? (
                   <div className={cs(styles.container)}>
                     <img
-                      fetchpriority={i < 2 ? "high" : "low"}
+                      // fetchpriority={i < 2 ? "high" : "low"}
                       alt={data?.altText || data?.title}
                       // aspectRatio="62:93"
                       src={productImage?.replace("/Micro/", "/Medium/")}

@@ -19,43 +19,59 @@ type Props = {
 const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
   const [qtyCurrent, setQtyCurrent] = useState(1);
   const [buttonStatus, setButtonStatus] = useState(false);
-  const [btnDisable, setBtnDisable] = useState(globalStyles.ceriseBtn);
+  const [btnDisable, setBtnDisable] = useState(styles.ctaBtn);
   const [btnContent, setBtnContent] = useState("ADD TO BAG");
   const [err, setErr] = useState("");
 
   useEffect(() => {
     if (!bridalItem.productAvailable) {
       setButtonStatus(true);
-      setBtnDisable(cs(globalStyles.ceriseBtn, globalStyles.disabledBtn));
+      setBtnDisable(cs(styles.ctaBtn, styles.fullDisabledBtn));
       setBtnContent("NOT AVAILABLE");
     } else if (bridalItem.qtyRemaining == 0) {
       setButtonStatus(true);
-      setBtnDisable(cs(globalStyles.ceriseBtn, globalStyles.disabledBtn));
+      setBtnDisable(cs(styles.ctaBtn, styles.fullDisabledBtn));
       setBtnContent("Fulfilled");
     } else if (bridalItem.stock == 0) {
       setButtonStatus(true);
-      setBtnDisable(cs(globalStyles.ceriseBtn, globalStyles.disabledBtn));
-      setBtnContent("Out Of Stock");
+      setBtnDisable(cs(styles.fullDisabledBtn));
+      setBtnContent("Notify Me");
     }
   }, []);
 
   const increaseState = () => {
-    const maxQty = bridalItem.stock;
-    let qty = qtyCurrent;
-    if (qty < maxQty) {
-      qty += 1;
-      setQtyCurrent(qty);
+    if (
+      !bridalItem.productAvailable ||
+      bridalItem.stock == 0 ||
+      bridalItem.qtyRemaining == 0
+    ) {
     } else {
-      setErr(`Only ${maxQty} piece${maxQty > 1 ? "s" : ""} available in stock`);
+      const maxQty = bridalItem.stock;
+      let qty = qtyCurrent;
+      if (qty < maxQty) {
+        qty += 1;
+        setQtyCurrent(qty);
+      } else {
+        setErr(
+          `Only ${maxQty} piece${maxQty > 1 ? "s" : ""} available in stock`
+        );
+      }
     }
   };
 
   const decreaseState = () => {
-    let qty = qtyCurrent;
-    if (qty > 1) {
-      qty -= 1;
-      setQtyCurrent(qty);
-      setErr("");
+    if (
+      !bridalItem.productAvailable ||
+      bridalItem.stock == 0 ||
+      bridalItem.qtyRemaining == 0
+    ) {
+    } else {
+      let qty = qtyCurrent;
+      if (qty > 1) {
+        qty -= 1;
+        setQtyCurrent(qty);
+        setErr("");
+      }
     }
   };
   const dispatch = useDispatch();
@@ -115,27 +131,15 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
             <div
               className={cs(styles.section, styles.sectionMiddle, styles.cart)}
             >
-              <div className={globalStyles.voffset7}>
-                <div className={styles.textMuted}>REQUESTED</div>
-                <div
-                  className={cs(globalStyles.textCenter, globalStyles.c10LR)}
-                >
-                  {bridalItem.qtyRequested}
-                </div>
-              </div>
-              <div className={globalStyles.voffset3}>
-                <div className={styles.textMuted}>REMAINING</div>
-                <div
-                  className={cs(globalStyles.textCenter, globalStyles.c10LR)}
-                >
-                  {bridalItem.qtyRemaining}
-                </div>
-              </div>
-
               {bridalItem.productAvailable && (
-                <div className={styles.voffset3}>
-                  <div className={styles.textMuted}>QTY</div>
-                  <div className={styles.widgetQty}>
+                <div className={globalStyles.voffset7}>
+                  <div className={styles.textMuted}>Add Your Quantity</div>
+                  <div
+                    className={cs(styles.widgetQty, {
+                      [styles.blurTxt]:
+                        bridalItem.stock == 0 || bridalItem.qtyRemaining == 0
+                    })}
+                  >
                     <span className={styles.btnQty} onClick={decreaseState}>
                       -
                     </span>
@@ -158,28 +162,50 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
                   )}
                 </div>
               )}
+              <div
+                className={cs(globalStyles.voffset4, {
+                  [styles.auqaColorText]: bridalItem.qtyRemaining == 0
+                })}
+              >
+                <div className={cs(styles.textMuted)}>Quantity Remaining</div>
+                <div
+                  className={cs(
+                    globalStyles.textCenter,
+                    globalStyles.c10LR,
+                    globalStyles.voffset1
+                  )}
+                >
+                  {bridalItem.qtyRemaining}
+                </div>
+              </div>
+              <div className={cs(globalStyles.voffset4, styles.lightCharcoal)}>
+                <div className={styles.textMuted}>Quantity Bought</div>
+                <div
+                  className={cs(
+                    globalStyles.textCenter,
+                    globalStyles.c10LR,
+                    globalStyles.voffset1
+                  )}
+                >
+                  {bridalItem.qtyBought}
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div className={bootstrap.row}>
-        <div
-          className={cs(
-            bootstrap.col8,
-            bootstrap.offset2,
-            globalStyles.voffset3
-          )}
+      <div className={cs(bootstrap.row, globalStyles.voffset4)}>
+        <button
+          className={cs(btnDisable, {
+            [styles.aquaCta]: btnContent == "ADD TO BAG"
+          })}
+          onClick={addToBag}
+          disabled={buttonStatus}
         >
-          <button
-            className={btnDisable}
-            onClick={addToBag}
-            disabled={buttonStatus}
-          >
-            {btnContent}
-          </button>
-        </div>
+          {btnContent}
+        </button>
       </div>
-      {bridalItem.productDeliveryDate && (
+      {/* {bridalItem.productDeliveryDate && (
         <div className={bootstrap.row}>
           <div
             className={cs(
@@ -197,13 +223,13 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
               <br />
             </div>
             <div className={cs(globalStyles.cerise, styles.font14)}>
-              {btnContent == "Fulfilled" || btnContent == "Out Of Stock"
+              {btnContent == "Fulfilled" || btnContent == "Notify Me"
                 ? btnContent
                 : ""}
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

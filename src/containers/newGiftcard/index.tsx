@@ -62,10 +62,10 @@ type State = {
 };
 
 class NewGiftcard extends React.Component<Props, State> {
-  isSafari =
-    typeof window !== "undefined"
-      ? /^((?!chrome|android).)*safari/i.test(window.navigator?.userAgent)
-      : false;
+  // isSafari =
+  //   typeof window !== "undefined"
+  //     ? /^((?!chrome|android).)*safari/i.test(window.navigator?.userAgent)
+  //     : false;
   observer?: IntersectionObserver;
   container: HTMLDivElement | null = null;
   constructor(props: Props) {
@@ -783,7 +783,7 @@ class NewGiftcard extends React.Component<Props, State> {
                       isEmail: "Please enter a valid Email ID",
                       maxLength:
                         "You are allowed to enter upto 75 characters only",
-                      equalsField: "The Email ID entered doesn't match"
+                      equalsField: "The entered Email ID does not match"
                     }}
                     required
                   />
@@ -809,13 +809,7 @@ class NewGiftcard extends React.Component<Props, State> {
                     }}
                   ></FormTextArea>
                   <div className={cs(styles.limit)}>
-                    Character Limit:{" "}
-                    {248 -
-                      (message.length +
-                        (this.isSafari
-                          ? message?.match(/(\r\n|\n|\r)/g)?.length || 0
-                          : 0))}{" "}
-                    / 248
+                    Character Limit: {248 - message.length} / 248
                   </div>
                   <FormInput
                     name="senderName"
@@ -936,13 +930,17 @@ class NewGiftcard extends React.Component<Props, State> {
           </div>
         )}
         {mobile && (
-          <Button
-            variant="mediumAquaCta366"
-            onClick={this.onSubmit}
-            label={"BUY NOW"}
-            disabled={!(!formDisabled && selectedCountry != "" && cardId != "")}
-            className={cs(globalStyles.btnFullWidth, styles.addToBag)}
-          />
+          <div className={styles.buyNowCta}>
+            <Button
+              variant="mediumAquaCta366"
+              onClick={this.onSubmit}
+              label={"BUY NOW"}
+              disabled={
+                !(!formDisabled && selectedCountry != "" && cardId != "")
+              }
+              className={cs(globalStyles.btnFullWidth, styles.addToBag)}
+            />
+          </div>
         )}
         {mobile && (
           <div
