@@ -328,7 +328,7 @@ const ProductDetails: React.FC<Props> = ({
         setQuantity(value);
         setSizeError("");
       } else {
-        setSizeError("Please select a size to proceed");
+        setSizeError("Please select a size to continue");
       }
     },
     [selectedSize]
@@ -560,8 +560,8 @@ const ProductDetails: React.FC<Props> = ({
 
   const addToBasket = () => {
     if (!selectedSize) {
-      setSizeError("Please select a size to proceed");
-      errorTracking(["Please select a size to proceed"], window.location.href);
+      setSizeError("Please select a size to continue");
+      errorTracking(["Please select a size to continue"], window.location.href);
       showError();
       closeZoomModal();
     } else {
@@ -591,8 +591,8 @@ const ProductDetails: React.FC<Props> = ({
 
   const checkAvailability = () => {
     if (!selectedSize) {
-      setSizeError("Please select a size to proceed");
-      errorTracking(["Please select a size to proceed"], window.location.href);
+      setSizeError("Please select a size to continue");
+      errorTracking(["Please select a size to continue"], window.location.href);
       showError();
     } else {
       setIsLoading(true);
@@ -635,7 +635,7 @@ const ProductDetails: React.FC<Props> = ({
     }
     if (childAttributes[0].size) {
       if (!selectedSize) {
-        setSizeError("Please select a size to proceed");
+        setSizeError("Please select a size to continue");
         showError();
         return false;
       }
@@ -773,7 +773,7 @@ const ProductDetails: React.FC<Props> = ({
   const sizeSelectClick = () => {
     // setSizeerror(true);
     closeZoomModal();
-    setSizeError("Please select a size to proceed");
+    setSizeError("Please select a size to continue");
     showError();
   };
 
@@ -1199,55 +1199,58 @@ const ProductDetails: React.FC<Props> = ({
             )}
             <div
               className={cs(bootstrap.row, {
-                [globalStyles.marginT30]: !mobile,
+                [globalStyles.marginT30]:
+                  !mobile && selectedSize && selectedSize.stock > 0,
                 [styles.spacerQuickview]: isQuickview && withBadge
               })}
             >
               <div
                 className={cs(bootstrap.col8, {
-                  [bootstrap.colMd12]: mobile && !tablet
+                  [bootstrap.colMd12]: mobile
                 })}
               >
                 {!(
                   invisibleFields && invisibleFields.indexOf("quantity") > -1
-                ) && (
-                  <div className={bootstrap.row}>
-                    <div
-                      className={cs(
-                        bootstrap.col12,
-                        bootstrap.colSm3,
-                        { [bootstrap.colMd6]: mobile },
-                        styles.label,
-                        styles.quantity,
-                        styles.qtyLabel,
-                        { [styles.mobileMargin]: mobile }
-                      )}
-                    >
-                      Quantity
+                ) &&
+                  selectedSize &&
+                  selectedSize.stock > 0 && (
+                    <div className={bootstrap.row}>
+                      <div
+                        className={cs(
+                          bootstrap.col12,
+                          bootstrap.colSm3,
+                          { [bootstrap.colMd6]: mobile },
+                          styles.label,
+                          styles.quantity,
+                          styles.qtyLabel,
+                          { [styles.mobileMargin]: mobile }
+                        )}
+                      >
+                        Quantity
+                      </div>
+                      <div
+                        className={cs(
+                          bootstrap.col12,
+                          bootstrap.colSm9,
+                          styles.qtyComponent,
+                          { [bootstrap.colMd4]: mobile },
+                          styles.widgetQty
+                        )}
+                      >
+                        <PdpQuantity
+                          source="pdp"
+                          key={selectedSize?.sku}
+                          id={selectedSize?.id || 0}
+                          minValue={minQuantity}
+                          maxValue={corporatePDP ? 1 : maxQuantity}
+                          currentValue={quantity}
+                          onChange={onQuantityChange}
+                          errorMsgClass={styles.sizeErrorMessage}
+                          // errorMsg={selectedSize ? "Available qty in stock is" : ""}
+                        />
+                      </div>
                     </div>
-                    <div
-                      className={cs(
-                        bootstrap.col12,
-                        bootstrap.colSm9,
-                        styles.qtyComponent,
-                        { [bootstrap.colMd4]: mobile },
-                        styles.widgetQty
-                      )}
-                    >
-                      <PdpQuantity
-                        source="pdp"
-                        key={selectedSize?.sku}
-                        id={selectedSize?.id || 0}
-                        minValue={minQuantity}
-                        maxValue={corporatePDP ? 1 : maxQuantity}
-                        currentValue={quantity}
-                        onChange={onQuantityChange}
-                        errorMsgClass={styles.sizeErrorMessage}
-                        // errorMsg={selectedSize ? "Available qty in stock is" : ""}
-                      />
-                    </div>
-                  </div>
-                )}
+                  )}
               </div>
               {/* {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
                 <div

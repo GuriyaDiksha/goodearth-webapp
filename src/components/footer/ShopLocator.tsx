@@ -40,6 +40,13 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
 
   const onInsideClick = () => {
     setOpenState(!menuOpen);
+    if (mobile) {
+      if (menuOpen) {
+        document.body.classList.remove(globalStyles.noScroll);
+      } else {
+        document.body.classList.add(globalStyles.noScroll);
+      }
+    }
   };
 
   const redirectToShop = (e: React.MouseEvent, data: any) => {
@@ -64,6 +71,9 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
 
   const onOutsideClick = (event: MouseEvent) => {
     setOpenState(false);
+    if (mobile) {
+      document.body.classList.remove(globalStyles.noScroll);
+    }
   };
 
   const { ref } = useOutsideDetection<HTMLDivElement>(onOutsideClick);
@@ -102,6 +112,7 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
             id="drop"
             autoComplete="off"
             onKeyUp={onChange}
+            readOnly={mobile}
           />
           <div
             className={

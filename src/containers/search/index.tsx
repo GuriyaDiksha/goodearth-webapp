@@ -823,6 +823,7 @@ class Search extends React.Component<
                           currency={currency}
                           key={item.id}
                           mobile={mobile}
+                          tablet={tablet}
                           onClickQuickView={this.onClickQuickView}
                           loader={this.state.flag}
                           isCorporate={

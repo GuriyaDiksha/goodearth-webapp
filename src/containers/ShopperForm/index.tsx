@@ -216,7 +216,7 @@ const ShopperForm: React.FC = () => {
               }}
               validationErrors={{
                 maxLength: "Max limit reached.",
-                isWords: "Only alphabets are allowed."
+                isWords: "Please enter only alphabetic characters."
               }}
             />
           </div>

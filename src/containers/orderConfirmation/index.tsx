@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
-import logoImage from "images/gelogoCerise.svg";
 import BanarasMotifImage from "../../images/banaras-motif.png";
 import AccountServices from "services/account";
 import moment from "moment";
