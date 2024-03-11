@@ -272,7 +272,7 @@ const NewOtpComponent: React.FC<Props> = ({
             type="number"
             name={`${uniqueId}otp1`}
             min={0}
-            max={9}
+            max={1}
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
@@ -284,7 +284,7 @@ const NewOtpComponent: React.FC<Props> = ({
             type="number"
             name={`${uniqueId}otp2`}
             min={0}
-            max={9}
+            max={1}
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
@@ -296,7 +296,7 @@ const NewOtpComponent: React.FC<Props> = ({
             type="number"
             name={`${uniqueId}otp3`}
             min={0}
-            max={9}
+            max={1}
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
@@ -308,7 +308,7 @@ const NewOtpComponent: React.FC<Props> = ({
             type="number"
             name={`${uniqueId}otp4`}
             min={0}
-            max={9}
+            max={1}
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
@@ -320,7 +320,7 @@ const NewOtpComponent: React.FC<Props> = ({
             type="number"
             name={`${uniqueId}otp5`}
             min={0}
-            max={9}
+            max={1}
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
@@ -332,7 +332,7 @@ const NewOtpComponent: React.FC<Props> = ({
             type="number"
             name={`${uniqueId}otp6`}
             min={0}
-            max={9}
+            max={1}
           />
         </div>
         {error ? <p className={style.otpError}>{error}</p> : null}

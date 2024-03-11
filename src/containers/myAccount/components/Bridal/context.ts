@@ -28,6 +28,7 @@ const initState: BridalContextType = {
   step: "create",
   data: {
     occasion: "",
+    occassion_choice: "",
     registrantName: "",
     registryName: "",
     coRegistrantName: "",

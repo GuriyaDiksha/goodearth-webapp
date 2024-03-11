@@ -15,6 +15,7 @@ import CookieService from "services/cookie";
 import PdpQuantity from "components/quantity/pdpQuantity";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
+import addedReg from "../../images/registery/addedReg.svg";
 
 const CartItems: React.FC<BasketItem> = memo(
   ({
@@ -358,7 +359,7 @@ const CartItems: React.FC<BasketItem> = memo(
                     <img src={salesBadgeImage} alt="Sales Badge Image" />
                   </div>
                 )}
-                <div className={styles.cartRing}>
+                {/* <div className={styles.cartRing}>
                   {bridalProfile && (
                     <svg
                       viewBox="-5 -5 50 50"
@@ -372,7 +373,7 @@ const CartItems: React.FC<BasketItem> = memo(
                       <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                     </svg>
                   )}
-                </div>
+                </div> */}
                 <img
                   className={styles.productImage}
                   src={imageUrl}
@@ -413,38 +414,46 @@ const CartItems: React.FC<BasketItem> = memo(
                       className={cs(
                         styles.productPrice,
                         styles.productPriceMobile,
+                        styles.flexPriceIcon,
                         {
                           [styles.outOfStock]: stockRecords[0].numInStock < 1
                         }
                       )}
                     >
-                      {saleStatus && discount && discountedPriceRecords ? (
-                        <span className={styles.discountprice}>
-                          {displayPriceWithCommas(
-                            discountedPriceRecords[currency],
-                            currency
-                          )}
-                          &nbsp;&nbsp;&nbsp;
-                        </span>
-                      ) : (
-                        ""
-                      )}
-                      {saleStatus && discount ? (
-                        <span className={styles.strikeprice}>
-                          {displayPriceWithCommas(price, currency)}
-                        </span>
-                      ) : (
-                        <span
-                          className={
-                            badgeType == "B_flat" ? globalStyles.gold : ""
-                          }
-                        >
-                          {displayPriceWithCommas(
-                            structure == "GiftCard" ? GCValue : price,
-                            currency
-                          )}
-                        </span>
-                      )}
+                      <div>
+                        {saleStatus && discount && discountedPriceRecords ? (
+                          <span className={styles.discountprice}>
+                            {displayPriceWithCommas(
+                              discountedPriceRecords[currency],
+                              currency
+                            )}
+                            &nbsp;&nbsp;&nbsp;
+                          </span>
+                        ) : (
+                          ""
+                        )}
+                        {saleStatus && discount ? (
+                          <span className={styles.strikeprice}>
+                            {displayPriceWithCommas(price, currency)}
+                          </span>
+                        ) : (
+                          <span
+                            className={
+                              badgeType == "B_flat" ? globalStyles.gold : ""
+                            }
+                          >
+                            {displayPriceWithCommas(
+                              structure == "GiftCard" ? GCValue : price,
+                              currency
+                            )}
+                          </span>
+                        )}
+                      </div>
+                      <div className={cs({ [globalStyles.voffset2]: !mobile })}>
+                        {bridalProfile && (
+                          <img src={addedReg} width="25" alt="gift_reg_icon" />
+                        )}
+                      </div>
                     </div>
                     <div className={cs(styles.sizeQtyWrp)}>
                       <div
@@ -616,6 +625,11 @@ const CartItems: React.FC<BasketItem> = memo(
                           : displayPriceWithCommas(price, currency)}
                       </span>
                     )}
+                    <div className={cs({ [globalStyles.voffset2]: !mobile })}>
+                      {bridalProfile && (
+                        <img src={addedReg} width="25" alt="gift_reg_icon" />
+                      )}
+                    </div>
                   </div>
                   <div
                     className={cs(

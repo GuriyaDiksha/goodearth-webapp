@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
-import logoImage from "images/gelogoCerise.svg";
 import BanarasMotifImage from "../../images/banaras-motif.png";
 import AccountServices from "services/account";
 import moment from "moment";
@@ -501,11 +500,22 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                             <label>shipping address</label>
                             {confirmData?.isBridalOrder ? (
                               <>
-                                <p>
-                                  {confirmData?.registrantName} &{" "}
-                                  {confirmData?.coRegistrantName}&#39;s <br />
-                                  {confirmData?.occasion} Registry
-                                </p>
+                                {confirmData?.registrantName &&
+                                  !confirmData?.coRegistrantName && (
+                                    <p>
+                                      {confirmData?.registrantName}&#39;s&nbsp;
+                                      {confirmData?.occasion}&nbsp;Registry
+                                    </p>
+                                  )}
+                                {confirmData?.registrantName &&
+                                  confirmData?.coRegistrantName && (
+                                    <p>
+                                      {confirmData?.registrantName}&nbsp;&&nbsp;
+                                      {confirmData?.coRegistrantName}
+                                      &#39;s&nbsp;
+                                      {confirmData?.occasion}&nbsp;Registry
+                                    </p>
+                                  )}
                                 <p className={styles.light}>
                                   {" "}
                                   Address predefined by registrant

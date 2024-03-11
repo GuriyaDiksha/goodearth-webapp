@@ -107,7 +107,7 @@ class Reedem extends React.Component<Props, RedeemState> {
     } else {
       this.setState({
         error:
-          "You can redeem points upto " +
+          "You can redeem points up to a maximum of " +
           loyaltyData?.CustomerPointInformation?.EligibleRedemptionPoints
       });
     }

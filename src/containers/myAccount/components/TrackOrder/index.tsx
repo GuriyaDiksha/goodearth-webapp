@@ -93,7 +93,8 @@ class TrackOrder extends React.Component<Props, State> {
       .then((response: any) => {
         if (response.count == 0) {
           // resetForm();
-          const err = "Entered Order Number doesn't exist. Please try again.";
+          const err =
+            "The entered order number is incorrect. Please enter a valid order number for tracking.";
           this.setState(
             {
               showerror: err,
@@ -121,7 +122,7 @@ class TrackOrder extends React.Component<Props, State> {
             .then(data => {
               if (data == "error") {
                 const err =
-                  "Please retry in some time, unable to fetch order details at this time.";
+                  "Please try again later. Currently, we are unable to retrieve order details.";
                 this.setState(
                   {
                     showerror: err,
@@ -142,7 +143,7 @@ class TrackOrder extends React.Component<Props, State> {
             })
             .catch(err => {
               const errmsg =
-                "Please retry in some time, unable to fetch order details at this time.";
+                "Please try again later. Currently, we are unable to retrieve order details.";
               this.setState(
                 {
                   showerror: errmsg,
@@ -174,7 +175,7 @@ class TrackOrder extends React.Component<Props, State> {
           );
         } else {
           const errMsg =
-            "Please retry in some time, unable to fetch order details at this time.";
+            "Please try again later. Currently, we are unable to retrieve order details.";
           this.setState(
             {
               showerror: errMsg,

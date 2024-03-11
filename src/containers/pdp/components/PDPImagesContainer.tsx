@@ -94,14 +94,14 @@ const PDPImagesContainer: React.FC<Props> = ({
     );
   };
   if (productImages.length != 0) {
-    const length = productImages.length;
+    // const length = productImages.length;
     let code: string;
 
     //Stores Index required for styling of top and bottom row Images length 7 and 5
-    const oddRowIndices = {
-      7: 4,
-      5: 2
-    };
+    // const oddRowIndices = {
+    //   7: 4,
+    //   5: 2
+    // };
 
     return (
       <div

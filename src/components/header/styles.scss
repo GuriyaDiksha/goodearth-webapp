@@ -1977,6 +1977,18 @@ ul.inner-menu-mobile {
     justify-content: space-between;
   }
 }
+.flex-div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: inherit;
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: 0.6px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
 
 div[data-currency="USD"] div[data-testid="pdp-product-price-prefix"] {
   display: none;
@@ -1984,4 +1996,52 @@ div[data-currency="USD"] div[data-testid="pdp-product-price-prefix"] {
 
 div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
   display: none;
+}
+
+@media(min-width:768px)and(max-width:992px){
+  .menu-for-tablet{
+    padding: 0 65px;
+    .hamburger{
+      left:unset;
+    }
+    .side-menu-wrapper{
+      padding: 0;
+      ul{
+        justify-content: right;
+      }
+      li{
+        flex-grow: unset;
+      }
+      li.mobile-search{
+        padding-right: 30px!important;
+      }
+    }
+  }
+  .mobile-main-menu-container{
+    ul.mobile-main-menu{
+      padding: 0 65px;
+    }
+    span.menulevel1{
+      padding:0;
+    }
+    div.lower-menu{
+      padding: 25px 65px;
+    }
+    div.mobile-main-menu{
+      padding:0;
+      ul.inner-menu-mobile{
+        padding: 0 65px;
+      }
+    }
+    ul.inner-menu-mobile{
+      >li:first-child{
+        margin: 0 -65px;
+        padding: 0;
+        div.inner-menu-heading{
+          padding: 0 65px;
+          margin: 0;
+        }
+      }
+    }
+  }
 }
