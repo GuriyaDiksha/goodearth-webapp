@@ -1,0 +1,63 @@
+@import "../../../../styles/partials/variables";
+.ge-universe-sliders button{
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #E5E5E5;
+}
+.ge-universe-sliders button:before{
+    font-size: 35px;
+    opacity: 1;
+}
+.ge-universe-sliders button:hover{
+    border-radius: 50%;
+    background: #E5E5E5;
+}
+.ge-universe-sliders button:nth-child(1){
+    left: 10px;
+}
+.ge-universe-sliders button:nth-child(1):before{
+    content: "\f102";
+    font-family: "goodearth";
+}
+.ge-universe-sliders button:last-child{
+    right: 10px;
+}
+.ge-universe-sliders button:last-child:before{
+    content: "\f103";
+    font-family: "goodearth";
+}
+.slider-title{
+    font-family: $font-Montserrat;
+    font-size: 14px;
+    line-height:21px;
+    letter-spacing: 0.42px;
+    color: #191919;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 15px;
+    position: relative;
+    a{
+        color: #191919!important;
+    }
+}
+.slider-title:after{
+    position: absolute;
+    right: 0;
+    content: '';
+    border-right: 1.5px solid #E5E5E5;
+    height: 100%;
+}
+// Responsive css*********
+@media(max-width:991px){
+    // .ge-universe-sliders div div div{
+    //     margin: 0 55px;
+    // }
+}
+.slider-img{
+    img{
+        width: 98%;
+        height: auto;
+    }
+}

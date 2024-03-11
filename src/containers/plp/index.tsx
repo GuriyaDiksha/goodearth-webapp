@@ -161,6 +161,7 @@ class PLP extends React.Component<
       }, 50)
     );
     if (this.props.device.mobile) {
+      this.updateMobileView("grid");
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
       const chatButtonElem = document.getElementById("chat-button");
@@ -836,6 +837,7 @@ class PLP extends React.Component<
                   data={showTemplates.Banner?.[0]}
                   mobile={mobile}
                   tablet={tablet}
+                  colbanner={false}
                 />
               ) : null}
             </div>
@@ -968,10 +970,13 @@ class PLP extends React.Component<
                               currency={currency}
                               key={item.id}
                               mobile={mobile}
+                              tablet={tablet}
                               isVisible={index < 3 ? true : undefined}
                               onClickQuickView={this.onClickQuickView}
                               isCorporate={this.state.corporoateGifting}
                               loader={this.state.flag}
+                              notifyMeClick={this.notifyMeClick}
+                              onEnquireClick={this.onEnquireClick}
                             />
                           )}
                         </div>

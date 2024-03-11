@@ -41,7 +41,7 @@ class CheckoutFooter extends React.Component<Props> {
   static contextType = UserContext;
 
   render() {
-    const { currency, mobile, tablet } = this.props;
+    const { currency, mobile } = this.props;
 
     if (this.props.location.pathname == "/order/checkout") {
       return (

@@ -1,6 +1,6 @@
 import React from "react";
 import MakerEnhance from "maker-enhance";
-import { PLPProductItem } from "src/typings/product";
+import { ChildProductAttributes, PLPProductItem } from "src/typings/product";
 import PlpResultItem from "components/plpResultItem";
 import initActionSpecific from "./initAction";
 import cs from "classnames";
@@ -35,6 +35,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import Product from "containers/plp/components/Product";
 import ProductBanner from "containers/plp/components/ProductBanner";
 import Banner from "containers/plp/components/Banner";
+import ModalStyles from "components/Modal/styles.scss";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -59,9 +60,13 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
     updateComponentModal: (
       component: string,
       props: any,
-      fullscreen?: boolean
+      fullscreen?: boolean,
+      bodyClass?: string,
+      classname?: string
     ) => {
-      dispatch(updateComponent(component, props, fullscreen));
+      dispatch(
+        updateComponent(component, props, fullscreen, bodyClass, classname)
+      );
     },
     changeModalState: (data: boolean) => {
       dispatch(updateModal(data));
@@ -528,6 +533,75 @@ class CollectionSpecific extends React.Component<
     }
   }
 
+  onEnquireClick = (id: number, partner?: string) => {
+    const { updateComponentModal, changeModalState } = this.props;
+    const mobile = this.props.mobile;
+    updateComponentModal(
+      // <CorporateEnquiryPopup id={id} quantity={quantity} />,
+      POPUP.THIRDPARTYENQUIRYPOPUP,
+      {
+        id,
+        partner: partner || ""
+      },
+      mobile ? true : false,
+      mobile ? ModalStyles.bottomAlign : undefined
+    );
+    changeModalState(true);
+  };
+
+  notifyMeClick = (product: PLPProductItem) => {
+    const {
+      categories,
+      collections,
+      priceRecords,
+      discountedPriceRecords,
+      childAttributes,
+      title,
+      discount,
+      badgeType,
+      plpSliderImages
+    } = product;
+    const selectedIndex = childAttributes?.length == 1 ? 0 : undefined;
+    const {
+      updateComponentModal,
+      changeModalState,
+      currency,
+      sale
+    } = this.props;
+    // childAttributes?.map((v, i) => {
+    //   if (v.id === selectedSize?.id) {
+    //     selectedIndex = i;
+    //   }
+    // });
+    const index = categories.length - 1;
+    let category = categories[index]
+      ? categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
+    updateComponentModal(
+      POPUP.NOTIFYMEPOPUP,
+      {
+        collection: collections && collections.length > 0 ? collections[0] : "",
+        category: category,
+        price: priceRecords[currency],
+        currency: currency,
+        childAttributes: childAttributes as ChildProductAttributes[],
+        title: title,
+        selectedIndex: selectedIndex,
+        discount: discount,
+        badgeType: badgeType,
+        isSale: sale,
+        discountedPrice: discountedPriceRecords[currency],
+        list: "plp",
+        sliderImages: plpSliderImages
+      },
+      false,
+      this.props.mobile ? ModalStyles.bottomAlignSlideUp : "",
+      this.props.mobile ? "slide-up-bottom-align" : ""
+    );
+    changeModalState(true);
+  };
+
   render() {
     const {
       mobile,
@@ -598,7 +672,18 @@ class CollectionSpecific extends React.Component<
           />
         )}
         <section id="collection_banner">
-          <div className={cs(bootstrap.row, styles.firstBlock)}>
+          <div
+            className={
+              widgetImages?.length
+                ? cs(bootstrap.row, styles.firstBlock)
+                : mobile
+                ? showTemplates.Banner
+                  ? cs(bootstrap.row, styles.imageContainerMobileBanner)
+                  : cs(bootstrap.row, styles.imageContainerMobile)
+                : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
+            }
+            id="product_images"
+          >
             {/* First check for widgetImages data if available then show that 
              else collection specific banner section will show */}
             {widgetImages?.length ? (
@@ -635,27 +720,13 @@ class CollectionSpecific extends React.Component<
                 </div>
               </>
             ) : (
-              <div
-                className={
-                  mobile
-                    ? banner
-                      ? cs(bootstrap.row, styles.imageContainerMobileBanner)
-                      : cs(bootstrap.row, styles.imageContainerMobile)
-                    : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
-                }
-                id="product_images"
-              >
-                <div className={styles.templateBanner}>
-                  {showTemplates.Banner && (
-                    <Banner
-                      data={showTemplates.Banner}
-                      mobile={mobile}
-                      tablet={tablet}
-                      colbanner={false}
-                    />
-                  )}
-                </div>
-              </div>
+              showTemplates.Banner && (
+                <Banner
+                  data={showTemplates.Banner}
+                  mobile={mobile}
+                  tablet={tablet}
+                />
+              )
             )}
           </div>
         </section>
@@ -757,11 +828,14 @@ class CollectionSpecific extends React.Component<
                       currency={this.props.currency}
                       key={data.id + "plpitem"}
                       mobile={mobile}
+                      tablet={tablet}
                       onClickQuickView={this.onClickQuickView}
                       isCollection={true}
                       loader={
                         !this.scrollload && results.length > 0 ? true : false
                       }
+                      notifyMeClick={this.notifyMeClick}
+                      onEnquireClick={this.onEnquireClick}
                     />
                   </div>
                 </React.Fragment>

@@ -138,7 +138,7 @@ class CushionBag extends React.Component<Props, State> {
       });
     } else {
       this.setState({
-        sizeError: "Please select a Size to proceed"
+        sizeError: "Please select a size to continue"
       });
     }
   };
@@ -395,7 +395,7 @@ class CushionBag extends React.Component<Props, State> {
     // setSizeerror(true);
     this.setState(
       {
-        sizeError: "Please select a Size to proceed"
+        sizeError: "Please select a size to continue"
       },
       () => {
         this.showError();
@@ -415,7 +415,7 @@ class CushionBag extends React.Component<Props, State> {
 
     if (!selectedSize) {
       this.setState({
-        sizeError: "Please select a Size to proceed"
+        sizeError: "Please select a size to continue"
       });
       this.showError();
     } else {

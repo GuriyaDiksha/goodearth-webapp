@@ -17,7 +17,6 @@ import CookiePolicy from "./CookiePolicy";
 import MakerSmartNav from "containers/base/MakerSmartNav";
 import ReactHtmlParser from "react-html-parser";
 import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
-import NewsletterModal from "./NewsletterModal";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -545,7 +544,7 @@ class Footer extends React.Component<Props, FooterState> {
                                               "good earth registry" &&
                                             this.props.isLoggedIn ? (
                                               <Link
-                                                to={"/account/bridal"}
+                                                to={"/the-good-earth-registry"}
                                                 onClick={() => {
                                                   if (
                                                     this.props.location
@@ -918,7 +917,7 @@ class Footer extends React.Component<Props, FooterState> {
                                               child.text.toLowerCase() ==
                                                 "good earth registry" &&
                                               this.props.isLoggedIn
-                                                ? "/account/bridal"
+                                                ? "/the-good-earth-registry"
                                                 : child.link
                                             }
                                             onClick={() => {
@@ -1139,7 +1138,15 @@ class Footer extends React.Component<Props, FooterState> {
               {
                 [styles.filterOnBottom]: this.props.location.pathname.includes(
                   "/careers/list"
-                )
+                ),
+                [styles.paddingBottom]:
+                  (this.state.smartNav.indexOf(this.props.location.pathname) >
+                    -1 ||
+                    this.props.location.pathname.includes(
+                      "/category_landing/"
+                    ) ||
+                    desktopPlp) &&
+                  ["INR", "USD"].includes(this.props.currency)
               }
             )}
           >
@@ -1174,7 +1181,6 @@ class Footer extends React.Component<Props, FooterState> {
             setConsent={this.setConsent}
             showCookiePref={this.props?.showCookiePref}
             showCookiePrefs={this.props?.showCookiePrefs}
-            mobile={this.props.mobile}
           />
         )}
 

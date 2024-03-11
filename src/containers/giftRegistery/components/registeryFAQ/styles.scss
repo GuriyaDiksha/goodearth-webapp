@@ -1,0 +1,160 @@
+@import "../../../../styles/partials/variables";
+@import "../../../../styles/partials/mixins";
+
+.container {
+    padding: 0;
+    padding-top: 30px;
+
+    h2 {
+        font-size: 24px;
+        font-family: $font-Lora;
+        color: #191919;
+        line-height: 31px;
+        letter-spacing: 0.48px;
+        text-transform: capitalize;
+        margin: 0;
+    }
+}
+
+.mobile {
+    br {
+        content: ' ';
+
+        &::after {
+            content: ' ';
+        }
+    }
+}
+.section-title {
+    padding: 11px 2px;
+    margin-right: 10px;
+    @include b3_14px_montserrat_charcoal();
+    align-self: center;
+    text-align: left;;
+}
+
+.accordion-title {
+    @include b3_14px_montserrat_medium_charcoal();
+    padding-top: 10px;
+    padding-left: 15px;
+    margin-bottom: 10px !important;
+    margin-top: 10px !important;
+    cursor: pointer;
+    text-align: left;
+    position: relative;
+    line-height: 21px;
+    letter-spacing: 0.42px;
+    align-items: center;
+}
+
+.accordion-text {
+    width: 90%;
+    @include b4_12px_montserrat_charcoal();
+    margin: 0 0 20px 0px;
+    line-height: 20px;
+    padding-left: 15px;
+    text-align: left;
+    line-height: 20px;
+    letter-spacing: 0.36px;
+
+    a:hover, a:active, a:visited, a:focus, a {
+        color: $gold;
+    }
+}
+
+.mobileFaqContainer {
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in;
+    // &.active {
+    //     max-height: fit-content;
+    // }
+}
+
+.faqs-container {
+    margin: 30px 0 60px 0;
+}
+
+@media screen and (max-width: 992px) {
+    .horizontal {
+        position: absolute !important;
+        right: 20px;
+    }
+    .container {
+        padding-top: 0;
+        margin-bottom: 0;
+
+        h2 {
+            line-height: 150%;
+            @include h2_24px_lora_charcoal();
+            text-transform: capitalize;
+        }
+    }
+
+    .accordion-title {
+        padding-right: 70px;
+        letter-spacing: 0.8px;
+    }
+}
+
+.open-icon, .close-icon {
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    font-size: 18px;
+    right: 5px;
+    top: 10px;
+    line-height: 23px;
+    text-align: center;
+    font-family: $font-Lato;
+
+    &::before {
+        content: "-";
+    }
+}
+
+.close-icon {
+    &::before {
+        content: "+";
+    }
+}
+
+.horizontal{
+    position: absolute;
+    right: 5px;
+    width: 16px;
+    height: 16px;
+    font-family: $font-Montserrat;
+
+    &:before,
+    &:after{
+        content: "";
+        position: absolute;
+        background-color: $charcoal19;
+        transition: transform 0.25s ease-out;
+    }
+
+    /* Vertical line */
+    &:before{
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 1px;
+        height: 100%;
+    }
+
+    /* horizontal line */
+    &:after{
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        width: 100%;
+        height: 1px;
+    }
+}
+
+.open {
+    cursor: pointer;
+    &:before{ transform: rotate(90deg); }
+    &:after{ transform: rotate(180deg); }
+}

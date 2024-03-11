@@ -19,6 +19,8 @@ import Formsy from "formsy-react";
 import Button from "components/Button";
 import SelectDropdown from "components/Formsy/SelectDropdown";
 import { AppState } from "reducers/typings";
+import LoginService from "services/login";
+import { updateCountryData } from "actions/address";
 
 type Props = {
   innerRef: any;
@@ -141,6 +143,11 @@ const WhatsappSubscribe: React.FC<Props> = ({
 
   const onCheckChange = (e: any) => {
     setChecked(e.target.checked);
+    if (!countryData || countryData.length == 0) {
+      LoginService.fetchCountryData(dispatch).then(countryData => {
+        dispatch(updateCountryData(countryData));
+      });
+    }
   };
 
   const onPhoneChange = (e: any) => {
@@ -606,7 +613,11 @@ const WhatsappSubscribe: React.FC<Props> = ({
           </div>
         )}
       </div>
-      {error && <div className={styles.whatsappNoErr}>{error}</div>}
+      {error && (
+        <div className={styles.whatsappNoErr}>
+          <span>{error}</span>
+        </div>
+      )}
     </Formsy>
   );
 };

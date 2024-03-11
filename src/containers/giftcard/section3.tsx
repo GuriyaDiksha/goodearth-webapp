@@ -166,7 +166,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                       }
                     }}
                     validationErrors={{
-                      isEnglish: "Only alphabets are allowed"
+                      isEnglish: "Please enter only alphabetic characters"
                     }}
                     required
                   />
@@ -210,7 +210,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                       isEmail: "Please enter a valid Email ID",
                       maxLength:
                         "You are allowed to enter upto 75 characters only",
-                      equalsField: "The Email ID entered doesn't match"
+                      equalsField: "The entered Email ID does not match"
                     }}
                     required
                   />
@@ -267,7 +267,7 @@ const Section3: React.FC<Section3Props> = ({ next, data, goback, mobile }) => {
                       }
                     }}
                     validationErrors={{
-                      isEnglish: "Only alphabets are allowed"
+                      isEnglish: "Please enter only alphabetic characters"
                     }}
                     required
                   />

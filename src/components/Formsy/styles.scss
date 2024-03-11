@@ -47,6 +47,13 @@ input[type="date"] {
 .error-msg {
   @include err_13px_lora_italic_cerise();
   text-align: left;
+  margin-top: 5px;
+  // margin-top: 8px;
+}
+@media(max-width:425px){
+  .error-msg {
+    font-size: 12px!important;
+  }
 }
 .dropdown{
   position: relative;

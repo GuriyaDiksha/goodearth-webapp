@@ -289,6 +289,9 @@ class Search extends React.Component<
     });
     const config = { subtree: true, childList: true };
     observer.observe(document, config);
+    if (this.props.device.mobile) {
+      this.updateMobileView("grid");
+    }
   }
 
   componentWillUnmount() {
@@ -823,6 +826,7 @@ class Search extends React.Component<
                           currency={currency}
                           key={item.id}
                           mobile={mobile}
+                          tablet={tablet}
                           onClickQuickView={this.onClickQuickView}
                           loader={this.state.flag}
                           isCorporate={
@@ -833,6 +837,8 @@ class Search extends React.Component<
                               : false
                           }
                           isSearch={true}
+                          notifyMeClick={this.notifyMeClick}
+                          onEnquireClick={this.onEnquireClick}
                         />
                       ) : (
                         <PlpResultListViewItem

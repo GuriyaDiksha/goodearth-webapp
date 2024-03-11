@@ -16,7 +16,6 @@ import cs from "classnames";
 import iconStyles from "styles/iconFonts.scss";
 import MyProfile from "./components/MyProfile";
 import PastOrders from "./components/MyOrder";
-import ChangePassword from "./components/ChangePassword";
 import { useSelector, useDispatch } from "react-redux";
 import { AccountMenuItem } from "./typings";
 import CheckBalance from "./components/Balance";
@@ -107,6 +106,7 @@ const MyAccount: React.FC<Props> = props => {
     }
   ];
   let ceriseClubAccess = false;
+  // debugger;
 
   if (slab) {
     ceriseClubAccess =
@@ -427,6 +427,7 @@ const MyAccount: React.FC<Props> = props => {
                               bootstrapStyles.col12,
                               globalStyles.textCenter,
                               { [styles.accountFormBg]: !mobile },
+                              // {[styles.bridalFormBg]: bridalId != 0},
                               { [styles.accountFormBgMobile]: mobile }
                             )}
                           >
