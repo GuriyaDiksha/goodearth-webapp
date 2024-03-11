@@ -39,7 +39,8 @@ const LineItems: React.FC<BasketItem> = memo(
       basket: { currency }
     } = useSelector((state: AppState) => state);
     const {
-      user: { isLoggedIn }
+      user: { isLoggedIn },
+      info: { isSale }
     } = useSelector((state: AppState) => state);
     if (!currency) {
       currency = "INR";
@@ -177,21 +178,23 @@ const LineItems: React.FC<BasketItem> = memo(
                 coupon: "NA", // Pass the coupon if available
                 currency: currency, // Pass the currency code
                 discount:
-                  childAttributes[0]?.discountedPriceRecords[currency] || "NA", // Pass the discount amount
+                  isSale && childAttributes[0]?.discountedPriceRecords[currency]
+                    ? childAttributes[0]?.discountedPriceRecords[currency]
+                    : "NA", // Pass the discount amount
                 index: "NA",
                 item_brand: "goodearth",
-                item_category: category?.split(">")?.join("|"),
-                item_category2: size,
-                item_category3: "NA",
+                item_category: category?.split("/")?.[0],
+                item_category2: category?.split("/")?.[1],
+                item_category3: category?.split("/")?.[2],
+                item_category4: "NA",
+                item_category5: "NA",
                 item_list_id: "NA",
                 item_list_name: search ? search : "NA",
-                item_variant: "NA",
-                // item_category4: product.categories[0],
-                item_category4: "NA",
-                // item_category5: product.collection,
+                item_variant: size || "NA",
                 price: price,
                 quantity: quantity,
-                collection_category: product?.collections?.join("|")
+                collection_category: product?.collections?.join("|"),
+                price_range: "NA"
               }
             ]
           }

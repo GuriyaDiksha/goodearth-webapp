@@ -52,7 +52,8 @@ const WishlistButton: React.FC<Props> = ({
   const store = useStore();
   const {
     currency,
-    wishlist: { sortBy }
+    wishlist: { sortBy },
+    info: { isSale }
   } = useSelector((state: AppState) => state);
   const [addedToWishlist, setAddedToWishlist] = useState(
     wishlistItems.indexOf(id) != -1 ||
@@ -70,6 +71,8 @@ const WishlistButton: React.FC<Props> = ({
         category = category && category.replace(/>/g, "/");
         const listPath = `${gtmListType}`;
         const child = childAttributes as ChildProductAttributes[];
+        const search = CookieService.getCookie("search") || "";
+
         console.log(category, id, title, priceRecords);
         const userConsent = CookieService.getCookie("consent").split(",");
         if (userConsent.includes(GA_CALLS)) {
@@ -141,28 +144,32 @@ const WishlistButton: React.FC<Props> = ({
                   item_id: id, //Pass the product id
                   item_name: title, // Pass the product name
                   affiliation: title, // Pass the product name
-                  coupon: "", // Pass the coupon if available
+                  coupon: "NA", // Pass the coupon if available
                   currency: currency, // Pass the currency code
-                  discount: "", // Pass the discount amount
+                  discount:
+                    isSale && child?.[0].discountedPriceRecords
+                      ? child?.[0].discountedPriceRecords[currency]
+                      : "NA", // Pass the discount amount
                   index: 0,
                   item_brand: "Goodearth",
-                  item_category: category?.split("/")[0],
-                  item_category2: category?.split("/")[1],
-                  item_category3: "",
-                  item_list_id: "",
-                  item_list_name: "",
+                  item_category: category?.split("/")?.[0],
+                  item_category2: category?.split("/")?.[1],
+                  item_category3: category?.split("/")?.[2],
+                  item_category4: "NA",
+                  item_category5: "NA",
+                  item_list_id: "NA",
+                  item_list_name: search ? search : "NA",
                   item_variant:
                     childAttributes && childAttributes[0].size
                       ? childAttributes[0].size
-                      : "",
-                  item_category4: "",
-                  // item_category5: "",
+                      : "NA",
                   price: child?.[0].discountedPriceRecords
                     ? child?.[0].discountedPriceRecords[currency]
                     : child?.[0].priceRecords
                     ? child?.[0].priceRecords[currency]
                     : null,
-                  quantity: 1
+                  quantity: 1,
+                  price_range: "NA"
                 }
               ]
             }

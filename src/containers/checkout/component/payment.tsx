@@ -43,7 +43,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     info: { showGiftWrap, deliveryText },
     basket: { loyalty },
     user: { loyaltyData, isLoggedIn, preferenceData, slab },
-    address: { countryData, shippingAddressId, billingAddressId }
+    address: { countryData, shippingAddressId, billingAddressId },
+    info: { isSale }
   } = useSelector((state: AppState) => state);
   let PaymentChild: any = useRef<typeof ApplyGiftcard>(null);
   const history = useHistory();
@@ -313,22 +314,30 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             item_id: line.product.sku,
             item_name: line.title,
             affiliation: "NA",
-            coupon: basket.voucherDiscounts?.[0]?.voucher?.code || "NA", //Pass NA if not applicable at the moment
-            discount: basket?.offerDiscounts?.[0]?.amount,
+            coupon:
+              isSale && basket?.offerDiscounts?.[0]?.name
+                ? basket?.offerDiscounts?.[0]?.name
+                : "NA", //Pass NA if not applicable at the moment
+            discount:
+              isSale && basket?.offerDiscounts?.[0]?.amount
+                ? basket?.offerDiscounts?.[0]?.amount
+                : "NA",
             index: ind,
             item_brand: "Goodearth",
-            item_category: category?.split(">")?.join("|"),
-            item_category2: line.product?.childAttributes[0]?.size,
-            item_category3: line.product.is3d ? "3d" : "non3d",
-            item_category4: line.product.is3d ? "YES" : "NO",
+            item_category: category?.split("/")?.[0],
+            item_category2: category?.split("/")?.[1],
+            item_category3: category?.split("/")?.[2],
+            item_category4: "NA",
+            item_category5: line.product.is3d ? "3d" : "non3d",
             item_list_id: "NA",
             item_list_name: "NA",
-            item_variant: "NA",
+            item_variant: line.product?.childAttributes[0]?.size || "NA",
             price: line.isEgiftCard
               ? +line.priceExclTax
               : line.product.priceRecords[currency as Currency],
             quantity: line.quantity,
-            collection_category: line?.product?.collections?.join("|")
+            collection_category: line?.product?.collections?.join("|"),
+            price_range: "NA"
           };
         });
 
@@ -359,7 +368,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       checkout(data)
         .then((response: any) => {
           gtmPushPaymentTracking(paymentMode, paymentMethod);
-          proceedForPayment(basket, currency, paymentMethod);
+          proceedForPayment(basket, currency, paymentMethod, isSale);
           dataLayer.push({
             event: "Whatsapp_optin",
             Location: "Checkout",

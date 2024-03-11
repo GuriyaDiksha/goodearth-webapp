@@ -510,7 +510,7 @@ class Checkout extends React.Component<Props, State> {
         this.props.removeRedeem(this.props.user.isLoggedIn);
         // }
 
-        proceedTocheckout(res, this.props.currency);
+        proceedTocheckout(res, this.props.currency, this.props.isSale);
         checkoutGTM(1, this.props.currency, res);
         // code for call loyalty point api only one time
         if (email) {
