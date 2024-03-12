@@ -113,7 +113,7 @@ const SampleDisplay: React.FC<Props> = props => {
               <i
                 className={cs(
                   iconStyles.icon,
-                  iconStyles.iconCross,
+                  iconStyles.iconCrossNarrowBig,
                   styles.iconCrossMobile
                 )}
                 onTouchStart={e => {

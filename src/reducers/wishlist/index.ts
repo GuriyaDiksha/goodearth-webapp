@@ -9,7 +9,8 @@ const initialState: State = {
   secret_key: "",
   wishlist_link: "",
   owner_name: "",
-  count: 0
+  count: 0,
+  sharedItems: []
 };
 
 export const wishlist = (
@@ -34,6 +35,12 @@ export const wishlist = (
       return {
         ...state,
         count: action.payload.count
+      };
+    }
+    case "UPDATE_WISHLIST_SHARED": {
+      return {
+        ...state,
+        ...action.payload
       };
     }
   }

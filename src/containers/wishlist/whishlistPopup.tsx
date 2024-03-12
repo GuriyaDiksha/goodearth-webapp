@@ -24,14 +24,22 @@ const ShareWishlistLink = () => {
   const copyLink = (event: React.MouseEvent) => {
     event.preventDefault();
 
-    const copyText = document.getElementById("myInput") as HTMLInputElement;
     const isIOSDevice = navigator.userAgent.match(/ipad|iphone/i);
+
+    const dummyInput = document.createElement("input");
+    dummyInput.value = wishlist_link;
+    document.body.appendChild(dummyInput);
+    dummyInput.select();
+
     if (isIOSDevice) {
-      copyText.setSelectionRange(0, copyText.value.length);
+      dummyInput.setSelectionRange(0, wishlist_link.length);
     } else {
-      copyText.select();
+      dummyInput.select();
     }
+
+    // Execute the "copy" command
     document.execCommand("copy");
+    document.body.removeChild(dummyInput);
 
     event.stopPropagation();
 
@@ -115,7 +123,12 @@ const ShareWishlistLink = () => {
                       className={cs(styles.shareTxtBoxWishlist)}
                       onClick={e => e.stopPropagation()}
                     >
-                      <input type="text" value={wishlist_link} id="myInput" />
+                      <input
+                        type="text"
+                        value={wishlist_link}
+                        id="myInput"
+                        readOnly
+                      />
                       <p className={styles.note}>
                         Please note, this link will be auto-updated whenever the
                         Saved List is updated.

@@ -992,7 +992,7 @@ class Header extends React.Component<Props, State> {
       // slab,
       // customerGroup
     } = this.props;
-    const wishlistCount = isShared ? wishlistCountData : wishlistData.length;
+    const wishlistCount = wishlistData.length;
     // const wishlistCount = wishlistCountData;
     // const wishlistCount = wishlistData.length;
     // const wishlistCount = wishlistCountData;

@@ -45,7 +45,9 @@ const mapStateToProps = (state: AppState) => {
   return {
     mobile: state.device.mobile,
     currency: state.currency,
-    wishlistData: state.wishlist.items,
+    wishlistData: state.router.location.pathname.includes("shared-wishlist")
+      ? state.wishlist.sharedItems
+      : state.wishlist.items,
     wishlistCountData: state.wishlist.count,
     sortedDiscount: state.wishlist.sortedDiscount,
     isLoggedIn: state.user.isLoggedIn,
@@ -80,7 +82,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
       await WishlistService.updateWishlistShared(dispatch, uid, sortBy);
     },
-    countWishlist: async () => await WishlistService.countWishlist(dispatch),
+    // countWishlist: async () => await WishlistService.countWishlist(dispatch),
     updateWishlistSequencing: async (sequencing: [number, number][]) =>
       await WishlistService.updateWishlistSequencing(dispatch, sequencing),
     openLogin: (url: string, isShareLinkClicked: boolean) => {
@@ -438,13 +440,8 @@ class Wishlist extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    const { user } = this.props;
-    // const isShareLinkClicked = JSON.parse(
-    //   localStorage.getItem("isShareLinkClicked") || "false"
-    // );
-    // if(!this.state.isLoading && !isEqual(nextProps.wishlistData,wishlistData)){
     this.updateGrid(nextProps);
-    // }
+
     if (
       this.props.currency !== nextProps.currency ||
       this.props.isSale !== nextProps.isSale
@@ -476,36 +473,6 @@ class Wishlist extends React.Component<Props, State> {
         false
       );
     }
-
-    // if (isEqual(user, nextProps.user)) {
-    //   if (
-    //     nextProps.user.email &&
-    //     nextProps.user.gender &&
-    //     nextProps.user.country &&
-    //     nextProps.user.lastName &&
-    //     nextProps.user.firstName
-    //   ) {
-    //     if (isShareLinkClicked) {
-    //       this.props.openWishlistPopup(this.props.mobile);
-    //       this.setState({
-    //         isLoading: false
-    //       });
-    //       localStorage.removeItem("isShareLinkClicked");
-    //     }
-    //   } else if (
-    //     nextProps.user.email &&
-    //     isShareLinkClicked &&
-    //     !nextProps.openModal &&
-    //     (!nextProps.user.gender ||
-    //       !nextProps.user.country ||
-    //       !nextProps.user.lastName ||
-    //       !nextProps.user.firstName)
-    //   ) {
-    //     this.setState({
-    //       isLoading: true
-    //     });
-    //   }
-    // }
   }
 
   updateGrid = (nextProps: Props) => {
@@ -704,8 +671,8 @@ class Wishlist extends React.Component<Props, State> {
             dragEnabled={this.state.dragDrop}
             onDragEnd={() => this.onDropWishlist()}
             onDragMove={() => this.onDragWishlist()}
-            itemWidth={150}
-            itemHeight={340}
+            itemWidth={160}
+            itemHeight={330}
             responsive={true}
             onMove={debounce(this.onMoveDebounced, 40)}
           />

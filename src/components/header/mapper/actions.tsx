@@ -48,12 +48,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         BridalService.countBridal(dispatch, bridalId);
       }
       MetaService.updateMeta(dispatch, cookies, bridalKey);
-      if (page?.includes("shared-wishlist")) {
-        WishlistService.countWishlist(dispatch);
-      }
-      if (!page?.includes("shared-wishlist")) {
-        WishlistService.updateWishlist(dispatch, sortBy);
-      }
+      // if (page?.includes("shared-wishlist")) {
+      //   WishlistService.countWishlist(dispatch);
+      // }
+      // if (!page?.includes("shared-wishlist")) {
+      WishlistService.updateWishlist(dispatch, sortBy);
+      // }
       if (!page?.includes("/cart") && !page?.includes("/order/checkout")) {
         BasketService.fetchBasket(dispatch);
       }

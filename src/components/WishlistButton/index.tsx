@@ -188,8 +188,7 @@ const WishlistButton: React.FC<Props> = ({
           id,
           undefined,
           sortBy,
-          size,
-          isShared
+          size
         ).finally(() => {
           dispatch(updateLoader(false));
           onComplete && onComplete();
@@ -202,8 +201,7 @@ const WishlistButton: React.FC<Props> = ({
           basketLineId,
           size || childAttributes?.[0].size || "",
           source,
-          sortBy,
-          isShared
+          sortBy
         )
           .then(() => {
             onMoveToWishlist?.();
@@ -222,8 +220,7 @@ const WishlistButton: React.FC<Props> = ({
           id,
           undefined,
           undefined,
-          undefined,
-          isShared
+          undefined
         ).finally(() => {
           dispatch(updateLoader(false));
           onComplete && onComplete();
@@ -232,7 +229,7 @@ const WishlistButton: React.FC<Props> = ({
           // WishlistService.countWishlist(dispatch);
         });
       } else {
-        WishlistService.addToWishlist(store.dispatch, id, size, isShared)
+        WishlistService.addToWishlist(store.dispatch, id, size)
           .then(() => {
             gtmPushAddToWishlist(true);
             // WishlistService.countWishlist(dispatch);

@@ -2,7 +2,11 @@ import { Dispatch } from "redux";
 // typings
 import { WishlistResponse, WishlistCountResponse } from "./typings";
 // actions
-import { updateWishlist, createSharedLink } from "actions/wishlist";
+import {
+  updateWishlist,
+  createSharedLink,
+  updateWishlistShared
+} from "actions/wishlist";
 // utils
 import API from "utils/api";
 import { ProductID } from "typings/id";
@@ -23,14 +27,7 @@ export default {
     );
 
     dispatch(
-      updateWishlist(
-        res.data,
-        sortBy,
-        res.sortedDiscount,
-        res.owner_name,
-        "",
-        res.sharable_link
-      )
+      updateWishlist(res.data, sortBy, res.sortedDiscount, res.sharable_link)
     );
   },
 
@@ -45,7 +42,7 @@ export default {
         `${__API_HOST__}/myapi/wishlist/get_sharable_wishlist_items/${uid}?sort_by=${sortBy}`
       );
       dispatch(
-        updateWishlist(
+        updateWishlistShared(
           res.data || [],
           sortBy,
           res.sortedDiscount,
@@ -57,7 +54,7 @@ export default {
       );
     } catch (e) {
       dispatch(
-        updateWishlist(
+        updateWishlistShared(
           [],
           sortBy,
           undefined,
@@ -75,8 +72,8 @@ export default {
   addToWishlist: async function(
     dispatch: Dispatch,
     productId: ProductID,
-    size?: string,
-    isShared?: boolean
+    size?: string
+    // isShared?: boolean
   ) {
     const res = await API.post<WishlistResponse & ApiResponse>(
       dispatch,
@@ -86,11 +83,11 @@ export default {
         size
       }
     );
-    if (isShared) {
-      WishlistService.countWishlist(dispatch);
-    } else {
-      dispatch(updateWishlist(res.data, "added_on"));
-    }
+    // if (isShared) {
+    //   WishlistService.countWishlist(dispatch);
+    // } else {
+    dispatch(updateWishlist(res.data, "added_on"));
+    // }
     return res;
   },
 
@@ -99,8 +96,8 @@ export default {
     productId?: ProductID,
     id?: number,
     sortBy = "added_on",
-    size?: string,
-    isShared?: boolean
+    size?: string
+    // isShared?: boolean
   ) {
     const res = await API.delete<WishlistResponse & ApiResponse>(
       dispatch,
@@ -113,11 +110,11 @@ export default {
       }
     );
 
-    if (isShared) {
-      WishlistService.countWishlist(dispatch);
-    } else {
-      dispatch(updateWishlist(res.data, sortBy));
-    }
+    // if (isShared) {
+    //   WishlistService.countWishlist(dispatch);
+    // } else {
+    dispatch(updateWishlist(res.data, sortBy));
+    // }
     return res;
   },
 
@@ -133,7 +130,7 @@ export default {
       }
     );
     await this.updateWishlist(dispatch);
-    await this.countWishlist(dispatch);
+    // await this.countWishlist(dispatch);
     return res;
   },
 
@@ -142,8 +139,8 @@ export default {
     basketLineId: ProductID,
     size: string,
     source?: string,
-    sortBy?: string,
-    isShared?: boolean
+    sortBy?: string
+    // isShared?: boolean
   ) {
     const res = await API.post<WishlistResponse & ApiResponse>(
       dispatch,
@@ -156,11 +153,11 @@ export default {
     );
 
     if (res.success) {
-      if (isShared) {
-        WishlistService.countWishlist(dispatch);
-      } else {
-        dispatch(updateWishlist(res.data, sortBy));
-      }
+      // if (isShared) {
+      //   WishlistService.countWishlist(dispatch);
+      // } else {
+      dispatch(updateWishlist(res.data, sortBy));
+      // }
 
       BasketService.fetchBasket(dispatch, source);
     }
@@ -197,10 +194,10 @@ export default {
         res.basket.unshippableProducts
       );
     }
-    if (!isShared) {
-      await this.updateWishlist(dispatch);
-    }
-    await this.countWishlist(dispatch);
+    // if (!isShared) {
+    await this.updateWishlist(dispatch);
+    // }
+    // await this.countWishlist(dispatch);
     return res;
   },
 
@@ -240,13 +237,13 @@ export default {
     );
 
     dispatch(createSharedLink({ ...res, wishlist_link: "" }));
-  },
-  countWishlist: async function(dispatch: Dispatch) {
-    const res = await API.get<WishlistCountResponse>(
-      dispatch,
-      `${__API_HOST__}/myapi/wishlist/wishlist_count/`
-    );
-    dispatch(countWishlist(res.count));
-    // return res;
   }
+  // countWishlist: async function(dispatch: Dispatch) {
+  //   const res = await API.get<WishlistCountResponse>(
+  //     dispatch,
+  //     `${__API_HOST__}/myapi/wishlist/wishlist_count/`
+  //   );
+  //   dispatch(countWishlist(res.count));
+  //   // return res;
+  // }
 };
