@@ -850,11 +850,7 @@ icon-cross {
 
 .empty-shared-wishlist-content{
   text-align: center;
-  margin-top: 10%;
 
-  @media screen and (max-width:767px) {
-    margin-top: 50%;
-  }
   p{
     @include h6_16px_lora_charcoal();
     margin-bottom: 10px;
@@ -870,4 +866,11 @@ icon-cross {
 
 .err-msg{
   font-size: 14px !important;
+}
+
+.shared-empty-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }

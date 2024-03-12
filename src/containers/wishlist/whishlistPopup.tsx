@@ -78,7 +78,7 @@ const ShareWishlistLink = () => {
     <div
       className={cs(
         styles.sizeBlockBridal,
-        { [styles.centerpageDesktop]: !mobile, [styles.ht]: !mobile },
+        { [styles.centerpageDesktop]: !mobile },
         // { [styles.centerpageMobile]: mobile },
         globalStyles.textCenter
       )}
@@ -92,7 +92,11 @@ const ShareWishlistLink = () => {
         src={bgTwo}
         className={cs(styles.bgTwo, { [styles.bottom]: wishlist_link })}
       />
-      <div className={bootstrapStyles.row}>
+      <div
+        className={cs(bootstrapStyles.row, {
+          [globalStyles.marginB90]: !mobile
+        })}
+      >
         <div className={cs(styles.mainWrp)}>
           <div className={styles.loginForm}>
             <div>

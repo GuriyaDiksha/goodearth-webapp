@@ -954,7 +954,9 @@ class Wishlist extends React.Component<Props, State> {
     return (
       <div
         className={cs(bootstrapStyles.containerFluid, {
-          [styles.pageBodyTimer]: this.props.showTimer && mobile
+          [styles.pageBodyTimer]: this.props.showTimer && mobile,
+          [styles.sharedEmptyContainer]:
+            this.state.wishlistCount == 0 && this.props.isShared
         })}
       >
         {!this.props.isShared &&
@@ -1082,6 +1084,9 @@ class Wishlist extends React.Component<Props, State> {
               </div>
             </SecondaryHeader>
           ))}
+        {this.state.wishlistCount == 0 &&
+          this.props.isShared &&
+          emptySharedWishlistContent}
         <div
           className={cs(
             bootstrapStyles.row,
@@ -1132,11 +1137,10 @@ class Wishlist extends React.Component<Props, State> {
             </div>
           )}
           <div
-            className={cs(
-              bootstrapStyles.col10,
-              bootstrapStyles.offset1,
-              globalStyles.marginT20
-            )}
+            className={cs(bootstrapStyles.col10, bootstrapStyles.offset1, {
+              [globalStyles.marginT50]: !mobile && !this.props.isShared,
+              [globalStyles.marginT30]: mobile && !this.props.isShared
+            })}
           >
             {this.state.wishlistCount > 0 && (
               <div>
@@ -1171,9 +1175,6 @@ class Wishlist extends React.Component<Props, State> {
               {this.state.wishlistCount == 0 &&
                 !this.props.isShared &&
                 emptyWishlistContent}
-              {this.state.wishlistCount == 0 &&
-                this.props.isShared &&
-                emptySharedWishlistContent}
             </div>
             {/* {this.state.wishlistCount > 0 && (
               <div className={cs({ [globalStyles.textCenter]: mobile })}>
