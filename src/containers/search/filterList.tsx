@@ -1288,6 +1288,7 @@ class FilterList extends React.Component<Props, State> {
   };
 
   generateCatagory = (categoryObj: any, data: any, html: any) => {
+    debugger;
     const { filter, isViewAll } = this.state;
 
     html.push(
