@@ -52,7 +52,8 @@ const AddressItem: React.FC<Props> = props => {
   const {
     currency,
     basket,
-    address: { shippingAddressId, billingAddressId }
+    address: { shippingAddressId, billingAddressId },
+    info: { isSale }
   } = useSelector((state: AppState) => state);
 
   const [addressMsg, setAddressMsg] = useState("");
@@ -226,20 +227,25 @@ const AddressItem: React.FC<Props> = props => {
         affiliation: line?.product?.title, // Pass the product name
         coupon: "NA", // Pass the coupon if available
         currency: currency, // Pass the currency code
-        discount: "NA", // Pass the discount amount
-        index: ind,
+        discount:
+          isSale && line.product.discountedPriceRecords
+            ? line.product.discountedPriceRecords[currency]
+            : "NA",
+        index: "NA",
         item_brand: "Goodearth",
-        item_category: category?.split(">")?.join("/"),
-        item_category2: line.product?.childAttributes[0]?.size,
-        item_category3: line.product.is3d ? "3d" : "non3d",
-        item_category4: line.product.is3d ? "YES" : "NO",
+        item_category: category?.split("/")?.[0],
+        item_category2: category?.split("/")?.[1],
+        item_category3: category?.split("/")?.[2],
+        item_category4: "NA",
+        item_category5: line.product.is3d ? "3d" : "non3d",
         item_list_id: "NA",
         item_list_name: "NA",
-        item_variant: "NA",
+        item_variant: line.product?.childAttributes[0]?.size,
         // item_category5: line?.product?.collection,
         price: line?.product?.priceRecords[currency],
         quantity: line?.quantity,
-        collection_category: line?.product?.collections?.join("|")
+        collection_category: line?.product?.collections?.join("|"),
+        price_range: "NA"
       };
     });
 

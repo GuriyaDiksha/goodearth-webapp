@@ -188,17 +188,19 @@ export function dataForBilling(data: Basket, currency: Currency) {
             : "NA", // Pass the discount amount
           index: ind,
           item_brand: "Goodearth",
-          item_category: category?.split(">")?.join("/"),
-          item_category2: prod.product?.childAttributes[0]?.size,
-          item_category3: prod.product.is3d ? "3d" : "non3d",
-          item_category4: prod.product.is3d ? "YES" : "NO",
+          item_category: category?.split("/")?.[0],
+          item_category2: category?.split("/")?.[1],
+          item_category3: category?.split("/")?.[2],
+          item_category4: "NA",
+          item_category5: prod.product.is3d ? "3d" : "non3d",
           item_list_id: "NA",
           item_list_name: "NA",
-          item_variant: "NA",
+          item_variant: prod.product?.childAttributes[0]?.size || "NA",
           // item_category5: collectionName,
           price: realPrice,
           quantity: prod.quantity,
-          collection_category: product?.collections?.join("|")
+          collection_category: product?.collections?.join("|"),
+          price_range: "NA"
         }
       );
     });
@@ -224,7 +226,11 @@ export function productForGa(data: Basket) {
   return product;
 }
 
-export function proceedTocheckout(data: Basket, currency: Currency) {
+export function proceedTocheckout(
+  data: Basket,
+  currency: Currency,
+  isSale?: boolean
+) {
   if (data.lineItems) {
     const quantitys: any = [];
     const skusid: any = [];
@@ -306,22 +312,24 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
           affiliation: "NA",
           coupon: "NA", // Pass the coupon if available
           currency: currency, // Pass the currency code
-          discount: product.discountedPriceRecords
-            ? product.discountedPriceRecords[currency]
-            : "NA", // Pass the discount amount
+          discount:
+            isSale && product.discountedPriceRecords
+              ? product.discountedPriceRecords[currency]
+              : "NA", // Pass the discount amount
           index: index,
           item_brand: "goodearth",
-          item_category2: product?.childAttributes[0]?.size,
-          item_category3: product.is3d ? "3d" : "non3d",
-          item_category4: product.is3d ? "YES" : "NO",
+          item_category: category?.split("/")?.[0],
+          item_category2: category?.split("/")?.[1],
+          item_category3: category?.split("/")?.[2],
+          item_category4: "NA",
+          item_category5: product.is3d ? "3d" : "non3d",
           item_list_id: "NA",
           item_list_name: search ? search : "NA",
-          item_variant: "NA",
-          item_category: category?.split(">")?.join("/"),
-          // item_category5: collectionName,
+          item_variant: product?.childAttributes[0]?.size || "NA",
           price: realPrice,
           quantity: 1,
-          collection_category: product?.collections?.join("|")
+          collection_category: product?.collections?.join("|"),
+          price_range: "NA"
         }
       );
     });
@@ -358,7 +366,8 @@ export function proceedTocheckout(data: Basket, currency: Currency) {
 export function proceedForPayment(
   data: Basket,
   currency: Currency,
-  paymentMethod: string
+  paymentMethod: string,
+  isSale?: boolean
 ) {
   if (data.lineItems) {
     const userConsent = CookieService.getCookie("consent").split(",");
@@ -407,22 +416,25 @@ export function proceedForPayment(
           affiliation: "NA",
           coupon: "NA", // Pass the coupon if available
           currency: currency, // Pass the currency code
-          discount: product.discountedPriceRecords
-            ? product.discountedPriceRecords[currency]
-            : "NA", // Pass the discount amount
+          discount:
+            isSale && product.discountedPriceRecords
+              ? product.discountedPriceRecords[currency]
+              : "NA", // Pass the discount amount
           index: index,
           item_brand: "goodearth",
-          item_category: category?.split(">")?.join("/"),
-          item_category2: product?.childAttributes[0]?.size,
-          item_category3: product.is3d ? "3d" : "non3d",
-          item_category4: product.is3d ? "YES" : "NO",
+          item_category: category?.split("/")?.[0],
+          item_category2: category?.split("/")?.[1],
+          item_category3: category?.split("/")?.[2],
+          item_category4: "NA",
+          item_category5: product.is3d ? "3d" : "non3d",
           item_list_id: "NA",
           item_list_name: "NA",
-          item_variant: "NA",
+          item_variant: product?.childAttributes[0]?.size || "NA",
           // item_category5: collectionName,
           price: product.priceRecords[currency],
           quantity: 1,
-          collection_category: product?.collections?.join("|")
+          collection_category: product?.collections?.join("|"),
+          price_range: "NA"
         }
       );
     });
@@ -524,7 +536,8 @@ export function productImpression(
   list: any,
   currency: Currency,
   position?: any,
-  isSale?: boolean
+  isSale?: boolean,
+  priceRange?: string
 ) {
   try {
     const product: any = [];
@@ -632,48 +645,49 @@ export function productImpression(
         ?.map((ele: any) => ele.size)
         ?.join("|");
 
-      child.childAttributes.map((child1: any) => {
-        // skus += "," + child.sku;
-        // variants += "," + child.size;
-        // prices +=
-        //   "," +
-        //   (child.discountedPriceRecords
-        //     ? child.discountedPriceRecords[currency]
-        //     : child.priceRecords[currency]);
+      // child.childAttributes.map((child1: any) => {
+      // skus += "," + child.sku;
+      // variants += "," + child.size;
+      // prices +=
+      //   "," +
+      //   (child.discountedPriceRecords
+      //     ? child.discountedPriceRecords[currency]
+      //     : child.priceRecords[currency]);
 
-        childAttr.push(
-          Object.assign(
-            {},
-            {
-              item_id: child1.sku, //Pass the product id
-              item_name: child.title,
-              affiliation: "NA",
-              coupon: "NA", // Pass the coupon if available
-              currency: currency, // Pass the currency code
-              discount:
-                isSale && child1.discountedPriceRecords
-                  ? child1.discountedPriceRecords[currency]
-                  : "NA", // Pass the discount amount
-              index: index,
-              item_brand: "goodearth",
-              item_category: category?.split(">")?.join("/"),
-              item_category2: sizes,
-              item_category3: "NA",
-              item_list_id: "NA",
-              item_list_name: search ? search : "NA",
-              item_variant: "NA",
-              item_category4: "NA",
-              // item_category5: collectionName,
-              collection_category: child?.collections?.join("|"),
-              price: child1.discountedPriceRecords
-                ? child1.discountedPriceRecords[currency]
-                : child1.priceRecords[currency],
-              quantity: 1
-              // dimension12: child1?.color
-            }
-          )
-        );
-      });
+      childAttr.push(
+        Object.assign(
+          {},
+          {
+            item_id: child.id, //Pass the product id
+            item_name: child.title,
+            affiliation: "NA",
+            coupon: "NA", // Pass the coupon if available
+            currency: currency, // Pass the currency code
+            discount:
+              isSale && child.discountedPriceRecords
+                ? child.discountedPriceRecords[currency]
+                : "NA", // Pass the discount amount
+            index: index,
+            item_brand: "goodearth",
+            item_category: category?.split("/")?.[0],
+            item_category2: category?.split("/")?.[1],
+            item_category3: category?.split("/")?.[2],
+            item_category4: "NA",
+            item_category5: "NA",
+            item_list_id: "NA",
+            item_list_name: search ? search : "NA",
+            item_variant: sizes,
+            collection_category: child?.collections?.join("|"),
+            price: child.discountedPriceRecords
+              ? child.discountedPriceRecords[currency]
+              : child.priceRecords[currency],
+            quantity: 1,
+            price_range: priceRange || "NA"
+            // dimension12: child1?.color
+          }
+        )
+      );
+      // });
       // skus = skus.slice(1);
       // variants = variants.slice(1);
       // prices = prices.slice(1);
@@ -952,37 +966,37 @@ export function PDP(data: any, currency: Currency, isSale?: boolean) {
     const search = CookieService.getCookie("search") || "";
     const sizes = data.childAttributes?.map((ele: any) => ele.size)?.join("|");
 
-    const childAttr = data?.childAttributes.map((child: any, index: number) => {
-      return Object.assign(
+    const childAttr =
+      // data?.childAttributes.map((child: any, index: number) => {
+      Object.assign(
         {},
         {
-          item_id: child.sku, //Pass the product id
+          item_id: data.id, //Pass the product id
           item_name: data.title,
           affiliation: "NA",
           coupon: "NA", // Pass the coupon if available
           currency: currency, // Pass the currency code
           discount:
-            isSale && child.discountedPriceRecords
-              ? child.discountedPriceRecords[currency]
+            isSale && data.discountedPriceRecords
+              ? data.discountedPriceRecords[currency]
               : "NA", // Pass the discount amount
-          index: index,
+          index: "NA",
           item_brand: "goodearth",
-          item_category: category?.split(">")?.join("/"),
-          item_category2: sizes,
-          item_category3: data.sliderImages?.some((key: any) => key.icon)
-            ? "3d"
-            : "non 3d",
-          item_list_id: "NA",
-          item_list_name: search !== "" ? search : "NA",
-          item_variant: child.color,
-          item_category4: "NA",
-          // item_category5: data.collection,
           collection_category: data.collections?.join("|"),
-          price: child.priceRecords[currency],
-          quantity: 1
+          price: data.priceRecords[currency],
+          quantity: 1,
+          item_category: category?.split("/")?.[0],
+          item_category2: category?.split("/")?.[1],
+          item_category3: category?.split("/")?.[2],
+          item_category4: "NA",
+          item_category5: "NA",
+          item_list_id: "NA",
+          item_list_name: search ? search : "NA",
+          item_variant: sizes,
+          price_range: "NA"
         }
       );
-    });
+    // });
     data.childAttributes?.map((child: any) => {
       skusid.push(child.sku);
       variantspdp.push(child.size);
@@ -1218,7 +1232,8 @@ export function plpProductClick(
   data: any,
   list: any,
   currency: Currency,
-  position?: any
+  position?: any,
+  isSale?: boolean
 ) {
   try {
     const products: any = [];
@@ -1259,36 +1274,37 @@ export function plpProductClick(
     const search = CookieService.getCookie("search") || "";
     const sizes = data.childAttributes?.map((ele: any) => ele.size)?.join("|");
 
-    const childAttr = data?.childAttributes.map((child: any, index: number) => {
-      return Object.assign(
+    const childAttr =
+      //  data?.childAttributes.map((child: any, index: number) => {
+      Object.assign(
         {},
         {
-          item_id: child.sku, //Pass the product id
+          item_id: data.id, //Pass the product id
           item_name: data.title,
           affiliation: "NA",
           coupon: "NA", // Pass the coupon if available
           currency: currency, // Pass the currency code
-          discount: child.discountedPriceRecords
-            ? child.discountedPriceRecords[currency]
-            : "NA", // Pass the discount amount
-          index: index,
+          discount:
+            isSale && data.discountedPriceRecords
+              ? data.discountedPriceRecords[currency]
+              : "NA", // Pass the discount amount
+          index: "NA",
           item_brand: "goodearth",
-          item_category: category?.split(">")?.join("/"),
-          item_category2: sizes,
-          item_category3: data.sliderImages?.some((key: any) => key.icon)
-            ? "3d"
-            : "non 3d",
+          collection_category: data.collections?.join("|"),
+          price: data.priceRecords[currency],
+          quantity: 1,
+          item_category: category?.split("/")?.[0],
+          item_category2: category?.split("/")?.[1],
+          item_category3: category?.split("/")?.[2],
+          item_category4: "NA",
+          item_category5: "NA",
           item_list_id: "NA",
           item_list_name: search ? search : "NA",
-          item_variant: child.color,
-          item_category4: "NA",
-          // item_category5: data.collection,
-          collection_category: data.collections?.join("|"),
-          price: child.priceRecords[currency],
-          quantity: 1
+          item_variant: sizes,
+          price_range: "NA"
         }
       );
-    });
+    // });
     const listPath = `${list}`;
     CookieService.setCookie("listPath", listPath);
     const userConsent = CookieService.getCookie("consent").split(",");
