@@ -1288,11 +1288,9 @@ class FilterList extends React.Component<Props, State> {
   };
 
   generateCatagory = (categoryObj: any, data: any, html: any) => {
-    debugger;
     const { filter, isViewAll } = this.state;
-
     html.push(
-      <ul key={`category-${data}`}>
+      <ul className={data} key={`category-${data}`}>
         <li key={data + "l"}>
           <span
             className={cs(
@@ -1337,18 +1335,44 @@ class FilterList extends React.Component<Props, State> {
                 return (
                   <li key={nestedList[0]}>
                     {/* <input
-                      type="checkbox"
-                      id={nestedList[1]}
-                      disabled={this.state.disableSelectedbox}
-                      checked={
-                        filter.categoryShop[data]
-                          ? filter.categoryShop[data][nestedList[1]]
-                          : false
+                        type="checkbox"
+                        id={nestedList[1]}
+                        disabled={this.state.disableSelectedbox}
+                        checked={
+                          filter.categoryShop[data]
+                            ? filter.categoryShop[data][nestedList[1]]
+                            : false
+                        }
+                        onClick={this.handleClickCategory}
+                        value={data}
+                        name={nestedList[0]}
+                      /> */}
+                    <span
+                      className={cs(
+                        styles.checkmark,
+                        (!isViewAll &&
+                          filter.categoryShop["selectedCatShop"]
+                            ?.split(">")[1]
+                            ?.trim() === nestedList[0]) ||
+                          (isViewAll &&
+                            nestedList[0]?.startsWith("View all") &&
+                            filter.categoryShop["selectedCatShop"]?.split("|")
+                              .length &&
+                            filter.categoryShop["selectedCatShop"]
+                              ?.split(">")[0]
+                              .trim() === data)
+                          ? styles.checkmarkActive
+                          : ""
+                      )}
+                      onClick={e =>
+                        this.handleClickCategory(
+                          { target: { id: nestedList[1] } },
+                          data,
+                          categoryObj,
+                          nestedList[0]?.startsWith("View all")
+                        )
                       }
-                      onClick={this.handleClickCategory}
-                      value={data}
-                      name={nestedList[0]}
-                    /> */}
+                    ></span>
                     <label
                       className={
                         (!isViewAll &&
@@ -1501,7 +1525,6 @@ class FilterList extends React.Component<Props, State> {
         }
       });
     });
-
     return html;
   };
 
@@ -1512,7 +1535,6 @@ class FilterList extends React.Component<Props, State> {
     isViewAll: boolean
   ) => {
     //code for checked view all true
-
     const { filter } = this.state;
     filter.categoryShop = {};
     if (event.target.id == "all") {
