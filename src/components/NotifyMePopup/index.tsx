@@ -135,7 +135,7 @@ const NotifyMePopup: React.FC<Props> = ({
   const [showQty, setShowQty] = useState(false);
   useEffect(() => {
     const inStockSizes = childAttributes.filter(child => child.stock > 0);
-    if (mobile && inStockSizes.length >= 1 && !selectedSize) {
+    if (inStockSizes.length >= 1 && !selectedSize) {
       setShowQty(true);
     }
   }, []);

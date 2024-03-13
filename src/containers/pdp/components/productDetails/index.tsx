@@ -1198,11 +1198,12 @@ const ProductDetails: React.FC<Props> = ({
             )}
             <div
               className={cs(bootstrap.row, {
+                [globalStyles.marginT30]: !mobile,
                 [styles.spacerQuickview]: isQuickview && withBadge
               })}
             >
               <div
-                className={cs(globalStyles.marginT30, bootstrap.col8, {
+                className={cs(bootstrap.col8, {
                   [bootstrap.colMd12]: mobile
                 })}
               >
