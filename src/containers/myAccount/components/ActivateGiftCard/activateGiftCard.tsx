@@ -251,7 +251,7 @@ const Giftcard: React.FC = () => {
                     >
                       Click here
                     </Link>{" "}
-                    to check balance.
+                    to check the balance.
                   </>
                 ]
               },
