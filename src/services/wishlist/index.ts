@@ -21,6 +21,7 @@ export default {
     );
 
     dispatch(updateWishlist(res.data, sortBy, res.sortedDiscount));
+    await this.countWishlist(dispatch);
   },
 
   resetWishlist: function(dispatch: Dispatch) {
