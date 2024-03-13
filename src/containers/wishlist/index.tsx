@@ -940,7 +940,11 @@ class Wishlist extends React.Component<Props, State> {
       </div>
     );
     const emptySharedWishlistContent = (
-      <div className={styles.emptySharedWishlistContent}>
+      <div
+        className={cs(styles.emptySharedWishlistContent, {
+          [globalStyles.marginT100]: this.props.ownerName
+        })}
+      >
         <p>{this.props.message}</p>
         <Button
           className={cs({ [globalStyles.btnFullWidth]: mobile })}
@@ -956,7 +960,9 @@ class Wishlist extends React.Component<Props, State> {
         className={cs(bootstrapStyles.containerFluid, {
           [styles.pageBodyTimer]: this.props.showTimer && mobile,
           [styles.sharedEmptyContainer]:
-            this.state.wishlistCount == 0 && this.props.isShared
+            this.state.wishlistCount == 0 &&
+            this.props.isShared &&
+            !this.props.ownerName
         })}
       >
         {!this.props.isShared &&
@@ -1086,6 +1092,7 @@ class Wishlist extends React.Component<Props, State> {
           ))}
         {this.state.wishlistCount == 0 &&
           this.props.isShared &&
+          !this.props.ownerName &&
           emptySharedWishlistContent}
         <div
           className={cs(
@@ -1175,6 +1182,10 @@ class Wishlist extends React.Component<Props, State> {
               {this.state.wishlistCount == 0 &&
                 !this.props.isShared &&
                 emptyWishlistContent}
+              {this.state.wishlistCount == 0 &&
+                this.props.isShared &&
+                this.props.ownerName &&
+                emptySharedWishlistContent}
             </div>
             {/* {this.state.wishlistCount > 0 && (
               <div className={cs({ [globalStyles.textCenter]: mobile })}>

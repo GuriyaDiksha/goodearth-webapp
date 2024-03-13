@@ -609,7 +609,7 @@ icon-cross {
     }
     .subheading {
       margin-bottom: 20px;
-     @include b4_12px_montserrat_charcoal();
+     @include b4_12px_montserrat_light_charcoal();
     }
     .btn {
       // margin: auto;
@@ -779,7 +779,7 @@ icon-cross {
     bottom: -1px;
     left: 0;
     right: 0;
-  background-color: $med-charcoal;
+  background-color: $charcoal19;
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
@@ -819,7 +819,7 @@ icon-cross {
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   // width: 100%;
-  width: 30%;
+  width: 520px;
 }
 
 .centerpage-mobile {

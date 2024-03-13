@@ -94,7 +94,7 @@ const ShareWishlistLink = () => {
       />
       <div
         className={cs(bootstrapStyles.row, {
-          [globalStyles.marginB90]: !mobile
+          [globalStyles.marginB100]: !mobile
         })}
       >
         <div className={cs(styles.mainWrp)}>
@@ -120,7 +120,7 @@ const ShareWishlistLink = () => {
               {wishlist_link && (
                 <>
                   <div
-                    className={cs(globalStyles.voffset3, styles.wrapper)}
+                    className={cs(globalStyles.voffset4, styles.wrapper)}
                     onClick={e => e.stopPropagation()}
                   >
                     <div
