@@ -483,26 +483,24 @@ const NotifyMePopup: React.FC<Props> = ({
             </span>
           )}
         </div>
-        {selectedSize && selectedSize.stock == 0 ? null : (
-          <div className={styles.quantityContainer}>
-            <div className={cs(styles.label, styles.qtyLabel)}> QUANTITY</div>
-            <div className={styles.qtyContainer}>
-              <PdpQuantity
-                source="notifyme"
-                id={selectedSize ? selectedSize.id : 0}
-                minValue={minQuantity}
-                maxValue={maxQuantity}
-                currentValue={quantity}
-                onChange={onQuantityChange}
-                // errorMsg={selectedSize ? "Available qty in stock is" : ""}
-                disabled={(selectedSize && selectedSize.stock == 0) || false}
-                className={styles.quantityWrapper}
-                errorMsgClass={styles.sizeError}
-                inputClass={styles.inputQuantity}
-              />
-            </div>
+        <div className={styles.quantityContainer}>
+          <div className={cs(styles.label, styles.qtyLabel)}> QUANTITY</div>
+          <div className={styles.qtyContainer}>
+            <PdpQuantity
+              source="notifyme"
+              id={selectedSize ? selectedSize.id : 0}
+              minValue={minQuantity}
+              maxValue={maxQuantity}
+              currentValue={quantity}
+              onChange={onQuantityChange}
+              // errorMsg={selectedSize ? "Available qty in stock is" : ""}
+              disabled={(selectedSize && selectedSize.stock == 0) || false}
+              className={styles.quantityWrapper}
+              errorMsgClass={styles.sizeError}
+              inputClass={styles.inputQuantity}
+            />
           </div>
-        )}
+        </div>
         <div className={styles.inputContainer}>
           {((selectedSize && selectedSize.stock === 0) || allOutOfStock) && (
             <div className={cs(styles.emailInput, globalStyles.textLeft)}>
