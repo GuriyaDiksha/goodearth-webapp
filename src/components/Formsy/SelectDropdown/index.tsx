@@ -72,7 +72,7 @@ const SelectDropdown: React.FC<Props &
       case "code":
         return "Please select code";
       case "whatsappNoCountryCode":
-        return "Please select code";
+        return "Please select a Country Code";
       default:
         return "Please Select option";
     }
