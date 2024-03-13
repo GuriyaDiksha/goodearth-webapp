@@ -1198,58 +1198,54 @@ const ProductDetails: React.FC<Props> = ({
             )}
             <div
               className={cs(bootstrap.row, {
-                [globalStyles.marginT30]:
-                  !mobile && selectedSize && selectedSize.stock > 0,
                 [styles.spacerQuickview]: isQuickview && withBadge
               })}
             >
               <div
-                className={cs(bootstrap.col8, {
+                className={cs(globalStyles.marginT30, bootstrap.col8, {
                   [bootstrap.colMd12]: mobile
                 })}
               >
                 {!(
                   invisibleFields && invisibleFields.indexOf("quantity") > -1
-                ) &&
-                  selectedSize &&
-                  selectedSize.stock > 0 && (
-                    <div className={bootstrap.row}>
-                      <div
-                        className={cs(
-                          bootstrap.col12,
-                          bootstrap.colSm3,
-                          { [bootstrap.colMd6]: mobile },
-                          styles.label,
-                          styles.quantity,
-                          styles.qtyLabel,
-                          { [styles.mobileMargin]: mobile }
-                        )}
-                      >
-                        Quantity
-                      </div>
-                      <div
-                        className={cs(
-                          bootstrap.col12,
-                          bootstrap.colSm9,
-                          styles.qtyComponent,
-                          { [bootstrap.colMd4]: mobile },
-                          styles.widgetQty
-                        )}
-                      >
-                        <PdpQuantity
-                          source="pdp"
-                          key={selectedSize?.sku}
-                          id={selectedSize?.id || 0}
-                          minValue={minQuantity}
-                          maxValue={corporatePDP ? 1 : maxQuantity}
-                          currentValue={quantity}
-                          onChange={onQuantityChange}
-                          errorMsgClass={styles.sizeErrorMessage}
-                          // errorMsg={selectedSize ? "Available qty in stock is" : ""}
-                        />
-                      </div>
+                ) && (
+                  <div className={bootstrap.row}>
+                    <div
+                      className={cs(
+                        bootstrap.col12,
+                        bootstrap.colSm3,
+                        { [bootstrap.colMd6]: mobile },
+                        styles.label,
+                        styles.quantity,
+                        styles.qtyLabel,
+                        { [styles.mobileMargin]: mobile }
+                      )}
+                    >
+                      Quantity
                     </div>
-                  )}
+                    <div
+                      className={cs(
+                        bootstrap.col12,
+                        bootstrap.colSm9,
+                        styles.qtyComponent,
+                        { [bootstrap.colMd4]: mobile },
+                        styles.widgetQty
+                      )}
+                    >
+                      <PdpQuantity
+                        source="pdp"
+                        key={selectedSize?.sku}
+                        id={selectedSize?.id || 0}
+                        minValue={minQuantity}
+                        maxValue={corporatePDP ? 1 : maxQuantity}
+                        currentValue={quantity}
+                        onChange={onQuantityChange}
+                        errorMsgClass={styles.sizeErrorMessage}
+                        // errorMsg={selectedSize ? "Available qty in stock is" : ""}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
               {/* {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
                 <div
