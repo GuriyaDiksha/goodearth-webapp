@@ -482,7 +482,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
                 isCodeValid: (values, value) => {
                   const bool = !(values.whatsappNo && value == "");
                   if (!bool) {
-                    setCodeError("Required");
+                    setCodeError("Please select a Country Code");
                     return false;
                   } else {
                     setCodeError("");
@@ -506,7 +506,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
                 }
               }}
               validationErrors={{
-                isCodeValid: "Required",
+                isCodeValid: "Please select a Country Code",
                 isValidCode: "Enter valid code"
               }}
               allowFilter={true}
