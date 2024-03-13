@@ -3,10 +3,10 @@ import { WishListGridItem } from "typings/wishlist";
 import { Props as WishlistProps } from "./index";
 import { Currency } from "typings/currency";
 import styles from "./styles.scss";
-import iconStyles from "../../styles/iconFonts.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import { displayPriceWithCommas } from "utils/utility";
+import cross from "./../../icons/wishlist_cross.svg";
 
 type Props = {
   grid: WishlistProps;
@@ -108,30 +108,30 @@ const SampleDisplay: React.FC<Props> = props => {
               <img src={data.salesBadgeImage} />
             </div>
           )}
-          {!isShared &&
-            (mobile ? (
-              <i
-                className={cs(
-                  iconStyles.icon,
-                  iconStyles.iconCrossNarrowBig,
-                  styles.iconCrossMobile
-                )}
-                onTouchStart={e => {
-                  props.removeProduct(data);
-                }}
-              ></i>
-            ) : (
-              <i
-                className={cs(
-                  iconStyles.icon,
-                  iconStyles.iconCross,
-                  styles.iconCross
-                )}
-                onClick={e => {
-                  props.removeProduct(data);
-                }}
-              ></i>
-            ))}
+          {!isShared && (
+            // mobile ? (
+            <img
+              src={cross}
+              alt="remove"
+              className={cs(styles.iconCross)}
+              onClick={e => {
+                props.removeProduct(data);
+              }}
+            />
+          )
+          // : (
+          //   <i
+          //     className={cs(
+          //       iconStyles.icon,
+          //       iconStyles.iconCross,
+          //       styles.iconCross
+          //     )}
+          //     onClick={e => {
+          //       props.removeProduct(data);
+          //     }}
+          //   ></i>
+          // ))
+          }
 
           <a href={data.productUrl}>
             <img
