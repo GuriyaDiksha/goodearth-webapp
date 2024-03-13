@@ -237,6 +237,15 @@ class Header extends React.Component<Props, State> {
     const config = { subtree: true, childList: true };
     observer.observe(document, config);
     this.onScroll();
+    if (
+      typeof document != "undefined" &&
+      user.email &&
+      (!user.gender || !user.country || !user.lastName || !user.firstName)
+    ) {
+      document?.body?.classList?.add(globalStyles.noScroll);
+    } else {
+      document?.body?.classList?.remove(globalStyles.noScroll);
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
