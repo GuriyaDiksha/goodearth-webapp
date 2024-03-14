@@ -150,7 +150,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       Api.getPopups(dispatch).catch(err => {
         console.log("Popups Api ERROR === " + err);
       });
-      console.log("loading====", isLoading);
 
       return await BasketService.fetchBasket(
         dispatch,
@@ -1260,7 +1259,7 @@ class Checkout extends React.Component<Props, State> {
             </div>
           </div>
         </div>
-        {this.state.isLoading &&
+        {this.props.isLoading &&
           !this.props.user.isLoggedIn &&
           this.props.history.push("/cart", { from: "checkout" })}
       </div>
