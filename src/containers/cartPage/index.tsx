@@ -278,7 +278,7 @@ class CartPage extends React.Component<Props, State> {
               this.props.currency
             ]
               ? line.product.childAttributes[0]?.discountedPriceRecords[
-                  currency
+                  this.props.currency
                 ]
               : "NA", // Pass the discount amount
           index: ind,
