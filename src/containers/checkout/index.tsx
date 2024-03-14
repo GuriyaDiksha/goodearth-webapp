@@ -150,7 +150,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       Api.getPopups(dispatch).catch(err => {
         console.log("Popups Api ERROR === " + err);
       });
-      console.log("loading====", isLoading);
 
       return await BasketService.fetchBasket(
         dispatch,
