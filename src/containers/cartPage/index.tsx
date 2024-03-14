@@ -433,75 +433,58 @@ class CartPage extends React.Component<Props, State> {
                 )}
               >
                 <h2
-                  className={cs(globalStyles.voffset5, globalStyles.marginB10)}
+                  className={cs(globalStyles.voffset5, globalStyles.marginB30)}
                 >
                   Looking to discover some ideas?
                 </h2>
               </div>
             </>
           )}
-          <div
-            className={cs(globalStyles.voffset3, globalStyles.marginAuto, {
-              [bootstrap.col10]:
-                mobile && (!wishlistData.length || !isLoggedIn),
-              [bootstrap.col12]: isLoggedIn && wishlistData.length
-            })}
-          >
-            {((mobile && (!isLoggedIn || wishlistData.length === 0)) ||
-              !mobile) && (
-              <div className={bootstrap.row}>
-                <div
-                  className={cs(
-                    bootstrap.colMd12,
-                    bootstrap.col12,
-                    styles.noResultPadding,
-                    styles.checkheight,
-                    {
-                      // [styles.checkheightMobile]: mobile,
-                      [styles.wishlistWrap]: wishlistData.length && isLoggedIn
-                    }
-                  )}
-                >
-                  {this.state.featureData.length > 0
-                    ? this.state.featureData.map((data, i) => {
-                        return (
-                          <div
-                            key={i}
-                            className={cs(
-                              bootstrap.colLg3,
-                              styles.px10,
-                              bootstrap.col5
-                            )}
-                          >
-                            <div className={styles.searchImageboxNew}>
-                              <Link to={data.ctaUrl}>
-                                <img
-                                  src={
-                                    data.ctaImage == ""
-                                      ? noImagePlp
-                                      : data.ctaImage
-                                  }
-                                  // onError={this.addDefaultSrc}
-                                  alt={data.ctaText}
-                                  className={styles.imageResultNew}
-                                />
-                              </Link>
-                            </div>
-                            <div className={cs(styles.imageContent)}>
-                              <p className={styles.searchImageTitle}>
-                                {data.ctaText}
-                              </p>
-                              <p className={styles.searchFeature}>
-                                <Link to={data.ctaUrl}>{data.title}</Link>
-                              </p>
-                            </div>
-                          </div>
-                        );
-                      })
-                    : ""}
-                </div>
-              </div>
-            )}
+          <div className={cs(globalStyles.voffset3, bootstrap.col12)}>
+            <div
+              className={cs(bootstrap.row, { [styles.scrollerWrp]: mobile })}
+            >
+              {this.state.featureData.length > 0
+                ? this.state.featureData.map((data, i) => {
+                    return (
+                      <div
+                        key={i}
+                        className={cs(
+                          bootstrap.colLg3,
+                          styles.px6,
+                          bootstrap.col5,
+                          {
+                            [globalStyles.marginL30]: i === 0 && mobile,
+                            [globalStyles.marginR30]:
+                              i === this.state.featureData?.length - 1 && mobile
+                          }
+                        )}
+                      >
+                        <div className={styles.searchImageboxNew}>
+                          <Link to={data.ctaUrl}>
+                            <img
+                              src={
+                                data.ctaImage == "" ? noImagePlp : data.ctaImage
+                              }
+                              // onError={this.addDefaultSrc}
+                              alt={data.ctaText}
+                              className={styles.imageResultNew}
+                            />
+                          </Link>
+                        </div>
+                        <div className={cs(styles.imageContent)}>
+                          <p className={styles.searchImageTitle}>
+                            {data.ctaText}
+                          </p>
+                          <p className={styles.searchFeature}>
+                            <Link to={data.ctaUrl}>{data.title}</Link>
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })
+                : ""}
+            </div>
 
             {isLoggedIn && wishlistData.length > 0 && (
               <>
@@ -758,7 +741,7 @@ class CartPage extends React.Component<Props, State> {
           </div>
         </div>
 
-        {mobile && (
+        {/* {mobile && (
           <div className={styles.continueShoppingBtnWrapper}>
             <Button
               variant="largeMedCharcoalCta"
@@ -772,7 +755,7 @@ class CartPage extends React.Component<Props, State> {
               }}
             />
           </div>
-        )}
+        )} */}
       </div>
     );
     const item = lineItems.map(item => {
