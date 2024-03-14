@@ -1259,7 +1259,7 @@ class Checkout extends React.Component<Props, State> {
             </div>
           </div>
         </div>
-        {this.state.isLoading &&
+        {this.props.isLoading &&
           !this.props.user.isLoggedIn &&
           this.props.history.push("/cart", { from: "checkout" })}
       </div>
