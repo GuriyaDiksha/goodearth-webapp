@@ -1548,7 +1548,8 @@ span.add-new-address {
       }
       span{
         font-size: 13px !important;
-        font-family: "Lora", "serif" !important;
+        // font-family: "Lora", "serif" !important;
+        font-family: $font-Montserrat!important;
       }
   }
 }
