@@ -3,8 +3,8 @@
 
 .page-body {
   margin-top: 45px;
-  margin-left: auto;
-  margin-right: auto;
+  // margin-left: auto;
+  // margin-right: auto;
   position: relative;
 }
 
@@ -571,8 +571,8 @@ hr {
 .image-content {
   text-align: center;
   height: auto;
-  margin-top: 5;
   width: 100%;
+  margin-bottom: 30px;
 }
 
 .search-image-title {
@@ -629,14 +629,18 @@ hr {
 }
 .search-feature {
   @include b4_12px_montserrat_charcoal_caps();
-  // text-decoration: underline;
   cursor: pointer;
   text-align: center;
   margin-top: 7px;
-  // font-size: 12px;
-  // font-weight: bold;
+  
   @media screen and (min-width: 768px) and (max-width:1024px) {
     max-width: 80%;
+  }
+
+  &.wishlist-conetent{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   a {
     @include b4_12px_montserrat_charcoal_caps();
@@ -702,23 +706,22 @@ hr {
 }
 
 .wishlist-head {
-  font-style: italic;
-    letter-spacing: 1px;
-    font-weight: 400;
+  margin-top: 50px;
+  margin-bottom: 0px;
+  font-weight: $regular;
   @include h6_16px_lora_charcoal();
 }
 .wishlist-sub-head {
   @include b4_12px_montserrat_charcoal();
 }
 .view-all {
-  padding-top: 15px;
   border-bottom: 1px solid $charcoal19;
-  @include b4_12px_montserrat_charcoal_caps();
+  @include b4_12px_montserrat_charcoal();
 
-  &:hover {
-    border-bottom: 1px solid $aqua;
-    @include b4_12px_montserrat_aqua_caps();
-  }
+  // &:hover {
+  //   border-bottom: 1px solid $aqua;
+  //   @include b4_12px_montserrat_aqua_caps();
+  // }
 }
 .view-all-mobile-wrapper {
   position: relative;
@@ -783,19 +786,7 @@ hr {
   bottom: 0;
   left: 0;
   z-index: 7;
-
-  .continue-shopping-btn{
-    padding: 20px 30px;
-    background-color: $med-charcoal;
-    @include b3_14px_caps_white();
-    display: block;
-    text-align: center;
-
-    &:hover{
-      background-color: #fff;
-      color: $med-charcoal;
-    }
-  }
+  padding-top: 2px
 }
 
 .gc_name{
@@ -838,4 +829,24 @@ hr {
 /* Hide scrollbar for Chrome, Safari and Opera */
 .scroller-wrp::-webkit-scrollbar {
   display: none;
+}
+
+.view-all-tile{
+  background-color: $grey;
+  position: relative;
+
+  a{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-bottom: 1px solid $charcoal19;
+    @include b3_14px_montserrat_caps_charcoal();
+    
+    &:hover{
+      color: $aqua;
+      border-bottom: 1px solid $aqua;
+    }
+
+  }
 }
