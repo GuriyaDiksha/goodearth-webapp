@@ -454,7 +454,7 @@ icon-cross {
 
 .npf-msg {
   @include b4_12px_montserrat_charcoal();
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   span {
     color: $cerise;
   }
@@ -606,9 +606,11 @@ icon-cross {
     .heading {
       @include h3_20px_lora_medCharcoal();
       margin-bottom: 0;
+      text-transform: capitalize !important;
     }
     .subheading {
       margin-bottom: 20px;
+      letter-spacing: 0.5px;
      @include b4_12px_montserrat_light_charcoal();
     }
     .btn {
@@ -779,7 +781,7 @@ icon-cross {
     bottom: -1px;
     left: 0;
     right: 0;
-  background-color: $charcoal19;
+  background-color: #2E2E2E;
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
@@ -870,4 +872,8 @@ icon-cross {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+}
+
+.h2-popup{
+  line-height: 1;
 }

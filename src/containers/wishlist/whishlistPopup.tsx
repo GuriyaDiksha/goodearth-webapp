@@ -101,14 +101,14 @@ const ShareWishlistLink = () => {
           <div className={styles.loginForm}>
             <div>
               <div className={globalStyles.voffset7}>
-                <h2>
+                <h2 className={styles.h2Popup}>
                   Share{" "}
                   {`${firstName} ${lastName}`
                     .toLowerCase()
                     .replace(/\b(\w)/g, x => x.toUpperCase())}
                   &apos;s
                 </h2>
-                <h2>Saved List</h2>
+                <h2 className={styles.h2Popup}>Saved List</h2>
               </div>
               {!wishlist_link && (
                 <div className={styles.linkWrp}>
