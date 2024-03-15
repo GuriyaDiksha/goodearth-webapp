@@ -404,18 +404,11 @@ class CartPage extends React.Component<Props, State> {
 
     const emptyCartContent = (
       <div className={cs(styles.cart, styles.emptyCart)}>
-        {/* {this.renderMessage()} */}
         <div
-          className={cs(
-            globalStyles.textCenter,
-            // bootstrap.colMd4,
-            // bootstrap.offsetMd4,
-            {
-              // [bootstrap.col10]: !mobile,
-              [bootstrap.col12]: mobile,
-              [globalStyles.marginT50]: !mobile
-            }
-          )}
+          className={cs(globalStyles.textCenter, {
+            [bootstrap.col12]: mobile,
+            [globalStyles.marginT50]: !mobile
+          })}
         >
           <>
             <div className={styles.emptyMsg}> Your bag is currently empty </div>
@@ -423,7 +416,6 @@ class CartPage extends React.Component<Props, State> {
               className={cs(
                 bootstrap.colMd12,
                 styles.searchHeading,
-                { [styles.searchHeadingMobile]: mobile },
                 globalStyles.textCenter
               )}
             >
@@ -607,7 +599,7 @@ class CartPage extends React.Component<Props, State> {
               </>
             )}
 
-            {mobile || tablet ? (
+            {/* {mobile || tablet ? (
               ""
             ) : (
               <div className={bootstrap.row}>
@@ -617,7 +609,7 @@ class CartPage extends React.Component<Props, State> {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
