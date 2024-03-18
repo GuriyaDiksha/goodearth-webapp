@@ -462,6 +462,19 @@ const ProductDetails: React.FC<Props> = ({
     if (subcategory) {
       subcategory = subcategory[subcategory.length - 1];
     }
+
+    const cat1 = categories?.[0]?.split(">");
+    const cat2 = categories?.[1]?.split(">");
+
+    const L1 = cat1?.[0].trim();
+
+    const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+    const L3 = cat2?.[2]
+      ? cat2?.[2]?.trim()
+      : data.categories?.[2]?.split(">")?.[2].trim();
+
+    const clickType = localStorage.getItem("clickType");
     const size = selectedSize?.size || "";
     const search = CookieService.getCookie("search") || "";
     if (userConsent.includes(GA_CALLS)) {
@@ -504,6 +517,12 @@ const ProductDetails: React.FC<Props> = ({
       dataLayer.push({
         event: "add_to_cart",
         previous_page_url: CookieService.getCookie("prevUrl"),
+        currency: currency,
+        value: discountedPriceRecords[currency]
+          ? discountedPriceRecords[currency]
+          : price
+          ? price
+          : null,
         ecommerce: {
           items: [
             {
@@ -512,16 +531,21 @@ const ProductDetails: React.FC<Props> = ({
               affiliation: title, // Pass the product name
               coupon: "NA", // Pass the coupon if available
               currency: currency, // Pass the currency code
-              discount: info.isSale && discount ? discount : "NA", // Pass the discount amount
+              discount:
+                info.isSale && discount
+                  ? data?.badgeType == "B_flat"
+                    ? discountPrices
+                    : price - discountPrices
+                  : "NA", // Pass the discount amount
               index: "NA",
               item_brand: "Goodearth",
-              item_category: category?.split("/")?.[0],
-              item_category2: category?.split("/")?.[1],
-              item_category3: category?.split("/")?.[2],
+              item_category: L1,
+              item_category2: L2,
+              item_category3: L3,
               item_category4: "NA",
               item_category5: category5,
               item_list_id: "NA", //pass the item list id
-              item_list_name: search ? search : "NA", //pass the item list name ex.search results
+              item_list_name: search ? `${clickType}-${search}` : "NA",
               item_variant: selectedSize?.size || "",
               price: discountPrices || price,
               quantity: quantity,
@@ -1397,6 +1421,7 @@ const ProductDetails: React.FC<Props> = ({
                   iconClassName={cs({
                     [styles.mobileWishlistIcon]: mobile
                   })}
+                  badgeType={badgeType}
                 />
               </div>
             </div>

@@ -175,6 +175,20 @@ export function dataForBilling(data: Basket, currency: Currency) {
         }
         category = category.replace(/>/g, "/");
       }
+
+      const search = CookieService.getCookie("search") || "";
+      const cat1 = product?.categories?.[0]?.split(">");
+      const cat2 = product?.categories?.[1]?.split(">");
+
+      const L1 = cat1?.[0].trim();
+
+      const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+      const L3 = cat2?.[2]
+        ? cat2?.[2]?.trim()
+        : product?.categories?.[2]?.split(">")?.[2].trim();
+
+      const clickType = localStorage.getItem("clickType");
       return Object.assign(
         {},
         {
@@ -184,17 +198,19 @@ export function dataForBilling(data: Basket, currency: Currency) {
           coupon: "NA", // Pass the coupon if available
           currency: currency, // Pass the currency code
           discount: product.discountedPriceRecords
-            ? product.discountedPriceRecords[currency]
+            ? product?.badgeType == "B_flat"
+              ? product.discountedPriceRecords[currency]
+              : realPrice - product.discountedPriceRecords[currency]
             : "NA", // Pass the discount amount
           index: ind,
           item_brand: "Goodearth",
-          item_category: category?.split("/")?.[0],
-          item_category2: category?.split("/")?.[1],
-          item_category3: category?.split("/")?.[2],
+          item_category: L1,
+          item_category2: L2,
+          item_category3: L3,
           item_category4: "NA",
           item_category5: prod.product.is3d ? "3d" : "non3d",
           item_list_id: "NA",
-          item_list_name: "NA",
+          item_list_name: search ? `${clickType}-${search}` : "NA",
           item_variant: prod.product?.childAttributes[0]?.size || "NA",
           // item_category5: collectionName,
           price: realPrice,
@@ -296,6 +312,19 @@ export function proceedTocheckout(
       let variants = "";
       let prices = "";
 
+      const cat1 = product.categories?.[0]?.split(">");
+      const cat2 = product.categories?.[1]?.split(">");
+
+      const L1 = cat1?.[0].trim();
+
+      const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+      const L3 = cat2?.[2]
+        ? cat2?.[2]?.trim()
+        : product.categories?.[2]?.split(">")?.[2].trim();
+
+      const clickType = localStorage.getItem("clickType");
+
       product.childAttributes.map((child: any) => {
         skus += "," + child.sku;
         variants += "," + child.size;
@@ -314,17 +343,20 @@ export function proceedTocheckout(
           currency: currency, // Pass the currency code
           discount:
             isSale && product.discountedPriceRecords
-              ? product.discountedPriceRecords[currency]
+              ? product.childAttributes?.[0]?.badgeType == "B_flat"
+              : product?.discountedPriceRecords[currency]
+              ? product?.priceRecords[currency] -
+                product.childAttributes[0]?.discountedPriceRecords[currency]
               : "NA", // Pass the discount amount
           index: index,
           item_brand: "goodearth",
-          item_category: category?.split("/")?.[0],
-          item_category2: category?.split("/")?.[1],
-          item_category3: category?.split("/")?.[2],
+          item_category: L1,
+          item_category2: L2,
+          item_category3: L3,
           item_category4: "NA",
           item_category5: product.is3d ? "3d" : "non3d",
           item_list_id: "NA",
-          item_list_name: search ? search : "NA",
+          item_list_name: search ? `${clickType}-${search}` : "NA",
           item_variant: product?.childAttributes[0]?.size || "NA",
           price: realPrice,
           quantity: 1,
@@ -377,6 +409,9 @@ export function proceedForPayment(
     const childAttr = data.lineItems.map((child: any, index: number) => {
       let category = "";
       const { product } = child;
+      const search = CookieService.getCookie("search") || "";
+      const clickType = localStorage.getItem("clickType");
+
       if (product.categories) {
         const index = product.categories.length - 1;
         category = product.categories[index]
@@ -395,6 +430,17 @@ export function proceedForPayment(
       let skus = "";
       let variants = "";
       let prices = "";
+
+      const cat1 = product?.categories?.[0]?.split(">");
+      const cat2 = product?.categories?.[1]?.split(">");
+
+      const L1 = cat1?.[0].trim();
+
+      const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+      const L3 = cat2?.[2]
+        ? cat2?.[2]?.trim()
+        : product?.categories?.[2]?.split(">")?.[2].trim();
 
       product.childAttributes.map((child: any) => {
         skus += "," + child.sku;
@@ -418,17 +464,20 @@ export function proceedForPayment(
           currency: currency, // Pass the currency code
           discount:
             isSale && product.discountedPriceRecords
-              ? product.discountedPriceRecords[currency]
+              ? product?.badgeType == "B_flat"
+                ? product.discountedPriceRecords[currency]
+                : product.priceRecords[currency] -
+                  product.discountedPriceRecords[currency]
               : "NA", // Pass the discount amount
           index: index,
           item_brand: "goodearth",
-          item_category: category?.split("/")?.[0],
-          item_category2: category?.split("/")?.[1],
-          item_category3: category?.split("/")?.[2],
+          item_category: L1,
+          item_category2: L2,
+          item_category3: L3,
           item_category4: "NA",
           item_category5: product.is3d ? "3d" : "non3d",
           item_list_id: "NA",
-          item_list_name: "NA",
+          item_list_name: search ? `${clickType}-${search}` : "NA",
           item_variant: product?.childAttributes[0]?.size || "NA",
           // item_category5: collectionName,
           price: product.priceRecords[currency],
@@ -619,6 +668,7 @@ export function productImpression(
     });
 
     const childAttr: any[] = [];
+    let L1: string, L2: string, L3: string, cat1, cat2;
     data?.results?.data.map((child: any, index: number) => {
       let category = "";
 
@@ -639,26 +689,22 @@ export function productImpression(
         category = child.categories[2]
           ? child.categories[2]?.replace(/\s/g, "")
           : (category || "").replace(/>/g, "/");
+
+        cat1 = child.categories?.[0]?.split(">");
+        cat2 = child.categories?.[1]?.split(">");
+
+        L1 = cat1?.[0].trim();
+
+        L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+        L3 = cat2?.[2]
+          ? cat2?.[2]?.trim()
+          : child.categories?.[2]?.split(">")?.[2].trim();
       }
-      const L1 = child.categories?.[0]?.split(">")?.[0].trim();
-      const L2 = child.categories?.[0]?.split(">")?.[1]
-        ? child.categories?.[0]?.split(">")?.[1]
-        : child.categories?.[1]?.split(">")?.[1].trim();
-      const L3 = child.categories?.[1]?.split(">")?.[2]
-        ? child.categories?.[1]?.split(">")?.[2]
-        : child.categories?.[2]?.split(">")?.[2].trim();
+
       const sizes = child.childAttributes
         ?.map((ele: any) => ele.size)
         ?.join("|");
-
-      // child.childAttributes.map((child1: any) => {
-      // skus += "," + child.sku;
-      // variants += "," + child.size;
-      // prices +=
-      //   "," +
-      //   (child.discountedPriceRecords
-      //     ? child.discountedPriceRecords[currency]
-      //     : child.priceRecords[currency]);
 
       childAttr.push(
         Object.assign(
@@ -692,27 +738,9 @@ export function productImpression(
               : child.priceRecords[currency],
             quantity: 1,
             price_range: priceRange || "NA"
-            // dimension12: child1?.color
           }
         )
       );
-      // });
-      // skus = skus.slice(1);
-      // variants = variants.slice(1);
-      // prices = prices.slice(1);
-      // const childProduct = Object.assign(
-      //   {},
-      //   {
-      //     name: prod.title,
-      //     id: skus,
-      //     category: category,
-      //     list: listPath,
-      //     price: prices,
-      //     brand: "Goodearth",
-      //     position: position + i + 1,
-      //     variant: variants || ""
-      //   }
-      // );
     });
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
@@ -956,15 +984,19 @@ export function PDP(data: any, currency: Currency, isSale?: boolean) {
       subcategoryname = arr[arr.length - 1];
       category = category.replace(/>/g, "/");
     }
-    // let skus = "";
-    // let variants = "";
-    // let prices = "";
-    // const len = data.categories.length;
-    // const categri = data.categories[len - 1];
-    // const l3Len = category.split(">").length;
-    // const cat = categri.split(">")[l3Len - 1];
-    // const l1 = categri.split(">")[0];
 
+    const cat1 = data.categories?.[0]?.split(">");
+    const cat2 = data.categories?.[1]?.split(">");
+
+    const L1 = cat1?.[0].trim();
+
+    const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+    const L3 = cat2?.[2]
+      ? cat2?.[2]?.trim()
+      : data.categories?.[2]?.split(">")?.[2].trim();
+
+    const clickType = localStorage.getItem("clickType");
     const skusid: any = [];
     const variantspdp: any = [];
     const priceschild: any = [];
@@ -987,20 +1019,23 @@ export function PDP(data: any, currency: Currency, isSale?: boolean) {
           currency: currency, // Pass the currency code
           discount:
             isSale && data.discountedPriceRecords
-              ? data.discountedPriceRecords[currency]
+              ? data?.badgeType == "B_flat"
+                ? data.discountedPriceRecords[currency]
+                : data.priceRecords[currency] -
+                  data.discountedPriceRecords[currency]
               : "NA", // Pass the discount amount
           index: "NA",
           item_brand: "goodearth",
           collection_category: data.collections?.join("|"),
           price: data.priceRecords[currency],
           quantity: 1,
-          item_category: category?.split("/")?.[0],
-          item_category2: category?.split("/")?.[1],
-          item_category3: category?.split("/")?.[2],
+          item_category: L1,
+          item_category2: L2,
+          item_category3: L3,
           item_category4: "NA",
           item_category5: "NA",
           item_list_id: "NA",
-          item_list_name: search ? search : "NA",
+          item_list_name: search ? `${clickType}-${search}` : "NA",
           item_variant: sizes,
           price_range: "NA"
         }
@@ -1275,12 +1310,21 @@ export function plpProductClick(
         }
       );
     });
-    // const len = data.categories.length;
-    // const categri = data.categories[len - 1];
-    // const l3Len = category.split(">").length;
-    // const cat = categri.split(">")[l3Len - 1];
-    // const l1 = categri.split(">")[0];
+
+    const cat1 = data.categories?.[0]?.split(">");
+    const cat2 = data.categories?.[1]?.split(">");
+
+    const L1 = cat1?.[0].trim();
+
+    const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+    const L3 = cat2?.[2]
+      ? cat2?.[2]?.trim()
+      : data.categories?.[2]?.split(">")?.[2].trim();
+
     const search = CookieService.getCookie("search") || "";
+    const clickType = localStorage.getItem("clickType");
+
     const sizes = data.childAttributes?.map((ele: any) => ele.size)?.join("|");
 
     const childAttr =
@@ -1295,20 +1339,23 @@ export function plpProductClick(
           currency: currency, // Pass the currency code
           discount:
             isSale && data.discountedPriceRecords
-              ? data.discountedPriceRecords[currency]
+              ? data?.badgeType == "B_flat"
+                ? data.discountedPriceRecords[currency]
+                : data.priceRecords[currency] -
+                  data.discountedPriceRecords[currency]
               : "NA", // Pass the discount amount
           index: "NA",
           item_brand: "goodearth",
           collection_category: data.collections?.join("|"),
           price: data.priceRecords[currency],
           quantity: 1,
-          item_category: category?.split("/")?.[0],
-          item_category2: category?.split("/")?.[1],
-          item_category3: category?.split("/")?.[2],
+          item_category: L1,
+          item_category2: L2,
+          item_category3: L3,
           item_category4: "NA",
           item_category5: "NA",
           item_list_id: "NA",
-          item_list_name: search ? search : "NA",
+          item_list_name: search ? `${clickType}-${search}` : "NA",
           item_variant: sizes,
           price_range: "NA"
         }

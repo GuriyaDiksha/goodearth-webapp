@@ -45,7 +45,8 @@ const WishlistButton: React.FC<Props> = ({
   onMoveToWishlist,
   onComplete,
   isPlpTile,
-  tablet
+  tablet,
+  badgeType
 }) => {
   const { wishlistItems, wishlistChildItems } = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
@@ -69,6 +70,18 @@ const WishlistButton: React.FC<Props> = ({
           categories.length > 0 &&
           categories[index].replace(/\s/g, "");
         category = category && category.replace(/>/g, "/");
+        const cat1 = categories?.[0]?.split(">");
+        const cat2 = categories?.[1]?.split(">");
+
+        const L1 = cat1?.[0].trim();
+
+        const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+        const L3 = cat2?.[2]
+          ? cat2?.[2]?.trim()
+          : categories?.[2]?.split(">")?.[2].trim();
+
+        const clickType = localStorage.getItem("clickType");
         const listPath = `${gtmListType}`;
         const child = childAttributes as ChildProductAttributes[];
         const search = CookieService.getCookie("search") || "";
@@ -148,17 +161,20 @@ const WishlistButton: React.FC<Props> = ({
                   currency: currency, // Pass the currency code
                   discount:
                     isSale && child?.[0].discountedPriceRecords
-                      ? child?.[0].discountedPriceRecords[currency]
+                      ? badgeType == "B_flat"
+                        ? child?.[0].discountedPriceRecords[currency]
+                        : child?.[0].priceRecords[currency] -
+                          child?.[0].discountedPriceRecords[currency]
                       : "NA", // Pass the discount amount
                   index: 0,
                   item_brand: "Goodearth",
-                  item_category: category?.split("/")?.[0],
-                  item_category2: category?.split("/")?.[1],
-                  item_category3: category?.split("/")?.[2],
+                  item_category: L1,
+                  item_category2: L2,
+                  item_category3: L3,
                   item_category4: "NA",
                   item_category5: "NA",
                   item_list_id: "NA",
-                  item_list_name: search ? search : "NA",
+                  item_list_name: search ? `${clickType}-${search}` : "NA",
                   item_variant:
                     childAttributes && childAttributes[0].size
                       ? childAttributes[0].size

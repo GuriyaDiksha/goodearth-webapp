@@ -272,6 +272,20 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       productprice.push(line.product.pricerecords[result.currency as Currency]);
       productquantity.push(+line.quantity);
 
+      const search = CookieService.getCookie("search") || "";
+      const clickType = localStorage.getItem("clickType");
+
+      const cat1 = line?.product?.categories?.[0]?.split(">");
+      const cat2 = line?.product?.categories?.[1]?.split(">");
+
+      const L1 = cat1?.[0].trim();
+
+      const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+      const L3 = cat2?.[2]
+        ? cat2?.[2]?.trim()
+        : line?.product?.categories?.[2]?.split(">")?.[2].trim();
+
       return {
         item_id: line.product.sku,
         item_name: line.title,
@@ -282,17 +296,20 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             : "NA",
         discount:
           isSale && result?.offerDiscounts?.[0].amount
-            ? result?.offerDiscounts?.[0].amount
+            ? line?.product?.badgeType == "B_flat"
+              ? line?.product.discountedPriceRecords[result?.currency]
+              : line?.product.priceRecords[result?.currency] -
+                line?.product.discountedPriceRecords[result?.currency]
             : "NA",
         index: ind,
         item_brand: "Goodearth",
-        item_category: category?.split("/")?.[0],
-        item_category2: category?.split("/")?.[1],
-        item_category3: category?.split("/")?.[2],
+        item_category: L1,
+        item_category2: L2,
+        item_category3: L3,
         item_category4: "NA",
         item_category5: "NA",
         item_list_id: "NA",
-        item_list_name: "NA",
+        item_list_name: search ? `${clickType}-${search}` : "NA",
         item_variant: line.product.size || "NA",
         price: line.isEgiftCard
           ? +line.priceExclTax

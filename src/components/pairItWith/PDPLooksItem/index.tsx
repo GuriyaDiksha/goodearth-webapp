@@ -307,6 +307,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
                 showText={false}
                 key={product.id}
                 mobile={false}
+                badgeType={product?.badgeType}
               />
             </div>
           )}
