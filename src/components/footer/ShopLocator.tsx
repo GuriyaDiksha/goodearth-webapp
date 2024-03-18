@@ -112,6 +112,7 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
             id="drop"
             autoComplete="off"
             onKeyUp={onChange}
+            readOnly={mobile}
           />
           <div
             className={

@@ -536,7 +536,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
               validations={{
                 compulsory: (values, value) => {
                   if (values.whatsappSubscribe && value == "") {
-                    // setNumberError("Please enter your contact number");
+                    setNumberError("Please enter your Contact Number");
                     return false;
                   } else {
                     setNumberError("");
@@ -544,11 +544,9 @@ const WhatsappSubscribe: React.FC<Props> = ({
                   }
                 }
               }}
-              validationErrors={
-                {
-                  // compulsory: "Please enter your contact number"
-                }
-              }
+              validationErrors={{
+                compulsory: "Please enter your Contact Number"
+              }}
               handleChange={onPhoneChange}
               showLabel={true}
               inputRef={phoneRef}

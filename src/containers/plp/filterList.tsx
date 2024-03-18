@@ -533,7 +533,9 @@ class FilterList extends React.Component<Props, State> {
                   plpList,
                   categoryShopL1 || "PLP",
                   this.props.currency,
-                  plpList.results.data.length
+                  plpList.results.data.length,
+                  undefined,
+                  `${this.state.filter.price.max_price} - ${this.state.filter.price.min_price}`
                 );
               } catch (e) {
                 console.log("plp GA error====", e);
@@ -629,7 +631,14 @@ class FilterList extends React.Component<Props, State> {
       filterUrl = filterUrl + `&page_size=${pageSize}`;
     }
     fetchPlpProducts(filterUrl, currency).then(plpList => {
-      productImpression(plpList, categoryShopL1 || "PLP", this.props.currency);
+      productImpression(
+        plpList,
+        categoryShopL1 || "PLP",
+        this.props.currency,
+        undefined,
+        undefined,
+        `${this.state.filter.price.max_price} - ${this.state.filter.price.min_price}`
+      );
       changeLoader?.(false);
       this.createList(plpList, false);
       this.props.updateFacets(this.getSortedFacets(plpList.results.facets));

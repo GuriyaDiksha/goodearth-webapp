@@ -98,7 +98,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
 
   const gtmProductClick = () => {
     CookieService.setCookie("listPath", page);
-    plpProductClick(product, page, currency, position);
+    plpProductClick(product, page, currency, position, info.isSale);
     const len = product.categories.length;
     const category = product.categories[len - 1];
     const l3Len = category.split(">").length;

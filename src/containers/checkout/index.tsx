@@ -53,7 +53,7 @@ import { Basket } from "typings/basket";
 import { Currency } from "typings/currency";
 import CheckoutBreadcrumb from "./component/CheckoutBreadcrumb";
 import { GA_CALLS } from "constants/cookieConsent";
-import { updateShowShippingAddress } from "actions/info";
+import { updateLoader, updateShowShippingAddress } from "actions/info";
 import { useLocation } from "react-router";
 
 const mapStateToProps = (state: AppState) => {
@@ -72,7 +72,8 @@ const mapStateToProps = (state: AppState) => {
     showPromo: state.info.showPromo,
     bridalId: state.user.bridalId,
     billingAddressId: state.address.billingAddressId,
-    showShipping: state.info.showShipping
+    showShipping: state.info.showShipping,
+    isLoading: state.info.isLoading
   };
 };
 
@@ -141,8 +142,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     reloadPage: async (cookies: Cookies, history: any, isLoggedIn: boolean) => {
       dispatch(refreshPage(undefined));
-      // await Promise.allSettled(
-      //   [
+
       HeaderService.fetchHeaderDetails(dispatch);
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sale status API error === " + err);
@@ -150,8 +150,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       Api.getPopups(dispatch).catch(err => {
         console.log("Popups Api ERROR === " + err);
       });
-      //  ]);
-      //  .then(async ()=>{
+
       return await BasketService.fetchBasket(
         dispatch,
         isGcCheckout ? "gc_checkout" : "checkout",
@@ -165,7 +164,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
           return response;
         }
       });
-      //  })
     },
     finalCheckout: async (data: FormData) => {
       const response = await CheckoutService.finalCheckout(dispatch, data);
@@ -235,6 +233,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         )
       );
       dispatch(updateModal(true));
+    },
+    updateLoaderValue: (value: boolean) => {
+      dispatch(updateLoader(value));
     }
   };
 };
@@ -260,7 +261,6 @@ type State = {
   gstNo: string;
   gstType: string;
   unpublish: boolean;
-  isLoading: boolean;
   id: string;
   addressIdError: string;
   isGoodearthShipping: boolean;
@@ -302,7 +302,6 @@ class Checkout extends React.Component<Props, State> {
       gstNo: "",
       gstType: "",
       unpublish: false,
-      isLoading: false,
       id: "",
       addressIdError: "",
       boEmail: "",
@@ -515,7 +514,7 @@ class Checkout extends React.Component<Props, State> {
         this.props.removeRedeem(this.props.user.isLoggedIn);
         // }
 
-        proceedTocheckout(res, this.props.currency);
+        proceedTocheckout(res, this.props.currency, this.props.isSale);
         checkoutGTM(1, this.props.currency, res);
         // code for call loyalty point api only one time
         if (email) {
@@ -563,7 +562,8 @@ class Checkout extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    const { isGoodearthShipping, isLoading } = this.state;
+    const { isGoodearthShipping } = this.state;
+    const { isLoading } = this.props;
     const isGcCheckout = this.props.location.pathname.endsWith("gc_checkout");
     if (nextProps.user.isLoggedIn) {
       const { shippingData } = nextProps.user;
@@ -803,319 +803,328 @@ class Checkout extends React.Component<Props, State> {
     activeStep: string,
     obj: { gstNo?: string; panPassportNo: string; gstType?: string }
   ) => {
-    this.setState({ isLoading: true }, () => {
-      if (activeStep == STEP_SHIPPING && address) {
-        const { bridal } = this.props.basket;
+    this.props.updateLoaderValue(true);
+    // this.setState({ isLoading: true }, () => {
+    if (activeStep == STEP_SHIPPING && address) {
+      const { bridal } = this.props.basket;
 
-        const userConsent = CookieService.getCookie("consent").split(",");
+      const userConsent = CookieService.getCookie("consent").split(",");
 
+      this.props
+        .specifyShippingAddress(
+          address.id,
+          address,
+          this.props.user,
+          bridal,
+          this.props.history
+        )
+        .then(data => {
+          if (userConsent.includes(GA_CALLS)) {
+            Moengage.track_event("Shipping Address Added", {
+              "First Name": address.firstName,
+              "Last Name": address.lastName,
+              "Zip code": address.postCode,
+              Country: address.countryName,
+              State: address.state,
+              Address: address.line1 + address.line2,
+              City: address.city,
+              "Contact Number": address.phoneCountryCode + address.phoneNumber
+            });
+          }
+          if (address.country == "IN") {
+            this.props
+              .checkPinCodeShippable(address.postCode)
+              .then(response => {
+                this.setState({
+                  errorNotification:
+                    this.props.currency == "INR" &&
+                    !this.props.basket.isOnlyGiftCart
+                      ? response.status
+                        ? ""
+                        : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
+                      : ""
+                });
+              })
+              .catch(err => {
+                console.log(err);
+                this.props.updateLoaderValue(false);
+
+                // this.setState({ isLoading: false });
+              })
+              .finally(() => {
+                if (data.status) {
+                  const isGoodearthShipping = address.isTulsi
+                    ? address.isTulsi
+                    : false;
+
+                  checkoutGTM(2, this.props.currency, this.props.basket);
+                  if (data.data.basket.pageReload) {
+                    const emailData: any = {
+                      email: this.props.user.email
+                    };
+                    this.props.getLoyaltyPoints(emailData);
+
+                    this.props
+                      .reloadPage(
+                        this.props.cookies,
+                        this.props.history,
+                        this.props.user.isLoggedIn
+                      )
+                      .then(() => {
+                        this.setState({ isGoodearthShipping });
+                        this.setState(
+                          {
+                            shippingCharge: data.data.basket.shippingCharge,
+                            shippingAddress: address,
+                            billingAddress:
+                              isGoodearthShipping || bridal
+                                ? undefined
+                                : address,
+                            activeStep: STEP_BILLING
+                          },
+                          () => {
+                            this.nextStep(STEP_BILLING);
+                            this.props.updateLoaderValue(false);
+
+                            // this.setState({ isLoading: false });
+                          }
+                        );
+                      });
+                  } else {
+                    this.setState({ isGoodearthShipping });
+                    this.setState(
+                      {
+                        shippingCharge: data.data.basket.shippingCharge,
+                        shippingAddress: address,
+                        billingAddress:
+                          isGoodearthShipping || bridal ? undefined : address,
+                        activeStep: STEP_BILLING
+                      },
+                      () => {
+                        this.nextStep(STEP_BILLING);
+                        this.props.updateLoaderValue(false);
+
+                        // this.setState({ isLoading: false });
+                      }
+                    );
+                  }
+                }
+              });
+          } else {
+            this.setState({
+              errorNotification: ""
+            });
+            if (data.status) {
+              const isGoodearthShipping = address.isTulsi
+                ? address.isTulsi
+                : false;
+
+              if (!data.data.basket.pageReload) {
+                this.setState({ isGoodearthShipping });
+                this.setState(
+                  {
+                    shippingCharge: data.data.basket.shippingCharge,
+                    shippingAddress: address,
+                    billingAddress:
+                      isGoodearthShipping || bridal ? undefined : address,
+                    activeStep: STEP_BILLING
+                  },
+                  () => {
+                    this.nextStep(STEP_BILLING);
+                    this.props.updateLoaderValue(false);
+
+                    // this.setState({ isLoading: false });
+                  }
+                );
+              }
+
+              checkoutGTM(2, this.props.currency, this.props.basket);
+              if (data.data.basket.pageReload) {
+                const emailData: any = {
+                  email: this.props.user.email
+                };
+                this.props.getLoyaltyPoints(emailData);
+                this.props
+                  .reloadPage(
+                    this.props.cookies,
+                    this.props.history,
+                    this.props.user.isLoggedIn
+                  )
+                  .then(() => {
+                    this.setState({ isGoodearthShipping });
+                    this.setState(
+                      {
+                        shippingCharge: data.data.basket.shippingCharge,
+                        shippingAddress: address,
+                        billingAddress:
+                          isGoodearthShipping || bridal ? undefined : address,
+                        activeStep: STEP_BILLING
+                      },
+                      () => {
+                        this.nextStep(STEP_BILLING);
+                        this.props.updateLoaderValue(false);
+
+                        // this.setState({ isLoading: false });
+                      }
+                    );
+                  });
+              }
+            }
+          }
+        })
+        .catch(err => {
+          if (err.response.status == 406) {
+            return false;
+          }
+          if (!err.response.data.status) {
+            this.setState({
+              shippingError: showErrors(err.response.data)
+            });
+            this.showErrorMsg();
+          }
+          this.props.updateLoaderValue(false);
+
+          // this.setState({ isLoading: false });
+        });
+    } else {
+      let data: specifyBillingAddressData;
+      const billingAddress = address ? address : this.state.shippingAddress;
+      const isGcCheckout = this.props.location.pathname.endsWith("gc_checkout");
+      if (billingAddress) {
+        data = {
+          billingAddressId: billingAddress.id,
+          source: isGcCheckout ? "gc_checkout" : ""
+        };
+        // let stopBillingApi = false;
+        // if (this.state.shippingAddress?.id != billingAddress.id) {
+        //   stopBillingApi = false;
+        // }
+        if (obj.gstNo) {
+          // stopBillingApi = false;
+          data = Object.assign(
+            {},
+            {
+              gstType: obj.gstType,
+              gstNo: obj.gstNo,
+              panPassportNo: obj.panPassportNo
+            },
+            data
+          );
+        } else if (obj.panPassportNo) {
+          // stopBillingApi = false;
+          data = Object.assign(
+            {},
+            {
+              panPassportNo: obj.panPassportNo
+            },
+            data
+          );
+        }
         this.props
-          .specifyShippingAddress(
-            address.id,
-            address,
-            this.props.user,
-            bridal,
-            this.props.history
-          )
-          .then(data => {
+          .specifyBillingAddress(data, this.props.user)
+          .then(() => {
+            const userConsent = CookieService.getCookie("consent").split(",");
             if (userConsent.includes(GA_CALLS)) {
-              Moengage.track_event("Shipping Address Added", {
-                "First Name": address.firstName,
-                "Last Name": address.lastName,
-                "Zip code": address.postCode,
-                Country: address.countryName,
-                State: address.state,
-                Address: address.line1 + address.line2,
-                City: address.city,
-                "Contact Number": address.phoneCountryCode + address.phoneNumber
+              Moengage.track_event("Billing Address Added", {
+                "First Name": billingAddress.firstName,
+                "Last Name": billingAddress.lastName,
+                "Zip code": billingAddress.postCode,
+                Country: billingAddress.countryName,
+                State: billingAddress.state,
+                Address: billingAddress.line1 + billingAddress.line2,
+                City: billingAddress.city,
+                "Contact Number":
+                  billingAddress.phoneCountryCode + billingAddress.phoneNumber
               });
             }
-            if (address.country == "IN") {
-              this.props
-                .checkPinCodeShippable(address.postCode)
-                .then(response => {
-                  this.setState({
-                    errorNotification:
-                      this.props.currency == "INR" &&
-                      !this.props.basket.isOnlyGiftCart
-                        ? response.status
-                          ? ""
-                          : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
-                        : ""
-                  });
-                })
-                .catch(err => {
-                  console.log(err);
-                  this.setState({ isLoading: false });
-                })
-                .finally(() => {
-                  if (data.status) {
-                    const isGoodearthShipping = address.isTulsi
-                      ? address.isTulsi
-                      : false;
+            this.setState(
+              {
+                billingAddress: billingAddress,
+                activeStep:
+                  localStorage.getItem("validBo") ||
+                  localStorage.getItem("isSale") ||
+                  (!this.props.showPromo &&
+                    this.props.basket.voucherDiscounts.length === 0)
+                    ? // || this.props.isSale
+                      STEP_PAYMENT
+                    : STEP_PROMO,
+                billingError: "",
+                pancardNo: obj.panPassportNo,
+                gstNo: obj.gstNo || "",
+                gstType: obj.gstType || ""
+              },
+              () => {
+                if (activeStep === STEP_BILLING) {
+                  this.nextStep(
+                    this.props.showPromo &&
+                      this.props.basket.voucherDiscounts.length === 0
+                      ? STEP_PROMO
+                      : STEP_PAYMENT
+                  );
 
-                    if (!data.data.basket.pageReload) {
-                      this.setState({ isGoodearthShipping });
-                      this.setState(
-                        {
-                          shippingCharge: data.data.basket.shippingCharge,
-                          shippingAddress: address,
-                          billingAddress:
-                            isGoodearthShipping || bridal ? undefined : address,
-                          activeStep: STEP_BILLING
-                        },
-                        () => {
-                          this.nextStep(STEP_BILLING);
-                          this.setState({ isLoading: false });
-                        }
-                      );
-                    }
-
-                    checkoutGTM(2, this.props.currency, this.props.basket);
-                    if (data.data.basket.pageReload) {
-                      const emailData: any = {
-                        email: this.props.user.email
-                      };
-                      this.props.getLoyaltyPoints(emailData);
-
-                      this.props
-                        .reloadPage(
-                          this.props.cookies,
-                          this.props.history,
-                          this.props.user.isLoggedIn
-                        )
-                        .then(() => {
-                          this.setState({ isGoodearthShipping });
-                          this.setState(
-                            {
-                              shippingCharge: data.data.basket.shippingCharge,
-                              shippingAddress: address,
-                              billingAddress:
-                                isGoodearthShipping || bridal
-                                  ? undefined
-                                  : address,
-                              activeStep: STEP_BILLING
-                            },
-                            () => {
-                              this.nextStep(STEP_BILLING);
-                              this.setState({ isLoading: false });
-                            }
-                          );
+                  if (
+                    this.props.showPromo &&
+                    this.props.basket.voucherDiscounts.length === 0
+                  ) {
+                    document.getElementById("promo-section")?.scrollIntoView({
+                      block: "center",
+                      behavior: "smooth"
+                    });
+                  } else {
+                    if (document.getElementById("cerise-section")) {
+                      document
+                        .getElementById("cerise-section")
+                        ?.scrollIntoView({
+                          block: "center",
+                          behavior: "smooth"
+                        });
+                    } else if (document.getElementById("gifting-section")) {
+                      document
+                        .getElementById("gifting-section")
+                        ?.scrollIntoView({
+                          block: "center",
+                          behavior: "smooth"
+                        });
+                    } else {
+                      document
+                        .getElementById("payment-section")
+                        ?.scrollIntoView({
+                          block: "center",
+                          behavior: "smooth"
                         });
                     }
                   }
-                });
-            } else {
-              this.setState({
-                errorNotification: ""
-              });
-              if (data.status) {
-                const isGoodearthShipping = address.isTulsi
-                  ? address.isTulsi
-                  : false;
-
-                if (!data.data.basket.pageReload) {
-                  this.setState({ isGoodearthShipping });
-                  this.setState(
-                    {
-                      shippingCharge: data.data.basket.shippingCharge,
-                      shippingAddress: address,
-                      billingAddress:
-                        isGoodearthShipping || bridal ? undefined : address,
-                      activeStep: STEP_BILLING
-                    },
-                    () => {
-                      this.nextStep(STEP_BILLING);
-                      this.setState({ isLoading: false });
-                    }
-                  );
-                }
-
-                checkoutGTM(2, this.props.currency, this.props.basket);
-                if (data.data.basket.pageReload) {
-                  const emailData: any = {
-                    email: this.props.user.email
-                  };
-                  this.props.getLoyaltyPoints(emailData);
-                  this.props
-                    .reloadPage(
-                      this.props.cookies,
-                      this.props.history,
-                      this.props.user.isLoggedIn
-                    )
-                    .then(() => {
-                      this.setState({ isGoodearthShipping });
-                      this.setState(
-                        {
-                          shippingCharge: data.data.basket.shippingCharge,
-                          shippingAddress: address,
-                          billingAddress:
-                            isGoodearthShipping || bridal ? undefined : address,
-                          activeStep: STEP_BILLING
-                        },
-                        () => {
-                          this.nextStep(STEP_BILLING);
-                          this.setState({ isLoading: false });
-                        }
-                      );
-                    });
                 }
               }
-            }
+            );
+            checkoutGTM(
+              3,
+              this.props.currency,
+              this.props.basket,
+              "",
+              obj.gstNo,
+              this.props.billingAddressId
+            );
           })
           .catch(err => {
-            if (err.response.status == 406) {
-              return false;
-            }
-            if (!err.response.data.status) {
+            if (isGcCheckout && this.props.basket.lineItems.length == 0) {
               this.setState({
-                shippingError: showErrors(err.response.data)
+                billingError: showErrors("There are no items in your cart.")
               });
-              this.showErrorMsg();
+            } else {
+              this.setState({
+                billingError:
+                  showErrors(err.response.data) || err.response.data.msg || ""
+              });
             }
-            this.setState({ isLoading: false });
-          });
-      } else {
-        let data: specifyBillingAddressData;
-        const billingAddress = address ? address : this.state.shippingAddress;
-        const isGcCheckout = this.props.location.pathname.endsWith(
-          "gc_checkout"
-        );
-        if (billingAddress) {
-          data = {
-            billingAddressId: billingAddress.id,
-            source: isGcCheckout ? "gc_checkout" : ""
-          };
-          // let stopBillingApi = false;
-          // if (this.state.shippingAddress?.id != billingAddress.id) {
-          //   stopBillingApi = false;
-          // }
-          if (obj.gstNo) {
-            // stopBillingApi = false;
-            data = Object.assign(
-              {},
-              {
-                gstType: obj.gstType,
-                gstNo: obj.gstNo,
-                panPassportNo: obj.panPassportNo
-              },
-              data
-            );
-          } else if (obj.panPassportNo) {
-            // stopBillingApi = false;
-            data = Object.assign(
-              {},
-              {
-                panPassportNo: obj.panPassportNo
-              },
-              data
-            );
-          }
-          this.props
-            .specifyBillingAddress(data, this.props.user)
-            .then(() => {
-              const userConsent = CookieService.getCookie("consent").split(",");
-              if (userConsent.includes(GA_CALLS)) {
-                Moengage.track_event("Billing Address Added", {
-                  "First Name": billingAddress.firstName,
-                  "Last Name": billingAddress.lastName,
-                  "Zip code": billingAddress.postCode,
-                  Country: billingAddress.countryName,
-                  State: billingAddress.state,
-                  Address: billingAddress.line1 + billingAddress.line2,
-                  City: billingAddress.city,
-                  "Contact Number":
-                    billingAddress.phoneCountryCode + billingAddress.phoneNumber
-                });
-              }
-              this.setState(
-                {
-                  billingAddress: billingAddress,
-                  activeStep:
-                    localStorage.getItem("validBo") ||
-                    localStorage.getItem("isSale") ||
-                    (!this.props.showPromo &&
-                      this.props.basket.voucherDiscounts.length === 0)
-                      ? // || this.props.isSale
-                        STEP_PAYMENT
-                      : STEP_PROMO,
-                  billingError: "",
-                  pancardNo: obj.panPassportNo,
-                  gstNo: obj.gstNo || "",
-                  gstType: obj.gstType || ""
-                },
-                () => {
-                  if (activeStep === STEP_BILLING) {
-                    this.nextStep(
-                      this.props.showPromo &&
-                        this.props.basket.voucherDiscounts.length === 0
-                        ? STEP_PROMO
-                        : STEP_PAYMENT
-                    );
 
-                    if (
-                      this.props.showPromo &&
-                      this.props.basket.voucherDiscounts.length === 0
-                    ) {
-                      document.getElementById("promo-section")?.scrollIntoView({
-                        block: "center",
-                        behavior: "smooth"
-                      });
-                    } else {
-                      if (document.getElementById("cerise-section")) {
-                        document
-                          .getElementById("cerise-section")
-                          ?.scrollIntoView({
-                            block: "center",
-                            behavior: "smooth"
-                          });
-                      } else if (document.getElementById("gifting-section")) {
-                        document
-                          .getElementById("gifting-section")
-                          ?.scrollIntoView({
-                            block: "center",
-                            behavior: "smooth"
-                          });
-                      } else {
-                        document
-                          .getElementById("payment-section")
-                          ?.scrollIntoView({
-                            block: "center",
-                            behavior: "smooth"
-                          });
-                      }
-                    }
-                  }
-                }
-              );
-              checkoutGTM(
-                3,
-                this.props.currency,
-                this.props.basket,
-                "",
-                obj.gstNo,
-                this.props.billingAddressId
-              );
-            })
-            .catch(err => {
-              if (isGcCheckout && this.props.basket.lineItems.length == 0) {
-                this.setState({
-                  billingError: showErrors("There are no items in your cart.")
-                });
-              } else {
-                this.setState({
-                  billingError:
-                    showErrors(err.response.data) || err.response.data.msg || ""
-                });
-              }
-
-              this.showErrorMsg();
-              this.showErrorMsgs();
-            })
-            .finally(() => this.setState({ isLoading: false }));
-        }
+            this.showErrorMsg();
+            this.showErrorMsgs();
+          })
+          .finally(() => this.props.updateLoaderValue(false));
       }
-    });
+    }
+    // });
   };
 
   finalOrder = async (data: any) => {
@@ -1250,7 +1259,7 @@ class Checkout extends React.Component<Props, State> {
             </div>
           </div>
         </div>
-        {this.state.isLoading &&
+        {this.props.isLoading &&
           !this.props.user.isLoggedIn &&
           this.props.history.push("/cart", { from: "checkout" })}
       </div>

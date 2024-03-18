@@ -374,6 +374,7 @@ class Footer extends React.Component<Props, FooterState> {
                     styles.ftrHeadingWhite,
                     styles.ftrHeadingWhite2
                   )}
+                  style={{ color: footerHeadingFontColor }}
                 >
                   be in the know
                 </div>

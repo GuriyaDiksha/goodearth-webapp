@@ -276,22 +276,30 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         item_id: line.product.sku,
         item_name: line.title,
         affiliation: "Pass the affiliation of the product",
-        coupon: result.voucherDiscounts?.[0]?.voucher?.code, //Pass NA if not applicable at the moment
-        discount: result?.offerDiscounts?.[0].name,
+        coupon:
+          isSale && result?.offerDiscounts?.[0].name
+            ? result?.offerDiscounts?.[0].name
+            : "NA",
+        discount:
+          isSale && result?.offerDiscounts?.[0].amount
+            ? result?.offerDiscounts?.[0].amount
+            : "NA",
         index: ind,
         item_brand: "Goodearth",
-        item_category: category?.split(">")?.join("|"),
-        item_category2: line.product.size || "",
-        item_category3: line.product.is3DView ? "3d" : "non3d",
+        item_category: category?.split("/")?.[0],
+        item_category2: category?.split("/")?.[1],
+        item_category3: category?.split("/")?.[2],
         item_category4: "NA",
+        item_category5: "NA",
         item_list_id: "NA",
         item_list_name: "NA",
-        item_variant: "NA",
+        item_variant: line.product.size || "NA",
         price: line.isEgiftCard
           ? +line.priceExclTax
           : line.product.pricerecords[result.currency as Currency],
         quantity: line.quantity,
-        collection_category: line?.product?.collections?.join("|")
+        collection_category: line?.product?.collections?.join("|"),
+        price_range: "NA"
       };
     });
 

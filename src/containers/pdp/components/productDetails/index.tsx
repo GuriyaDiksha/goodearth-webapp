@@ -429,7 +429,8 @@ const ProductDetails: React.FC<Props> = ({
     categoryname = arr[arr.length - 2];
     subcategoryname = arr[arr.length - 1];
     category = category.replace(/>/g, "/");
-    const category3 = sliderImages.filter(ele => ele?.icon).length
+    const l1 = arr[arr.length - 3];
+    const category5 = sliderImages.filter(ele => ele?.icon).length
       ? "3d"
       : "non 3d";
 
@@ -511,22 +512,22 @@ const ProductDetails: React.FC<Props> = ({
               affiliation: title, // Pass the product name
               coupon: "NA", // Pass the coupon if available
               currency: currency, // Pass the currency code
-              discount: discount ? discount : "NA", // Pass the discount amount
+              discount: info.isSale && discount ? discount : "NA", // Pass the discount amount
               index: "NA",
               item_brand: "Goodearth",
-              item_category: category?.split(">")?.join("|"),
-              item_category2: selectedSize?.size, //pass the item category2 ex.Size
-              item_category3: category3, //pass the product type 3d or non 3d
+              item_category: category?.split("/")?.[0],
+              item_category2: category?.split("/")?.[1],
+              item_category3: category?.split("/")?.[2],
+              item_category4: "NA",
+              item_category5: category5,
               item_list_id: "NA", //pass the item list id
               item_list_name: search ? search : "NA", //pass the item list name ex.search results
               item_variant: selectedSize?.size || "",
-              // item_category4: l1,
-              item_category4: "NA",
-              // item_category5: collection,
               price: discountPrices || price,
               quantity: quantity,
               // dimension12: selectedSize?.color,
-              collection_category: collections?.join("|")
+              collection_category: collections?.join("|"),
+              price_range: "NA"
             }
           ]
         }

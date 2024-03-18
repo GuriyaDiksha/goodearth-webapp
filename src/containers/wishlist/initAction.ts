@@ -1,12 +1,13 @@
-import { InitAction } from "typings/actions";
-import WishlistService from "services/wishlist";
+//Commenting because need to switch between wishlist and shard wishlist
+// import { InitAction } from "typings/actions";
+// import WishlistService from "services/wishlist";
 
-const initActionWishlist: InitAction = async store => {
-  try {
-    await WishlistService.updateWishlist(store.dispatch);
-  } catch (err) {
-    // do nothing
-  }
-};
+// const initActionWishlist: InitAction = async store => {
+//   try {
+//     await WishlistService.updateWishlist(store.dispatch);
+//   } catch (err) {
+//     console.log("Init wishlist API throwing error:", err);
+//   }
+// };
 
-export default initActionWishlist;
+// export default initActionWishlist;
