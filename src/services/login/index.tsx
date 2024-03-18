@@ -157,10 +157,10 @@ export default {
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: response.token
     });
-    if (location.pathname == "/wishlist") {
-      WishlistService.updateWishlist(dispatch, sortBy);
-    }
-    WishlistService.countWishlist(dispatch);
+    // if (location.pathname == "/wishlist") {
+    WishlistService.updateWishlist(dispatch, sortBy);
+    // }
+    // WishlistService.countWishlist(dispatch);
     Api.getAnnouncement(dispatch).catch(err => {
       console.log("Announcement API ERROR ==== " + err);
     });
@@ -295,10 +295,10 @@ export default {
     Api.getAnnouncement(dispatch).catch(err => {
       console.log("Announcement API ERROR ==== " + err);
     });
-    if (location.pathname == "/wishlist") {
-      WishlistService.updateWishlist(dispatch, sortBy);
-    }
-    WishlistService.countWishlist(dispatch);
+    // if (location.pathname == "/wishlist") {
+    WishlistService.updateWishlist(dispatch, sortBy);
+    // }
+    // WishlistService.countWishlist(dispatch);
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
@@ -366,8 +366,8 @@ export default {
       // RESET CURRENCY TO DEFAULT INR
       // CookieService.setCookie("currency", "INR", 365);
       // dispatch(updateCurrency("INR"));
+      // dispatch(countWishlist(0));
       dispatch(countBridal(0));
-      dispatch(countWishlist(0));
       dispatch(updateCookies({ tkn: "" }));
       MetaService.updateMeta(dispatch, {}).catch(err => {
         console.log(err);
@@ -378,7 +378,7 @@ export default {
         Moengage.destroy_session();
       }
       WishlistService.resetWishlist(dispatch);
-      WishlistService.countWishlist(dispatch);
+      // WishlistService.countWishlist(dispatch);
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sales Api Status ==== " + err);
       });
@@ -626,7 +626,9 @@ export default {
     otp: string,
     currency?: Currency,
     source?: string,
-    sortBy?: string
+    sortBy?: string,
+    mobile?: boolean,
+    popupStyle?: string
   ) => {
     const res = await API.post<{
       success: boolean;
@@ -701,10 +703,37 @@ export default {
       const metaResponse = await MetaService.updateMeta(dispatch, {
         tkn: response.token
       });
-      if (location.pathname == "/wishlist") {
-        WishlistService.updateWishlist(dispatch, sortBy);
+
+      //Code to open share link popup after login
+
+      const isShareLinkClicked = JSON.parse(
+        localStorage.getItem("isShareLinkClicked") || "false"
+      );
+
+      if (
+        isShareLinkClicked &&
+        metaResponse?.user.email &&
+        metaResponse?.user.firstName &&
+        metaResponse?.user.lastName &&
+        metaResponse?.user.country &&
+        metaResponse?.user.gender
+      ) {
+        dispatch(
+          updateComponent(
+            POPUP.SHAREWISHLIST,
+            null,
+            mobile ? false : true,
+            popupStyle,
+            mobile ? "slide-up-bottom-align" : ""
+          )
+        );
+        dispatch(updateModal(true));
+        localStorage.removeItem("isShareLinkClicked");
       }
-      WishlistService.countWishlist(dispatch);
+      // if (location.pathname == "/wishlist") {
+      WishlistService.updateWishlist(dispatch, sortBy);
+      // }
+      // WishlistService.countWishlist(dispatch);
       Api.getAnnouncement(dispatch).catch(err => {
         console.log("Announcement API ERROR ==== " + err);
       });
