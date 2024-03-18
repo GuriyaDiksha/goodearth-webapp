@@ -241,6 +241,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
               key={product.id}
               mobile={mobile}
               tablet={true}
+              badgeType={product?.badgeType}
             />
           </div>
         )}

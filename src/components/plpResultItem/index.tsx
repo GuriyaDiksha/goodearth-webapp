@@ -265,6 +265,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               key={product.id}
               mobile={mobile}
               isPlpTile={true}
+              badgeType={product?.badgeType}
             />
           </div>
         )}

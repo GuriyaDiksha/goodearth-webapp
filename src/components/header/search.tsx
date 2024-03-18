@@ -183,6 +183,7 @@ class Search extends React.Component<Props, State> {
     //   return false;
     // }
     localStorage.setItem("inputValue", this.state.searchValue.trim());
+    localStorage.setItem("clickType", "Input");
 
     this.setState({ searchValue: e.target.value });
   }, 300);
@@ -265,6 +266,7 @@ class Search extends React.Component<Props, State> {
         this.getTextFromHtml(data?.product || data?.title),
         this.state.searchValue
       );
+      localStorage.setItem("clickType", "Products");
     }
     // this.props.toggle();
     this.props.hideSearch();
@@ -309,6 +311,8 @@ class Search extends React.Component<Props, State> {
   onClickSearch = (event: any) => {
     if (this.state.searchValue?.trim().length > 0) {
       localStorage.setItem("inputValue", this.state.searchValue?.trim());
+      localStorage.setItem("clickType", "Input");
+
       this.props.history.push(
         `/search/${this.state?.url?.split("/autocomplete")?.[1]}`
       );
@@ -340,6 +344,7 @@ class Search extends React.Component<Props, State> {
     if (event.target.value.trim().length > 0) {
       if ((!event.charCode ? event.which : event.charCode) == 13) {
         localStorage.setItem("inputValue", this.state.searchValue.trim());
+        localStorage.setItem("clickType", "Input");
 
         this.props.history.push(
           "/search/?q=" + encodeURIComponent(event.target.value)
@@ -431,6 +436,8 @@ class Search extends React.Component<Props, State> {
                     this.getTextFromHtml(item.collection),
                     this.state.searchValue
                   );
+                  localStorage.setItem("clickType", "Collections");
+
                   this.props.hideSearch();
                 }}
               >
@@ -456,6 +463,7 @@ class Search extends React.Component<Props, State> {
                         this.getTextFromHtml(item.collection),
                         this.state.searchValue
                       );
+                      localStorage.setItem("clickType", "Collections");
                       this.props.hideSearch();
                     }}
                   >
@@ -799,6 +807,11 @@ class Search extends React.Component<Props, State> {
                                       "popularSearch",
                                       cat?.name
                                     );
+                                    localStorage.setItem(
+                                      "clickType",
+                                      "Popular Searches"
+                                    );
+
                                     if (
                                       !cat.link &&
                                       this.searchBoxRef &&
@@ -868,6 +881,11 @@ class Search extends React.Component<Props, State> {
                               to={"/search/?q=" + encodeURIComponent(ele)}
                               onClick={() => {
                                 localStorage.setItem("recentSearchValue", ele);
+                                localStorage.setItem(
+                                  "clickType",
+                                  "recent searches"
+                                );
+
                                 this.recentSearch(ele);
                                 this.props.hideSearch();
                               }}
@@ -962,7 +980,7 @@ class Search extends React.Component<Props, State> {
                                     this.getTextFromHtml(cat.category),
                                   this.state.searchValue
                                 );
-
+                                localStorage.setItem("clickType", "Categories");
                                 this.props.hideSearch();
                               }}
                               key={ind}

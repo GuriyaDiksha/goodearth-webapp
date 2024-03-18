@@ -516,7 +516,14 @@ class CushionBag extends React.Component<Props, State> {
       // isSale,
       // currency,
       filler: {
-        data: { title, categories, id, priceRecords, discountedPriceRecords }
+        data: {
+          title,
+          categories,
+          id,
+          priceRecords,
+          discountedPriceRecords,
+          badgeType
+        }
       }
     } = this.props;
     const { selectedSize, apiTrigger, addedToBag } = this.state;
@@ -578,6 +585,7 @@ class CushionBag extends React.Component<Props, State> {
                   showText={false}
                   size={selectedSize ? selectedSize.size : undefined}
                   iconClassName={styles.mobileWishlistIcon}
+                  badgeType={badgeType}
                 />
               </div>
             </div>
