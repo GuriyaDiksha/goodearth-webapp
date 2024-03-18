@@ -94,13 +94,13 @@ const ShareWishlistLink = () => {
       />
       <div
         className={cs(bootstrapStyles.row, {
-          [globalStyles.marginB100]: !mobile
+          [globalStyles.marginB90]: !mobile
         })}
       >
         <div className={cs(styles.mainWrp)}>
           <div className={styles.loginForm}>
             <div>
-              <div className={globalStyles.voffset7}>
+              <div className={globalStyles.voffset8}>
                 <h2 className={styles.h2Popup}>
                   Share{" "}
                   {`${firstName} ${lastName}`
