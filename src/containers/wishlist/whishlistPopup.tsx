@@ -94,7 +94,7 @@ const ShareWishlistLink = () => {
       />
       <div
         className={cs(bootstrapStyles.row, {
-          [globalStyles.marginB90]: !mobile
+          [globalStyles.marginB80]: !mobile
         })}
       >
         <div className={cs(styles.mainWrp)}>
