@@ -92,7 +92,11 @@ const MobileSlider: React.FC<Props> = ({
         "slick-not-init"
       )}
     >
-      {Object.keys(children || {}).length > 0 && (
+      {Object.keys(children || {}).length > 0 &&
+        Object.keys(children || {}).length == 1 && (
+          <div className="singleImage">{children}</div>
+        )}
+      {Object.keys(children || {}).length > 1 && (
         <Slider
           {...{ ...settings, ...set }}
           ref={sliderRef}
