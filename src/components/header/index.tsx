@@ -941,6 +941,22 @@ class Header extends React.Component<Props, State> {
     });
     this.props.updateShowSearchPopup(false);
     //window.scrollTo(0, 0);
+    // mobile menu drawer spacing issue
+    if (!this.state.showMenu) {
+      const windowScroll = window?.pageYOffset;
+      const annBar = document?.getElementById("announcement_bar");
+      const annHeight = (annBar as HTMLElement).clientHeight;
+      const myHeader = document.getElementById("myHeader");
+      const headerHeight = (myHeader as HTMLElement).clientHeight;
+      const annBarHeight = annHeight - windowScroll;
+      const topPosition = annBarHeight + headerHeight;
+      const menuOverlay = document?.getElementById("menu_overlay");
+      if (windowScroll > annHeight) {
+        (menuOverlay as HTMLElement).style.top = `${headerHeight + 5}px`;
+      } else {
+        (menuOverlay as HTMLElement).style.top = `${topPosition + 5}px`;
+      }
+    }
   };
 
   gtmPushLogoClick = () => {
@@ -1492,6 +1508,7 @@ class Header extends React.Component<Props, State> {
           <div>
             <div className={cs(bootstrap.row)}>
               <div
+                id="menu_overlay"
                 className={
                   showMenu
                     ? cs(bootstrap.col12, styles.mobileList, styles.menuOverlay)
