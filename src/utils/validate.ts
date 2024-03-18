@@ -549,7 +549,8 @@ export function productImpression(
     let subcategoryname = "";
     let collectionName = "";
     const search = CookieService.getCookie("search") || "";
-    data.results.data.map((prod: any, i: number) => {
+    const clickType = localStorage.getItem("clickType");
+    data?.results?.data.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
         const index = prod.categories.length - 1;
@@ -618,8 +619,7 @@ export function productImpression(
     });
 
     const childAttr: any[] = [];
-
-    data.results?.data.map((child: any, index: number) => {
+    data?.results?.data.map((child: any, index: number) => {
       let category = "";
 
       if (child.categories) {
@@ -636,11 +636,17 @@ export function productImpression(
         ) {
           collectionName = child.collections?.join("|");
         }
-        category = category.replace(/>/g, "/");
+        category = child.categories[2]
+          ? child.categories[2]?.replace(/\s/g, "")
+          : (category || "").replace(/>/g, "/");
       }
-      // let skus = "";
-      // let variants = "";
-      // let prices = "";
+      const L1 = child.categories?.[0]?.split(">")?.[0].trim();
+      const L2 = child.categories?.[0]?.split(">")?.[1]
+        ? child.categories?.[0]?.split(">")?.[1]
+        : child.categories?.[1]?.split(">")?.[1].trim();
+      const L3 = child.categories?.[1]?.split(">")?.[2]
+        ? child.categories?.[1]?.split(">")?.[2]
+        : child.categories?.[2]?.split(">")?.[2].trim();
       const sizes = child.childAttributes
         ?.map((ele: any) => ele.size)
         ?.join("|");
@@ -665,17 +671,20 @@ export function productImpression(
             currency: currency, // Pass the currency code
             discount:
               isSale && child.discountedPriceRecords
-                ? child.discountedPriceRecords[currency]
+                ? child?.badgeType == "B_flat"
+                  ? child.discountedPriceRecords[currency]
+                  : child.priceRecords[currency] -
+                    child.discountedPriceRecords[currency]
                 : "NA", // Pass the discount amount
             index: index,
             item_brand: "goodearth",
-            item_category: category?.split("/")?.[0],
-            item_category2: category?.split("/")?.[1],
-            item_category3: category?.split("/")?.[2],
+            item_category: L1,
+            item_category2: L2,
+            item_category3: L3,
             item_category4: "NA",
             item_category5: "NA",
             item_list_id: "NA",
-            item_list_name: search ? search : "NA",
+            item_list_name: search ? `${clickType}-${search}` : "NA",
             item_variant: sizes,
             collection_category: child?.collections?.join("|"),
             price: child.discountedPriceRecords
@@ -733,7 +742,7 @@ export function productImpression(
     }
   } catch (e) {
     // console.log(e);
-    console.log("Impression error");
+    console.log("Impression error", e);
   }
 }
 

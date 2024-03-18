@@ -535,7 +535,10 @@ class FilterList extends React.Component<Props, State> {
                   this.props.currency,
                   plpList.results.data.length,
                   undefined,
-                  `${this.state.filter.price.max_price} - ${this.state.filter.price.min_price}`
+                  this.state.filter.price.max_price &&
+                    this.state.filter.price.min_price
+                    ? `${this.state.filter.price.max_price} - ${this.state.filter.price.min_price}`
+                    : undefined
                 );
               } catch (e) {
                 console.log("plp GA error====", e);
@@ -637,7 +640,9 @@ class FilterList extends React.Component<Props, State> {
         this.props.currency,
         undefined,
         undefined,
-        `${this.state.filter.price.max_price} - ${this.state.filter.price.min_price}`
+        this.state.filter.price.max_price && this.state.filter.price.min_price
+          ? `${this.state.filter.price.max_price} - ${this.state.filter.price.min_price}`
+          : undefined
       );
       changeLoader?.(false);
       this.createList(plpList, false);
