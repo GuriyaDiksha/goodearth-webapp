@@ -19,6 +19,7 @@ import Button from "components/Button";
 import { Currency } from "typings/currency";
 import { censorEmail, censorPhoneNumber } from "utils/utility";
 import { AppState } from "reducers/typings";
+import ModalStyles from "components/Modal/styles.scss";
 
 type Props = {
   successMsg: string;
@@ -29,7 +30,7 @@ type Props = {
   setIsSuccessMsg?: (arg: boolean) => void;
   isCheckout?: boolean;
   currency: Currency;
-  nextStep?: () => void;
+  // nextStep?: () => void;
   products?: any;
   sortBy?: string;
   phoneNo?: string;
@@ -44,7 +45,7 @@ const EmailVerification: React.FC<Props> = ({
   socialLogin,
   isCheckout,
   currency,
-  nextStep,
+  // nextStep,
   products,
   sortBy,
   phoneNo,
@@ -102,7 +103,9 @@ const EmailVerification: React.FC<Props> = ({
         otp,
         currency,
         source,
-        sortBy
+        sortBy,
+        mobile,
+        mobile ? ModalStyles.bottomAlignSlideUp : ""
       );
 
       if (res?.token) {
@@ -137,7 +140,7 @@ const EmailVerification: React.FC<Props> = ({
           });
         }
         // this.context.closeModal();
-        nextStep?.();
+        // nextStep?.();
         // const history = this.props.history
         // const path = history.location.pathname;
         // if (path.split("/")[1] == "password-reset") {

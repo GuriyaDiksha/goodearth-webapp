@@ -21,6 +21,9 @@ import { Country } from "components/Formsy/CountryCode/typings";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import Button from "components/Button";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
+import ModalStyles from "components/Modal/styles.scss";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -33,13 +36,29 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     fetchCountryData: async () => {
       const countryData = await LoginService.fetchCountryData(dispatch);
       dispatch(updateCountryData(countryData));
+    },
+    openSharePopup: (mobile: boolean) => {
+      dispatch(
+        updateComponent(
+          POPUP.SHAREWISHLIST,
+          {
+            // shareUrl: "https://www.goodearth.in/sssss"
+            // bridalDetails={bridalDetails}
+          },
+          mobile ? false : true,
+          mobile ? ModalStyles.bottomAlignSlideUp : "",
+          mobile ? "slide-up-bottom-align" : ""
+        )
+      );
+      dispatch(updateModal(true));
     }
   };
 };
 
 const mapStateToProps = (state: AppState) => {
   return {
-    countryData: state.address.countryData
+    countryData: state.address.countryData,
+    mobile: state.device.mobile
   };
 };
 
@@ -268,11 +287,19 @@ class ProfileUpdater extends React.Component<Props, State> {
     this.props
       .updateProfileData(formData)
       .then(data => {
+        const isShareLinkClicked = JSON.parse(
+          localStorage.getItem("isShareLinkClicked") || "false"
+        );
         this.setApiResponse(data);
         this.setState({
           updateProfile: false
         });
         this.context.closeModal();
+        //Code to open share link popup after profile update
+        if (isShareLinkClicked) {
+          this.props.openSharePopup(this.props.mobile);
+          localStorage.removeItem("isShareLinkClicked");
+        }
         window.scrollTo(0, 0);
       })
       .catch(error => {

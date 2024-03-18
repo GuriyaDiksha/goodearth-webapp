@@ -23,6 +23,7 @@ import { ChildProductAttributes } from "typings/product";
 import { updateLoader } from "actions/info";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import { useHistory } from "react-router";
 import globalStyles from "styles/global.scss";
 
 const WishlistButton: React.FC<Props> = ({
@@ -59,6 +60,8 @@ const WishlistButton: React.FC<Props> = ({
       (basketLineId && wishlistChildItems.indexOf(id) != -1)
   );
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const gtmPushAddToWishlist = (addWishlist?: boolean) => {
     try {
       if (gtmListType) {
@@ -175,6 +178,8 @@ const WishlistButton: React.FC<Props> = ({
   };
 
   const onClick = useCallback(async () => {
+    const isShared = history.location.pathname.includes("shared-wishlist");
+
     dispatch(updateLoader(true));
     if (basketLineId) {
       if (addedToWishlist) {
@@ -187,7 +192,8 @@ const WishlistButton: React.FC<Props> = ({
         ).finally(() => {
           dispatch(updateLoader(false));
           onComplete && onComplete();
-          WishlistService.countWishlist(dispatch);
+
+          // WishlistService.countWishlist(dispatch);
         });
       } else {
         WishlistService.moveToWishlist(
@@ -200,7 +206,7 @@ const WishlistButton: React.FC<Props> = ({
           .then(() => {
             onMoveToWishlist?.();
             gtmPushAddToWishlist(true);
-            WishlistService.countWishlist(dispatch);
+            // WishlistService.countWishlist(dispatch);
           })
           .finally(() => {
             dispatch(updateLoader(false));
@@ -209,17 +215,24 @@ const WishlistButton: React.FC<Props> = ({
       }
     } else {
       if (addedToWishlist) {
-        WishlistService.removeFromWishlist(store.dispatch, id).finally(() => {
+        WishlistService.removeFromWishlist(
+          store.dispatch,
+          id,
+          undefined,
+          undefined,
+          undefined
+        ).finally(() => {
           dispatch(updateLoader(false));
           onComplete && onComplete();
           gtmPushAddToWishlist(false);
-          WishlistService.countWishlist(dispatch);
+
+          // WishlistService.countWishlist(dispatch);
         });
       } else {
         WishlistService.addToWishlist(store.dispatch, id, size)
           .then(() => {
             gtmPushAddToWishlist(true);
-            WishlistService.countWishlist(dispatch);
+            // WishlistService.countWishlist(dispatch);
           })
           .finally(() => {
             dispatch(updateLoader(false));
