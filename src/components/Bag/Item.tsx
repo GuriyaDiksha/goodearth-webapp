@@ -471,7 +471,6 @@ const LineItems: React.FC<BasketItem> = memo(
                 product.stockRecords[0].numInStock < 1 ? (
                   <div
                     className={cs(
-                      globalStyles.errorMsg,
                       styles.stockLeftError,
                       quantityStyles.errorMsg,
                       quantityStyles.fontStyle

@@ -33,7 +33,21 @@ const MobileSlider: React.FC<Props> = ({
       document
         ?.getElementsByClassName("slick-not-init")?.[0]
         ?.classList.remove("slick-not-init");
-    }
+    },
+    responsive: [
+      {
+        breakpoint: 992,
+        settings: {
+          centerMode: true
+        }
+      },
+      {
+        breakpoint: 766,
+        settings: {
+          centerMode: false
+        }
+      }
+    ]
   };
   if (type == "pdp") {
     set = {
@@ -74,6 +88,7 @@ const MobileSlider: React.FC<Props> = ({
       className={cs(
         "mobile-slider",
         { "pdp-slider": type == "pdp" },
+        { "pdp-slider-padding": type == "pdp" },
         "slick-not-init"
       )}
     >

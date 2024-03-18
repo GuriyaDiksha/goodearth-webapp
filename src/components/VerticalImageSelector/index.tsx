@@ -12,6 +12,7 @@ import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import Skeleton from "react-loading-skeleton";
 // import ReactPlayer from "react-player";
+import VerticalImageSlider from "components/VerticalImageSlider";
 
 const VerticalImageSelector: React.FC<Props> = memo(
   ({ images = [], activeIndex = 0, className, onImageClick, alt }) => {
@@ -98,7 +99,15 @@ const VerticalImageSelector: React.FC<Props> = memo(
 
     return (
       <div className={cs(styles.container, className)}>
-        {images.length > 0 ? imageNodes : tempNode}
+        {images.length > 4 ? (
+          <VerticalImageSlider>
+            {images.length > 0 ? imageNodes : tempNode}
+          </VerticalImageSlider>
+        ) : images.length > 0 ? (
+          imageNodes
+        ) : (
+          tempNode
+        )}
       </div>
     );
   }

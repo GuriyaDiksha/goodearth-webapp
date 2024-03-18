@@ -97,9 +97,7 @@ const NotifyMePopup: React.FC<Props> = ({
   const [quantity, setQuantity] = useState<number>(1);
   const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
   const mobile = useSelector((state: AppState) => state.device.mobile);
-
   const [productTitle, subtitle] = title.split("(");
-
   const onQuantityChange = useCallback(
     value => {
       setQuantity(value);
@@ -124,6 +122,7 @@ const NotifyMePopup: React.FC<Props> = ({
     //   ) as HTMLElement).style.height = "auto";
     // }
   }, []);
+
   const onSizeSelect = useCallback(
     selected => {
       setSelectedSize(selected);
@@ -134,10 +133,22 @@ const NotifyMePopup: React.FC<Props> = ({
     },
     [childAttributes, selectedSize]
   );
+
+  const [showQty, setShowQty] = useState(false);
+  useEffect(() => {
+    const inStockSizes = childAttributes.filter(child => child.stock > 0);
+    if (inStockSizes.length >= 1 && !selectedSize) {
+      setShowQty(true);
+    }
+  }, []);
+
   useEffect(() => {
     const inStockSizes = childAttributes.filter(child => child.stock > 0);
     if (inStockSizes.length == 1 && !selectedSize) {
       setSelectedSize(inStockSizes[0]);
+    }
+    if (selectedSize && selectedSize.stock == 0) {
+      setShowQty(false);
     }
   }, [childAttributes, selectedSize]);
 
@@ -300,6 +311,7 @@ const NotifyMePopup: React.FC<Props> = ({
           if (typeof err?.response?.data != "object") {
             showGrowlMessage(dispatch, err?.response?.data);
             errorTracking([err?.response?.data], window.location.href);
+            closeModal();
           }
         })
         .finally(() => {
@@ -485,24 +497,27 @@ const NotifyMePopup: React.FC<Props> = ({
             </span>
           )}
         </div>
-        <div className={styles.quantityContainer}>
-          <div className={cs(styles.label, styles.qtyLabel)}> QUANTITY</div>
-          <div className={styles.qtyContainer}>
-            <PdpQuantity
-              source="notifyme"
-              id={selectedSize ? selectedSize.id : 0}
-              minValue={minQuantity}
-              maxValue={maxQuantity}
-              currentValue={quantity}
-              onChange={onQuantityChange}
-              // errorMsg={selectedSize ? "Available qty in stock is" : ""}
-              disabled={(selectedSize && selectedSize.stock == 0) || false}
-              className={styles.quantityWrapper}
-              errorMsgClass={styles.sizeError}
-              inputClass={styles.inputQuantity}
-            />
+
+        {showQty || (selectedSize && selectedSize.stock != 0) ? (
+          <div className={styles.quantityContainer}>
+            <div className={cs(styles.label, styles.qtyLabel)}> QUANTITY</div>
+            <div className={styles.qtyContainer}>
+              <PdpQuantity
+                source="notifyme"
+                id={selectedSize ? selectedSize.id : 0}
+                minValue={minQuantity}
+                maxValue={maxQuantity}
+                currentValue={quantity}
+                onChange={onQuantityChange}
+                // errorMsg={selectedSize ? "Available qty in stock is" : ""}
+                disabled={(selectedSize && selectedSize.stock == 0) || false}
+                className={styles.quantityWrapper}
+                errorMsgClass={styles.sizeError}
+                inputClass={styles.inputQuantity}
+              />
+            </div>
           </div>
-        </div>
+        ) : null}
         <div className={styles.inputContainer}>
           {((selectedSize && selectedSize.stock === 0) || allOutOfStock) && (
             <div className={cs(styles.emailInput, globalStyles.textLeft)}>
