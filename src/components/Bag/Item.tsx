@@ -1,6 +1,6 @@
 import React, { memo, useState } from "react";
 import cs from "classnames";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styles from "./styles_new.scss";
 import { BasketItem } from "typings/basket";
 import "../../styles/override.css";
@@ -46,6 +46,7 @@ const LineItems: React.FC<BasketItem> = memo(
       currency = "INR";
     }
     const { dispatch } = useStore();
+    const history = useHistory();
     // const [showError, setShowError] = useState(false);
     // const [error, setError] = useState("");
 
@@ -77,7 +78,10 @@ const LineItems: React.FC<BasketItem> = memo(
           <span
             className={cs(globalStyles.linkTextUnderline, globalStyles.pointer)}
             onClick={async () => {
-              const res = await WishlistService.undoMoveToWishlist(dispatch);
+              const res = await WishlistService.undoMoveToWishlist(
+                dispatch,
+                history.location.pathname.includes("shared-wishlist")
+              );
               dispatch(updateBasket(res.basket));
             }}
           >

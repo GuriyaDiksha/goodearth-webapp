@@ -36,6 +36,7 @@ import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
 import { isArray } from "lodash";
+import { useHistory } from "react-router";
 
 type Props = {
   basketLineId?: ProductID;
@@ -79,6 +80,7 @@ const NotifyMePopup: React.FC<Props> = ({
   collections
 }) => {
   const { dispatch } = useStore();
+  const history = useHistory();
 
   const user = useContext(UserContext);
   const { closeModal } = useContext(ModalContext);
@@ -272,14 +274,16 @@ const NotifyMePopup: React.FC<Props> = ({
 
   const addToBasket = async () => {
     if (selectedSize) {
-      WishlistService.removeFromWishlist(
-        dispatch,
-        selectedSize.id,
-        undefined,
-        sortBy,
-        selectedSize.size
-      );
-      WishlistService.countWishlist(dispatch);
+      if (!history.location.pathname.includes("shared-wishlist")) {
+        WishlistService.removeFromWishlist(
+          dispatch,
+          selectedSize.id,
+          undefined,
+          sortBy,
+          selectedSize.size
+        );
+        // WishlistService.countWishlist(dispatch);
+      }
       setShowLoader(true);
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
@@ -432,9 +436,7 @@ const NotifyMePopup: React.FC<Props> = ({
                     : displayPriceWithCommas(price, currency)}
                 </span>
               ) : (
-                <span
-                  className={badgeType == "B_flat" ? globalStyles.gold : ""}
-                >
+                <span className={badgeType == "B_flat" ? styles.flatPrice : ""}>
                   {selectedSize
                     ? displayPriceWithCommas(
                         selectedSize.priceRecords[currency],

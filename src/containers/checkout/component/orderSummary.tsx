@@ -668,7 +668,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     if (isSuspended) {
       resetInfoPopupCookie();
-      dispatch(countWishlist(0));
+      // dispatch(countWishlist(0));
     }
   };
 
