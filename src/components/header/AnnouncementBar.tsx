@@ -59,7 +59,7 @@ const AnnouncementBar: React.FC<Props> = ({
   };
 
   return (
-    <div className={styles.announcement}>
+    <div id="announcement_bar" className={styles.announcement}>
       <AnnouncementBarSlider
         dataLength={data?.length}
         isBridalPage={isBridalRegistryPage || isBridalActive}
