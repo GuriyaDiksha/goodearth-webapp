@@ -228,10 +228,13 @@
         padding: 15px 0;
         border-bottom: 0.5px solid $light-charcoal;
 
-        .sub-total-price,
-        .discount-price {
+        .sub-total-price{
           font-size: 14px !important;
           @include b4_12px_medium_charcoal_caps();
+        }
+        .discount-price {
+          font-size: 14px !important;
+          @include b4_12px_medium_gold_caps();
         }
         .discount-wrapper {
           padding-top: 15px;
