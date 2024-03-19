@@ -920,110 +920,93 @@ class Search extends React.Component<Props, State> {
                         ))}
                       </div>
                     ) : null}
-                    {youMightLikeProducts.length > 0 && (
-                      <>
-                        <div
-                          className={cs(
-                            bootstrapStyles.offsetMd2,
-                            globalStyles.marginT50,
-                            { [styles.ymlpPadding]: mobile }
-                          )}
-                        >
-                          <p
-                            className={cs(
-                              styles.productName,
-                              globalStyles.marginB20
-                            )}
-                          >
-                            YOU MIGHT LIKE
-                          </p>
-                        </div>
-
-                        <div
-                          className={cs(
-                            bootstrapStyles.row,
-                            bootstrapStyles.offsetMd2
-                          )}
-                        >
+                    {youMightLikeProducts.length > 0 &&
+                      this.state.searchValue.length == 0 && (
+                        <>
                           <div
                             className={cs(
-                              bootstrapStyles.colMd10,
-                              bootstrapStyles.colSm10,
-                              styles.ymlpWrapper
+                              bootstrapStyles.offsetMd2,
+                              globalStyles.marginT50,
+                              { [styles.ymlpPadding]: mobile }
                             )}
                           >
-                            {youMightLikeProducts?.map(data => (
-                              <div
-                                className={cs(
-                                  bootstrapStyles.col6,
-                                  styles.ymlpTile
-                                )}
-                              >
-                                {data.salesBadgeImage ? (
-                                  <div
-                                    className={cs(
-                                      {
-                                        [styles.badgePositionPlpMobile]: this
-                                          .props.mobile
-                                      },
-                                      {
-                                        [styles.badgePositionPlp]: !this.props
-                                          .mobile
-                                      }
-                                    )}
-                                  >
-                                    <img
-                                      src={data.salesBadgeImage}
-                                      alt="sales-badge"
-                                    />
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
-                                <div className={styles.imageboxNew}>
-                                  <div
-                                    className={cs(
-                                      globalStyles.textCenter,
-                                      globalStyles.desktopWishlist,
-                                      {
-                                        [globalStyles.mobileWishlistPlp]: mobile
-                                      }
-                                    )}
-                                  >
-                                    <WishlistButton
-                                      gtmListType="Search"
-                                      title={data?.title}
-                                      childAttributes={data?.childAttributes}
-                                      priceRecords={data?.priceRecords}
-                                      discountedPriceRecords={
-                                        data?.discountedPriceRecords
-                                      }
-                                      categories={data?.categories}
-                                      id={data?.id}
-                                      showText={false}
-                                      key={data?.id}
-                                      mobile={mobile}
-                                      isPlpTile={true} //passing true for new icons
-                                    />
-                                  </div>
-                                  <Link
-                                    to={data.link}
-                                    onClick={this.showProduct.bind(
-                                      this,
-                                      data,
-                                      data?.id
-                                    )}
-                                  >
-                                    <img
-                                      src={data.image}
-                                      onError={this.addDefaultSrc}
-                                      alt={data.altText || data.title}
-                                      className={styles.imageResultNew}
-                                    />
-                                  </Link>
-                                </div>
-                                <div className={styles.imageContent}>
-                                  <p className={styles.productN}>
+                            <p
+                              className={cs(
+                                styles.productName,
+                                globalStyles.marginB20
+                              )}
+                            >
+                              YOU MIGHT LIKE
+                            </p>
+                          </div>
+
+                          <div
+                            className={cs(
+                              bootstrapStyles.row,
+                              bootstrapStyles.offsetMd2
+                            )}
+                          >
+                            <div
+                              className={cs(
+                                bootstrapStyles.colMd10,
+                                bootstrapStyles.colSm10,
+                                styles.ymlpWrapper
+                              )}
+                            >
+                              {youMightLikeProducts?.map(data => (
+                                <div
+                                  className={cs(
+                                    bootstrapStyles.col6,
+                                    styles.ymlpTile
+                                  )}
+                                >
+                                  {data.salesBadgeImage ? (
+                                    <div
+                                      className={cs(
+                                        {
+                                          [styles.badgePositionPlpMobile]: this
+                                            .props.mobile
+                                        },
+                                        {
+                                          [styles.badgePositionPlp]: !this.props
+                                            .mobile
+                                        }
+                                      )}
+                                    >
+                                      <img
+                                        src={data.salesBadgeImage}
+                                        alt="sales-badge"
+                                      />
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                  <div className={styles.imageboxNew}>
+                                    <div
+                                      className={cs(
+                                        globalStyles.textCenter,
+                                        globalStyles.desktopWishlist,
+                                        {
+                                          [globalStyles.mobileWishlistPlp]: mobile
+                                        }
+                                      )}
+                                    >
+                                      <WishlistButton
+                                        gtmListType="Search"
+                                        title={data?.title}
+                                        childAttributes={data?.childAttributes}
+                                        priceRecords={data?.priceRecords}
+                                        discountedPriceRecords={
+                                          data?.discountedPriceRecords
+                                        }
+                                        categories={data?.categories}
+                                        id={data?.id}
+                                        showText={false}
+                                        key={data?.id}
+                                        mobile={mobile}
+                                        isPlpTile={true} //passing true for new icons
+                                      />
+                                    </div>
                                     <Link
                                       to={data.link}
                                       onClick={this.showProduct.bind(
@@ -1032,24 +1015,44 @@ class Search extends React.Component<Props, State> {
                                         data?.id
                                       )}
                                     >
-                                      {ReactHtmlParser(data.product)}{" "}
+                                      <img
+                                        src={data.image}
+                                        onError={this.addDefaultSrc}
+                                        alt={data.altText || data.title}
+                                        className={styles.imageResultNew}
+                                      />
                                     </Link>
-                                  </p>
-                                  {
-                                    <Price
-                                      product={data}
-                                      code={currencyCodes[this.props.currency]}
-                                      isSale={this.props.isSale}
-                                      currency={this.props.currency}
-                                    />
-                                  }
+                                  </div>
+                                  <div className={styles.imageContent}>
+                                    <p className={styles.productN}>
+                                      <Link
+                                        to={data.link}
+                                        onClick={this.showProduct.bind(
+                                          this,
+                                          data,
+                                          data?.id
+                                        )}
+                                      >
+                                        {ReactHtmlParser(data.product)}{" "}
+                                      </Link>
+                                    </p>
+                                    {
+                                      <Price
+                                        product={data}
+                                        code={
+                                          currencyCodes[this.props.currency]
+                                        }
+                                        isSale={this.props.isSale}
+                                        currency={this.props.currency}
+                                      />
+                                    }
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      </>
-                    )}
+                        </>
+                      )}
                     {usefulLink.length > 0 && (
                       <div className={globalStyles.marginT30}>
                         <p
