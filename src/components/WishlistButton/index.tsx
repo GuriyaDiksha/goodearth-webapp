@@ -45,7 +45,7 @@ const WishlistButton: React.FC<Props> = ({
   // inWishlist,
   onMoveToWishlist,
   onComplete,
-  isPlpTile,
+  isPlpTile, //Use this for new icon
   tablet
 }) => {
   const { wishlistItems, wishlistChildItems } = useContext(WishlistContext);
