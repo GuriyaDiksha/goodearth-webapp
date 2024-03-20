@@ -185,13 +185,13 @@ const NotifyMePopup: React.FC<Props> = ({
     const cat1 = categoryList?.[0]?.split(">");
     const cat2 = categoryList?.[1]?.split(">");
 
-    const L1 = cat1?.[0].trim();
+    const L1 = cat1?.[0]?.trim();
 
-    const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+    const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
 
     const L3 = cat2?.[2]
       ? cat2?.[2]?.trim()
-      : categoryList?.[2]?.split(">")?.[2].trim();
+      : categoryList?.[2]?.split(">")?.[2]?.trim();
     const clickType = localStorage.getItem("clickType");
 
     const category5 = (sliderImages || [])?.filter(ele => ele?.icon).length
