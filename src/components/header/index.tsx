@@ -154,8 +154,6 @@ class Header extends React.Component<Props, State> {
       bridalKey = pathArray[pathArray.length - 1];
     }
     this.props.onLoadAPiCall(
-      this.props.isLoggedIn,
-      false,
       this.props?.cookies,
       this.props.bridalId,
       bridalKey,
