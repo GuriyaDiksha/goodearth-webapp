@@ -950,10 +950,24 @@ class Header extends React.Component<Props, State> {
       const annBarHeight = annHeight - windowScroll;
       const topPosition = annBarHeight + headerHeight;
       const menuOverlay = document?.getElementById("menu_overlay");
-      if (windowScroll > annHeight) {
-        (menuOverlay as HTMLElement).style.top = `${headerHeight + 5}px`;
+      const timer = document.getElementById("ge-timer");
+      const tim = timer != null ? true : false;
+      if (tim) {
+        const timerHeight = (timer as HTMLElement).clientHeight;
+        const topPosWithTimer = annBarHeight + headerHeight + timerHeight;
+        if (windowScroll > annHeight) {
+          (menuOverlay as HTMLElement).style.top = `${timerHeight +
+            headerHeight +
+            5}px`;
+        } else {
+          (menuOverlay as HTMLElement).style.top = `${topPosWithTimer + 5}px`;
+        }
       } else {
-        (menuOverlay as HTMLElement).style.top = `${topPosition + 5}px`;
+        if (windowScroll > annHeight) {
+          (menuOverlay as HTMLElement).style.top = `${headerHeight + 5}px`;
+        } else {
+          (menuOverlay as HTMLElement).style.top = `${topPosition + 5}px`;
+        }
       }
     }
   };
