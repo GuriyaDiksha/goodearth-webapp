@@ -36,8 +36,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // window.location.reload();
     },
     onLoadAPiCall: (
-      isLoggedIn: boolean,
-      // basketcall: boolean,
       cookies: Cookies,
       bridalId: number,
       bridalKey?: string,
