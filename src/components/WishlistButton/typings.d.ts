@@ -26,4 +26,5 @@ export type Props = {
   onComplete?: () => void;
   isPlpTile?: boolean;
   tablet?: boolean;
+  badgeType?: string;
 };

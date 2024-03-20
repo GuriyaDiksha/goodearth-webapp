@@ -193,8 +193,18 @@ const NotifyMePopup: React.FC<Props> = ({
       subcategoryname = subcategoryname[subcategoryname.length - 1];
     }
     const size = selectedSize?.size || "";
-    // const arr = category?.split(">");
-    // const l1 = arr?.[arr.length - 3];
+    const cat1 = categoryList?.[0]?.split(">");
+    const cat2 = categoryList?.[1]?.split(">");
+
+    const L1 = cat1?.[0].trim();
+
+    const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+    const L3 = cat2?.[2]
+      ? cat2?.[2]?.trim()
+      : categoryList?.[2]?.split(">")?.[2].trim();
+    const clickType = localStorage.getItem("clickType");
+
     const category5 = (sliderImages || [])?.filter(ele => ele?.icon).length
       ? "3d"
       : "non 3d";
@@ -245,6 +255,12 @@ const NotifyMePopup: React.FC<Props> = ({
       dataLayer.push({
         event: "add_to_cart",
         previous_page_url: CookieService.getCookie("prevUrl"),
+        currency: currency,
+        value: selectedSize?.discountedPriceRecords
+          ? selectedSize?.discountedPriceRecords[currency]
+          : selectedSize?.priceRecords
+          ? selectedSize?.priceRecords[currency]
+          : null,
         ecommerce: {
           items: [
             {
@@ -255,17 +271,20 @@ const NotifyMePopup: React.FC<Props> = ({
               currency: currency, // Pass the currency code
               discount:
                 isSale && selectedSize?.discountedPriceRecords[currency]
-                  ? selectedSize?.discountedPriceRecords[currency]
+                  ? badgeType == "B_flat"
+                    ? selectedSize.discountedPriceRecords[currency]
+                    : selectedSize.priceRecords[currency] -
+                      selectedSize.discountedPriceRecords[currency]
                   : "NA", // Pass the discount amount
               index: "NA",
               item_brand: "Goodearth",
-              item_category: category?.split("/")?.[0],
-              item_category2: category?.split("/")?.[1],
-              item_category3: category?.split("/")?.[2],
+              item_category: L1,
+              item_category2: L2,
+              item_category3: L3,
               item_category4: "NA",
               item_category5: category5,
               item_list_id: "NA", //pass the item list id
-              item_list_name: search ? search : "NA", //pass the item list name ex.search results
+              item_list_name: search ? `${clickType}-${search}` : "NA",
               item_variant: selectedSize?.size || "",
               // item_category4: l1, //pass the L1,
               // item_category5: collection,

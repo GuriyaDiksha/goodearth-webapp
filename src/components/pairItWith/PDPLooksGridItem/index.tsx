@@ -167,6 +167,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               showText={false}
               key={product.id}
               mobile={mobile}
+              badgeType={product?.badgeType}
             />
           </div>
         )}
@@ -220,6 +221,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                     id={product.id}
                     showText={false}
                     key={product.id}
+                    badgeType={product?.badgeType}
                   />
                 </div>
               </div>

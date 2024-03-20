@@ -309,6 +309,19 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             line?.product?.priceRecords?.[currency as Currency]
           );
           productquantity.push(+line.quantity);
+          const search = CookieService.getCookie("search") || "";
+          const cat1 = line?.product?.categories?.[0]?.split(">");
+          const cat2 = line?.product?.categories?.[1]?.split(">");
+
+          const L1 = cat1?.[0].trim();
+
+          const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+          const L3 = cat2?.[2]
+            ? cat2?.[2]?.trim()
+            : line?.product?.categories?.[2]?.split(">")?.[2].trim();
+
+          const clickType = localStorage.getItem("clickType");
 
           return {
             item_id: line.product.sku,
@@ -320,17 +333,20 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 : "NA", //Pass NA if not applicable at the moment
             discount:
               isSale && basket?.offerDiscounts?.[0]?.amount
-                ? basket?.offerDiscounts?.[0]?.amount
+                ? line?.badgeType == "B_flat"
+                  ? basket?.offerDiscounts?.[0]?.amount
+                  : line.product.priceRecords[currency as Currency] -
+                    basket?.offerDiscounts?.[0]?.amount
                 : "NA",
             index: ind,
             item_brand: "Goodearth",
-            item_category: category?.split("/")?.[0],
-            item_category2: category?.split("/")?.[1],
-            item_category3: category?.split("/")?.[2],
+            item_category: L1,
+            item_category2: L2,
+            item_category3: L3,
             item_category4: "NA",
             item_category5: line.product.is3d ? "3d" : "non3d",
             item_list_id: "NA",
-            item_list_name: "NA",
+            item_list_name: search ? `${clickType}-${search}` : "NA",
             item_variant: line.product?.childAttributes[0]?.size || "NA",
             price: line.isEgiftCard
               ? +line.priceExclTax

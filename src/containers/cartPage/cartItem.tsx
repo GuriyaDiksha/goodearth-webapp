@@ -105,6 +105,18 @@ const CartItems: React.FC<BasketItem> = memo(
         }
         const userConsent = CookieService.getCookie("consent").split(",");
         const search = CookieService.getCookie("search") || "";
+        const cat1 = categories?.[0]?.split(">");
+        const cat2 = categories?.[1]?.split(">");
+
+        const L1 = cat1?.[0].trim();
+
+        const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+        const L3 = cat2?.[2]
+          ? cat2?.[2]?.trim()
+          : categories?.[2]?.split(">")?.[2].trim();
+
+        const clickType = localStorage.getItem("clickType");
 
         if (userConsent.includes(GA_CALLS)) {
           Moengage.track_event("remove_from_cart", {
@@ -175,6 +187,12 @@ const CartItems: React.FC<BasketItem> = memo(
           dataLayer.push({
             event: "remove_from_cart",
             previous_page_url: CookieService.getCookie("prevUrl"),
+            currency: currency,
+            value: childAttributes[0]?.discountedPriceRecords[currency]
+              ? childAttributes[0]?.discountedPriceRecords[currency]
+              : price
+              ? price
+              : null,
             ecommerce: {
               items: [
                 {
@@ -186,17 +204,20 @@ const CartItems: React.FC<BasketItem> = memo(
                   discount:
                     isSale &&
                     childAttributes[0]?.discountedPriceRecords[currency]
-                      ? childAttributes[0]?.discountedPriceRecords[currency]
+                      ? badgeType == "B_flat"
+                        ? childAttributes[0]?.discountedPriceRecords[currency]
+                        : price -
+                          childAttributes[0]?.discountedPriceRecords[currency]
                       : "NA", // Pass the discount amount
                   index: "NA",
                   item_brand: "goodearth",
-                  item_category: category?.split("/")?.[0],
-                  item_category2: category?.split("/")?.[1],
-                  item_category3: category?.split("/")?.[2],
+                  item_category: L1,
+                  item_category2: L2,
+                  item_category3: L3,
                   item_category4: "NA",
                   item_category5: "NA",
                   item_list_id: "NA",
-                  item_list_name: search ? search : "NA",
+                  item_list_name: search ? `${clickType}-${search}` : "NA",
                   item_variant: size || "NA",
                   price: price,
                   quantity: quantity,
@@ -578,6 +599,7 @@ const CartItems: React.FC<BasketItem> = memo(
                       onMoveToWishlist={onMoveToWishlist}
                       className="wishlist-font"
                       inWishlist={inWishlist}
+                      badgeType={badgeType}
                     />
                     {renderNotifyTrigger("action")}
                   </div>
@@ -658,6 +680,7 @@ const CartItems: React.FC<BasketItem> = memo(
                       onMoveToWishlist={onMoveToWishlist}
                       className="wishlist-font"
                       inWishlist={inWishlist}
+                      badgeType={badgeType}
                     />
                     {renderNotifyTrigger("action")}
                   </div>
