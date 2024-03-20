@@ -306,7 +306,6 @@ const NotifyMePopup: React.FC<Props> = ({
       setShowLoader(true);
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
-          debugger;
           showGrowlMessage(
             dispatch,
             MESSAGE.ADD_TO_BAG_SUCCESS,
@@ -318,7 +317,6 @@ const NotifyMePopup: React.FC<Props> = ({
         })
         .catch(err => {
           if (typeof err?.response?.data != "object") {
-            debugger;
             showGrowlMessage(dispatch, err?.response?.data);
             errorTracking([err?.response?.data], window.location.href);
           }

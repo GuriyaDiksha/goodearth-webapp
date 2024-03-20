@@ -1596,7 +1596,6 @@ export const showGrowlMessage = (
   id?: string,
   params?: any
 ) => {
-  debugger;
   const newId = id ? id : getUniqueId();
   dispatch(showMessage(text, timeout, newId, params));
 };
