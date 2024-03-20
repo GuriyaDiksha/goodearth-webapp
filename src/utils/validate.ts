@@ -180,13 +180,13 @@ export function dataForBilling(data: Basket, currency: Currency) {
       const cat1 = product?.categories?.[0]?.split(">");
       const cat2 = product?.categories?.[1]?.split(">");
 
-      const L1 = cat1?.[0].trim();
+      const L1 = cat1?.[0]?.trim();
 
-      const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+      const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
 
       const L3 = cat2?.[2]
         ? cat2?.[2]?.trim()
-        : product?.categories?.[2]?.split(">")?.[2].trim();
+        : product?.categories?.[2]?.split(">")?.[2]?.trim();
 
       const clickType = localStorage.getItem("clickType");
       return Object.assign(
@@ -315,13 +315,13 @@ export function proceedTocheckout(
       const cat1 = product.categories?.[0]?.split(">");
       const cat2 = product.categories?.[1]?.split(">");
 
-      const L1 = cat1?.[0].trim();
+      const L1 = cat1?.[0]?.trim();
 
-      const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+      const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
 
       const L3 = cat2?.[2]
         ? cat2?.[2]?.trim()
-        : product.categories?.[2]?.split(">")?.[2].trim();
+        : product.categories?.[2]?.split(">")?.[2]?.trim();
 
       const clickType = localStorage.getItem("clickType");
 
@@ -434,13 +434,13 @@ export function proceedForPayment(
       const cat1 = product?.categories?.[0]?.split(">");
       const cat2 = product?.categories?.[1]?.split(">");
 
-      const L1 = cat1?.[0].trim();
+      const L1 = cat1?.[0]?.trim();
 
-      const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+      const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
 
       const L3 = cat2?.[2]
         ? cat2?.[2]?.trim()
-        : product?.categories?.[2]?.split(">")?.[2].trim();
+        : product?.categories?.[2]?.split(">")?.[2]?.trim();
 
       product.childAttributes.map((child: any) => {
         skus += "," + child.sku;
@@ -988,13 +988,13 @@ export function PDP(data: any, currency: Currency, isSale?: boolean) {
     const cat1 = data.categories?.[0]?.split(">");
     const cat2 = data.categories?.[1]?.split(">");
 
-    const L1 = cat1?.[0].trim();
+    const L1 = cat1?.[0]?.trim();
 
-    const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+    const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
 
     const L3 = cat2?.[2]
       ? cat2?.[2]?.trim()
-      : data.categories?.[2]?.split(">")?.[2].trim();
+      : data.categories?.[2]?.split(">")?.[2]?.trim();
 
     const clickType = localStorage.getItem("clickType");
     const skusid: any = [];
@@ -1314,13 +1314,13 @@ export function plpProductClick(
     const cat1 = data.categories?.[0]?.split(">");
     const cat2 = data.categories?.[1]?.split(">");
 
-    const L1 = cat1?.[0].trim();
+    const L1 = cat1?.[0]?.trim();
 
-    const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+    const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
 
     const L3 = cat2?.[2]
       ? cat2?.[2]?.trim()
-      : data.categories?.[2]?.split(">")?.[2].trim();
+      : data.categories?.[2]?.split(">")?.[2]?.trim();
 
     const search = CookieService.getCookie("search") || "";
     const clickType = localStorage.getItem("clickType");
