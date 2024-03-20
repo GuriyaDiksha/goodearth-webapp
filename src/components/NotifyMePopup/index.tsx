@@ -163,7 +163,7 @@ const NotifyMePopup: React.FC<Props> = ({
 
     if (!value) {
       valid = false;
-      message = "This field is required";
+      message = "Please enter your Email ID";
     } else if (!re.test(value)) {
       valid = false;
       message = "Please enter a valid Email ID";
@@ -182,9 +182,19 @@ const NotifyMePopup: React.FC<Props> = ({
       subcategoryname = subcategoryname[subcategoryname.length - 1];
     }
     const size = selectedSize?.size || "";
-    // const arr = category?.split(">");
-    // const l1 = arr?.[arr.length - 3];
-    const category3 = (sliderImages || [])?.filter(ele => ele?.icon).length
+    const cat1 = categoryList?.[0]?.split(">");
+    const cat2 = categoryList?.[1]?.split(">");
+
+    const L1 = cat1?.[0].trim();
+
+    const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+    const L3 = cat2?.[2]
+      ? cat2?.[2]?.trim()
+      : categoryList?.[2]?.split(">")?.[2].trim();
+    const clickType = localStorage.getItem("clickType");
+
+    const category5 = (sliderImages || [])?.filter(ele => ele?.icon).length
       ? "3d"
       : "non 3d";
     const view3dValue = sliderImages.filter(ele => ele?.icon).length
@@ -234,6 +244,12 @@ const NotifyMePopup: React.FC<Props> = ({
       dataLayer.push({
         event: "add_to_cart",
         previous_page_url: CookieService.getCookie("prevUrl"),
+        currency: currency,
+        value: selectedSize?.discountedPriceRecords
+          ? selectedSize?.discountedPriceRecords[currency]
+          : selectedSize?.priceRecords
+          ? selectedSize?.priceRecords[currency]
+          : null,
         ecommerce: {
           items: [
             {
@@ -242,24 +258,32 @@ const NotifyMePopup: React.FC<Props> = ({
               affiliation: title, // Pass the product name
               coupon: "NA", // Pass the coupon if available
               currency: currency, // Pass the currency code
-              discount: selectedSize?.discountedPriceRecords[currency] || "NA", // Pass the discount amount
+              discount:
+                isSale && selectedSize?.discountedPriceRecords[currency]
+                  ? badgeType == "B_flat"
+                    ? selectedSize.discountedPriceRecords[currency]
+                    : selectedSize.priceRecords[currency] -
+                      selectedSize.discountedPriceRecords[currency]
+                  : "NA", // Pass the discount amount
               index: "NA",
               item_brand: "Goodearth",
-              item_category: category?.split(">")?.join("|"),
-              item_category2: selectedSize?.size, //pass the item category2 ex.Size
-              item_category3: category3, //pass the product type 3d or non 3d
+              item_category: L1,
+              item_category2: L2,
+              item_category3: L3,
+              item_category4: "NA",
+              item_category5: category5,
               item_list_id: "NA", //pass the item list id
-              item_list_name: search ? search : "NA", //pass the item list name ex.search results
+              item_list_name: search ? `${clickType}-${search}` : "NA",
               item_variant: selectedSize?.size || "",
               // item_category4: l1, //pass the L1,
-              item_category4: "NA",
               // item_category5: collection,
               price: selectedSize?.priceRecords[currency],
               quantity: quantity,
               // dimension12: selectedSize?.color,
               collection_category: isArray(collections)
                 ? collections?.join("|")
-                : collections
+                : collections,
+              price_range: "NA"
             }
           ]
         }
@@ -329,7 +353,7 @@ const NotifyMePopup: React.FC<Props> = ({
         }
       } else {
         // setSizeErrorMsg("Please select a Size to proceed");
-        errorTracking(["Please select a Size to proceed"], location.href);
+        errorTracking(["Please select a size to continue"], location.href);
       }
     }
   };
@@ -457,7 +481,7 @@ const NotifyMePopup: React.FC<Props> = ({
                 />
                 {sizeerror && (
                   <p className={styles.sizeError}>
-                    Please select a size to proceed
+                    Please select a size to continue
                   </p>
                 )}
                 {isSale &&

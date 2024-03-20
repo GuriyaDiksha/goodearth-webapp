@@ -169,8 +169,8 @@ const GiftCardItem = ({
               </p>
             )}
             <p className={cl(globalStyles.cerise, globalStyles.voffset1)}>
-              Please try again in sometime. For security reasons, your credit
-              note / gift card is temporarily locked
+              For security purposes, your credit note/gift card is temporarily
+              locked. Please try again later.
             </p>
             {conditionalRefresh && !isLoggedIn && (
               <span

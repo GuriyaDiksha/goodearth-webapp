@@ -42,7 +42,8 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     loader,
     isSearch,
     onEnquireClick,
-    notifyMeClick
+    notifyMeClick,
+    tablet
   } = props;
   const code = currencyCode[currency as Currency];
   // const {} = useStore({state:App})
@@ -62,7 +63,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   });
 
   useEffect(() => {
-    if (mobile) {
+    if (mobile || tablet) {
       const val = localStorage.getItem("plp") || "";
       if (!val.split(",").includes(history.location.pathname)) {
         setIsAnimate(true);
@@ -74,7 +75,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         : history.location.pathname;
       localStorage.setItem("plp", arr);
     }
-  }, [mobile]);
+  }, [mobile, tablet]);
 
   const onMouseEnter = (): void => {
     product.plpImages?.[1] ? setPrimaryimage(false) : "";
@@ -97,7 +98,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
 
   const gtmProductClick = () => {
     CookieService.setCookie("listPath", page);
-    plpProductClick(product, page, currency, position);
+    plpProductClick(product, page, currency, position, info.isSale);
     const len = product.categories.length;
     const category = product.categories[len - 1];
     const l3Len = category.split(">").length;
@@ -264,6 +265,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               key={product.id}
               mobile={mobile}
               isPlpTile={true}
+              badgeType={product?.badgeType}
             />
           </div>
         )}

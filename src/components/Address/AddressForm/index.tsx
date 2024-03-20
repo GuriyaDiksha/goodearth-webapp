@@ -17,7 +17,6 @@ import styles from "../styles.scss";
 import cs from "classnames";
 import { useSelector, useDispatch } from "react-redux";
 import LoginService from "services/login";
-import FormCheckbox from "components/Formsy/FormCheckbox";
 import { AddressData, AddressFormData } from "../typings";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { AppState } from "reducers/typings";
@@ -96,7 +95,7 @@ const AddressForm: React.FC<Props> = props => {
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
   const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
   const { addressData } = props;
-  const { countryData, pinCodeData, addressList } = useSelector(
+  const { countryData, pinCodeData } = useSelector(
     (state: AppState) => state.address
   );
   const isdList = countryData.map(list => {
@@ -486,7 +485,7 @@ const AddressForm: React.FC<Props> = props => {
 
   const isExistyError = "This field is required";
   const isAlphanumericError = "Only alphabets and numbers are allowed";
-  const isAlphaError = "Only alphabets are allowed";
+  const isAlphaError = "Please enter only alphabetic characters";
   const isEmailError = "Please enter the correct email";
 
   useEffect(() => {
@@ -567,7 +566,6 @@ const AddressForm: React.FC<Props> = props => {
     setNickname(e.target.value);
     setIsAddressChanged(true);
   };
-  const bridalUser = { userId: 0 };
 
   return (
     <div
@@ -692,7 +690,7 @@ const AddressForm: React.FC<Props> = props => {
               validationErrors={{
                 isExisty: "Please enter your First Name",
                 isWords: isAlphaError,
-                maxLength: "You cannot type in more than 15 characters"
+                maxLength: "Please do not exceed the limit of 15 characters"
               }}
             />
           </div>
@@ -711,7 +709,7 @@ const AddressForm: React.FC<Props> = props => {
               validationErrors={{
                 isExisty: "Please enter your Last Name",
                 isWords: isAlphaError,
-                maxLength: "You cannot type in more than 15 characters"
+                maxLength: "Please do not exceed the limit of 15 characters"
               }}
             />
           </div>
@@ -735,7 +733,7 @@ const AddressForm: React.FC<Props> = props => {
                   }
                 }}
                 validationErrors={{
-                  isExisty: "Please fill this field",
+                  isExisty: "Please enter a Pin/Zip code",
                   isValidPostcode: "Please enter a valid Pin/Zip code"
                 }}
                 changeState={changeState}
@@ -764,7 +762,7 @@ const AddressForm: React.FC<Props> = props => {
                   maxLength: 20
                 }}
                 validationErrors={{
-                  isExisty: "Please fill this field",
+                  isExisty: "Please enter a Pin/Zip code",
                   matchRegexp: isAlphanumericError,
                   maxLength: "Maximum Length is 20 characters"
                 }}
@@ -955,7 +953,7 @@ const AddressForm: React.FC<Props> = props => {
                 isCodeValid: "Required",
                 isValidCode: "Enter valid code"
               }}
-            /> */}
+            />  */}
 
             <SelectDropdown
               value=""
@@ -975,8 +973,8 @@ const AddressForm: React.FC<Props> = props => {
                 }
               }}
               validationErrors={{
-                isCodeValid: "Required",
-                isValidCode: "Enter valid code"
+                isCodeValid: "Please select a Country Code",
+                isValidCode: "Please enter a valid country code"
               }}
               allowFilter={true}
               options={[]}
