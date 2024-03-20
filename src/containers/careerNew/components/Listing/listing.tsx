@@ -13,6 +13,7 @@ import CareerService from "services/career";
 import { updateJobList } from "actions/career";
 import { uniq } from "lodash";
 import bootstrap from "../../../../styles/bootstrap/bootstrap-grid.scss";
+import Button from "components/Button";
 
 const Listing: React.FC = () => {
   const { facets, data }: CareerData = useSelector(
@@ -29,6 +30,7 @@ const Listing: React.FC = () => {
     loc: string[];
   }>({ tag: [], loc: [] });
   const { mobile } = useSelector((state: AppState) => state.device);
+  const { showTimer } = useSelector((state: AppState) => state.info);
   const history = useHistory();
   const dispatch = useDispatch();
   const vars: { dept?: string; loc?: string; tag?: string } = {};
@@ -153,17 +155,20 @@ const Listing: React.FC = () => {
         No opportunities found for your search criteria. Reset your filters to
         view more results.
       </p>
-      <button
-        className={listing.no_resords_btn}
+      <Button
         onClick={() => setReset(!reset)}
-      >
-        Reset filters
-      </button>
+        label="Reset filters"
+        variant="smallMedCharcoalCta"
+      />
     </div>
   );
 
   return (
-    <div className={listing.career_list_main_wrp}>
+    <div
+      className={cs(listing.career_list_main_wrp, {
+        [listing.timer]: showTimer
+      })}
+    >
       <div className={cs(listing.career_list_wrp, bootstrap.row)}>
         <CareerFilter
           appliedFilters={appliedFilters}

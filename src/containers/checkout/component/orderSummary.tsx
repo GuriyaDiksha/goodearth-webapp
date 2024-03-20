@@ -2,7 +2,6 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "./orderStyles.scss";
-import paymentStyles from "../styles.scss";
 import { OrderProps } from "./typings";
 import { currencyCode } from "typings/currency";
 import { useLocation, NavLink, useHistory, Link } from "react-router-dom";
@@ -17,10 +16,12 @@ import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommasFloat } from "utils/utility";
-import { currencyCodes } from "constants/currency";
+import Button from "components/Button";
 import checkoutIcon from "../../../images/checkout.svg";
 import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
 import Loader from "components/Loader";
+import ModalStyles from "components/Modal/styles.scss";
+import { countWishlist } from "actions/wishlist";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -29,7 +30,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
     page,
     shippingAddress,
     salestatus,
-    validbo,
     setCheckoutMobileOrderSummary,
     onsubmit,
     isPaymentNeeded,
@@ -120,9 +120,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const showDeliveryTimelines = true;
   const history = useHistory();
-  const queryString = history.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const boId = urlParams.get("bo_id");
+  // const queryString = history.location.search;
+  // const urlParams = new URLSearchParams(queryString);
+  // const boId = urlParams.get("bo_id");
 
   const removePromo = async (data: FormData) => {
     const userConsent = CookieService.getCookie("consent").split(",");
@@ -161,19 +161,43 @@ const OrderSummary: React.FC<OrderProps> = props => {
     return count;
   };
 
-  const getSizeAndQty = (data: any, qty: any) => {
+  const colorName = (value: string) => {
+    let cName = value
+      .split("-")
+      .slice(1)
+      .join();
+    if (cName[cName.length - 1] == "s") {
+      cName = cName.slice(0, -1);
+    }
+    return cName;
+  };
+
+  const getSizeAndQty = (
+    data: any,
+    qty: any,
+    groupedProductsCount: number,
+    isGC: boolean
+  ) => {
     const size = data.find(function(attribute: any) {
       if (attribute.name == "Size") {
         return attribute;
       }
     });
-    return size ? (
-      <span>
-        Size: {size.value} | QTY: {qty}
+
+    const color = data.find(function(attribute: any) {
+      if (attribute.name == "Color") {
+        return attribute;
+      }
+    });
+    return (size || qty || color?.value) && !isGC ? (
+      <span className={globalStyles.marginT5}>
+        {size && `Size: ${size.value} | `}{" "}
+        {color?.value && groupedProductsCount && groupedProductsCount > 0
+          ? `Color: ${colorName(color?.value)} | `
+          : ""}
+        QTY: {qty}
       </span>
-    ) : (
-      ""
-    );
+    ) : null;
   };
 
   const getDeliveryStatusMobile = () => {
@@ -297,9 +321,27 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     </div>
                   )}
 
-                  <span className={styles.productSize}>
-                    {getSizeAndQty(item.product.attributes, item.quantity)}
+                  <span className={cs(styles.productSize)}>
+                    {getSizeAndQty(
+                      item.product.attributes,
+                      item.quantity,
+                      item?.product?.groupedProductsCount,
+                      item.product.structure == "GiftCard"
+                    )}
                   </span>
+                  {item.product.structure == "GiftCard" && (
+                    <>
+                      <p className={cs(styles.productSize)}>
+                        Recipient&apos;s Name: {item?.GCMeta?.recipeint_name}
+                      </p>
+                      <p className={cs(styles.productSize)}>
+                        Recipient&apos;s Email: {item?.GCMeta?.recipient_email}
+                      </p>
+                      <p className={cs(styles.productSize)}>
+                        Sender&apos;s Name: {item?.GCMeta?.sender_name}
+                      </p>
+                    </>
+                  )}
                 </div>
 
                 {/* <div
@@ -382,26 +424,36 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   {voucher.code}
                 </span>
                 <span className={styles.textMuted}>
-                  {" "}
-                  {"(Promo Code Applied)"}
-                  {boId ? (
-                    ""
-                  ) : (
-                    <span
-                      className={cs(globalStyles.marginL5, styles.cross)}
-                      onClick={() => {
-                        onPromoRemove(voucher.code);
-                      }}
-                    >
-                      <i
-                        className={cs(
-                          iconStyles.icon,
-                          iconStyles.iconCrossNarrowBig,
-                          styles.discountFont
-                        )}
-                      ></i>
-                    </span>
-                  )}
+                  {!mobile && "(Promo Code Applied)"}
+                  {/* {
+                  boId ? (
+                    mobile && (
+                      <span className={styles.giftCreditCodeText}>
+                        (Promo Code Applied)
+                      </span>
+                    )
+                  ) :
+                   ( */}
+                  <span
+                    className={cs(globalStyles.marginL5, styles.cross)}
+                    onClick={() => {
+                      onPromoRemove(voucher.code);
+                    }}
+                  >
+                    <i
+                      className={cs(
+                        iconStyles.icon,
+                        iconStyles.iconCrossNarrowBig,
+                        styles.discountFont
+                      )}
+                    ></i>
+                    {mobile && (
+                      <span className={styles.giftCreditCodeText}>
+                        (Promo Code Applied)
+                      </span>
+                    )}
+                  </span>
+                  {/* } */}
                 </span>
               </span>
               <span className={styles.subtotal}>
@@ -431,9 +483,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </span>
               <span className={styles.textMuted}>
                 {" "}
-                {gift.cardType == "CREDITNOTE"
-                  ? "(Credit Note Applied)"
-                  : !mobile && "(Gift Code Applied)"}
+                {!mobile
+                  ? gift.cardType == "CREDITNOTE"
+                    ? "(Credit Note Applied)"
+                    : "(Gift Code Applied)"
+                  : null}
                 <span
                   className={cs(globalStyles.marginL5, styles.cross)}
                   onClick={() => {
@@ -448,9 +502,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     )}
                   ></i>
                 </span>
-                {gift.cardType != "CREDITNOTE" && mobile && (
+                {mobile && (
                   <span className={styles.giftCreditCodeText}>
-                    (Gift Code Applied)
+                    {gift.cardType == "CREDITNOTE"
+                      ? "(Credit Note Applied)"
+                      : "(Gift Code Applied)"}
                   </span>
                 )}
               </span>
@@ -463,7 +519,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
       });
     }
     const redeemDetails = basket.loyalty?.[0];
-    if (redeemDetails) {
+    if (redeemDetails && redeemDetails?.isValidated) {
+      isline = true;
       loyalty = (
         <div
           className={cs(
@@ -589,11 +646,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
           {
             remainingAmount:
               freeShippingApplicable -
-              parseInt((basket.totalWithoutShipping || 0).toString()),
+              parseInt((basket.totalWithoutShipping || 0)?.toString()),
             freeShippingApplicable,
             goLogin: props.goLogin
           },
-          true
+          mobile ? false : true,
+          mobile ? ModalStyles.bottomAlignSlideUp : "",
+          mobile ? "slide-up-bottom-align" : ""
         )
       );
       dispatch(updateModal(true));
@@ -609,6 +668,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     if (isSuspended) {
       resetInfoPopupCookie();
+      // dispatch(countWishlist(0));
     }
   };
 
@@ -673,10 +733,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
             )}
             key={index + "getDiscount"}
           >
-            <span className={styles.subtotal}>
+            <span className={cs(styles.subtotal, globalStyles.gold)}>
               {discount.name == "price-discount" ? "DISCOUNT" : discount.name}
             </span>
-            <span className={styles.subtotal}>
+            <span className={cs(styles.subtotal, globalStyles.gold)}>
               (-) {displayPriceWithCommasFloat(discount.amount, currency)}
             </span>
           </div>
@@ -691,94 +751,114 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     if (basket.lineItems.length > 0) {
       return (
-        <div className={cs(styles.summaryPadding, styles.fixOrderItemsMobile)}>
-          {pathname === "/order/checkout" && page !== "checkoutMobileBottom"
+        <div
+          className={cs(styles.summaryPadding, {
+            [styles.fixOrderItemsMobile]: checkoutOrderSummaryStatus
+          })}
+        >
+          {["/order/checkout", "/order/gc_checkout"].includes(pathname) &&
+          page !== "checkoutMobileBottom"
             ? getOrderItems()
             : null}
-          {pathname === "/order/checkout" ? null : <hr className={styles.hr} />}
-          <div className={styles.summaryAmountWrapper}>
-            {mobile && page == "checkout" && (
-              <div className={styles.orderSummaryTitle}>
-                <span className={styles.text}>VIEW ORDER SUMMARY</span>
-                {!boId && (
-                  <Link to="/cart" className={styles.textLink}>
-                    EDIT BAG
-                  </Link>
-                )}
-              </div>
-            )}
-            <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
-              <span className={styles.subtotal}>SUBTOTAL</span>
-              <span className={styles.subtotal}>
-                {displayPriceWithCommasFloat(basket.subTotal, currency)}
-              </span>
-            </div>
-            {getDiscount(basket.offerDiscounts)}
-            {/* <hr className={styles.hr} /> */}
-            <div
-              className={cs(
-                globalStyles.flex,
-                globalStyles.gutterBetween,
-                globalStyles.marginT20
+          {["/order/checkout", "/order/gc_checkout"].includes(
+            pathname
+          ) ? null : (
+            <hr className={styles.hr} />
+          )}
+          {mobile &&
+          page == "checkout" &&
+          !(pathname == "/order/gc_checkout") ? null : (
+            <div className={styles.summaryAmountWrapper}>
+              {pathname != "/order/gc_checkout" && (
+                <div
+                  className={cs(globalStyles.flex, globalStyles.gutterBetween)}
+                >
+                  <span className={styles.subtotal}>SUBTOTAL</span>
+                  <span className={styles.subtotal}>
+                    {displayPriceWithCommasFloat(basket.subTotal, currency)}
+                  </span>
+                </div>
               )}
-            >
-              <span className={styles.subtotal}>SHIPPING</span>
-              <span className={styles.subtotal}>
-                (+)
-                {displayPriceWithCommasFloat(
-                  parseFloat(shippingCharge),
-                  currency
-                )}
-              </span>
-            </div>
-            {basket.finalDeliveryDate && showDeliveryTimelines && (
-              <div className={styles.deliveryDate}>
-                Estimated delivery on or before:{" "}
-                <span className={styles.black}>{basket.finalDeliveryDate}</span>
-              </div>
-            )}
-            {shippingAddress?.state && (
+              {getDiscount(basket.offerDiscounts)}
+              {pathname != "/order/gc_checkout" && (
+                <div
+                  className={cs(
+                    globalStyles.flex,
+                    globalStyles.gutterBetween,
+                    globalStyles.marginT20
+                  )}
+                >
+                  <span className={styles.subtotal}>SHIPPING</span>
+                  <span className={styles.subtotal}>
+                    (+)
+                    {displayPriceWithCommasFloat(
+                      parseFloat(shippingCharge),
+                      currency
+                    )}
+                  </span>
+                </div>
+              )}
+              {basket.finalDeliveryDate && showDeliveryTimelines && (
+                <div className={cs(styles.deliveryDate, styles.maxWidth)}>
+                  Estimated delivery on or before:{" "}
+                  <span className={styles.black}>
+                    {basket.finalDeliveryDate}
+                  </span>
+                </div>
+              )}
+              {shippingAddress?.state && !(pathname == "/order/gc_checkout") && (
+                <div
+                  className={cs(styles.selectedStvalue, globalStyles.marginT10)}
+                >
+                  to {shippingAddress.state} - {shippingAddress.postCode}
+                </div>
+              )}
+              {!(pathname == "/order/gc_checkout") && (
+                <hr className={styles.hr} />
+              )}
               <div
-                className={cs(styles.selectedStvalue, globalStyles.marginT10)}
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
               >
-                to {shippingAddress.state} - {shippingAddress.postCode}
+                <span className={styles.subtotal}>TOTAL</span>
+                <span className={styles.subtotal}>
+                  {displayPriceWithCommasFloat(
+                    basket.subTotalWithShipping,
+                    currency
+                  )}
+                </span>
               </div>
-            )}
-
-            <hr className={styles.hr} />
-            <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
-              <span className={styles.subtotal}>TOTAL</span>
-              <span className={styles.subtotal}>
-                {displayPriceWithCommasFloat(
-                  basket.subTotalWithShipping,
-                  currency
+              {((["/order/checkout", "/order/gc_checkout"].includes(pathname) &&
+                !mobile) ||
+                pathname === "/cart" ||
+                (page == "checkoutMobileBottom" &&
+                  !checkoutOrderSummaryStatus)) &&
+                getCoupons()}
+              {/* {!(pathname == "/order/gc_checkout") && ( */}
+              <hr className={styles.hr} />
+              {/* )} */}
+              <div
+                className={cs(
+                  globalStyles.flex,
+                  globalStyles.gutterBetween,
+                  globalStyles.marginB10
                 )}
-              </span>
+              >
+                <span className={styles.subtotal}>AMOUNT PAYABLE</span>
+                <span className={styles.subtotal}>
+                  {displayPriceWithCommasFloat(basket?.total, currency)}
+                </span>
+              </div>
             </div>
-            {((pathname === "/order/checkout" && !mobile) ||
-              pathname === "/cart" ||
-              (page == "checkoutMobileBottom" &&
-                !checkoutOrderSummaryStatus)) &&
-              getCoupons()}
-            <hr className={styles.hr} />
-            <div
-              className={cs(
-                globalStyles.flex,
-                globalStyles.gutterBetween,
-                globalStyles.marginB10
-              )}
-            >
-              <span className={styles.subtotal}>AMOUNT PAYABLE</span>
-              <span className={styles.subtotal}>
-                {displayPriceWithCommasFloat(basket?.total, currency)}
-              </span>
-            </div>
-          </div>
+          )}
         </div>
       );
     } else {
       return (
-        <div className={cs(styles.summaryPadding, styles.fixOrderItemsMobile)}>
+        <div
+          className={cs(styles.summaryPadding, {
+            [styles.fixOrderItemsMobile]: checkoutOrderSummaryStatus
+          })}
+        >
           <hr className={styles.hr} />
           <div className={cs(globalStyles.flex, globalStyles.gutterBetween)}>
             <span className={styles.orderTotal}>
@@ -857,7 +937,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             Add products worth{" "}
             {String.fromCharCode(...currencyCode[props.currency])}{" "}
             {freeShippingApplicable - parseInt(totalWithoutShipping.toString())}{" "}
-            or more to qualify for free shipping.
+            or more to qualify for free shipping. Limited time only!
           </div>
         </div>
       ) : (
@@ -927,6 +1007,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
               >
                 <h3 className={cs(styles.summaryTitle)}>BACK TO CHECKOUT</h3>
                 <div className={styles.payableAmount}>
+                  <span className={styles.totalAmount}>
+                    {displayPriceWithCommasFloat(
+                      basket?.total?.toString(),
+                      currency
+                    )}
+                  </span>
                   <span className={cs(styles.carretUp)}></span>
                 </div>
               </div>
@@ -937,19 +1023,17 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 className={cs(globalStyles.flex, globalStyles.gutterBetween)}
               >
                 <h3 className={cs(styles.summaryTitle)}>
-                  VIEW ORDER DETAILS{" "}
-                  {pathname === "/order/checkout"
+                  VIEW ITEMS{" "}
+                  {["/order/checkout", "/order/gc_checkout"].includes(pathname)
                     ? `(${getItemsCount()})`
                     : null}
                 </h3>
                 <div className={styles.payableAmount}>
-                  {/* <span>Amount Payable:</span> */}
                   <span className={styles.totalAmount}>
                     {displayPriceWithCommasFloat(
                       basket?.total?.toString(),
                       currency
                     )}
-                    {/* {parseFloat("" + basket.subTotalWithShipping).toFixed(2)} */}
                   </span>
                   <span className={cs(styles.carretDown)}></span>
                 </div>
@@ -975,35 +1059,23 @@ const OrderSummary: React.FC<OrderProps> = props => {
         ref={checkoutOrderSummaryStatus ? impactRef : orderSummaryRef}
         id="order-summary"
       >
-        {mobile && page == "checkout" ? (
-          ""
-        ) : (
-          <div className={cs(styles.summaryPadding, styles.summaryHeader)}>
-            <h3
-              className={cs(styles.summaryTitle, {
-                [styles.summaryTitleTwo]: pathname === "/cart"
-              })}
-            >
-              ORDER SUMMARY{" "}
-              {pathname === "/order/checkout" ? `(${getItemsCount()})` : null}
-              {page == "checkout" && !validbo ? (
-                boId ? (
-                  ""
-                ) : (
-                  <></>
-                  // <Link className={styles.editCart} to={"/cart"}>
-                  //   EDIT BAG
-                  // </Link>
-                )
-              ) : (
-                ""
-              )}
-            </h3>
-            {pathname === "/order/checkout" && !boId && (
-              <Link to="/cart">EDIT BAG</Link>
-            )}
-          </div>
-        )}
+        <div
+          className={cs(styles.summaryPadding, styles.summaryHeader, {
+            [styles.marginLR30]: checkoutOrderSummaryStatus
+          })}
+        >
+          <h3
+            className={cs(styles.summaryTitle, {
+              [styles.summaryTitleTwo]: pathname === "/cart"
+            })}
+          >
+            {mobile && page == "checkout" ? "SHOPPING BAG " : "ORDER SUMMARY"}
+            {["/order/checkout", "/order/gc_checkout"].includes(pathname)
+              ? `(${getItemsCount()})`
+              : null}
+          </h3>
+          {pathname === "/order/checkout" && <Link to="/cart">EDIT BAG</Link>}
+        </div>
 
         <div className={cs(styles.justchk)}>
           {getSummary()}
@@ -1045,29 +1117,37 @@ const OrderSummary: React.FC<OrderProps> = props => {
             ) : null} */}
 
             {page == "checkoutMobileBottom" && (
-              <button
+              <Button
                 className={cs(
                   globalStyles.marginT10,
-                  paymentStyles.sendToPayment,
-                  styles.proceedToPayment,
-                  {
-                    [paymentStyles.disabledBtn]: isLoading
-                  }
+                  styles.amtBtn,
+                  { [globalStyles.btnFullWidth]: mobile || tablet },
+                  // paymentStyles.sendToPayment,
+                  styles.proceedToPayment
+                  // {
+                  //   [paymentStyles.disabledBtn]: isLoading
+                  // }
                 )}
                 onClick={onsubmit}
                 disabled={isLoading}
-              >
-                <span>
-                  Amount Payable:{" "}
-                  {displayPriceWithCommasFloat(
-                    basket?.total?.toString(),
-                    currency
-                  )}
-                  {/* {parseFloat(basket?.total?.toString()).toFixed(2)} */}
-                  <br />
-                </span>
-                {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}
-              </button>
+                variant="largeMedCharcoalCta"
+                label={
+                  (
+                    <>
+                      <span className={styles.amtPayable}>
+                        Amount Payable:{" "}
+                        {displayPriceWithCommasFloat(
+                          basket?.total?.toString(),
+                          currency
+                        )}
+                        {/* {parseFloat(basket?.total?.toString()).toFixed(2)} */}
+                        <br />
+                      </span>
+                      {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}
+                    </>
+                  ) as JSX.Element
+                }
+              />
             )}
             {page == "checkout" && mobile ? (
               ""
@@ -1116,7 +1196,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       }
                     )}
                   >
-                    {fullText ? deliveryText : deliveryText.substr(0, 85)}
+                    {deliveryText && deliveryText}
+                    {/* {fullText ? deliveryText : deliveryText.substr(0, 85)}
                     {deliveryText.length > 85 ? (
                       <span
                         className={cs(
@@ -1132,7 +1213,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       </span>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </div>
                 )}
                 {!mobile
@@ -1148,7 +1229,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <div
                     className={cs(
                       globalStyles.c10LR,
-                      globalStyles.voffset2,
+                      globalStyles.voffset3v1,
                       globalStyles.marginB10,
                       globalStyles.textCenter,
                       styles.summaryPadding
@@ -1184,33 +1265,45 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   }
                   to={canCheckout() && isLoggedIn ? "/order/checkout" : "#"}
                 >
-                  <button
+                  <Button
                     onClick={chkshipping}
-                    className={
-                      canCheckout()
-                        ? cs(
-                            globalStyles.checkoutBtn,
-                            globalStyles.marginT10,
-                            {
-                              [globalStyles.hidden]: mobile
-                            },
-                            styles.checkoutBtn
-                          )
-                        : cs(
-                            globalStyles.checkoutBtn,
-                            globalStyles.marginT10,
-                            globalStyles.disabledBtn,
-                            {
-                              [globalStyles.hidden]: mobile
-                            },
-                            styles.checkoutBtn
-                          )
-                    }
+                    // className={
+                    //   canCheckout()
+                    //     ? cs(
+                    //         globalStyles.checkoutBtn,
+                    //         globalStyles.marginT10,
+                    //         {
+                    //           [globalStyles.hidden]: mobile
+                    //         },
+                    //         styles.checkoutBtn
+                    //       )
+                    //     : cs(
+                    //         globalStyles.checkoutBtn,
+                    //         globalStyles.marginT10,
+                    //         globalStyles.disabledBtn,
+                    //         {
+                    //           [globalStyles.hidden]: mobile
+                    //         },
+                    //         styles.checkoutBtn
+                    //       )
+                    // }
+                    className={cs(
+                      globalStyles.marginT10,
+                      styles.checkoutBtn,
+                      globalStyles.btnFullWidth,
+                      { [globalStyles.hidden]: mobile }
+                    )}
                     disabled={canCheckout() ? false : true}
-                  >
-                    <img src={checkoutIcon} alt="checkout-button" />
-                    <span>PROCEED TO CHECKOUT</span>
-                  </button>
+                    label={
+                      (
+                        <>
+                          <img src={checkoutIcon} alt="checkout-button" />
+                          <span>PROCEED TO CHECKOUT</span>
+                        </>
+                      ) as JSX.Element
+                    }
+                    variant="largeAquaCta"
+                  />
                 </NavLink>
 
                 <div
@@ -1261,27 +1354,33 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 }
                 to={canCheckout() && isLoggedIn ? "/order/checkout" : "#"}
               >
-                <button
+                <Button
                   onClick={chkshipping}
                   className={
-                    canCheckout()
-                      ? cs(
-                          globalStyles.checkoutBtn,
-                          styles.posFixed,
-                          styles.checkoutBtn
-                        )
-                      : cs(
-                          globalStyles.checkoutBtn,
-                          styles.posFixed,
-                          globalStyles.disabledBtn,
-                          styles.checkoutBtn
-                        )
+                    // canCheckout()
+                    //   ?
+
+                    cs(styles.posFixed, styles.checkoutBtn, {
+                      [globalStyles.btnFullWidth]: mobile || tablet
+                    })
+                    // : cs(
+                    //     globalStyles.checkoutBtn,
+                    //     styles.posFixed,
+                    //     globalStyles.disabledBtn,
+                    //     styles.checkoutBtn
+                    //   )
                   }
                   disabled={canCheckout() ? false : true}
-                >
-                  <img src={checkoutIcon} alt="checkout-button" />
-                  <span>PROCEED TO CHECKOUT</span>
-                </button>
+                  variant="largeAquaCta"
+                  label={
+                    (
+                      <>
+                        <img src={checkoutIcon} alt="checkout-button" />
+                        <span>PROCEED TO CHECKOUT</span>
+                      </>
+                    ) as JSX.Element
+                  }
+                />
               </NavLink>
             </div>
           )}

@@ -6,6 +6,13 @@ export type State = {
   items: WishlistItem[];
   sortBy: string;
   sortedDiscount: boolean;
+  is_success: boolean;
+  message: string;
+  secret_key: string;
+  wishlist_link: string;
+  owner_name: string;
+  count: number;
+  sharedItems: WishlistItem[];
 };
 
 export { Actions };

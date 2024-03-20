@@ -281,9 +281,10 @@ hr {
 .title {
   font-size: 14px;
   span {
-    color: $charcoal19;
+    color: $charcoal19 !important;
     opacity: 1;
-    @include b4_12px_montserrat_charcoal_caps();
+    text-transform: uppercase;
+    @include b4_12px_montserrat_medcharcoal();
   }
   .closed {
     opacity: 0.3;
@@ -376,9 +377,25 @@ hr {
   background-color: #fff;
   padding-right: 100px;
   padding-left: 100px;
+
+  &.bg-grey{
+    background-color: $lightest-grey;
+  }
+  &.bg-white{
+    border-top:1px #D9D9D9 solid;
+    background-color: $white;
+
+    .title{
+      span{
+        text-transform: uppercase;
+        @include b4_12px_montserrat_medcharcoal();
+      }
+    }
+  }
 }
 
 .card-open {
+  border-top:1px #D9D9D9 solid;
   padding-top: 40px;
   padding-bottom: 40px;
   .review-block {
@@ -430,6 +447,7 @@ hr {
   &.text-style {
     text-transform: capitalize;
   }
+  background-color: $lightest-grey;
 }
 
 .small {
@@ -681,7 +699,7 @@ hr {
 
     .selected-stvalue {
       // margin-top: 10px;
-      color: #808080;
+      // color: #808080;
       padding-top: 10px
     }
 
@@ -906,26 +924,45 @@ hr {
   padding-top: 30px;
 }
 
-input[type="radio"]:not(:checked),
-input[type="radio"]:checked,
-[type="checkbox"]:not(:checked),
-[type="checkbox"]:checked {
-  position: absolute;
-  left: -9999px;
-  display: inline-block;
-}
+// input[type="radio"]:not(:checked),
+// input[type="radio"]:checked,
+// [type="checkbox"]:not(:checked),
+// [type="checkbox"]:checked {
+//   position: absolute;
+//   left: -9999px;
+//   display: inline-block;
+// }
 
-input[type="radio"] {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  padding: 0;
-}
+// input[type="radio"] {
+//   -webkit-box-sizing: border-box;
+//   -moz-box-sizing: border-box;
+//   box-sizing: border-box;
+//   padding: 0;
+// }
 
 .selected-stvalue {
   @include b4_12px_montserrat_regular_charcoal();
   letter-spacing: 0.3px;
   opacity: 0.65;
+
+  .address-main {
+    padding-top: 5px;
+    width: 90%;
+    .text {
+      @include b4_12px_montserrat_light_charcoal();
+      letter-spacing: 0.36px;
+    }
+  }
+  .phone {
+    @include b4_12px_montserrat_charcoal();
+    letter-spacing: 0.36px;
+    padding: 5px 0;
+  }
+  .bridal-address-title-ring{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 .p-b100 {
@@ -1119,9 +1156,34 @@ input[type="radio"] {
   margin-bottom: 10px;
 }
 
+
+// Temporary code to disabled the redeem points
+
+.none-pointer-event {
+  pointer-events: none;
+  color: #868686 !important;
+}
+.disabled {
+  cursor: not-allowed;
+}
+.redeem-unavailable-message-wrapper {
+  width: 80%;
+  padding: 15px 3px 0 3px;
+
+  .redeem-unavailable-message {
+    @include b4_12px_lato();
+    font-family: $font-Montserrat !important;
+    line-height: 1.5 !important;
+  }
+
+  @media screen and (max-width: 992px) {
+    padding-top: 8px;
+    width: 100%;
+  }
+}
 // Breadcrumb Styles
 .breadcrumb {
-  border-bottom: 1px solid #eaeaea;
+  // border-bottom: 1px solid #eaeaea;
   .breadcrumb-wrapper {
     padding: 20px 0;
     gap: 5px;
@@ -1171,25 +1233,25 @@ input[type="radio"] {
   padding-top: 25px;
 
   .send-to-address {
-    @include b3_14px_montserrat_white();
-    letter-spacing: 0.42px;
-    padding: 21px 40px;
-    width: 100%;
-    max-width: 366px;
-    background-color: $med-charcoal;
-    text-align: center;
-    cursor: pointer;
-    margin-top: 24px;
-    border: 1px solid $med-charcoal;
-    z-index: 1;
-    &:hover {
-      @media screen and (min-width:992px) {
-        background: $white 0% 0% no-repeat padding-box;
-        border: 1px solid $med-charcoal;
-        opacity: 1;
-        color: $med-charcoal; 
-      }
-    }
+    // @include b3_14px_montserrat_white();
+    // letter-spacing: 0.42px;
+    // padding: 21px 40px;
+    // width: 100%;
+    // max-width: 366px;
+    // background-color: $med-charcoal;
+    // text-align: center;
+    // cursor: pointer;
+    // margin-top: 24px;
+    // border: 1px solid $med-charcoal;
+    // z-index: 1;
+    // &:hover {
+    //   @media screen and (min-width:992px) {
+    //     background: $white 0% 0% no-repeat padding-box;
+    //     border: 1px solid $med-charcoal;
+    //     opacity: 1;
+    //     color: $med-charcoal; 
+    //   }
+    // }
     @media (max-width: 992px) {
       left: 0;
       position: fixed;
@@ -1205,80 +1267,80 @@ input[type="radio"] {
     }
   }
 }
-.send-to-payment {
-  @include b3_14px_montserrat_white();
-  letter-spacing: 0.42px;
-  padding: 21px 40px;
-  width: 100%;
-  max-width: 366px;
-  background-color: $med-charcoal;
-  text-align: center;
-  cursor: pointer;
-  margin-top: 24px;
-  border: 1px solid $med-charcoal;
-  @media (max-width: 992px) {
-    padding: 21px 25px;
-    // left: 0;
-    // position: fixed;
-    // bottom: 0px;
-    // width: 100%;
-    // right: 0;
-    // max-width: 100%;
-  }
-  &:hover {
-    @media screen and (max-width:991px) {
-      @include b3_14px_montserrat_white();
-    }
+// .send-to-payment {
+//   @include b3_14px_montserrat_white();
+//   letter-spacing: 0.42px;
+//   padding: 21px 40px;
+//   width: 100%;
+//   max-width: 366px;
+//   background-color: $med-charcoal;
+//   text-align: center;
+//   cursor: pointer;
+//   margin-top: 24px;
+//   border: 1px solid $med-charcoal;
+//   @media (max-width: 992px) {
+//     padding: 21px 25px;
+//     // left: 0;
+//     // position: fixed;
+//     // bottom: 0px;
+//     // width: 100%;
+//     // right: 0;
+//     // max-width: 100%;
+//   }
+//   &:hover {
+//     @media screen and (max-width:991px) {
+//       @include b3_14px_montserrat_white();
+//     }
 
-    @media screen and (min-width:992px) {
-    background: $white 0% 0% no-repeat padding-box;
-    opacity: 1;
-    color: $med-charcoal;
-    span {
-      color: $med-charcoal;
-    }}
-  }
-  &:focus {
-    @media screen and (max-width:991px) {
-      @include b3_14px_montserrat_white();
-    }}
-  span {
-    @include b4_12px_montserrat_white();
-  }
+//     @media screen and (min-width:992px) {
+//     background: $white 0% 0% no-repeat padding-box;
+//     opacity: 1;
+//     color: $med-charcoal;
+//     span {
+//       color: $med-charcoal;
+//     }}
+//   }
+//   &:focus {
+//     @media screen and (max-width:991px) {
+//       @include b3_14px_montserrat_white();
+//     }}
+//   span {
+//     @include b4_12px_montserrat_white();
+//   }
 
-  &:disabled {
-    background-color: #9f9f9f;
-    border-style: solid;
-    border-color: $light-charcoal;
-    &:hover {
-      border: 2px solid $light-charcoal;
-      color: $white;
-      span {
-        color: $white;
-      }
-    }
-  }
-  &.proceed-to-payment {
-    padding: 9px 30px;
-    border: 1px solid $med-charcoal;
-    &:focus,&:active {
-      color: $white;
-    }
-    @media (max-width: 992px) {
-      width: 100%;
-      position: fixed;
-      bottom: 0px;
-      left: 0;
-      max-width: 100%;
-      z-index: 9;
-    }
-    &:hover {
-      @media screen and (min-width:992px) {
-      border: 1px solid $med-charcoal;
-      color: $med-charcoal;}
-    }
-  }
-}
+//   &:disabled {
+//     background-color: #9f9f9f;
+//     border-style: solid;
+//     border-color: $light-charcoal;
+//     &:hover {
+//       border: 2px solid $light-charcoal;
+//       color: $white;
+//       span {
+//         color: $white;
+//       }
+//     }
+//   }
+//   // &.proceed-to-payment {
+//     // padding: 9px 30px;
+//     // border: 1px solid $med-charcoal;
+//     // &:focus,&:active {
+//     //   color: $white;
+//     // }
+//     // @media (max-width: 992px) {
+//     //   width: 100%;
+//     //   position: fixed;
+//     //   bottom: 0px;
+//     //   left: 0;
+//     //   max-width: 100%;
+//     //   z-index: 9;
+//     // }
+//     // &:hover {
+//     //   @media screen and (min-width:992px) {
+//     //   border: 1px solid $med-charcoal;
+//     //   color: $med-charcoal;}
+//     // }
+//   // }
+// }
 .checkout-selected-value {
   .name {
     @include b4_12px_montserrat_charcoal();
@@ -1310,9 +1372,10 @@ input[type="radio"] {
     padding: 5px 0;
   }
   .contact-msg {
-    @include b5_10px_montserrat_charcoal();
+    @include b5_10px_montserrat_aqua();
     letter-spacing: 0.3px;
     font-style: normal;
+    font-weight: $semibold;
   }
 
   .same-as-shipping-address {
@@ -1322,8 +1385,10 @@ input[type="radio"] {
 }
 
 .check-box-heading {
-  margin: auto 0;
+  // margin: auto 0;
   width: auto;
+  padding-top:0 !important;
+  padding-bottom:0 !important; 
   @include b4_12px_montserrat_charcoal();
   a {
     border-bottom: 1px solid $charcoal19;
@@ -1367,9 +1432,12 @@ input[type="radio"] {
 
 .gift-img {
   filter: invert(0.3) grayscale(9);
-  margin-top: -3px;
+  position: absolute;
+  top: -5px;
 }
-
+.gift-wrp-pos{
+  position: relative;
+}
 .margin-t5 {
   margin-top: 5px;
 }
@@ -1426,11 +1494,12 @@ input[type="radio"] {
   opacity: 65%;
 }
 div.form-subheading{
-  padding: unset;
+  padding: unset !important;
   cursor: pointer;
 }
-.gst-invoice-text {
+.line-height-lable {
   font-size: 12px;
+  line-height: 1.8;
 }
 span.add-new-address {
   @include b5_10px_montserrat_charcoal_caps();
@@ -1486,7 +1555,7 @@ span.add-new-address {
     .whatsapp{
       margin-bottom: 25px;
       .country-code{
-          margin: 0px 0px;
+          // margin: 0px 0px;
       }
       .checkbox-label{
         @include b4_12px_montserrat_charcoal();
@@ -1508,4 +1577,49 @@ span.add-new-address {
 
 .whatsapp-no-err{
   @include err_13px_lora_italic_cerise();
+}
+
+.custom-error {
+  margin-left: 3px;
+}
+
+.custom-checkout {
+  margin-top: 35px;
+}
+
+.proceed-to-payment {
+  @media (max-width: 992px) {
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    left: 0;
+    max-width: 100%;
+    z-index: 9;
+  }
+}
+
+.amt-btn{
+  .amt-payable{
+    @include b4_12px_montserrat_white();
+  }
+
+  &:hover{
+    .amt-payable{
+      color: #4C4C4C;
+    }
+  }
+}
+.sale-time-msg{
+  // @include b4_12px_lato();
+  @include b4_12px_montserrat_regular_charcoal();
+}
+
+.hide-label{
+    display: none;
+}
+
+.cerise-gst-disclaimer {
+  @include b5_10px_montserrat_aqua();
+  padding-left: 30px;
+  letter-spacing: 0.3px;
 }

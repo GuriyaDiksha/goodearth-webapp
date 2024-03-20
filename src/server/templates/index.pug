@@ -1,7 +1,7 @@
 doctype html  
 html(lang='en')
     head  !{head.title.toString()}
-        script(src="https://www.googleoptimize.com/optimize.js?id=GTM-WX6K5P2")
+        script(src="https://www.googleoptimize.com/optimize.js?id=GTM-WX6K5P2" defer)
         script.
           window.dataLayer = window.dataLayer || [];
           var isBot = /bot|googlebot|crawler|spider|robot|curl|crawling/i.test(window.navigator.userAgent);
@@ -44,7 +44,7 @@ html(lang='en')
         link(rel="preload", href=`${cdn}/media/fonts/Lato%20700italic.ttf`, as="font", crossorigin)
         link(rel="preload", href=`${cdn}/media/fonts/Lato%20300italic.ttf`, as="font", crossorigin)
         link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700|Bellefair|Amiri", crossorigin)
-        script(src="https://player.vimeo.com/api/player.js")
+        script(src="https://player.vimeo.com/api/player.js" defer)
         each stylesheet in styles
           style !{stylesheet}
         if (typeof(state) !== 'undefined')
@@ -60,6 +60,22 @@ html(lang='en')
               });
             });
           }
+    body
+        noscript.
+          <iframe src="https://www.googletagmanager.com/ns.html?id="+!{gtmdata}
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        div(id='main', class='main') !{content}
+        div !{scripts}
+        div(id="chat-container" class='chat-container')
+        div(id='scrollToTop-btn' class='scrollToTop-btn-hidden' onClick='ScrollToTop()')
+          i(class='icon_uparrow-white')
+          a(href='https://wa.me/+917669303665' target='_blank' rel='noopener noreferrer')
+            div(id='whatsapp' class='whatsapp-img whatsapp-active')
+              //- img(src="/static/images/whatsapp.svg", alt="whatsapp icon" width='40px')
+          div(id='fresh-chat', onclick='OpenChatBox()', class='fresh-chat active')
+            i(class='icon-chat')
+          div(id='chat-button', onclick='OpenBox()', class='chat-button active')
+            i(class='icon-question')
         script.
           window.setTimeout(checkChatWindow, 200);
           function checkChatWindow() {
@@ -224,20 +240,3 @@ html(lang='en')
             window.removeEventListener('scroll', initializeFreshChat);
           }
           window.addEventListener('scroll', initializeFreshChat)
-
-    body
-        noscript.
-          <iframe src="https://www.googletagmanager.com/ns.html?id="+!{gtmdata}
-            height="0" width="0" style="display:none;visibility:hidden"></iframe>
-        div(id='main', class='main') !{content}
-        div !{scripts}
-        div(id="chat-container" class='chat-container')
-        div(id='scrollToTop-btn' class='scrollToTop-btn-hidden' onClick='ScrollToTop()')
-          i(class='icon_uparrow-white')
-          a(href='https://wa.me/+917669303665' target='_blank' rel='noopener noreferrer')
-            div(id='whatsapp' class='whatsapp-img whatsapp-active')
-              //- img(src="/static/images/whatsapp.svg", alt="whatsapp icon" width='40px')
-          div(id='fresh-chat', onclick='OpenChatBox()', class='fresh-chat active')
-            i(class='icon-chat')
-          div(id='chat-button', onclick='OpenBox()', class='chat-button active')
-            i(class='icon-question')

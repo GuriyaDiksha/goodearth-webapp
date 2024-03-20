@@ -22,6 +22,7 @@ import {
 } from "utils/validate";
 import Login from "./login";
 import LoginService from "services/login";
+import Button from "components/Button";
 
 type Props = {
   uid: string;
@@ -108,7 +109,7 @@ const ResetPassword: React.FC<Props> = props => {
       } else {
         ResetPasswordFormRef.current?.updateInputsWithError({
           password1:
-            "Please verify that your password follows all rules displayed"
+            "Please ensure that your password adheres to the rules as indicated"
         });
       }
     }
@@ -216,7 +217,7 @@ const ResetPassword: React.FC<Props> = props => {
               }}
               validationErrors={{
                 isValid:
-                  "Please verify that your password follows all rules displayed"
+                  "Please ensure that your password adheres to the rules as indicated"
               }}
               required
               showLabel={true}
@@ -274,9 +275,9 @@ const ResetPassword: React.FC<Props> = props => {
                 }
               }}
               validationErrors={{
-                equalsField: "The password entered doesn't match",
+                equalsField: "The entered password does not match.",
                 isValid:
-                  "Please verify that your password follows all rules displayed"
+                  "Please ensure that your password adheres to the rules as indicated"
               }}
               required
               showLabel={true}
@@ -296,15 +297,12 @@ const ResetPassword: React.FC<Props> = props => {
             ) : (
               ""
             )}
-            <input
+            <Button
               type="submit"
               disabled={!enableSubmit}
-              className={
-                enableSubmit
-                  ? globalStyles.charcoalBtn
-                  : cs(globalStyles.disabledBtn, globalStyles.charcoalBtn)
-              }
-              value="Set New Password"
+              className={globalStyles.btnFullWidth}
+              label="Set New Password"
+              variant="largeMedCharcoalCta"
             />
           </div>
         </div>

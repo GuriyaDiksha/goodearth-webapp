@@ -4,12 +4,12 @@ import { MobileDropdownMenuProps } from "./typing";
 import styles from "./styles.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import iconStyles from "../../styles/iconFonts.scss";
-import useOutsideDetection from "./../../hooks/useOutsideDetetion";
 import globalStyles from "styles/global.scss";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { useDispatch } from "react-redux";
 import { updateScrollDown } from "actions/info";
+import { updateShowMobileSort } from "actions/header";
 
 const PlpDropdownMenu = ({
   filterCount,
@@ -24,7 +24,6 @@ const PlpDropdownMenu = ({
 }: MobileDropdownMenuProps): JSX.Element => {
   const [menuOpen, setOpenState] = useState(open || false);
   const [displayValue, setDisplayValue] = useState(value || "");
-  const [showmobileSort, setShowmobileSort] = useState(false);
   const [showmobileFilterList, setShowmobileFilterList] = useState(false);
   const [mobileFilter, setMobileFilter] = useState(false);
   const canUseDOM = !!(
@@ -40,7 +39,7 @@ const PlpDropdownMenu = ({
   );
   const { mobile } = useSelector((state: AppState) => state.device);
 
-  const { mobileMenuOpenState, showSearchPopup } = useSelector(
+  const { mobileMenuOpenState, showSearchPopup, showmobileSort } = useSelector(
     (state: AppState) => state.header
   );
   const dispatch = useDispatch();
@@ -51,7 +50,7 @@ const PlpDropdownMenu = ({
       onStateChange(true);
     } else {
       dispatch(updateScrollDown(true));
-      setShowmobileSort(true);
+      dispatch(updateShowMobileSort(true));
       setShowmobileFilterList(true);
       setOpenState(true);
       toggleSort && toggleSort(false);
@@ -60,7 +59,7 @@ const PlpDropdownMenu = ({
   const onInsideClick = () => {
     dispatch(updateScrollDown(false));
     setOpenState(!menuOpen);
-    setShowmobileSort(false);
+    dispatch(updateShowMobileSort(false));
     setShowmobileFilterList(false);
     setMobileFilter(false);
     onStateChange(false);
@@ -70,14 +69,14 @@ const PlpDropdownMenu = ({
   const onOutsideClick = () => {
     dispatch(updateScrollDown(false));
     setOpenState(false);
-    setShowmobileSort(false);
+    dispatch(updateShowMobileSort(false));
     setShowmobileFilterList(false);
     setMobileFilter(false);
     onStateChange(false);
     toggleSort && toggleSort(true);
   };
 
-  const { ref } = useOutsideDetection<HTMLDivElement>(onOutsideClick);
+  // const { ref } = useOutsideDetection<HTMLDivElement>(onOutsideClick);
 
   useIsomorphicLayoutEffect(() => {
     if (showCaret) {
@@ -99,7 +98,7 @@ const PlpDropdownMenu = ({
   const onIClickSelected = (data: any) => {
     setDisplayValue(data.value);
     setOpenState(false);
-    setShowmobileSort(false);
+    dispatch(updateShowMobileSort(false));
     setShowmobileFilterList(false);
     onChange(data.value, data.label);
   };
@@ -120,6 +119,7 @@ const PlpDropdownMenu = ({
 
   return (
     <div
+      id="fliter_sticky"
       className={cs(styles.cSort, bootstrap.col12, styles.filterSticky, {
         [styles.hide]: scrollDown,
         [styles.openMenuIndex]:
@@ -238,9 +238,16 @@ const PlpDropdownMenu = ({
           >
             <span>{"Sort By"}</span>
 
-            <span onClick={onOutsideClick} ref={showmobileSort ? ref : null}>
-              X
-            </span>
+            <i
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconCrossNarrowBig,
+                styles.iconStyle,
+                styles.iconSearchCross,
+                styles.crossIcon
+              )}
+              onClick={onOutsideClick}
+            ></i>
           </div>
           <div className={cs(bootstrap.row, styles.minimumWidth)}>
             <div
@@ -263,7 +270,7 @@ const PlpDropdownMenu = ({
                       onClick={() => {
                         onIClickSelected(data);
                       }}
-                      key={data.name}
+                      key={data.value}
                       className={cs({
                         [styles.goldColor]: displayValue == data.value
                       })}

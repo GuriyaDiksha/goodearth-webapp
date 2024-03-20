@@ -59,7 +59,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
       case "lastName":
         return "Please enter your Last Name";
       case "dateOfBirth":
-        return "Please enter valid date of birth";
+        return "Please enter a valid Date of Birth";
       case "phoneNo":
         return "";
       case "password1":
@@ -69,7 +69,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
       case "message":
         return "Please enter your message";
       case "query":
-        return "Please enter Query";
+        return "Please enter your Query";
       default:
         return "This field is required";
     }
@@ -132,7 +132,8 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
           className={cs(
             styles.errorMsg,
             globalStyles.txtnormal,
-            globalStyles.textLeft
+            globalStyles.textLeft,
+            props.additionalErrorClass || ""
           )}
         >
           {errorMessage}

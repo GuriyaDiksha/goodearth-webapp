@@ -28,6 +28,8 @@ import { popup } from "./popup";
 import { career } from "./career";
 import { filler } from "./Filler";
 import { widget } from "./widget";
+import { loyalty } from "./loyalty";
+import { bridal } from "./bridal";
 
 const createRootReducer = (history: History) => {
   return combineReducers({
@@ -40,6 +42,7 @@ const createRootReducer = (history: History) => {
     collection,
     products: product,
     cookies,
+    bridal,
     wishlist,
     basket,
     quickview,
@@ -57,7 +60,8 @@ const createRootReducer = (history: History) => {
     popup,
     career,
     filler,
-    widget
+    widget,
+    loyalty
   });
 };
 

@@ -32,6 +32,11 @@ import { GA_CALLS } from "constants/cookieConsent";
 import { encryptdata, decriptdata, encrypttext } from "utils/validate";
 // import { updateBasket } from "actions/basket";
 // import { CUST } from "constants/util";
+import { countWishlist } from "actions/wishlist";
+import { countBridal } from "actions/bridal";
+import LoginService from "services/login";
+import BridalService from "services/bridal";
+import { result } from "lodash";
 
 export default {
   showForgotPassword: function(
@@ -53,7 +58,7 @@ export default {
   checkUserPassword: async function(dispatch: Dispatch, email: string) {
     const res = await API.post<checkUserPasswordResponse>(
       dispatch,
-      `${__API_HOST__ + "/myapi/auth/check_user_password/"}`,
+      `${__API_HOST__ + "/myapi/auth/check_user/"}`,
       {
         email: encrypttext(email)
       }
@@ -78,17 +83,21 @@ export default {
     history?: any,
     sortBy?: string
   ) {
-    const queryString = location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const boId = urlParams.get("bo_id");
+    // const queryString = location.search;
+    // const urlParams = new URLSearchParams(queryString);
+    // const boId = urlParams.get("bo_id");
+    console.log("source:", source);
+    if (location.pathname == "/giftcard") {
+      source = "giftcard";
+    }
 
     const res = await API.post<loginResponse>(
       dispatch,
       `${__API_HOST__}/myapi/auth/login/${source ? "?source=" + source : ""}`,
       {
         email: encrypttext(email),
-        password: encrypttext(password),
-        boId: boId ? encrypttext(boId) : boId
+        password: encrypttext(password)
+        // boId: boId ? encrypttext(boId) : boId
       }
     );
     const response = decriptdata(res);
@@ -148,7 +157,10 @@ export default {
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: response.token
     });
+    // if (location.pathname == "/wishlist") {
     WishlistService.updateWishlist(dispatch, sortBy);
+    // }
+    // WishlistService.countWishlist(dispatch);
     Api.getAnnouncement(dispatch).catch(err => {
       console.log("Announcement API ERROR ==== " + err);
     });
@@ -175,7 +187,12 @@ export default {
           basketRes.lineItems.map(item =>
             item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
           );
-          if (basketBridalId && basketBridalId == metaResponse.bridalId) {
+
+          if (
+            basketBridalId &&
+            basketBridalId == metaResponse.bridalId &&
+            location?.pathname != "/order/checkout"
+          ) {
             showGrowlMessage(dispatch, MESSAGE.REGISTRY_OWNER_CHECKOUT, 6000);
           }
           let item1 = false,
@@ -184,7 +201,8 @@ export default {
             if (!data.bridalProfile) item1 = true;
             if (data.bridalProfile) item2 = true;
           });
-          if (item1 && item2) {
+
+          if (item1 && item2 && location?.pathname != "/order/checkout") {
             showGrowlMessage(dispatch, MESSAGE.REGISTRY_MIXED_SHIPPING, 6000);
           }
         }
@@ -277,7 +295,10 @@ export default {
     Api.getAnnouncement(dispatch).catch(err => {
       console.log("Announcement API ERROR ==== " + err);
     });
+    // if (location.pathname == "/wishlist") {
     WishlistService.updateWishlist(dispatch, sortBy);
+    // }
+    // WishlistService.countWishlist(dispatch);
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
@@ -298,7 +319,12 @@ export default {
           basketRes.lineItems.map(item =>
             item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
           );
-          if (basketBridalId && basketBridalId == metaResponse.bridalId) {
+
+          if (
+            basketBridalId &&
+            basketBridalId == metaResponse.bridalId &&
+            location?.pathname != "/order/checkout"
+          ) {
             showGrowlMessage(dispatch, MESSAGE.REGISTRY_OWNER_CHECKOUT, 6000);
           }
           let item1 = false,
@@ -307,7 +333,8 @@ export default {
             if (!data.bridalProfile) item1 = true;
             if (data.bridalProfile) item2 = true;
           });
-          if (item1 && item2) {
+
+          if (item1 && item2 && location?.pathname != "/order/checkout") {
             showGrowlMessage(dispatch, MESSAGE.REGISTRY_MIXED_SHIPPING, 6000);
           }
         }
@@ -339,6 +366,8 @@ export default {
       // RESET CURRENCY TO DEFAULT INR
       // CookieService.setCookie("currency", "INR", 365);
       // dispatch(updateCurrency("INR"));
+      // dispatch(countWishlist(0));
+      dispatch(countBridal(0));
       dispatch(updateCookies({ tkn: "" }));
       MetaService.updateMeta(dispatch, {}).catch(err => {
         console.log(err);
@@ -349,6 +378,7 @@ export default {
         Moengage.destroy_session();
       }
       WishlistService.resetWishlist(dispatch);
+      // WishlistService.countWishlist(dispatch);
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sales Api Status ==== " + err);
       });
@@ -383,6 +413,7 @@ export default {
     document.cookie = "custGrp=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
     // document.cookie =
     //   "cerisepopup=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
+    LoginService.showLogin(dispatch);
     dispatch(updateCookies({ tkn: "" }));
     MetaService.updateMeta(dispatch, {});
     WishlistService.resetWishlist(dispatch);
@@ -449,33 +480,37 @@ export default {
       `${__API_HOST__ + "/myapi/basket/change_currency/"}`,
       formData
     );
-    CookieService.setCookie("currency", formData.currency, 365);
-    dispatch(updateCurrency(formData.currency));
-    const {
-      publishRemove,
-      updatedRemovedItems,
-      unshippableRemove,
-      unshippableProducts
-    } = res;
-    if (publishRemove) {
-      showGrowlMessage(
-        dispatch,
-        MESSAGE.PRODUCT_UNPUBLISHED,
-        0,
-        undefined,
-        updatedRemovedItems
-      );
-    }
-    if (unshippableRemove) {
-      showGrowlMessage(
-        dispatch,
-        MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
-        0,
-        undefined,
+    // res will be object only when API gives 200 response
+    if (typeof res === "object" && res !== null) {
+      CookieService.setCookie("currency", formData.currency, 365);
+      dispatch(updateCurrency(formData.currency));
+      const {
+        publishRemove,
+        updatedRemovedItems,
+        unshippableRemove,
         unshippableProducts
-      );
+      } = res;
+      if (publishRemove) {
+        showGrowlMessage(
+          dispatch,
+          MESSAGE.PRODUCT_UNPUBLISHED,
+          0,
+          undefined,
+          updatedRemovedItems
+        );
+      }
+      if (unshippableRemove) {
+        showGrowlMessage(
+          dispatch,
+          MESSAGE.PRODUCT_UNSHIPPABLE_REMOVED,
+          0,
+          undefined,
+          unshippableProducts
+        );
+      }
+    } else {
+      console.log("Change currency API error: ", res);
     }
-    // dispatch(updateBasket(res));
     return res;
   },
   reloadPage: (
@@ -485,17 +520,17 @@ export default {
   ) => {
     HeaderService.fetchHeaderDetails(dispatch, currency, customerGroup).catch(
       err => {
-        console.log("FOOTER API ERROR ==== " + err);
+        console.log("Fetch header API ERROR ==== " + err);
       }
     );
     HeaderService.fetchFooterDetails(dispatch).catch(err => {
-      console.log("FOOTER API ERROR ==== " + err);
+      console.log("Fetch footer API ERROR ==== " + err);
     });
     // HeaderService.fetchHomepageData(dispatch).catch(err => {
     //   console.log("Homepage API ERROR ==== " + err);
     // });
     Api.getAnnouncement(dispatch).catch(err => {
-      console.log("FOOTER API ERROR ==== " + err);
+      console.log("Get announcement API ERROR ==== " + err);
     });
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sale status API error === " + err);
@@ -585,7 +620,16 @@ export default {
     const response = decriptdata(res);
     return response;
   },
-  verifyUserOTP: async (dispatch: Dispatch, email: string, otp: string) => {
+  verifyUserOTP: async (
+    dispatch: Dispatch,
+    email: string,
+    otp: string,
+    currency?: Currency,
+    source?: string,
+    sortBy?: string,
+    mobile?: boolean,
+    popupStyle?: string
+  ) => {
     const res = await API.post<{
       success: boolean;
       expired: boolean;
@@ -593,11 +637,173 @@ export default {
       message: string;
       attempts: number;
       maxAttemptsAllow: number;
+      token: string; //login response start from here
+      userId: string;
+      firstName: string;
+      lastName: string;
+      phoneNo: string;
+      gender: string;
+      oldBasketHasItems: boolean;
+      publishRemove: boolean;
+      updated: boolean;
+      updatedRemovedItems: string[];
+      customerGroup: string; //login response end here
     }>(dispatch, `${__API_HOST__}/myapi/customer/verify_user_otp/`, {
       email: encrypttext(email),
       otp: encrypttext(otp)
     });
     const response = decriptdata(res);
+    if (response?.token) {
+      CookieService.setCookie("atkn", response.token, 365);
+      CookieService.setCookie("userId", response.userId, 365);
+      CookieService.setCookie("email", response.email, 365);
+      CookieService.setCookie(
+        "custGrp",
+        res?.customerGroup ? res?.customerGroup.toLowerCase() : "",
+        365
+      );
+      showGrowlMessage(
+        dispatch,
+        `${LOGIN_SUCCESS} ${response.firstName}!`,
+        5000
+      );
+      if (response.oldBasketHasItems) {
+        showGrowlMessage(dispatch, MESSAGE.PREVIOUS_BASKET, 0);
+      }
+      if (
+        (response.updated || response.publishRemove) &&
+        response.updatedRemovedItems &&
+        response.updatedRemovedItems.length > 0
+      ) {
+        showGrowlMessage(
+          dispatch,
+          MESSAGE.PRODUCT_UNPUBLISHED,
+          0,
+          undefined,
+          response.updatedRemovedItems
+        );
+      }
+
+      dispatch(updateModal(false));
+      dispatch(updateCookies({ tkn: response.token }));
+      dispatch(
+        updateUser({
+          isLoggedIn: true,
+          customerGroup: response.customerGroup || ""
+        })
+      );
+
+      HeaderService.fetchHeaderDetails(
+        dispatch,
+        currency,
+        response.customerGroup
+      ).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
+      const metaResponse = await MetaService.updateMeta(dispatch, {
+        tkn: response.token
+      });
+
+      //Code to open share link popup after login
+
+      const isShareLinkClicked = JSON.parse(
+        localStorage.getItem("isShareLinkClicked") || "false"
+      );
+
+      if (
+        isShareLinkClicked &&
+        metaResponse?.user.email &&
+        metaResponse?.user.firstName &&
+        metaResponse?.user.lastName &&
+        metaResponse?.user.country &&
+        metaResponse?.user.gender
+      ) {
+        dispatch(
+          updateComponent(
+            POPUP.SHAREWISHLIST,
+            null,
+            mobile ? false : true,
+            popupStyle,
+            mobile ? "slide-up-bottom-align" : ""
+          )
+        );
+        dispatch(updateModal(true));
+        localStorage.removeItem("isShareLinkClicked");
+      }
+      // if (location.pathname == "/wishlist") {
+      WishlistService.updateWishlist(dispatch, sortBy);
+      // }
+      // WishlistService.countWishlist(dispatch);
+      Api.getAnnouncement(dispatch).catch(err => {
+        console.log("Announcement API ERROR ==== " + err);
+      });
+      Api.getSalesStatus(dispatch).catch(err => {
+        console.log("Sales Api Status ==== " + err);
+      });
+      Api.getPopups(dispatch).catch(err => {
+        console.log("Popups Api ERROR === " + err);
+      });
+      BasketService.fetchBasket(dispatch, source, history, true).then(
+        basketRes => {
+          if (source == "checkout") {
+            checkoutGTM(1, metaResponse?.currency || "INR", basketRes);
+            // call loyalty point api only one time after login
+            const data: any = {
+              email: res.email
+            };
+            CheckoutService.getLoyaltyPoints(dispatch, data).then(loyalty => {
+              dispatch(updateUser({ loyaltyData: loyalty }));
+            });
+          }
+          if (metaResponse) {
+            let basketBridalId = 0;
+            basketRes.lineItems.map(item =>
+              item.bridalProfile ? (basketBridalId = item.bridalProfile) : ""
+            );
+
+            if (
+              basketBridalId &&
+              basketBridalId == metaResponse.bridalId &&
+              location?.pathname != "/order/checkout"
+            ) {
+              showGrowlMessage(dispatch, MESSAGE.REGISTRY_OWNER_CHECKOUT, 6000);
+            }
+            let item1 = false,
+              item2 = false;
+            basketRes.lineItems.map(data => {
+              if (!data.bridalProfile) item1 = true;
+              if (data.bridalProfile) item2 = true;
+            });
+            if (item1 && item2 && location?.pathname != "/order/checkout") {
+              showGrowlMessage(dispatch, MESSAGE.REGISTRY_MIXED_SHIPPING, 6000);
+            }
+
+            if (metaResponse.bridalUser) {
+              if (metaResponse.bridalId > 0) {
+                BridalService.countBridal(dispatch, metaResponse.bridalId);
+              }
+              BridalService.fetchBridalItems(
+                dispatch,
+                metaResponse.bridalId
+              ).then(data => {
+                let outOfStock = false;
+                for (let i = 0; i < data.results.length; i++) {
+                  if (data.results[i].stock == 0) {
+                    showGrowlMessage(
+                      dispatch,
+                      MESSAGE.PRODUCT_OUT_OF_STOCK,
+                      6000
+                    );
+                    outOfStock = true;
+                    break;
+                  }
+                }
+              });
+            }
+          }
+        }
+      );
+    }
     return response;
   }
 };

@@ -22,11 +22,13 @@
   // width: 35px;
   height: 20px;
   margin-right: 20px;
+  width: 20px;
 }
 
 .footer-connect-icon {
   height: 16px;
   margin-right: 10px;
+  width: 16px;
 }
 
 .form-footer {
@@ -37,6 +39,7 @@
       left: 2%;
       top: 5%;
       color: black;
+      cursor: pointer;
       .icon-class {
         color: $aqua;
       }
@@ -48,6 +51,7 @@
     }
   }
   input {
+    cursor: pointer;
     font-size: 12px !important;
     width: 100%;
     outline: none;
@@ -109,6 +113,7 @@
   padding-top: 15px;
   padding-bottom: 15px;
   font-weight: 300;
+  font-family: $font-Montserrat;
 }
 
 .footer-bottomMobile {
@@ -119,6 +124,7 @@
   padding-bottom: 55px;
   font-weight: 300;
   bottom: 15px;
+  font-family: $font-Montserrat;
 
   &.filter-on-bottom{
     padding-bottom: 100px;
@@ -165,9 +171,7 @@
   bottom: 0;
   right: 0;
   width: 414px;
-  // height: 230px;
-  min-height: 276px;
-  max-height: 276px;
+  height: 276px;
   background-color: #fff;
   z-index: 100;
   padding: 30px 40px;
@@ -226,7 +230,7 @@
   .preferencesLink{
     @include b4_12px_montserrat_charcoal_caps();
     font-weight: 400  !important;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     // text-decoration:underline;
     border-bottom: 1px solid $charcoal19;
     padding-left: 0;
@@ -268,21 +272,21 @@
   //   background: $gold;
   // }
   }
-  .ok-btn {
-    @include b3_14px_caps_white();
-    background-color: $med-charcoal;
-    padding: 15px 30px;
-    // color: #fff;
-    cursor: pointer;
-    display: inline-block;
-    border: 1px solid $med-charcoal;
-    letter-spacing: 0.5px;
-    // font-size: 14px;
-    &:hover{
-      @include b3_14px_montserrat_caps_charcoal();
-      background-color: $white;
-    }
-  }
+  // .ok-btn {
+  //   @include b3_14px_caps_white();
+  //   background-color: $med-charcoal;
+  //   padding: 15px 30px;
+  //   // color: #fff;
+  //   cursor: pointer;
+  //   display: inline-block;
+  //   border: 1px solid $med-charcoal;
+  //   letter-spacing: 0.5px;
+  //   // font-size: 14px;
+  //   &:hover{
+  //     @include b3_14px_montserrat_caps_charcoal();
+  //     background-color: $white;
+  //   }
+  // }
   .eu-btn{
     padding: 20px 100px !important;
     width: 414px;
@@ -444,22 +448,22 @@
       }
   
       .savebtn{
-        @include b3_14px_montserrat_caps_charcoal();
-        background-color: $white;
-        // padding: 15px 20px;
-        // color: #fff;
-        cursor: pointer;
-        display: inline-block;
-        border: 1px solid $med-charcoal;
-        width: 205px;
-        height: 50px;
-        letter-spacing: 0.5px;
-        // font-size: 14px;
-        &:hover{
-          @include b3_14px_caps_aqua();
-          color: #3C7979;
-          border: 1px solid #3C7979;
-        }
+        // @include b3_14px_montserrat_caps_charcoal();
+        // background-color: $white;
+        // // padding: 15px 20px;
+        // // color: #fff;
+        // cursor: pointer;
+        // display: inline-block;
+        // border: 1px solid $med-charcoal;
+        // width: 205px;
+        // height: 50px;
+        // letter-spacing: 0.5px;
+        // // font-size: 14px;
+        // &:hover{
+        //   @include b3_14px_caps_aqua();
+        //   color: #3C7979;
+        //   border: 1px solid #3C7979;
+        // }
         @media screen and (max-width: 767px) {
           // padding: 15px 0px;
           width: 50%;
@@ -467,21 +471,21 @@
       }
     
       .acceptbtn{
-        @include b3_14px_caps_white();
-        background-color: $med-charcoal;
-        // padding: 15px 40px;
-        // color: #fff;
-        cursor: pointer;
-        display: inline-block;
-        border: 1px solid $med-charcoal;
-        width: 205px;
-        height: 50px;
-        letter-spacing: 0.5px;
-        // font-size: 14px;
-        &:hover{
-          @include b3_14px_montserrat_caps_charcoal();
-          background-color: $white;
-        }
+        // @include b3_14px_caps_white();
+        // background-color: $med-charcoal;
+        // // padding: 15px 40px;
+        // // color: #fff;
+        // cursor: pointer;
+        // display: inline-block;
+        // border: 1px solid $med-charcoal;
+        // width: 205px;
+        // height: 50px;
+        // letter-spacing: 0.5px;
+        // // font-size: 14px;
+        // &:hover{
+        //   @include b3_14px_montserrat_caps_charcoal();
+        //   background-color: $white;
+        // }
         @media screen and (max-width: 767px) {
           // padding: 15px 0px;
           width: 50%;
@@ -618,6 +622,9 @@
     }
     .ok-btn{
       width: 100%;
+      max-width: 100%;
+      height: 58px;
+      margin-bottom: -2% !important;
     }
     .eu-btn{
       padding: 15px 30px !important;
@@ -745,6 +752,7 @@
     z-index: 8;
     ul {
       margin-bottom: 0px;
+      height: max-content;
     }
     li {
       border-top: 1px solid #9f9f9f33;
@@ -942,13 +950,22 @@
 }
 
 .error-msg{
-  font-size: 14px;
+  font-size: 10px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
   color: $cerise;
   font-family: $font-Lora;
-  font-style: italic;
-  text-align: left;
+  text-align: center;
+  margin-bottom: 10px;
 }
-
+.success-message{
+  color: #548B8B;
+  font-size: 10px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  font-family: $font-Montserrat;
+  text-align: center;
+}
 .subscribe-success{
   @include b5_10px_montserrat_white();
   font-weight: $semibold;
@@ -965,4 +982,170 @@
 
 .noneu-padding{
 padding: 30px 20px;
+}
+
+/* newsletter Modal css by GD */
+.newsletter-modal{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 380px;
+  min-height: 276px;
+  background-color: #fff;
+  z-index: 100;
+  padding: 30px 40px;
+  font-family: "LatoFont", "Helvetica", "Arial";
+  margin: 20px;
+  border: 1px solid #b3b3b3;
+  display: flex;
+}
+.job-form-fields input,
+.job-form-fields select{
+  background-color: #fff;
+  border: 1px solid #D8D8D8;
+  width: 100%;
+  padding: 10px;
+  line-height: 25px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  font-family: "Montserrat","sans-serif";
+  font-size: 12px !important;
+  font-weight: 400;
+  color: #191919;
+  line-height: 20px;
+  letter-spacing: 0.36px;
+  height: 50px;
+  text-align: start;
+}
+.job-form-fields select{
+  padding: 10px;
+}
+.job-form-fields input:focus{
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  width: 100%;
+  padding: 10px 10px;
+  font-size: 12px;
+  line-height: 20px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  text-align: start;
+}
+.job-form-fields .form-field{
+  position: relative;
+  margin: 20px 0;
+}
+.job-form-fields label {
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  background-color: #fff;
+  padding: 2px;
+  font-family: "Montserrat","sans-serif";
+  font-size: 9px;
+  letter-spacing: 0.54px;
+  line-height: 12px;
+  font-weight: 300;
+  color: #191919;
+}
+.subscribe-btn{
+  text-align: center;
+}
+.job-application-submit{
+  background: #4C4C4C!important;
+  color: #fff!important;
+  font-family: $font-Montserrat!important;
+  font-size: 14px!important;
+  line-height: 18px!important;
+  letter-spacing: 0.42px!important;
+  text-align: center!important;
+  max-width: 210px!important;
+  height: 50px!important;
+  margin: 0 auto!important;
+}
+.job-application-submit:hover{
+  color: #fff!important;
+  border: none!important;
+}
+.hide-sbc-cta{
+  display: none;
+}
+.modal-close-btn{
+  text-align: right;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border: none;
+  background: none;
+}
+.modal-header{  
+  margin-bottom: 40px;
+  text-align: center;
+  padding: 0 40px;
+}
+.modal-title{
+  font-family: $font-Lora;
+  font-size: 20px;
+  line-height: 25px;
+  letter-spacing: 0.4px;
+  color: $charcoal19;
+  margin-bottom: 10px;
+}
+.modal-sub-title{
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.36px;
+  color: $charcoal19;
+}
+.modal-overlay{
+  opacity: 0.5;
+  background: rgba(0, 0, 0, 0.4);
+}
+.news-left-img{
+  position: absolute;
+  left: 0px;
+  top: 0;
+}
+.flower-left{
+  width: 92px;
+}
+.news-right-img{
+  position: absolute;
+  right: 0px;
+  top: -4px;
+}
+.flower-right{
+  width: 130px;
+  opacity: 0.5;
+}
+.news-butterfly-img{
+  position: absolute;
+  right: 17%;
+  top: 12px;
+}
+.butterfly{
+  width: 25px;
+  height: 25px;
+}
+@media(max-width:992px){
+  .newsletter-modal{
+    margin: 0 auto;
+    border: 0;
+    width: 100%;
+    display: block;
+  }
+}
+@media(min-width:767px) and(max-width:992px){
+  .news-butterfly-img{
+    right: 33%;
+  }
+}
+
+.extra-height {
+  height: 330px;
 }

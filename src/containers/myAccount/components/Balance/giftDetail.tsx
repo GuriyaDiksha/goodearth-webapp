@@ -115,18 +115,17 @@ const GiftCardItem = ({
             )}
             <p className={cl(styles.balance)}>
               {" "}
-              Balance amount: {String.fromCharCode(...unicode)} {remValues} |
-              Gift Card INACTIVE |{" "}
+              Balance amount: {String.fromCharCode(...unicode)} {remValues}
+            </p>
+            <div className={cl(styles.balanceTxt)}>
+              Gift Card is currently Inactive.{" "}
               <Link
-                className={cl(
-                  globalStyles.linkTextUnderline,
-                  globalStyles.cerise
-                )}
+                className={cl(globalStyles.linkTextUnderline)}
                 to="/account/giftcard-activation"
               >
-                CLICK HERE TO ACTIVATE
+                Click here to activate.
               </Link>
-            </p>
+            </div>
             {conditionalRefresh && !isLoggedIn && (
               <span
                 className={cl(styles.colorPrimary, globalStyles.pointer)}
@@ -170,8 +169,8 @@ const GiftCardItem = ({
               </p>
             )}
             <p className={cl(globalStyles.cerise, globalStyles.voffset1)}>
-              Please try again in sometime. For security reasons, your credit
-              note / gift card is temporarily locked
+              For security purposes, your credit note/gift card is temporarily
+              locked. Please try again later.
             </p>
             {conditionalRefresh && !isLoggedIn && (
               <span

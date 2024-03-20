@@ -4,8 +4,14 @@ import { CollectionItems } from "./typing";
 import ReactHtmlParser from "react-html-parser";
 import CollectionImageSlider from "../CollectionImageSlider";
 import { Link } from "react-router-dom";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
-const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
+const CollectionItem: React.FC<CollectionItems> = ({
+  key,
+  collectionData,
+  activeFilterHandler
+}) => {
   const {
     name,
     longDescription,
@@ -15,6 +21,17 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
     url,
     id
   } = collectionData;
+
+  const onClickGaEvents = () => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "collection_click",
+        filter_name: tags?.join("|"),
+        click_type: name
+      });
+    }
+  };
 
   return (
     <div
@@ -26,11 +43,16 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
         sliderImages={sliderImages}
         url={url}
         name={name}
+        onClickGaEvents={onClickGaEvents}
       />
       <div className={styles.collectionItemContent}>
         <div className={styles.tagWrp}>
           {tags?.map((tag: string, i: number) => (
-            <p key={i} className={styles.tag}>
+            <p
+              key={i}
+              className={styles.tag}
+              onClick={() => activeFilterHandler(tag, true)}
+            >
               {tag}
             </p>
           ))}
@@ -39,6 +61,7 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
           to={{
             pathname: url || "#"
           }}
+          onClick={() => onClickGaEvents()}
         >
           <h3 className={styles.title}>{name}</h3>
         </Link>
@@ -60,6 +83,7 @@ const CollectionItem: React.FC<CollectionItems> = ({ key, collectionData }) => {
             pathname: url || "#"
           }}
           className={styles.showMore}
+          onClick={() => onClickGaEvents()}
         >
           SHOW MORE
         </Link>

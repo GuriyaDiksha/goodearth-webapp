@@ -16,6 +16,7 @@ type Props = {
   isBridal?: boolean;
   bridalId?: number;
   showAddressInBridalUse?: boolean;
+  isGcCheckout?: boolean;
 };
 
 const AddressList: React.FC<Props> = props => {
@@ -24,7 +25,6 @@ const AddressList: React.FC<Props> = props => {
   const { bridalAddressId } = useSelector((state: AppState) => state.basket);
   const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
   const { addressDataList, isBridal } = props;
-  const [defaultAddress, setDefaultAddress] = useState(`default_check_${0}`);
 
   useEffect(() => {
     if (addressDataList.length > 0) {
@@ -37,12 +37,14 @@ const AddressList: React.FC<Props> = props => {
         props.currentCallBackComponent == "bridal-edit"
       ) {
         if (addressDatas) {
-          addressDatas = addressDatas.filter(address => !address.isTulsi);
-          if (isBridal) {
-            addressDatas = addressDatas.filter(
-              address => address.id != bridalAddressId
-            );
-          }
+          addressDatas = addressDatas.filter(
+            address => address.emailId == email && !address.isTulsi
+          );
+          // if (isBridal) {
+          //   addressDatas = addressDatas.filter(
+          //     address => address.id != bridalAddressId
+          //   );
+          // }
         }
       }
       if (
@@ -59,6 +61,8 @@ const AddressList: React.FC<Props> = props => {
       //   addressData = addressData.filter(data => data.id !== props.bridalId);
       // }
       setAddressData(addressDatas);
+    } else {
+      setAddressData(addressDataList);
     }
   }, [addressDataList, isLoggedIn, email]);
 
@@ -178,8 +182,7 @@ const AddressList: React.FC<Props> = props => {
                 index={i}
                 isOnlyAddress={addressData.length === 1}
                 showAddressInBridalUse={props.showAddressInBridalUse}
-                defaultAddress={defaultAddress}
-                setDefaultAddress={setDefaultAddress}
+                isGcCheckout={props.isGcCheckout}
               />
             );
           })

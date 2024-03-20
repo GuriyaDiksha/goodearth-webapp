@@ -19,6 +19,7 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
+import CheckboxWithLabel from "components/CheckboxWithLabel";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -267,13 +268,20 @@ class FilterList extends React.Component<Props, State> {
             break;
           case "categoryShop":
             categoryKey = array[filterType][key];
+            let l2Selected = false;
             Object.keys(categoryKey).map(data => {
-              if (categoryKey[data]) {
+              if (categoryKey[data] && !l2Selected) {
                 const orignalData = data;
                 data = encodeURIComponent(data).replace(/%20/g, "+");
-                categoryShopVars == ""
-                  ? (categoryShopVars = data)
-                  : (categoryShopVars += "|" + data);
+                if ((data.match(/%3E/g) || []).length == 1) {
+                  // Break loop if l2 is selected. No need to add l3s now.
+                  categoryShopVars = data;
+                  l2Selected = true;
+                } else {
+                  categoryShopVars == ""
+                    ? (categoryShopVars = data)
+                    : (categoryShopVars += "|" + data);
+                }
                 mainurl = this.getMainUrl(orignalData);
               }
             });
@@ -385,20 +393,27 @@ class FilterList extends React.Component<Props, State> {
     );
     const windowBottom = windowHeight + window.pageYOffset;
     //new speed controller
-    const value = innerfilter.scrollTop;
-    if (this.state.scrolllastvalue < window.scrollY) {
-      innerfilter.scrollTo(0, value + 4);
-      this.setState({
-        scrolllastvalue: window.scrollY
-      });
-    } else {
-      innerfilter.scrollTo(0, value - 4);
-      this.setState({
-        scrolllastvalue: window.scrollY
-      });
+    if (!this.props.mobile) {
+      const value = innerfilter.scrollTop;
+      if (this.state.scrolllastvalue < window.scrollY) {
+        innerfilter.scrollTo(0, value + 4);
+        this.setState({
+          scrolllastvalue: window.scrollY
+        });
+      } else {
+        innerfilter.scrollTo(0, value - 4);
+        this.setState({
+          scrolllastvalue: window.scrollY
+        });
+      }
     }
+
     // html.clientHeight <= (window.pageYOffset + window.innerHeight-100)
-    if (windowBottom + 2000 >= docHeight && this.state.scrollload) {
+    if (
+      windowBottom + 2000 >= docHeight &&
+      this.state.scrollload &&
+      this.state.flag
+    ) {
       this.appendData();
     }
 
@@ -481,137 +496,158 @@ class FilterList extends React.Component<Props, State> {
       listdata,
       currency,
       updateProduct,
-      fetchPlpTemplates,
       changeLoader
     } = this.props;
     const { filter } = this.state;
     if (nextUrl) {
-      this.setState({
-        disableSelectedbox: true
-      });
-    }
-    if (nextUrl && this.state.flag && this.state.scrollload) {
-      this.setState({ flag: false });
-      changeLoader?.(true);
-      const filterUrl = "?" + nextUrl.split("?")[1];
-      // const pageSize = mobile ? 10 : 20;
-      const pageSize = 20;
-      const urlParams = new URLSearchParams(this.props.history.location.search);
-      const categoryShop = urlParams.get("category_shop");
-      const categoryShopL1 = urlParams
-        .get("category_shop")
-        ?.split(">")[1]
-        ?.trim();
-      updateProduct(filterUrl + `&page_size=${pageSize}`, listdata).then(
-        plpList => {
-          changeLoader?.(false);
-          productImpression(
-            plpList,
-            categoryShopL1 || "PLP",
-            this.props.currency,
-            plpList.results.data.length
+      this.setState(
+        {
+          disableSelectedbox: true,
+          flag: false
+        },
+        () => {
+          changeLoader?.(true);
+          let filterUrl = "?" + nextUrl.split("?")[1];
+          // const pageSize = mobile ? 10 : 20;
+          const pageSize = 40;
+          const urlParams = new URLSearchParams(
+            this.props.history.location.search
           );
-          this.createFilterfromUrl(false);
-          const pricearray: any = [],
-            currentCurrency =
-              "price" +
-              currency[0].toUpperCase() +
-              currency.substring(1).toLowerCase();
-          plpList.results.filtered_facets[currentCurrency]?.map(function(
-            a: any
-          ) {
-            pricearray.push(+a[0]);
-          });
-          if (pricearray.length > 0) {
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.min(a, b);
-              })
-            );
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.max(a, b);
-              })
-            );
+          const categoryShopL1 = urlParams
+            .get("category_shop")
+            ?.split(">")[1]
+            ?.trim();
+          const isPageSizeExist = new URLSearchParams(filterUrl).get(
+            "page_size"
+          );
+
+          if (!isPageSizeExist) {
+            filterUrl = filterUrl + `&page_size=${pageSize}`;
           }
 
-          if (filter.price.min_price) {
-            currentRange.push(filter.price.min_price);
-            currentRange.push(filter.price.max_price);
-          } else {
-            currentRange = minMaxvalue;
-          }
-
-          this.setState(
-            {
-              rangevalue: currentRange,
-              initialrangevalue: {
-                min: minMaxvalue[0],
-                max: minMaxvalue[1]
-              },
-              disableSelectedbox: false,
-              scrollload: true,
-              flag: true,
-              totalItems: plpList.count
-            },
-            () => {
-              if (
-                !this.state.scrollView &&
-                this.state.shouldScroll &&
-                this.props.history.action === "POP"
-              ) {
-                this.handleProductSearch();
+          updateProduct(filterUrl, listdata)
+            .then(plpList => {
+              changeLoader?.(false);
+              try {
+                productImpression(
+                  plpList,
+                  categoryShopL1 || "PLP",
+                  this.props.currency,
+                  plpList.results.data.length,
+                  undefined,
+                  this.state.filter.price.max_price &&
+                    this.state.filter.price.min_price
+                    ? `${this.state.filter.price.max_price} - ${this.state.filter.price.min_price}`
+                    : undefined
+                );
+              } catch (e) {
+                console.log("plp GA error====", e);
               }
-            }
-          );
-          this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+              // this.createFilterfromUrl(false);
+              const pricearray: any = [],
+                currentCurrency =
+                  "price" +
+                  currency[0].toUpperCase() +
+                  currency.substring(1).toLowerCase();
+              plpList.results.filtered_facets[currentCurrency]?.map(function(
+                a: any
+              ) {
+                pricearray.push(+a[0]);
+              });
+              if (pricearray.length > 0) {
+                minMaxvalue.push(
+                  pricearray.reduce(function(a: number, b: number) {
+                    return Math.min(a, b);
+                  })
+                );
+                minMaxvalue.push(
+                  pricearray.reduce(function(a: number, b: number) {
+                    return Math.max(a, b);
+                  })
+                );
+              }
+
+              if (filter.price.min_price) {
+                currentRange.push(filter.price.min_price);
+                currentRange.push(filter.price.max_price);
+              } else {
+                currentRange = minMaxvalue;
+              }
+
+              this.setState(
+                {
+                  rangevalue: currentRange,
+                  initialrangevalue: {
+                    min: minMaxvalue[0],
+                    max: minMaxvalue[1]
+                  },
+                  disableSelectedbox: false,
+                  scrollload: true,
+                  flag: true,
+                  totalItems: plpList.count
+                },
+                () => {
+                  if (
+                    !this.state.scrollView &&
+                    this.state.shouldScroll &&
+                    this.props.history.action === "POP"
+                  ) {
+                    this.handleProductSearch();
+                  }
+                }
+              );
+              // this.props.updateFacets(
+              //   this.getSortedFacets(plpList.results.facets)
+              // );
+            })
+            .catch(err => {
+              console.log("PLP appendata error", err);
+            });
+
+          // if (categoryShop) {
+          //   fetchPlpTemplates(categoryShop);
+          // }
         }
       );
-
-      if (categoryShop) {
-        fetchPlpTemplates(categoryShop);
-      }
     }
   };
 
   updateDataFromAPI = (onload?: string, currency?: string) => {
-    const {
-      mobile,
-      fetchPlpProducts,
-      fetchPlpTemplates,
-      history,
-      changeLoader
-    } = this.props;
+    const { mobile, fetchPlpProducts, history, changeLoader } = this.props;
 
     if (!onload && mobile) {
       return true;
     }
     changeLoader?.(true);
     const url = decodeURI(history.location.search);
-    const filterUrl = "?" + url.split("?")[1];
+    let filterUrl = "?" + url.split("?")[1];
     const urlParams = new URLSearchParams(history.location.search);
-    const categoryShop = urlParams.get("category_shop");
     const categoryShopL1 = urlParams
       .get("category_shop")
       ?.split(">")[1]
       ?.trim();
     // const pageSize = mobile ? 10 : 20;
-    const pageSize = 20;
-    fetchPlpProducts(filterUrl + `&page_size=${pageSize}`, currency).then(
-      plpList => {
-        productImpression(
-          plpList,
-          categoryShopL1 || "PLP",
-          this.props.currency
-        );
-        changeLoader?.(false);
-        this.createList(plpList, false);
-        this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
-      }
-    );
-    if (categoryShop) {
-      fetchPlpTemplates(categoryShop);
+    const pageSize = 40;
+    const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
+
+    if (!isPageSizeExist) {
+      filterUrl = filterUrl + `&page_size=${pageSize}`;
     }
+    fetchPlpProducts(filterUrl, currency).then(plpList => {
+      productImpression(
+        plpList,
+        categoryShopL1 || "PLP",
+        this.props.currency,
+        undefined,
+        undefined,
+        this.state.filter.price.max_price && this.state.filter.price.min_price
+          ? `${this.state.filter.price.max_price} - ${this.state.filter.price.min_price}`
+          : undefined
+      );
+      changeLoader?.(false);
+      this.createList(plpList, false);
+      this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+    });
   };
 
   stateChange = (location: any, action: any) => {
@@ -699,15 +735,21 @@ class FilterList extends React.Component<Props, State> {
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     // const urlParams2 = new URLSearchParams(nextProps.history.location.search);
     // const categoryShop2 = urlParams2.get("category_shop")?.split(">")[1];
-    const url = decodeURI(
-      nextProps?.history.location.search.replace(/\+/g, " ")
-    );
-    const re = /[?&]+([^=&]+)=([^&]*)/gi;
-    let match;
-    const vars: any = {};
-    while ((match = re.exec(url))) {
-      vars[match[1]] = match[2];
-    }
+    // const url = decodeURI(
+    //   nextProps?.history.location.search.replace(/\+/g, " ")
+    // );
+    // const re = /[?&]+([^=&]+)=([^&]*)/gi;
+    // let match;
+    // const vars: any = {};
+    // while ((match = re.exec(url))) {
+    //   vars[match[1]] = match[2];
+    // }
+
+    const urlParams = new URLSearchParams(this.props.history.location.search);
+    const categoryShop1 = urlParams.get("category_shop");
+
+    const urlParams2 = new URLSearchParams(nextProps.history.location.search);
+    const categoryShop2 = urlParams2.get("category_shop");
 
     if (
       nextProps.onload &&
@@ -718,6 +760,13 @@ class FilterList extends React.Component<Props, State> {
       this.createList(nextProps.data, true);
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
       this.handleAnimation("category", false);
+
+      this.setState({
+        activeindex: 0,
+        showFilterByDiscountMenu: false,
+        showProductFilter: false,
+        showmenulevel1: false
+      });
     }
     if (
       this.props.currency != nextProps.currency ||
@@ -740,23 +789,27 @@ class FilterList extends React.Component<Props, State> {
         }
       );
     }
-
-    if (
-      Object.entries(vars).length === 2 &&
-      Object.entries(vars).filter(
-        e => e[0] === "source" || e[0] === "category_shop"
-      ).length === 2
-    ) {
-      this.setState({
-        activeindex: 0,
-        showFilterByDiscountMenu: false,
-        showProductFilter: false,
-        showmenulevel1: false
-      });
-    }
+    //Commented: for not closing filter section on clear all filteres
+    // if (
+    //   Object.entries(vars).length === 2 &&
+    //   Object.entries(vars).filter(
+    //     e => e[0] === "source" || e[0] === "category_shop"
+    //   ).length === 2
+    // ) {
+    //   this.setState({
+    //     activeindex: 0,
+    //     showFilterByDiscountMenu: false,
+    //     showProductFilter: false,
+    //     showmenulevel1: false
+    //   });
+    // }
 
     if (this.props.mobileMenuOpenState !== nextProps.mobileMenuOpenState) {
       this.props.onChangeFilterState(false, false);
+    }
+
+    if (categoryShop1 !== categoryShop2 && categoryShop2 && categoryShop1) {
+      this.props.fetchPlpTemplates(categoryShop2);
     }
   };
 
@@ -950,7 +1003,7 @@ class FilterList extends React.Component<Props, State> {
       "currentColor",
       "currentMaterial",
       "availableSize",
-      "availableDiscount",
+      // "availableDiscount",
       "productType"
     ];
     for (let i = 0; i < filterTypes.length; i++) {
@@ -962,8 +1015,6 @@ class FilterList extends React.Component<Props, State> {
         }
         if (allOptions.length > 0) {
           Object.keys(filterBackup).map((filterObject: any, j: number) => {
-            console.log("Options", allOptions);
-            console.log("To delete", filterObject);
             if (!allOptions.includes(filterObject)) {
               delete filter[filterTypes[i]][filterObject];
             }
@@ -1001,10 +1052,15 @@ class FilterList extends React.Component<Props, State> {
       value: event.target.value
     };
     // this.old_level4Value = event.target.value;
-    this.setState({
-      filter
-    });
-    this.createUrlfromFilter();
+    this.setState(
+      {
+        filter
+      },
+      () => {
+        this.createUrlfromFilter();
+      }
+    );
+
     event.stopPropagation();
   };
 
@@ -1059,8 +1115,7 @@ class FilterList extends React.Component<Props, State> {
             {this.productData.map((level4: any) => {
               return (
                 <li key={"pb_" + level4}>
-                  <input
-                    type="checkbox"
+                  <CheckboxWithLabel
                     onChange={this.onClickLevel4}
                     id={"pb_" + level4}
                     checked={
@@ -1073,18 +1128,21 @@ class FilterList extends React.Component<Props, State> {
                       filteredProductType?.filter((e: string[]) => e === level4)
                         .length === 0
                     }
+                    label={[
+                      <label
+                        key={"pb_" + level4}
+                        className={cs({
+                          [styles.disableType]:
+                            filteredProductType?.filter(
+                              (e: string[]) => e === level4
+                            ).length === 0
+                        })}
+                        htmlFor={"pb_" + level4}
+                      >
+                        {level4}
+                      </label>
+                    ]}
                   />
-                  <label
-                    className={cs({
-                      [styles.disableType]:
-                        filteredProductType?.filter(
-                          (e: string[]) => e === level4
-                        ).length === 0
-                    })}
-                    htmlFor={"pb_" + level4}
-                  >
-                    {level4}
-                  </label>
                 </li>
               );
             })}
@@ -1116,8 +1174,7 @@ class FilterList extends React.Component<Props, State> {
             {this.props.facets.availableDiscount.map((discount: any) => {
               return (
                 <li key={discount[0]}>
-                  <input
-                    type="checkbox"
+                  <CheckboxWithLabel
                     onChange={this.onClickDiscount}
                     id={"disc_" + discount[0]}
                     checked={
@@ -1132,18 +1189,21 @@ class FilterList extends React.Component<Props, State> {
                         (e: string[]) => e[0] === discount[0]
                       ).length === 0
                     }
+                    label={[
+                      <label
+                        className={cs({
+                          [styles.disableType]:
+                            filtered_facets?.availableDiscount?.filter(
+                              (e: string[]) => e[0] === discount?.[0]
+                            ).length === 0
+                        })}
+                        htmlFor={"disc_" + discount[0]}
+                        key={"disc_" + discount[0]}
+                      >
+                        {discount[1]}
+                      </label>
+                    ]}
                   />
-                  <label
-                    className={cs({
-                      [styles.disableType]:
-                        filtered_facets?.availableDiscount?.filter(
-                          (e: string[]) => e[0] === discount?.[0]
-                        ).length === 0
-                    })}
-                    htmlFor={"disc_" + discount[0]}
-                  >
-                    {discount[1]}
-                  </label>
                 </li>
               );
             })}
@@ -1162,8 +1222,7 @@ class FilterList extends React.Component<Props, State> {
     facets?.currentMaterial.map((data: any, i: number) => {
       html.push(
         <li className={styles.materiallabel} key={data?.[0]}>
-          <input
-            type="checkbox"
+          <CheckboxWithLabel
             id={data?.[0]}
             checked={
               filter?.currentMaterial[data[0]]
@@ -1177,18 +1236,21 @@ class FilterList extends React.Component<Props, State> {
                 (e: string[]) => e[0] === data[0]
               ).length === 0
             }
+            label={[
+              <label
+                className={cs({
+                  [styles.disableColors]:
+                    filtered_facets?.currentMaterial?.filter(
+                      (e: string[]) => e[0] === data?.[0]
+                    ).length === 0
+                })}
+                htmlFor={data?.[0]}
+                key={data?.[0]}
+              >
+                {data?.[0]}
+              </label>
+            ]}
           />
-          <label
-            className={cs({
-              [styles.disableColors]:
-                filtered_facets?.currentMaterial?.filter(
-                  (e: string[]) => e[0] === data?.[0]
-                ).length === 0
-            })}
-            htmlFor={data?.[0]}
-          >
-            {data?.[0]}
-          </label>
         </li>
       );
     });
@@ -1230,8 +1292,7 @@ class FilterList extends React.Component<Props, State> {
           >
             <ul className={styles.categorylabel}>
               <li>
-                <input
-                  type="checkbox"
+                <CheckboxWithLabel
                   id={id}
                   disabled={this.state.disableSelectedbox}
                   checked={
@@ -1242,8 +1303,12 @@ class FilterList extends React.Component<Props, State> {
                   onChange={this.handleClickCategory}
                   value={data[0].split(">")[1].trim()}
                   name="View all"
+                  label={[
+                    <label key={id} htmlFor={id}>
+                      View all
+                    </label>
+                  ]}
                 />
-                <label htmlFor={id}>View all</label>
               </li>
             </ul>
           </div>
@@ -1289,8 +1354,7 @@ class FilterList extends React.Component<Props, State> {
               {categoryObj[data].map((nestedList: any, j: number) => {
                 return (
                   <li key={nestedList[1]}>
-                    <input
-                      type="checkbox"
+                    <CheckboxWithLabel
                       id={nestedList[1]}
                       disabled={this.state.disableSelectedbox}
                       checked={
@@ -1301,8 +1365,12 @@ class FilterList extends React.Component<Props, State> {
                       onChange={this.handleClickCategory}
                       value={data}
                       name={nestedList[0]}
+                      label={[
+                        <label key={nestedList[1]} htmlFor={nestedList[1]}>
+                          {nestedList[0]}
+                        </label>
+                      ]}
                     />
-                    <label htmlFor={nestedList[1]}>{nestedList[0]}</label>
                   </li>
                 );
               })}
@@ -1443,11 +1511,15 @@ class FilterList extends React.Component<Props, State> {
       oldSelectedCategory: event.target.value
     });
     const userConsent = CookieService.getCookie("consent").split(",");
+    const val =
+      event.target.id.split(">")?.[2] !== undefined
+        ? ` -${event.target.id.split(">")?.[2]}`
+        : "";
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Category",
-        "Filter value": event.target.value
+        "Filter value": event.target.value + val
       });
     }
 
@@ -1560,6 +1632,15 @@ class FilterList extends React.Component<Props, State> {
     this.setState({
       filter: filter
     });
+
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Material",
+        "Filter value": event.target.value
+      });
+    }
     this.createUrlfromFilter();
     event.stopPropagation();
   };
@@ -2118,6 +2199,62 @@ class FilterList extends React.Component<Props, State> {
             {!mobile && <span>Filter By</span>}
             <ul id="currentFilter">{this.renderFilterList(filter)}</ul>
           </li>
+
+          {this.props.salestatus && (
+            <li
+              className={
+                this.props.facets &&
+                this.props.facets.availableDiscount &&
+                this.props.facets.availableDiscount.length > 0
+                  ? ""
+                  : globalStyles.hidden
+              }
+            >
+              {this.props.facets &&
+              this.props.facets.availableDiscount &&
+              this.props.facets.availableDiscount.length > 0 ? (
+                <span
+                  className={
+                    this.state.showFilterByDiscountMenu
+                      ? cs(styles.menulevel1, styles.menulevel1Open)
+                      : styles.menulevel1
+                  }
+                  onClick={() => {
+                    this.toggleFilterByDiscountMenu();
+                    this.handleAnimation(
+                      "discount",
+                      this.state.showFilterByDiscountMenu
+                    );
+                  }}
+                >
+                  BY DISCOUNT
+                </span>
+              ) : (
+                ""
+              )}
+              <div
+                className={
+                  this.state.showFilterByDiscountMenu
+                    ? styles.showheader1
+                    : styles.hideDiv
+                }
+                id="discount"
+              >
+                {this.createDiscountType(
+                  this.props.facets && this.props.facets.availableDiscount,
+                  this.props.filtered_facets
+                )}
+                <div data-name="availableDiscount">
+                  <span
+                    onClick={e => this.clearFilter(e, "availableDiscount")}
+                    className={styles.plp_filter_sub}
+                  >
+                    Clear
+                  </span>
+                </div>
+              </div>
+            </li>
+          )}
           <li>
             <span
               className={
@@ -2149,61 +2286,6 @@ class FilterList extends React.Component<Props, State> {
               )}
             </div>
           </li>
-          {this.props.salestatus && (
-            <li
-              className={
-                this.props.facets &&
-                this.props.facets.availableDiscount &&
-                this.props.facets.availableDiscount.length > 0
-                  ? ""
-                  : globalStyles.hidden
-              }
-            >
-              {this.props.facets &&
-              this.props.facets.availableDiscount &&
-              this.props.facets.availableDiscount.length > 0 ? (
-                <span
-                  className={
-                    this.state.showFilterByDiscountMenu
-                      ? cs(styles.menulevel1, styles.menulevel1Open)
-                      : styles.menulevel1
-                  }
-                  onClick={() => {
-                    this.toggleFilterByDiscountMenu();
-                    this.handleAnimation(
-                      "discount",
-                      this.state.showFilterByDiscountMenu
-                    );
-                  }}
-                >
-                  FILTER BY DISCOUNT
-                </span>
-              ) : (
-                ""
-              )}
-              <div
-                className={
-                  this.state.showFilterByDiscountMenu
-                    ? styles.showheader1
-                    : styles.hideDiv
-                }
-                id="discount"
-              >
-                {this.createDiscountType(
-                  this.props.facets && this.props.facets.availableDiscount,
-                  this.props.filtered_facets
-                )}
-                <div data-name="availableDiscount">
-                  <span
-                    onClick={e => this.clearFilter(e, "availableDiscount")}
-                    className={styles.plp_filter_sub}
-                  >
-                    Clear
-                  </span>
-                </div>
-              </div>
-            </li>
-          )}
 
           <li
             className={cs({

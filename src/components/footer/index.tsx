@@ -34,10 +34,10 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    newsletterSignup: async (email: string) => {
+    newsletterSignup: async (formData: any) => {
       const res = await HeaderFooterService.makeNewsletterSignupRequest(
         dispatch,
-        email
+        formData
       );
       return res;
     },
@@ -270,8 +270,11 @@ class Footer extends React.Component<Props, FooterState> {
       "newsletter"
     ) as HTMLInputElement;
     if (emailInput) {
+      const SignUpformData = new FormData();
+      SignUpformData.append("email", emailInput.value);
+      SignUpformData.append("source", "Footer");
       this.props
-        .newsletterSignup(emailInput.value)
+        .newsletterSignup(SignUpformData)
         .then(data => {
           if (data.status) {
             const msg = showErrors(data.message);
@@ -296,7 +299,6 @@ class Footer extends React.Component<Props, FooterState> {
           } else {
             const msg = showErrors(error.response.data.message);
             this.setState({ newsletterError: true, newsletterMessage: msg });
-            // console.log(error);
           }
         });
     }
@@ -372,6 +374,7 @@ class Footer extends React.Component<Props, FooterState> {
                     styles.ftrHeadingWhite,
                     styles.ftrHeadingWhite2
                   )}
+                  style={{ color: footerHeadingFontColor }}
                 >
                   be in the know
                 </div>
@@ -534,6 +537,7 @@ class Footer extends React.Component<Props, FooterState> {
                                                 styles.footerConnectIcon
                                               }
                                               src={currentValue.iconImage}
+                                              width="200"
                                             />
                                           )}
                                           {currentValue.link ? (
@@ -541,7 +545,7 @@ class Footer extends React.Component<Props, FooterState> {
                                               "good earth registry" &&
                                             this.props.isLoggedIn ? (
                                               <Link
-                                                to={"/account/bridal"}
+                                                to={"/the-good-earth-registry"}
                                                 onClick={() => {
                                                   if (
                                                     this.props.location
@@ -667,6 +671,7 @@ class Footer extends React.Component<Props, FooterState> {
                                     <img
                                       src={iconImage}
                                       className={styles.findUsOnIcon}
+                                      width="200"
                                     />
                                   </a>
                                 );
@@ -711,6 +716,7 @@ class Footer extends React.Component<Props, FooterState> {
                                           ?.ctaImage
                                       : ""
                                   }
+                                  width="200"
                                   className={cs(styles.imgResponsive)}
                                 />{" "}
                               </a>
@@ -851,6 +857,7 @@ class Footer extends React.Component<Props, FooterState> {
                                         <img
                                           className={styles.footerConnectIcon}
                                           src={child.iconImage}
+                                          width="200"
                                         />
                                       )}
                                       {child.link ? (
@@ -911,7 +918,7 @@ class Footer extends React.Component<Props, FooterState> {
                                               child.text.toLowerCase() ==
                                                 "good earth registry" &&
                                               this.props.isLoggedIn
-                                                ? "/account/bridal"
+                                                ? "/the-good-earth-registry"
                                                 : child.link
                                             }
                                             onClick={() => {
@@ -1071,6 +1078,7 @@ class Footer extends React.Component<Props, FooterState> {
                                   <img
                                     src={iconImage}
                                     className={styles.findUsOnIcon}
+                                    width="200"
                                   />
                                 </a>
                               );
@@ -1105,6 +1113,7 @@ class Footer extends React.Component<Props, FooterState> {
                                     this.props.data.footerPlaylistData?.ctaImage
                                   }
                                   className={cs(globalStyles.width250)}
+                                  width="200"
                                 />{" "}
                               </a>
                             </div>
@@ -1167,6 +1176,19 @@ class Footer extends React.Component<Props, FooterState> {
             showCookiePrefs={this.props?.showCookiePrefs}
           />
         )}
+
+        {/* DO NOT REMOVE THIS CODE : Commented this code as per product requirement */}
+        {/* {!(OLD_COOKIE_SETTINGS
+          ? cookiCheck
+          : (cookiCheck && !this.state.isConsentSave) ||
+            this.props?.showCookiePref) && (
+          <NewsletterModal
+            title={"Find Out First!"}
+            subTitle={
+              "Be the first to know about new launches and the latest updates from the brand, delivered straight to your inbox!"
+            }
+          />
+        )} */}
       </div>
     );
   }

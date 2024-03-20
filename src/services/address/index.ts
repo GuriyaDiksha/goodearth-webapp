@@ -7,7 +7,7 @@ import {
   specifyShippingAddressResponse
 } from "components/Address/typings";
 import { PinCodeData } from "components/Formsy/PinCode/typings";
-import { updateAddressList } from "actions/address";
+import { updateAddressList, updateCustomDuties } from "actions/address";
 import {
   specifyBillingAddressData,
   validateGSTData,
@@ -19,10 +19,16 @@ import { MESSAGE } from "constants/messages";
 import { showGrowlMessage } from "../../utils/validate";
 
 export default {
-  fetchAddressList: async (dispatch: Dispatch) => {
+  fetchAddressList: async (
+    dispatch: Dispatch,
+    boId?: string,
+    isGcCheckout = false
+  ) => {
     const data = await API.get<AddressData[]>(
       dispatch,
-      `${__API_HOST__}/myapi/address/user_address`
+      `${__API_HOST__}/myapi/address/user_address?isGcCheckout=${isGcCheckout}${
+        boId ? `&boId=${boId}` : ""
+      }`
     );
     return data;
   },
@@ -55,8 +61,7 @@ export default {
   updateAddress: async (
     dispatch: Dispatch,
     formData: AddressFormData,
-    id: number,
-    addressId?: number
+    id: number
   ) => {
     const data = await API.put<AddressData[]>(
       dispatch,
@@ -64,7 +69,7 @@ export default {
       formData
     );
 
-    dispatch(updateAddressList(data, addressId));
+    dispatch(updateAddressList(data));
     return data;
   },
   deleteAddress: async (dispatch: Dispatch, id: number) => {
@@ -80,14 +85,15 @@ export default {
     dispatch: Dispatch,
     id: number,
     isBridal: boolean,
-    history: any
+    history: any,
+    boId?: string
   ) => {
     const data = await API.post<specifyShippingAddressResponse>(
       dispatch,
       `${__API_HOST__}/myapi/address/specify_shipping_address/?source=checkout${
         isBridal ? "&isBridal=true" : ""
       }`,
-      { shippingAddressId: id }
+      { shippingAddressId: id, boId }
     );
     const {
       publishRemove,
@@ -137,11 +143,18 @@ export default {
     return data;
   },
   fetchCustomDuties: async (dispatch: Dispatch, currency: string) => {
-    const data = await API.post<CustomDuties>(
-      dispatch,
-      `${__API_HOST__}/myapi/shipping/custom_duties/`,
-      { currency }
-    );
+    let data;
+    try {
+      data = await API.post<CustomDuties>(
+        dispatch,
+        `${__API_HOST__}/myapi/shipping/custom_duties/`,
+        { currency: currency || "USD" }
+      );
+      dispatch(updateCustomDuties(data));
+    } catch (e) {
+      dispatch(updateCustomDuties({ visible: false, message: "" }));
+    }
+
     return data;
   },
   validateGST: async (dispatch: Dispatch, validateGSTData: validateGSTData) => {

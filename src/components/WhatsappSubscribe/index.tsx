@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import FormCheckbox from "components/Formsy/FormCheckbox";
 import styles from "./styles.scss";
@@ -16,7 +16,11 @@ import { updatePreferenceData } from "actions/user";
 import { showGrowlMessage } from "utils/validate";
 import globalStyles from "../../styles/global.scss";
 import Formsy from "formsy-react";
+import Button from "components/Button";
 import SelectDropdown from "components/Formsy/SelectDropdown";
+import { AppState } from "reducers/typings";
+import LoginService from "services/login";
+import { updateCountryData } from "actions/address";
 
 type Props = {
   innerRef: any;
@@ -87,6 +91,9 @@ const WhatsappSubscribe: React.FC<Props> = ({
     ? "Checkout"
     : "registry_popup";
   const impactRef = useRef<HTMLInputElement>(null);
+  const {
+    device: { mobile }
+  } = useSelector((state: AppState) => state);
 
   const handleClickOutside = (evt: any) => {
     if (impactRef.current && !impactRef.current.contains(evt.target)) {
@@ -136,6 +143,11 @@ const WhatsappSubscribe: React.FC<Props> = ({
 
   const onCheckChange = (e: any) => {
     setChecked(e.target.checked);
+    if (!countryData || countryData.length == 0) {
+      LoginService.fetchCountryData(dispatch).then(countryData => {
+        dispatch(updateCountryData(countryData));
+      });
+    }
   };
 
   const onPhoneChange = (e: any) => {
@@ -365,7 +377,9 @@ const WhatsappSubscribe: React.FC<Props> = ({
       ref={formRef}
       key={uniqueKey}
     >
-      <div className={cs(styles.whatsapp, whatsappClass)}>
+      <div
+        className={cs(styles.whatsapp, whatsappClass, styles.whatsappCheckout)}
+      >
         <div
           className={cs({
             [styles.flexForTooltip]: showTooltip
@@ -468,7 +482,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
                 isCodeValid: (values, value) => {
                   const bool = !(values.whatsappNo && value == "");
                   if (!bool) {
-                    setCodeError("Required");
+                    setCodeError("Please select a Country Code");
                     return false;
                   } else {
                     setCodeError("");
@@ -492,12 +506,13 @@ const WhatsappSubscribe: React.FC<Props> = ({
                 }
               }}
               validationErrors={{
-                isCodeValid: "Required",
+                isCodeValid: "Please select a Country Code",
                 isValidCode: "Enter valid code"
               }}
               allowFilter={true}
               showLabel={true}
               optionsClass={styles.isdCode}
+              aquaClass={styles.aquaText}
               searchIconClass={styles.countryCodeSearchIcon}
               searchInputClass={styles.countryCodeSearchInput}
               inputRef={codeRef}
@@ -521,7 +536,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
               validations={{
                 compulsory: (values, value) => {
                   if (values.whatsappSubscribe && value == "") {
-                    setNumberError("Please enter your contact number");
+                    setNumberError("Please enter your Contact Number");
                     return false;
                   } else {
                     setNumberError("");
@@ -530,7 +545,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
                 }
               }}
               validationErrors={{
-                compulsory: "Please enter your contact number"
+                compulsory: "Please enter your Contact Number"
               }}
               handleChange={onPhoneChange}
               showLabel={true}
@@ -586,17 +601,14 @@ const WhatsappSubscribe: React.FC<Props> = ({
         )}
         {!(onlyCheckbox || allowUpdate) && (
           <div className={styles.savePrefBtn}>
-            <input
+            <Button
               type="submit"
-              value="Save Preferences"
-              className={cs(
-                globalStyles.charcoalBtn,
-                {
-                  [globalStyles.disabledBtn]: isDisabled
-                },
-                buttonClass
-              )}
+              label="Save Preferences"
+              className={cs(buttonClass, {
+                [globalStyles.btnFullWidth]: mobile
+              })}
               disabled={isDisabled}
+              variant="mediumMedCharcoalCta366"
             />
           </div>
         )}

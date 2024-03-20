@@ -37,7 +37,8 @@ export type registerState = {
   email: string;
   showTip?: boolean;
   whatsappChecked?: boolean;
-  selectedCountry: string;
+  selectedCountry?: string;
+  phoneNo?: string;
 };
 
 export type RegisterProps = {

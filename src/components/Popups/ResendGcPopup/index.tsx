@@ -5,6 +5,7 @@ import styles from "../styles.scss";
 import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
 import resendEmail from "images/resendEmail.svg";
+import Button from "components/Button";
 
 type PopupProps = {
   email: string;
@@ -39,29 +40,23 @@ const ResendGcPopup: React.FC<PopupProps> = props => {
             )}
           ></i>
         </div>
-        <div className={cs(styles.gcTnc, styles.sideMargin)}>
+        <div className={cs(styles.resendGc, styles.gcTnc, styles.sideMargin)}>
           <img src={resendEmail} className={styles.iconResend} />
           <div className={globalStyles.c10LR}>
             <p>
               Your email is sent successfully to <b>{props.email}</b>
             </p>
           </div>
-          <div
-            className={cs(
-              globalStyles.ceriseBtn,
-              styles.ceriseBtn30,
-              globalStyles.marginT40
-            )}
-          >
-            <a
+          <div className={cs(globalStyles.marginT40)}>
+            <Button
               id="info-popup-accept-button"
+              variant="smallMedCharcoalCta"
               tabIndex={-1}
               onClick={() => {
                 closeModal();
               }}
-            >
-              CONTINUE SHOPPING
-            </a>
+              label={"CONTINUE SHOPPING"}
+            />
           </div>
         </div>
       </div>

@@ -32,7 +32,8 @@ const mapStateToProps = (state: AppState, props: QuickviewProps) => {
     id,
     data,
     currency: state.currency,
-    device: state.device
+    device: state.device,
+    openModal: state.modal.openModal
   };
 };
 
@@ -113,6 +114,15 @@ class Quickview extends React.Component<Props, State> {
         isLoading: false
       });
     });
+
+    // const handleOutsideClick = (e:any) => {
+    //   // if (this.props.openModal) {
+    //     if(e.target.id == "modal-fullscreen"){
+    //       this.closeModal();
+    //     }
+    //   // }
+    // }
+    // document.addEventListener("click", handleOutsideClick);
   }
 
   getProductImagesData = () => {

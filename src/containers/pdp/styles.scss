@@ -109,8 +109,7 @@ $pdp-top: $header-height;
                 height: 100%;
                 width: 100%;
                 video{
-                    object-fit: cover;
-                    height: 100%;
+                    height: auto;
                     width: 100%
                 }
             }
@@ -334,15 +333,20 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     padding-left: 40px;
     font-family: $font-Lora;
     text-overflow: ellipsis;
+    letter-spacing: 0;
     &.mobile{
         padding-left: 0px;
         @include h6_16px_lora_charcoal();
         line-height: unset;
         margin-top: 0px;
-        white-space: nowrap;
+        white-space: pre-wrap;
         overflow: hidden;
         text-overflow: ellipsis;
         margin-right: 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+
     }
 }
 
@@ -488,10 +492,9 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     transition: max-height 0.2s ease-in;
 }
 
-.bottom-dock-price{
-    font-size: 20px !important;
-    font-family: $font-Montserrat !important;
-}
+// .bottom-dock-price{
+//     font-size: 14px;
+// }
 
 .dock-container{
     align-items: center;
@@ -507,12 +510,20 @@ input[type="time"]::-webkit-calendar-picker-indicator{
         height: 100%;
         width: 100%;
         video{
-            object-fit: cover;
-            height: 100%;
+            height: auto;
             width: 100%;
         }
     }
     
+}
+
+.container {
+    position: relative;
+    width: 100%;
+}
+
+.lazy-image {
+    width: 100%;
 }
 
 .overlay-div{
@@ -520,4 +531,14 @@ input[type="time"]::-webkit-calendar-picker-indicator{
     position: absolute;
     width: 100%;
     height: 100%;
+}
+
+.inc-tax{
+    font-family: $font-Montserrat;
+    font-weight: $regular;
+    font-size: 8px;
+    line-height: 5px;
+    color: $charcoal19;
+    text-align: right;
+    text-transform: initial;
 }

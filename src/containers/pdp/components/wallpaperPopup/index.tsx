@@ -7,6 +7,8 @@ import InputField from "components/InputField";
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import fontStyles from "styles/iconFonts.scss";
+import Button from "components/Button";
+import globalStyles from "styles/global.scss";
 
 type Props = {
   price: number;
@@ -55,11 +57,11 @@ const WallpaperPopup: React.FC<Props> = ({ currency, price }) => {
     if (!widthError && !heightError) {
       let error = false;
       if (!width) {
-        setWidthError("Please enter Number");
+        setWidthError("Please enter Width");
         error = true;
       }
       if (!height) {
-        setHeightError("Please enter Number");
+        setHeightError("Please enter Height");
         error = true;
       }
       if (error) {
@@ -159,13 +161,19 @@ const WallpaperPopup: React.FC<Props> = ({ currency, price }) => {
         )}
         <div className={cs(styles.btnContainer)}>
           {numOfRolls ? (
-            <button className={styles.calculateBtn} onClick={resetFields}>
-              Reset Fields
-            </button>
+            <Button
+              variant="largeAquaCta"
+              label="Reset Fields"
+              onClick={resetFields}
+              className={globalStyles.btnFullWidth}
+            />
           ) : (
-            <button className={styles.calculateBtn} onClick={calculateQuantity}>
-              Calculate
-            </button>
+            <Button
+              variant="largeAquaCta"
+              label="Calculate"
+              onClick={calculateQuantity}
+              className={globalStyles.btnFullWidth}
+            />
           )}
         </div>
       </div>

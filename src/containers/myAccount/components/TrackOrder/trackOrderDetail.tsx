@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import moment from "moment";
 import { OrdersProps } from "./typings";
-import { currencyCode, Currency } from "typings/currency";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
+import { displayPriceWithCommasFloat } from "utils/utility";
 
 const TrackDetails: React.FC<OrdersProps> = props => {
   const [data] = useState(props.orderData || []);
@@ -305,10 +305,14 @@ const TrackDetails: React.FC<OrdersProps> = props => {
               <div className={styles.amountPaid}>
                 <span className={styles.label}>Amount Paid</span>
                 <span className={styles.data}>
-                  {String.fromCharCode(
+                  {displayPriceWithCommasFloat(
+                    parseFloat(data.totalInclTax),
+                    data.currency
+                  )}
+                  {/* {String.fromCharCode(
                     ...currencyCode[data.currency as Currency]
                   )}
-                  &nbsp;{data.totalInclTax}
+                  &nbsp;{data.totalInclTax} */}
                 </span>
               </div>
             </div>
@@ -329,23 +333,48 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                         {data.occasion} Registry
                       </span>
                       <span className={styles.bridalMessage}></span>
+                      <span>Address predefined by registrant</span>
                     </div>
                   )}
-                  <div className={cs(styles.row, styles.name)}>
-                    {shippingAddress.firstName}
-                    &nbsp; {shippingAddress.lastName}
-                  </div>
-                  <div className={styles.row}>{shippingAddress.line1}</div>
-                  <div className={styles.row}>{shippingAddress.line2}</div>
-                  <div className={styles.row}>
-                    {shippingAddress.state},&nbsp;{shippingAddress.postcode}
-                  </div>
-                  <div className={styles.row}>
-                    {shippingAddress.countryName}
-                  </div>
-                  <div className={cs(styles.row, styles.phoneNumber)}>
-                    {shippingAddress.phoneNumber}
-                  </div>
+                  {!data.isBridalOrder ? (
+                    <div className={cs(styles.row, styles.name)}>
+                      {shippingAddress.firstName}
+                      &nbsp; {shippingAddress.lastName}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {!data.isBridalOrder ? (
+                    <div className={styles.row}>{shippingAddress.line1}</div>
+                  ) : (
+                    ""
+                  )}
+                  {!data.isBridalOrder ? (
+                    <div className={styles.row}>{shippingAddress.line2}</div>
+                  ) : (
+                    ""
+                  )}
+                  {!data.isBridalOrder ? (
+                    <div className={styles.row}>
+                      {shippingAddress.state},&nbsp;{shippingAddress.postcode}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {!data.isBridalOrder ? (
+                    <div className={styles.row}>
+                      {shippingAddress.countryName}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {!data.isBridalOrder ? (
+                    <div className={cs(styles.row, styles.phoneNumber)}>
+                      {shippingAddress.phoneNumber}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               )}
               {/* Billing Address */}
@@ -378,9 +407,9 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                 +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
                 +item.quantity;
 
-              const charCurrency = String.fromCharCode(
-                ...currencyCode[item.priceCurrency as Currency]
-              );
+              // const charCurrency = String.fromCharCode(
+              //   ...currencyCode[item.priceCurrency as Currency]
+              // );
 
               return (
                 <div className={cs(styles.product)} key={item.product.id}>
@@ -406,11 +435,17 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                           [styles.gold]: isDiscount
                         })}
                       >
-                        {`${charCurrency} ${amountPaid}`}
+                        {`${displayPriceWithCommasFloat(
+                          amountPaid,
+                          item.priceCurrency
+                        )}`}
                       </span>
                       {isDiscount && (
                         <span className={styles.originalPrice}>
-                          {`${charCurrency} ${price}`}
+                          {`${displayPriceWithCommasFloat(
+                            price,
+                            item.priceCurrency
+                          )}`}
                         </span>
                       )}
                     </p>

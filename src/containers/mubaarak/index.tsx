@@ -12,6 +12,7 @@ import { Link, useHistory } from "react-router-dom";
 import HeaderService from "services/headerFooter";
 import MakerEnhance from "components/maker";
 import { AppState } from "reducers/typings";
+import Button from "components/Button";
 
 const NotificationForm: React.FC = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -155,7 +156,7 @@ const NotificationForm: React.FC = () => {
               }}
               validationErrors={{
                 maxLength: "Max limit reached.",
-                isAlpha: "Only alphabets are allowed."
+                isAlpha: "Please enter only alphabetic characters."
               }}
             />
           </div>
@@ -170,7 +171,7 @@ const NotificationForm: React.FC = () => {
               }}
               validationErrors={{
                 maxLength: "Max limit reached.",
-                isAlpha: "Only alphabets are allowed."
+                isAlpha: "Please enter only alphabetic characters."
               }}
             />
           </div>
@@ -242,16 +243,11 @@ const NotificationForm: React.FC = () => {
           <p className={cs(styles.successMessage, globalStyles.errorMsg)}>
             {successMsg}
           </p>
-          <input
+          <Button
             type="submit"
-            formNoValidate={true}
-            className={cs(
-              globalStyles.ceriseBtn,
-              globalStyles.marginT10,
-              styles.jobApplicationSubmit,
-              { [globalStyles.disabledBtn]: !enableSubmit }
-            )}
-            value="Remind me"
+            className={cs(globalStyles.btnFullWidth, globalStyles.marginT10)}
+            label="Remind me"
+            variant="largeAquaCta"
           />
         </div>
       </Formsy>

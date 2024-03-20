@@ -23,6 +23,7 @@ import { AppState } from "reducers/typings";
 import { errorTracking, getErrorList } from "utils/validate";
 import { updateCountryData } from "actions/address";
 import { Country } from "components/Formsy/CountryCode/typings";
+import Button from "components/Button";
 
 type Props = {
   id: ProductID;
@@ -332,7 +333,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({
                 isWords: true
               }}
               validationErrors={{
-                isWords: "Only alphabets are allowed"
+                isWords: "Please enter only alphabetic characters"
               }}
               required
             />
@@ -449,8 +450,8 @@ const CorporateEnquiryPopup: React.FC<Props> = ({
                     isExisty: true
                   }}
                   validationErrors={{
-                    isINRPhone: "Phone number should be 10 digit",
-                    isExisty: "Please enter a valid phone number"
+                    isINRPhone: "Please enter a valid Contact Number",
+                    isExisty: "Please enter a valid Contact Number"
                   }}
                   required
                   keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
@@ -498,7 +499,7 @@ const CorporateEnquiryPopup: React.FC<Props> = ({
                     }
                   }}
                   validationErrors={{
-                    isRequired: "Required"
+                    isRequired: "Please select a suitable time to contact"
                   }}
                   value=""
                   required
@@ -513,11 +514,11 @@ const CorporateEnquiryPopup: React.FC<Props> = ({
           {enquiryMessage && (
             <p className={styles.enquireError}>{enquiryMessage}</p>
           )}
-          <input
+          <Button
             type="submit"
-            formNoValidate
-            className={globalStyles.aquaBtn}
-            value={submitted ? "close" : "submit"}
+            label={submitted ? "close" : "submit"}
+            variant="mediumAquaCta366"
+            className={cs({ [globalStyles.btnFullWidth]: mobile })}
           />
         </div>
       </div>

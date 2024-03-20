@@ -64,7 +64,7 @@ const SelectDropdown: React.FC<Props &
       case "gender":
         return "Please select your gender";
       case "country":
-        return "Please select your country";
+        return "Please select your Country";
       case "state":
         return "Please select your state";
       case "preferredContact":
@@ -72,7 +72,7 @@ const SelectDropdown: React.FC<Props &
       case "code":
         return "Please select code";
       case "whatsappNoCountryCode":
-        return "Please select code";
+        return "Please select a Country Code";
       default:
         return "Please Select option";
     }
@@ -118,6 +118,7 @@ const SelectDropdown: React.FC<Props &
           <img
             src={searchIcon}
             className={cs(props.searchIconClass || styles.searchIcon)}
+            width="200"
           />
           <input
             type="text"
@@ -133,7 +134,17 @@ const SelectDropdown: React.FC<Props &
         {options.map((option, i) => {
           return (
             <div
-              className={cs(props.optionsClass || styles.option)}
+              className={cs(props.optionsClass || styles.option, {
+                [props.aquaClass || styles.aquaText]:
+                  (option.label?.split("(")?.[1]
+                    ? option.label
+                        ?.split("(")?.[1]
+                        ?.substring(
+                          0,
+                          option.label?.split("(")?.[1]?.length - 1
+                        )
+                    : option.label?.split("(")?.[0]) === value
+              })}
               onClick={e => onOptionClick(e, option)}
               key={`${props.name}_${i}`}
             >

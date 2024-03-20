@@ -79,7 +79,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       //   console.log("Homepage API ERROR ==== " + err);
       // });
       MetaService.updateMeta(dispatch, cookies);
-      if (pathname.includes("/order/checkout")) {
+      if (
+        pathname.includes("/order/checkout") ||
+        pathname.includes("/order/gc_checkout")
+      ) {
         BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
         showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
       } else if (pathname.includes("/cart")) {
@@ -102,15 +105,15 @@ type Props = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> &
   RouteComponentProps;
 
-class CheckoutHeader extends React.Component<Props, { boId: string }> {
+class CheckoutHeader extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    const queryString = props.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const boId = urlParams.get("bo_id") || "";
-    this.state = {
-      boId: boId
-    };
+    // const queryString = props.location.search;
+    // const urlParams = new URLSearchParams(queryString);
+    // const boId = urlParams.get("bo_id") || "";
+    // this.state = {
+    //   boId: boId
+    // };
   }
   static contextType = UserContext;
 
@@ -328,20 +331,18 @@ class CheckoutHeader extends React.Component<Props, { boId: string }> {
               <Link
                 to="/"
                 onClick={e => {
-                  this.state.boId
-                    ? e.preventDefault()
-                    : headerClickGTM(
-                        "Logo",
-                        "Top",
-                        this.props.mobile,
-                        this.props.isLoggedIn
-                      );
+                  // this.state.boId
+                  //   ? e.preventDefault()
+                  headerClickGTM(
+                    "Logo",
+                    "Top",
+                    this.props.mobile,
+                    this.props.isLoggedIn
+                  );
                 }}
               >
                 <img
-                  className={
-                    this.state.boId ? styles.logoWithoutcursor : styles.logo
-                  }
+                  className={styles.logo}
                   alt="goodearth-logo"
                   src={gelogoCerise}
                 />

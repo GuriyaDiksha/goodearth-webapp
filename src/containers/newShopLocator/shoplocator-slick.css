@@ -7,17 +7,20 @@
 }
 
 .shopLocatorSlider .slick-prev:before {
-    content: url('../../images/shopLocatorPrev.svg');
+    /* content: url('../../images/shopLocatorPrev.svg'); */
+    content: url('../../images/shopLocator_LeftArrow.svg');
     display: block;
-    height: 30px;
-    width: 30px;
+    height: 26px;
+    width: 26px;
 }
 
 .shopLocatorSlider .slick-next:before {
-    content: url('../../images/shopLocatorNext.svg');
+    content: url('../../images/shopLocator_RightArrow.svg');
+    /* content: url('../../images/shopLocatorPrev.svg');
+    transform: rotate(180deg);	 */
     display: block;
-    height: 30px;
-    width: 30px;
+    height: 26px;
+    width: 26px;
 }
 
 .shopLocatorSlider .slick-prev.slick-disabled:before,.shopLocatorSlider .slick-next.slick-disabled:before {

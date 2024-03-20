@@ -12,6 +12,7 @@ import { showGrowlMessage } from "utils/validate";
 import { Cookies } from "typings/cookies";
 import { Currency } from "typings/currency";
 import { MESSAGE } from "constants/messages";
+import { updateNextUrl } from "actions/info";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
@@ -37,6 +38,11 @@ const mapActionsToProps = (dispatch: Dispatch) => {
       const result = await LoginService.changeCurrency(dispatch, data);
       return result;
     },
+    goLogin: (event?: React.MouseEvent, nextUrl?: string) => {
+      LoginService.showLogin(dispatch);
+      nextUrl && dispatch(updateNextUrl(nextUrl));
+      event?.preventDefault();
+    },
     reloadPage: (
       cookies: Cookies,
       currency: Currency,
@@ -60,6 +66,7 @@ const mapActionsToProps = (dispatch: Dispatch) => {
         console.log("Popups Api ERROR === " + err);
       });
       WishlistService.updateWishlist(dispatch);
+      // WishlistService.countWishlist(dispatch);
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
       showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);

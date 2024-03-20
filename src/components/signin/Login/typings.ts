@@ -35,4 +35,6 @@ export type loginState = {
   isSecondStepLoginDisabled: boolean;
   showEmailVerification: boolean;
   usrWithNoOrder: boolean;
+  phoneNo?: string;
+  isUserActive?: boolean;
 };

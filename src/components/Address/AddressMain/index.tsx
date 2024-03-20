@@ -5,7 +5,7 @@ import { AppState } from "reducers/typings";
 import globalStyles from "styles/global.scss";
 // import styles from "../styles.scss";
 import cs from "classnames";
-import { AddressData, AddressFormData } from "../typings";
+import { AddressData } from "../typings";
 import AddressList from "components/Address/AddressList";
 import AddressForm from "../AddressForm";
 import MyAddress from "containers/myAccount/components/MyAddress";
@@ -13,6 +13,7 @@ import { AddressContext } from "./context";
 import { Props, AddressModes } from "../typings";
 import AddressService from "services/address";
 // import { updatePinCodeList } from "actions/address";
+// import { updateAddressList } from "actions/address";
 import Loader from "components/Loader";
 import AddressSection from "containers/checkout/component/address";
 import {
@@ -33,7 +34,10 @@ import { CONFIG } from "constants/util";
 import {
   updateBillingAddressId,
   updateShippingAddressId
+  // updateBridalAddressId
 } from "actions/address";
+import { countryCurrencyCode } from "constants/currency";
+import Button from "components/Button";
 
 const AddressMain: React.FC<Props> = props => {
   // data: [],
@@ -50,7 +54,10 @@ const AddressMain: React.FC<Props> = props => {
     (state: AppState) => state.address
   );
   const { bridal } = useSelector((state: AppState) => state.basket);
-  const { user } = useSelector((state: AppState) => state);
+  const {
+    user,
+    device: { mobile }
+  } = useSelector((state: AppState) => state);
   const [scrollPos, setScrollPos] = useState<null | number>(null);
   const [innerScrollPos, setInnerScrollPos] = useState<null | number>(null);
   // const { isLoggedIn } = useSelector((state: AppState) => state.user);
@@ -84,9 +91,9 @@ const AddressMain: React.FC<Props> = props => {
 
   useEffect(() => {
     if (Object.keys(pinCodeData).length > 0) {
-      addressList.length == 0
-        ? dispatch(updateAddressMode("new"))
-        : dispatch(updateAddressMode("list"));
+      // addressList.length == 0
+      //   ? dispatch(updateAddressMode("new"))
+      dispatch(updateAddressMode("list"));
     }
   }, [addressList.length, Object.keys(pinCodeData).length]);
 
@@ -241,77 +248,96 @@ const AddressMain: React.FC<Props> = props => {
     return isValid;
   };
 
-  const markAsDefault = (addressData: AddressData, addressId?: number) => {
+  const markAsDefault = (addressData: AddressData) => {
     const { country } = addressData;
     const isValid = isAddressValid(addressData);
     if (isValid) {
       setIsLoading(true);
       // extract formData from address
-      const {
-        id,
-        emailId,
-        firstName,
-        lastName,
-        city,
-        postCode,
-        phoneCountryCode,
-        phoneNumber,
-        isDefaultForBilling,
-        line1,
-        line2,
-        state,
-        addressType
-      } = addressData;
+      // const {
+      //   id,
+      //   emailId,
+      //   firstName,
+      //   lastName,
+      //   city,
+      //   postCode,
+      //   phoneCountryCode,
+      //   phoneNumber,
+      //   isDefaultForBilling,
+      //   line1,
+      //   line2,
+      //   state,
+      //   addressType
+      // } = addressData;
 
-      const formData: AddressFormData = {
-        emailId,
-        firstName,
-        lastName,
-        city,
-        postCode,
-        country,
-        phoneCountryCode,
-        phoneNumber,
-        isDefaultForShipping: true,
-        isDefaultForBilling,
-        line1,
-        line2,
-        state,
-        addressType
-      };
+      // const formData: AddressFormData = {
+      //   emailId,
+      //   firstName,
+      //   lastName,
+      //   city,
+      //   postCode,
+      //   country,
+      //   phoneCountryCode,
+      //   phoneNumber,
+      //   isDefaultForShipping: true,
+      //   isDefaultForBilling,
+      //   line1,
+      //   line2,
+      //   state,
+      //   addressType
+      // };
 
-      if (currentCallBackComponent === "checkout-shipping" && addressId) {
-        dispatch(updateShippingAddressId(addressId));
-        if (!props.isGoodearthShipping && !props.isBridal && sameAsShipping) {
-          dispatch(updateBillingAddressId(addressId));
+      if (currentCallBackComponent === "checkout-shipping") {
+        dispatch(updateShippingAddressId(addressData?.id));
+        AddressService.fetchCustomDuties(
+          dispatch,
+          countryCurrencyCode?.[country || "IN"]
+        );
+        if (!props.isGoodearthShipping && !bridal && sameAsShipping) {
+          dispatch(updateBillingAddressId(addressData?.id));
         }
         dispatch(
           updateSameAsShipping(
-            !props.isGoodearthShipping && !props.isBridal && sameAsShipping
+            !props.isGoodearthShipping && !bridal && sameAsShipping
           )
         );
         setIsLoading(false);
-      } else if (currentCallBackComponent === "checkout-billing" && addressId) {
-        dispatch(updateBillingAddressId(addressId));
+      } else if (currentCallBackComponent === "checkout-billing") {
+        dispatch(updateBillingAddressId(addressData?.id));
         setIsLoading(false);
-      } else {
-        AddressService.updateAddress(dispatch, formData, id, addressId)
-          .catch(err => {
-            const errData = err.response.data;
-            console.log(errData);
-          })
-          .finally(() => {
-            setIsLoading(false);
-          });
+        setIsLoading(false);
       }
+      // else {
+      // AddressService.updateAddress(dispatch, formData, id, addressId)
+      //   .catch(err => {
+      //     const errData = err.response.data;
+      //     console.log(errData);
+      //   })
+      //   .finally(() => {
+      //     setIsLoading(false);
+      //   });
+      // }
     } else {
       openAddressForm(addressData);
     }
   };
 
-  const closeAddressForm = useCallback(() => {
+  const closeAddressForm = useCallback((addressId?: any) => {
     dispatch(updateAddressMode("list"));
-    // window.scrollTo(0, 0);
+    setTimeout(() => {
+      if (addressId) {
+        document.getElementById(`address-item-${addressId}`)?.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "start"
+        });
+      } else {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
+    }, 300);
   }, []);
 
   const checkPinCode = useCallback(
@@ -327,11 +353,59 @@ const AddressMain: React.FC<Props> = props => {
     });
     setIsdList(isdList);
   }, [countryData]);
+
+  // const {
+  //   step,
+  //   changeBridalAddress,
+  //   setCurrentModule,
+  //   setCurrentModuleData
+  // } = useContext(BridalContext);
+
+  // const handleSelect = (address: AddressData) => {
+  //   switch (currentCallBackComponent) {
+  //     case "bridal":
+  //       if (step == "manage") {
+  //         changeBridalAddress(address.id);
+  //       } else {
+  //         setCurrentModuleData("address", {
+  //           userAddress: address
+  //         });
+  //       }
+  //       break;
+  //     case "bridal-edit":
+  //       if (step == "create") {
+  //         changeBridalAddress(address.id);
+  //       } else {
+  //         setCurrentModuleData("address", {
+  //           userAddress: address
+  //         });
+  //         // setSelectId(address.id);
+  //         setCurrentModule("created");
+  //       }
+  //       break;
+  //   }
+  // };
+
+  // const address = props.addressData;
+
+  // const onSelectBridalAddress = (address: AddressData) => {
+  //   if (address) {
+  //     const isValid = isAddressValid(address);
+  //     if (isValid) {
+  //       // this.props.onSelectAddress(address);
+  //       handleSelect(address);
+  //     } else {
+  //       // this.manageAddressPostcode("edit", address);
+  //       openAddressForm(address);
+  //     }
+  //   }
+  // };
+
   const addressContent = (
     <>
       {mode == "list" && (
         <div>
-          {currentCallBackComponent !== "checkout-shipping" &&
+          {/* {currentCallBackComponent !== "checkout-shipping" &&
             currentCallBackComponent !== "checkout-billing" &&
             currentCallBackComponent !== "bridal-edit" &&
             currentCallBackComponent !== "bridal" && (
@@ -350,7 +424,7 @@ const AddressMain: React.FC<Props> = props => {
               >
                 + ADD NEW ADDRESS
               </div>
-            )}
+            )} */}
           <AddressList
             addressDataList={addressList}
             isBridal={bridal}
@@ -358,6 +432,7 @@ const AddressMain: React.FC<Props> = props => {
             showAddressInBridalUse={["bridal", "bridal-edit"].includes(
               currentCallBackComponent
             )}
+            isGcCheckout={props.isGcCheckout}
           />
 
           {currentCallBackComponent == "bridal" &&
@@ -398,17 +473,23 @@ const AddressMain: React.FC<Props> = props => {
               <div className={globalStyles.voffset4}>
                 <ul>
                   <li>
-                    <input
-                      type="button"
+                    <Button
+                      variant="mediumMedCharcoalCta366"
                       id="address_button"
-                      className={cs(styles.charcoalBtn, {
-                        [globalStyles.disabledBtn]:
-                          currentCallBackComponent == "bridal" &&
-                          !userAddress?.id
-                      })}
-                      value={
+                      className={cs(
+                        globalStyles.marginB20,
+                        globalStyles.charcoalBtn,
+                        globalStyles.charcoalBtnHover,
+                        { [globalStyles.btnFullWidth]: mobile }
+                        // {
+                        //   [globalStyles.disabledBtn]:
+                        //     currentCallBackComponent == "bridal" &&
+                        //     !userAddress?.id
+                        // }
+                      )}
+                      label={
                         currentCallBackComponent == "bridal"
-                          ? "create registry"
+                          ? "select & create registry"
                           : "+ add a new address"
                       }
                       onClick={() => {
@@ -426,6 +507,34 @@ const AddressMain: React.FC<Props> = props => {
                 </ul>
               </div>
             )}
+
+          {currentCallBackComponent == "bridal-edit" && (
+            <div className={globalStyles.voffset4}>
+              <ul>
+                <li>
+                  <input
+                    type="button"
+                    id="address_button"
+                    className={cs(
+                      globalStyles.charcoalBtn,
+                      globalStyles.charcoalBtnHover
+                    )}
+                    value="update details"
+                    onClick={() => {
+                      if (
+                        currentCallBackComponent == "bridal-edit" &&
+                        props.editRegistryAddress
+                      ) {
+                        props.editRegistryAddress();
+                      } else {
+                        openAddressForm();
+                      }
+                    }}
+                  />
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       )}
       {mode == "new" && (
@@ -434,6 +543,7 @@ const AddressMain: React.FC<Props> = props => {
           currentCallBackComponent={currentCallBackComponent}
           saveAddress={() => null}
           openAddressList={() => null}
+          isGcCheckout={props.isGcCheckout}
         ></AddressForm>
       )}
       {mode == "edit" && (
@@ -442,6 +552,7 @@ const AddressMain: React.FC<Props> = props => {
           currentCallBackComponent={currentCallBackComponent}
           saveAddress={() => null}
           openAddressList={() => null}
+          isGcCheckout={props.isGcCheckout}
         ></AddressForm>
       )}
       {isLoading && <Loader />}
@@ -523,6 +634,7 @@ const AddressMain: React.FC<Props> = props => {
             errorNotification={props.errorNotification}
             isBridal={bridal}
             currentStep={props.currentStep}
+            isGcCheckout={props.isGcCheckout}
           >
             {addressContent}
           </AddressSection>
@@ -576,6 +688,7 @@ const AddressMain: React.FC<Props> = props => {
             errorNotification={props.errorNotification}
             isBridal={bridal}
             currentStep={props.currentStep}
+            isGcCheckout={props.isGcCheckout}
           >
             {addressContent}
           </AddressSection>

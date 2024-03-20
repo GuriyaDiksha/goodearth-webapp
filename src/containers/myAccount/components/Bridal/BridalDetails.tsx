@@ -14,6 +14,9 @@ import Formsy from "formsy-react";
 import FormInput from "../../../../components/Formsy/FormInput";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import Button from "components/Button";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const BridalDetails: React.FC = () => {
   const { setCurrentModule, setCurrentModuleData, data } = useContext(
@@ -23,6 +26,8 @@ const BridalDetails: React.FC = () => {
   const [updateProfile, setUpdateProfile] = useState(
     data.coRegistrantName && data.registrantName ? true : false
   );
+  const { mobile } = useSelector((state: AppState) => state.device);
+
   const BridalDetailsFormRef = createRef<Formsy>();
 
   const handleSubmit = (
@@ -172,13 +177,12 @@ const BridalDetails: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <input
+                    <Button
                       type="submit"
                       disabled={!updateProfile}
-                      className={cs(globalStyles.ceriseBtn, {
-                        [globalStyles.disabledBtn]: !updateProfile
-                      })}
-                      value="Proceed to add shipping details"
+                      className={cs({ [globalStyles.btnFullWidth]: mobile })}
+                      label="Proceed to add shipping details"
+                      variant="mediumMedCharcoalCta366"
                     />
                   </div>
                 </div>

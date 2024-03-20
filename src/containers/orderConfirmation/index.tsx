@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
-import logoImage from "images/gelogoCerise.svg";
 import BanarasMotifImage from "../../images/banaras-motif.png";
 import AccountServices from "services/account";
 import moment from "moment";
@@ -110,7 +109,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         variant: line.product.size || "",
         quantity: line.quantity,
         coupon: result.offerDisounts?.[0].name,
-        dimension12: line.product?.color
+        dimension12: line.product?.color,
+        item_category: category?.split(">")?.join("|"),
+        collection_category: line?.product?.collections?.join("|")
       };
     });
     const categoryname2: string[] = [];
@@ -151,6 +152,20 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         quantity: line.quantity
       };
     });
+    // Adding custom logic for GA4
+    let transactionId = result.transactionId;
+    if (transactionId == "") {
+      if (
+        result.loyalityPointsRedeemed?.length > 0 &&
+        result.loyalityPointsRedeemed[0] == result.subTotalWithShipping
+      ) {
+        transactionId = "LOYALTY_" + result.number;
+      } else if (result.giftVoucherRedeemed?.length > 0) {
+        transactionId = "GC_CN_" + result.number;
+      } else if (result.voucherDiscounts?.length > 0) {
+        transactionId = "VOUCHER_" + result.number;
+      }
+    }
     if (result.pushToGA == false) {
       const userConsent = CookieService.getCookie("consent").split(",");
       if (userConsent.includes(GA_CALLS)) {
@@ -174,7 +189,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         });
         dataLayer.push({
           event: "customPurchaseSuccess",
-          "Transaction ID": result.transactionId,
+          "Transaction ID": transactionId,
           Revenue: +result.totalInclTax,
           "Shipping Charges": +result.shippingInclTax,
           "Payment Method": result.paymentMethod,
@@ -197,7 +212,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         dataLayer.push({
           event: "GA4_purchase",
           ecommerce: {
-            transaction_id: result.transactionId,
+            transaction_id: transactionId,
             affiliation: productname, // Pass the product name
             value: +result.totalInclTax,
             tax: 0,
@@ -257,24 +272,51 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       productprice.push(line.product.pricerecords[result.currency as Currency]);
       productquantity.push(+line.quantity);
 
+      const search = CookieService.getCookie("search") || "";
+      const clickType = localStorage.getItem("clickType");
+
+      const cat1 = line?.product?.categories?.[0]?.split(">");
+      const cat2 = line?.product?.categories?.[1]?.split(">");
+
+      const L1 = cat1?.[0].trim();
+
+      const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+      const L3 = cat2?.[2]
+        ? cat2?.[2]?.trim()
+        : line?.product?.categories?.[2]?.split(">")?.[2].trim();
+
       return {
         item_id: line.product.sku,
         item_name: line.title,
         affiliation: "Pass the affiliation of the product",
-        coupon: result.voucherDiscounts?.[0]?.voucher?.code, //Pass NA if not applicable at the moment
-        discount: result?.offerDiscounts?.[0].name,
+        coupon:
+          isSale && result?.offerDiscounts?.[0].name
+            ? result?.offerDiscounts?.[0].name
+            : "NA",
+        discount:
+          isSale && result?.offerDiscounts?.[0].amount
+            ? line?.product?.badgeType == "B_flat"
+              ? line?.product.discountedPriceRecords[result?.currency]
+              : line?.product.priceRecords[result?.currency] -
+                line?.product.discountedPriceRecords[result?.currency]
+            : "NA",
         index: ind,
         item_brand: "Goodearth",
-        item_category: category,
-        item_category2: line.product.size || "",
-        item_category3: line.product.is3DView ? "3d" : "non3d",
+        item_category: L1,
+        item_category2: L2,
+        item_category3: L3,
+        item_category4: "NA",
+        item_category5: "NA",
         item_list_id: "NA",
-        item_list_name: "NA",
-        item_variant: "NA",
+        item_list_name: search ? `${clickType}-${search}` : "NA",
+        item_variant: line.product.size || "NA",
         price: line.isEgiftCard
           ? +line.priceExclTax
           : line.product.pricerecords[result.currency as Currency],
-        quantity: line.quantity
+        quantity: line.quantity,
+        collection_category: line?.product?.collections?.join("|"),
+        price_range: "NA"
       };
     });
 
@@ -294,7 +336,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         whatsapp_subscribe: "",
         delivery_instruction: result.deliveryInstructions ? "Yes" : "No", //Pass NA if not applicable the moment
         ecommerce: {
-          transaction_id: result.transactionId,
+          transaction_id: transactionId,
           currency: result.currency,
           value: result.totalInclTax,
           tax: 0,
@@ -342,6 +384,17 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     }
   }, []);
 
+  const colorName = (value: string) => {
+    let cName = value
+      .split("-")
+      .slice(1)
+      .join();
+    if (cName[cName.length - 1] == "s") {
+      cName = cName.slice(0, -1);
+    }
+    return cName;
+  };
+
   let totalItem = 0;
   for (let i = 0; i < confirmData?.lines?.length; i++) {
     totalItem += confirmData.lines[i].quantity;
@@ -359,7 +412,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
   }
   return (
     <div>
-      <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
+      {/* <div className={cs(bootstrapStyles.row, styles.subcHeader)}>
         <div
           className={cs(
             bootstrapStyles.col12,
@@ -377,7 +430,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             />
           </Link>
         </div>
-      </div>
+      </div> */}
 
       <div className={cs(bootstrapStyles.row, styles.bgProfile, styles.os)}>
         <div
@@ -456,27 +509,38 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       styles.rowGap30
                     )}
                   >
-                    <div
-                      className={cs(
-                        bootstrapStyles.col12,
-                        bootstrapStyles.colMd6
-                      )}
-                    >
+                    {shippingAddress && !confirmData.isOnlyGiftOrder && (
                       <div
-                        className={cs(styles.add, {
-                          [styles.bridal]: confirmData?.isBridalOrder
-                        })}
+                        className={cs(
+                          bootstrapStyles.col12,
+                          bootstrapStyles.colMd6
+                        )}
                       >
-                        {shippingAddress ? (
+                        <div
+                          className={cs(styles.add, {
+                            [styles.bridal]: confirmData?.isBridalOrder
+                          })}
+                        >
                           <address className={styles.shippingAddressWrp}>
                             <label>shipping address</label>
                             {confirmData?.isBridalOrder ? (
                               <>
-                                <p>
-                                  {confirmData?.registrantName} &{" "}
-                                  {confirmData?.coRegistrantName}&#39;s <br />
-                                  {confirmData?.occasion} Registry
-                                </p>
+                                {confirmData?.registrantName &&
+                                  !confirmData?.coRegistrantName && (
+                                    <p>
+                                      {confirmData?.registrantName}&#39;s&nbsp;
+                                      {confirmData?.occasion}&nbsp;Registry
+                                    </p>
+                                  )}
+                                {confirmData?.registrantName &&
+                                  confirmData?.coRegistrantName && (
+                                    <p>
+                                      {confirmData?.registrantName}&nbsp;&&nbsp;
+                                      {confirmData?.coRegistrantName}
+                                      &#39;s&nbsp;
+                                      {confirmData?.occasion}&nbsp;Registry
+                                    </p>
+                                  )}
                                 <p className={styles.light}>
                                   {" "}
                                   Address predefined by registrant
@@ -506,10 +570,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               </>
                             )}
                           </address>
-                        ) : (
-                          ""
-                        )}
-                        {/* {confirmData?.isBridalOrder && (
+                          {/* {confirmData?.isBridalOrder && (
                           <React.Fragment>
                             {" "}
                             <div className={cs(styles.row, styles.name)}>
@@ -534,13 +595,15 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                             </div>
                           </React.Fragment>
                         )} */}
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     <div
                       className={cs(
                         bootstrapStyles.col12,
-                        bootstrapStyles.colMd6
+                        bootstrapStyles.colMd6,
+                        confirmData.isOnlyGiftOrder ? styles.onlyGiftOrder : ""
                       )}
                     >
                       <div className={styles.add}>
@@ -630,10 +693,17 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         >
                           <div
                             className={cs(
+                              styles.imageContainer,
                               bootstrapStyles.col4,
                               bootstrapStyles.colMd3
                             )}
                           >
+                            {item.product.images?.[0]?.badgeImage && (
+                              <img
+                                className={cs(styles.badgeImage)}
+                                src={item.product.images?.[0]?.badgeImage}
+                              />
+                            )}
                             <img
                               src={item.product.images?.[0]?.productImage}
                               className={globalStyles.imgResponsive}
@@ -668,7 +738,9 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                               <p
                                 className={cs(
                                   styles.productN,
-                                  globalStyles.flex
+                                  globalStyles.flex,
+                                  globalStyles.marginT10,
+                                  globalStyles.marginB10
                                 )}
                               >
                                 {isdisCount || isFlat ? (
@@ -694,8 +766,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   <span
                                     className={cs(
                                       {
-                                        [globalStyles.cerise]:
-                                          item.product.badgeType == "B_flat"
+                                        [globalStyles.hidden]: isFlat
                                       },
                                       styles.price
                                     )}
@@ -712,16 +783,19 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                 ""
                               ) : (
                                 <Fragment>
-                                  <div
-                                    className={cs(
-                                      styles.productDetails,
-                                      globalStyles.voffset1
-                                    )}
-                                  >
+                                  <div className={cs(styles.productDetails)}>
                                     {item.product.size && (
                                       <>Size:&nbsp; {item.product.size}</>
                                     )}
                                   </div>
+                                  {item?.product?.colors?.length &&
+                                  item?.product?.groupedProductsCount &&
+                                  item?.product?.groupedProductsCount > 0 ? (
+                                    <div className={styles.productDetails}>
+                                      Color:&nbsp;{" "}
+                                      {colorName(item.product?.colors?.[0])}
+                                    </div>
+                                  ) : null}
                                   <div className={styles.productDetails}>
                                     Qty:&nbsp; {item.quantity}
                                   </div>
@@ -744,14 +818,30 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                 </Fragment>
                               )}
                             </div>
-                            {item.product?.structure == "GiftCard" && (
+                            {item.product.structure == "GiftCard" && (
+                              <>
+                                <div className={cs(styles.productSize)}>
+                                  Recipient&apos;s Name:{" "}
+                                  {item?.GcMeta?.recipeint_name}
+                                </div>
+                                <div className={cs(styles.productSize)}>
+                                  Recipient&apos;s Email:{" "}
+                                  {item?.GcMeta?.recipient_email}
+                                </div>
+                                <div className={cs(styles.productSize)}>
+                                  Sender&apos;s Name:{" "}
+                                  {item?.GcMeta?.sender_name}
+                                </div>
+                              </>
+                            )}
+                            {/* {item.product?.structure == "GiftCard" && (
                               <div className={globalStyles.textLeft}>
                                 <p className={styles.label}>Sent via Email:</p>
                                 <p className={styles.email}>
                                   {item.egiftCardRecipient}
                                 </p>
                               </div>
-                            )}
+                            )} */}
                           </div>
                         </div>
                       );
@@ -777,35 +867,67 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             >
               <div className={cs(styles.priceSection)}>
                 <div className={styles.orderSummaryTitle}>Order Summary</div>
-                <div className={styles.subTotalSectionWrapper}>
-                  <div className={cs(styles.subTotalSection)}>
-                    <p>SUBTOTAL</p>
-                    <p>
-                      {`${displayPriceWithCommasFloat(
-                        parseFloat(confirmData.orderSubTotal),
-                        confirmData.currency
-                      )}`}
-                      {/* {parseFloat(confirmData.orderSubTotal).toFixed(2)} */}
-                    </p>
-                  </div>
+                <div
+                  className={
+                    !confirmData.isOnlyGiftOrder
+                      ? styles.subTotalSectionWrapper
+                      : ""
+                  }
+                >
+                  {!confirmData.isOnlyGiftOrder && (
+                    <div className={cs(styles.subTotalSection)}>
+                      <p>SUBTOTAL</p>
+                      <p>
+                        {`${displayPriceWithCommasFloat(
+                          parseFloat(confirmData.orderSubTotal),
+                          confirmData.currency
+                        )}`}
+                        {/* {parseFloat(confirmData.orderSubTotal).toFixed(2)} */}
+                      </p>
+                    </div>
+                  )}
                   {/* Filter this key and remove vouchers */}
-                  {confirmData?.offerDiscounts?.map(
-                    (
-                      discount: { name: string; amount: string },
-                      index: number
-                    ) => (
-                      <div className={cs(styles.discountSection)} key={index}>
-                        <p>{discount.name}</p>
-                        <p>
-                          (-){" "}
-                          {`${displayPriceWithCommasFloat(
-                            parseFloat(discount.amount),
-                            confirmData.currency
-                          )}`}
-                          {/* {parseFloat(discount.amount).toFixed(2)} */}
-                        </p>
-                      </div>
-                    )
+                  {!confirmData.isOnlyGiftOrder &&
+                    confirmData?.offerDiscounts?.map(
+                      (
+                        discount: { name: string; amount: string },
+                        index: number
+                      ) =>
+                        !confirmData.isOnlyGiftOrder && (
+                          <div
+                            className={cs(styles.discountSection)}
+                            key={index}
+                          >
+                            <p>{discount.name}</p>
+                            <p>
+                              (-){" "}
+                              {`${displayPriceWithCommasFloat(
+                                parseFloat(discount.amount),
+                                confirmData.currency
+                              )}`}
+                              {/* {parseFloat(discount.amount).toFixed(2)} */}
+                            </p>
+                          </div>
+                        )
+                    )}
+
+                  {!confirmData.isOnlyGiftOrder && (
+                    <div
+                      className={cs(
+                        styles.discountSection,
+                        styles.shippingSection
+                      )}
+                    >
+                      <p>Shipping & Handling</p>
+                      <p>
+                        (+){" "}
+                        {`${displayPriceWithCommasFloat(
+                          parseFloat(confirmData.shippingInclTax),
+                          confirmData.currency
+                        )}`}
+                        {/* {parseFloat(confirmData.shippingInclTax).toFixed(2)} */}
+                      </p>
+                    </div>
                   )}
 
                   <div
@@ -814,33 +936,33 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                       styles.shippingSection
                     )}
                   >
-                    <p>Shipping & Handling</p>
+                    <p>TOTAL</p>
                     <p>
-                      (+){" "}
                       {`${displayPriceWithCommasFloat(
-                        parseFloat(confirmData.shippingInclTax),
+                        parseFloat(confirmData?.subTotalWithShipping || 0),
                         confirmData.currency
                       )}`}
                       {/* {parseFloat(confirmData.shippingInclTax).toFixed(2)} */}
                     </p>
                   </div>
 
-                  {confirmData.voucherDiscounts.map((vd: any, i: number) => (
-                    <div
-                      className={cs(styles.discountSection)}
-                      key={`voucher_${i}`}
-                    >
-                      <p>{vd.name}</p>
-                      <p>
-                        (-){" "}
-                        {`${displayPriceWithCommasFloat(
-                          parseFloat(vd.amount),
-                          confirmData.currency
-                        )}`}
-                        {/* {parseFloat(vd.amount).toFixed(2)} */}
-                      </p>
-                    </div>
-                  ))}
+                  {!confirmData.isOnlyGiftOrder &&
+                    confirmData.voucherDiscounts.map((vd: any, i: number) => (
+                      <div
+                        className={cs(styles.discountSection)}
+                        key={`voucher_${i}`}
+                      >
+                        <p>{vd.name}</p>
+                        <p>
+                          (-){" "}
+                          {`${displayPriceWithCommasFloat(
+                            parseFloat(vd.amount),
+                            confirmData.currency
+                          )}`}
+                          {/* {parseFloat(vd.amount).toFixed(2)} */}
+                        </p>
+                      </div>
+                    ))}
 
                   {confirmData.giftVoucherRedeemed.map(
                     (gccn: number, i: number) => (
@@ -848,11 +970,11 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         className={cs(styles.discountSection)}
                         key={`gccn_${i}`}
                       >
-                        <p>Gift Card/Credit Note</p>
+                        <p>{Object.keys(gccn)?.[0]}</p>
                         <p>
                           (-){" "}
                           {`${displayPriceWithCommasFloat(
-                            parseFloat("" + gccn),
+                            parseFloat("" + Object.values(gccn)?.[0]),
                             confirmData.currency
                           )}`}
                           {/* {parseFloat("" + gccn).toFixed(2)} */}
@@ -870,7 +992,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         )}
                         key={`loyalty_`}
                       >
-                        <p>Loyalty Points</p>
+                        <p>CERISE POINTS</p>
                         <p>
                           (-){" "}
                           {`${displayPriceWithCommasFloat(
@@ -885,6 +1007,15 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                     )
                   )}
                 </div>
+                {/* <div className={cs(styles.totalSection, styles.totalWrp)}>
+                  <p>TOTAL</p>
+                  <p>
+                    {displayPriceWithCommasFloat(
+                      confirmData.subTotalWithShipping,
+                      confirmData.currency
+                    )}
+                  </p>
+                </div> */}
                 <div className={cs(styles.totalSection)}>
                   <p>AMOUNT PAID</p>
                   <p>

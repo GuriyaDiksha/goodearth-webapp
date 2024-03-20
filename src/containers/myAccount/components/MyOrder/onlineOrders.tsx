@@ -10,10 +10,8 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import invoice from "../../../../images/invoice.svg";
 import invoiceDisabled from "../../../../images/invoiceDisabled.svg";
-import {
-  displayPriceWithCommas,
-  displayPriceWithCommasFloat
-} from "utils/utility";
+import { displayPriceWithCommasFloat } from "utils/utility";
+import Button from "components/Button";
 
 const OnlineOrders: React.FC<OrdersProps> = props => {
   const [data, setData] = useState<any[]>([]);
@@ -121,6 +119,17 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     }, 300);
   };
 
+  const colorName = (value: string) => {
+    let cName = value
+      .split("-")
+      .slice(1)
+      .join();
+    if (cName[cName.length - 1] == "s") {
+      cName = cName.slice(0, -1);
+    }
+    return cName;
+  };
+
   const renderOrder = (item: any, index: number) => {
     const data: any = orderdata;
     const html = [],
@@ -130,18 +139,29 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     html.push(
       <div className={cs(styles.addressBlock, styles.myordersAddressblock)}>
         {/* Shipping Address */}
-        {shippingAddress && (
+        {shippingAddress && !data?.isOnlyGiftOrder && (
           <div className={styles.address}>
             <div className={styles.title}>shipping address</div>
             {data.isBridalOrder && (
               <div className={styles.row}>
                 <span className={styles.bridalInfo}>
-                  {data.registrantName}
-                  &nbsp; & &nbsp;{data.coRegistrantName}
-                  {"'s "}
-                  {data.occasion} Registry
+                  {data.registrantName && !data.coRegistrantName && (
+                    <span>
+                      {data.registrantName}&#39;s&nbsp;
+                      {data.occasion}&nbsp;Registry&nbsp;
+                    </span>
+                  )}
+                  {data.registrantName && data.coRegistrantName && (
+                    <span>
+                      {data.registrantName}&nbsp;&&nbsp;
+                      {data.coRegistrantName}
+                      &#39;s&nbsp;
+                      {data.occasion}&nbsp;Registry&nbsp;
+                    </span>
+                  )}
                 </span>
                 <span className={styles.bridalMessage}></span>
+                <span>Address predefined by registrant</span>
               </div>
             )}
             {!data.isBridalOrder ? (
@@ -217,6 +237,12 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         html.push(
           <div className={cs(styles.product)} key={item.product.id}>
             <div className={cs(styles.imageContainer)}>
+              {item.product.images[0].badgeImage && (
+                <img
+                  className={cs(styles.badgeImage)}
+                  src={item.product.images[0].badgeImage}
+                />
+              )}
               <img
                 src={
                   item.product.images[0]
@@ -235,14 +261,21 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               <p className={cs(styles.price)}>
                 <span
                   className={cs(styles.amountPaid, {
-                    [styles.gold]: isDiscount
+                    [styles.gold]:
+                      isDiscount || item?.product?.badgeType === "B_flat"
                   })}
                 >
-                  {`${displayPriceWithCommas(amountPaid, item.priceCurrency)}`}
+                  {`${displayPriceWithCommasFloat(
+                    amountPaid,
+                    item.priceCurrency
+                  )}`}
                 </span>
                 {isDiscount && (
                   <span className={styles.originalPrice}>
-                    {`${displayPriceWithCommas(price, item.priceCurrency)}`}
+                    {`${displayPriceWithCommasFloat(
+                      price,
+                      item.priceCurrency
+                    )}`}
                   </span>
                 )}
               </p>
@@ -251,6 +284,12 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   {`Size: ${item.product.size}`}
                 </div>
               )}
+              {item?.product?.colors?.length &&
+              item?.product?.groupedProductsCount > 0 ? (
+                <div className={styles.size}>
+                  Color:{colorName(item.product?.colors?.[0])}
+                </div>
+              ) : null}
               <div className={styles.quantity}>{`Qty: ${item.quantity}`}</div>
             </div>
           </div>
@@ -261,40 +300,54 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
     html.push(
       <div className={styles.prices}>
         {/* Subtotal */}
-        <div className={cs(styles.price, styles.price1)}>
-          <span className={styles.label}>SUBTOTAL</span>
+        {!item?.isOnlyGiftOrder && (
+          <div className={cs(styles.price, styles.price1)}>
+            <span className={styles.label}>SUBTOTAL</span>
+            <span className={styles.value}>
+              {`${displayPriceWithCommasFloat(
+                item.orderSubTotal,
+                item.currency
+              )}`}
+            </span>
+          </div>
+        )}
+        {/* offer discounts */}
+        {!item?.isOnlyGiftOrder &&
+          data.offerDiscounts?.map(
+            (discount: { name: string; amount: string }, index: number) => {
+              return (
+                <div
+                  className={cs(styles.price, styles.price3, styles.discount)}
+                  key={index}
+                >
+                  <span className={styles.label}>{discount.name}</span>
+                  <span className={styles.value}>
+                    {`(-) ${displayPriceWithCommasFloat(
+                      discount.amount,
+                      item.currency
+                    )}`}
+                  </span>
+                </div>
+              );
+            }
+          )}
+        {/* shipping and handling */}
+        {!item?.isOnlyGiftOrder && (
+          <div className={cs(styles.price, styles.price2)}>
+            <span className={styles.label}>SHIPPING & HANDLING</span>
+            <span className={styles.value}>
+              {`(+) ${displayPriceWithCommasFloat(
+                item.shippingInclTax,
+                item.currency
+              )}`}
+            </span>
+          </div>
+        )}
+        <div className={cs(styles.price, styles.price2)}>
+          <span className={styles.label}>TOTAL</span>
           <span className={styles.value}>
             {`${displayPriceWithCommasFloat(
-              item.orderSubTotal,
-              item.currency
-            )}`}
-          </span>
-        </div>
-        {/* offer discounts */}
-        {data.offerDiscounts?.map(
-          (discount: { name: string; amount: string }, index: number) => {
-            return (
-              <div
-                className={cs(styles.price, styles.price3, styles.discount)}
-                key={index}
-              >
-                <span className={styles.label}>{discount.name}</span>
-                <span className={styles.value}>
-                  {`(-) ${displayPriceWithCommasFloat(
-                    discount.amount,
-                    item.currency
-                  )}`}
-                </span>
-              </div>
-            );
-          }
-        )}
-        {/* shipping and handling */}
-        <div className={cs(styles.price, styles.price2)}>
-          <span className={styles.label}>SHIPPING & HANDLING</span>
-          <span className={styles.value}>
-            {`(+) ${displayPriceWithCommasFloat(
-              item.shippingInclTax,
+              data?.subTotalWithShipping,
               item.currency
             )}`}
           </span>
@@ -320,9 +373,12 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               className={cs(styles.price, styles.price3, styles.discount)}
               key={i}
             >
-              <span className={styles.label}>Gift Card/Credit Note</span>
+              <span className={styles.label}>{Object.keys(gccn)?.[0]}</span>
               <span className={styles.value}>
-                {`(-) ${displayPriceWithCommas(gccn, item.currency)}`}
+                {`(-) ${displayPriceWithCommasFloat(
+                  Object.values(gccn)?.[0],
+                  item.currency
+                )}`}
               </span>
             </div>
           );
@@ -334,7 +390,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               className={cs(styles.price, styles.price3, styles.discount)}
               key={i}
             >
-              <span className={styles.label}>Loyalty Points</span>
+              <span className={styles.label}>Cerise Points</span>
               <span className={styles.value}>
                 {`(-) ${displayPriceWithCommasFloat(point, item.currency)}`}
               </span>
@@ -400,7 +456,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                     <div className={styles.amountPaid}>
                       <span className={styles.label}>Amount Paid</span>
                       <span className={styles.data}>
-                        {displayPriceWithCommas(
+                        {displayPriceWithCommasFloat(
                           item.totalInclTax,
                           item.currency
                         )}
@@ -490,16 +546,17 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
       {data?.length ? (
         <div className={styles.btnWrp}>
           {pagination?.next ? (
-            <button
-              className={styles.loadMoreBtn}
+            <Button
+              variant="outlineSmallMedCharcoalCta"
+              label="Load More"
               onClick={() => fetchOrders(pagination?.next)}
-            >
-              Load More
-            </button>
+            />
           ) : data.length >= 3 ? (
-            <button className={styles.backToTopBtn} onClick={() => backToTop()}>
-              Back to top
-            </button>
+            <Button
+              variant="outlineSmallMedCharcoalCta"
+              label="Back to top"
+              onClick={() => backToTop()}
+            />
           ) : (
             ""
           )}

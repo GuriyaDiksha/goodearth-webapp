@@ -308,65 +308,66 @@ $banner-mobile-height:180px;
                                         text-decoration: underline; 
                                     }
                                 }
-                                input[type="checkbox"]:not(:checked)+label:before{
-                                    content: '';
-                                    position: absolute;
-                                    left: 0;
-                                    top: 0px;
-                                    width: 18px;
-                                    height: 18px;
-                                    background-color: white;
-                                    border: 1px solid #9F9F9F;
-                                }
-                                input[type="checkbox"]:not(:checked)+label:after{
-                                    content: '';
-                                    display: block;
-                                    width: 6px;
-                                    height: 10px;
-                                    border: solid #7EAAA9;
-                                    border-width: 0 2px 2px 0;
-                                    position: absolute;
-                                    top: 3px;
-                                    left: 6px;
-                                    font-size: 18px;
-                                    line-height: 0.8;
-                                    transition: all .1s;
-                                }
-                                input[type="checkbox"]:checked+label:before {
-                                    content: '';
-                                    position: absolute;
-                                    left: 0;
-                                    top: 0px;
-                                    width: 18px;
-                                    height: 18px;
-                                    background-color: white;
-                                    border: 1px solid #9F9F9F;
-                                    border-color: #7EAAA9;
-                                    background-color: #7EAAA9;
-                                }
-                                input[type="checkbox"]:checked+label:after {
-                                    content: '';
-                                    display: block;
-                                    width: 6px;
-                                    height: 10px;
-                                    border: solid #7EAAA9;
-                                    border-width: 0 2px 2px 0;
-                                    position: absolute;
-                                    top: 3px;
-                                    left: 6px;
-                                    font-size: 18px;
-                                    line-height: 0.8;
-                                    transition: all .1s;
-                                    border: solid #fff;
-                                    border-width: 0 2px 2px 0;
-                                }
+                                // input[type="checkbox"]:not(:checked)+label:before{
+                                //     content: '';
+                                //     position: absolute;
+                                //     left: 0;
+                                //     top: 0px;
+                                //     width: 18px;
+                                //     height: 18px;
+                                //     background-color: white;
+                                //     border: 1px solid #9F9F9F;
+                                // }
+                                // input[type="checkbox"]:not(:checked)+label:after{
+                                //     content: '';
+                                //     display: block;
+                                //     width: 6px;
+                                //     height: 10px;
+                                //     border: solid #7EAAA9;
+                                //     border-width: 0 2px 2px 0;
+                                //     position: absolute;
+                                //     top: 3px;
+                                //     left: 6px;
+                                //     font-size: 18px;
+                                //     line-height: 0.8;
+                                //     transition: all .1s;
+                                // }
+                                // input[type="checkbox"]:checked+label:before {
+                                //     content: '';
+                                //     position: absolute;
+                                //     left: 0;
+                                //     top: 0px;
+                                //     width: 18px;
+                                //     height: 18px;
+                                //     background-color: white;
+                                //     border: 1px solid #9F9F9F;
+                                //     border-color: #7EAAA9;
+                                //     background-color: #7EAAA9;
+                                // }
+                                // input[type="checkbox"]:checked+label:after {
+                                //     content: '';
+                                //     display: block;
+                                //     width: 6px;
+                                //     height: 10px;
+                                //     border: solid #7EAAA9;
+                                //     border-width: 0 2px 2px 0;
+                                //     position: absolute;
+                                //     top: 3px;
+                                //     left: 6px;
+                                //     font-size: 18px;
+                                //     line-height: 0.8;
+                                //     transition: all .1s;
+                                //     border: solid #fff;
+                                //     border-width: 0 2px 2px 0;
+                                // }
                             }
                         }
                         .limit{
                             @include b5_10px_montserrat_charcoal();
                             letter-spacing: 0.5px;
-                            margin-top: 0px;
+                            margin-top: 3px;
                             text-align: right;
+                            float: right;
                         }
                     }
                 }
@@ -395,7 +396,7 @@ $banner-mobile-height:180px;
                 }
     
                 .contact-us{
-                    border-top: 2px solid #e5e5e5;
+                    // border-top: 2px solid #e5e5e5;
                     padding-top: 30px;
                     margin-bottom: 80px;
                     .queries-title{
@@ -639,7 +640,7 @@ $banner-mobile-height:180px;
                 letter-spacing: 0.50px;
             }
         }
-        .add-to-bag {
+        .buy-now-cta{
             position: fixed;
             bottom: 0px;
             left: 0px;
@@ -650,17 +651,21 @@ $banner-mobile-height:180px;
             letter-spacing: 0.5px;
             line-height: 60px;
             color: white;
-            background-color: #9f9f9f;
+            // background-color: #9f9f9f;
             text-align: center;
             cursor: pointer;
-            &.active{
-                background-color: #7EAAA9;
-                pointer-events: all;
-            }
+            // &.active{
+            //     background-color: #7EAAA9;
+            //     pointer-events: all;
+            // }
         }
     }
 }
 
 .error-message{
     @include err_13px_lora_italic_cerise();
+}
+
+.left-float {
+    float: left;
 }

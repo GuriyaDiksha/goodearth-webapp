@@ -25,7 +25,7 @@ export type ProfileResponse = {
   firstName: string;
   lastName: string;
   loginVia: string;
-  gender: string;
+  gender?: "male" | "female";
   panPassportNumber: string;
   dateOfBirth: string;
   newsletter: boolean;

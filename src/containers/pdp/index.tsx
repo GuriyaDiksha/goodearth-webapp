@@ -147,7 +147,7 @@ class PDPContainer extends React.Component<Props, State> {
     const {
       updateComponentModal,
       changeModalState,
-      device: { mobile },
+      device: { mobile, tablet },
       data,
       corporatePDP,
       selectedSizeId,
@@ -176,6 +176,7 @@ class PDPContainer extends React.Component<Props, State> {
         images: images,
         startIndex: index,
         mobile: mobile,
+        tablet: tablet,
         changeModalState: changeModalState,
         alt: this.props?.data?.altText,
         data,
@@ -340,7 +341,7 @@ class PDPContainer extends React.Component<Props, State> {
         "Page referrer url": CookieService.getCookie("prevUrl")
       });
     }
-    PDP(data, currency);
+    PDP(data, currency, this.props.isSale);
 
     moveChatDown();
 
@@ -408,15 +409,33 @@ class PDPContainer extends React.Component<Props, State> {
         // const scrollAfterDiv = document.getElementById("more_collection_div");
         const dockedDiv = document.getElementById("docked_div");
         const scrollAfterDiv = document.getElementById("product_detail_sec");
+        const headerContainer = document.getElementById("header_container");
+
         if (scrollAfterDiv) {
           const rect = scrollAfterDiv.getBoundingClientRect();
-          const scrollBottom = rect.bottom;
-          // console.log("bottom---" +rect.bottom);
+          const scrollBottom = rect.bottom + 100; // added 100 for padding of div
+          //  console.log("bottom---" +scrollBottom);
+          // console.log("y---" +rect);
+          // console.log("window---" +windowScroll);
           if (dockedDiv) {
             if (windowScroll >= scrollBottom) {
-              dockedDiv.style.cssText = "position: absolute;bottom: -8%;";
+              dockedDiv.style.cssText =
+                "position: absolute;bottom: -7.5%;transition: transform .3s ease-out,-webkit-transform .3s ease-out;";
+              if (scrollAfterDiv) {
+                scrollAfterDiv.style.cssText = "z-index: 5";
+              }
+              if (headerContainer) {
+                headerContainer.style.display = "block";
+              }
             } else {
-              dockedDiv.style.cssText = "position: fixed;bottom: 0;";
+              dockedDiv.style.cssText =
+                "position: fixed;bottom: 0;transition: transform .3s ease-out,-webkit-transform .3s ease-out;";
+              if (scrollAfterDiv) {
+                scrollAfterDiv.style.cssText = "z-index: 6";
+              }
+              if (headerContainer) {
+                headerContainer.style.display = "none";
+              }
             }
           }
         }
@@ -442,6 +461,8 @@ class PDPContainer extends React.Component<Props, State> {
     document.removeEventListener("scroll", this.onScroll);
     if (this.props.device.mobile) {
       const elem = document.getElementById("pincode-bar");
+      const headerContainer = document.getElementById("header_container");
+
       elem &&
         elem.classList.contains(globalStyles.hiddenEye) &&
         elem.classList.remove(globalStyles.hiddenEye);
@@ -452,6 +473,10 @@ class PDPContainer extends React.Component<Props, State> {
       }
       if (chatButtonElem) {
         chatButtonElem.style.bottom = "10px";
+      }
+
+      if (headerContainer) {
+        headerContainer.style.display = "block";
       }
     }
     window.removeEventListener(
@@ -471,7 +496,7 @@ class PDPContainer extends React.Component<Props, State> {
     const { data, currency } = nextProps;
     if (this.props?.id && this.props?.id != nextProps?.id) {
       pageViewGTM("PDP");
-      PDP(nextProps?.data, this.props?.currency);
+      PDP(nextProps?.data, this.props?.currency, this.props.isSale);
       if (data && data?.looksProducts && data?.looksProducts?.length >= 2) {
         MoreFromCollectionProductImpression(
           data.looksProducts,
@@ -493,7 +518,7 @@ class PDPContainer extends React.Component<Props, State> {
       !this.props?.data?.title &&
       nextProps?.data?.title
     ) {
-      PDP(nextProps?.data, this.props?.currency);
+      PDP(nextProps?.data, this.props?.currency, this.props.isSale);
       if (data && data?.looksProducts && data?.looksProducts?.length >= 2) {
         MoreFromCollectionProductImpression(
           data.looksProducts,
@@ -503,7 +528,7 @@ class PDPContainer extends React.Component<Props, State> {
       }
     }
     if (!this.props?.data && nextProps.data?.title) {
-      PDP(nextProps?.data, this.props?.currency);
+      PDP(nextProps?.data, this.props?.currency, this.props.isSale);
       if (data && data?.looksProducts && data.looksProducts?.length >= 2) {
         MoreFromCollectionProductImpression(
           data?.looksProducts,
@@ -550,13 +575,22 @@ class PDPContainer extends React.Component<Props, State> {
   }
 
   componentDidUpdate(props: Props) {
-    const { data } = this.props;
+    const {
+      data,
+      device: { mobile }
+    } = this.props;
     if (!data) {
       return;
     }
     const productImages = this.getProductImagesData();
     if (props?.data && props.data?.id !== data?.id) {
       document.removeEventListener("scroll", this.onScroll);
+      if (!this.state.showAddToBagMobile && mobile) {
+        this.setState({
+          showAddToBagMobile: true
+        });
+      }
+
       window.scrollTo({
         top: 0
       });
@@ -1132,7 +1166,8 @@ class PDPContainer extends React.Component<Props, State> {
         isSale: isSale,
         discountedPrice: discountedPriceRecords[currency],
         list: "pdp",
-        sliderImages: plpSliderImages
+        sliderImages: plpSliderImages,
+        collections: collections
       },
       false,
       undefined
@@ -1446,13 +1481,16 @@ class PDPContainer extends React.Component<Props, State> {
                 })}
               >
                 {media_type === "Image" || type === "main" ? (
-                  <LazyImage
-                    alt={data?.altText || data?.title}
-                    aspectRatio="62:93"
-                    src={productImage?.replace("/Micro/", "/Medium/")}
-                    className={globalStyles.imgResponsive}
-                    onClick={this.getMobileZoomListener(i)}
-                  />
+                  <div className={cs(styles.container)}>
+                    <img
+                      // fetchpriority={i < 2 ? "high" : "low"}
+                      alt={data?.altText || data?.title}
+                      // aspectRatio="62:93"
+                      src={productImage?.replace("/Micro/", "/Medium/")}
+                      className={globalStyles.imgResponsive}
+                      onClick={this.getMobileZoomListener(i)}
+                    />
+                  </div>
                 ) : (
                   <>
                     {/* <div className={styles.overlayDiv}></div>
@@ -1672,8 +1710,8 @@ class PDPContainer extends React.Component<Props, State> {
               {
                 [globalStyles.pageStickyElement]:
                   !mobile && detailStickyEnabled,
-                [bootstrap.col12]: tablet,
-                [bootstrap.colMd4]: !tablet
+                [bootstrap.col12]: tablet || mobile,
+                [bootstrap.colMd4]: !tablet && !mobile
               },
               {
                 [globalStyles.paddTop20]: mobile

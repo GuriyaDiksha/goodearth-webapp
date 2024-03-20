@@ -1,6 +1,5 @@
 import React from "react";
 import { Props } from "./typings";
-import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { Currency } from "typings/currency";
 import { displayPriceWithCommas } from "utils/utility";
@@ -28,7 +27,7 @@ const Price: React.FC<Props> = ({ product, isSale, code, currency }) => {
         </span>
       ) : (
         <span
-          className={product.badgeType == "B_flat" ? globalStyles.cerise : ""}
+          className={product.badgeType == "B_flat" ? styles.discountprice : ""}
         >
           {displayPriceWithCommas(
             product.priceRecords[currency as Currency],

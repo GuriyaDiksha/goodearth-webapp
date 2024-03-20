@@ -16,12 +16,17 @@ const displayPriceWithCommas = (
     currencyCodes?.[currency]?.length &&
     String.fromCharCode(...currencyCodes[currency]);
   const arr: any[] = [];
-  price
-    .toString()
-    .split("-")
-    .map(e => {
-      arr.push(parseInt(e.toString()).toLocaleString(arg));
-    });
+  if (price.toString().includes("-") && price.toString()[0] != "-") {
+    // When price is of type 1000-2000, any other type will be considered as number
+    price
+      .toString()
+      .split("-")
+      .map(e => {
+        arr.push(parseInt(e.toString()).toLocaleString(arg));
+      });
+  } else {
+    arr.push(parseInt(price.toString()).toLocaleString(arg));
+  }
   return with_symbol
     ? currency_symbol + " " + arr.join(" - " + currency_symbol + " ")
     : arr.join(" - ");
@@ -42,17 +47,26 @@ const displayPriceWithCommasFloat = (
     currencyCodes?.[currency]?.length &&
     String.fromCharCode(...currencyCodes[currency]);
   const arr: any[] = [];
-  price
-    .toString()
-    .split("-")
-    .map(e => {
-      arr.push(
-        parseFloat(e.toString()).toLocaleString(arg, {
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 2
-        })
-      );
-    });
+  if (price.toString().includes("-") && price.toString()[0] != "-") {
+    price
+      .toString()
+      .split("-")
+      .map(e => {
+        arr.push(
+          parseFloat(e.toString()).toLocaleString(arg, {
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2
+          })
+        );
+      });
+  } else {
+    arr.push(
+      parseFloat(price.toString()).toLocaleString(arg, {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2
+      })
+    );
+  }
   return with_symbol
     ? currency_symbol + " " + arr.join(" - " + currency_symbol + " ")
     : arr.join(" - ");
@@ -69,4 +83,36 @@ const makeid = (length: number) => {
   return result;
 };
 
-export { displayPriceWithCommas, displayPriceWithCommasFloat, makeid };
+const censorWord = (str: string, to: number) => {
+  return (
+    str.substring(0, to) + "x".repeat(str.length > to ? str.length - to : 0)
+  );
+};
+
+const censorEmail = (email: string) => {
+  const arr = email.split("@");
+  return (
+    censorWord(arr[0], 2) +
+    "@" +
+    censorWord(arr[1]?.split(".")?.[0], 1) +
+    "." +
+    arr[1]?.split(".")?.[1]
+  );
+};
+
+const censorPhoneNumber = (phoneNo: string) => {
+  // return "x".repeat(phoneNo?.length - 4) + phoneNo?.substr(phoneNo?.length - 4);
+  return (
+    phoneNo?.substring(0, 3) +
+    "x".repeat(phoneNo?.length - 7) +
+    phoneNo?.substr(phoneNo?.length - 4)
+  );
+};
+
+export {
+  displayPriceWithCommas,
+  displayPriceWithCommasFloat,
+  makeid,
+  censorEmail,
+  censorPhoneNumber
+};

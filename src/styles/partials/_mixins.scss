@@ -176,7 +176,7 @@
   
 @mixin plp_prod_name_desktop {
     font-size: 14px;
-    font-family: $font-Lato;
+    font-family: $font-Lora;
 }
 
 @mixin plp_prod_quantity {
@@ -270,7 +270,7 @@
 //   letter-spacing: 0.5px;
 // }
 @mixin pdp_prod_title {
-  font-size: 20px;
+  font-size: 18px;
   color: $charcoal19;
   font-family: $font-Lora;
   letter-spacing: 0.48px;
@@ -351,9 +351,11 @@
 
 @mixin plp_prod_name_desktop {
   font-size: 14px;
-  font-family: $font-Lato;
-  color: #000;
+  font-family: $font-Lora;
+  color: #191919;
   text-transform: capitalize;
+  line-height: 22px;
+  letter-spacing: 0.28px;
 }
 
 @mixin plp_prod_price_desktop {
@@ -394,10 +396,12 @@
 /*******************************  Login  **************************/
 
 @mixin c10-L-R {
-  font-size: 12px;
-  font-family: $font-Lato;
-  color: tint(#000, 40%);
-  letter-spacing: 1px;
+  font-size: 10px;
+  font-family: $font-Montserrat;
+  // color: tint(#000, 40%);
+  color: #191919;
+  letter-spacing: 0.3px;
+  line-height: 16px;
 }
 
 @mixin c22-A-I {
@@ -924,7 +928,7 @@ $list: $grey 92%, $white 8%;
   font-size: 14px;
   font-weight: $regular;
   text-transform: uppercase;
-  color: $white
+  color: $white;
 }
 
 @mixin b3_14px_caps_gold{
@@ -1156,6 +1160,12 @@ $list: $grey 92%, $white 8%;
   color: $charcoal19;
   text-transform: uppercase;
 }
+@mixin b4_12px_lato{
+  font-family: $font-Lato;
+  font-size: 12px;
+  font-weight: $medium;
+  color:$dark-gray;
+}
 
 @mixin b4_12px_montserrat_regular_charcoal{
   font-family: $font-Montserrat;
@@ -1165,8 +1175,8 @@ $list: $grey 92%, $white 8%;
 }
 
 @mixin b5_10px_montserrat_charcoal{
-  font-family: $font-Montserrat !important;
-  font-size: 10px !important;
+  font-family: $font-Montserrat;
+  font-size: 10px;
   font-weight: $regular;
   color: $charcoal19;
 }
@@ -1296,3 +1306,154 @@ $list: $grey 92%, $white 8%;
   letter-spacing: 0.3px;
   font-style: italic;
 }
+
+//=====================Buttons=========================//
+
+@mixin disabled_cta{
+  background-color: $light-charcoal !important;
+  border: 1px solid $light-charcoal;
+  cursor: not-allowed;
+  pointer-events: none;
+  @include b3_14px_caps_white();
+}
+
+@mixin large_cta{
+  width: 414px;
+  height: 58px;
+}
+
+@mixin medium_cta_300{
+  width: 300px;
+  height: 58px;
+}
+
+@mixin medium_cta_366{
+  width: 366px;
+  height: 58px;
+}
+
+@mixin small_cta{
+  width: 207px;
+  height: 50px;
+}
+
+@mixin extra_small_cta{
+  width: 156px;
+  height: 50px;
+}
+
+@mixin large_aqua_cta{
+  @include large_cta();
+  background-color: $aqua;
+  border: 1px solid $aqua;
+  text-transform: uppercase;
+  @include b3_14px_caps_white();
+}
+
+@mixin large_gold_cta{
+  @include large_cta();
+  background-color: $gold;
+  border: 1px solid $gold;
+  text-transform: uppercase;
+  @include b3_14px_caps_white();
+}
+
+@mixin large_med_charcoal_cta{
+  @include large_cta();
+  background-color: $med-charcoal;
+  border: 1px solid $med-charcoal;
+  text-transform: uppercase;
+  @include b3_14px_caps_white();
+}
+
+@mixin large_light_grey_cta{
+  @include large_cta();
+  background-color: $light-grey;
+  border: 1px solid $light-grey;
+  text-transform: uppercase;
+  @include b3_14px_caps_white();
+}
+
+@mixin medium_aqua_cta{
+  @include medium_cta_300();
+  background-color: $aqua;
+  border: 1px solid $aqua;
+  text-transform: uppercase;
+  @include b3_14px_caps_white();
+}
+
+@mixin medium_aqua_cta_366{
+  @include medium_cta_366();
+  background-color: $aqua;
+  border: 1px solid $aqua;
+  text-transform: uppercase;
+  @include b3_14px_caps_white();
+}
+
+@mixin medium_med_charcoal_cta_366{
+  @include medium_cta_366();
+  background-color: $med-charcoal !important;
+  border: 1px solid $med-charcoal;
+  text-transform: uppercase;
+  @include b3_14px_caps_white();
+}
+
+@mixin outline_medium_med_charcoal_cta_366{
+  @include medium_cta_366();
+  background-color: transparent;
+  border: 1px solid $med-charcoal;
+  text-transform: uppercase;
+  @include b3_14px_montserrat_caps_charcoal();
+}
+
+@mixin medium_light_grey_cta{
+  @include medium_cta_300();
+  background-color: $light-grey;
+  border: 1px solid $light-grey;
+  text-transform: uppercase;
+  @include b3_14px_caps_white();
+}
+
+@mixin small_aqua_cta{
+  @include small_cta();
+  background-color: $aqua;
+  border: 1px solid $aqua;
+  text-transform: uppercase;
+  @include b3_14px_caps_white();
+}
+
+@mixin small_med_charcoal_cta{
+  @include small_cta();
+  background-color: $med-charcoal;
+  border: 1px solid $med-charcoal;
+  text-transform: uppercase;
+  @include b3_14px_caps_white();
+}
+
+@mixin small_gold_cta{
+  @include small_cta();
+  background-color: $light-grey;
+  border: 1px solid $light-grey;
+  text-transform: uppercase;
+  @include b3_14px_caps_white();
+}
+
+@mixin outline_small_med_charcoal_cta{
+  @include small_cta();
+  background-color: transparent;
+  border: 1px solid $med-charcoal;
+  text-transform: uppercase;
+  @include b3_14px_montserrat_caps_charcoal();
+}
+
+@mixin outline_extra_small_aqua_cta{
+  @include extra_small_cta();
+  background-color: transparent;
+  border: 1px solid $aqua;
+  text-transform: uppercase;
+  @include b3_14px_caps_aqua();
+}
+
+
+
+

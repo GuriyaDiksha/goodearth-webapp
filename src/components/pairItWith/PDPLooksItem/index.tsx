@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import { plpProductClick } from "utils/validate";
 import CookieService from "services/cookie";
 import { displayPriceWithCommas } from "utils/utility";
+import Button from "components/Button";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -65,7 +66,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
 
   const gtmProductClick = () => {
     CookieService.setCookie("listPath", page);
-    plpProductClick(product, page, currency, position);
+    plpProductClick(product, page, currency, position, info.isSale);
   };
 
   const button = useMemo(() => {
@@ -90,17 +91,21 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
       };
     }
     return (
-      <button
+      <Button
         className={cs(
-          styles.addToBagListView,
-          styles.shopTheLookCta,
-          bootstrapStyles.col7,
-          { [styles.notifyMe]: allOutOfStock || isCorporate }
+          // styles.addToBagListView,
+          // styles.shopTheLookCta,
+          bootstrapStyles.col7
+          // { [styles.notifyMe]: allOutOfStock || isCorporate }
         )}
         onClick={action}
-      >
-        {buttonText}
-      </button>
+        label={buttonText}
+        variant={
+          allOutOfStock || isCorporate
+            ? "outlineSmallMedCharcoalCta"
+            : "outlineExtraSmallAquaCta"
+        }
+      />
     );
   }, []);
   const isStockAvailable = isCorporate || product.inStock;
@@ -161,7 +166,12 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   return (
     <div className={styles.plpMain}>
       {product.salesBadgeImage && (
-        <div className={styles.badgeImage}>
+        <div
+          className={cs(
+            { [styles.badgeImage]: !mobile },
+            { [styles.badgeImageMobile]: mobile }
+          )}
+        >
           <img src={product.salesBadgeImage} />
         </div>
       )}
@@ -227,9 +237,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             </span>
           ) : (
             <span
-              className={
-                product.badgeType == "B_flat" ? globalStyles.cerise : ""
-              }
+              className={product.badgeType == "B_flat" ? globalStyles.gold : ""}
             >
               {displayPriceWithCommas(
                 product.priceRecords[currency as Currency],
@@ -299,6 +307,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
                 showText={false}
                 key={product.id}
                 mobile={false}
+                badgeType={product?.badgeType}
               />
             </div>
           )}

@@ -8,6 +8,8 @@ import { AppState } from "reducers/typings";
 import bootstrap from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import iconStyles from "../../../../styles/iconFonts.scss";
 import globalStyles from "../../../../styles/global.scss";
+import CheckboxWithLabel from "components/CheckboxWithLabel";
+import Button from "components/Button";
 
 type Props = {
   facets: Facets;
@@ -53,6 +55,7 @@ const CareerFilter: React.FC<Props> = ({
     filters: string[];
   }>({ dept: [], filters: [] });
   const { mobile } = useSelector((state: AppState) => state.device);
+  const { showTimer } = useSelector((state: AppState) => state.info);
 
   const handleViewAllForFilters = (newList: any, tags: any, locs: any) => {
     const tagsList = clone(tags.map((e: any) => e.name));
@@ -155,6 +158,12 @@ const CareerFilter: React.FC<Props> = ({
     clearFilter();
   }, [reset]);
 
+  useEffect(() => {
+    if (isFilterOpen) {
+      window.scrollTo(0, 0);
+    }
+  }, [isFilterOpen]);
+
   const toggle = (key: string) => {
     selectFilter(key, !showMore[key]);
     setShowMore({ ...showMore, [key]: !showMore[key] });
@@ -253,8 +262,11 @@ const CareerFilter: React.FC<Props> = ({
         className={cs(
           mobile ? bootstrap.col12 : bootstrap.col3,
           listing.career_list_wrp_left,
-          isFilterOpen ? listing.show : "",
-          isFilterOpen ? listing.showFilter : ""
+          {
+            [listing.show]: isFilterOpen,
+            [listing.showFilter]: isFilterOpen,
+            [listing.timer]: showTimer
+          }
         )}
       >
         <ul>
@@ -343,26 +355,32 @@ const CareerFilter: React.FC<Props> = ({
             >
               <ul>
                 <li>
-                  <input
+                  <CheckboxWithLabel
                     id="dept_all"
-                    type="checkbox"
                     name="View All"
-                    onClick={e => handleCheckbox(e, "depts")}
+                    onChange={e => handleCheckbox(e, "depts")}
+                    label={[
+                      <label
+                        key="dept_all"
+                        htmlFor={"dept_all"}
+                      >{`View All`}</label>
+                    ]}
                   />
-                  <label htmlFor={"dept_all"}>{`View All`}</label>
                 </li>
                 {depts?.map((ele, i) => (
                   <li key={i}>
-                    <input
+                    <CheckboxWithLabel
                       id={"dept_" + i}
-                      type="checkbox"
                       name={ele?.title}
                       checked={selectedDept.includes(ele?.title)}
                       onChange={e => handleCheckbox(e, "depts")}
+                      label={[
+                        <label
+                          key={"dept_" + i}
+                          htmlFor={"dept_" + i}
+                        >{`${ele?.title} (${ele?.count})`}</label>
+                      ]}
                     />
-                    <label
-                      htmlFor={"dept_" + i}
-                    >{`${ele?.title} (${ele?.count})`}</label>
                   </li>
                 ))}
                 {facets?.depts?.length > 4 ? (
@@ -402,13 +420,17 @@ const CareerFilter: React.FC<Props> = ({
             >
               <ul>
                 <li>
-                  <input
+                  <CheckboxWithLabel
                     id="tag_all"
-                    type="checkbox"
                     name="View All"
-                    onClick={e => handleCheckbox(e, "tags")}
+                    onChange={e => handleCheckbox(e, "tags")}
+                    label={[
+                      <label
+                        key={"tag_all"}
+                        htmlFor={"tag_all"}
+                      >{`View All`}</label>
+                    ]}
                   />
-                  <label htmlFor={"tag_all"}>{`View All`}</label>
                 </li>
                 {tags?.map((ele, i) => (
                   <li
@@ -419,15 +441,18 @@ const CareerFilter: React.FC<Props> = ({
                     }
                     key={i}
                   >
-                    <input
+                    <CheckboxWithLabel
                       id={"tags_" + i}
-                      type="checkbox"
                       name={ele?.name}
                       checked={selectedFilters.includes(ele?.name)}
                       onChange={e => handleCheckbox(e, "tags")}
                       disabled={!tagLocFilter?.tag?.includes(ele?.name)}
+                      label={[
+                        <label key={"tags_" + i} htmlFor={"tags_" + i}>
+                          {ele?.name}{" "}
+                        </label>
+                      ]}
                     />
-                    <label htmlFor={"tags_" + i}>{ele?.name} </label>
                   </li>
                 ))}
                 {facets?.tags?.length > 4 ? (
@@ -467,13 +492,17 @@ const CareerFilter: React.FC<Props> = ({
             >
               <ul>
                 <li>
-                  <input
+                  <CheckboxWithLabel
                     id="loc_all"
-                    type="checkbox"
                     name="View All"
-                    onClick={e => handleCheckbox(e, "locs")}
+                    onChange={e => handleCheckbox(e, "locs")}
+                    label={[
+                      <label
+                        key={"loc_all"}
+                        htmlFor={"loc_all"}
+                      >{`View All`}</label>
+                    ]}
                   />
-                  <label htmlFor={"loc_all"}>{`View All`}</label>
                 </li>
                 {locs?.map((ele, i) => (
                   <li
@@ -484,15 +513,18 @@ const CareerFilter: React.FC<Props> = ({
                     }
                     key={i}
                   >
-                    <input
+                    <CheckboxWithLabel
                       id={"locs_" + i}
-                      type="checkbox"
                       name={ele?.name}
                       checked={selectedFilters.includes(ele?.name)}
                       onChange={e => handleCheckbox(e, "locs")}
                       disabled={!tagLocFilter?.loc?.includes(ele?.name)}
+                      label={[
+                        <label key={"locs_" + i} htmlFor={"locs_" + i}>
+                          {ele?.name}
+                        </label>
+                      ]}
                     />
-                    <label htmlFor={"locs_" + i}>{ele?.name}</label>
                   </li>
                 ))}
                 {facets?.locs?.length > 4 ? (
@@ -528,15 +560,18 @@ const CareerFilter: React.FC<Props> = ({
           isFilterOpen ? "" : listing.filter_mobile_hide
         )}
       >
-        <button className={listing.cancel_btn} onClick={() => handleCancel()}>
-          Cancel
-        </button>
-        <button
+        <Button
+          label="Cancel"
+          variant="outlineSmallMedCharcoalCta"
+          className={listing.cancel_btn}
+          onClick={() => handleCancel()}
+        />
+        <Button
+          variant="smallMedCharcoalCta"
           className={listing.apply_btn}
           onClick={() => setIsFilterOpen(!isFilterOpen)}
-        >
-          Apply filter
-        </button>
+          label="Apply filter"
+        />
       </div>
     </>
   );

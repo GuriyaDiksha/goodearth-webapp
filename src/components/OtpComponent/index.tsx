@@ -12,6 +12,7 @@ import FormInput from "components/Formsy/FormInput";
 import { errorTracking, decriptdata } from "utils/validate";
 import CustomerCareInfo from "components/CustomerCareInfo";
 import NewOtpComponent from "./NewOtpComponent";
+import Button from "components/Button";
 class OtpComponent extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
     super(props);
@@ -953,7 +954,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                             : {}
                         }
                         validationErrors={{
-                          isLength: "Phone number should be 10 digit"
+                          isLength: "Please enter a valid Contact Number"
                         }}
                         required={radioType != "number" ? "isFalse" : true}
                         keyDown={e =>
@@ -1019,15 +1020,14 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 </div>
               </li>
               <li className={this.state.showerrorOtp ? styles.margintop : ""}>
-                <input
+                <Button
                   type="submit"
                   disabled={this.state.disable}
-                  className={
-                    this.state.disable
-                      ? cs(globalStyles.ceriseBtn, globalStyles.disabledBtn)
-                      : globalStyles.ceriseBtn
-                  }
-                  value="Send otp"
+                  className={cs({
+                    [globalStyles.btnFullWidth]: this.props.mobile
+                  })}
+                  label="Send otp"
+                  variant="mediumMedCharcoalCta366"
                 />
               </li>
             </Formsy>

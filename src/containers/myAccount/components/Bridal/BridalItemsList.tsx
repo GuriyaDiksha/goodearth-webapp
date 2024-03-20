@@ -19,66 +19,96 @@ type Props = {
   mobile: boolean;
   currency: Currency;
   bridalId: number;
-  onMobileAdd: (index: number) => void;
+  mIndex: number;
+  onMobileAdd: (mIndex: number) => void;
   key: number;
   fetchBridalItems: () => void;
-  mIndex: number;
 };
 
 const BridalItemsList: React.FC<Props> = props => {
   // const saleStatus = useSelector((state: AppState) => state.info.isSale);
   const [reqCurrent, setReqCurrent] = useState(props.product.qtyRequested);
   const [err, setErr] = useState("");
+  const {
+    discountedPrice,
+    productName,
+    productUrl,
+    collection,
+    badgeImage,
+    productImage,
+    discount,
+    price,
+    sku,
+    size,
+    qtyBought,
+    qtyRemaining,
+    badgeType,
+    stock,
+    productAvailable,
+    colors,
+    groupedProductsCount
+  } = props.product;
 
   const mobileAddToBag = () => {
-    const mobileAddIndex = props.mIndex;
-    props.onMobileAdd(mobileAddIndex);
+    if (stock == 0 || price[props.currency] == 0 || !productAvailable) {
+    } else {
+      const mobileAddIndex = props.mIndex;
+      props.onMobileAdd(mobileAddIndex);
+    }
   };
 
   const dispatch = useDispatch();
   const increaseState = () => {
-    if (reqCurrent >= props.product.stock) {
-      setErr(
-        `Only ${props.product.stock} piece${
-          props.product.stock > 1 ? "s" : ""
-        } available in stock`
-      );
-      return false;
-    }
+    if (!productAvailable || stock == 0 || price[props.currency] == 0) {
+    } else {
+      if (reqCurrent >= props.product.stock) {
+        setErr(
+          `Only ${props.product.stock} piece${
+            props.product.stock > 1 ? "s" : ""
+          } available in stock`
+        );
+        return false;
+      }
 
-    const data = {
-      bridalId: props.bridalId,
-      qtyRequested: reqCurrent + 1,
-      productId: props.product.productId
-    };
-
-    BridalService.updateBridalItemQuantity(dispatch, data)
-      .then(res => {
-        setReqCurrent(reqCurrent + 1);
-        props.fetchBridalItems();
-      })
-      .catch(error => {
-        // console.log(error);
-      });
-  };
-
-  const decreaseState = () => {
-    if (reqCurrent > 1) {
       const data = {
         bridalId: props.bridalId,
-        qtyRequested: reqCurrent - 1,
+        qtyRequested: reqCurrent + 1,
         productId: props.product.productId
       };
 
       BridalService.updateBridalItemQuantity(dispatch, data)
         .then(res => {
-          setReqCurrent(reqCurrent - 1);
-          setErr("");
+          setReqCurrent(reqCurrent + 1);
           props.fetchBridalItems();
+          // BridalService.countBridal(dispatch, props.bridalId);
         })
         .catch(error => {
           // console.log(error);
         });
+    }
+  };
+
+  const decreaseState = () => {
+    if (!productAvailable || stock == 0 || price[props.currency] == 0) {
+    } else {
+      if (reqCurrent > 1) {
+        const data = {
+          bridalId: props.bridalId,
+          qtyRequested: reqCurrent - 1,
+          productId: props.product.productId
+        };
+
+        BridalService.updateBridalItemQuantity(dispatch, data)
+          .then(res => {
+            setReqCurrent(reqCurrent - 1);
+            setErr("");
+            props.fetchBridalItems();
+            // BridalService.countBridal(dispatch, props.bridalId);
+          })
+          .catch(error => {
+            // console.log(error);
+          });
+      }
     }
   };
 
@@ -102,37 +132,52 @@ const BridalItemsList: React.FC<Props> = props => {
             });
           }
           props.fetchBridalItems();
+          BridalService.countBridal(dispatch, props.bridalId);
         })
         .catch(error => {
           // console.log(error);
         });
     }
   };
-  const {
-    discountedPrice,
-    productName,
-    productUrl,
-    collection,
-    productImage,
-    discount,
-    price,
-    sku,
-    size,
-    qtyBought,
-    qtyRemaining,
-    badgeType
-  } = props.product;
+
+  const colorName = (value: string) => {
+    let cName = value
+      .split("-")
+      .slice(1)
+      .join();
+    if (cName[cName.length - 1] == "s") {
+      cName = cName.slice(0, -1);
+    }
+    return cName;
+  };
+
   return (
     <div className={cs(styles.cart, styles.cartContainer)}>
       <div className={cs("cart-item", styles.bridalPublic)}>
         <div className={cs(bootstrapStyles.row, styles.nowrap)}>
           <div className={cs(bootstrapStyles.col5, bootstrapStyles.colMd3)}>
-            <a href={productUrl}>
-              <img
-                className={styles.productImage}
-                src={productImage}
-                alt={productName}
-              />
+            <a href={productUrl} className={styles.productUrl}>
+              {!productAvailable ? (
+                <div className={styles.notAvailableTxt}>Not Available</div>
+              ) : stock == 0 ? (
+                <div className={styles.outOfStockTxt}>Out of Stock</div>
+              ) : (
+                ""
+              )}
+              <div
+                className={cs(styles.productImageSection, {
+                  [styles.blur]: stock == 0 || !productAvailable
+                })}
+              >
+                {badgeImage && (
+                  <div className={styles.badgeImage}>
+                    <img src={badgeImage} alt={badgeImage} />
+                  </div>
+                )}
+                <div className={styles.productImage}>
+                  <img src={productImage} alt={productName} />
+                </div>
+              </div>
             </a>
           </div>
           <div className={cs(bootstrapStyles.col7, bootstrapStyles.colMd9)}>
@@ -141,67 +186,134 @@ const BridalItemsList: React.FC<Props> = props => {
                 className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
               >
                 <div className={cs(styles.section, styles.sectionInfo)}>
-                  <div>
-                    <div className={styles.collectionName}>{collection}</div>
-                    <div className={styles.productName}>
-                      <a href={productUrl}>{productName}</a>
+                  <div
+                    className={cs({
+                      [styles.blur]: !productAvailable
+                    })}
+                  >
+                    <div>
+                      <div className={styles.collectionName}>{collection}</div>
+                      <div className={styles.productName}>
+                        <a href={productUrl}>{productName}</a>
+                      </div>
                     </div>
-                  </div>
-                  <div className={styles.productPrice}>
-                    {discount ? (
-                      <span className={styles.productPrice}>
-                        <span className={styles.discountprice}>
-                          {displayPriceWithCommas(
-                            discountedPrice[props.currency],
-                            props.currency
-                          )}
-                        </span>
-                        &nbsp;{" "}
-                        <span className={styles.strikeprice}>
-                          {displayPriceWithCommas(
-                            price[props.currency],
-                            props.currency
-                          )}
-                        </span>
-                      </span>
+                    {price[props.currency] != 0 ? (
+                      <div className={styles.productPrice}>
+                        {discount ? (
+                          <span className={styles.productPrice}>
+                            <span className={styles.discountprice}>
+                              {displayPriceWithCommas(
+                                discountedPrice[props.currency],
+                                props.currency
+                              )}
+                            </span>
+                            &nbsp;{" "}
+                            <span className={styles.strikeprice}>
+                              {displayPriceWithCommas(
+                                price[props.currency],
+                                props.currency
+                              )}
+                            </span>
+                          </span>
+                        ) : (
+                          <span
+                            className={cs(
+                              styles.productPrice,
+                              badgeType == "B_flat" ? globalStyles.gold : ""
+                            )}
+                          >
+                            {displayPriceWithCommas(
+                              price[props.currency],
+                              props.currency
+                            )}
+                          </span>
+                        )}
+                      </div>
                     ) : (
-                      <span
-                        className={cs(
-                          styles.productPrice,
-                          badgeType == "B_flat" ? globalStyles.cerise : ""
-                        )}
-                      >
-                        {displayPriceWithCommas(
-                          price[props.currency],
-                          props.currency
-                        )}
-                      </span>
+                      <div className={styles.notAvailablePriceMsg}>
+                        <span>
+                          This product is not available in the selected currency
+                        </span>
+                      </div>
                     )}
-                  </div>
-                  <div className={cs(styles.smallfont, globalStyles.voffset2)}>
-                    SIZE: {size}
-                  </div>
-                  <div className={cs(styles.smallfont, globalStyles.voffset1)}>
-                    SKU: {sku}
+                    <div className={cs(styles.sizeSku)}>
+                      {size && (
+                        <div className={cs(styles.smallfont)}>SIZE: {size}</div>
+                      )}
+                      {colors?.length &&
+                      groupedProductsCount &&
+                      groupedProductsCount > 0 ? (
+                        <div className={cs(styles.smallfont)}>
+                          COLOR: {colorName(colors?.[0])}
+                        </div>
+                      ) : null}
+                      <div className={cs(styles.smallfont)}>SKU: {sku}</div>
+                    </div>
                   </div>
                   {props.mobile && (
                     <div
-                      className={cs(globalStyles.voffset3)}
-                      onClick={mobileAddToBag}
+                      className={cs(styles.mobQtyRemaining, {
+                        [styles.aquaText]: qtyRemaining == 0,
+                        [styles.blurTxt]: price[props.currency] == 0,
+                        [styles.blur]: !productAvailable
+                      })}
                     >
-                      <img src={cartIcon} width="40" height="40" />
+                      <div>Quantity Remaining: {qtyRemaining}</div>
                     </div>
                   )}
+                  <div className={props.mobile ? styles.mobFlexDiv : ""}>
+                    {qtyBought ? (
+                      ""
+                    ) : (
+                      <div
+                        title="Remove"
+                        className={styles.bridalItemRemove}
+                        onClick={deleteItem}
+                      >
+                        <span>REMOVE</span>
+                        {/* <i
+                            className={cs(
+                              iconStyles.icon,
+                              iconStyles.iconCrossNarrowBig,
+                              styles.icon,
+                              styles.iconCross
+                            )}
+                          ></i> */}
+                      </div>
+                    )}
+                    {props.mobile && (
+                      <div
+                        className={cs(styles.mobQtyStatus, {
+                          [styles.blurTxt]:
+                            stock == 0 || price[props.currency] == 0,
+                          [styles.blur]: !productAvailable
+                        })}
+                        onClick={mobileAddToBag}
+                      >
+                        {/* <img src={cartIcon} width="40" height="40" /> */}
+                        <span>QUANTITY & STATUS</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
               {!props.mobile && (
                 <div
                   className={cs(bootstrapStyles.col12, bootstrapStyles.colMd6)}
                 >
-                  <div className={cs(styles.section, styles.sectionMiddle)}>
+                  <div
+                    className={cs(styles.section, styles.sectionMiddle, {
+                      [styles.blur]:
+                        !productAvailable || price[props.currency] == 0
+                    })}
+                  >
                     <div className="">
-                      <div className={styles.textMuted}>QTY REQUESTED</div>
-                      <div className={styles.widgetQty}>
+                      <div className={styles.textMuted}>Quantity Required</div>
+                      <div
+                        className={cs(styles.widgetQty, {
+                          [styles.blurTxt]: stock == 0
+                        })}
+                      >
                         <span className={styles.btnQty} onClick={decreaseState}>
                           -
                         </span>
@@ -220,22 +332,28 @@ const BridalItemsList: React.FC<Props> = props => {
                       </div>
                     </div>
                     <div className={globalStyles.voffset3}>
-                      <div className={styles.textMuted}>QTY BOUGHT</div>
+                      <div className={styles.textMuted}>Quantity Bought</div>
                       <div
                         className={cs(
                           globalStyles.textCenter,
-                          globalStyles.c10LR
+                          globalStyles.c10LR,
+                          globalStyles.voffset1
                         )}
                       >
                         {qtyBought}
                       </div>
                     </div>
-                    <div className={globalStyles.voffset3}>
-                      <div className={styles.textMuted}>QTY REMAINING</div>
+                    <div
+                      className={cs(globalStyles.voffset3, {
+                        [styles.aquaText]: qtyRemaining == 0
+                      })}
+                    >
+                      <div className={styles.textMuted}>Quantity Remaining</div>
                       <div
                         className={cs(
                           globalStyles.textCenter,
-                          globalStyles.c10LR
+                          globalStyles.c10LR,
+                          globalStyles.voffset1
                         )}
                       >
                         {qtyRemaining}
@@ -246,26 +364,7 @@ const BridalItemsList: React.FC<Props> = props => {
               )}
             </div>
           </div>
-          {qtyBought ? (
-            ""
-          ) : (
-            <div
-              title="Remove"
-              className={styles.bridalItemRemove}
-              onClick={deleteItem}
-            >
-              <i
-                className={cs(
-                  iconStyles.icon,
-                  iconStyles.iconCrossNarrowBig,
-                  styles.icon,
-                  styles.iconCross
-                )}
-              ></i>
-            </div>
-          )}
         </div>
-        <hr />
       </div>
     </div>
   );

@@ -23,19 +23,21 @@ export default {
     currency?: Currency,
     customerGroup?: string
   ): Promise<MegaMenuData[]> => {
-    let menu: MegaMenuData[] | null = null;
-    if (
-      typeof document == "undefined" &&
-      __API_HOST__ == "https://pb.goodearth.in"
-    ) {
-      menu = CacheService.get(
-        `menu-${currency || ""}-${customerGroup || ""}`
-      ) as MegaMenuData[];
-    }
-    if (menu) {
-      dispatch(updateheader(menu));
-      return menu;
-    }
+    //Temporary hide foe interantaional sale currency issue
+    // let menu: MegaMenuData[] | null = null;
+    // if (
+    //   typeof document == "undefined" &&
+    //   __API_HOST__ == "https://pb.goodearth.in"
+    // ) {
+    //   menu = CacheService.get(
+    //     `menu-${currency || ""}-${customerGroup || ""}`
+    //   ) as MegaMenuData[];
+    // }
+    // if (menu) {
+    //   dispatch(updateheader(menu));
+    //   return menu;
+    // }
+
     // let headerData = CacheService.get("headerData") as HeaderData[];
 
     // if (headerData && __API_HOST__ == "https://pb.goodearth.in") {
@@ -49,15 +51,15 @@ export default {
     dispatch(updateheader(res.data as MegaMenuData[]));
     // headerData = res.results as HeaderData[];
     // CacheService.set("headerData", headerData);
-    if (
-      typeof document == "undefined" &&
-      __API_HOST__ == "https://pb.goodearth.in"
-    ) {
-      CacheService.set(
-        `menu-${res.currency}-${res.customerGroup}`,
-        res.data as MegaMenuData[]
-      );
-    }
+    // if (
+    //   typeof document == "undefined" &&
+    //   __API_HOST__ == "https://pb.goodearth.in"
+    // ) {
+    //   CacheService.set(
+    //     `menu-${res.currency}-${res.customerGroup}`,
+    //     res.data as MegaMenuData[]
+    //   );
+    // }
     return res.data;
   },
   fetchFooterDetails: async (dispatch: Dispatch): Promise<FooterDataProps> => {
@@ -65,10 +67,10 @@ export default {
     // if (typeof document == "undefined") {
     //   footerData = CacheService.get("footerData") as FooterDataProps;
     // }
-    if (footerData && __API_HOST__ == "https://pb.goodearth.in") {
-      dispatch(updatefooter(footerData));
-      return footerData;
-    }
+    // if (footerData && __API_HOST__ == "https://pb.goodearth.in") {
+    //   dispatch(updatefooter(footerData));
+    //   return footerData;
+    // }
 
     const res = await API.get<any>(
       dispatch,
@@ -83,17 +85,24 @@ export default {
   },
   makeNewsletterSignupRequest: async (
     dispatch: Dispatch,
-    email: string
+    formData: any
   ): Promise<any> => {
     const res = await API.post<{ status: boolean; message: string }>(
       dispatch,
       `${__API_HOST__}/myapi/newsletter/signup/`,
-      {
-        email
-      }
+      formData
     );
     return res;
   },
+
+  checkSignup: async (dispatch: Dispatch, email: string) => {
+    const res = await API.get<{ already_signedup: boolean }>(
+      dispatch,
+      `${__API_HOST__}/myapi/newsletter/check_signup/?email=${email}`
+    );
+    return res;
+  },
+
   fetchSearchFeaturedContent: async (dispatch: Dispatch) => {
     const res = await API.get<SearchFeaturedData>(
       dispatch,
@@ -128,7 +137,7 @@ export default {
   getCustomerSlab: async function(dispatch: Dispatch, email: string) {
     const res = await API.post<{ slab: string }>(
       dispatch,
-      `${__API_HOST__}/mobiquest/get_customer_slab/`,
+      `${__API_HOST__}/imast/get_user_slab/`,
       { email }
     );
     return res;
@@ -169,14 +178,6 @@ export default {
       message: string;
       errors: string[] | { [x: string]: string }[];
     }>(dispatch, `${__API_HOST__}/myapi/customer/save_mubarak_user/`, formData);
-    return res;
-  },
-  saveHFH: async function(dispatch: Dispatch, formData: any) {
-    const res = await API.post<{ status: boolean }>(
-      dispatch,
-      `${__API_HOST__}/myapi/customer/hfh_reminders/`,
-      formData
-    );
     return res;
   },
   getSaleTimerData: async function(dispatch: Dispatch) {

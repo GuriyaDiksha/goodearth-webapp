@@ -9,6 +9,8 @@ const BackendOrderPopup = loadable(() =>
 );
 const PincodePopup = loadable(() => import("components/Popups/pincodePopup"));
 const FreeShipping = loadable(() => import("components/Popups/freeShipping"));
+const ExitCheckout = loadable(() => import("components/Popups/exitGCCheckout"));
+
 const LoginForm = loadable(() => import("components/signin/Login"));
 const RegisterForm = loadable(() => import("components/signin/register"));
 const ForgotPasswordForm = loadable(() =>
@@ -48,6 +50,9 @@ const BridalPop = loadable(() =>
 const ShareLink = loadable(() =>
   import("containers/myAccount/components/Bridal/ShareLink")
 );
+const ShareWishlist = loadable(() =>
+  import("containers/wishlist/whishlistPopup")
+);
 const Delivery = loadable(() => import("components/Popups/DeliveryPopup"));
 
 const CMSPopup = loadable(() => import("components/Popups/CMSPopup"));
@@ -67,11 +72,13 @@ const OrientationPopup = loadable(() =>
 const BillingGST = loadable(() => import("components/Popups/BillingGST"));
 const ShippingTerms = loadable(() => import("components/Popups/ShippingTerms"));
 const RedeemPopup = loadable(() => import("components/Popups/RedeemPopup"));
+const EditProfile = loadable(() => import("components/Popups/EditProfile"));
 
 export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   currency: CurrencyPopup,
   backendOrder: BackendOrderPopup,
   freeShipping: FreeShipping,
+  exitCheckout: ExitCheckout,
   pincodePopup: PincodePopup,
   loginForm: LoginForm,
   registerForm: RegisterForm,
@@ -92,6 +99,7 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   shareLink: ShareLink,
   delivery: Delivery,
   cmsPopup: CMSPopup,
+  shareWishlist: ShareWishlist,
   cerise: CerisePopup,
   maker: MakerPopup,
   resendGc: ResendGcPopup,
@@ -101,13 +109,15 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   billingGST: BillingGST,
   shippingTerms: ShippingTerms,
   redeemPopup: RedeemPopup,
-  whatsappPopup: WhatsappPopup
+  whatsappPopup: WhatsappPopup,
+  editProfile: EditProfile
 };
 
 export const enum POPUP {
   CURRENCY = "currency",
   BACKENDORDER = "backendOrder",
   FREESHIPPING = "freeShipping",
+  GCCHECKOUT = "exitCheckout",
   PINCODEPOPUP = "pincodePopup",
   LOGINFORM = "loginForm",
   REGISTERFORM = "registerForm",
@@ -126,6 +136,7 @@ export const enum POPUP {
   BRIDALMOBILEPRODUCTUPDATE = "bridalMobileProductUpdate",
   BRIDALPOP = "bridalPop",
   SHARELINK = "shareLink",
+  SHAREWISHLIST = "shareWishlist",
   DELIVERY = "delivery",
   CMSPOPUP = "cmsPopup",
   CERISE = "cerise",
@@ -137,5 +148,6 @@ export const enum POPUP {
   BILLINGGST = "billingGST",
   SHIPPINGTERMS = "shippingTerms",
   REDEEMPOPUP = "redeemPopup",
-  WHATSAPP = "whatsappPopup"
+  WHATSAPP = "whatsappPopup",
+  EditProfile = "editProfile"
 }

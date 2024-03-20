@@ -1,11 +1,4 @@
-import React, {
-  RefObject,
-  useEffect,
-  useRef,
-  useState,
-  MouseEvent
-} from "react";
-// import DockedPanel from "containers/pdp/docked";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import { Product } from "typings/product";
 import styles from "./styles.scss";
 import cs from "classnames";
@@ -24,6 +17,9 @@ import {
   TransformComponent,
   ReactZoomPanPinchRef
 } from "react-zoom-pan-pinch";
+import DockedPanel from "containers/pdp/docked";
+import VerticalImageSlider from "components/VerticalImageSlider";
+import { indexOf } from "lodash";
 
 type Props = {
   images: ProductImage[];
@@ -31,6 +27,12 @@ type Props = {
   changeModalState?: any;
   alt: string;
   startIndex: number;
+  data: Product;
+  buttoncall: any;
+  showPrice: boolean;
+  price: string | number;
+  discountPrices: string | number;
+  tablet?: boolean;
 };
 
 const Zoom: React.FC<Props> = ({
@@ -38,7 +40,13 @@ const Zoom: React.FC<Props> = ({
   images = [],
   mobile = false,
   changeModalState = null,
-  alt
+  alt,
+  data,
+  buttoncall,
+  showPrice,
+  price,
+  discountPrices,
+  tablet = false
 }) => {
   const [selectedImage, setSelectedImage] = useState(images?.[startIndex]);
   const [zoom, setZoom] = useState(1);
@@ -48,8 +56,39 @@ const Zoom: React.FC<Props> = ({
   const videoRef: RefObject<HTMLVideoElement> = useRef(null);
   const videoRef2: RefObject<HTMLVideoElement> = useRef(null);
 
+  useEffect(() => {
+    if (
+      typeof document == "object" &&
+      (document?.getElementById("modal-fullscreen") as HTMLElement) &&
+      mobile
+    ) {
+      (document.getElementById(
+        "modal-fullscreen"
+      ) as HTMLElement).style.height = "calc(100% - 55px)";
+    }
+    if (document?.getElementById("modal-fullscreen-container") && mobile) {
+      (document.getElementById(
+        "modal-fullscreen-container"
+      ) as HTMLElement).style.height = "calc(100% - 55px)";
+    }
+  }, []);
+
   const closeModal = () => {
     changeModalState(false);
+    if (
+      typeof document == "object" &&
+      (document?.getElementById("modal-fullscreen") as HTMLElement) &&
+      mobile
+    ) {
+      (document.getElementById(
+        "modal-fullscreen"
+      ) as HTMLElement).style.height = "auto";
+    }
+    if (document?.getElementById("modal-fullscreen-container") && mobile) {
+      (document.getElementById(
+        "modal-fullscreen-container"
+      ) as HTMLElement).style.height = "auto";
+    }
 
     document.body.classList.remove(globalStyles.fixed);
   };
@@ -65,6 +104,10 @@ const Zoom: React.FC<Props> = ({
           ? transformComponentMobileRef.current.zoomOut()
           : "";
       }
+      setZoom(
+        transformComponentMobileRef?.current?.instance?.transformState?.scale ||
+          1
+      );
     } else {
       if (value > zoom) {
         transformComponentRef.current
@@ -75,12 +118,99 @@ const Zoom: React.FC<Props> = ({
           ? transformComponentRef.current.zoomOut()
           : "";
       }
+      setZoom(
+        transformComponentRef?.current?.instance?.transformState?.scale || 1
+      );
     }
-    setZoom(value);
+  };
+
+  const handleScaleChange = (event: any) => {
+    setZoom(event.instance.transformState.scale);
+  };
+
+  // const onPan = (ref: any, e: any) => {
+  //   ref.zoomIn();
+  // };
+  // const onPinch = (ref: any, e: any) => {
+  //   ref.zoomOut();
+  // };
+
+  const createImageSlider = () => {
+    let imageSlides: any[] = [];
+
+    imageSlides = images?.map(imgContent => (
+      <div
+        key={imgContent.id}
+        className={cs(styles.thumbnailImg, {
+          [styles.selectdImg]:
+            selectedImage?.productImage === imgContent?.productImage
+        })}
+        onClick={() => {
+          setSelectedImage(imgContent);
+          transformComponentRef?.current?.setTransform(0, 0, 1);
+          setZoom(1);
+        }}
+      >
+        {imgContent?.media_type === "Image" || imgContent?.type === "main" ? (
+          <img
+            src={imgContent.productImage?.replace(/Micro|Large/i, "Medium")}
+            alt={alt}
+            className={globalStyles.imgResponsive}
+          />
+        ) : (
+          <>
+            {/* <div className={styles.overlayDiv}></div>
+            <ReactPlayer
+              url={imgContent?.vimeo_link}
+              width={"100%"}
+              height={"auto"}
+              playing={playVideo}
+              playsinline={true}
+            /> */}
+            <video
+              ref={videoRef2}
+              src={imgContent?.video_link}
+              autoPlay={false}
+              loop
+              preload="auto"
+              width="100%"
+              height="auto"
+            />
+            {playVideo &&
+            imgContent?.video_link === selectedImage?.video_link ? (
+              <img
+                src={pause}
+                alt="pause"
+                className={styles.play}
+                onClick={() => {
+                  videoRef?.current?.pause();
+                  videoRef2?.current?.pause();
+                  setPlayVideo(false);
+                }}
+              />
+            ) : (
+              <img
+                src={play}
+                alt="play"
+                className={styles.play}
+                onClick={() => {
+                  videoRef?.current?.play();
+                  videoRef2?.current?.play();
+                  setPlayVideo(true);
+                }}
+              />
+            )}
+          </>
+        )}
+      </div>
+    ));
+
+    return imageSlides;
   };
 
   return (
     <div
+      id="zoomPopup"
       className={cs(styles.videoPopupContainer, styles.helloar, {
         [styles.mobile]: mobile
       })}
@@ -88,76 +218,11 @@ const Zoom: React.FC<Props> = ({
       <div className={styles.body}>
         {!mobile && (
           <div className={styles.left}>
-            {images?.map(imgContent => (
-              <div
-                key={imgContent.id}
-                className={cs(styles.thumbnailImg, {
-                  [styles.selectdImg]:
-                    selectedImage?.productImage === imgContent?.productImage ||
-                    selectedImage?.video_link === imgContent?.video_link
-                })}
-                onClick={() => {
-                  setSelectedImage(imgContent);
-                  setZoom(1);
-                }}
-              >
-                {imgContent?.media_type === "Image" ||
-                imgContent?.type === "main" ? (
-                  <img
-                    src={imgContent.productImage?.replace(
-                      /Micro|Large/i,
-                      "Medium"
-                    )}
-                    alt={alt}
-                    className={globalStyles.imgResponsive}
-                  />
-                ) : (
-                  <>
-                    {/* <div className={styles.overlayDiv}></div>
-                    <ReactPlayer
-                      url={imgContent?.vimeo_link}
-                      width={"100%"}
-                      height={"auto"}
-                      playing={playVideo}
-                      playsinline={true}
-                    /> */}
-                    <video
-                      ref={videoRef2}
-                      src={imgContent?.video_link}
-                      autoPlay={false}
-                      loop
-                      preload="auto"
-                      width="100%"
-                      height="auto"
-                    />
-                    {playVideo &&
-                    imgContent?.video_link === selectedImage?.video_link ? (
-                      <img
-                        src={pause}
-                        alt="pause"
-                        className={styles.play}
-                        onClick={() => {
-                          videoRef?.current?.pause();
-                          videoRef2?.current?.pause();
-                          setPlayVideo(false);
-                        }}
-                      />
-                    ) : (
-                      <img
-                        src={play}
-                        alt="play"
-                        className={styles.play}
-                        onClick={() => {
-                          videoRef?.current?.play();
-                          videoRef2?.current?.play();
-                          setPlayVideo(true);
-                        }}
-                      />
-                    )}
-                  </>
-                )}
-              </div>
-            ))}
+            <VerticalImageSlider
+              activeSlideIndex={indexOf(images, selectedImage)}
+            >
+              {createImageSlider()}
+            </VerticalImageSlider>
           </div>
         )}
 
@@ -168,12 +233,20 @@ const Zoom: React.FC<Props> = ({
                 {selectedImage?.media_type === "Image" ||
                 selectedImage?.type === "main" ? (
                   <TransformWrapper
+                    minScale={1}
+                    maxScale={4}
                     initialPositionX={0}
                     initialScale={zoom}
                     initialPositionY={0}
                     ref={transformComponentMobileRef}
-                    pinch={{ disabled: true }}
-                    wheel={{ disabled: true, touchPadDisabled: true }}
+                    // pinch={{ disabled: true }}
+                    doubleClick={{ disabled: true }}
+                    onTransformed={e => handleScaleChange(e)}
+                    // onPinching={(ref, e) => onPinch(ref, e)}
+                    // onPanning={(ref, e) => onPan(ref, e)}
+                    limitToBounds={true}
+                    alignmentAnimation={{ sizeX: 0, sizeY: 0 }}
+                    centerZoomedOut={true}
                   >
                     <TransformComponent>
                       <img
@@ -188,21 +261,51 @@ const Zoom: React.FC<Props> = ({
                     </TransformComponent>
                   </TransformWrapper>
                 ) : (
-                  ""
+                  <div
+                    className={styles.videoWrpHeight}
+                    dangerouslySetInnerHTML={{
+                      __html: `
+                      <video
+                       id="pdpImageMobile"
+                        loop
+                        autoplay
+                        playsinline
+                        preload="metadata"
+                      >
+                      <source src="${selectedImage?.video_link}" />
+                      </video>`
+                    }}
+                  />
                 )}
               </div>
             </div>
           ) : (
-            <div id="zoomWrapper" className={styles.wrp}>
+            <div
+              id="zoomWrapper"
+              className={cs(styles.wrp, {
+                [styles.videoWrp]:
+                  selectedImage?.media_type !== "Image" &&
+                  selectedImage?.type !== "main"
+              })}
+            >
               {selectedImage?.media_type === "Image" ||
               selectedImage?.type === "main" ? (
                 <TransformWrapper
+                  minScale={1}
+                  maxScale={4}
                   initialPositionX={0}
                   initialScale={zoom}
                   initialPositionY={0}
                   ref={transformComponentRef}
-                  pinch={{ disabled: true }}
-                  wheel={{ disabled: true, touchPadDisabled: true }}
+                  // pinch={{ disabled: true }}
+                  // wheel={{ disabled: true, touchPadDisabled: true }}
+                  doubleClick={{ disabled: true }}
+                  onTransformed={e => handleScaleChange(e)}
+                  // onPinching={(ref, e) => onPinch(ref, e)}
+                  // onPanning={(ref, e) => onPan(ref, e)}
+                  limitToBounds={true}
+                  alignmentAnimation={{ sizeX: 0, sizeY: 0 }}
+                  centerZoomedOut={true}
                 >
                   <TransformComponent>
                     <img
@@ -275,38 +378,44 @@ const Zoom: React.FC<Props> = ({
               )}
             ></i>
           </div>
-          {(selectedImage?.media_type === "Image" ||
-            selectedImage?.type === "main") && (
-            <div className={styles.btnWrp}>
-              <button
-                className={styles.plus}
-                onClick={() => zoom < 4 && setZoomcall(zoom + 0.5)}
-              >
-                <img src={plus} alt={"incerment"} />
-              </button>
+          {!mobile &&
+            !tablet &&
+            (selectedImage?.media_type === "Image" ||
+              selectedImage?.type === "main") && (
+              <div className={styles.btnWrp}>
+                <button
+                  className={styles.plus}
+                  onClick={() => zoom < 4 && setZoomcall(zoom + 0.5)}
+                >
+                  <img src={plus} alt={"incerment"} />
+                </button>
 
-              <div className="custom-range">
-                <Slider
-                  min={1}
-                  max={4}
-                  step={0.1}
-                  vertical={true}
-                  value={zoom}
-                  onChange={(value: number) => setZoomcall(+value)}
-                />
+                <div className="custom-range">
+                  <Slider
+                    min={1}
+                    max={4}
+                    step={0.1}
+                    vertical={true}
+                    value={zoom}
+                    onChange={(value: number) => setZoomcall(+value)}
+                  />
+                </div>
+
+                <button
+                  className={styles.minus}
+                  onClick={() => zoom > 1 && setZoomcall(zoom - 0.5)}
+                >
+                  <img src={minus} alt={"incerment"} />
+                </button>
               </div>
-
-              <button
-                className={styles.minus}
-                onClick={() => zoom > 1 && setZoomcall(zoom - 0.5)}
-              >
-                <img src={minus} alt={"incerment"} />
-              </button>
-            </div>
-          )}
+            )}
         </div>
       </div>
-      {/* <div className={cs(styles.footer, { [styles.mobileFooter]: mobile })}>
+      <div
+        className={cs(styles.footer, {
+          [styles.mobileFooter]: mobile || tablet
+        })}
+      >
         <DockedPanel
           data={data}
           buttoncall={buttoncall}
@@ -314,9 +423,8 @@ const Zoom: React.FC<Props> = ({
           price={price}
           discountPrice={discountPrices}
           mobile={mobile}
-          hideAddToBag={true}
         />
-      </div> */}
+      </div>
     </div>
   );
 };

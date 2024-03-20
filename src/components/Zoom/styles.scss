@@ -25,14 +25,15 @@
       height: 100%;
 
       .left{
-        margin-top: 100px;
+        width: 5%;
+        height: calc(100% - 70px);
+        margin: auto 15px;
         z-index: 0;
-        overflow: auto;
         .thumbnail-img{
           // height: 100px;
           cursor: pointer;
           width: 70px;
-          margin: 0 12px 10px 12px;
+          margin: 0 0px 5px 0px;
           opacity: 0.6;
           position: relative;
 
@@ -79,6 +80,11 @@
           div{
             // aspect-ratio: 5/15;
             height: 100vh;
+            width: auto;
+          }
+          &.video-wrp{
+            // aspect-ratio: 5/15;
+            height: 100vh;
             width: 80vw;
           }
 
@@ -108,6 +114,13 @@
           margin: 40px 0px 0px 10px;
           i{
             font-size: 15px;
+            @media screen and (max-width:992px){
+              text-shadow: 0 0 10px black;
+            }
+          }
+
+          @media screen and (max-width:992px){
+            margin: 20px 0px 0px 10px;
           }
         
         }
@@ -139,6 +152,7 @@
 
           .minus{
             margin-top: 5px;
+            margin-bottom: 5px;
           }
 
         }
@@ -146,31 +160,43 @@
         @media screen and (max-width:992px){
           padding: 0 15px;
           position: absolute;
-          background: white;
+          // background: white;
           opacity: 0.8;
           height: 100%;
           z-index: 0;
           right: 0;
           margin: 0;
         }
+
+        @media screen and (max-width:767px){
+          padding: 0 15px;
+          position: absolute;
+          height: 100%;
+          z-index: 0;
+          right: 0;
+          margin: 0;
+          background: transparent;
+          opacity: 1;
+        }
       }
     }
-    // .footer{
-    //   background: #fff;
-    //   position: fixed;
-    //   bottom: 0;
-    //   width: 100%;
-    //   height: 80px;
-    //   box-shadow: -1px -2px 12px #0000001d;
-    //   display: flex;
-    //   padding: 0% 8%;
-    //   flex-direction: column;
-    //   justify-content: center;
-    //   &.mobile {
-    //     padding: 0%;
-    //     height: 60px;
-    //   }
-    // }
+    .footer{
+      background: #fff;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 90px;
+      box-shadow: -1px -2px 12px #0000001d;
+      display: flex;
+      padding: 0% 6%;
+      flex-direction: column;
+      justify-content: center;
+      &.mobile {
+        padding: 0%;
+        height: 60px;
+        box-shadow: none;
+      }
+    }
   
     .cta {
       bottom: 40px;
@@ -214,4 +240,7 @@
 
 .active-thumbnail {
     border: 2px solid $white;
+}
+.video-wrp-height{
+  height: 100%;
 }

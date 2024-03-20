@@ -25,6 +25,7 @@ import { getErrorList, errorTracking } from "utils/validate";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import Button from "components/Button";
 import SelectDropdown from "components/Formsy/SelectDropdown";
 
 const mapStateToProps = (state: AppState) => {
@@ -64,7 +65,8 @@ class RegisterForm extends React.Component<Props, registerState> {
       stateOptions: [],
       isIndia: false,
       showEmailVerification: false,
-      email: ""
+      email: "",
+      selectedCountry: ""
     };
   }
   static contextType = Context;
@@ -470,7 +472,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isEnglish: "Only alphabets are allowed"
+                isEnglish: "Please enter only alphabetic characters"
               }}
               required
               showLabel={true}
@@ -493,7 +495,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isEnglish: "Only alphabets are allowed"
+                isEnglish: "Please enter only alphabetic characters"
               }}
               required
               showLabel={true}
@@ -551,8 +553,8 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isValidDate: "Please enter valid date of birth",
-                isMinAllowedDate: "Please enter valid date of birth",
+                isValidDate: "Please enter a valid Date of Birth",
+                isMinAllowedDate: "Please enter a valid Date of Birth",
                 isMaxAllowedDate: "Age should be at least 15 years"
               }}
               showLabel={true}
@@ -588,11 +590,12 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isCodeValid: "Required"
+                isCodeValid: "Please select a Country Code"
               }}
               allowFilter={true}
               showLabel={true}
               optionsClass={styles.isdCode}
+              aquaClass={styles.aquaText}
               searchIconClass={styles.countryCodeSearchIcon}
               searchInputClass={styles.countryCodeSearchInput}
               inputRef={this.countryCodeRef}
@@ -683,7 +686,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                equalsField: "The Password entered doesn't match",
+                equalsField: "The entered password does not match.",
                 isValid:
                   "Password should be between 6 to 20 characters which should contain at least one numeric digit, one uppercase and one lowercase letter."
               }}
@@ -745,16 +748,12 @@ class RegisterForm extends React.Component<Props, registerState> {
             ) : (
               ""
             )}
-            <input
+            <Button
               type="submit"
-              formNoValidate
-              className={
-                this.state.disableButton || !this.state.showFields
-                  ? cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
-                  : globalStyles.ceriseBtn
-              }
-              value="continue"
+              className={globalStyles.btnFullWidth}
+              label="continue"
               disabled={this.state.disableButton || !this.state.showFields}
+              variant="largeAquaCta"
             />
           </div>
         </div>

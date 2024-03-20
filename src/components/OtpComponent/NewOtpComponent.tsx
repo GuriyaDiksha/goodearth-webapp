@@ -1,6 +1,10 @@
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import style from "./styles.scss";
 import cs from "classnames";
+import Button from "components/Button";
+import globalStyles from "styles/global.scss";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 type Props = {
   errorMsg: (JSX.Element | string)[] | string;
@@ -11,7 +15,7 @@ type Props = {
   btnText: string;
   startTimer: boolean;
   setAttempts: (x: any) => void;
-  closeModal?: () => void;
+  cancelOtpReq?: () => void;
   containerClassName?: string;
   headingClassName?: string;
   timerClass?: string;
@@ -33,7 +37,7 @@ const NewOtpComponent: React.FC<Props> = ({
   btnText,
   startTimer,
   setAttempts,
-  closeModal,
+  cancelOtpReq,
   headingClassName,
   containerClassName,
   timerClass,
@@ -45,6 +49,7 @@ const NewOtpComponent: React.FC<Props> = ({
   socialLogin,
   uniqueId //made this component unique in dom
 }) => {
+  const { mobile } = useSelector((state: AppState) => state.device);
   const [timeRemaining, setTimeRemaining] = useState(90);
   const [timerId, setTimerId] = useState<any>();
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
@@ -61,7 +66,7 @@ const NewOtpComponent: React.FC<Props> = ({
   const secondsToMinutes = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     seconds -= minutes * 60;
-    return minutes + ":" + seconds;
+    return minutes + ":" + String(seconds).padStart(2, "0");
   };
 
   const timer = () => {
@@ -112,11 +117,25 @@ const NewOtpComponent: React.FC<Props> = ({
         [`${uniqueId}otp6`]: ""
       });
       setError(errorMsg);
+      // if (setRedeemOtpError) {
+      //   setRedeemOtpError("");
+      // } else {
+      // setInput({
+      //   otp1: "",
+      //   otp2: "",
+      //   otp3: "",
+      //   otp4: "",
+      //   otp5: "",
+      //   otp6: ""
+      // });
+      //}
     }
   }, [errorMsg]);
 
   const resetTimer = () => {
     setError("");
+    // if (setRedeemOtpError) setRedeemOtpError("");
+
     setInput({
       [`${uniqueId}otp1`]: "",
       [`${uniqueId}otp2`]: "",
@@ -144,6 +163,7 @@ const NewOtpComponent: React.FC<Props> = ({
         setInput({ ...input, [e.target.name]: e.target.value });
       }
       setError("");
+      // if (setRedeemOtpError) setRedeemOtpError("");
 
       if (doMinusOne) {
         const ele =
@@ -202,6 +222,8 @@ const NewOtpComponent: React.FC<Props> = ({
         [`${uniqueId}otp6`]: ""
       };
       setError("");
+      // if (setRedeemOtpError) setRedeemOtpError("");
+
       arr.map((ele: string, i: number) => {
         newObj = { ...newObj, [`${uniqueId}otp${i + 1}`]: ele };
       });
@@ -225,6 +247,8 @@ const NewOtpComponent: React.FC<Props> = ({
           ele?.focus();
         }
       }
+    } else if (e.keyCode === 13 || e.which === 13) {
+      sendOtp();
     } else if (e.which === 69) {
       e.preventDefault();
     }
@@ -233,7 +257,8 @@ const NewOtpComponent: React.FC<Props> = ({
   return (
     <div className={cs(containerClassName, style.otpWrp)} id={uniqueId}>
       <p className={cs(headingClassName, style.otpHeading)}>
-        OTP has been sent to you via your {otpSentVia}. Please enter below:
+        OTP has been sent to you{otpSentVia && ` via your ${otpSentVia}`}.
+        Please enter below:
       </p>
       <div className={style.otpInputErr}>
         <div className={style.otpInputWrp}>
@@ -328,19 +353,8 @@ const NewOtpComponent: React.FC<Props> = ({
           Attempt: {attempts?.attempts}/{attempts?.maxAttemptsAllow}
         </p>
       )}
-      <button
-        className={cs(
-          `${style.otpBtn} ${
-            `${input?.[`${uniqueId}otp1`]}${input?.[`${uniqueId}otp2`]}${
-              input?.[`${uniqueId}otp3`]
-            }${input?.[`${uniqueId}otp4`]}${input?.[`${uniqueId}otp5`]}${
-              input?.[`${uniqueId}otp6`]
-            }`.length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
-              ? style.disable
-              : ""
-          }`,
-          verifyCtaClass
-        )}
+      <Button
+        className={cs(verifyCtaClass, { [globalStyles.btnFullWidth]: mobile })}
         onClick={() => sendOtp()}
         disabled={
           `${input?.[`${uniqueId}otp1`]}${input?.[`${uniqueId}otp2`]}${
@@ -349,20 +363,19 @@ const NewOtpComponent: React.FC<Props> = ({
             input?.[`${uniqueId}otp6`]
           }`.length !== 6 || attempts?.maxAttemptsAllow === attempts?.attempts
         }
-      >
-        {btnText}
-      </button>
-      {/* <p className={style.otpAttempt}>
-        Attempt: {attempts?.attempts}/{attempts?.maxAttemptsAllow}
-      </p> */}
-      {closeModal && (
+        label={btnText}
+        variant="mediumMedCharcoalCta366"
+      />
+      {cancelOtpReq ? (
         <div
-          className={cs(style.otpPolicy, style.cancelLink)}
-          onClick={() => closeModal()}
+          className={cs(style.otpPolicy, style.otpRedeem)}
+          onClick={() => {
+            cancelOtpReq();
+          }}
         >
-          I DON&apos;T WISH TO REDEEM
+          I DON’T WISH TO REDEEM
         </div>
-      )}
+      ) : null}
       {!groupTimerAndAttempts && (
         <p className={cs(style.otpAttempt, otpAttemptClass)}>
           Attempt: {attempts?.attempts}/{attempts?.maxAttemptsAllow}

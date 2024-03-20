@@ -23,6 +23,8 @@ import { ChildProductAttributes } from "typings/product";
 import { updateLoader } from "actions/info";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import { useHistory } from "react-router";
+import globalStyles from "styles/global.scss";
 
 const WishlistButton: React.FC<Props> = ({
   gtmListType,
@@ -42,20 +44,26 @@ const WishlistButton: React.FC<Props> = ({
   source,
   // inWishlist,
   onMoveToWishlist,
-  onComplete
+  onComplete,
+  isPlpTile,
+  tablet,
+  badgeType
 }) => {
   const { wishlistItems, wishlistChildItems } = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
   const store = useStore();
   const {
     currency,
-    wishlist: { sortBy }
+    wishlist: { sortBy },
+    info: { isSale }
   } = useSelector((state: AppState) => state);
   const [addedToWishlist, setAddedToWishlist] = useState(
     wishlistItems.indexOf(id) != -1 ||
       (basketLineId && wishlistChildItems.indexOf(id) != -1)
   );
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const gtmPushAddToWishlist = (addWishlist?: boolean) => {
     try {
       if (gtmListType) {
@@ -65,8 +73,22 @@ const WishlistButton: React.FC<Props> = ({
           categories.length > 0 &&
           categories[index].replace(/\s/g, "");
         category = category && category.replace(/>/g, "/");
+        const cat1 = categories?.[0]?.split(">");
+        const cat2 = categories?.[1]?.split(">");
+
+        const L1 = cat1?.[0].trim();
+
+        const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+        const L3 = cat2?.[2]
+          ? cat2?.[2]?.trim()
+          : categories?.[2]?.split(">")?.[2].trim();
+
+        const clickType = localStorage.getItem("clickType");
         const listPath = `${gtmListType}`;
         const child = childAttributes as ChildProductAttributes[];
+        const search = CookieService.getCookie("search") || "";
+
         console.log(category, id, title, priceRecords);
         const userConsent = CookieService.getCookie("consent").split(",");
         if (userConsent.includes(GA_CALLS)) {
@@ -138,28 +160,35 @@ const WishlistButton: React.FC<Props> = ({
                   item_id: id, //Pass the product id
                   item_name: title, // Pass the product name
                   affiliation: title, // Pass the product name
-                  coupon: "", // Pass the coupon if available
+                  coupon: "NA", // Pass the coupon if available
                   currency: currency, // Pass the currency code
-                  discount: "", // Pass the discount amount
+                  discount:
+                    isSale && child?.[0].discountedPriceRecords
+                      ? badgeType == "B_flat"
+                        ? child?.[0].discountedPriceRecords[currency]
+                        : child?.[0].priceRecords[currency] -
+                          child?.[0].discountedPriceRecords[currency]
+                      : "NA", // Pass the discount amount
                   index: 0,
                   item_brand: "Goodearth",
-                  item_category: category?.split("/")[0],
-                  item_category2: category?.split("/")[1],
-                  item_category3: "",
-                  item_list_id: "",
-                  item_list_name: "",
+                  item_category: L1,
+                  item_category2: L2,
+                  item_category3: L3,
+                  item_category4: "NA",
+                  item_category5: "NA",
+                  item_list_id: "NA",
+                  item_list_name: search ? `${clickType}-${search}` : "NA",
                   item_variant:
                     childAttributes && childAttributes[0].size
                       ? childAttributes[0].size
-                      : "",
-                  item_category4: "",
-                  item_category5: "",
+                      : "NA",
                   price: child?.[0].discountedPriceRecords
                     ? child?.[0].discountedPriceRecords[currency]
                     : child?.[0].priceRecords
                     ? child?.[0].priceRecords[currency]
                     : null,
-                  quantity: 1
+                  quantity: 1,
+                  price_range: "NA"
                 }
               ]
             }
@@ -172,6 +201,8 @@ const WishlistButton: React.FC<Props> = ({
   };
 
   const onClick = useCallback(async () => {
+    const isShared = history.location.pathname.includes("shared-wishlist");
+
     dispatch(updateLoader(true));
     if (basketLineId) {
       if (addedToWishlist) {
@@ -184,6 +215,8 @@ const WishlistButton: React.FC<Props> = ({
         ).finally(() => {
           dispatch(updateLoader(false));
           onComplete && onComplete();
+
+          // WishlistService.countWishlist(dispatch);
         });
       } else {
         WishlistService.moveToWishlist(
@@ -196,6 +229,7 @@ const WishlistButton: React.FC<Props> = ({
           .then(() => {
             onMoveToWishlist?.();
             gtmPushAddToWishlist(true);
+            // WishlistService.countWishlist(dispatch);
           })
           .finally(() => {
             dispatch(updateLoader(false));
@@ -204,15 +238,24 @@ const WishlistButton: React.FC<Props> = ({
       }
     } else {
       if (addedToWishlist) {
-        WishlistService.removeFromWishlist(store.dispatch, id).finally(() => {
+        WishlistService.removeFromWishlist(
+          store.dispatch,
+          id,
+          undefined,
+          undefined,
+          undefined
+        ).finally(() => {
           dispatch(updateLoader(false));
           onComplete && onComplete();
           gtmPushAddToWishlist(false);
+
+          // WishlistService.countWishlist(dispatch);
         });
       } else {
         WishlistService.addToWishlist(store.dispatch, id, size)
           .then(() => {
             gtmPushAddToWishlist(true);
+            // WishlistService.countWishlist(dispatch);
           })
           .finally(() => {
             dispatch(updateLoader(false));
@@ -237,17 +280,18 @@ const WishlistButton: React.FC<Props> = ({
           ) : (
             <div
               style={parentWidth ? { width: "100%" } : {}}
-              className={cs(
-                iconStyles.icon,
-                styles.wishlistIcon,
-                iconClassName,
-                {
-                  [iconStyles.iconWishlistAdded]: addedToWishlist,
-                  [iconStyles.iconWishlist]: !addedToWishlist,
-                  [styles.addedToWishlist]: addedToWishlist && showText,
-                  [styles.mobileWishlist]: mobile
-                }
-              )}
+              className={cs(iconStyles.icon, iconClassName, {
+                [iconStyles.iconWishlistAdded]: addedToWishlist && !isPlpTile,
+                [iconStyles.iconWishlist]: !addedToWishlist && !isPlpTile,
+                [styles.addedToWishlist]: addedToWishlist && showText,
+                [iconStyles.iconPlpWishlistAdded]: addedToWishlist && isPlpTile,
+                [iconStyles.iconPlpWishlist]: !addedToWishlist && isPlpTile,
+                [globalStyles.tabletIconSize]: tablet && isPlpTile,
+                [styles.mobileWishlist]: mobile && !isPlpTile,
+                [globalStyles.iconContainer]: isPlpTile,
+                [styles.wishlistPaddingTop]: isPlpTile,
+                [styles.wishlistIcon]: !isPlpTile
+              })}
               title={
                 basketLineId
                   ? addedToWishlist

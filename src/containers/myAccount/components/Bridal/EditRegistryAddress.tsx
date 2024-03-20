@@ -11,12 +11,13 @@ const EditRegistryAddress: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
   const { mode } = useContext(AddressContext);
-  const { setCurrentScreenValue } = useContext(BridalContext);
+  const { setCurrentScreenValue, setCurrentModule } = useContext(BridalContext);
 
   function scrollToTop() {
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-    setCurrentScreenValue("manageregistryfull");
+    setCurrentScreenValue("manage");
+    setCurrentModule("created");
   }
 
   return (
@@ -26,6 +27,7 @@ const EditRegistryAddress: React.FC<{ children: React.ReactNode }> = ({
           bootstrapStyles.col10,
           bootstrapStyles.offset1,
           "checkout",
+          styles.mobileContainer,
           {
             [cs(bootstrapStyles.colMd8, bootstrapStyles.offsetMd2)]:
               mode == "edit"
@@ -36,29 +38,36 @@ const EditRegistryAddress: React.FC<{ children: React.ReactNode }> = ({
           }
         )}
       >
-        <div
-          className={cs(
-            globalStyles.textLeft,
-            globalStyles.voffset4,
-            styles.letterSpacing1
-          )}
-        >
-          <span className={globalStyles.pointer} onClick={() => scrollToTop()}>
-            {ReactHtmlParser(
-              mode == "edit" ? "" : "&lt; &nbsp;MANAGE REGISTRY"
+        <div className={cs(styles.backHead)}>
+          <div className={cs(globalStyles.textLeft, styles.letterSpacing1)}>
+            <span
+              className={globalStyles.pointer}
+              onClick={() => scrollToTop()}
+            >
+              {ReactHtmlParser(mode == "edit" ? "" : "&lt; &nbsp;BACK")}
+            </span>
+          </div>
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.c22AI,
+              styles.registryFormHeading
             )}
-          </span>
+          >
+            {mode == "edit" ? "Edit Address" : "Registry Shipping Address"}
+          </div>
         </div>
-        <div className={cs(globalStyles.textCenter, globalStyles.c22AI)}>
-          {mode == "edit" ? "Edit Address" : "Saved Addresses"}
+        <div className={styles.registryFormSubheading}>
+          Manage & edit your Registry shipping address.
         </div>
         {children}
-        <div
+        {/* <div
           className={cs(
             globalStyles.textCenter,
             globalStyles.cerise,
             globalStyles.voffset4,
-            styles.letterSpacing1
+            styles.letterSpacing1,
+            styles.posUnset
           )}
         >
           <span className={globalStyles.pointer} onClick={() => scrollToTop()}>
@@ -66,7 +75,7 @@ const EditRegistryAddress: React.FC<{ children: React.ReactNode }> = ({
               mode == "edit" ? "" : "&lt; &nbsp;MANAGE REGISTRY"
             )}
           </span>
-        </div>
+        </div> */}
       </div>
     </div>
   );

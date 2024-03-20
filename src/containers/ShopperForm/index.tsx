@@ -13,6 +13,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import ProductService from "services/product";
 import FormSelect from "components/Formsy/FormSelect";
 import MakerEnhance from "components/maker";
+import Button from "components/Button";
 
 const ShopperForm: React.FC = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -215,7 +216,7 @@ const ShopperForm: React.FC = () => {
               }}
               validationErrors={{
                 maxLength: "Max limit reached.",
-                isWords: "Only alphabets are allowed."
+                isWords: "Please enter only alphabetic characters."
               }}
             />
           </div>
@@ -344,17 +345,12 @@ const ShopperForm: React.FC = () => {
           <p className={cs(styles.successMessage, globalStyles.errorMsg)}>
             {successMsg}
           </p>
-          <input
+          <Button
             type="submit"
-            formNoValidate={true}
-            className={cs(
-              globalStyles.ceriseBtn,
-              globalStyles.marginT10,
-              styles.jobApplicationSubmit,
-              { [globalStyles.disabledBtn]: !enableSubmit }
-            )}
+            className={cs(globalStyles.btnFullWidth, globalStyles.marginT10)}
             disabled={!enableSubmit}
-            value="Submit"
+            label="Submit"
+            variant="largeAquaCta"
           />
         </div>
       </Formsy>

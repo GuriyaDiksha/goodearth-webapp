@@ -22,6 +22,7 @@ import iconStyles from "styles/iconFonts.scss";
 import { errorTracking } from "utils/validate";
 import { AppState } from "reducers/typings";
 import { removeFroala } from "utils/validate";
+import Button from "components/Button";
 
 type Props = {
   year: number;
@@ -127,6 +128,11 @@ class PressStoriesContent extends React.Component<
   componentDidMount() {
     window.scrollTo(0, 0);
     removeFroala();
+  }
+  componentDidUpdate() {
+    this.state.isSortOpen
+      ? document.body.classList.add(globalStyles.noScroll)
+      : document.body.classList.remove(globalStyles.noScroll);
   }
 
   onSelect = (data: DropdownItem) => {
@@ -248,16 +254,15 @@ class PressStoriesContent extends React.Component<
               ) : (
                 ""
               )}
-              <input
+              <Button
                 type="submit"
                 disabled={!this.state.enableSubmit}
                 className={cs(
                   { [styles.summaryFooter]: this.props.mobile },
-                  this.state.enableSubmit
-                    ? globalStyles.ceriseBtn
-                    : cs(globalStyles.disabledBtn, globalStyles.ceriseBtn)
+                  globalStyles.btnFullWidth
                 )}
-                value="submit"
+                label="submit"
+                variant="largeAquaCta"
               />
             </div>
           </div>
@@ -458,16 +463,17 @@ class PressStoriesContent extends React.Component<
                 styles.blockRight
               )}
             >
-              <div
+              <Button
                 className={cs(
+                  globalStyles.btnFullWidth,
                   styles.summaryPadding,
                   this.state.showMobileForm
                     ? styles.heading
                     : globalStyles.ceriseBtn
                 )}
-              >
-                contact us
-              </div>
+                label={"contact us"}
+                variant="largeMedCharcoalCta"
+              />
               <div
                 className={cs(styles.overflow, {
                   [globalStyles.hidden]: !this.state.showMobileForm

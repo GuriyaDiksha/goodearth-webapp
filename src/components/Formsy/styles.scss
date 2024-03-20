@@ -1,6 +1,7 @@
 @import "../../styles/partials/form";
 @import "../../styles/partials/mixins";
 
+
 .password {
     input {
         scroll-margin-top: 150px;
@@ -46,6 +47,13 @@ input[type="date"] {
 .error-msg {
   @include err_13px_lora_italic_cerise();
   text-align: left;
+  margin-top: 5px;
+  // margin-top: 8px;
+}
+@media(max-width:425px){
+  .error-msg {
+    font-size: 12px!important;
+  }
 }
 .dropdown{
   position: relative;
@@ -63,15 +71,23 @@ input[type="date"] {
     display: none;
     &.active{
       display: block;
+      z-index: 9;
     }
     .option{
-      height: 50px;
-      padding: 10px 20px;
+      // height: 50px;
+      padding: 10px 20px 0 20px;
       cursor: pointer;
       text-align: left;
-      @include b4_12px_montserrat_charcoal();
+      @include b4_12px_montserrat_light_charcoal();
       line-height: 30px;
       letter-spacing: 0.36px;
+      font-size: 12px !important;
+      &:hover{
+        @include b4_12px_montserrat_charcoal();
+      }
+      &.aqua-text{
+        @include b4_12px_montserrat_aqua();
+      }
     }
   }
   .filter{

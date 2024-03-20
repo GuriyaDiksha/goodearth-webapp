@@ -11,9 +11,10 @@ import { Link, useHistory } from "react-router-dom";
 import Loader from "components/Loader";
 import giftwrapIcon from "../../../images/gift-wrap-icon.svg";
 import { errorTracking, showErrors } from "utils/validate";
+// import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
 import { proceedForPayment, getPageType } from "../../../utils/validate";
-import { currencyCodes } from "constants/currency";
+// import { currencyCodes } from "constants/currency";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
@@ -26,10 +27,13 @@ import { updatePreferenceData } from "actions/user";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
-import { CONFIG } from "constants/util";
+import { CONFIG, DEACTIVATE_REDEEM_SECTION } from "constants/util";
 import Formsy from "formsy-react";
+import CheckboxWithLabel from "components/CheckboxWithLabel";
 import { displayPriceWithCommasFloat } from "utils/utility";
 import { Currency } from "typings/currency";
+import Button from "components/Button";
+import { STEP_ORDER } from "../constants";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -38,8 +42,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     device: { mobile, tablet },
     info: { showGiftWrap, deliveryText },
     basket: { loyalty },
-    user: { loyaltyData, isLoggedIn, preferenceData },
-    address: { countryData, shippingAddressId, billingAddressId }
+    user: { loyaltyData, isLoggedIn, preferenceData, slab },
+    address: { countryData, shippingAddressId, billingAddressId },
+    info: { isSale }
   } = useSelector((state: AppState) => state);
   let PaymentChild: any = useRef<typeof ApplyGiftcard>(null);
   const history = useHistory();
@@ -49,7 +54,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     checkout,
     shippingAddress,
     salestatus,
-    gstNo
+    gstNo,
+    currentStep,
+    activeStep,
+    isGcCheckout
   } = props;
   const [paymentError, setPaymentError] = useState("");
   const [whatsappNoErr, setWhatsappNoErr] = useState("");
@@ -64,7 +72,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const [currentmethod, setCurrentmethod] = useState(data);
   const [isLoading, setIsLoading] = useState(false);
   const [textarea, setTextarea] = useState("");
-  // const [gbpError, setGbpError] = useState("");
+  // const [redeemOtpError, setRedeemOtpError] = useState("");
   const [getMethods, setGetMethods] = useState<any[]>([]);
   const [checkoutMobileOrderSummary, setCheckoutMobileOrderSummary] = useState(
     false
@@ -86,6 +94,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   };
 
   const PaymentButton = useRef(null);
+
+  const isSafari =
+    typeof window !== "undefined"
+      ? /^((?!chrome|android).)*safari/i.test(window.navigator?.userAgent)
+      : false;
 
   const toggleInput = async () => {
     if (basket.giftCards.length > 0 && isactivepromo) {
@@ -111,27 +124,33 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     }
     setIsactivepromo(!isactivepromo);
   };
+
+  const removeRedeem = async () => {
+    setIsLoading(true);
+    const promo: any = await CheckoutService.removeRedeem(dispatch);
+    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    setIsLoading(false);
+    return promo;
+  };
+
   const toggleInputReedem = () => {
+    if (DEACTIVATE_REDEEM_SECTION) {
+      return false;
+    }
+
     setIsactiveredeem(true);
 
     dispatch(
       updateComponent(
         POPUP.REDEEMPOPUP,
         {
-          setIsactiveredeem: setIsactiveredeem
+          setIsactiveredeem,
+          removeRedeem
         },
         true
       )
     );
     dispatch(updateModal(true));
-  };
-
-  const removeRedeem = async (history: any, isLoggedIn: boolean) => {
-    setIsLoading(true);
-    const promo: any = await CheckoutService.removeRedeem(dispatch);
-    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
-    setIsLoading(false);
-    return promo;
   };
 
   const onClickSubscribe = (event: any) => {
@@ -190,6 +209,15 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const onsubmit = () => {
     const isFree = +basket.total <= 0;
     const userConsent = CookieService.getCookie("consent").split(",");
+
+    // if (isOTPSent) {
+    //   scrollToGivenId("otp");
+    //   setRedeemOtpError("Please redeem your points or cancel request.");
+    //   return false;
+    // } else {
+    //   setRedeemOtpError("");
+    // }
+
     const whatsappFormValues = whatsappFormRef.current?.getCurrentValues();
     let whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
     let whatsappNo = whatsappFormValues?.whatsappNo;
@@ -281,26 +309,51 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             line?.product?.priceRecords?.[currency as Currency]
           );
           productquantity.push(+line.quantity);
+          const search = CookieService.getCookie("search") || "";
+          const cat1 = line?.product?.categories?.[0]?.split(">");
+          const cat2 = line?.product?.categories?.[1]?.split(">");
+
+          const L1 = cat1?.[0].trim();
+
+          const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+          const L3 = cat2?.[2]
+            ? cat2?.[2]?.trim()
+            : line?.product?.categories?.[2]?.split(">")?.[2].trim();
+
+          const clickType = localStorage.getItem("clickType");
 
           return {
             item_id: line.product.sku,
             item_name: line.title,
-            affiliation: "Pass the affiliation of the product",
-            coupon: basket.voucherDiscounts?.[0]?.voucher?.code || "NA", //Pass NA if not applicable at the moment
-            discount: basket?.offerDiscounts?.[0]?.name,
+            affiliation: "NA",
+            coupon:
+              isSale && basket?.offerDiscounts?.[0]?.name
+                ? basket?.offerDiscounts?.[0]?.name
+                : "NA", //Pass NA if not applicable at the moment
+            discount:
+              isSale && basket?.offerDiscounts?.[0]?.amount
+                ? line?.badgeType == "B_flat"
+                  ? basket?.offerDiscounts?.[0]?.amount
+                  : line.product.priceRecords[currency as Currency] -
+                    basket?.offerDiscounts?.[0]?.amount
+                : "NA",
             index: ind,
             item_brand: "Goodearth",
-            item_category: category,
-            item_category2: line.product?.childAttributes[0]?.size,
-            item_category3: line.product.is3d ? "3d" : "non3d",
-            item_category4: line.product.is3d ? "YES" : "NO",
+            item_category: L1,
+            item_category2: L2,
+            item_category3: L3,
+            item_category4: "NA",
+            item_category5: line.product.is3d ? "3d" : "non3d",
             item_list_id: "NA",
-            item_list_name: "NA",
-            item_variant: "NA",
+            item_list_name: search ? `${clickType}-${search}` : "NA",
+            item_variant: line.product?.childAttributes[0]?.size || "NA",
             price: line.isEgiftCard
               ? +line.priceExclTax
               : line.product.priceRecords[currency as Currency],
-            quantity: line.quantity
+            quantity: line.quantity,
+            collection_category: line?.product?.collections?.join("|"),
+            price_range: "NA"
           };
         });
 
@@ -308,6 +361,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
         dataLayer.push({
           event: "add_payment_info",
+          previous_page_url: CookieService.getCookie("prevUrl"),
           billing_address: sameAsShipping
             ? "Same as Shipping Address"
             : billingAddressId,
@@ -326,10 +380,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         });
       }
 
+      data["subscribe"] = subscribevalue; //Adding subscribe for main checkout API
       checkout(data)
         .then((response: any) => {
           gtmPushPaymentTracking(paymentMode, paymentMethod);
-          proceedForPayment(basket, currency, paymentMethod);
+          proceedForPayment(basket, currency, paymentMethod, isSale);
           dataLayer.push({
             event: "Whatsapp_optin",
             Location: "Checkout",
@@ -346,7 +401,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           const errorType = error.response?.data.errorType;
           if (errorType && errorType == "qty") {
             msg =
-              "Some of the products in your cart have been updated/become unavailable. Please refresh before proceeding.";
+              "Some items in your cart have been modified or are no longer available. Kindly refresh before proceeding.";
           }
           setPaymentError(msg);
           errorTracking([msg], location.href);
@@ -403,8 +458,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       } else {
         setWhatsappNoErr("");
       }
-      setPaymentError("Please select a payment method");
-      errorTracking(["Please select a payment method"], location.href);
+      setPaymentError("Please select a Payment Method");
+      errorTracking(["Please select a Payment Method"], location.href);
       document.getElementById("payment-section")?.scrollIntoView();
     }
   };
@@ -439,13 +494,16 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   useEffect(() => {
     if (prevLoyaltytRef.current.length != basket.loyalty.length) {
-      if (basket.loyalty.length > 0) {
+      if (basket.loyalty.length > 0 && basket.loyalty[0].isValidated) {
         setIsactiveredeem(true);
         prevLoyaltytRef.current = basket.loyalty;
       } else {
         setIsactiveredeem(false);
       }
     }
+    // if (basket.loyalty.length > 0 && basket.loyalty[0].isValidated) {
+    //   setIsactiveredeem(true);
+    // }
   }, [basket.loyalty]);
 
   useEffect(() => {
@@ -475,6 +533,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     if (isActive) {
       if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
         AccountServices.fetchAccountPreferences(dispatch).then((data: any) => {
+          setSubscribevalue(data.subscribe); // Initializing value
           dispatch(updatePreferenceData(data));
           setSubscribevalue(data.subscribe);
         });
@@ -557,7 +616,31 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const giftWrapRender = useMemo(() => {
     return (
       <div className={globalStyles.marginT20}>
-        <label className={cs(globalStyles.flex, globalStyles.crossCenter)}>
+        <CheckboxWithLabel
+          id="giftWrp"
+          checked={giftwrap}
+          onChange={() => {
+            setGiftwrap(!giftwrap);
+            setGiftwrapprice(!giftwrap);
+          }}
+          label={[
+            <label
+              key="giftWrp"
+              htmlFor="giftWrp"
+              className={cs(
+                styles.formSubheading,
+                styles.lineHeightLable,
+                styles.giftWrpPos
+              )}
+            >
+              {"Gift wrap this order"}{" "}
+              <span className={styles.giftImg}>
+                <img src={giftwrapIcon} width="30px" alt="Giftwarp Icon" />
+              </span>
+            </label>
+          ]}
+        />
+        {/* <label className={cs(globalStyles.flex, globalStyles.crossCenter)}>
           <div
             className={cs(
               styles.marginR10,
@@ -585,7 +668,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           <div className={styles.giftImg}>
             <img src={giftwrapIcon} width="30px" alt="Giftwarp Icon" />
           </div>
-        </label>
+        </label> */}
       </div>
     );
   }, [giftwrap]);
@@ -626,115 +709,122 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   return (
     <>
-      {loyaltyData?.detail && currency == "INR" && (
-        <div
-          className={
-            isActive
-              ? cs(styles.card, styles.cardOpen, styles.marginT5)
-              : cs(styles.card, styles.cardClosed, styles.marginT5)
-          }
-        >
-          <Fragment>
-            <div className={bootstrapStyles.row}>
-              <div
-                className={cs(
-                  bootstrapStyles.col12,
-                  bootstrapStyles.colMd6,
-                  styles.title
-                )}
-              >
-                {loyalty?.[0]?.points && (
-                  <img
-                    height={"15px"}
-                    className={globalStyles.marginR10}
-                    src={checkmarkCircle}
-                    alt="checkmarkdone"
-                  />
-                )}
-                <span className={isActive ? "" : styles.closed}>
-                  CERISE LOYALTY POINTS
-                </span>
-              </div>
-
-              {loyalty?.[0]?.points && (
+      {(slab.toLowerCase() === "cerise club" ||
+        slab.toLowerCase() === "cerise sitara") &&
+        loyaltyData?.CustomerPointInformation &&
+        !isGcCheckout &&
+        currency == "INR" && (
+          <div
+            id="cerise-section"
+            className={
+              isActive && !loyalty?.[0]?.points
+                ? cs(styles.card, styles.cardOpen, styles.marginT5)
+                : cs(styles.card, styles.cardClosed, styles.marginT5, {
+                    [styles.bgWhite]: STEP_ORDER[activeStep] > currentStep
+                  })
+            }
+          >
+            <Fragment>
+              <div className={bootstrapStyles.row}>
                 <div
                   className={cs(
-                    styles.col12,
+                    bootstrapStyles.col12,
                     bootstrapStyles.colMd6,
-                    styles.selectedStvalue,
-                    styles.cerisePointsWrapper
+                    styles.title,
+                    { [globalStyles.marginB15]: mobile }
                   )}
                 >
-                  <span className={styles.marginR10}>
-                    <span className={styles.redeemPoints}>
-                      {loyalty?.[0]?.points} CERISE POINTS
-                    </span>
-                    <span className={styles.promoCodeApplied}>Redeemed</span>
-                    <span className={styles.redeemPointsText}>
-                      You have successfully redeemed your Cerise Points
-                    </span>
+                  {STEP_ORDER[activeStep] <= currentStep &&
+                    loyalty?.[0]?.points && (
+                      <img
+                        height={"15px"}
+                        className={globalStyles.marginR10}
+                        src={checkmarkCircle}
+                        alt="checkmarkdone"
+                      />
+                    )}
+                  <span className={isActive ? "" : styles.closed}>
+                    CERISE LOYALTY POINTS
                   </span>
-                  <span
-                    className={cs(globalStyles.pointer, styles.promoEdit)}
-                    onClick={() => removeRedeem(history, isLoggedIn)}
+                </div>
+
+                {loyalty?.[0]?.points && STEP_ORDER[activeStep] <= currentStep && (
+                  <div
+                    className={cs(
+                      styles.col12,
+                      bootstrapStyles.colMd6,
+                      styles.selectedStvalue,
+                      styles.cerisePointsWrapper
+                    )}
                   >
-                    REMOVE
-                  </span>
-                </div>
-              )}
-            </div>
-            {loyalty?.[0]?.points || !isActive ? null : (
-              <>
-                <hr className={styles.hr} />
-                <div className={globalStyles.flex}>
-                  <div className={styles.inputContainer}>
-                    <label
-                      className={cs(
-                        globalStyles.flex,
-                        globalStyles.crossCenter
-                      )}
+                    <span className={styles.marginR10}>
+                      <span className={styles.redeemPoints}>
+                        {loyalty?.[0]?.points} CERISE POINTS
+                      </span>
+                      <span className={styles.promoCodeApplied}>Redeemed</span>
+                      <span className={styles.redeemPointsText}>
+                        You have successfully redeemed your Cerise Points
+                      </span>
+                    </span>
+                    <span
+                      className={cs(globalStyles.pointer, styles.promoEdit)}
+                      onClick={() => removeRedeem()}
                     >
-                      <div className={styles.marginR10}>
-                        <span className={styles.checkbox}>
-                          <input
-                            type="radio"
-                            checked={isactiveredeem}
-                            onClick={() => {
-                              toggleInputReedem();
-                            }}
-                          />
-                          <span
-                            className={cs(styles.indicator, {
-                              [styles.checked]: isactiveredeem
-                            })}
-                          ></span>
-                        </span>
-                      </div>
-                      <div
-                        className={cs(
-                          styles.formSubheading,
-                          styles.checkBoxHeading
-                        )}
-                      >
-                        See my balance & redeem points
-                      </div>
-                    </label>
+                      REMOVE
+                    </span>
                   </div>
-                </div>
-              </>
-            )}
-          </Fragment>
-        </div>
-      )}
+                )}
+              </div>
+              {loyalty?.[0]?.points || !isActive ? null : (
+                <>
+                  {!mobile && <hr className={styles.hr} />}
+                  <div className={globalStyles.flex}>
+                    <div className={styles.inputContainer}>
+                      <CheckboxWithLabel
+                        id="cerise"
+                        checked={isactiveredeem}
+                        onChange={toggleInputReedem}
+                        className={cs({
+                          [styles.hideLabel]: DEACTIVATE_REDEEM_SECTION
+                        })}
+                        label={[
+                          <label
+                            key="cerise"
+                            htmlFor="cerise"
+                            className={cs(
+                              styles.formSubheading,
+                              styles.lineHeightLable
+                            )}
+                          >
+                            See my balance & redeem points
+                          </label>
+                        ]}
+                      />
+                      {DEACTIVATE_REDEEM_SECTION && (
+                        <p className={styles.saleTimeMsg}>
+                          You will not be able to earn or redeem Cerise points
+                          during Sale.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
+            </Fragment>
+          </div>
+        )}
 
       {(!basket.isOnlyGiftCart || !isActive) && (
         <div
+          id="gifting-section"
           className={
             isActive
               ? cs(styles.card, styles.cardOpen, styles.marginT5)
               : mobile
               ? styles.hidden
-              : cs(styles.card, styles.cardClosed, styles.marginT5)
+              : cs(styles.card, styles.cardClosed, styles.marginT5, {
+                  [styles.bgWhite]: STEP_ORDER[activeStep] > currentStep
+                })
           }
         >
           <div className={bootstrapStyles.row}>
@@ -746,13 +836,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               )}
             >
               <span className={isActive ? "" : styles.closed}>
-                GIFTING & PAYMENT
+                {isGcCheckout ? "PAYMENT" : "GIFTING & PAYMENT"}
               </span>
             </div>
           </div>
           {isActive && (
             <Fragment>
-              {showGiftWrap && (
+              {showGiftWrap && !isGcCheckout && (
                 <>
                   {!basket.isOnlyGiftCart && giftWrapRender}
                   {giftwrap && !basket.isOnlyGiftCart && (
@@ -764,12 +854,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                         placeholder={"Add message (optional)"}
                         autoComplete="new-password"
                         onChange={(e: any) => {
-                          if (e.target.value.length <= 250) {
-                            setTextarea(e.target.value);
-                          } else if (e.target.value.length >= 250) {
-                            setTextarea(e.target.value.substring(0, 250));
-                          }
+                          setTextarea(e.target.value);
                         }}
+                        maxLength={250}
                       />
                       <div
                         className={cs(
@@ -778,7 +865,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                           styles.charLimitText
                         )}
                       >
-                        Char Limit: {250 - textarea.length}/250
+                        Char Limit: {250 - textarea.length}
+                        /250
                       </div>
                     </div>
                   )}
@@ -787,21 +875,29 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 </>
               )}
               <div className={globalStyles.marginT20}>
-                {!basket.isOnlyGiftCart && (
+                {!basket.isOnlyGiftCart && !isGcCheckout && (
                   <div className={globalStyles.flex}>
                     <hr className={styles.hr} />
-                    {/* <div
-                  className={cs(
-                    styles.marginR10,
-                    globalStyles.cerise,
-                    globalStyles.pointer
-                  )}
-                  onClick={toggleInput}
-                >
-                  {isactivepromo ? "-" : "+"}
-                </div> */}
+
                     <div className={styles.inputContainer}>
-                      <label
+                      <CheckboxWithLabel
+                        id="applyGC"
+                        checked={isactivepromo}
+                        onChange={toggleInput}
+                        label={[
+                          <label
+                            key="applyGC"
+                            htmlFor="applyGC"
+                            className={cs(
+                              styles.formSubheading,
+                              styles.lineHeightLable
+                            )}
+                          >
+                            Apply Gift Card Code/ Credit Note
+                          </label>
+                        ]}
+                      />
+                      {/* <label
                         className={cs(
                           globalStyles.flex,
                           globalStyles.crossCenter
@@ -826,7 +922,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                         <div className={cs(styles.formSubheading)}>
                           {"Apply Gift Card Code/ Credit Note"}
                         </div>
-                      </label>
+                      </label> */}
                       {isactivepromo ? (
                         <ApplyGiftcard
                           onRef={(e1: any) => {
@@ -836,8 +932,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       ) : (
                         ""
                       )}
-                      {/* {renderInput()}
-                {renderCoupon()} */}
                     </div>
                   </div>
                 )}
@@ -918,17 +1012,41 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               globalStyles.voffset2
             )}
           >
-            <div className={styles.marginR10}>
+            {/* <div className={styles.marginR10}>
               <span className={styles.checkbox}>
                 <input
                   type="checkbox"
-                  id="subscribe"
-                  onChange={e => {
-                    onClickSubscribe(e);
-                  }}
-                  checked={subscribevalue}
-                />
-                <span className={styles.indicator}></span>
+                 
+                /> */}
+              {/* <CheckboxWithLabel
+                id="subscribe"
+                onChange={e => {
+                  onClickSubscribe(e);
+                }}
+                checked={subscribevalue}
+                label={[
+                  <label
+                    key="subscribe"
+                    htmlFor="subscribe"
+                    className={cs(
+                      globalStyles.pointer,
+                      styles.linkCerise,
+                      globalStyles.marginT3
+                    )}
+                  >
+                    I agree to receiving e-mails, newsletters, calls and text
+                    messages for service related information. To know more how
+                    we keep your data safe, refer to our{" "}
+                    <Link
+                      to="/customer-assistance/privacy-policy"
+                      target="_blank"
+                    >
+                      Privacy Policy
+                    </Link>
+                  </label>
+                ]}
+              /> */}
+              {/* <span className={styles.indicator}></span>
               </span>
             </div>
             <div className={globalStyles.c10LR}>
@@ -1066,7 +1184,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 <div>
                   <hr className={styles.hr} />
                   {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
-                    <div className={styles.loginForm}>
+                    <div
+                      className={cs(styles.loginForm, styles.customCheckout)}
+                    >
                       <div className={styles.categorylabel}>
                         <WhatsappSubscribe
                           data={preferenceData}
@@ -1093,7 +1213,41 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     </div>
                   )}
                 </div>
-                <label
+                <div>
+                  <div className={globalStyles.marginB20}>
+                    <CheckboxWithLabel
+                      id="subscribe"
+                      onChange={e => {
+                        onClickSubscribe(e);
+                      }}
+                      checked={subscribevalue}
+                      label={[
+                        <label
+                          key="subscribe"
+                          htmlFor="subscribe"
+                          className={cs(
+                            globalStyles.pointer,
+                            styles.linkCerise,
+                            styles.formSubheading,
+                            styles.checkBoxHeading,
+                            styles.agreeTermsAndCondition
+                          )}
+                        >
+                          I agree to receiving e-mails, newsletters, calls and
+                          text messages for service related information. To know
+                          more how we keep your data safe, refer to our{" "}
+                          <Link
+                            to="/customer-assistance/privacy-policy"
+                            target="_blank"
+                          >
+                            Privacy Policy
+                          </Link>
+                        </label>
+                      ]}
+                    />
+                  </div>
+                </div>
+                {/* <label
                   className={cs(
                     globalStyles.flex,
                     { [globalStyles.crossCenter]: !mobile },
@@ -1140,36 +1294,52 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       </Link>
                     </label>
                   </div>
-                </label>
+                </label> */}
+              </div>
+            )}
+            {paymentError && !isPaymentNeeded && (
+              <div
+                className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
+                data-name="error-msg"
+              >
+                {paymentError}
               </div>
             )}
             {isLoading && <Loader />}
             {!checkoutMobileOrderSummary && (
-              <button
+              <Button
                 ref={PaymentButton}
                 className={cs(
                   globalStyles.marginT10,
-                  styles.sendToPayment,
-                  styles.proceedToPayment,
-                  {
-                    [styles.disabledBtn]:
-                      isLoading || Object.keys(currentmethod).length === 0
-                  }
+                  styles.amtBtn,
+                  { [globalStyles.btnFullWidth]: mobile || tablet },
+                  // styles.sendToPayment,
+                  styles.proceedToPayment
+                  // {
+                  //   [styles.disabledBtn]:
+                  //     isLoading || Object.keys(currentmethod).length === 0
+                  // }
                 )}
                 onClick={onsubmit}
                 disabled={isLoading}
-              >
-                <span>
-                  Amount Payable:{" "}
-                  {displayPriceWithCommasFloat(
-                    basket?.total?.toString(),
-                    currency
-                  )}
-                  {/* {parseFloat(basket?.total?.toString()).toFixed(2)} */}
-                  <br />
-                </span>
-                {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}
-              </button>
+                variant="largeMedCharcoalCta"
+                label={
+                  (
+                    <>
+                      <span className={styles.amtPayable}>
+                        Amount Payable:{" "}
+                        {displayPriceWithCommasFloat(
+                          basket?.total?.toString(),
+                          currency
+                        )}
+                        {/* {parseFloat(basket?.total?.toString()).toFixed(2)} */}
+                        <br />
+                      </span>
+                      {isPaymentNeeded ? "PROCEED TO PAYMENT" : "PLACE ORDER"}
+                    </>
+                  ) as JSX.Element
+                }
+              />
             )}
           </div>
           {mobile && (

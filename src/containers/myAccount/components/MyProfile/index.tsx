@@ -22,12 +22,17 @@ import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import { updatePreferenceData } from "actions/user";
 import { CONFIG } from "constants/util";
+import Button from "components/Button";
 import SelectDropdown from "components/Formsy/SelectDropdown";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
+import ModalStyles from "components/Modal/styles.scss";
 
 const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   const {
     address: { countryData },
-    user: { isLoggedIn }
+    user: { isLoggedIn },
+    device: { mobile }
   } = useSelector((state: AppState) => state);
 
   const {
@@ -439,6 +444,19 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     return arr;
   };
 
+  const onEditClick = () => {
+    dispatch(
+      updateComponent(
+        POPUP.EditProfile,
+        null,
+        false,
+        mobile ? ModalStyles.bottomAlignSlideUp : "",
+        mobile ? "slide-up-bottom-align" : ""
+      )
+    );
+    dispatch(updateModal(true));
+  };
+
   const isExistyError = "This field is required";
 
   const formContent = (
@@ -534,8 +552,8 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                   }
                 }}
                 validationErrors={{
-                  isValidDate: "Please enter valid date of birth",
-                  isMinAllowedDate: "Please enter valid date of birth",
+                  isValidDate: "Please enter a valid Date of Birth",
+                  isMinAllowedDate: "Please enter a valid Date of Birth",
                   isMaxAllowedDate: "Age should be at least 15 years"
                 }}
               />
@@ -663,8 +681,8 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                     }
                   }}
                   validationErrors={{
-                    isCodeValid: "Required",
-                    isValidCode: "Enter valid code"
+                    isCodeValid: "Please select a Country Code",
+                    isValidCode: "Please enter a valid country code"
                   }}
                   allowFilter={true}
                   showLabel={true}
@@ -673,6 +691,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                   searchInputClass={styles.countryCodeSearchInput}
                   inputRef={countryCodeRef}
                   handleChange={onCountryCodeSelect}
+                  aquaClass={styles.aquaText}
                 />
 
                 <FormInput
@@ -745,14 +764,12 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
             </div>
             <div>
               {showerror ? <p className={styles.errorMsg}>{showerror}</p> : ""}
-              <input
+              <Button
                 type="submit"
-                formNoValidate
                 disabled={!updateProfile}
-                className={
-                  updateProfile ? styles.updateDetails : styles.updated
-                }
-                value={updateProfile ? "Update Details" : "Updated"}
+                className={cs({ [globalStyles.btnFullWidth]: mobile })}
+                label={updateProfile ? "Update Details" : "Updated"}
+                variant="mediumMedCharcoalCta366"
               />
             </div>
           </div>
@@ -763,6 +780,9 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   );
   return (
     <div className={bootstrapStyles.row}>
+      <div className={styles.editBtnWrp} onClick={onEditClick}>
+        <button className={styles.editBtn}>EDIT</button>
+      </div>
       <div
         className={cs(
           bootstrapStyles.col10,
@@ -773,9 +793,17 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
       >
         <div className={styles.formHeading}>My Profile</div>
         <div className={styles.formSubheading}>
-          Manage your personal information and edit your email settings.
+          Manage your personal information.
         </div>
         {formContent}
+        <div className={styles.editProfileSection}>
+          <p className={styles.editProfileHead}>
+            Looking to update your profile?
+          </p>
+          <button className={styles.editProfileLink} onClick={onEditClick}>
+            EDIT PROFILE DETAILS
+          </button>
+        </div>
       </div>
     </div>
   );

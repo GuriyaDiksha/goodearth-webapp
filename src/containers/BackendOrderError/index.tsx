@@ -7,6 +7,7 @@ import motifTigerTree from "../../images/motifTigerTree.png";
 import { Link } from "react-router-dom";
 import gelogoCerise from "../../images/gelogoCerise.svg";
 import { pageViewGTM } from "utils/validate";
+import Button from "components/Button";
 
 class ErrorPage extends React.Component<{}, {}> {
   getItems() {
@@ -36,9 +37,7 @@ class ErrorPage extends React.Component<{}, {}> {
           <div className={globalStyles.voffset5}>
             {" "}
             <Link to="/">
-              <button className={globalStyles.ceriseBtn}>
-                CONTINUE SHOPPING
-              </button>
+              <Button label="CONTINUE SHOPPING" variant="mediumAquaCta300" />
             </Link>{" "}
           </div>
           <div className={globalStyles.voffset5}>

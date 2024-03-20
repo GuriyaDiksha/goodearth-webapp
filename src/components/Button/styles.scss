@@ -1,48 +1,182 @@
 @import "../../styles/partials/variables";
 @import "../../styles/partials/mixins";
 
-.primary-button{
-    font-family: $font-Lato;
-    text-align: center;
-    font-size: 12px;
-    border: none;
-    border-radius: 0;
-    width: 100%;
-    line-height: 52px;
-    letter-spacing: 2px;
-    &:hover {
-        color: #fff;
+.large-aqua-cta{
+    @include large_aqua_cta();
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+        background-color: transparent;
+        color: $aqua;}
     }
-    &:active {
-        color: #fff;
+    
+    &:disabled{
+        @include disabled_cta();
     }
 }
-.pdp-primary-button
-{
-    font-family: $font-Montserrat;
-    text-align: center;
-    font-size: 14px;
-    border: 2px $aquablue solid;
-    border-radius: 0;
-    width: 100%;
-    line-height: 52px;
-    letter-spacing: 0.42px;
-    background-color: $aquablue;
-    &:hover {
-        color: $aquablue;
-        background-color: white;
-        border: #719A9A;
-        border-style: solid;
-        border-width: 2px;
-    }
-    &:active {
-        color: #fff;
-    }
-    &.notify-me-cta{
-        background-color: #9F9F9F;
-        border: 2px solid #9F9F9F;
-        &:hover{
-            color: white;
+
+.large-gold-cta{
+    @include large_gold_cta();
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+            background-color: transparent;
+            color: $gold;
         }
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+.large-med-charcoal-cta{
+    @include large_med_charcoal_cta();
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+            background-color: transparent;
+            color: $med-charcoal;
+        }
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+.large-light-grey-cta{
+    @include large_light_grey_cta();
+   
+    &:hover:not(.stop-hover) {
+                @media screen and (min-width:992px) {
+                    @include disabled_cta();
+                }
+    }
+}
+
+.medium-aqua-cta-300{
+    @include medium_aqua_cta();
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+        background-color: transparent;
+        color: $aqua;}
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+
+.medium-aqua-cta-366{
+    @include medium_aqua_cta_366();
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+        background-color: transparent;
+        color: $aqua;}
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+
+
+.medium-med-charcoal-cta-366{
+    @include medium_med_charcoal_cta_366();
+    &:hover:not(.stop-hover){
+        @media screen and (min-width:992px) {
+            background-color: transparent !important;
+            color: $med-charcoal;
+        }
+    }
+        
+    &:focus{
+        color: $white;
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+.outline-medium-med-charcoal-cta-366{
+    @include outline_medium_med_charcoal_cta_366();
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+            border: 1px solid $aqua;
+            color: $aqua;
+        }
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+.medium-light-grey-cta{
+    @include medium_light_grey_cta();
+    &:disabled{
+        @media screen and (min-width:992px) {
+        @include disabled_cta();}
+    }
+}
+
+.small-light-grey-cta{
+    @include medium_light_grey_cta();
+    @include small_cta();
+    &:disabled{
+        @media screen and (min-width:992px) {
+        @include disabled_cta();
+        @include small_cta();}
+    }
+}
+
+.small-aqua-cta{
+    @include small_aqua_cta();
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+        background-color: transparent;
+        color: $aqua;}
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+
+.small-med-charcoal-cta{
+    @include small_med_charcoal_cta();
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+        background-color: transparent;
+        color: $med-charcoal;}
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+.small-gold-cta{
+    @include small_gold_cta();
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+        background-color: transparent;
+        color: $gold;}
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+
+.outline-small-med-charcoal-cta{
+    @include outline_small_med_charcoal_cta();
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+            border: 1px solid $aqua;
+            color: $aqua;
+        }
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+
+.outline-extra-small-aqua-cta{
+    @include outline_extra_small_aqua_cta();
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+
+        border: 1px solid $aqua;
+        color: $white;
+        background-color: $aqua;}
+    }
+    &:disabled{
+        @include disabled_cta();
     }
 }

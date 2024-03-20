@@ -31,6 +31,7 @@
 
 .plpMain{
     position: relative;
+    padding: 0 30px 30px 30px;
     .combodiv{
         display: flex;
     }
@@ -184,15 +185,12 @@
 }
 
 .badge-image{
-    width: 30%;
     position: absolute;
-    top: 0;
+    top: 10px;
     z-index: 2;
-    left: 0;
+    left: 40px;
     img {
-        width: 70%;
-        // margin: 10px 0 0 10px;
-        margin: 0;
+        width: 70px;
     }
 }
 
@@ -217,11 +215,13 @@
 
 .actions {
     margin: 5px 0;
+    padding-top: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
     .add-to-bag-list-view {
-        line-height: 38px;
+        // line-height: 38px;
+        margin: 10px auto;
     }
 }
 

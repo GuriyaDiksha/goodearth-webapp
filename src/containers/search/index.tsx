@@ -28,8 +28,17 @@ import SecondaryHeaderDropdown from "components/dropdown/secondaryHeaderDropdown
 import { CategoryMenu } from "containers/plp/typings";
 import { GA_CALLS } from "constants/cookieConsent";
 import ProductCounter from "components/ProductCounter";
-import { isEqual, throttle } from "lodash";
+import { throttle } from "lodash";
 import ResetFiltersTile from "components/plpResultItem/resetFiltersTile";
+import { viewSelectionGTM } from "utils/validate";
+import activeGrid from "../../images/plpIcons/active_grid.svg";
+import inactiveGrid from "../../images/plpIcons/inactive_grid.svg";
+import activeList from "../../images/plpIcons/active_list.svg";
+import inactiveList from "../../images/plpIcons/inactive_list.svg";
+import { updatePlpMobileView } from "actions/plp";
+import PlpResultListViewItem from "components/plpResultListViewItem";
+import { ChildProductAttributes, PLPProductItem } from "typings/product";
+import ModalStyles from "components/Modal/styles.scss";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -39,8 +48,10 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     currency: state.currency,
     device: state.device,
+    isSale: state.info.isSale,
     showTimer: state.info.showTimer,
-    scrollDown: state.info.scrollDown
+    scrollDown: state.info.scrollDown,
+    plpMobileView: state.plplist.plpMobileView
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -58,6 +69,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     changeModalState: (data: boolean) => {
       dispatch(updateModal(data));
+    },
+    updateMobileView: (plpMobileView: "list" | "grid") => {
+      dispatch(updatePlpMobileView(plpMobileView));
     }
   };
 };
@@ -83,6 +97,7 @@ class Search extends React.Component<
     flag: boolean;
     count: number;
     showProductCounter: boolean;
+    corporoateGifting: boolean;
   }
 > {
   private child: any = FilterListSearch;
@@ -103,6 +118,9 @@ class Search extends React.Component<
       flag: false,
       featureData: [],
       count: -1,
+      corporoateGifting:
+        props.location.pathname.includes("corporate-gifting") ||
+        props.location.search.includes("&src_type=cp"),
       showProductCounter: true
     };
   }
@@ -123,6 +141,75 @@ class Search extends React.Component<
       this.setState({
         filterCount: count
       });
+  };
+
+  onEnquireClick = (id: number, partner?: string) => {
+    const { updateComponentModal, changeModalState } = this.props;
+    const mobile = this.props.device.mobile;
+    updateComponentModal(
+      // <CorporateEnquiryPopup id={id} quantity={quantity} />,
+      POPUP.THIRDPARTYENQUIRYPOPUP,
+      {
+        id,
+        partner: partner || ""
+      },
+      mobile ? true : false,
+      mobile ? ModalStyles.bottomAlign : undefined
+    );
+    changeModalState(true);
+  };
+
+  notifyMeClick = (product: PLPProductItem) => {
+    const {
+      categories,
+      collections,
+      priceRecords,
+      discountedPriceRecords,
+      childAttributes,
+      title,
+      discount,
+      badgeType,
+      plpSliderImages
+    } = product;
+    const selectedIndex = childAttributes?.length == 1 ? 0 : undefined;
+    const {
+      updateComponentModal,
+      changeModalState,
+      currency,
+      isSale
+    } = this.props;
+    // childAttributes?.map((v, i) => {
+    //   if (v.id === selectedSize?.id) {
+    //     selectedIndex = i;
+    //   }
+    // });
+    const index = categories.length - 1;
+    let category = categories[index]
+      ? categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
+    updateComponentModal(
+      POPUP.NOTIFYMEPOPUP,
+      {
+        collection: collections && collections.length > 0 ? collections[0] : "",
+        category: category,
+        price: priceRecords[currency],
+        currency: currency,
+        childAttributes: childAttributes as ChildProductAttributes[],
+        title: title,
+        selectedIndex: selectedIndex,
+        discount: discount,
+        badgeType: badgeType,
+        isSale: isSale,
+        discountedPrice: discountedPriceRecords[currency],
+        list: "plp",
+        sliderImages: plpSliderImages
+      },
+      false,
+      this.props.device.mobile ? ModalStyles.bottomAlignSlideUp : "",
+      this.props.device.mobile ? "slide-up-bottom-align" : ""
+    );
+    changeModalState(true);
   };
 
   onClickQuickView = (id: number) => {
@@ -268,53 +355,57 @@ class Search extends React.Component<
     });
   };
 
-  updateMobileView = () => {
-    if (this.props.device.mobile) {
-      const cards = document.querySelectorAll(".search-container");
-      const cardIDs: any = [];
+  updateMobileView = (plpMobileView: "list" | "grid") => {
+    if (this.props.plpMobileView != plpMobileView) {
+      CookieService.setCookie("plpMobileView", plpMobileView);
+      viewSelectionGTM(plpMobileView);
+      if (this.props.device.mobile) {
+        const cards = document.querySelectorAll(".search-container");
+        const cardIDs: any = [];
 
-      cards.forEach(card => {
-        cardIDs.push(card.children[0].children[0]?.id);
-      });
+        cards.forEach(card => {
+          cardIDs.push(card.children[0].children[0]?.id);
+        });
 
-      const observer = new IntersectionObserver(
-        entries => {
-          let topMostPos = Infinity;
-          let leftMostPos = Infinity;
-          let leftMostElement: any;
-          entries.forEach((entry, index) => {
-            if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
-              const y: number = entry.target.getBoundingClientRect().y;
-              const x: number = entry.target.getBoundingClientRect().x;
-              if (y < topMostPos) {
-                topMostPos = y;
+        const observer = new IntersectionObserver(
+          entries => {
+            let topMostPos = Infinity;
+            let leftMostPos = Infinity;
+            let leftMostElement: any;
+            entries.forEach((entry, index) => {
+              if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
+                const y: number = entry.target.getBoundingClientRect().y;
+                const x: number = entry.target.getBoundingClientRect().x;
+                if (y < topMostPos) {
+                  topMostPos = y;
+                }
+                if (x < leftMostPos) {
+                  leftMostPos = x;
+                  leftMostElement = entry.target;
+                }
               }
-              if (x < leftMostPos) {
-                leftMostPos = x;
-                leftMostElement = entry.target;
-              }
+            });
+            if (leftMostPos != Infinity) {
+              const productID = leftMostElement.children[0].children[0]?.id;
+              console.log(this.props.scrollDown);
+              this.props.updateMobileView(plpMobileView);
+              const top: number =
+                leftMostElement.getBoundingClientRect().top - 135;
+              window.scrollBy({ top: top, behavior: "smooth" });
+              if (productID == cardIDs[0]) this.setState({ count: -1 });
+            } else {
+              this.props.updateMobileView(plpMobileView);
             }
-          });
-          if (leftMostPos != Infinity) {
-            const productID = leftMostElement.children[0].children[0]?.id;
-            // this.props.updateMobileView();
-            const top: number =
-              leftMostElement.getBoundingClientRect().top - 135;
-            window.scrollBy({ top: top, behavior: "smooth" });
-            if (productID == cardIDs[0]) this.setState({ count: -1 });
-          } else {
-            // this.props.updateMobileView();
+            observer.disconnect();
+          },
+          {
+            rootMargin: "-130px 0px -90px 0px"
           }
-          observer.disconnect();
-        },
-        {
-          rootMargin: "-130px 0px -90px 0px"
-        }
-      );
-
-      cards.forEach(card => {
-        observer.observe(card);
-      });
+        );
+        cards.forEach(card => {
+          observer.observe(card);
+        });
+      }
     }
   };
 
@@ -438,45 +529,6 @@ class Search extends React.Component<
         sortValue: sort ? sort : "hc"
       });
     }
-
-    const userConsent = CookieService.getCookie("consent").split(",");
-    const recentSearch = localStorage.getItem("recentSearchValue");
-    const popularSearch = localStorage.getItem("popularSearch");
-    const inputValue = localStorage.getItem("inputValue");
-
-    if (
-      !isEqual(this.props?.data?.results?.data, nextProps?.data?.results?.data)
-    ) {
-      if (
-        userConsent.includes(GA_CALLS) &&
-        (popularSearch || recentSearch || inputValue)
-      ) {
-        if (nextProps?.data?.results?.data?.length) {
-          dataLayer.push({
-            event: "search_bar_results_found",
-            click_type: recentSearch
-              ? "Recent search"
-              : popularSearch
-              ? "Popular search"
-              : "Input",
-            search_term: recentSearch || popularSearch || inputValue
-          });
-        } else {
-          dataLayer.push({
-            event: "search_bar_no_results_found",
-            click_type: recentSearch
-              ? "Recent search"
-              : popularSearch
-              ? "Popular search"
-              : "Input",
-            search_term: recentSearch || popularSearch || inputValue
-          });
-        }
-        localStorage.removeItem("recentSearchValue");
-        localStorage.removeItem("popularSearch");
-        localStorage.removeItem("inputValue");
-      }
-    }
   }
 
   changeLoader = (value: boolean) => {
@@ -495,7 +547,7 @@ class Search extends React.Component<
 
   render() {
     const {
-      device: { mobile },
+      device: { mobile, tablet },
       currency,
       data: {
         results: { banner, data, facets },
@@ -582,6 +634,7 @@ class Search extends React.Component<
                   onChange={this.onchangeFilter}
                   value={this.state.sortValue}
                   className={styles.searchHeaderDropdown}
+                  disabled={!this.props.data?.results?.data?.length}
                 />
               </div>
             </Fragment>
@@ -617,6 +670,61 @@ class Search extends React.Component<
               filterCount={this.state.filterCount}
             />
           </div>
+          {/* Open GridList option code */}
+          {count > 1
+            ? mobile &&
+              !tablet && (
+                <div
+                  id="gridList"
+                  className={cs(styles.listGridBar, {
+                    [styles.listGridBarTimer]: this.props.showTimer,
+                    [styles.hide]: this.props.scrollDown
+                  })}
+                >
+                  <div
+                    className={styles.gridContainer}
+                    onClick={() => this.updateMobileView("grid")}
+                  >
+                    <span
+                      className={cs(styles.gridSpan, {
+                        [styles.active]: this.props.plpMobileView == "grid"
+                      })}
+                    >
+                      Grid
+                    </span>
+                    <img
+                      src={
+                        this.props.plpMobileView == "grid"
+                          ? activeGrid
+                          : inactiveGrid
+                      }
+                      className={cs(styles.gridIcon)}
+                    />
+                  </div>
+                  <div
+                    className={styles.listContainer}
+                    onClick={() => this.updateMobileView("list")}
+                  >
+                    <img
+                      src={
+                        this.props.plpMobileView == "list"
+                          ? activeList
+                          : inactiveList
+                      }
+                      className={cs(styles.listIcon)}
+                    />
+                    <span
+                      className={cs(styles.listSpan, {
+                        [styles.active]: this.props.plpMobileView == "list"
+                      })}
+                    >
+                      List
+                    </span>
+                  </div>
+                </div>
+              )
+            : ""}
+          {/* Close GridList option Code */}
           <div
             className={cs(
               { [globalStyles.hidden]: this.state.showmobileSort },
@@ -653,7 +761,9 @@ class Search extends React.Component<
                   globalStyles.marginT20,
                   styles.imageContainer,
                   {
-                    [styles.border]: mobile
+                    [styles.border]: mobile,
+                    [globalStyles.marginL0]: count == 1 && mobile && !tablet,
+                    [globalStyles.marginT0]: count == 1 && mobile && !tablet
                   }
                 )}
               >
@@ -680,39 +790,70 @@ class Search extends React.Component<
               {data.map((item, i) => {
                 return (
                   <div
-                    className={cs(
-                      bootstrap.colMd4,
-                      bootstrap.col6,
-                      styles.setWidth,
-                      "search-container"
-                    )}
+                    className={
+                      !mobile || this.props.plpMobileView == "grid"
+                        ? cs(
+                            bootstrap.colLg4,
+                            bootstrap.col6,
+                            styles.setWidth,
+                            "search-container"
+                          )
+                        : cs(
+                            bootstrap.colLg4,
+                            bootstrap.col12,
+                            styles.setWidth,
+                            styles.listViewContainer,
+                            "search-container"
+                          )
+                    }
                     key={item.id}
                     id={i == 0 ? "first-item" : ""}
-                    onClick={() => this.updateMobileView()}
+                    // onClick={() => this.updateMobileView()
                     // onClick={e => {
                     //   this.gtmPushSearchClick(e, item, i);
                     // }}
                   >
                     {item.productClass != "GiftCard" ? (
-                      <PlpResultItem
-                        page={searchValue}
-                        position={i}
-                        product={item}
-                        addedToWishlist={false}
-                        currency={currency}
-                        key={item.id}
-                        mobile={mobile}
-                        onClickQuickView={this.onClickQuickView}
-                        loader={this.state.flag}
-                        isCorporate={
-                          ["Pero", "Souk", "Eka", "Object D Art"].indexOf(
-                            item.partner || ""
-                          ) > -1
-                            ? true
-                            : false
-                        }
-                        isSearch={true}
-                      />
+                      !mobile || this.props.plpMobileView == "grid" ? (
+                        <PlpResultItem
+                          page={searchValue}
+                          position={i}
+                          product={item}
+                          addedToWishlist={false}
+                          currency={currency}
+                          key={item.id}
+                          mobile={mobile}
+                          tablet={tablet}
+                          onClickQuickView={this.onClickQuickView}
+                          loader={this.state.flag}
+                          isCorporate={
+                            ["Pero", "Souk", "Eka", "Object D Art"].indexOf(
+                              item.partner || ""
+                            ) > -1
+                              ? true
+                              : false
+                          }
+                          isSearch={true}
+                          notifyMeClick={this.notifyMeClick}
+                          onEnquireClick={this.onEnquireClick}
+                        />
+                      ) : (
+                        <PlpResultListViewItem
+                          page="PLP"
+                          position={i}
+                          product={item}
+                          addedToWishlist={false}
+                          currency={currency}
+                          key={item.id}
+                          mobile={mobile}
+                          isVisible={i < 3 ? true : undefined}
+                          onClickQuickView={this.onClickQuickView}
+                          isCorporate={this.state.corporoateGifting}
+                          notifyMeClick={this.notifyMeClick}
+                          onEnquireClick={this.onEnquireClick}
+                          loader={this.state.flag}
+                        />
+                      )
                     ) : (
                       <GiftcardItem isCorporateGifting={false} />
                     )}

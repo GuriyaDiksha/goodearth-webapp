@@ -64,7 +64,7 @@
 }
 
 .price {
-    font-size: 16px;
+    font-size: 14px;
     //line-height: 30px;
     font-family: $font-Montserrat;
     text-align: right;
@@ -110,6 +110,7 @@
     margin: auto;
     top: 2px;
     right: 5px;
+    color: $charcoal19;
 }
 
 .button {
@@ -132,34 +133,32 @@
 
 .size-error {
     @include error-msg();
-    font-size: 14px;
+    font-size: 14px !important;
     font-family: $font-Lora;
     font-style: italic;
     font-weight: normal;
     letter-spacing: 0.3px;
     padding-left: 6px;
+    color: $gold !important;
 }
 
 span{
     &.discountprice {
-        color: $gold;
-        font-family: $font-Lato;
-        font-size: 16px;
+        color: $gold !important;
+        @include b1_16px_charcoal_montserrat();
       }
       &.strikeprice {
-        font-size: 16px;
         text-decoration: line-through;
-        color: #9F9F9F !important;
-        font-family: $font-Lato;
         display: block;
+        @include b3_14px_montserrat_medcharcoal();
       }
 }
 
 
 @media screen and (min-width: 992px) {
     .container {
-        width: auto;
-        max-width: 50vw;
+        // width: auto;
+        max-width: 600px;
         min-height: 20vh;
         min-width: 600px;
     }
@@ -197,4 +196,9 @@ span{
 
 .sizes-box{
     margin-bottom: 10px;
+}
+
+.flat-price{
+    color: $gold;
+    font-size: 16px;
 }

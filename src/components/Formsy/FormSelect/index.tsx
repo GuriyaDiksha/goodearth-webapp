@@ -9,10 +9,6 @@ import { Props } from "./typings";
 const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
   const [labelClass, setLabelClass] = useState(false);
 
-  // useEffect(() => {
-  //   !labelClass && props.value && setLabelClass(true);
-  // }, [props.isPristine]);
-
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
       props.setValue(event.currentTarget.value);
@@ -32,7 +28,7 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
       case "state":
         return "Please select your State";
       case "preferredContact":
-        return "Please choose preferred mode of contact";
+        return "Please choose a preferred mode of contact";
       default:
         return "Please Select option";
     }

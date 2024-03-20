@@ -14,6 +14,7 @@ import { ConfirmResetPasswordResponse } from "containers/resetPassword/typings";
 // import WishlistService from "services/wishlist";
 // import BasketService from "services/basket";
 import { encryptdata, decriptdata } from "utils/validate";
+import { updateUser } from "actions/user";
 
 export default {
   fetchProfileData: async (dispatch: Dispatch) => {
@@ -33,6 +34,7 @@ export default {
       enc
     );
     const response = decriptdata(data);
+    dispatch(updateUser(data));
     return response;
   },
   changePassword: async (dispatch: Dispatch, formData: FormData) => {
@@ -149,8 +151,16 @@ export default {
   sendOtpRedeem: async (dispatch: Dispatch, formData: FormData) => {
     const data = await API.post<BalanceProps>(
       dispatch,
-      `${__API_HOST__ + "/mobiquest/send_loyalty_otp/"}`,
+      `${__API_HOST__ + "/imast/redemption_request_otp/"}`,
       formData
+    );
+    return data;
+  },
+  resendOtpRedeem: async (dispatch: Dispatch, points: number | string) => {
+    const data = await API.post<BalanceProps>(
+      dispatch,
+      `${__API_HOST__ + "/imast/redemption_request_resend_otp/"}`,
+      { points }
     );
     return data;
   },
@@ -208,7 +218,7 @@ export default {
   checkOtpRedeem: async (dispatch: Dispatch, formData: any) => {
     const data = await API.post<BalanceProps>(
       dispatch,
-      `${__API_HOST__ + "/mobiquest/validate_loyalty_otp/"}`,
+      `${__API_HOST__ + "/imast/redemption_request_validate/"}`,
       formData
     );
     return data;
@@ -300,6 +310,14 @@ export default {
         whatsappNoCountryCode: postData.whatsappNoCountryCode,
         whatsappSubscribe: postData.whatsappSubscribe
       }
+    );
+    return data;
+  },
+  sendProfileEditRequest: async (dispatch: Dispatch, formData: FormData) => {
+    const data = await API.post<ProfileResponse>(
+      dispatch,
+      `${__API_HOST__ + "/myapi/customer/edit_profile_request/"}`,
+      formData
     );
     return data;
   }

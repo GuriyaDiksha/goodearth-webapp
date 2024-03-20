@@ -30,20 +30,30 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       event?.preventDefault();
     },
     handleLogOut: (history: any, currency: Currency, customerGroup: string) => {
+      // debugger
       LoginService.logout(dispatch, currency, customerGroup);
       history.push("/");
+      // window.location.reload();
     },
     onLoadAPiCall: (
-      basketcall: boolean,
+      isLoggedIn: boolean,
+      // basketcall: boolean,
       cookies: Cookies,
+      bridalId: number,
       bridalKey?: string,
       sortBy = "added_on",
       page?: string
     ) => {
-      MetaService.updateMeta(dispatch, cookies, bridalKey);
-      if (!page?.includes("/wishlist")) {
-        WishlistService.updateWishlist(dispatch, sortBy);
+      if (bridalId > 0) {
+        BridalService.countBridal(dispatch, bridalId);
       }
+      MetaService.updateMeta(dispatch, cookies, bridalKey);
+      // if (page?.includes("shared-wishlist")) {
+      //   WishlistService.countWishlist(dispatch);
+      // }
+      // if (!page?.includes("shared-wishlist")) {
+      WishlistService.updateWishlist(dispatch, sortBy);
+      // }
       if (!page?.includes("/cart") && !page?.includes("/order/checkout")) {
         BasketService.fetchBasket(dispatch);
       }
@@ -81,12 +91,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         console.log("Popups Api ERROR === " + err);
       });
       // }
-      if (!page?.includes("/wishlist")) {
-        WishlistService.updateWishlist(
-          dispatch,
-          sortBy == "discount" ? "added_on" : sortBy
-        );
-      }
+      // if (!page?.includes("/wishlist")) {
+      WishlistService.updateWishlist(
+        dispatch,
+        sortBy == "discount" ? "added_on" : sortBy
+      );
+      // }
+      // WishlistService.countWishlist(dispatch);
       // HeaderService.fetchHomepageData(dispatch).catch(err => {
       //   console.log("Homepage API ERROR ==== " + err);
       // });
@@ -129,6 +140,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         console.log("FOOTER API ERROR ==== " + err);
       });
       WishlistService.updateWishlist(dispatch);
+      // WishlistService.countWishlist(dispatch);
       if (cookies.tkn) {
         MetaService.updateMeta(dispatch, cookies);
       }
@@ -168,6 +180,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     fetchBasketCartpage: async () => {
       return await BasketService.fetchBasket(dispatch, "cart");
+    },
+    updateProfile: () => {
+      dispatch(updateComponent(POPUP.PROFILEUPDATER, null, true));
+      dispatch(updateModal(true));
     }
   };
 };

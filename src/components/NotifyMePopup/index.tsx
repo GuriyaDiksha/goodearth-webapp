@@ -35,6 +35,8 @@ import { AppState } from "reducers/typings";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
+import { isArray } from "lodash";
+import { useHistory } from "react-router";
 
 type Props = {
   basketLineId?: ProductID;
@@ -54,6 +56,7 @@ type Props = {
   sortBy?: string;
   list?: string;
   sliderImages: { icon: boolean }[];
+  collections: string[];
 };
 
 const NotifyMePopup: React.FC<Props> = ({
@@ -73,9 +76,11 @@ const NotifyMePopup: React.FC<Props> = ({
   badgeType,
   sortBy,
   list,
-  sliderImages
+  sliderImages,
+  collections
 }) => {
   const { dispatch } = useStore();
+  const history = useHistory();
 
   const user = useContext(UserContext);
   const { closeModal } = useContext(ModalContext);
@@ -102,6 +107,23 @@ const NotifyMePopup: React.FC<Props> = ({
     [selectedSize]
   );
   const [showLoader, setShowLoader] = useState(false);
+
+  useEffect(() => {
+    if (
+      typeof document == "object" &&
+      (document?.getElementById("modal-fullscreen") as HTMLElement) &&
+      mobile
+    ) {
+      (document.getElementById(
+        "modal-fullscreen"
+      ) as HTMLElement).style.height = "auto";
+    }
+    // if (document?.getElementById("modal-fullscreen-container") && mobile) {
+    //   (document.getElementById(
+    //     "modal-fullscreen-container"
+    //   ) as HTMLElement).style.height = "auto";
+    // }
+  }, []);
   const onSizeSelect = useCallback(
     selected => {
       setSelectedSize(selected);
@@ -141,7 +163,7 @@ const NotifyMePopup: React.FC<Props> = ({
 
     if (!value) {
       valid = false;
-      message = "This field is required";
+      message = "Please enter your Email ID";
     } else if (!re.test(value)) {
       valid = false;
       message = "Please enter a valid Email ID";
@@ -160,9 +182,19 @@ const NotifyMePopup: React.FC<Props> = ({
       subcategoryname = subcategoryname[subcategoryname.length - 1];
     }
     const size = selectedSize?.size || "";
-    const arr = category?.split(">");
-    const l1 = arr?.[arr.length - 3];
-    const category3 = (sliderImages || [])?.filter(ele => ele?.icon).length
+    const cat1 = categoryList?.[0]?.split(">");
+    const cat2 = categoryList?.[1]?.split(">");
+
+    const L1 = cat1?.[0].trim();
+
+    const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+    const L3 = cat2?.[2]
+      ? cat2?.[2]?.trim()
+      : categoryList?.[2]?.split(">")?.[2].trim();
+    const clickType = localStorage.getItem("clickType");
+
+    const category5 = (sliderImages || [])?.filter(ele => ele?.icon).length
       ? "3d"
       : "non 3d";
     const view3dValue = sliderImages.filter(ele => ele?.icon).length
@@ -211,30 +243,47 @@ const NotifyMePopup: React.FC<Props> = ({
       dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
       dataLayer.push({
         event: "add_to_cart",
+        previous_page_url: CookieService.getCookie("prevUrl"),
+        currency: currency,
+        value: selectedSize?.discountedPriceRecords
+          ? selectedSize?.discountedPriceRecords[currency]
+          : selectedSize?.priceRecords
+          ? selectedSize?.priceRecords[currency]
+          : null,
         ecommerce: {
           items: [
             {
               item_id: selectedSize?.sku || childAttributes[0].sku, //Pass the product id
               item_name: title, // Pass the product name
               affiliation: title, // Pass the product name
-              coupon: "", // Pass the coupon if available
+              coupon: "NA", // Pass the coupon if available
               currency: currency, // Pass the currency code
-              discount: discount, // Pass the discount amount
-              index: "",
+              discount:
+                isSale && selectedSize?.discountedPriceRecords[currency]
+                  ? badgeType == "B_flat"
+                    ? selectedSize.discountedPriceRecords[currency]
+                    : selectedSize.priceRecords[currency] -
+                      selectedSize.discountedPriceRecords[currency]
+                  : "NA", // Pass the discount amount
+              index: "NA",
               item_brand: "Goodearth",
-              item_category: category,
-              item_category2: selectedSize?.size, //pass the item category2 ex.Size
-              item_category3: category3, //pass the product type 3d or non 3d
-              item_list_id: "", //pass the item list id
-              item_list_name: search, //pass the item list name ex.search results
+              item_category: L1,
+              item_category2: L2,
+              item_category3: L3,
+              item_category4: "NA",
+              item_category5: category5,
+              item_list_id: "NA", //pass the item list id
+              item_list_name: search ? `${clickType}-${search}` : "NA",
               item_variant: selectedSize?.size || "",
-              item_category4: l1, //pass the L1
-              item_category5: collection,
-              price:
-                selectedSize?.discountedPriceRecords[currency] ||
-                selectedSize?.priceRecords[currency],
+              // item_category4: l1, //pass the L1,
+              // item_category5: collection,
+              price: selectedSize?.priceRecords[currency],
               quantity: quantity,
-              dimension12: selectedSize?.color
+              // dimension12: selectedSize?.color,
+              collection_category: isArray(collections)
+                ? collections?.join("|")
+                : collections,
+              price_range: "NA"
             }
           ]
         }
@@ -244,13 +293,16 @@ const NotifyMePopup: React.FC<Props> = ({
 
   const addToBasket = async () => {
     if (selectedSize) {
-      WishlistService.removeFromWishlist(
-        dispatch,
-        selectedSize.id,
-        undefined,
-        sortBy,
-        selectedSize.size
-      );
+      if (!history.location.pathname.includes("shared-wishlist")) {
+        WishlistService.removeFromWishlist(
+          dispatch,
+          selectedSize.id,
+          undefined,
+          sortBy,
+          selectedSize.size
+        );
+        // WishlistService.countWishlist(dispatch);
+      }
       setShowLoader(true);
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
@@ -264,9 +316,9 @@ const NotifyMePopup: React.FC<Props> = ({
           closeModal();
         })
         .catch(err => {
-          if (typeof err.response.data != "object") {
-            showGrowlMessage(dispatch, err.response.data);
-            errorTracking([err.response.data], window.location.href);
+          if (typeof err?.response?.data != "object") {
+            showGrowlMessage(dispatch, err?.response?.data);
+            errorTracking([err?.response?.data], window.location.href);
           }
         })
         .finally(() => {
@@ -301,7 +353,7 @@ const NotifyMePopup: React.FC<Props> = ({
         }
       } else {
         // setSizeErrorMsg("Please select a Size to proceed");
-        errorTracking(["Please select a Size to proceed"], location.href);
+        errorTracking(["Please select a size to continue"], location.href);
       }
     }
   };
@@ -344,6 +396,7 @@ const NotifyMePopup: React.FC<Props> = ({
         label={buttonText}
         onClick={action}
         className={cs(styles.button)}
+        variant="largeAquaCta"
       />
     );
   }, [selectedSize, email, quantity, msg]);
@@ -402,9 +455,7 @@ const NotifyMePopup: React.FC<Props> = ({
                     : displayPriceWithCommas(price, currency)}
                 </span>
               ) : (
-                <span
-                  className={badgeType == "B_flat" ? globalStyles.cerise : ""}
-                >
+                <span className={badgeType == "B_flat" ? styles.flatPrice : ""}>
                   {selectedSize
                     ? displayPriceWithCommas(
                         selectedSize.priceRecords[currency],
@@ -430,7 +481,7 @@ const NotifyMePopup: React.FC<Props> = ({
                 />
                 {sizeerror && (
                   <p className={styles.sizeError}>
-                    Please select a size to proceed
+                    Please select a size to continue
                   </p>
                 )}
                 {isSale &&

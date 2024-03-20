@@ -5,6 +5,7 @@ const initialState: State = {
   pinCodeList: [],
   pinCodeData: {},
   countryData: [],
+  // bridalAddressId:0,
   shippingAddressId: 0,
   billingAddressId: 0,
   mode: "list",
@@ -17,23 +18,23 @@ export const address = (
 ): State => {
   switch (action.type) {
     case "UPDATE_ADDRESS_LIST": {
-      if (action.payload.addressId) {
-        const oldState = state.addressList.map(e => {
-          if (e?.id === action.payload.addressId) {
-            e.isDefaultForShipping = true;
-          }
-          return e;
-        });
-        return {
-          ...state,
-          addressList: oldState
-        };
-      } else {
-        return {
-          ...state,
-          addressList: action.payload.addressList
-        };
-      }
+      // if (action.payload.addressId) {
+      //   const oldState = state.addressList.map(e => {
+      //     if (e?.id === action.payload.addressId) {
+      //       e.isDefaultForShipping = true;
+      //     }
+      //     return e;
+      //   });
+      //   return {
+      //     ...state,
+      //     addressList: oldState
+      //   };
+      // } else {
+      return {
+        ...state,
+        addressList: action.payload.addressList
+      };
+      //}
     }
     case "UPDATE_PINCODE_LIST": {
       return {
@@ -59,6 +60,12 @@ export const address = (
         ...action.payload
       };
     }
+    // case "UPDATE_BRIDAL_ADDRESS_ID": {
+    //   return {
+    //     ...state,
+    //     ...action.payload
+    //   };
+    // }
     case "UPDATE_ADDRESS_MODE": {
       return {
         ...state,

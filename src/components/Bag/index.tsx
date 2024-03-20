@@ -5,8 +5,7 @@ import { CartProps, State } from "./typings";
 import iconStyles from "../../styles/iconFonts.scss";
 import globalStyles from "../../styles/global.scss";
 import LineItems from "./Item";
-import { Link } from "react-router-dom";
-import { currencyCodes } from "constants/currency";
+import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { Dispatch } from "redux";
 import BasketService from "services/basket";
 import { connect } from "react-redux";
@@ -19,10 +18,11 @@ import {
   displayPriceWithCommas,
   displayPriceWithCommasFloat
 } from "utils/utility";
+import Button from "components/Button";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import HeaderService from "services/headerFooter";
 import noImagePlp from "../../images/noimageplp.png";
-import { currencyCode } from "typings/currency";
+import WishlistService from "services/wishlist";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -33,6 +33,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     fetchFeaturedContent: async () => {
       const res = HeaderService.fetchSearchFeaturedContent(dispatch);
       return res;
+    },
+    updateWishlist: async () => {
+      await WishlistService.updateWishlist(dispatch);
     }
   };
 };
@@ -48,7 +51,8 @@ const mapStateToProps = (state: AppState) => {
 };
 type Props = CartProps &
   ReturnType<typeof mapDispatchToProps> &
-  ReturnType<typeof mapStateToProps>;
+  ReturnType<typeof mapStateToProps> &
+  RouteComponentProps;
 class Bag extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -82,6 +86,8 @@ class Bag extends React.Component<Props, State> {
         });
       }
 
+      // this.props.updateWishlist();
+
       this.props
         .fetchFeaturedContent()
         .then(data => {
@@ -96,6 +102,7 @@ class Bag extends React.Component<Props, State> {
       console.log(err);
     }
   };
+
   componentWillUnmount = () => {
     document.body.classList.remove(globalStyles.noScroll);
   };
@@ -207,6 +214,7 @@ class Bag extends React.Component<Props, State> {
                                     : data.ctaImage
                                 }
                                 // onError={this.addDefaultSrc}
+                                width="200"
                                 alt={data.ctaText}
                                 className={styles.imageResultNew}
                               />
@@ -269,6 +277,13 @@ class Bag extends React.Component<Props, State> {
                                       i === wishlistData.length
                                   })}
                                 >
+                                  {data?.salesBadgeImage && (
+                                    <div
+                                      className={cs(styles.badgePositionPlp)}
+                                    >
+                                      <img src={data.salesBadgeImage} />
+                                    </div>
+                                  )}
                                   <Link
                                     to={
                                       i === wishlistData.length
@@ -283,6 +298,7 @@ class Bag extends React.Component<Props, State> {
                                           : data.productImage
                                       }
                                       // onError={this.addDefaultSrc}
+                                      width="200"
                                       alt={data.productName}
                                       className={styles.imageResultNew}
                                     />
@@ -312,11 +328,44 @@ class Bag extends React.Component<Props, State> {
                                     </p>
                                     <p className={styles.searchFeature}>
                                       <Link to={data.productUrl}>
-                                        {String.fromCharCode(
-                                          ...currencyCode[this.props.currency]
-                                        ) +
-                                          " " +
-                                          data.price[currency]}
+                                        {this.props?.isSale && data.discount ? (
+                                          <span
+                                            className={styles.discountprice}
+                                          >
+                                            {data.discountedPrice
+                                              ? displayPriceWithCommas(
+                                                  data.discountedPrice[
+                                                    currency
+                                                  ],
+                                                  currency
+                                                )
+                                              : ""}{" "}
+                                            &nbsp;{" "}
+                                          </span>
+                                        ) : (
+                                          ""
+                                        )}
+                                        {this.props?.isSale && data.discount ? (
+                                          <span className={styles.strikeprice}>
+                                            {displayPriceWithCommas(
+                                              data.price[currency],
+                                              currency
+                                            )}
+                                          </span>
+                                        ) : (
+                                          <span
+                                            className={
+                                              data.badgeType == "B_flat"
+                                                ? styles.discountprice
+                                                : ""
+                                            }
+                                          >
+                                            {displayPriceWithCommas(
+                                              data.price[currency],
+                                              currency
+                                            )}
+                                          </span>
+                                        )}
                                       </Link>
                                     </p>
                                   </div>
@@ -429,9 +478,11 @@ class Bag extends React.Component<Props, State> {
 
           {this.canCheckout() ? (
             <div className={cs(styles.bagFlex)}>
-              <Link
-                to={!this.hasOutOfStockItems() ? "/cart" : ""}
-                className={cs(this.hasOutOfStockItems() && styles.outOfStock)}
+              <Button
+                variant="largeAquaCta"
+                // to={!this.hasOutOfStockItems() ? "/cart" : ""}
+                // className={cs(this.hasOutOfStockItems() && styles.outOfStock)}
+                disabled={this.hasOutOfStockItems()}
                 onClick={e => {
                   this.hasOutOfStockItems()
                     ? e.preventDefault()
@@ -439,24 +490,32 @@ class Bag extends React.Component<Props, State> {
                   const userConsent = CookieService.getCookie("consent").split(
                     ","
                   );
-                  if (
-                    !this.hasOutOfStockItems() &&
-                    userConsent.includes(GA_CALLS)
-                  ) {
+                  if (!this.hasOutOfStockItems()) {
+                    this.props.history.push("/cart");
+                  }
+                  if (userConsent.includes(GA_CALLS)) {
                     dataLayer.push({
                       event: "review_bag_and_checkout"
                     });
                   }
                 }}
-              >
-                <span className={styles.viewBag}>REVIEW BAG & CHECKOUT</span>
-              </Link>
+                label={"REVIEW BAG & CHECKOUT"}
+              />
+              {/* <span className={styles.viewBag}></span> */}
+              {/* </Link> */}
             </div>
           ) : (
             <div className={cs(styles.bagFlex, styles.continue)}>
-              <Link to="/" onClick={e => this.props.toggleBag()}>
-                <span className={styles.viewBag}>CONTINUE SHOPPING</span>
-              </Link>
+              <Button
+                label={"CONTINUE SHOPPING"}
+                variant="largeMedCharcoalCta"
+                onClick={e => {
+                  this.props.history.push("/");
+                  this.props.toggleBag();
+                }}
+              />
+              {/* <span className={styles.viewBag}></span> */}
+              {/* </Link> */}
             </div>
           )}
         </div>
@@ -596,7 +655,11 @@ class Bag extends React.Component<Props, State> {
           this.props.cart.shippable ? (
             <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
               <div className={styles.freeShipImg}>
-                <img src={freeShippingInfoIcon} alt="free-shipping" />
+                <img
+                  src={freeShippingInfoIcon}
+                  alt="free-shipping"
+                  width="200"
+                />
               </div>
 
               <div className={styles.text}>
@@ -619,4 +682,4 @@ class Bag extends React.Component<Props, State> {
     );
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Bag);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Bag));

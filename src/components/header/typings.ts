@@ -114,7 +114,9 @@ export type AnnouncementBar = {
   bridalBgColorcode: string;
   isBridalActive: boolean;
   registrantName?: string;
+  occasionName?: string;
   coRegistrantName?: string;
+  registryName?: string;
   data: {
     label: string;
     content: string;
@@ -156,12 +158,14 @@ export type SideMenuProps = {
   currency: Currency;
   mobile: boolean;
   wishlistData: WishListType[];
+  wishlistCountData: number;
   sidebagData: Basket;
   toggleSearch: () => void;
   showSearch: boolean;
   showBag: boolean;
   setShowBag: (showBag: boolean) => void;
   hideSearch: () => void;
+  bridalCountData: number;
 };
 
 export type BottomMenuProps = {

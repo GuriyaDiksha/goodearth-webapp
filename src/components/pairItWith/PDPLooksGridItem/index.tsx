@@ -88,7 +88,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
 
   const gtmProductClick = () => {
     CookieService.setCookie("listPath", page);
-    plpProductClick(product, page, currency, position);
+    plpProductClick(product, page, currency, position, info.isSale);
   };
 
   const getImageSrc = () => {
@@ -127,7 +127,12 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   return (
     <div className={styles.plpMain}>
       {product.salesBadgeImage && (
-        <div className={styles.badgeImage}>
+        <div
+          className={cs(
+            { [styles.badgeImage]: !mobile },
+            { [styles.badgeImageMobile]: mobile }
+          )}
+        >
           <img src={product.salesBadgeImage} />
         </div>
       )}
@@ -162,6 +167,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               showText={false}
               key={product.id}
               mobile={mobile}
+              badgeType={product?.badgeType}
             />
           </div>
         )}
@@ -215,6 +221,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                     id={product.id}
                     showText={false}
                     key={product.id}
+                    badgeType={product?.badgeType}
                   />
                 </div>
               </div>
@@ -252,9 +259,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             </span>
           ) : (
             <span
-              className={
-                product.badgeType == "B_flat" ? globalStyles.cerise : ""
-              }
+              className={product.badgeType == "B_flat" ? globalStyles.gold : ""}
             >
               {displayPriceWithCommas(
                 product.priceRecords[currency as Currency],

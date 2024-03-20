@@ -4,12 +4,12 @@ import { PinCodeData } from "components/Formsy/PinCode/typings";
 import { AddressMode, Country } from "components/Formsy/CountryCode/typings";
 
 export const updateAddressList = (
-  addressList: AddressData[],
-  addressId?: number
+  addressList: AddressData[]
+  // addressId?: number
 ) => {
   return actionCreator("UPDATE_ADDRESS_LIST", {
-    addressList: addressList,
-    addressId: addressId
+    addressList: addressList
+    // addressId: addressId
   });
 };
 
@@ -38,6 +38,13 @@ export const updateBillingAddressId = (billingAddressId: number) => {
     billingAddressId
   });
 };
+
+// export const updateBridalAddressId = (bridalAddressId: number) => {
+//   return actionCreator("UPDATE_BRIDAL_ADDRESS_ID", {
+//     bridalAddressId
+//   });
+// };
+
 export const updateAddressMode = (mode: AddressMode) => {
   return actionCreator("UPDATE_ADDRESS_MODE", { mode: mode });
 };

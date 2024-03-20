@@ -150,12 +150,14 @@ class PLP extends React.Component<
         if (this.props.mobile) {
           this.setProductCount();
         }
-        // plp filter scroll top
-        if (window.scrollY == 0) {
-          const filterDiv = document.getElementById("inner_filter");
-          // console.log(filterDiv);
-          filterDiv?.scrollTo(0, 0);
-        }
+
+        //Commented: code commented for on every filter selection filter section is going on top
+        //     // plp filter scroll top
+        //     if (window.scrollY == 0) {
+        //       const filterDiv = document.getElementById("inner_filter");
+        //       // console.log(filterDiv);
+        //       filterDiv?.scrollTo(0, 0);
+        //     }
       }, 50)
     );
     if (this.props.device.mobile) {
@@ -189,6 +191,11 @@ class PLP extends React.Component<
     });
     const config = { subtree: true, childList: true };
     observer.observe(document, config);
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+    console.log("error =================================", error);
+    console.log("errorInfo ===================================", errorInfo);
   }
 
   componentWillUnmount() {
@@ -285,7 +292,8 @@ class PLP extends React.Component<
         isSale: isSale,
         discountedPrice: discountedPriceRecords[currency],
         list: "plp",
-        sliderImages: plpSliderImages
+        sliderImages: plpSliderImages,
+        collections: collections
       },
       false,
       this.props.device.mobile ? ModalStyles.bottomAlignSlideUp : "",
@@ -444,6 +452,7 @@ class PLP extends React.Component<
           });
           if (leftMostPos != Infinity) {
             const productID = leftMostElement.children[0].children[0]?.id;
+            console.log(this.props);
             this.props.updateMobileView(plpMobileView);
             const top: number =
               leftMostElement.getBoundingClientRect().top - 135;
@@ -827,6 +836,7 @@ class PLP extends React.Component<
                   data={showTemplates.Banner?.[0]}
                   mobile={mobile}
                   tablet={tablet}
+                  colbanner={false}
                 />
               ) : null}
             </div>
@@ -959,10 +969,13 @@ class PLP extends React.Component<
                               currency={currency}
                               key={item.id}
                               mobile={mobile}
+                              tablet={tablet}
                               isVisible={index < 3 ? true : undefined}
                               onClickQuickView={this.onClickQuickView}
                               isCorporate={this.state.corporoateGifting}
                               loader={this.state.flag}
+                              notifyMeClick={this.notifyMeClick}
+                              onEnquireClick={this.onEnquireClick}
                             />
                           )}
                         </div>

@@ -38,6 +38,9 @@
 .header-index {
   z-index: 1000009 !important;
 }
+.show-sort-header-index{
+  z-index: 3 !important; //added for sort menu open on mobile
+}
 // .header-index-home {
 //   z-index: 1000002 !important;
 // }
@@ -451,7 +454,7 @@
   -webkit-transform: translate3d(0, 0, 0);
   -webkit-transition: transform 1s ease;
   transition: transform 1s ease;
-  height: calc(100vh - #{$header-height});
+  height: 100dvh;
   overflow-y: scroll;
   background-color: $light-beige;
   overflow-x: hidden;
@@ -484,7 +487,7 @@
     margin: 0;
     padding: 0;
     font-weight: normal;
-    margin-bottom: 100px;
+    // margin-bottom: 100px;
     overflow: scroll;
   }
   li {
@@ -562,6 +565,11 @@
   .icon_heart-cerise-fill {
     color: $cerise;
   }
+}
+
+.lower-menu-non-inr-height{
+  height: 100vh;
+  overflow: scroll;
 }
 
 // .wishlist-link {
@@ -1237,20 +1245,22 @@ visibility: visible !important;
 }
 
 .badge-position-plp {
-  width: 30%;
-  top: 0px;
+  width: 60px;
+  top: 10px;
+  left:10px;
   z-index: 4;
   position: absolute;
   z-index: 1;
   img {
-    // width: 70%;
+    width: 100%;
     margin: 0px 0 0 0;
   }
 }
 
 .badge-position-plp-mobile {
-    width: 40%;
-    top: 0;
+    width: 40px;
+    top: 4px;
+    left: 4px;
     position: absolute;
     z-index: 4;
   img {
@@ -1661,6 +1671,7 @@ ul.inner-menu-mobile {
   width: 100%;
   background-color:#f3f3f3;
   color: $cerise;
+  font-family: $font-Montserrat;
   .timer-txt {
     font-size: 12px;
     line-height: 40px;
@@ -1669,18 +1680,19 @@ ul.inner-menu-mobile {
   .timer-cta-btn {
     padding: 2px 8px;
     width: fit-content;
-    font-size: 12px;
+    font-size: 11px;
     margin-top: 8px;
   }
   .timer {
     padding: 0 10px;
-    font-weight: bold;
+    font-weight: 400;
+    padding-top: 3px;
     .timer-label {
       font-size: 10px;
       color: #333;
     }
     .timer-value {
-      font-size: 14px;
+      font-size: 12px;
     }
     table {
       text-align: center;
@@ -1964,4 +1976,24 @@ ul.inner-menu-mobile {
     flex-direction: row-reverse;
     justify-content: space-between;
   }
+}
+.flex-div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: inherit;
+  font-family: $font-Montserrat;
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: 0.6px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+div[data-currency="USD"] div[data-testid="pdp-product-price-prefix"] {
+  display: none;
+}
+
+div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
+  display: none;
 }

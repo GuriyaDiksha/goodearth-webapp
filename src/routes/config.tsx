@@ -5,7 +5,7 @@ import initAction from "containers/pdp/initAction";
 import metaAction from "containers/pdp/metaAction";
 import metaActionPlp from "containers/plp/metaAction";
 import metaActionCareer from "containers/careerDetail/metaAction";
-import initActionCollection from "containers/collectionLanding/initAction";
+// import initActionCollection from "containers/collectionLanding/initAction";
 // import metaActionCollectionLanding from "containers/collectionLanding/metaAction";
 import metaActionCollectionSpecific from "containers/collectionSpecific/metaAction";
 import initActionSpecific from "containers/collectionSpecific/initAction";
@@ -19,11 +19,12 @@ import initActionGiftcard from "containers/giftcard/initAction";
 import initActionShop from "containers/shopLocator/initAction";
 // import initActionHome from "containers/home/initAction";
 // import initActionDesignJournalBook from "containers/designJournalBook/initAction";
-import initActionWishlist from "containers/wishlist/initAction";
+// import initActionWishlist from "containers/wishlist/initAction";
 import initActionBridal from "containers/bridal/initAction";
 import initActionCheckout from "containers/checkout/initAction";
 import initActionCart from "containers/cartPage/initAction";
 import initActionCareer from "containers/careerNew/initAction";
+import initActionRegistery from "containers/giftRegistery/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -32,7 +33,7 @@ const routes: RouteConfig = [
   {
     path: ROUTES.CollectionLanding,
     component: loadable(() => import("containers/collectionLanding")),
-    action: initActionCollection,
+    action: async () => null,
     // meta: metaActionCollectionLanding,
     exact: true
   },
@@ -83,9 +84,21 @@ const routes: RouteConfig = [
     exact: false
   },
   {
+    path: ROUTES.REGISTERY,
+    component: loadable(() => import("containers/giftRegistery")),
+    action: initActionRegistery,
+    exact: false
+  },
+  {
     path: ROUTES.WISHLIST,
     component: loadable(() => import("containers/wishlist")),
-    action: initActionWishlist,
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.SHAREDWISHLIST,
+    component: loadable(() => import("containers/wishlist")),
+    action: async () => null,
     exact: true
   },
   {
@@ -116,6 +129,12 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.CHECKOUT,
+    component: loadable(() => import("containers/checkout")),
+    action: initActionCheckout,
+    exact: true
+  },
+  {
+    path: ROUTES.GCCHECKOUT,
     component: loadable(() => import("containers/checkout")),
     action: initActionCheckout,
     exact: true
@@ -229,8 +248,8 @@ const routes: RouteConfig = [
     exact: true
   },
   {
-    path: ROUTES.HFH,
-    component: loadable(() => import("containers/HomeForHolidays")),
+    path: ROUTES.INTERNATIONALSALE,
+    component: loadable(() => import("containers/InternationalSale")),
     action: async () => null,
     exact: true
   },
@@ -280,7 +299,16 @@ const makerRoutes = [
   ROUTES.TANGIERBYRICHARDHAMILTON,
   ROUTES.MATERIALCULTURE,
   ROUTES.VINITACHAITANYA,
-  ROUTES.VASUDHARAI
+  ROUTES.VASUDHARAI,
+  ROUTES.BOSPORUSMETALDECOR,
+  ROUTES.TELLINGSTORIES,
+  ROUTES.VIRTUALSHOPPINGSALON,
+  ROUTES.GUIDETOLIGHTING,
+  ROUTES.INNERSPACE,
+  ROUTES.LILANURPARFUMS,
+  ROUTES.PEHCHAANNAQASHI,
+  ROUTES.MEMORYKEEPERS,
+  ROUTES.HARVESTATTHETABLE
 ];
 
 const makerSmartnav = [
