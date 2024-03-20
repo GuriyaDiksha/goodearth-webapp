@@ -7,7 +7,7 @@ import cs from "classnames";
 const InputField: React.FC<Props> = props => {
   const [labelClass, setLabelClass] = useState(false);
   const [placeholder, setPlaceholder] = useState(props.placeholder || "");
-  const [readOnly, setReadOnly] = useState(true);
+  // const [readOnly, setReadOnly] = useState(true);
 
   const handleClick = (
     event: React.MouseEvent | React.FocusEvent | React.TouchEvent

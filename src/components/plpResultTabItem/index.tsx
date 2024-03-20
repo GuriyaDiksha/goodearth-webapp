@@ -70,7 +70,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
 
   const gtmProductClick = () => {
     CookieService.setCookie("listPath", page);
-    plpProductClick(product, page, currency, position);
+    plpProductClick(product, page, currency, position, info.isSale);
     const len = product.categories.length;
     const category = product.categories[len - 1];
     const l3Len = category.split(">").length;
@@ -241,6 +241,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
               key={product.id}
               mobile={mobile}
               tablet={true}
+              badgeType={product?.badgeType}
             />
           </div>
         )}

@@ -76,6 +76,8 @@ const PlpDropdownMenu = ({
     toggleSort && toggleSort(true);
   };
 
+  // const { ref } = useOutsideDetection<HTMLDivElement>(onOutsideClick);
+
   useIsomorphicLayoutEffect(() => {
     if (showCaret) {
       onInsideClick();

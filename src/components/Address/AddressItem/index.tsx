@@ -52,7 +52,8 @@ const AddressItem: React.FC<Props> = props => {
   const {
     currency,
     basket,
-    address: { shippingAddressId, billingAddressId }
+    address: { shippingAddressId, billingAddressId },
+    info: { isSale }
   } = useSelector((state: AppState) => state);
 
   const [addressMsg, setAddressMsg] = useState("");
@@ -99,16 +100,15 @@ const AddressItem: React.FC<Props> = props => {
       .catch(err => {
         const error = err.response.data;
 
-        if (typeof error == "string") {
-          maindiv.getElementsByTagName("div")[0].style =
-            "border : 1px solid #ab1e56";
+        if (typeof error == "string" && maindiv) {
+          maindiv.getElementsByTagName("div")[0].style.border =
+            "1px solid #ab1e56";
           setDeleteError(error);
         }
       })
       .finally(() => setIsLoading(false));
-    if (deleteError) {
-      maindiv.getElementsByTagName("div")[0].style =
-        "border : 1px solid #ab1e56";
+    if (deleteError && maindiv) {
+      maindiv.getElementsByTagName("div")[0].style.border = "1px solid #ab1e56";
     }
   };
 
@@ -219,7 +219,19 @@ const AddressItem: React.FC<Props> = props => {
         line?.product.categories && line?.product.categories[index]
           ? line?.product.categories[index].replace(/\s/g, "")
           : "";
-      // const arr = category.split(">");
+      const cat1 = line?.product.categories?.[0]?.split(">");
+      const cat2 = line?.product.categories?.[1]?.split(">");
+
+      const L1 = cat1?.[0].trim();
+
+      const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+
+      const L3 = cat2?.[2]
+        ? cat2?.[2]?.trim()
+        : line?.product.categories?.[2]?.split(">")?.[2].trim();
+
+      const clickType = localStorage.getItem("clickType");
+      const search = CookieService.getCookie("search") || "";
 
       return {
         item_id: line?.product?.id, //Pass the product id
@@ -227,20 +239,28 @@ const AddressItem: React.FC<Props> = props => {
         affiliation: line?.product?.title, // Pass the product name
         coupon: "NA", // Pass the coupon if available
         currency: currency, // Pass the currency code
-        discount: "NA", // Pass the discount amount
-        index: ind,
+        discount:
+          isSale && line.product.discountedPriceRecords
+            ? line?.product?.badgeType == "B_flat"
+            : line?.product?.discountedPriceRecords[currency]
+            ? line?.product?.priceRecords[currency] -
+              line?.product.childAttributes[0]?.discountedPriceRecords[currency]
+            : "NA",
+        index: "NA",
         item_brand: "Goodearth",
-        item_category: category?.split(">")?.join("/"),
-        item_category2: line.product?.childAttributes[0]?.size,
-        item_category3: line.product.is3d ? "3d" : "non3d",
-        item_category4: line.product.is3d ? "YES" : "NO",
+        item_category: L1,
+        item_category2: L2,
+        item_category3: L3,
+        item_category4: "NA",
+        item_category5: line.product.is3d ? "3d" : "non3d",
         item_list_id: "NA",
-        item_list_name: "NA",
-        item_variant: "NA",
+        item_list_name: search ? `${clickType}-${search}` : "NA",
+        item_variant: line.product?.childAttributes[0]?.size,
         // item_category5: line?.product?.collection,
         price: line?.product?.priceRecords[currency],
         quantity: line?.quantity,
-        collection_category: line?.product?.collections?.join("|")
+        collection_category: line?.product?.collections?.join("|"),
+        price_range: "NA"
       };
     });
 

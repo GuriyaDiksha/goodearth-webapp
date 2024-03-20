@@ -9,15 +9,12 @@ import ApplyPromo from "./applyPromo";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { useHistory } from "react-router";
-import Button from "components/Button";
-// import * as util from "utils/validate";
 import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
 import CheckoutService from "services/checkout";
 import CookieService from "services/cookie";
 import BasketService from "services/basket";
 import Loader from "components/Loader";
 import { GA_CALLS } from "constants/cookieConsent";
-import CheckboxWithLabel from "components/CheckboxWithLabel";
 
 const PromoSection: React.FC<PromoProps> = props => {
   const { isActive, next, activeStep, currentStep } = props;
