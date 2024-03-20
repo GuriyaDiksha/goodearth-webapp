@@ -764,7 +764,12 @@ class FilterList extends React.Component<Props, State> {
                 searchList,
                 searchValue || "PLP",
                 this.props.currency,
-                searchList.results.data.length
+                searchList.results.data.length,
+                undefined,
+                this.state.filter.price.max_price &&
+                  this.state.filter.price.min_price
+                  ? `${this.state.filter.price.max_price} - ${this.state.filter.price.min_price}`
+                  : undefined
               );
               this.createFilterfromUrl();
               const pricearray: any = [],
@@ -860,7 +865,11 @@ class FilterList extends React.Component<Props, State> {
           searchList,
           searchValue || "PLP",
           this.props.currency,
-          this.props.salestatus
+          undefined,
+          this.props.salestatus,
+          this.state.filter.price.max_price && this.state.filter.price.min_price
+            ? `${this.state.filter.price.max_price} - ${this.state.filter.price.min_price}`
+            : undefined
         );
 
         this.createList(searchList);

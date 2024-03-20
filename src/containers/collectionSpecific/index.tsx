@@ -21,7 +21,11 @@ import banner from "../../images/bannerBottom.jpg";
 import CollectionService from "services/collection";
 import { getProductIdFromSlug } from "utils/url";
 import ReactHtmlParser from "react-html-parser";
-import { collectionProductImpression, pageViewGTM } from "utils/validate";
+import {
+  collectionProductImpression,
+  pageViewGTM,
+  productImpression
+} from "utils/validate";
 import { Currency } from "typings/currency";
 import { POPUP } from "constants/components";
 import metaActionCollection from "./metaAction";
@@ -88,7 +92,14 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         console.log("Collection Error", error);
       });
       if (filterData) {
-        collectionProductImpression(filterData, "CollectionSpecific", currency);
+        debugger;
+
+        // collectionProductImpression(filterData, "CollectionSpecific", currency);
+        productImpression(
+          { results: { data: filterData?.results } },
+          "CollectionSpecific",
+          currency || "INR"
+        );
         filterData.results = data.concat(filterData.results);
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
@@ -131,7 +142,13 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         console.log("Collection Error", error);
       });
       if (filterData) {
-        collectionProductImpression(filterData, "CollectionSpecific", currency);
+        debugger;
+        // collectionProductImpression(filterData, "CollectionSpecific", currency);
+        productImpression(
+          { results: { data: filterData?.results } },
+          "CollectionSpecific",
+          currency || "INR"
+        );
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
       // on reload collection specific template banner data update
@@ -725,7 +742,6 @@ class CollectionSpecific extends React.Component<
                       data={showTemplates.Banner}
                       mobile={mobile}
                       tablet={tablet}
-                      colbanner={false}
                     />
                   )}
                 </div>
@@ -831,6 +847,7 @@ class CollectionSpecific extends React.Component<
                       currency={this.props.currency}
                       key={data.id + "plpitem"}
                       mobile={mobile}
+                      tablet={tablet}
                       onClickQuickView={this.onClickQuickView}
                       isCollection={true}
                       loader={

@@ -39,7 +39,8 @@ const LineItems: React.FC<BasketItem> = memo(
       basket: { currency }
     } = useSelector((state: AppState) => state);
     const {
-      user: { isLoggedIn }
+      user: { isLoggedIn },
+      info: { isSale }
     } = useSelector((state: AppState) => state);
     if (!currency) {
       currency = "INR";
@@ -131,6 +132,19 @@ const LineItems: React.FC<BasketItem> = memo(
       const userConsent = CookieService.getCookie("consent").split(",");
       const search = CookieService.getCookie("search") || "";
 
+      const cat1 = product.categories?.[0]?.split(">");
+      const cat2 = product.categories?.[1]?.split(">");
+
+      const L1 = cat1?.[0]?.trim();
+
+      const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
+
+      const L3 = cat2?.[2]
+        ? cat2?.[2]?.trim()
+        : product.categories?.[2]?.split(">")?.[2]?.trim();
+
+      const clickType = localStorage.getItem("clickType");
+
       if (userConsent.includes(GA_CALLS)) {
         Moengage.track_event("remove_from_cart", {
           "Product id": product.sku || product.childAttributes[0].sku,
@@ -172,6 +186,12 @@ const LineItems: React.FC<BasketItem> = memo(
         dataLayer.push({
           event: "remove_from_cart",
           previous_page_url: CookieService.getCookie("prevUrl"),
+          currency: currency,
+          value: childAttributes[0]?.discountedPriceRecords[currency]
+            ? childAttributes[0]?.discountedPriceRecords[currency]
+            : price
+            ? price
+            : null,
           ecommerce: {
             items: [
               {
@@ -181,21 +201,26 @@ const LineItems: React.FC<BasketItem> = memo(
                 coupon: "NA", // Pass the coupon if available
                 currency: currency, // Pass the currency code
                 discount:
-                  childAttributes[0]?.discountedPriceRecords[currency] || "NA", // Pass the discount amount
+                  isSale && childAttributes[0]?.discountedPriceRecords[currency]
+                    ? badgeType == "B_flat"
+                      ? childAttributes[0]?.discountedPriceRecords[currency]
+                      : price -
+                        childAttributes[0]?.discountedPriceRecords[currency]
+                    : "NA", // Pass the discount amount
                 index: "NA",
                 item_brand: "goodearth",
-                item_category: category?.split(">")?.join("|"),
-                item_category2: size,
-                item_category3: "NA",
-                item_list_id: "NA",
-                item_list_name: search ? search : "NA",
-                item_variant: "NA",
-                // item_category4: product.categories[0],
+                item_category: L1,
+                item_category2: L2,
+                item_category3: L3,
                 item_category4: "NA",
-                // item_category5: product.collection,
+                item_category5: "NA",
+                item_list_id: "NA",
+                item_list_name: search ? `${clickType}-${search}` : "NA",
+                item_variant: size || "NA",
                 price: price,
                 quantity: quantity,
-                collection_category: product?.collections?.join("|")
+                collection_category: product?.collections?.join("|"),
+                price_range: "NA"
               }
             ]
           }
@@ -530,6 +555,7 @@ const LineItems: React.FC<BasketItem> = memo(
                       showText={true}
                       inWishlist={inWishlist}
                       onMoveToWishlist={onMoveToWishlist}
+                      badgeType={badgeType}
                     />
                   )}
                 </div>

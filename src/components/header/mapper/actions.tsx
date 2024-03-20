@@ -36,8 +36,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // window.location.reload();
     },
     onLoadAPiCall: (
-      isLoggedIn: boolean,
-      // basketcall: boolean,
       cookies: Cookies,
       bridalId: number,
       bridalKey?: string,
@@ -92,10 +90,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       });
       // }
       // if (!page?.includes("/wishlist")) {
-      WishlistService.updateWishlist(
-        dispatch,
-        sortBy == "discount" ? "added_on" : sortBy
-      );
+      WishlistService.updateWishlist(dispatch, sortBy);
       // }
       // WishlistService.countWishlist(dispatch);
       // HeaderService.fetchHomepageData(dispatch).catch(err => {

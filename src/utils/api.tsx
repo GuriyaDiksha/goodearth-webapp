@@ -65,8 +65,8 @@ class API {
     callback: any
   ): ThunkAction<any, {}, {}, AnyAction> {
     return (dispatch: Dispatch, getState) => {
-      const { cookies } = getState() as AppState;
-      callback(cookies);
+      const { cookies, info } = getState() as AppState;
+      callback(cookies, info);
     };
   };
 
@@ -74,9 +74,10 @@ class API {
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
     options: AxiosRequestConfig
   ): Promise<T> {
+    let isLoading = false;
     return new Promise((resolve, reject) => {
       dispatch(
-        API.apiAction((cookies: any) => {
+        API.apiAction((cookies: any, info: any) => {
           let requestHeaders: any = {};
           if (cookies.tkn) {
             requestHeaders["Authorization"] = `Token ${cookies.tkn}`;
@@ -90,7 +91,10 @@ class API {
           ) {
             requestHeaders["enc-dec"] = "eyJlbmFibGVDcnlwdG8iOiB0cnVlfQ==";
           }
-          dispatch(updateLoader(true));
+          if (!info?.isLoading) {
+            isLoading = true;
+            dispatch(updateLoader(true));
+          }
           requestHeaders = {
             ...requestHeaders,
             ...options.headers
@@ -101,7 +105,10 @@ class API {
             headers: requestHeaders
           })
             .then(res => {
-              dispatch(updateLoader(false));
+              if (isLoading) {
+                isLoading = false;
+                dispatch(updateLoader(false));
+              }
               if (cookies.sessionid != res.headers.sessionid) {
                 if (typeof document != "undefined") {
                   CookieService.setCookie(
@@ -119,7 +126,10 @@ class API {
               }
             })
             .catch(err => {
-              dispatch(updateLoader(false));
+              if (isLoading) {
+                isLoading = false;
+                dispatch(updateLoader(false));
+              }
               if (typeof document != "undefined") {
                 if (err.response.status == 401) {
                   LoginService.logoutClient(dispatch);
@@ -140,7 +150,10 @@ class API {
               }
             })
             .finally(() => {
-              dispatch(updateLoader(false));
+              if (isLoading) {
+                isLoading = false;
+                dispatch(updateLoader(false));
+              }
             });
         })
       );

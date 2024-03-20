@@ -66,7 +66,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
 
   const gtmProductClick = () => {
     CookieService.setCookie("listPath", page);
-    plpProductClick(product, page, currency, position);
+    plpProductClick(product, page, currency, position, info.isSale);
   };
 
   const button = useMemo(() => {
@@ -307,6 +307,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
                 showText={false}
                 key={product.id}
                 mobile={false}
+                badgeType={product?.badgeType}
               />
             </div>
           )}

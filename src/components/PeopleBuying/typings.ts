@@ -16,6 +16,7 @@ export interface PeopleRecommend {
   discount: boolean;
   country: string;
   altText: string;
+  badgeType?: string;
 }
 
 export type RecommenedSliderProps = {
