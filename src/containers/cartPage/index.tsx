@@ -269,13 +269,13 @@ class CartPage extends React.Component<Props, State> {
         const cat1 = line?.product.categories?.[0]?.split(">");
         const cat2 = line?.product.categories?.[1]?.split(">");
 
-        const L1 = cat1?.[0].trim();
+        const L1 = cat1?.[0]?.trim();
 
-        const L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+        const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
 
         const L3 = cat2?.[2]
           ? cat2?.[2]?.trim()
-          : line?.product.categories?.[2]?.split(">")?.[2].trim();
+          : line?.product.categories?.[2]?.split(">")?.[2]?.trim();
 
         const clickType = localStorage.getItem("clickType");
         // const arr = category.split(">");
