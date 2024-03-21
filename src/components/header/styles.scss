@@ -1937,7 +1937,7 @@ ul.inner-menu-mobile {
 
   @media screen and (max-width:992px) {
     margin-left: 5%;
-    width: 90vw;
+    width: 85vw;
   }
 
   button{
@@ -1967,6 +1967,10 @@ ul.inner-menu-mobile {
       color: #9F9F9F;
       cursor: pointer;
     }
+  }
+
+  .recentBlock:last-child{
+    padding-bottom: 0;
   }
 }
 
