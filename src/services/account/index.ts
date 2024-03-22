@@ -15,6 +15,7 @@ import { ConfirmResetPasswordResponse } from "containers/resetPassword/typings";
 // import BasketService from "services/basket";
 import { encryptdata, decriptdata } from "utils/validate";
 import { updateUser } from "actions/user";
+import { CreditNoteResponse } from "containers/myAccount/components/MyCreditNotes/typings";
 
 export default {
   fetchProfileData: async (dispatch: Dispatch) => {
@@ -318,6 +319,19 @@ export default {
       dispatch,
       `${__API_HOST__ + "/myapi/customer/edit_profile_request/"}`,
       formData
+    );
+    return data;
+  },
+  fetchCreditNotes: async (
+    dispatch: Dispatch,
+    sortBy = "expiring_date",
+    sortType = "desc",
+    page = 1
+  ) => {
+    const data = await API.get<CreditNoteResponse>(
+      dispatch,
+      `${__API_HOST__ +
+        `/myapi/giftcard/user_creditnote?sort_by=${sortBy}&sort_type=${sortType}&page=${page}`}`
     );
     return data;
   }

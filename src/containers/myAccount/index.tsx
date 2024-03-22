@@ -29,6 +29,7 @@ import CeriseDashboard from "./components/CeriseDashboard";
 import TransactionDashboard from "./components/TransactionDashboard";
 import profileIcon from "../../images/dock_profile.svg";
 import { CONFIG } from "constants/util";
+import MyCreditNotes from "./components/MyCreditNotes";
 
 type Props = {
   isBridal: boolean;
@@ -42,6 +43,7 @@ const MyAccount: React.FC<Props> = props => {
   const { mobile } = useSelector((state: AppState) => state.device);
   const { isLoggedIn, slab } = useSelector((state: AppState) => state.user);
   const { showTimer } = useSelector((state: AppState) => state.info);
+  const { currency } = useSelector((state: AppState) => state);
   const [currentSection, setCurrentSection] = useState("Profile");
   const location = useLocation();
   const [showRegistry, setShowRegistry] = useState(
@@ -75,13 +77,6 @@ const MyAccount: React.FC<Props> = props => {
       title: "Profile",
       loggedInOnly: true
     },
-    // {
-    //   label: "Change Password", //Removed from workflow
-    //   href: "/account/password",
-    //   component: ChangePassword,
-    //   title: "password",
-    //   loggedInOnly: true
-    // },
     {
       label: "Addresses",
       href: "/account/address",
@@ -145,15 +140,25 @@ const MyAccount: React.FC<Props> = props => {
       component: ActivateGiftCard,
       title: "Activate Gift Card",
       loggedInOnly: false
-    },
-    {
-      label: "Check Balance",
-      href: "/account/check-balance",
-      component: CheckBalance,
-      title: "Check Balance",
-      loggedInOnly: false
     }
   );
+
+  currency === "INR" &&
+    accountMenuItems.push({
+      label: "My Credit Notes",
+      href: "/account/credit-notes",
+      component: MyCreditNotes,
+      title: "My Credit Notes",
+      loggedInOnly: true
+    });
+
+  accountMenuItems.push({
+    label: "Check Balance",
+    href: "/account/check-balance",
+    component: CheckBalance,
+    title: "Check Balance",
+    loggedInOnly: false
+  });
 
   if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
     accountMenuItems.push({
@@ -181,6 +186,16 @@ const MyAccount: React.FC<Props> = props => {
       }
     }
   }, [pathname, isLoggedIn]);
+
+  useEffect(() => {
+    if (
+      currency !== "INR" &&
+      isLoggedIn &&
+      pathname === "/account/credit-notes"
+    ) {
+      history.push("/");
+    }
+  }, [currency]);
 
   const bgClass = cs(
     globalStyles.colLg10,
@@ -422,13 +437,20 @@ const MyAccount: React.FC<Props> = props => {
                         <div className={bootstrapStyles.row}>
                           <div
                             className={cs(
-                              bootstrapStyles.colLg6,
-                              bootstrapStyles.offsetLg3,
                               bootstrapStyles.col12,
                               globalStyles.textCenter,
                               { [styles.accountFormBg]: !mobile },
-                              // {[styles.bridalFormBg]: bridalId != 0},
-                              { [styles.accountFormBgMobile]: mobile }
+                              {
+                                [styles.accountFormBgMobile]: mobile,
+                                [bootstrapStyles.colLg8]:
+                                  href === "/account/credit-notes",
+                                [bootstrapStyles.offsetLg2]:
+                                  href === "/account/credit-notes",
+                                [bootstrapStyles.colLg6]:
+                                  href !== "/account/credit-notes",
+                                [bootstrapStyles.offsetLg3]:
+                                  href !== "/account/credit-notes"
+                              }
                             )}
                           >
                             {title.toLowerCase() == "bridal" ? (
