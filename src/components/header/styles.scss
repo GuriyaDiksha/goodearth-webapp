@@ -1933,12 +1933,12 @@ ul.inner-menu-mobile {
 
 .recentWrp{
   margin-left: 17%;
-  width: 70vw;
+  width: 20vw;
   margin-top: 50px;
 
   @media screen and (max-width:992px) {
     margin-left: 5%;
-    width: 90vw;
+    width: 85vw;
   }
 
   button{
@@ -1968,6 +1968,10 @@ ul.inner-menu-mobile {
       color: #9F9F9F;
       cursor: pointer;
     }
+  }
+
+  .recentBlock:last-child{
+    padding-bottom: 0;
   }
 }
 
@@ -2044,5 +2048,47 @@ div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
         }
       }
     }
+  }
+}
+//========you might like section========//
+.ymlp-padding{
+  padding: 0 5%;
+}
+
+.ymlp-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  min-height: 300px;
+
+  @media screen and (max-width:767px) {
+    margin: 0 2%;
+  }
+
+  .ymlp-tile{
+
+    padding: 0 10PX;
+
+    @media screen and (min-width:767px) {
+      flex: 0 0 20%;
+      max-width: 20%;
+      padding: 0 20px 0 0;
+    }
+
+    
+
+    .image-content{
+      height: 80px;
+      a {
+        @include b3_14px_montserrat_charcoal();
+        text-transform: capitalize;
+        letter-spacing: 0.5px;
+        &:hover{
+          @include b3_14px_montserrat_charcoal();
+  
+        }
+      }
+    }
+
   }
 }

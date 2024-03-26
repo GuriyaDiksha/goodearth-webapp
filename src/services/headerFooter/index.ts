@@ -126,6 +126,13 @@ export default {
     // dispatch(updatePlpProduct(res.results.data));
     return res;
   },
+  fetchYouMightLikeProducts: async (dispatch: Dispatch) => {
+    const res = await API.get<any>(
+      dispatch,
+      `${__API_HOST__}/myapi/search/you_might_like_products/`
+    );
+    return res;
+  },
   checkPinCodeShippable: async function(dispatch: Dispatch, pinCode: string) {
     const res = await API.post<{ message: string; status: boolean }>(
       dispatch,
