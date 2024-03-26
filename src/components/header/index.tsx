@@ -60,6 +60,8 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     meta: state.meta,
     isLoggedIn: state.user.isLoggedIn,
+    bridalId: state.user.bridalId,
+    bridalCount: state.bridal.count,
     slab: state.user.slab,
     cookies: state.cookies,
     showTimer: state.info.showTimer,
@@ -71,7 +73,9 @@ const mapStateToProps = (state: AppState) => {
     filler: state.filler,
     openModal: state.modal.openModal,
     scrollDown: state.info.scrollDown,
-    user: state.user
+    user: state.user,
+    showmobileSort: state.header.showmobileSort,
+    isShared: state.router.location.pathname.includes("shared-wishlist")
   };
 };
 
@@ -150,11 +154,11 @@ class Header extends React.Component<Props, State> {
       bridalKey = pathArray[pathArray.length - 1];
     }
     this.props.onLoadAPiCall(
-      this.props.isLoggedIn,
-      this.props.cookies,
+      this.props?.cookies,
+      this.props.bridalId,
       bridalKey,
       this.props.sortBy,
-      this.props.location.pathname
+      this.props.history?.location?.pathname
     );
     if (
       typeof document != "undefined" &&
@@ -975,18 +979,23 @@ class Header extends React.Component<Props, State> {
     const { isLoggedIn } = this.context;
     const {
       wishlistData,
+      bridalCount,
       wishlistCountData,
       meta,
       goLogin,
       handleLogOut,
       location,
       mobile,
-      tablet
+      tablet,
+      isShared
       // slab,
       // customerGroup
     } = this.props;
+    const wishlistCount = wishlistData.length;
+    // const wishlistCount = wishlistCountData;
     // const wishlistCount = wishlistData.length;
-    const wishlistCount = wishlistCountData;
+    // const wishlistCount = wishlistCountData;
+    const bridalCountData = bridalCount;
     let bagCount = 0;
     const item = this.props.cart.lineItems;
     for (let i = 0; i < item.length; i++) {
@@ -1012,19 +1021,25 @@ class Header extends React.Component<Props, State> {
         href: "/account/track-order",
         type: "link"
       },
-
       {
         label: "Activate Gift Card",
         href: "/account/giftcard-activation",
         type: "link",
         value: "Activate Gift Card"
       },
-
       {
         label: "Check Balance",
         href: "/account/check-balance",
         type: "link",
         value: "Check Balance"
+      },
+      {
+        label: `Good Earth Registry ${
+          isLoggedIn && bridalCountData > 0 ? "(" + bridalCountData + ")" : ""
+        }`,
+        href: isLoggedIn ? "/account/bridal" : "/the-good-earth-registry",
+        type: "link",
+        value: "Good Earth Registry"
       }
       // {
       //   label: "Cerise Program",
@@ -1063,6 +1078,7 @@ class Header extends React.Component<Props, State> {
     const isCartPage = this.props.location.pathname.indexOf("/cart") > -1;
 
     const { showMenu } = this.state;
+    const { showmobileSort } = this.props;
     // const isCeriseCustomer = slab
     //   ? slab.toLowerCase() == "cerise" ||
     //     slab.toLowerCase() == "cerise sitara" ||
@@ -1186,8 +1202,9 @@ class Header extends React.Component<Props, State> {
           className={cs(
             {
               [styles.headerIndex]: showMenu,
+              [styles.showSortHeaderIndex]: showmobileSort,
               [styles.plpIndex]: isPlpPage && !mobile,
-              [styles.plpIndexMobile]: isPlpPage && mobile
+              [styles.plpIndexMobile]: isPlpPage && mobile && !showmobileSort
             },
             styles.headerContainer
           )}
@@ -1338,9 +1355,10 @@ class Header extends React.Component<Props, State> {
                     toggleSearch={this.showSearch}
                     mobile={mobile}
                     wishlistData={wishlistData}
-                    wishlistCountData={wishlistCountData}
+                    wishlistCountData={wishlistCount}
                     currency={this.props.currency}
                     sidebagData={this.props.cart}
+                    bridalCountData={bridalCountData}
                   />
                 )}
                 {(mobile || tablet) && (

@@ -20,6 +20,7 @@ import { USR_WITH_NO_ORDER } from "constants/messages";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import Button from "components/Button";
+import { maximumOtpAttempt } from "constants/currency";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -61,7 +62,8 @@ class MainLogin extends React.Component<Props, loginState> {
       showCurrentSection: "email",
       showEmailVerification: false,
       usrWithNoOrder: false,
-      phoneNo: ""
+      phoneNo: "",
+      isUserActive: true
     };
   }
   static contextType = Context;
@@ -82,80 +84,95 @@ class MainLogin extends React.Component<Props, loginState> {
           phoneNo: data?.phoneNo
         });
       } else {
-        if (data.invalidDomain) {
+        if (!data.isUserActive) {
           this.setState(
             {
-              showerror: data.message
+              showerror: data.message,
+              isUserActive: data.isUserActive,
+              isLoginDisabled: true
             },
             () => {
               errorTracking([this.state.showerror], location.href);
             }
           );
         } else {
-          if (data.emailExist) {
-            if (data.passwordExist) {
-              if (this.props.source == "password-reset") {
-                this.setState(
-                  {
-                    showCurrentSection: "login",
-                    msg: "",
-                    highlight: false,
-                    successMsg: ""
-                  },
-                  () => {
-                    this.passwordInput.current &&
-                      this.passwordInput.current.focus();
-                    this.passwordInput.current &&
-                      !this.props.isBo &&
-                      this.passwordInput.current.scrollIntoView(true);
-                  }
-                );
+          if (data.invalidDomain) {
+            this.setState(
+              {
+                highlight: true,
+                showerror: data.message
+              },
+              () => {
+                errorTracking([this.state.showerror], location.href);
+              }
+            );
+          } else {
+            if (data.emailExist) {
+              if (data.passwordExist) {
+                if (this.props.source == "password-reset") {
+                  this.setState(
+                    {
+                      showCurrentSection: "login",
+                      msg: "",
+                      highlight: false,
+                      successMsg: ""
+                    },
+                    () => {
+                      this.passwordInput.current &&
+                        this.passwordInput.current.focus();
+                      this.passwordInput.current &&
+                        !this.props.isBo &&
+                        this.passwordInput.current.scrollIntoView(true);
+                    }
+                  );
+                } else {
+                  this.setState(
+                    {
+                      showCurrentSection: "login",
+                      msg: "",
+                      highlight: false,
+                      successMsg: "",
+                      heading: "Welcome Back!",
+                      subHeading: "Enter your password to sign in."
+                    },
+                    () => {
+                      this.passwordInput.current &&
+                        this.passwordInput.current.focus();
+                      this.passwordInput.current &&
+                        !this.props.isBo &&
+                        this.passwordInput.current.scrollIntoView(true);
+                    }
+                  );
+                }
               } else {
-                this.setState(
-                  {
-                    showCurrentSection: "login",
-                    msg: "",
-                    highlight: false,
-                    successMsg: "",
-                    heading: "Welcome Back!",
-                    subHeading: "Enter your password to sign in."
-                  },
-                  () => {
-                    this.passwordInput.current &&
-                      this.passwordInput.current.focus();
-                    this.passwordInput.current &&
-                      !this.props.isBo &&
-                      this.passwordInput.current.scrollIntoView(true);
-                  }
-                );
+                // const error = [
+                //   "Looks like you are signing in for the first time. ",
+                //   <br key={2} />,
+                //   "Please ",
+                //   <span
+                //     className={cs(
+                //       // globalStyles.errorMsg,
+                //       globalStyles.linkTextUnderline
+                //     )}
+                //     key={1}
+                //     onClick={this.handleResetPassword}
+                //   >
+                //     set a new password
+                //   </span>,
+                //   " to Login!"
+                // ];
+                if (maximumOtpAttempt == data.attempt_count)
+                  this.setState({
+                    msg: data.message,
+                    highlight: true,
+                    isLoginDisabled: true
+                  });
+                this.emailInput.current && this.emailInput.current.focus();
               }
             } else {
-              const error = [
-                "Looks like you are signing in for the first time. ",
-                <br key={2} />,
-                "Please ",
-                <span
-                  className={cs(
-                    // globalStyles.errorMsg,
-                    globalStyles.linkTextUnderline
-                  )}
-                  key={1}
-                  onClick={this.handleResetPassword}
-                >
-                  set a new password
-                </span>,
-                " to Login!"
-              ];
-              this.setState({
-                msg: error,
-                highlight: true,
-                isLoginDisabled: true
-              });
-              this.emailInput.current && this.emailInput.current.focus();
+              localStorage.setItem("tempEmail", this.state.email);
+              this.props.showRegister?.();
             }
-          } else {
-            localStorage.setItem("tempEmail", this.state.email);
-            this.props.showRegister?.();
           }
         }
       }
@@ -209,7 +226,9 @@ class MainLogin extends React.Component<Props, loginState> {
     //   this.firstEmailInput.current?.focus();
     // }
     // localStorage.removeItem("tempEmail");
-    this.firstEmailInput.current?.focus();
+    setTimeout(() => {
+      this.firstEmailInput.current?.focus();
+    }, 1000);
 
     const subHeading = this.props.isCerise
       ? "Please enter your registered e-mail address to login to your Cerise account."
@@ -549,6 +568,7 @@ class MainLogin extends React.Component<Props, loginState> {
         <div className={styles.categorylabel}>
           <div>
             <InputField
+              id="auto_focus"
               value={this.state.email || this.props.email}
               placeholder={"Email ID"}
               label={"Email ID*"}
@@ -565,6 +585,15 @@ class MainLogin extends React.Component<Props, loginState> {
             {this.state.showerror ? (
               <p className={cs(styles.errorMsg, styles.mainLoginError)}>
                 {this.state.showerror}
+                {!this.state.isUserActive && (
+                  <a
+                    className={cs(styles.underlineText)}
+                    href="mailto:customercare@goodearth.in"
+                    key="email"
+                  >
+                    customercare@goodearth.in
+                  </a>
+                )}
               </p>
             ) : (
               ""
@@ -594,92 +623,92 @@ class MainLogin extends React.Component<Props, loginState> {
   };
 
   render() {
-    const formContent = (
-      <form onSubmit={this.handleSubmit.bind(this)}>
-        <div className={styles.categorylabel}>
-          <div>
-            <InputField
-              value={this.state.email}
-              placeholder={"Email ID"}
-              label={"Email ID*"}
-              border={this.state.highlight}
-              error={this.state.msg}
-              inputRef={this.emailInput}
-              disable={this.state.isPasswordDisabled}
-              disablePassword={this.disablePassword}
-              showLabel={true}
-            />
-          </div>
-          {/* <div>
-            <InputField
-              placeholder={""}
-              value={this.state.password}
-              keyUp={e => this.handleKeyUp(e, "password")}
-              handleChange={e => this.handleChange(e, "password")}
-              handlePaste={e => this.handlePaste(e, "password")}
-              label={"Password*"}
-              border={this.state.highlightp}
-              inputRef={this.passwordInput}
-              isPlaceholderVisible={this.state.isPasswordDisabled}
-              error={this.state.msgp}
-              type={this.state.showPassword ? "text" : "password"}
-              className={inputStyles.password}
-              showLabel={true}
-            />
-            <span
-              className={styles.togglePasswordBtn}
-              onClick={() => this.togglePassword()}
-            >
-              <img src={this.state.showPassword ? show : hide} />
-            </span>
-          </div>
-          <div className={globalStyles.textRight}>
-            <span
-              className={cs(styles.forgotPassword, globalStyles.pointer)}
-              onClick={e => {
-                this.props.goForgotPassword(
-                  e,
-                  (this.emailInput.current && this.emailInput.current.value) ||
-                    "",
-                  this.props.isBo
-                );
-              }}
-            >
-              FORGOT PASSWORD
-            </span>
-          </div> */}
-          <div>
-            {this.state.showerror ? (
-              <p className={cs(styles.errorMsg, styles.mainLoginError)}>
-                {this.state.showerror}
-              </p>
-            ) : (
-              ""
-            )}
-            <Button
-              type="submit"
-              className={globalStyles.btnFullWidth}
-              label="Login to my account"
-              disabled={this.state.isSecondStepLoginDisabled}
-              variant="largeMedCharcoalCta"
-            />
-            {this.props.isBo ? (
-              ""
-            ) : (
-              <Button
-                type="submit"
-                className={cs(styles.changeEmailBtn, {
-                  [globalStyles.btnFullWidth]: this.props.mobile
-                })}
-                label="Go Back"
-                onClick={this.changeEmail}
-                variant="outlineMediumMedCharcoalCta366"
-              />
-            )}
-          </div>
-        </div>
-      </form>
-    );
+    // const formContent = (
+    //   <form onSubmit={this.handleSubmit.bind(this)}>
+    //     <div className={styles.categorylabel}>
+    //       <div>
+    //         <InputField
+    //           value={this.state.email}
+    //           placeholder={"Email ID"}
+    //           label={"Email ID*"}
+    //           border={this.state.highlight}
+    //           error={this.state.msg}
+    //           inputRef={this.emailInput}
+    //           disable={this.state.isPasswordDisabled}
+    //           disablePassword={this.disablePassword}
+    //           showLabel={true}
+    //         />
+    //       </div>
+    //       {/* <div>
+    //         <InputField
+    //           placeholder={""}
+    //           value={this.state.password}
+    //           keyUp={e => this.handleKeyUp(e, "password")}
+    //           handleChange={e => this.handleChange(e, "password")}
+    //           handlePaste={e => this.handlePaste(e, "password")}
+    //           label={"Password*"}
+    //           border={this.state.highlightp}
+    //           inputRef={this.passwordInput}
+    //           isPlaceholderVisible={this.state.isPasswordDisabled}
+    //           error={this.state.msgp}
+    //           type={this.state.showPassword ? "text" : "password"}
+    //           className={inputStyles.password}
+    //           showLabel={true}
+    //         />
+    //         <span
+    //           className={styles.togglePasswordBtn}
+    //           onClick={() => this.togglePassword()}
+    //         >
+    //           <img src={this.state.showPassword ? show : hide} />
+    //         </span>
+    //       </div>
+    //       <div className={globalStyles.textRight}>
+    //         <span
+    //           className={cs(styles.forgotPassword, globalStyles.pointer)}
+    //           onClick={e => {
+    //             this.props.goForgotPassword(
+    //               e,
+    //               (this.emailInput.current && this.emailInput.current.value) ||
+    //                 "",
+    //               this.props.isBo
+    //             );
+    //           }}
+    //         >
+    //           FORGOT PASSWORD
+    //         </span>
+    //       </div> */}
+    //       <div>
+    //         {this.state.showerror ? (
+    //           <p className={cs(styles.errorMsg, styles.mainLoginError)}>
+    //             {this.state.showerror}
+    //           </p>
+    //         ) : (
+    //           ""
+    //         )}
+    //         <Button
+    //           type="submit"
+    //           className={globalStyles.btnFullWidth}
+    //           label="Login to my account"
+    //           disabled={this.state.isSecondStepLoginDisabled}
+    //           variant="largeMedCharcoalCta"
+    //         />
+    //         {this.props.isBo ? (
+    //           ""
+    //         ) : (
+    //           <Button
+    //             type="submit"
+    //             className={cs(styles.changeEmailBtn, {
+    //               [globalStyles.btnFullWidth]: this.props.mobile
+    //             })}
+    //             label="Go Back"
+    //             onClick={this.changeEmail}
+    //             variant="outlineMediumMedCharcoalCta366"
+    //           />
+    //         )}
+    //       </div>
+    //     </div>
+    //   </form>
+    // );
     const footer = (
       <>
         <div className={cs(globalStyles.textCenter, styles.socialLogin)}>
@@ -709,7 +738,7 @@ class MainLogin extends React.Component<Props, loginState> {
             setIsSuccessMsg={this.props.setIsSuccessMsg}
             products={this.props.basket.products}
             currency={this.props.currency}
-            nextStep={this.props.nextStep}
+            // nextStep={this.props.nextStep}
             sortBy={this.props.sortBy}
             phoneNo={this.state.phoneNo}
           />

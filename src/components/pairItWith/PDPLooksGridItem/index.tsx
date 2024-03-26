@@ -88,7 +88,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
 
   const gtmProductClick = () => {
     CookieService.setCookie("listPath", page);
-    plpProductClick(product, page, currency, position);
+    plpProductClick(product, page, currency, position, info.isSale);
   };
 
   const getImageSrc = () => {
@@ -167,6 +167,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               showText={false}
               key={product.id}
               mobile={mobile}
+              badgeType={product?.badgeType}
             />
           </div>
         )}
@@ -220,6 +221,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
                     id={product.id}
                     showText={false}
                     key={product.id}
+                    badgeType={product?.badgeType}
                   />
                 </div>
               </div>

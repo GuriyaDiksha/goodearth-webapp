@@ -19,7 +19,7 @@ body:has(.mobile) {
   }
   @media screen and (max-width: 992px) {
     &.back-btn-address {
-      top: 24px;
+      top: 12px;
       right: 0;
       left: -19px;
     }
@@ -104,7 +104,7 @@ body:has(.mobile) {
     max-width: 93%;
   }
   &.default {
-    border: 2px solid $aqua;
+    border: 1px solid $aqua;
 
     .cerise-bridal-rings {
       top: 24px !important;
@@ -119,6 +119,8 @@ body:has(.mobile) {
     font-weight: 400;
     text-align: left;
     padding: 20px 20px 20px 40px;
+    // padding: 35px 20px 20px 40px;
+    cursor: pointer;
     &.checkout-fix {
       padding: 35px 25px 76px 25px;
     }
@@ -139,12 +141,15 @@ body:has(.mobile) {
       }
     }
     &.shipping-border {
-      border: 2px solid #8cb8aa;
+      border: 1px solid #8cb8aa;
       padding: 35px 25px 110px 25px;
     }
-    &.diabled-border {
-      border: 2px solid $cerise;
-      padding: 35px 25px 84px 25px;
+    &.diabled-border{
+      // border: 2px solid $cerise;
+      // padding: 35px 25px 84px 25px;
+      padding: 30px 30px 30px 40px;
+      border: 1px solid #4C4C4C;
+      min-height: 260px;
     }
     .ship-to-this-btn {
       position: absolute;
@@ -187,6 +192,7 @@ body:has(.mobile) {
         grid-template-columns: 1fr;
         .cerise-bridal-rings {
           top: 24px;
+          right: 20px;
         }
         .line {
           color: #808080;
@@ -257,9 +263,9 @@ body:has(.mobile) {
         }
       }
       .cerise-bridal-rings {
-        background-color: #ab1e56;
-        border-radius: 50%;
-        fill: #fff;
+        // background-color: #ab1e56;
+        // border-radius: 50%;
+        // fill: #fff;
         height: 35px;
         width: 35px;
         padding: 2px;
@@ -287,8 +293,8 @@ body:has(.mobile) {
     input[type="radio"]:checked.default-address-checkbox {
       &::after {
         content: "";
-        height: 8px;
-        width: 8px;
+        height: 13px;
+        width: 13px;
         border-radius: 50%;
         background-color: #548b8b;
         position: absolute;
@@ -298,21 +304,21 @@ body:has(.mobile) {
       }
       &::before {
         content: "";
-        height: 16px;
-        width: 16px;
+        height: 19px;
+        width: 19px;
         border-radius: 50%;
         background-color: white;
         position: absolute;
         top: 50%;
         right: 50%;
         transform: translate(50%, -50%);
-        border: 1px solid #54b8b8;
+        border: 1px solid #9F9F9F;
       }
       &.checkout-fix {
         &::after {
           content: "";
-          height: 8px;
-          width: 8px;
+          height: 13px;
+          width: 13px;
           border-radius: 50%;
           background-color: #191919;
           position: absolute;
@@ -322,8 +328,8 @@ body:has(.mobile) {
         }
         &::before {
           content: "";
-          height: 16px;
-          width: 16px;
+          height: 19px;
+          width: 19px;
           border-radius: 50%;
           background-color: white;
           position: absolute;
@@ -453,8 +459,13 @@ body:has(.mobile) {
   border: 1px solid #eaeaea;
 }
 
+.address-item-container-bridal {
+  min-height: 260px;
+  border: 1px solid #eaeaea;
+}
+
 .address-item {
-  border: 2px solid #eeeeee;
+  border: 1px solid #eeeeee;
   border-bottom: none;
   //margin-top: 20px;
   -webkit-box-flex: 1;
@@ -484,7 +495,7 @@ body:has(.mobile) {
     letter-spacing: 0.36px;
     // margin-top: 10px;
     word-wrap: break-word;
-    display: flex;
+    // display: flex;
    // justify-content: space-between;
     // margin-top: 10px;
     .radio {
@@ -577,6 +588,7 @@ body:has(.mobile) {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  clear: both;
   &.checkout-fix {
     // flex-direction: row;
   }
@@ -584,10 +596,14 @@ body:has(.mobile) {
 
 .address-item-container {
   .address-item.address-in-use {
-    position: absolute;
-    background-color: #ccc;
-    height: 100%;
-    width: 100%;
+    // position: absolute;
+    // background-color: #ccc;
+    // height: 100%;
+    // width: 100%;
+    cursor: unset!important;
+    padding: 30px 30px 30px 40px;
+    border: 1px solid #4C4C4C;
+    min-height: 260px;
   }
 }
 
@@ -903,8 +919,15 @@ margin-top: 5px;
   padding: 5px 0;
 }
 
+.display-flex{
+  display: flex;
+  justify-content: space-between;
+}
+.title-width{
+  width: 80%;
+}
 .bridal-address{
-  width: 30%;
+  width: 20%;
   text-align: right;
 }
 
@@ -912,10 +935,6 @@ margin-top: 5px;
   float: right;
   margin: auto;
   width: 10%;
-}
-
-.title-width{
-  width: 70%;
 }
 
 .bridal-predefined{
@@ -926,6 +945,47 @@ margin-top: 5px;
 .faded-container{
   opacity: 50%;
   cursor: default;
+}
+
+div > .address-in-use {
+  cursor: unset;
+}
+.is-active-item{
+  background: transparent!important;
+  padding: 30px 30px 30px 40px!important;
+  border: 1px solid #4C4C4C!important;
+  min-height: 260px;
+}
+.is-active-item input{
+  left: 13px!important;
+}
+.diabled-border input:before,
+.is-active-item input:before{
+  content: "";
+  height: 19px;
+  width: 19px;
+  border-radius: 50%;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  border: 1px solid #9f9f9f;
+}
+.diabled-border input:after,
+.is-active-item input:after{
+  content: "";
+  height: 13px;
+  width: 13px;
+  border-radius: 50%;
+  background-color: #548b8b;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+}
+.address-edit-msg{
+  display: none;;
 }
 
 .cancel-btn{

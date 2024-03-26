@@ -3,7 +3,7 @@ import React from "react";
 // import {connect} from 'react-redux'
 // import axios from 'axios';
 // import Config from 'components/config'
-import { productImpression } from "utils/validate";
+import { gaEventsForSearch, productImpression } from "utils/validate";
 import { currencyCodes } from "constants/currency";
 import { AppState } from "reducers/typings";
 import { Dispatch } from "redux";
@@ -29,6 +29,7 @@ import ReactHtmlParser from "react-html-parser";
 import { GA_CALLS, SEARCH_HISTORY } from "constants/cookieConsent";
 import giftCardTile from "images/giftcard-tile.png";
 import { debounce } from "lodash";
+import WishlistButton from "components/WishlistButton";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -54,6 +55,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     fetchTrendingKeyword: async () => {
       const res = await HeaderService.fetchTrendingKeyword(dispatch);
+      return res;
+    },
+    fetchYouMightLikeProducts: async () => {
+      const res = await HeaderService.fetchYouMightLikeProducts(dispatch);
       return res;
     }
   };
@@ -85,6 +90,7 @@ type State = {
   trendingWords: any[];
   spellchecks: any[];
   recentSearchs: any[];
+  youMightLikeProducts: any[];
 };
 class Search extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -104,7 +110,8 @@ class Search extends React.Component<Props, State> {
       usefulLink: [],
       trendingWords: [],
       spellchecks: [],
-      recentSearchs: []
+      recentSearchs: [],
+      youMightLikeProducts: []
     };
   }
 
@@ -148,10 +155,21 @@ class Search extends React.Component<Props, State> {
       .catch(function(error) {
         console.log(error);
       });
+
+    this.props
+      .fetchYouMightLikeProducts()
+      .then(res => {
+        this.setState({
+          youMightLikeProducts: res?.results
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
     document.addEventListener("mousedown", this.handleClickOutside);
     this.setState({
-      recentSearchs: CookieService.getCookie("recentSearch")
-        ? JSON.parse(CookieService.getCookie("recentSearch"))
+      recentSearchs: localStorage.getItem("recentSearch")
+        ? JSON.parse(localStorage.getItem("recentSearch") || "[]")
         : []
     });
   }
@@ -182,13 +200,16 @@ class Search extends React.Component<Props, State> {
     //   e.preventDefault();
     //   return false;
     // }
+    localStorage.setItem("inputValue", this.state.searchValue.trim());
+    localStorage.setItem("clickType", "Input");
+
     this.setState({ searchValue: e.target.value });
   }, 300);
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
     this.setState({
-      recentSearchs: CookieService.getCookie("recentSearch")
-        ? JSON.parse(CookieService.getCookie("recentSearch"))
+      recentSearchs: localStorage.getItem("recentSearch")
+        ? JSON.parse(localStorage.getItem("recentSearch") || "[]")
         : []
     });
     if (nextProps.location.pathname !== this.props.location.pathname) {
@@ -206,6 +227,12 @@ class Search extends React.Component<Props, State> {
     this.props.history.push(data.ctaUrl);
     this.props.changeModalState(false);
   }
+
+  getTextFromHtml = (html: any) => {
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    return div.textContent || div.innerText || "";
+  };
 
   showProduct(data: PartialProductItem | WidgetImage, indices: number) {
     const itemData = data as PartialProductItem;
@@ -251,6 +278,13 @@ class Search extends React.Component<Props, State> {
           }
         }
       });
+      gaEventsForSearch(
+        data,
+        "Products",
+        this.getTextFromHtml(data?.product || data?.title),
+        this.state.searchValue
+      );
+      localStorage.setItem("clickType", "Products");
     }
     // this.props.toggle();
     this.props.hideSearch();
@@ -262,40 +296,46 @@ class Search extends React.Component<Props, State> {
   }
 
   titleCase(str: string) {
-    const splitStr = str.toLowerCase().split(" ");
-    splitStr?.map((val, i) => {
-      splitStr[i] = val.charAt(0).toUpperCase() + val.substring(1);
-    });
+    if (str.match(/^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/)) {
+      const splitStr = str.toLowerCase().split(" ");
+      splitStr?.map((val, i) => {
+        splitStr[i] = val.charAt(0).toUpperCase() + val.substring(1);
+      });
 
-    return splitStr.join(" ");
+      return splitStr.join(" ");
+    }
+
+    return str;
   }
 
   recentSearch(value: string | null) {
     const searchValue = value || this.state.searchValue;
-    const searchArr = CookieService.getCookie("recentSearch")
-      ? JSON.parse(CookieService.getCookie("recentSearch"))
+    const searchArr = localStorage.getItem("recentSearch")
+      ? JSON.parse(localStorage.getItem("recentSearch") || "[]")
       : [];
 
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(SEARCH_HISTORY)) {
-      CookieService.setCookie(
-        "recentSearch",
-        JSON.stringify(
-          [this.titleCase(searchValue), ...searchArr]
-            .filter(this.onlyUnique)
-            .slice(0, 5)
-        )
+      const arr = JSON.stringify(
+        [this.titleCase(searchValue), ...searchArr]
+          .filter(this.onlyUnique)
+          .slice(0, 5)
       );
+
+      localStorage.setItem("recentSearch", arr);
     }
   }
 
   onClickSearch = (event: any) => {
-    if (this.state.searchValue.trim().length > 0) {
-      localStorage.setItem("inputValue", this.state.searchValue.trim());
+    if (this.state.searchValue?.trim().length > 0) {
+      localStorage.setItem("inputValue", this.state.searchValue?.trim());
+      localStorage.setItem("clickType", "Input");
+
       this.props.history.push(
-        `/search/${this.state.url.split("/autocomplete")[1]}`
+        `/search/${this.state?.url?.split("/autocomplete")?.[1]}`
       );
       // this.closeSearch();
+
       this.props.hideSearch();
       this.recentSearch(null);
       return false;
@@ -322,6 +362,7 @@ class Search extends React.Component<Props, State> {
     if (event.target.value.trim().length > 0) {
       if ((!event.charCode ? event.which : event.charCode) == 13) {
         localStorage.setItem("inputValue", this.state.searchValue.trim());
+        localStorage.setItem("clickType", "Input");
 
         this.props.history.push(
           "/search/?q=" + encodeURIComponent(event.target.value)
@@ -407,6 +448,14 @@ class Search extends React.Component<Props, State> {
                 to={item.link}
                 onClick={() => {
                   // this.props.toggle();
+                  gaEventsForSearch(
+                    data,
+                    "Collections",
+                    this.getTextFromHtml(item.collection),
+                    this.state.searchValue
+                  );
+                  localStorage.setItem("clickType", "Collections");
+
                   this.props.hideSearch();
                 }}
               >
@@ -426,6 +475,13 @@ class Search extends React.Component<Props, State> {
                     to={item.link}
                     onClick={() => {
                       // this.props.toggle();
+                      gaEventsForSearch(
+                        data,
+                        "Collections",
+                        this.getTextFromHtml(item.collection),
+                        this.state.searchValue
+                      );
+                      localStorage.setItem("clickType", "Collections");
                       this.props.hideSearch();
                     }}
                   >
@@ -460,7 +516,8 @@ class Search extends React.Component<Props, State> {
       trendingWords,
       searchValue,
       spellchecks,
-      recentSearchs
+      recentSearchs,
+      youMightLikeProducts
     } = this.state;
     const productsExist =
       collections.length > 0 ||
@@ -765,15 +822,20 @@ class Search extends React.Component<Props, State> {
                                 <Link
                                   to={cat.link}
                                   onClick={(e: any) => {
+                                    localStorage.setItem(
+                                      "popularSearch",
+                                      cat?.name
+                                    );
+                                    localStorage.setItem(
+                                      "clickType",
+                                      "Popular Searches"
+                                    );
+
                                     if (
                                       !cat.link &&
                                       this.searchBoxRef &&
                                       this.searchBoxRef.current
                                     ) {
-                                      localStorage.setItem(
-                                        "popularSearch",
-                                        cat?.name
-                                      );
                                       this.props.history.push(
                                         "/search/?q=" + cat.name
                                       );
@@ -822,7 +884,7 @@ class Search extends React.Component<Props, State> {
                           <button
                             onClick={() => {
                               this.setState({ recentSearchs: [] });
-                              CookieService.setCookie(
+                              localStorage.setItem(
                                 "recentSearch",
                                 JSON.stringify([])
                               );
@@ -838,6 +900,11 @@ class Search extends React.Component<Props, State> {
                               to={"/search/?q=" + encodeURIComponent(ele)}
                               onClick={() => {
                                 localStorage.setItem("recentSearchValue", ele);
+                                localStorage.setItem(
+                                  "clickType",
+                                  "recent searches"
+                                );
+
                                 this.recentSearch(ele);
                                 this.props.hideSearch();
                               }}
@@ -859,7 +926,7 @@ class Search extends React.Component<Props, State> {
                                     e => e !== ele
                                   )
                                 });
-                                CookieService.setCookie(
+                                localStorage.setItem(
                                   "recentSearch",
                                   JSON.stringify(
                                     recentSearchs.filter(e => e !== ele)
@@ -871,6 +938,139 @@ class Search extends React.Component<Props, State> {
                         ))}
                       </div>
                     ) : null}
+                    {youMightLikeProducts.length > 0 &&
+                      this.state.searchValue.length == 0 && (
+                        <>
+                          <div
+                            className={cs(
+                              bootstrapStyles.offsetMd2,
+                              globalStyles.marginT50,
+                              { [styles.ymlpPadding]: mobile }
+                            )}
+                          >
+                            <p
+                              className={cs(
+                                styles.productName,
+                                globalStyles.marginB20
+                              )}
+                            >
+                              YOU MIGHT LIKE
+                            </p>
+                          </div>
+
+                          <div
+                            className={cs(
+                              bootstrapStyles.row,
+                              bootstrapStyles.offsetMd2
+                            )}
+                          >
+                            <div
+                              className={cs(
+                                bootstrapStyles.colMd10,
+                                bootstrapStyles.colSm10,
+                                styles.ymlpWrapper
+                              )}
+                            >
+                              {youMightLikeProducts?.map(data => (
+                                <div
+                                  className={cs(
+                                    bootstrapStyles.col6,
+                                    styles.ymlpTile
+                                  )}
+                                >
+                                  {data.salesBadgeImage ? (
+                                    <div
+                                      className={cs(
+                                        {
+                                          [styles.badgePositionPlpMobile]: this
+                                            .props.mobile
+                                        },
+                                        {
+                                          [styles.badgePositionPlp]: !this.props
+                                            .mobile
+                                        }
+                                      )}
+                                    >
+                                      <img
+                                        src={data.salesBadgeImage}
+                                        alt="sales-badge"
+                                      />
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                  <div className={styles.imageboxNew}>
+                                    <div
+                                      className={cs(
+                                        globalStyles.textCenter,
+                                        globalStyles.desktopWishlist,
+                                        {
+                                          [globalStyles.mobileWishlistPlp]: mobile
+                                        }
+                                      )}
+                                    >
+                                      <WishlistButton
+                                        gtmListType="Search"
+                                        title={data?.title}
+                                        childAttributes={data?.childAttributes}
+                                        priceRecords={data?.priceRecords}
+                                        discountedPriceRecords={
+                                          data?.discountedPriceRecords
+                                        }
+                                        categories={data?.categories}
+                                        id={data?.id}
+                                        showText={false}
+                                        key={data?.id}
+                                        mobile={mobile}
+                                        isPlpTile={true} //passing true for new icons
+                                      />
+                                    </div>
+                                    <Link
+                                      to={data.link}
+                                      onClick={this.showProduct.bind(
+                                        this,
+                                        data,
+                                        data?.id
+                                      )}
+                                    >
+                                      <img
+                                        src={data.image}
+                                        onError={this.addDefaultSrc}
+                                        alt={data.altText || data.title}
+                                        className={styles.imageResultNew}
+                                      />
+                                    </Link>
+                                  </div>
+                                  <div className={styles.imageContent}>
+                                    <p className={styles.productN}>
+                                      <Link
+                                        to={data.link}
+                                        onClick={this.showProduct.bind(
+                                          this,
+                                          data,
+                                          data?.id
+                                        )}
+                                      >
+                                        {ReactHtmlParser(data.product)}{" "}
+                                      </Link>
+                                    </p>
+                                    {
+                                      <Price
+                                        product={data}
+                                        code={
+                                          currencyCodes[this.props.currency]
+                                        }
+                                        isSale={this.props.isSale}
+                                        currency={this.props.currency}
+                                      />
+                                    }
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </>
+                      )}
                     {usefulLink.length > 0 && (
                       <div className={globalStyles.marginT30}>
                         <p
@@ -925,6 +1125,14 @@ class Search extends React.Component<Props, State> {
                               to={cat.link}
                               onClick={() => {
                                 //this.props.toggle();
+                                gaEventsForSearch(
+                                  categories,
+                                  "Categories",
+                                  `${cat.parent.replace(" > ", "/")}/` +
+                                    this.getTextFromHtml(cat.category),
+                                  this.state.searchValue
+                                );
+                                localStorage.setItem("clickType", "Categories");
                                 this.props.hideSearch();
                               }}
                               key={ind}
@@ -987,131 +1195,81 @@ class Search extends React.Component<Props, State> {
                     )}
                   </div>
 
-                  {/* {mobile && (
-                    <p
-                      className={cs(
-                        styles.suggestion,
-                        globalStyles.voffset2,
-                        globalStyles.marginB10
-                      )}
-                    >
-                      products
-                    </p>
-                  )} */}
-                  <div
-                    className={cs(bootstrapStyles.row, {
-                      [bootstrapStyles.colMd8]: suggestionsExist,
-                      [bootstrapStyles.colMd12]: !suggestionsExist
-                    })}
-                  >
+                  {productData.length > 0 && (
                     <div
-                      className={cs(
-                        bootstrapStyles.colMd12,
-                        bootstrapStyles.col12,
-                        styles.checkheight,
-                        styles.left,
-                        {
-                          [styles.noSuggestionPadding]:
-                            !mobile && !suggestionsExist,
-                          [styles.onlySuggestionMinHeight]:
-                            suggestionsExist && !productsExist,
-                          [styles.checkheightMobile]: mobile
-                        }
-                      )}
+                      className={cs(bootstrapStyles.row, {
+                        [bootstrapStyles.colMd8]: suggestionsExist,
+                        [bootstrapStyles.colMd12]: !suggestionsExist
+                      })}
                     >
-                      {this.state.productData.length > 0
-                        ? this.state.productData.map((data, i) => {
-                            const isCombo = data.inStock;
-                            let totalStock = (data.childAttributes as PartialChildProductAttributes[])?.reduce(
-                              (
-                                total: number,
-                                num: PartialChildProductAttributes
-                              ) => {
-                                return total + +num.stock;
-                              },
-                              0
-                            );
-                            totalStock = isCombo ? 100 : totalStock;
-                            // const imageSource = !data.plpImages?.[0]
-                            //   ? noImagePlp
-                            //   : !data.plpImages?.[1]
-                            //   ? data.plpImages?.[0]
-                            //   : this.state.showDifferentImage &&
-                            //     !this.props.mobile &&
-                            //     this.state.currentImageIndex == i
-                            //   ? data.plpImages?.[1]
-                            //   : data.plpImages?.[0];
-                            return (
-                              <div
-                                key={i}
-                                className={cs(
-                                  // bootstrapStyles.colMd4,
-                                  bootstrapStyles.colMd2,
-                                  styles.suggestionBoxWidth
-                                )}
-                              >
-                                {data.salesBadgeImage ? (
-                                  <div
-                                    className={cs(
-                                      {
-                                        [styles.badgePositionPlpMobile]: this
-                                          .props.mobile
-                                      },
-                                      {
-                                        [styles.badgePositionPlp]: !this.props
-                                          .mobile
-                                      }
-                                    )}
-                                  >
-                                    <img
-                                      src={data.salesBadgeImage}
-                                      alt="sales-badge"
-                                    />
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
-                                <div className={styles.imageboxNew}>
-                                  <Link
-                                    to={data.link}
-                                    onClick={this.showProduct.bind(
-                                      this,
-                                      data,
-                                      i
-                                    )}
-                                    // onMouseOver={this.mouseOverImage.bind(
-                                    //   this,
-                                    //   i
-                                    // )}
-                                    // onMouseOut={this.mouseOutImage.bind(
-                                    //   this,
-                                    //   i
-                                    // )}
-                                  >
-                                    <img
-                                      src={
-                                        data.link == "/giftcard"
-                                          ? giftCardTile
-                                          : data.image
-                                      }
-                                      onError={this.addDefaultSrc}
-                                      alt={data.altText || data.title}
-                                      className={styles.imageResultNew}
-                                    />
-                                  </Link>
-                                  {/* {totalStock <= 0 ? (
-                                    <div className={styles.outstock}>
-                                      <Link to={data.url}> NOTIFY ME </Link>
+                      <div
+                        className={cs(
+                          bootstrapStyles.colMd12,
+                          bootstrapStyles.col12,
+                          styles.checkheight,
+                          styles.left,
+                          {
+                            [styles.noSuggestionPadding]:
+                              !mobile && !suggestionsExist,
+                            [styles.onlySuggestionMinHeight]:
+                              suggestionsExist && !productsExist,
+                            [styles.checkheightMobile]: mobile
+                          }
+                        )}
+                      >
+                        {this.state.productData.length > 0
+                          ? this.state.productData.map((data, i) => {
+                              const isCombo = data.inStock;
+                              let totalStock = (data.childAttributes as PartialChildProductAttributes[])?.reduce(
+                                (
+                                  total: number,
+                                  num: PartialChildProductAttributes
+                                ) => {
+                                  return total + +num.stock;
+                                },
+                                0
+                              );
+                              totalStock = isCombo ? 100 : totalStock;
+                              // const imageSource = !data.plpImages?.[0]
+                              //   ? noImagePlp
+                              //   : !data.plpImages?.[1]
+                              //   ? data.plpImages?.[0]
+                              //   : this.state.showDifferentImage &&
+                              //     !this.props.mobile &&
+                              //     this.state.currentImageIndex == i
+                              //   ? data.plpImages?.[1]
+                              //   : data.plpImages?.[0];
+                              return (
+                                <div
+                                  key={i}
+                                  className={cs(
+                                    // bootstrapStyles.colMd4,
+                                    bootstrapStyles.colMd2,
+                                    styles.suggestionBoxWidth
+                                  )}
+                                >
+                                  {data.salesBadgeImage ? (
+                                    <div
+                                      className={cs(
+                                        {
+                                          [styles.badgePositionPlpMobile]: this
+                                            .props.mobile
+                                        },
+                                        {
+                                          [styles.badgePositionPlp]: !this.props
+                                            .mobile
+                                        }
+                                      )}
+                                    >
+                                      <img
+                                        src={data.salesBadgeImage}
+                                        alt="sales-badge"
+                                      />
                                     </div>
                                   ) : (
                                     ""
-                                  )} */}
-                                </div>
-                                <div className={styles.imageContent}>
-                                  {/* <p className={styles.productH}>
-                                    {data.collections}
-                                  </p> */}
-                                  <p className={styles.productN}>
+                                  )}
+                                  <div className={styles.imageboxNew}>
                                     <Link
                                       to={data.link}
                                       onClick={this.showProduct.bind(
@@ -1119,35 +1277,76 @@ class Search extends React.Component<Props, State> {
                                         data,
                                         i
                                       )}
+                                      // onMouseOver={this.mouseOverImage.bind(
+                                      //   this,
+                                      //   i
+                                      // )}
+                                      // onMouseOut={this.mouseOutImage.bind(
+                                      //   this,
+                                      //   i
+                                      // )}
                                     >
-                                      {data.productClass == "GiftCard"
-                                        ? "Gift Card"
-                                        : ReactHtmlParser(data.product)}
+                                      <img
+                                        src={
+                                          data.link == "/giftcard"
+                                            ? giftCardTile
+                                            : data.image
+                                        }
+                                        onError={this.addDefaultSrc}
+                                        alt={data.altText || data.title}
+                                        className={styles.imageResultNew}
+                                      />
                                     </Link>
-                                  </p>
-                                  {data?.link == "/giftcard"
-                                    ? ""
-                                    : !(
-                                        data?.invisibleFields?.indexOf(
-                                          "price"
-                                        ) > -1
-                                      ) && (
-                                        <Price
-                                          product={data}
-                                          code={
-                                            currencyCodes[this.props.currency]
-                                          }
-                                          isSale={this.props.isSale}
-                                          currency={this.props.currency}
-                                        />
-                                      )}
+                                    {/* {totalStock <= 0 ? (
+                                    <div className={styles.outstock}>
+                                      <Link to={data.url}> NOTIFY ME </Link>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )} */}
+                                  </div>
+                                  <div className={styles.imageContent}>
+                                    {/* <p className={styles.productH}>
+                                    {data.collections}
+                                  </p> */}
+                                    <p className={styles.productN}>
+                                      <Link
+                                        to={data.link}
+                                        onClick={this.showProduct.bind(
+                                          this,
+                                          data,
+                                          i
+                                        )}
+                                      >
+                                        {data.productClass == "GiftCard"
+                                          ? "Gift Card"
+                                          : ReactHtmlParser(data.product)}
+                                      </Link>
+                                    </p>
+                                    {data?.link == "/giftcard"
+                                      ? ""
+                                      : !(
+                                          data?.invisibleFields?.indexOf(
+                                            "price"
+                                          ) > -1
+                                        ) && (
+                                          <Price
+                                            product={data}
+                                            code={
+                                              currencyCodes[this.props.currency]
+                                            }
+                                            isSale={this.props.isSale}
+                                            currency={this.props.currency}
+                                          />
+                                        )}
+                                  </div>
                                 </div>
-                              </div>
-                            );
-                          })
-                        : ""}
+                              );
+                            })
+                          : ""}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
                 {this.state.count > 0 ? (
                   <div className={bootstrapStyles.row}>

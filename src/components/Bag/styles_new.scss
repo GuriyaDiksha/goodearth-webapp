@@ -196,7 +196,7 @@
             cursor: pointer;
             &:hover {
               color: $aqua;
-              border-bottom: 1px solid $aqua;
+              border-bottom: 0.5px solid $aqua;
             }
           }
           .wishlist-display {
@@ -510,7 +510,7 @@
       width: fit-content;
       &:hover {
         color: $aqua;
-        border-bottom: 1px solid $aqua;
+        border-bottom: 0.5px solid $aqua;
       }
     }
   }
@@ -552,6 +552,11 @@
   color:$gold !important;
   letter-spacing: 0.26px;
   font-weight: normal;
+}
+.flex-price-icon{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .badge-position-plp {

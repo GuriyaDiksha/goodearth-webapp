@@ -27,6 +27,7 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     currency: state.currency,
     salestatus: state.info.isSale,
+    scrollDown: state.info.scrollDown,
     facets: state.searchList.data.results.facets,
     facetObject: state.searchList.facetObject,
     nextUrl: state.searchList.data.next,
@@ -106,7 +107,11 @@ class FilterList extends React.Component<Props, State> {
   createFilterfromUrl = () => {
     const vars: any = {};
     const { history } = this.props;
-    const url = decodeURIComponent(history.location.search.replace(/\+/g, " "));
+    const url = decodeURIComponent(
+      history.location.search
+        .replace(/\+/g, " ")
+        .replace(/%(?![0-9A-Fa-f]{2})/g, "%25")
+    );
     const { filter } = this.state;
 
     const re = /[?&]+([^=&]+)=([^&]*)/gi;
@@ -512,7 +517,10 @@ class FilterList extends React.Component<Props, State> {
             discountVars = "";
             Object.keys(discount).map(data => {
               if (discount[data].isChecked) {
-                data = encodeURIComponent(data).replace(/%20/g, "+");
+                data = encodeURIComponent(data.replace(/%25/g, "%")).replace(
+                  /%20/g,
+                  "+"
+                );
                 data = data.replace("disc_", "");
                 discountVars == ""
                   ? (discountVars = data)
@@ -533,7 +541,7 @@ class FilterList extends React.Component<Props, State> {
     colorVars != "" ? (filterUrl += "&current_color=" + colorVars) : "";
     sizeVars != "" ? (filterUrl += "&available_size=" + sizeVars) : "";
     searchValue = this.state.filter.q.q
-      ? encodeURIComponent(this.state.filter.q.q)
+      ? encodeURIComponent(this.state.filter.q.q.replace(/%25/g, "%"))
       : "";
     categoryShopVars != ""
       ? (filterUrl += "&category_shop=" + categoryShopVars)
@@ -607,7 +615,7 @@ class FilterList extends React.Component<Props, State> {
       }
     );
   };
-
+  prevScroll = 0;
   handleScroll = (event: any) => {
     const windowHeight =
       "innerHeight" in window
@@ -645,6 +653,20 @@ class FilterList extends React.Component<Props, State> {
       this.state.flag
     ) {
       this.appendData();
+    }
+    // to check if scrolling down
+    if (this.props.mobile) {
+      const scroll = window.pageYOffset || document.documentElement.scrollTop;
+      if (this.prevScroll < scroll - 5) {
+        if (!this.props.scrollDown) {
+          this.props.updateScrollDown(true);
+        }
+      } else if (this.prevScroll > scroll) {
+        if (this.props.scrollDown) {
+          this.props.updateScrollDown(false);
+        }
+      }
+      this.prevScroll = scroll;
     }
   };
 
@@ -742,7 +764,12 @@ class FilterList extends React.Component<Props, State> {
                 searchList,
                 searchValue || "PLP",
                 this.props.currency,
-                searchList.results.data.length
+                searchList.results.data.length,
+                undefined,
+                this.state.filter.price.max_price &&
+                  this.state.filter.price.min_price
+                  ? `${this.state.filter.price.max_price} - ${this.state.filter.price.min_price}`
+                  : undefined
               );
               this.createFilterfromUrl();
               const pricearray: any = [],
@@ -814,7 +841,9 @@ class FilterList extends React.Component<Props, State> {
     // this.setState({
     //     disableSelectedbox: true
     // });
-    const url = decodeURIComponent(history.location.search);
+    const url = decodeURIComponent(
+      history.location.search.replace(/%(?![0-9A-Fa-f]{2})/g, "%25")
+    );
     let filterUrl = "?" + url.split("?")[1];
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -835,7 +864,12 @@ class FilterList extends React.Component<Props, State> {
         productImpression(
           searchList,
           searchValue || "PLP",
-          this.props.currency
+          this.props.currency,
+          undefined,
+          this.props.salestatus,
+          this.state.filter.price.max_price && this.state.filter.price.min_price
+            ? `${this.state.filter.price.max_price} - ${this.state.filter.price.min_price}`
+            : undefined
         );
 
         this.createList(searchList);
@@ -851,6 +885,7 @@ class FilterList extends React.Component<Props, State> {
 
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
+    this.props.updateScrollDown(false);
     this.unlisten = this.props.history.listen(this.stateChange);
 
     const header = document.getElementById("myHeader");

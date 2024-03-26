@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
-import logoImage from "images/gelogoCerise.svg";
 import BanarasMotifImage from "../../images/banaras-motif.png";
 import AccountServices from "services/account";
 import moment from "moment";
@@ -273,26 +272,51 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       productprice.push(line.product.pricerecords[result.currency as Currency]);
       productquantity.push(+line.quantity);
 
+      const search = CookieService.getCookie("search") || "";
+      const clickType = localStorage.getItem("clickType");
+
+      const cat1 = line?.product?.categories?.[0]?.split(">");
+      const cat2 = line?.product?.categories?.[1]?.split(">");
+
+      const L1 = cat1?.[0]?.trim();
+
+      const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
+
+      const L3 = cat2?.[2]
+        ? cat2?.[2]?.trim()
+        : line?.product?.categories?.[2]?.split(">")?.[2]?.trim();
+
       return {
         item_id: line.product.sku,
         item_name: line.title,
         affiliation: "Pass the affiliation of the product",
-        coupon: result.voucherDiscounts?.[0]?.voucher?.code, //Pass NA if not applicable at the moment
-        discount: result?.offerDiscounts?.[0].name,
+        coupon:
+          isSale && result?.offerDiscounts?.[0].name
+            ? result?.offerDiscounts?.[0].name
+            : "NA",
+        discount:
+          isSale && result?.offerDiscounts?.[0].amount
+            ? line?.product?.badgeType == "B_flat"
+              ? line?.product.discountedPriceRecords[result?.currency]
+              : line?.product.priceRecords[result?.currency] -
+                line?.product.discountedPriceRecords[result?.currency]
+            : "NA",
         index: ind,
         item_brand: "Goodearth",
-        item_category: category?.split(">")?.join("|"),
-        item_category2: line.product.size || "",
-        item_category3: line.product.is3DView ? "3d" : "non3d",
+        item_category: L1,
+        item_category2: L2,
+        item_category3: L3,
         item_category4: "NA",
+        item_category5: "NA",
         item_list_id: "NA",
-        item_list_name: "NA",
-        item_variant: "NA",
+        item_list_name: search ? `${clickType}-${search}` : "NA",
+        item_variant: line.product.size || "NA",
         price: line.isEgiftCard
           ? +line.priceExclTax
           : line.product.pricerecords[result.currency as Currency],
         quantity: line.quantity,
-        collection_category: line?.product?.collections?.join("|")
+        collection_category: line?.product?.collections?.join("|"),
+        price_range: "NA"
       };
     });
 
@@ -359,6 +383,17 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       });
     }
   }, []);
+
+  const colorName = (value: string) => {
+    let cName = value
+      .split("-")
+      .slice(1)
+      .join();
+    if (cName[cName.length - 1] == "s") {
+      cName = cName.slice(0, -1);
+    }
+    return cName;
+  };
 
   let totalItem = 0;
   for (let i = 0; i < confirmData?.lines?.length; i++) {
@@ -490,11 +525,22 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                             <label>shipping address</label>
                             {confirmData?.isBridalOrder ? (
                               <>
-                                <p>
-                                  {confirmData?.registrantName} &{" "}
-                                  {confirmData?.coRegistrantName}&#39;s <br />
-                                  {confirmData?.occasion} Registry
-                                </p>
+                                {confirmData?.registrantName &&
+                                  !confirmData?.coRegistrantName && (
+                                    <p>
+                                      {confirmData?.registrantName}&#39;s&nbsp;
+                                      {confirmData?.occasion}&nbsp;Registry
+                                    </p>
+                                  )}
+                                {confirmData?.registrantName &&
+                                  confirmData?.coRegistrantName && (
+                                    <p>
+                                      {confirmData?.registrantName}&nbsp;&&nbsp;
+                                      {confirmData?.coRegistrantName}
+                                      &#39;s&nbsp;
+                                      {confirmData?.occasion}&nbsp;Registry
+                                    </p>
+                                  )}
                                 <p className={styles.light}>
                                   {" "}
                                   Address predefined by registrant
@@ -742,6 +788,14 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                       <>Size:&nbsp; {item.product.size}</>
                                     )}
                                   </div>
+                                  {item?.product?.colors?.length &&
+                                  item?.product?.groupedProductsCount &&
+                                  item?.product?.groupedProductsCount > 0 ? (
+                                    <div className={styles.productDetails}>
+                                      Color:&nbsp;{" "}
+                                      {colorName(item.product?.colors?.[0])}
+                                    </div>
+                                  ) : null}
                                   <div className={styles.productDetails}>
                                     Qty:&nbsp; {item.quantity}
                                   </div>

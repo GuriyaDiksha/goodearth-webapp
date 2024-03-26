@@ -40,13 +40,14 @@ const BillingGST: React.FC<PopupProps> = ({
   const [gstType, setGstType] = useState("GSTIN");
   const [error, setError] = useState("");
   const { billingAddressId } = useSelector((state: AppState) => state.address);
+  const { currency, user } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
   const dispatch = useDispatch();
 
   const msg = [
-    "To be able to create a GST invoice, your billing address state must match the state registered with your GST no.",
-    "GST can not apply for non Indian billing address.",
-    "Please select billing address"
+    "To create a GST invoice, your billing address state must match the state registered in your GST number.",
+    "GST is not applicable for billing addresses outside of India.",
+    "Please select a Billing Address"
   ];
 
   const onChangeGst = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,7 +108,7 @@ const BillingGST: React.FC<PopupProps> = ({
       dispatch(setSameAsShipping(false));
     } else {
       if (billingAddressId === 0) {
-        setError("Please select billing address");
+        setError("Please select a Billing Address");
         return false;
       }
       if (gstValidation()) {
@@ -223,6 +224,15 @@ const BillingGST: React.FC<PopupProps> = ({
             )}
           </div>
         </div>
+        {user.customerGroup == "loyalty_cerise_club" ||
+        user.customerGroup == "loyalty_cerise_sitara" ? (
+          <div className={cs(styles.ceriseGstDisclaimer)}>
+            Note: You will not be earning any cerise loyalty points on GST
+            billing
+          </div>
+        ) : (
+          ""
+        )}
         <div className={cs(globalStyles.paddBottom20)}>
           <Button
             variant="mediumMedCharcoalCta366"

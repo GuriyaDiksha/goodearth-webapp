@@ -12,10 +12,14 @@ import { CheckoutAddressContext } from "containers/checkout/component/context";
 import BridalContext from "containers/myAccount/components/Bridal/context";
 import { AppState } from "reducers/typings";
 import bridalRing from "../../../images/bridal/rings.svg";
+import addedReg from "../../../images/registery/addedReg.svg";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import moment from "moment";
 import Button from "components/Button";
 import { useHistory } from "react-router";
+import BridalService from "services/bridal";
+import { BridalProfileData } from "containers/myAccount/components/Bridal/typings";
 
 type Props = {
   addressData: AddressData;
@@ -45,16 +49,20 @@ const AddressItem: React.FC<Props> = props => {
     isAddressValid
   } = useContext(AddressContext);
   const { onSelectAddress } = useContext(CheckoutAddressContext);
+  const { bridalProfile } = useContext(BridalContext);
   const {
     currency,
     basket,
-    address: { shippingAddressId, billingAddressId }
+    address: { shippingAddressId, billingAddressId },
+    info: { isSale }
   } = useSelector((state: AppState) => state);
   const history = useHistory();
 
+  const [addressMsg, setAddressMsg] = useState("");
   // const isDefaultAddress = () => {
   //     return props.addressData.isDefaultForShipping;
   // }
+  const currentDate = moment().format("DD/MM/YYYY");
   const {
     step,
     changeBridalAddress,
@@ -63,8 +71,29 @@ const AddressItem: React.FC<Props> = props => {
     data: { userAddress }
   } = useContext(BridalContext);
   const [deleteError, setDeleteError] = useState("");
+  // const [isSlected, setIsSlected] = useState(false);
   const address = props.addressData;
   // const [selectId, setSelectId ] = useState(data.userAddress?.id || '');
+  const bridalProfileData = bridalProfile as BridalProfileData;
+
+  const fetchBridalItems = () => {
+    BridalService.fetchBridalItems(dispatch, bridalProfileData.bridalId).then(
+      data => {
+        const result = data.results;
+        if (result.length != 0) {
+          let i;
+          for (i = 0; i <= result.length; i++) {
+            const qtyBought = result[i].qtyBought;
+            if (qtyBought && qtyBought >= 1) {
+              setAddressMsg(
+                `All orders placed before ${currentDate} will be shipped to the older address.`
+              );
+            }
+          }
+        }
+      }
+    );
+  };
   const deleteAddress = (event: any) => {
     event.stopPropagation();
     setIsLoading(true);
@@ -73,16 +102,15 @@ const AddressItem: React.FC<Props> = props => {
       .catch(err => {
         const error = err.response.data;
 
-        if (typeof error == "string") {
-          maindiv.getElementsByTagName("div")[0].style =
-            "border : 1px solid #ab1e56";
+        if (typeof error == "string" && maindiv) {
+          maindiv.getElementsByTagName("div")[0].style.border =
+            "1px solid #ab1e56";
           setDeleteError(error);
         }
       })
       .finally(() => setIsLoading(false));
-    if (deleteError) {
-      maindiv.getElementsByTagName("div")[0].style =
-        "border : 1px solid #ab1e56";
+    if (deleteError && maindiv) {
+      maindiv.getElementsByTagName("div")[0].style.border = "1px solid #ab1e56";
     }
   };
 
@@ -127,15 +155,17 @@ const AddressItem: React.FC<Props> = props => {
         }
         break;
       case "bridal-edit":
-        if (step == "create") {
-          changeBridalAddress(address.id);
-        } else {
-          setCurrentModuleData("address", {
-            userAddress: address
-          });
-          // setSelectId(address.id);
-          setCurrentModule("created");
-        }
+        changeBridalAddress(address.id);
+        fetchBridalItems();
+        // if (step == "create") {
+        //   changeBridalAddress(address.id);
+        // } else {
+        //   setCurrentModuleData("address", {
+        //     userAddress: address
+        //   });
+        //   // setSelectId(address.id);
+        //   setCurrentModule("created");
+        // }
         break;
       // case "checkout":
       //     let products = valid.productForGa(props.items);
@@ -173,6 +203,7 @@ const AddressItem: React.FC<Props> = props => {
       if (isValid) {
         // this.props.onSelectAddress(address);
         handleSelect(address);
+        // setIsSlected(true);
       } else {
         // this.manageAddressPostcode("edit", address);
         openAddressForm(address);
@@ -190,7 +221,19 @@ const AddressItem: React.FC<Props> = props => {
         line?.product.categories && line?.product.categories[index]
           ? line?.product.categories[index].replace(/\s/g, "")
           : "";
-      // const arr = category.split(">");
+      const cat1 = line?.product.categories?.[0]?.split(">");
+      const cat2 = line?.product.categories?.[1]?.split(">");
+
+      const L1 = cat1?.[0]?.trim();
+
+      const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
+
+      const L3 = cat2?.[2]
+        ? cat2?.[2]?.trim()
+        : line?.product.categories?.[2]?.split(">")?.[2]?.trim();
+
+      const clickType = localStorage.getItem("clickType");
+      const search = CookieService.getCookie("search") || "";
 
       return {
         item_id: line?.product?.id, //Pass the product id
@@ -198,20 +241,28 @@ const AddressItem: React.FC<Props> = props => {
         affiliation: line?.product?.title, // Pass the product name
         coupon: "NA", // Pass the coupon if available
         currency: currency, // Pass the currency code
-        discount: "NA", // Pass the discount amount
-        index: ind,
+        discount:
+          isSale && line.product.discountedPriceRecords
+            ? line?.product?.badgeType == "B_flat"
+            : line?.product?.discountedPriceRecords[currency]
+            ? line?.product?.priceRecords[currency] -
+              line?.product.childAttributes[0]?.discountedPriceRecords[currency]
+            : "NA",
+        index: "NA",
         item_brand: "Goodearth",
-        item_category: category?.split(">")?.join("/"),
-        item_category2: line.product?.childAttributes[0]?.size,
-        item_category3: line.product.is3d ? "3d" : "non3d",
-        item_category4: line.product.is3d ? "YES" : "NO",
+        item_category: L1,
+        item_category2: L2,
+        item_category3: L3,
+        item_category4: "NA",
+        item_category5: line.product.is3d ? "3d" : "non3d",
         item_list_id: "NA",
-        item_list_name: "NA",
-        item_variant: "NA",
+        item_list_name: search ? `${clickType}-${search}` : "NA",
+        item_variant: line.product?.childAttributes[0]?.size,
         // item_category5: line?.product?.collection,
         price: line?.product?.priceRecords[currency],
         quantity: line?.quantity,
-        collection_category: line?.product?.collections?.join("|")
+        collection_category: line?.product?.collections?.join("|"),
+        price_range: "NA"
       };
     });
 
@@ -286,7 +337,7 @@ const AddressItem: React.FC<Props> = props => {
                   address.id.toString() === billingAddressId.toString()
           },
           {
-            [styles.addressItemContainerCheckout]:
+            [styles.addressItemContainerBridal]:
               currentCallBackComponent == "bridal" ||
               currentCallBackComponent == "bridal-edit"
           },
@@ -322,17 +373,24 @@ const AddressItem: React.FC<Props> = props => {
                 currentCallBackComponent == "bridal" ||
                 currentCallBackComponent == "bridal-edit"
             },
-            {
-              [styles.checkoutFix]:
-                currentCallBackComponent == "bridal" ||
-                currentCallBackComponent == "bridal-edit"
-            },
+            // {
+            //   [styles.checkoutFix]:
+            //     currentCallBackComponent == "bridal" ||
+            //     currentCallBackComponent == "bridal-edit"
+            // },
             // { [styles.shippingBorder]: address.isTulsi },
-            { [styles.diabledBorder]: address.id == userAddress?.id },
+            {
+              [styles.diabledBorder]:
+                address.id == userAddress?.id &&
+                currentCallBackComponent != "bridal-edit"
+            },
             {
               [styles.addressInUse]:
-                props.showAddressInBridalUse && address.isBridal
+                // props.showAddressInBridalUse && address.isBridal
+                address.id.toString() ===
+                bridalProfile?.userAddressId.toString()
             },
+            // { [styles.isActiveItem]: isSlected},
             {
               [styles.checkoutHeightFix]:
                 currentCallBackComponent == "checkout-shipping" ||
@@ -341,6 +399,29 @@ const AddressItem: React.FC<Props> = props => {
                 currentCallBackComponent == "bridal-edit"
             }
           )}
+          onClick={() => {
+            if (
+              currentCallBackComponent == "bridal" ||
+              currentCallBackComponent == "bridal-edit"
+            ) {
+              // if (props.showAddressInBridalUse && address.isBridal) {
+              if (address.id != userAddress?.id) {
+                onSelectBridalAddress(address);
+                const firstErrorField = document.getElementById(
+                  "address_button"
+                ) as HTMLDivElement;
+                if (firstErrorField) {
+                  firstErrorField.focus();
+                  firstErrorField.scrollIntoView({
+                    block: "center",
+                    behavior: "smooth"
+                  });
+                }
+                window.scrollTo(0, 0);
+              }
+              // }
+            }
+          }}
         >
           {divOrText == "text" &&
             currentCallBackComponent != "account" &&
@@ -348,9 +429,51 @@ const AddressItem: React.FC<Props> = props => {
             currentCallBackComponent != "checkout-billing" && (
               <div className={cs(styles.lineHead, styles.checkoutFix)}>
                 {props.title}
-                {address.firstName}
+                {/* {address.firstName}
                 &nbsp;
-                {address.lastName}
+                {address.lastName} */}
+                {(currentCallBackComponent == "bridal" ||
+                  currentCallBackComponent == "bridal-edit") && (
+                  // !(props.showAddressInBridalUse && address.isBridal) && (
+                  <div className={cs(styles.radio, "bridalRadio")}>
+                    <input
+                      id={address.id.toString()}
+                      className={styles.defaultAddressCheckbox}
+                      checked={
+                        address.id.toString() ===
+                        bridalProfile?.userAddressId.toString()
+                      }
+                      name={id}
+                      type="radio"
+                      onClick={() => {
+                        if (
+                          !(props.showAddressInBridalUse && address.isBridal)
+                        ) {
+                          if (address.id != userAddress?.id) {
+                            onSelectBridalAddress(address);
+                            const firstErrorField = document.getElementById(
+                              "address_button"
+                            ) as HTMLDivElement;
+                            if (firstErrorField) {
+                              firstErrorField.focus();
+                              firstErrorField.scrollIntoView({
+                                block: "center",
+                                behavior: "smooth"
+                              });
+                            }
+                            window.scrollTo(0, 0);
+                          }
+                        }
+                      }}
+                    />
+                    <span className={styles.checkmark}></span>
+                  </div>
+                )}
+                <div className="useName">
+                  {address.firstName}
+                  &nbsp;
+                  {address.lastName}
+                </div>
               </div>
             )}
 
@@ -368,17 +491,23 @@ const AddressItem: React.FC<Props> = props => {
                     })}
                   >
                     {address.isBridal && (
-                      <svg
-                        viewBox="0 5 40 40"
-                        width="35"
-                        height="35"
-                        preserveAspectRatio="xMidYMid meet"
-                        x="0"
-                        y="0"
-                        // className={styles.ceriseBridalRings}
-                      >
-                        <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                      </svg>
+                      // <svg
+                      //   viewBox="-3 -3 46 46"
+                      //   width="60"
+                      //   height="60"
+                      //   preserveAspectRatio="xMidYMid meet"
+                      //   x="0"
+                      //   y="0"
+                      //   className={styles.ceriseBridalRings}
+                      // >
+                      //   <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                      // </svg>
+                      <img
+                        className={styles.ceriseBridalRings}
+                        src={addedReg}
+                        width="30"
+                        alt="gift_reg_icon"
+                      />
                     )}
                   </div>
                 </div>
@@ -426,17 +555,23 @@ const AddressItem: React.FC<Props> = props => {
                       })}
                     >
                       {address.isBridal && (
-                        <svg
-                          viewBox="0 5 40 40"
-                          width="35"
-                          height="35"
-                          preserveAspectRatio="xMidYMid meet"
-                          x="0"
-                          y="0"
-                          // className={styles.ceriseBridalRings}
-                        >
-                          <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                        </svg>
+                        // <svg
+                        //   viewBox="-3 -3 46 46"
+                        //   width="60"
+                        //   height="60"
+                        //   preserveAspectRatio="xMidYMid meet"
+                        //   x="0"
+                        //   y="0"
+                        //   className={styles.ceriseBridalRings}
+                        // >
+                        //   <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                        // </svg>
+                        <img
+                          className={styles.ceriseBridalRings}
+                          src={addedReg}
+                          width="30"
+                          alt="gift_reg_icon"
+                        />
                       )}
                     </div>
                   </div>
@@ -494,17 +629,23 @@ const AddressItem: React.FC<Props> = props => {
                       })}
                     >
                       {address.isBridal && (
-                        <svg
-                          viewBox="0 5 40 40"
-                          width="35"
-                          height="35"
-                          preserveAspectRatio="xMidYMid meet"
-                          x="0"
-                          y="0"
-                          // className={styles.ceriseBridalRings}
-                        >
-                          <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                        </svg>
+                        // <svg
+                        //   viewBox="-3 -3 46 46"
+                        //   width="60"
+                        //   height="60"
+                        //   preserveAspectRatio="xMidYMid meet"
+                        //   x="0"
+                        //   y="0"
+                        //   className={styles.ceriseBridalRings}
+                        // >
+                        //   <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                        // </svg>
+                        <img
+                          className={styles.ceriseBridalRings}
+                          src={addedReg}
+                          width="30"
+                          alt="gift_reg_icon"
+                        />
                       )}
                     </div>
                   </div>
@@ -575,6 +716,42 @@ const AddressItem: React.FC<Props> = props => {
                   <span className={styles.checkmark}></span>
                 </div>
               )}
+              {(currentCallBackComponent == "bridal" ||
+                currentCallBackComponent == "bridal-edit") && (
+                // !(props.showAddressInBridalUse && address.isBridal) && (
+                <div className={cs(styles.radio, "bridalRadio")}>
+                  <input
+                    id={address.id.toString()}
+                    className={styles.defaultAddressCheckbox}
+                    checked={
+                      // address.id.toString() === bridalAddressId.toString()
+                      address.id.toString() ===
+                      bridalProfile?.userAddressId.toString()
+                    }
+                    name={id}
+                    type="radio"
+                    onClick={() => {
+                      if (!(props.showAddressInBridalUse && address.isBridal)) {
+                        if (address.id != userAddress?.id) {
+                          onSelectBridalAddress(address);
+                          const firstErrorField = document.getElementById(
+                            "address_button"
+                          ) as HTMLDivElement;
+                          if (firstErrorField) {
+                            firstErrorField.focus();
+                            firstErrorField.scrollIntoView({
+                              block: "center",
+                              behavior: "smooth"
+                            });
+                          }
+                          window.scrollTo(0, 0);
+                        }
+                      }
+                    }}
+                  />
+                  <span className={styles.checkmark}></span>
+                </div>
+              )}
               {props.title}
               {address.firstName}
               &nbsp;
@@ -587,17 +764,23 @@ const AddressItem: React.FC<Props> = props => {
                     })}
                   >
                     {address.isBridal && (
-                      <svg
-                        viewBox="0 5 40 40"
-                        width="35"
-                        height="35"
-                        preserveAspectRatio="xMidYMid meet"
-                        x="0"
-                        y="0"
-                        // className={styles.ceriseBridalRings}
-                      >
-                        <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                      </svg>
+                      // <svg
+                      //   viewBox="-3 -3 46 46"
+                      //   width="60"
+                      //   height="60"
+                      //   preserveAspectRatio="xMidYMid meet"
+                      //   x="0"
+                      //   y="0"
+                      //   className={styles.ceriseBridalRings}
+                      // >
+                      //   <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                      // </svg>
+                      <img
+                        className={styles.ceriseBridalRings}
+                        src={addedReg}
+                        width="30"
+                        alt="gift_reg_icon"
+                      />
                     )}
                   </div>
                 </div>
@@ -651,17 +834,17 @@ const AddressItem: React.FC<Props> = props => {
           </div>
           <div
             className={cs(styles.phoneAndEditContainer, {
-              [styles.checkoutFix]:
-                currentCallBackComponent == "bridal" ||
-                currentCallBackComponent == "bridal-edit"
+              // [styles.checkoutFix]:
+              //   currentCallBackComponent == "bridal" ||
+              //   currentCallBackComponent == "bridal-edit"
             })}
           >
             {/* ================== Mobile ==================== */}
             <div
               className={cs(styles.addressPhoneNumber, {
-                [styles.checkoutFix]:
-                  currentCallBackComponent == "bridal" ||
-                  currentCallBackComponent == "bridal-edit"
+                // [styles.checkoutFix]:
+                //   currentCallBackComponent == "bridal" ||
+                //   currentCallBackComponent == "bridal-edit"
               })}
             >
               M: {`${address.phoneCountryCode} ${address.phoneNumber}`}
@@ -669,9 +852,9 @@ const AddressItem: React.FC<Props> = props => {
             {/* ================== Edit and Delete ======================== */}
             <div
               className={cs(styles.edit, {
-                [styles.addCheckoutActions]:
-                  currentCallBackComponent == "bridal" ||
-                  currentCallBackComponent == "bridal-edit"
+                // [styles.addCheckoutActions]:
+                //   currentCallBackComponent == "bridal" ||
+                //   currentCallBackComponent == "bridal-edit"
               })}
             >
               {!(address.isTulsi || address.isBackendOrder) &&
@@ -681,12 +864,12 @@ const AddressItem: React.FC<Props> = props => {
                       styles.action,
                       {
                         [styles.addressEdit]: billingEditDisable
-                      },
-                      {
-                        [styles.checkoutFix]:
-                          currentCallBackComponent == "bridal" ||
-                          currentCallBackComponent == "bridal-edit"
                       }
+                      // {
+                      //   [styles.checkoutFix]:
+                      //     currentCallBackComponent == "bridal" ||
+                      //     currentCallBackComponent == "bridal-edit"
+                      // }
                     )}
                     onClick={event => {
                       event.stopPropagation();
@@ -705,6 +888,8 @@ const AddressItem: React.FC<Props> = props => {
                   </span>
                 )}
               {!(
+                currentCallBackComponent == "bridal" ||
+                currentCallBackComponent == "bridal-edit" ||
                 address.isBridal ||
                 address.isBackendOrder ||
                 props.isOnlyAddress ||
@@ -724,6 +909,8 @@ const AddressItem: React.FC<Props> = props => {
                 </span>
               )}
               {!(
+                currentCallBackComponent == "bridal" ||
+                currentCallBackComponent == "bridal-edit" ||
                 address.isBridal ||
                 props.isOnlyAddress ||
                 address.isBackendOrder ||
@@ -768,7 +955,7 @@ const AddressItem: React.FC<Props> = props => {
                 Free shipping for this address
               </div>
             )}
-          {(currentCallBackComponent == "bridal" ||
+          {/* {(currentCallBackComponent == "bridal" ||
             currentCallBackComponent == "bridal-edit") &&
             !address.isBridal && (
               <Button
@@ -792,9 +979,11 @@ const AddressItem: React.FC<Props> = props => {
                     window.scrollTo(0, 0);
                   }
                 }}
-              />
-            )}
-          {(currentCallBackComponent == "bridal" ||
+              >
+                USE THIS ADDRESS
+              </div>
+            )} */}
+          {/* {(currentCallBackComponent == "bridal" ||
             currentCallBackComponent == "bridal-edit") &&
             address.isBridal && (
               <div
@@ -807,9 +996,27 @@ const AddressItem: React.FC<Props> = props => {
               >
                 ADDRESS IN USE
               </div>
-            )}
+            )} */}
         </div>
       </div>
+      {addressMsg &&
+        address.id.toString() === bridalProfile?.userAddressId.toString() && (
+          <div className={globalStyles.errorMsg}>{addressMsg}</div>
+        )}
+      {/* {currentCallBackComponent == "bridal-edit" &&
+        props.showAddressInBridalUse &&
+        address.isBridal && (
+          <div className={globalStyles.errorMsg}>
+            All orders placed before {currentDate} will be shipped to the older
+            address.
+          </div>
+        )} */}
+      {/* {props.shippingErrorMsg && address.id == props.addressDataIdError && (
+        <div className={globalStyles.errorMsg}>{props.shippingErrorMsg}</div>
+      )}
+      {props.billingErrorMsg && address.id == props.addressDataIdError && (
+        <div className={globalStyles.errorMsg}>{props.billingErrorMsg}</div>
+      )} */}
       {deleteError && (
         <div className={globalStyles.errorMsg}>{deleteError}</div>
       )}

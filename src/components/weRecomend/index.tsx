@@ -130,6 +130,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
               onComplete={() => {
                 setCurrentId(item.id);
               }}
+              badgeType={item?.badgeType}
             />
           </div>
         )}

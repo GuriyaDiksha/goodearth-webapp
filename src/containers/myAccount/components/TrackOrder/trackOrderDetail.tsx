@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import moment from "moment";
 import { OrdersProps } from "./typings";
-import { currencyCode, Currency } from "typings/currency";
 import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
@@ -306,10 +305,14 @@ const TrackDetails: React.FC<OrdersProps> = props => {
               <div className={styles.amountPaid}>
                 <span className={styles.label}>Amount Paid</span>
                 <span className={styles.data}>
-                  {String.fromCharCode(
+                  {displayPriceWithCommasFloat(
+                    parseFloat(data.totalInclTax),
+                    data.currency
+                  )}
+                  {/* {String.fromCharCode(
                     ...currencyCode[data.currency as Currency]
                   )}
-                  &nbsp;{data.totalInclTax}
+                  &nbsp;{data.totalInclTax} */}
                 </span>
               </div>
             </div>

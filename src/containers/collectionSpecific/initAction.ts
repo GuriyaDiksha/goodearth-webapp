@@ -6,7 +6,7 @@ import {
 } from "actions/collection";
 import { updatePartialProducts } from "actions/product";
 import { getProductIdFromSlug } from "utils/url";
-import { collectionProductImpression } from "utils/validate";
+import { collectionProductImpression, productImpression } from "utils/validate";
 
 const initActionSpecific: InitAction = async (
   store,
@@ -38,11 +38,17 @@ const initActionSpecific: InitAction = async (
     const plpProduct: any = filterData && filterData.results;
 
     if (filterData) {
-      collectionProductImpression(
-        filterData,
+      productImpression(
+        { results: { data: filterData?.results } },
         "CollectionSpecific",
         currency || "INR"
       );
+
+      // collectionProductImpression(
+      //   filterData,
+      //   "CollectionSpecific",
+      //   currency || "INR"
+      // );
       dispatch(updateCollectionSpecificData({ ...filterData }));
     }
     if (bannerData) {

@@ -1,5 +1,11 @@
-import React, { EventHandler, MouseEvent, useMemo } from "react";
-import { Link } from "react-router-dom";
+import React, {
+  EventHandler,
+  MouseEvent,
+  useEffect,
+  useMemo,
+  useState
+} from "react";
+import { Link, useHistory } from "react-router-dom";
 import { PLPResultItemProps } from "./typings";
 import "../../styles/myslick.css";
 import "./slick.css";
@@ -15,11 +21,13 @@ import LazyImage from "components/LazyImage";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import { getPageType, plpProductClick } from "utils/validate";
-import Button from "components/Button";
 import CookieService from "services/cookie";
 import Price from "components/Price";
 import SkeletonImage from "components/plpResultItem/skeleton";
 import { GA_CALLS } from "constants/cookieConsent";
+import iconStyles from "styles/iconFonts.scss";
+import plpThreeSixty from "./../../icons/plp-three-sixty.svg";
+import PlpResultImageSlider from "components/PlpResultImageSlider";
 
 const PlpResultTabItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -33,15 +41,17 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
     isCorporate,
     position,
     page,
+    onClickQuickView,
+    loader,
     onEnquireClick,
-    notifyMeClick,
-    loader
+    notifyMeClick
   } = props;
   const code = currencyCode[currency as Currency];
   const {
     info,
     user: { isLoggedIn }
   } = useSelector((state: AppState) => state);
+  const [isAnimate, setIsAnimate] = useState(false);
 
   let allOutOfStock = true;
   product.childAttributes?.forEach(({ stock }) => {
@@ -60,7 +70,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
 
   const gtmProductClick = () => {
     CookieService.setCookie("listPath", page);
-    plpProductClick(product, page, currency, position);
+    plpProductClick(product, page, currency, position, info.isSale);
     const len = product.categories.length;
     const category = product.categories[len - 1];
     const l3Len = category.split(">").length;
@@ -83,33 +93,112 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
     }
   };
 
+  const history = useHistory();
+
+  useEffect(() => {
+    if (mobile) {
+      const val = localStorage.getItem("plp") || "";
+      if (!val.split(",").includes(history.location.pathname)) {
+        setIsAnimate(true);
+      }
+      const arr = val.split(",").includes(history.location.pathname)
+        ? val
+        : val
+        ? `${val},${history.location.pathname}`
+        : history.location.pathname;
+      localStorage.setItem("plp", arr);
+    }
+  }, [mobile]);
+
   const image = product.plpImages ? product.plpImages[0] : "";
   const button = useMemo(() => {
-    let buttonText: string, action: EventHandler<MouseEvent>;
+    // let buttonText: string,
+    let action: EventHandler<MouseEvent>;
     if (isCorporate) {
-      buttonText = "Enquire Now";
+      // buttonText = "Enquire Now";
       action = () => onEnquireClick(product.id, product.partner);
     } else if (allOutOfStock) {
-      buttonText = "Notify Me";
+      // buttonText = "Notify Me";
       action = () => notifyMeClick(product);
     } else {
-      buttonText = "Add to Bag";
+      // buttonText = "Add to Bag";
       action = () => notifyMeClick(product);
     }
     return (
-      <Button
+      // <Button
+      //   className={cs(
+      //     // styles.addToBagListView,
+      //     bootstrapStyles.col6,
+      //     bootstrapStyles.offset3
+      //   )}
+      //   onClick={action}
+      //   label={buttonText}
+      //   variant="smallAquaCta"
+      // />
+      <div
         className={cs(
-          // styles.addToBagListView,
-          bootstrapStyles.col6,
-          bootstrapStyles.offset3
+          globalStyles.textCenter,
+          globalStyles.cartIconPositionDesktop,
+          { [globalStyles.cartIconPositionMobile]: mobile }
+          // styles.wishlistBtnContainer
+          // {
+          //   [styles.wishlistBtnContainer]: mobile
+          // }
         )}
-        onClick={action}
-        label={buttonText}
-        variant="smallAquaCta"
-      />
+      >
+        <div
+          className={cs(
+            iconStyles.icon,
+            globalStyles.iconContainer,
+            iconStyles.iconPlpCart
+          )}
+          onClick={action}
+        ></div>
+      </div>
     );
   }, []);
   const isStockAvailable = isCorporate || product.inStock;
+
+  const onClickQuickview = (): void => {
+    onClickQuickView ? onClickQuickView(product.id) : "";
+  };
+
+  const mobileSlides = product?.plpSliderImages
+    ?.slice(0, 3)
+    .map((productImage, i: number) => {
+      return (
+        <div key={i} className={globalStyles.relative}>
+          <LazyImage
+            alt={product.altText || product.title}
+            aspectRatio="62:93"
+            src={productImage.replace("/Micro/", "/Medium/")}
+            isVisible={isVisible}
+            className={globalStyles.imgResponsive}
+            onError={(e: any) => {
+              e.target.onerror = null;
+              e.target.src = noPlpImage;
+            }}
+            containerClassName={
+              position === 0 && isAnimate ? "firstImageContainer" : ""
+            }
+          />
+          {i === 0 && product?.plpImages?.[1] && position === 0 && isAnimate ? (
+            <LazyImage
+              alt={product.altText || product.title}
+              aspectRatio="62:93"
+              src={product?.plpImages?.[1].replace("/Micro/", "/Medium/")}
+              isVisible={isVisible}
+              className={cs(globalStyles.imgResponsive, "secondImage")}
+              onError={(e: any) => {
+                e.target.onerror = null;
+                e.target.src = noPlpImage;
+              }}
+              containerClassName={"secondImageContainer"}
+            />
+          ) : null}
+        </div>
+      );
+    });
 
   return loader ? (
     <div className={styles.plpMain}>
@@ -128,14 +217,16 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
         </div>
       )}
       <div className={styles.imageBoxnew} id={"" + product.id}>
-        {mobile && !isCorporate && (
+        {!isCorporate && (
           <div
             className={cs(
               globalStyles.textCenter,
-              globalStyles.mobileWishlist,
-              {
-                [styles.wishlistBtnContainer]: mobile
-              }
+              globalStyles.desktopWishlist,
+              { [globalStyles.mobileWishlistPlp]: mobile }
+              // styles.wishlistBtnContainer
+              // {
+              //   [styles.wishlistBtnContainer]: mobile
+              // }
             )}
           >
             <WishlistButton
@@ -149,10 +240,51 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
               showText={false}
               key={product.id}
               mobile={mobile}
+              tablet={true}
+              badgeType={product?.badgeType}
             />
           </div>
         )}
+
+        {!isCorporate && product?.code && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.threeSixtyIconPositionDesktop,
+              { [globalStyles.threeSixtyIconPositionMobile]: mobile }
+            )}
+          >
+            <div
+              className={cs(
+                globalStyles.iconContainer,
+                globalStyles.threeSixtyContainer
+              )}
+            >
+              <img src={plpThreeSixty} alt="360" />
+            </div>
+          </div>
+        )}
+
+        {!isCorporate && product?.badge_text && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.badgePositionDesktop,
+              { [globalStyles.badgePositionMobile]: mobile }
+            )}
+          >
+            <div className={cs(globalStyles.badgeContainer)}>
+              {product?.badge_text}
+            </div>
+          </div>
+        )}
+
+        {button}
         <Link to={product.url} onClick={gtmProductClick}>
+          <PlpResultImageSlider mobile={true}>
+            {mobileSlides}
+          </PlpResultImageSlider>
+          {/* 
           <LazyImage
             aspectRatio="62:93"
             src={image}
@@ -163,7 +295,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
               e.target.onerror = null;
               e.target.src = noPlpImage;
             }}
-          />
+          /> */}
         </Link>
         <div
           className={cs(
@@ -227,7 +359,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
             </div>
           </div>
         )}
-        <div className={cs(styles.actions, bootstrapStyles.row)}>{button}</div>
+        {/* <div className={cs(styles.actions, bootstrapStyles.row)}>{button}</div> */}
       </div>
     </div>
   );

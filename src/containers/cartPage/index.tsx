@@ -32,6 +32,7 @@ import { updateLoader, updateNextUrl } from "actions/info";
 import { StaticContext } from "react-router";
 import Loader from "components/Loader";
 import { GA_CALLS } from "constants/cookieConsent";
+import { REGISTRY_MIXED_SHIPPING } from "constants/messages";
 import Button from "components/Button";
 import { displayPriceWithCommas } from "utils/utility";
 
@@ -257,13 +258,26 @@ class CartPage extends React.Component<Props, State> {
 
     if (userConsent.includes(GA_CALLS)) {
       const items = this.props.cart.lineItems.map((line, ind) => {
-        const index = line?.product.categories
-          ? line?.product.categories.length - 1
-          : 0;
-        const category =
-          line?.product.categories && line?.product.categories[index]
-            ? line?.product.categories[index].replace(/\s/g, "")
-            : "";
+        // const index = line?.product.categories
+        //   ? line?.product.categories.length - 1
+        //   : 0;
+        // const category =
+        //   line?.product.categories && line?.product.categories[index]
+        //     ? line?.product.categories[index].replace(/\s/g, "")
+        //     : "";
+
+        const cat1 = line?.product.categories?.[0]?.split(">");
+        const cat2 = line?.product.categories?.[1]?.split(">");
+
+        const L1 = cat1?.[0]?.trim();
+
+        const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
+
+        const L3 = cat2?.[2]
+          ? cat2?.[2]?.trim()
+          : line?.product.categories?.[2]?.split(">")?.[2]?.trim();
+
+        const clickType = localStorage.getItem("clickType");
         // const arr = category.split(">");
         return {
           item_id: line?.product?.id, //Pass the product id
@@ -271,20 +285,34 @@ class CartPage extends React.Component<Props, State> {
           affiliation: line?.product?.title, // Pass the product name
           coupon: "NA", // Pass the coupon if available
           currency: this.props.currency, // Pass the currency code
-          discount: "NA", // Pass the discount amount
+          discount:
+            this.props.isSale &&
+            line.product.childAttributes[0]?.discountedPriceRecords[
+              this.props.currency
+            ]
+              ? line.product?.badgeType == "B_flat"
+                ? line.product.childAttributes[0]?.discountedPriceRecords[
+                    this.props.currency
+                  ]
+                : line?.product?.priceRecords[this.props.currency] -
+                  line.product.childAttributes[0]?.discountedPriceRecords[
+                    this.props.currency
+                  ]
+              : "NA", // Pass the discount amount
           index: ind,
           item_brand: "Goodearth",
-          item_category: category?.split(">")?.join("/"),
-          item_category2: line.product?.childAttributes[0]?.size,
-          item_category3: line.product.is3d ? "3d" : "non3d",
-          item_category4: line.product.is3d ? "YES" : "NO",
+          item_category: L1,
+          item_category2: L2,
+          item_category3: L3,
+          item_category4: "NA",
+          item_category5: line.product.is3d ? "3d" : "non3d",
           item_list_id: "NA",
-          item_list_name: search ? search : "NA",
-          item_variant: "NA",
-          // item_category5: line?.product?.collection,
+          item_list_name: search ? `${clickType}-${search}` : "NA",
+          item_variant: line.product?.childAttributes[0]?.size || "NA",
           price: line?.product?.priceRecords[this.props.currency],
           quantity: line?.quantity,
-          collection_category: line?.product?.collections?.join("|")
+          collection_category: line?.product?.collections?.join("|"),
+          price_range: "NA"
         };
       });
       dataLayer.push(function(this: any) {
@@ -358,6 +386,16 @@ class CartPage extends React.Component<Props, State> {
       count = count + items[i].quantity;
     }
     return count;
+  }
+
+  checkMixItems() {
+    let item1 = false,
+      item2 = false;
+    this.props.cart.lineItems.map(data => {
+      if (!data.bridalProfile) item1 = true;
+      if (data.bridalProfile) item2 = true;
+    });
+    return item1 && item2;
   }
 
   onUndoWishlistClick = () => {
@@ -874,10 +912,13 @@ class CartPage extends React.Component<Props, State> {
             </div>
           )}
           {/* {this.renderMessage()} */}
-          {this.state.newLoading && <Loader />}
+          {this.checkMixItems() && (
+            <div className={styles.mixedItemsMsg}>
+              <p>{REGISTRY_MIXED_SHIPPING}</p>
+            </div>
+          )}
           {this.getItems()}
         </div>
-
         <div
           className={cs(
             bootstrap.col12,

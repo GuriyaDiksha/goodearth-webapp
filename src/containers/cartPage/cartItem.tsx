@@ -15,6 +15,7 @@ import CookieService from "services/cookie";
 import PdpQuantity from "components/quantity/pdpQuantity";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
+import addedReg from "../../images/registery/addedReg.svg";
 
 const CartItems: React.FC<BasketItem> = memo(
   ({
@@ -36,6 +37,7 @@ const CartItems: React.FC<BasketItem> = memo(
     // const [qtyErrorMsg, setQtyErrorMsg] = useState("");
     const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
     let { currency } = useSelector((state: AppState) => state.basket);
+    const isSale = useSelector((state: AppState) => state.info.isSale);
     if (!currency) {
       currency = "INR";
     }
@@ -103,6 +105,18 @@ const CartItems: React.FC<BasketItem> = memo(
         }
         const userConsent = CookieService.getCookie("consent").split(",");
         const search = CookieService.getCookie("search") || "";
+        const cat1 = categories?.[0]?.split(">");
+        const cat2 = categories?.[1]?.split(">");
+
+        const L1 = cat1?.[0]?.trim();
+
+        const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
+
+        const L3 = cat2?.[2]
+          ? cat2?.[2]?.trim()
+          : categories?.[2]?.split(">")?.[2]?.trim();
+
+        const clickType = localStorage.getItem("clickType");
 
         if (userConsent.includes(GA_CALLS)) {
           Moengage.track_event("remove_from_cart", {
@@ -173,6 +187,12 @@ const CartItems: React.FC<BasketItem> = memo(
           dataLayer.push({
             event: "remove_from_cart",
             previous_page_url: CookieService.getCookie("prevUrl"),
+            currency: currency,
+            value: childAttributes[0]?.discountedPriceRecords[currency]
+              ? childAttributes[0]?.discountedPriceRecords[currency]
+              : price
+              ? price
+              : null,
             ecommerce: {
               items: [
                 {
@@ -182,22 +202,27 @@ const CartItems: React.FC<BasketItem> = memo(
                   coupon: "NA", // Pass the coupon if available
                   currency: currency, // Pass the currency code
                   discount:
-                    childAttributes[0]?.discountedPriceRecords[currency] ||
-                    "NA", // Pass the discount amount
+                    isSale &&
+                    childAttributes[0]?.discountedPriceRecords[currency]
+                      ? badgeType == "B_flat"
+                        ? childAttributes[0]?.discountedPriceRecords[currency]
+                        : price -
+                          childAttributes[0]?.discountedPriceRecords[currency]
+                      : "NA", // Pass the discount amount
                   index: "NA",
                   item_brand: "goodearth",
-                  item_category: category?.split(">")?.join("|"),
-                  item_category2: size,
-                  item_category3: "NA",
-                  item_list_id: "NA",
-                  item_list_name: search ? search : "NA",
-                  item_variant: "NA",
-                  // item_category4: product.categories[0],
+                  item_category: L1,
+                  item_category2: L2,
+                  item_category3: L3,
                   item_category4: "NA",
-                  // item_category5: product.collection,
+                  item_category5: "NA",
+                  item_list_id: "NA",
+                  item_list_name: search ? `${clickType}-${search}` : "NA",
+                  item_variant: size || "NA",
                   price: price,
                   quantity: quantity,
-                  collection_category: product?.collections?.join("|")
+                  collection_category: product?.collections?.join("|"),
+                  price_range: "NA"
                 }
               ]
             }
@@ -365,7 +390,7 @@ const CartItems: React.FC<BasketItem> = memo(
                     <img src={salesBadgeImage} alt="Sales Badge Image" />
                   </div>
                 )}
-                <div className={styles.cartRing}>
+                {/* <div className={styles.cartRing}>
                   {bridalProfile && (
                     <svg
                       viewBox="-5 -5 50 50"
@@ -379,7 +404,7 @@ const CartItems: React.FC<BasketItem> = memo(
                       <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
                     </svg>
                   )}
-                </div>
+                </div> */}
                 <img
                   className={styles.productImage}
                   src={imageUrl}
@@ -398,7 +423,7 @@ const CartItems: React.FC<BasketItem> = memo(
           >
             <div className={cs(styles.rowMain, globalStyles.gutterBetween)}>
               <div className={cs(bootstrap.colLg8, bootstrap.col12)}>
-                <div className={cs(styles.section, styles.sectionInfo)}>
+                <div className={cs("sectionInfo", styles.sectionInfo)}>
                   <div>
                     {collection && (
                       <div
@@ -420,38 +445,46 @@ const CartItems: React.FC<BasketItem> = memo(
                       className={cs(
                         styles.productPrice,
                         styles.productPriceMobile,
+                        styles.flexPriceIcon,
                         {
                           [styles.outOfStock]: stockRecords[0].numInStock < 1
                         }
                       )}
                     >
-                      {saleStatus && discount && discountedPriceRecords ? (
-                        <span className={styles.discountprice}>
-                          {displayPriceWithCommas(
-                            discountedPriceRecords[currency],
-                            currency
-                          )}
-                          &nbsp;&nbsp;&nbsp;
-                        </span>
-                      ) : (
-                        ""
-                      )}
-                      {saleStatus && discount ? (
-                        <span className={styles.strikeprice}>
-                          {displayPriceWithCommas(price, currency)}
-                        </span>
-                      ) : (
-                        <span
-                          className={
-                            badgeType == "B_flat" ? globalStyles.gold : ""
-                          }
-                        >
-                          {displayPriceWithCommas(
-                            structure == "GiftCard" ? GCValue : price,
-                            currency
-                          )}
-                        </span>
-                      )}
+                      <div>
+                        {saleStatus && discount && discountedPriceRecords ? (
+                          <span className={styles.discountprice}>
+                            {displayPriceWithCommas(
+                              discountedPriceRecords[currency],
+                              currency
+                            )}
+                            &nbsp;&nbsp;&nbsp;
+                          </span>
+                        ) : (
+                          ""
+                        )}
+                        {saleStatus && discount ? (
+                          <span className={styles.strikeprice}>
+                            {displayPriceWithCommas(price, currency)}
+                          </span>
+                        ) : (
+                          <span
+                            className={
+                              badgeType == "B_flat" ? globalStyles.gold : ""
+                            }
+                          >
+                            {displayPriceWithCommas(
+                              structure == "GiftCard" ? GCValue : price,
+                              currency
+                            )}
+                          </span>
+                        )}
+                      </div>
+                      <div className={cs({ [globalStyles.voffset2]: !mobile })}>
+                        {bridalProfile && (
+                          <img src={addedReg} width="25" alt="gift_reg_icon" />
+                        )}
+                      </div>
                     </div>
                     <div className={cs(styles.sizeQtyWrp)}>
                       <div
@@ -554,7 +587,8 @@ const CartItems: React.FC<BasketItem> = memo(
                         [globalStyles.hiddenEye]: isGiftCard || bridalProfile
                       },
                       styles.wishlistDisplay,
-                      styles.disableMobile
+                      styles.disableMobile,
+                      globalStyles.voffset2
                     )}
                   >
                     <WishlistButton
@@ -572,6 +606,7 @@ const CartItems: React.FC<BasketItem> = memo(
                       onMoveToWishlist={onMoveToWishlist}
                       className="wishlist-font"
                       inWishlist={inWishlist}
+                      badgeType={badgeType}
                     />
                     {renderNotifyTrigger("action")}
                   </div>
@@ -622,6 +657,11 @@ const CartItems: React.FC<BasketItem> = memo(
                           : displayPriceWithCommas(price, currency)}
                       </span>
                     )}
+                    <div className={cs({ [globalStyles.voffset2]: !mobile })}>
+                      {bridalProfile && (
+                        <img src={addedReg} width="25" alt="gift_reg_icon" />
+                      )}
+                    </div>
                   </div>
                   <div
                     className={cs(
@@ -647,6 +687,7 @@ const CartItems: React.FC<BasketItem> = memo(
                       onMoveToWishlist={onMoveToWishlist}
                       className="wishlist-font"
                       inWishlist={inWishlist}
+                      badgeType={badgeType}
                     />
                     {renderNotifyTrigger("action")}
                   </div>

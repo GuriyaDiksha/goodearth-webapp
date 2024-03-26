@@ -947,6 +947,7 @@ hr {
 
   .address-main {
     padding-top: 5px;
+    width: 90%;
     .text {
       @include b4_12px_montserrat_light_charcoal();
       letter-spacing: 0.36px;
@@ -1386,6 +1387,8 @@ hr {
 .check-box-heading {
   // margin: auto 0;
   width: auto;
+  padding-top:0 !important;
+  padding-bottom:0 !important; 
   @include b4_12px_montserrat_charcoal();
   a {
     border-bottom: 1px solid $charcoal19;
@@ -1491,7 +1494,7 @@ hr {
   opacity: 65%;
 }
 div.form-subheading{
-  padding: unset;
+  padding: unset !important;
   cursor: pointer;
 }
 .line-height-lable {
@@ -1613,4 +1616,10 @@ span.add-new-address {
 
 .hide-label{
     display: none;
+}
+
+.cerise-gst-disclaimer {
+  @include b5_10px_montserrat_aqua();
+  padding-left: 30px;
+  letter-spacing: 0.3px;
 }

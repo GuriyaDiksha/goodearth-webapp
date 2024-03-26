@@ -86,7 +86,7 @@ class Bag extends React.Component<Props, State> {
         });
       }
 
-      this.props.updateWishlist();
+      // this.props.updateWishlist();
 
       this.props
         .fetchFeaturedContent()
@@ -490,11 +490,10 @@ class Bag extends React.Component<Props, State> {
                   const userConsent = CookieService.getCookie("consent").split(
                     ","
                   );
-                  if (
-                    !this.hasOutOfStockItems() &&
-                    userConsent.includes(GA_CALLS)
-                  ) {
+                  if (!this.hasOutOfStockItems()) {
                     this.props.history.push("/cart");
+                  }
+                  if (userConsent.includes(GA_CALLS)) {
                     dataLayer.push({
                       event: "review_bag_and_checkout"
                     });

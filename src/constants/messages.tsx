@@ -66,7 +66,27 @@ export const PRODUCT_UNSHIPPABLE_REMOVED = (items: string[]) => (
 
 export const PRODUCT_OUT_OF_STOCK_REMOVED =
   "Some items from your bag were removed as they are out of stock/unavailable.";
-export const ADD_TO_REGISTRY_SUCCESS = "Item has been added to your Registry";
+export const PRODUCT_OUT_OF_STOCK = [
+  "Product in your registry is Out of stock ",
+  <Link
+    to="/account/bridal"
+    key="bridal"
+    style={{ textDecoration: "underline", pointerEvents: "all" }}
+  >
+    VIEW REGISTRY
+  </Link>
+];
+// export const ADD_TO_REGISTRY_SUCCESS = "Item has been added to your Registry";
+export const ADD_TO_REGISTRY_SUCCESS = [
+  "This product has been added to your registry. Click here to ",
+  <Link
+    to="/account/bridal"
+    key="bridal"
+    style={{ textDecoration: "underline", pointerEvents: "all" }}
+  >
+    VIEW REGISTRY
+  </Link>
+];
 export const ADD_TO_REGISTRY_FAIL = "Can't add to bag";
 export const ADD_TO_REGISTRY_AGAIN = [
   "To modify or edit items in your registry please ",
@@ -80,8 +100,13 @@ export const ADD_TO_REGISTRY_AGAIN = [
 ];
 export const REGISTRY_OWNER_CHECKOUT =
   "Looks like you are the owner of this Bridal Registry! Your order will be placed against your registry";
-export const REGISTRY_MIXED_SHIPPING =
-  "Note that items not part of the registry will also be shipped to registrant address unless removed from bag";
+export const REGISTRY_MIXED_SHIPPING = (
+  // "Note that items not part of the registry will also be shipped to registrant address unless removed from bag";
+  <>
+    Note that some items in your bag that are not part of the registry will get
+    shipped to registrant address unless removed from the bag.
+  </>
+);
 export const PREVIOUS_BASKET = (
   <>
     Some items already exist in your bag.
@@ -108,7 +133,8 @@ export const Messages = {
   REGISTRY_MIXED_SHIPPING: REGISTRY_MIXED_SHIPPING,
   PREVIOUS_BASKET: PREVIOUS_BASKET,
   VERIFY_SUCCESS: VERIFY_SUCCESS,
-  PRODUCT_OUT_OF_STOCK_REMOVED: PRODUCT_OUT_OF_STOCK_REMOVED
+  PRODUCT_OUT_OF_STOCK_REMOVED: PRODUCT_OUT_OF_STOCK_REMOVED,
+  PRODUCT_OUT_OF_STOCK: PRODUCT_OUT_OF_STOCK
 };
 export enum MESSAGE {
   ADD_TO_BAG_SUCCESS = "ADD_TO_BAG_SUCCESS",
@@ -127,5 +153,6 @@ export enum MESSAGE {
   REGISTRY_MIXED_SHIPPING = "REGISTRY_MIXED_SHIPPING",
   PREVIOUS_BASKET = "PREVIOUS_BASKET",
   VERIFY_SUCCESS = "VERIFY_SUCCESS",
-  PRODUCT_OUT_OF_STOCK_REMOVED = "PRODUCT_OUT_OF_STOCK_REMOVED"
+  PRODUCT_OUT_OF_STOCK_REMOVED = "PRODUCT_OUT_OF_STOCK_REMOVED",
+  PRODUCT_OUT_OF_STOCK = "PRODUCT_OUT_OF_STOCK"
 }
