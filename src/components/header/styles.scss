@@ -37,6 +37,7 @@
 
 .header-index {
   z-index: 1000009 !important;
+  // position: fixed!important;
 }
 .show-sort-header-index{
   z-index: 3 !important; //added for sort menu open on mobile
@@ -2002,6 +2003,53 @@ div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
   display: none;
 }
 
+@media(min-width:768px)and(max-width:992px){
+  .menu-for-tablet{
+    padding: 0 65px;
+    .hamburger{
+      left:unset;
+    }
+    .side-menu-wrapper{
+      padding: 0;
+      ul{
+        justify-content: right;
+      }
+      li{
+        flex-grow: unset;
+      }
+      li.mobile-search{
+        padding-right: 30px!important;
+      }
+    }
+  }
+  .mobile-main-menu-container{
+    ul.mobile-main-menu{
+      padding: 0 65px;
+    }
+    span.menulevel1{
+      padding:0;
+    }
+    div.lower-menu{
+      padding: 25px 65px;
+    }
+    div.mobile-main-menu{
+      padding:0;
+      ul.inner-menu-mobile{
+        padding: 0 65px;
+      }
+    }
+    ul.inner-menu-mobile{
+      >li:first-child{
+        margin: 0 -65px;
+        padding: 0;
+        div.inner-menu-heading{
+          padding: 0 65px;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
 //========you might like section========//
 .ymlp-padding{
   padding: 0 5%;

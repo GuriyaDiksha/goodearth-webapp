@@ -60,7 +60,7 @@
 
       &:hover{
         border-bottom: 1px solid $aqua;
-        @include b4_12px_medium_aqua_caps();
+        color: $aqua-text !important;
       }
     }
   }
