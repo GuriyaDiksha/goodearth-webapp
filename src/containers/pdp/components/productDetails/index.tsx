@@ -75,6 +75,9 @@ import PdpSkeleton from "../pdpSkeleton";
 import { isEmpty } from "lodash";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
+import addReg from "../../../../images/registery/addReg.svg";
+import addedReg from "../../../../images/registery/addedReg.svg";
+import { countBridal } from "actions/bridal";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -325,7 +328,7 @@ const ProductDetails: React.FC<Props> = ({
         setQuantity(value);
         setSizeError("");
       } else {
-        setSizeError("Please select a size to proceed");
+        setSizeError("Please select a size to continue");
       }
     },
     [selectedSize]
@@ -427,7 +430,7 @@ const ProductDetails: React.FC<Props> = ({
     subcategoryname = arr[arr.length - 1];
     category = category.replace(/>/g, "/");
     const l1 = arr[arr.length - 3];
-    const category3 = sliderImages.filter(ele => ele?.icon).length
+    const category5 = sliderImages.filter(ele => ele?.icon).length
       ? "3d"
       : "non 3d";
 
@@ -459,6 +462,19 @@ const ProductDetails: React.FC<Props> = ({
     if (subcategory) {
       subcategory = subcategory[subcategory.length - 1];
     }
+
+    const cat1 = categories?.[0]?.split(">");
+    const cat2 = categories?.[1]?.split(">");
+
+    const L1 = cat1?.[0]?.trim();
+
+    const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
+
+    const L3 = cat2?.[2]
+      ? cat2?.[2]?.trim()
+      : data.categories?.[2]?.split(">")?.[2]?.trim();
+
+    const clickType = localStorage.getItem("clickType");
     const size = selectedSize?.size || "";
     const search = CookieService.getCookie("search") || "";
     if (userConsent.includes(GA_CALLS)) {
@@ -501,6 +517,12 @@ const ProductDetails: React.FC<Props> = ({
       dataLayer.push({
         event: "add_to_cart",
         previous_page_url: CookieService.getCookie("prevUrl"),
+        currency: currency,
+        value: discountedPriceRecords[currency]
+          ? discountedPriceRecords[currency]
+          : price
+          ? price
+          : null,
         ecommerce: {
           items: [
             {
@@ -509,22 +531,27 @@ const ProductDetails: React.FC<Props> = ({
               affiliation: title, // Pass the product name
               coupon: "NA", // Pass the coupon if available
               currency: currency, // Pass the currency code
-              discount: discount ? discount : "NA", // Pass the discount amount
+              discount:
+                info.isSale && discount
+                  ? data?.badgeType == "B_flat"
+                    ? discountPrices
+                    : price - discountPrices
+                  : "NA", // Pass the discount amount
               index: "NA",
               item_brand: "Goodearth",
-              item_category: category?.split(">")?.join("|"),
-              item_category2: selectedSize?.size, //pass the item category2 ex.Size
-              item_category3: category3, //pass the product type 3d or non 3d
-              item_list_id: "NA", //pass the item list id
-              item_list_name: search ? search : "NA", //pass the item list name ex.search results
-              item_variant: selectedSize?.size || "",
-              // item_category4: l1,
+              item_category: L1,
+              item_category2: L2,
+              item_category3: L3,
               item_category4: "NA",
-              // item_category5: collection,
+              item_category5: category5,
+              item_list_id: "NA", //pass the item list id
+              item_list_name: search ? `${clickType}-${search}` : "NA",
+              item_variant: selectedSize?.size || "",
               price: discountPrices || price,
               quantity: quantity,
               // dimension12: selectedSize?.color,
-              collection_category: collections?.join("|")
+              collection_category: collections?.join("|"),
+              price_range: "NA"
             }
           ]
         }
@@ -557,8 +584,8 @@ const ProductDetails: React.FC<Props> = ({
 
   const addToBasket = () => {
     if (!selectedSize) {
-      setSizeError("Please select a size to proceed");
-      errorTracking(["Please select a size to proceed"], window.location.href);
+      setSizeError("Please select a size to continue");
+      errorTracking(["Please select a size to continue"], window.location.href);
       showError();
       closeZoomModal();
     } else {
@@ -588,8 +615,8 @@ const ProductDetails: React.FC<Props> = ({
 
   const checkAvailability = () => {
     if (!selectedSize) {
-      setSizeError("Please select a size to proceed");
-      errorTracking(["Please select a size to proceed"], window.location.href);
+      setSizeError("Please select a size to continue");
+      errorTracking(["Please select a size to continue"], window.location.href);
       showError();
     } else {
       setIsLoading(true);
@@ -625,11 +652,14 @@ const ProductDetails: React.FC<Props> = ({
       (selectedSize && isRegistry[selectedSize.size])
     ) {
       showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_AGAIN);
+      setTimeout(() => {
+        closeModal ? closeModal() : null;
+      }, 3000);
       return false;
     }
     if (childAttributes[0].size) {
       if (!selectedSize) {
-        setSizeError("Please select a size to proceed");
+        setSizeError("Please select a size to continue");
         showError();
         return false;
       }
@@ -647,7 +677,13 @@ const ProductDetails: React.FC<Props> = ({
     formData["qtyRequested"] = quantity;
     BridalService.addToRegistry(dispatch, formData)
       .then(res => {
+        {
+          bridalId !== 0 && BridalService.countBridal(dispatch, bridalId);
+        }
         showGrowlMessage(dispatch, MESSAGE.ADD_TO_REGISTRY_SUCCESS);
+        setTimeout(() => {
+          closeModal ? closeModal() : null;
+        }, 3000);
         const registry = Object.assign({}, isRegistry);
         const userConsent = CookieService.getCookie("consent").split(",");
         if (userConsent.includes(GA_CALLS)) {
@@ -761,7 +797,7 @@ const ProductDetails: React.FC<Props> = ({
   const sizeSelectClick = () => {
     // setSizeerror(true);
     closeZoomModal();
-    setSizeError("Please select a size to proceed");
+    setSizeError("Please select a size to continue");
     showError();
   };
 
@@ -993,13 +1029,11 @@ const ProductDetails: React.FC<Props> = ({
                 >
                   {currency === "INR" && (
                     <span
-                      className={cs(
-                        styles.mrp,
-                        badgeType == "B_flat" ||
+                      className={cs(styles.mrp, {
+                        [globalStyles.gold]:
+                          badgeType == "B_flat" ||
                           (info.isSale && discount && discountedPriceRecords)
-                          ? globalStyles.gold
-                          : ""
-                      )}
+                      })}
                     >
                       MRP.
                     </span>
@@ -1018,10 +1052,10 @@ const ProductDetails: React.FC<Props> = ({
                     </span>
                   ) : (
                     <span
-                      className={cs(
-                        styles.normalPrice,
-                        badgeType == "B_flat" ? globalStyles.gold : ""
-                      )}
+                      className={cs(styles.normalPrice, {
+                        [globalStyles.gold]: badgeType == "B_flat",
+                        [globalStyles.fontSize16]: badgeType == "B_flat"
+                      })}
                     >
                       {" "}
                       {displayPriceWithCommas(price, currency)}
@@ -1118,11 +1152,15 @@ const ProductDetails: React.FC<Props> = ({
                             selectedSize &&
                             selectedSize.showStockThreshold &&
                             selectedSize.stock > 0 &&
-                            `Only ${selectedSize.stock} Left!${
+                            `${
                               selectedSize.othersBasketCount > 0
-                                ? ` *${selectedSize.othersBasketCount} others have this item in their bag.`
+                                ? ` ${selectedSize.othersBasketCount} other${
+                                    selectedSize.othersBasketCount > 1
+                                      ? "s"
+                                      : ""
+                                  } have this item in their bag.`
                                 : ""
-                            }`}
+                            } Only ${selectedSize.stock} Left!`}
                         </span>
                       </div>
                     </div>
@@ -1174,10 +1212,13 @@ const ProductDetails: React.FC<Props> = ({
                   selectedSize &&
                   selectedSize.stock > 0 &&
                   selectedSize.showStockThreshold &&
-                  `Only ${
-                    selectedSize.stock
-                  } Left!${selectedSize.othersBasketCount &&
-                    ` *${selectedSize.othersBasketCount} others have this item in their bag.`}`}
+                  `${
+                    selectedSize.othersBasketCount > 0
+                      ? ` ${selectedSize.othersBasketCount} other${
+                          selectedSize.othersBasketCount > 1 ? "s" : ""
+                        } have this item in their bag.`
+                      : ""
+                  } Only ${selectedSize.stock} Left!`}
               </span>
             )}
             <div
@@ -1188,7 +1229,7 @@ const ProductDetails: React.FC<Props> = ({
             >
               <div
                 className={cs(bootstrap.col8, {
-                  [bootstrap.colMd12]: mobile && !tablet
+                  [bootstrap.colMd12]: mobile
                 })}
               >
                 {!(
@@ -1232,7 +1273,7 @@ const ProductDetails: React.FC<Props> = ({
                   </div>
                 )}
               </div>
-              {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
+              {/* {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
                 <div
                   className={cs(
                     bootstrap.col4,
@@ -1263,7 +1304,7 @@ const ProductDetails: React.FC<Props> = ({
                       : "add to registry"}
                   </p>
                 </div>
-              )}
+              )} */}
             </div>
             {badgeMessage && !isQuickview ? (
               <div
@@ -1354,24 +1395,6 @@ const ProductDetails: React.FC<Props> = ({
                 ) : (
                   ""
                 )}
-                {isQuickview ? (
-                  <Link
-                    to={url}
-                    className={cs(styles.moreDetails, {
-                      [styles.lh45]: withBadge
-                    })}
-                    onClick={() => {
-                      changeModalState(false);
-                      const listPath = `${source || "PLP"}`;
-                      CookieService.setCookie("listPath", listPath);
-                      dispatch(updateQuickviewId(0));
-                    }}
-                  >
-                    view more details
-                  </Link>
-                ) : (
-                  ""
-                )}
               </div>
               <div
                 className={cs(bootstrap.col4, globalStyles.textCenter, {
@@ -1398,6 +1421,7 @@ const ProductDetails: React.FC<Props> = ({
                   iconClassName={cs({
                     [styles.mobileWishlistIcon]: mobile
                   })}
+                  badgeType={badgeType}
                 />
               </div>
             </div>
@@ -1416,12 +1440,63 @@ const ProductDetails: React.FC<Props> = ({
                 ""
               )}
             </div>
+
+            {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
+              <div
+                className={cs(
+                  // bootstrap.col4,
+                  // globalStyles.textCenter,
+                  styles.bridalSection
+                )}
+                onClick={addToRegistry}
+              >
+                <div
+                  className={cs(
+                    iconStyles.icon,
+                    iconStyles.iconRing,
+                    styles.bridalRing,
+                    {
+                      [styles.active]:
+                        selectedSize && isRegistry[selectedSize.size]
+                    }
+                  )}
+                >
+                  {selectedSize && isRegistry[selectedSize.size] ? (
+                    <img src={addedReg} width="20px" height="20px"></img>
+                  ) : (
+                    <img src={addReg} width="20px" height="20px"></img>
+                  )}
+                </div>
+                <p className={cs(styles.label, styles.paddingT3)}>
+                  {selectedSize && isRegistry[selectedSize.size]
+                    ? "added to registry"
+                    : "add to registry"}
+                </p>
+              </div>
+            )}
+
+            {isQuickview && (
+              <div className={styles.viewDetails}>
+                <Link
+                  to={url}
+                  className={cs({ [styles.lh45]: withBadge })}
+                  onClick={() => {
+                    changeModalState(false);
+                    const listPath = `${source || "PLP"}`;
+                    CookieService.setCookie("listPath", listPath);
+                    dispatch(updateQuickviewId(0));
+                  }}
+                >
+                  VIEW DETAILS
+                </Link>
+              </div>
+            )}
             {!isQuickview && (
               <div
                 className={cs(
                   bootstrap.col12,
                   bootstrap.colMd9,
-                  globalStyles.voffset3,
+                  globalStyles.voffset2,
                   styles.padding
                 )}
               >

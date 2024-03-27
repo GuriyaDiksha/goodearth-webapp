@@ -138,7 +138,7 @@ class CushionBag extends React.Component<Props, State> {
       });
     } else {
       this.setState({
-        sizeError: "Please select a Size to proceed"
+        sizeError: "Please select a size to continue"
       });
     }
   };
@@ -221,9 +221,7 @@ class CushionBag extends React.Component<Props, State> {
                     </span>
                   ) : (
                     <span
-                      className={
-                        badgeType == "B_flat" ? globalStyles.cerise : ""
-                      }
+                      className={badgeType == "B_flat" ? globalStyles.gold : ""}
                     >
                       {" "}
                       {displayPriceWithCommas(price, currency)}
@@ -264,11 +262,15 @@ class CushionBag extends React.Component<Props, State> {
                             selectedSize &&
                             selectedSize.showStockThreshold &&
                             selectedSize.stock > 0 &&
-                            `Only ${selectedSize.stock} Left!${
+                            `${
                               selectedSize.othersBasketCount > 0
-                                ? ` *${selectedSize.othersBasketCount} others have this item in their bag.`
+                                ? `${selectedSize.othersBasketCount} other${
+                                    selectedSize.othersBasketCount > 1
+                                      ? "s"
+                                      : ""
+                                  } have this item in their bag.`
                                 : ""
-                            }`}
+                            } Only ${selectedSize.stock} Left!`}
                         </span>
                       </div>
                     </div>
@@ -281,10 +283,12 @@ class CushionBag extends React.Component<Props, State> {
                   selectedSize &&
                   selectedSize.stock > 0 &&
                   selectedSize.showStockThreshold &&
-                  `Only ${
-                    selectedSize.stock
-                  } Left!${selectedSize.othersBasketCount &&
-                    ` *${selectedSize.othersBasketCount} others have this item in their bag.`}`}
+                  `${selectedSize.othersBasketCount &&
+                    `${selectedSize.othersBasketCount} other${
+                      selectedSize.othersBasketCount > 1 ? "s" : ""
+                    } have this item in their bag. Only ${
+                      selectedSize.stock
+                    } Left!`}`}
               </span>
             )}
             <div>
@@ -391,7 +395,7 @@ class CushionBag extends React.Component<Props, State> {
     // setSizeerror(true);
     this.setState(
       {
-        sizeError: "Please select a Size to proceed"
+        sizeError: "Please select a size to continue"
       },
       () => {
         this.showError();
@@ -411,7 +415,7 @@ class CushionBag extends React.Component<Props, State> {
 
     if (!selectedSize) {
       this.setState({
-        sizeError: "Please select a Size to proceed"
+        sizeError: "Please select a size to continue"
       });
       this.showError();
     } else {
@@ -512,7 +516,14 @@ class CushionBag extends React.Component<Props, State> {
       // isSale,
       // currency,
       filler: {
-        data: { title, categories, id, priceRecords, discountedPriceRecords }
+        data: {
+          title,
+          categories,
+          id,
+          priceRecords,
+          discountedPriceRecords,
+          badgeType
+        }
       }
     } = this.props;
     const { selectedSize, apiTrigger, addedToBag } = this.state;
@@ -552,7 +563,11 @@ class CushionBag extends React.Component<Props, State> {
                 <PdpButton
                   label={buttonText}
                   onClick={action}
-                  variant="mediumAquaCta300"
+                  variant={
+                    buttonText == "Notify Me"
+                      ? "mediumLightGreyCta"
+                      : "mediumAquaCta300"
+                  }
                 />
               </div>
               <div
@@ -570,6 +585,7 @@ class CushionBag extends React.Component<Props, State> {
                   showText={false}
                   size={selectedSize ? selectedSize.size : undefined}
                   iconClassName={styles.mobileWishlistIcon}
+                  badgeType={badgeType}
                 />
               </div>
             </div>

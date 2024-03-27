@@ -99,7 +99,8 @@
       margin-bottom: 10px;
     }
     p {
-      font-size: 14px;
+      font-family: $font-Montserrat;
+      font-size: 12px;
       text-transform: capitalize;
       letter-spacing: 1px;
       line-height: 20px;
@@ -441,6 +442,7 @@
 }
 .badge-image{
   position: absolute;
-  max-width: 52px;
-  top: 0px;
+  max-width: 40px;
+  top: 4px;
+  left: 4px;
 }

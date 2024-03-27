@@ -27,7 +27,7 @@ import { updatePreferenceData } from "actions/user";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
-import { CONFIG } from "constants/util";
+import { CONFIG, DEACTIVATE_REDEEM_SECTION } from "constants/util";
 import Formsy from "formsy-react";
 import CheckboxWithLabel from "components/CheckboxWithLabel";
 import { displayPriceWithCommasFloat } from "utils/utility";
@@ -44,7 +44,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     info: { showGiftWrap, deliveryText },
     basket: { loyalty },
     user: { loyaltyData, isLoggedIn, preferenceData, slab },
-    address: { countryData, shippingAddressId, billingAddressId }
+    address: { countryData, shippingAddressId, billingAddressId },
+    info: { isSale }
   } = useSelector((state: AppState) => state);
   let PaymentChild: any = useRef<typeof ApplyGiftcard>(null);
   const history = useHistory();
@@ -134,6 +135,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   };
 
   const toggleInputReedem = () => {
+    if (DEACTIVATE_REDEEM_SECTION) {
+      return false;
+    }
+
     setIsactiveredeem(true);
 
     dispatch(
@@ -305,27 +310,51 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             line?.product?.priceRecords?.[currency as Currency]
           );
           productquantity.push(+line.quantity);
+          const search = CookieService.getCookie("search") || "";
+          const cat1 = line?.product?.categories?.[0]?.split(">");
+          const cat2 = line?.product?.categories?.[1]?.split(">");
+
+          const L1 = cat1?.[0]?.trim();
+
+          const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
+
+          const L3 = cat2?.[2]
+            ? cat2?.[2]?.trim()
+            : line?.product?.categories?.[2]?.split(">")?.[2]?.trim();
+
+          const clickType = localStorage.getItem("clickType");
 
           return {
             item_id: line.product.sku,
             item_name: line.title,
             affiliation: "NA",
-            coupon: basket.voucherDiscounts?.[0]?.voucher?.code || "NA", //Pass NA if not applicable at the moment
-            discount: basket?.offerDiscounts?.[0]?.amount,
+            coupon:
+              isSale && basket?.offerDiscounts?.[0]?.name
+                ? basket?.offerDiscounts?.[0]?.name
+                : "NA", //Pass NA if not applicable at the moment
+            discount:
+              isSale && basket?.offerDiscounts?.[0]?.amount
+                ? line?.badgeType == "B_flat"
+                  ? basket?.offerDiscounts?.[0]?.amount
+                  : line.product.priceRecords[currency as Currency] -
+                    basket?.offerDiscounts?.[0]?.amount
+                : "NA",
             index: ind,
             item_brand: "Goodearth",
-            item_category: category?.split(">")?.join("|"),
-            item_category2: line.product?.childAttributes[0]?.size,
-            item_category3: line.product.is3d ? "3d" : "non3d",
-            item_category4: line.product.is3d ? "YES" : "NO",
+            item_category: L1,
+            item_category2: L2,
+            item_category3: L3,
+            item_category4: "NA",
+            item_category5: line.product.is3d ? "3d" : "non3d",
             item_list_id: "NA",
-            item_list_name: "NA",
-            item_variant: "NA",
+            item_list_name: search ? `${clickType}-${search}` : "NA",
+            item_variant: line.product?.childAttributes[0]?.size || "NA",
             price: line.isEgiftCard
               ? +line.priceExclTax
               : line.product.priceRecords[currency as Currency],
             quantity: line.quantity,
-            collection_category: line?.product?.collections?.join("|")
+            collection_category: line?.product?.collections?.join("|"),
+            price_range: "NA"
           };
         });
 
@@ -356,7 +385,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       checkout(data)
         .then((response: any) => {
           gtmPushPaymentTracking(paymentMode, paymentMethod);
-          proceedForPayment(basket, currency, paymentMethod);
+          proceedForPayment(basket, currency, paymentMethod, isSale);
           dataLayer.push({
             event: "Whatsapp_optin",
             Location: "Checkout",
@@ -373,7 +402,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           const errorType = error.response?.data.errorType;
           if (errorType && errorType == "qty") {
             msg =
-              "Some of the products in your cart have been updated/become unavailable. Please refresh before proceeding.";
+              "Some items in your cart have been modified or are no longer available. Kindly refresh before proceeding.";
           }
           setPaymentError(msg);
           errorTracking([msg], location.href);
@@ -430,8 +459,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       } else {
         setWhatsappNoErr("");
       }
-      setPaymentError("Please select a payment method");
-      errorTracking(["Please select a payment method"], location.href);
+      setPaymentError("Please select a Payment Method");
+      errorTracking(["Please select a Payment Method"], location.href);
       document.getElementById("payment-section")?.scrollIntoView();
     }
   };
@@ -756,6 +785,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                         id="cerise"
                         checked={isactiveredeem}
                         onChange={toggleInputReedem}
+                        className={cs({
+                          [styles.hideLabel]: DEACTIVATE_REDEEM_SECTION
+                        })}
                         label={[
                           <label
                             key="cerise"
@@ -769,37 +801,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                           </label>
                         ]}
                       />
-                      {/* <label
-                        className={cs(
-                          globalStyles.flex,
-                          globalStyles.crossCenter
-                        )}
-                      >
-                        <div className={styles.marginR10}>
-                          <span className={styles.checkbox}>
-                            <input
-                              type="radio"
-                              checked={isactiveredeem}
-                              onClick={() => {
-                                toggleInputReedem();
-                              }}
-                            />
-                            <span
-                              className={cs(styles.indicator, {
-                                [styles.checked]: isactiveredeem
-                              })}
-                            ></span>
-                          </span>
-                        </div>
-                        <div
-                          className={cs(
-                            styles.formSubheading,
-                            styles.checkBoxHeading
-                          )}
-                        >
-                          See my balance & redeem points
-                        </div>
-                      </label> */}
+                      {DEACTIVATE_REDEEM_SECTION && (
+                        <p className={styles.saleTimeMsg}>
+                          You will not be able to earn or redeem Cerise points
+                          during Sale.
+                        </p>
+                      )}
                     </div>
                   </div>
                 </>

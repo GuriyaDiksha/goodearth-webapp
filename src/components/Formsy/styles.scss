@@ -47,6 +47,12 @@ input[type="date"] {
   text-align: left;
   margin-top: 5px;
   line-height: 1;
+  // margin-top: 8px;
+}
+@media(max-width:425px){
+  .error-msg {
+    font-size: 12px!important;
+  }
 }
 .dropdown{
   position: relative;

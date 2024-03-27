@@ -19,11 +19,12 @@ import initActionGiftcard from "containers/giftcard/initAction";
 import initActionShop from "containers/shopLocator/initAction";
 // import initActionHome from "containers/home/initAction";
 // import initActionDesignJournalBook from "containers/designJournalBook/initAction";
-import initActionWishlist from "containers/wishlist/initAction";
+// import initActionWishlist from "containers/wishlist/initAction";
 import initActionBridal from "containers/bridal/initAction";
 import initActionCheckout from "containers/checkout/initAction";
 import initActionCart from "containers/cartPage/initAction";
 import initActionCareer from "containers/careerNew/initAction";
+import initActionRegistery from "containers/giftRegistery/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -83,9 +84,21 @@ const routes: RouteConfig = [
     exact: false
   },
   {
+    path: ROUTES.REGISTERY,
+    component: loadable(() => import("containers/giftRegistery")),
+    action: initActionRegistery,
+    exact: false
+  },
+  {
     path: ROUTES.WISHLIST,
     component: loadable(() => import("containers/wishlist")),
-    action: initActionWishlist,
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.SHAREDWISHLIST,
+    component: loadable(() => import("containers/wishlist")),
+    action: async () => null,
     exact: true
   },
   {
@@ -235,6 +248,12 @@ const routes: RouteConfig = [
     exact: true
   },
   {
+    path: ROUTES.INTERNATIONALSALE,
+    component: loadable(() => import("containers/InternationalSale")),
+    action: async () => null,
+    exact: true
+  },
+  {
     path: ROUTES.SITEMAP,
     component: loadable(() => import("containers/Sitemap")),
     action: async () => null,
@@ -286,7 +305,11 @@ const makerRoutes = [
   ROUTES.VIRTUALSHOPPINGSALON,
   ROUTES.GUIDETOLIGHTING,
   ROUTES.INNERSPACE,
-  ROUTES.LILANURPARFUMS
+  ROUTES.LILANURPARFUMS,
+  ROUTES.PEHCHAANNAQASHI,
+  ROUTES.MEMORYKEEPERS,
+  ROUTES.MEMORYKEEPERSTWO,
+  ROUTES.HARVESTATTHETABLE
 ];
 
 const makerSmartnav = [

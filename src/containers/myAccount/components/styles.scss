@@ -938,7 +938,6 @@ input[type="text"]{
     }
   }
 }
-
 .charcoal-btn{
   background-color: #4C4C4C;
   @include b3_14px_montserrat_white();
@@ -1590,6 +1589,7 @@ input[type="text"].country-code-search-input{
 }
 .badge-image{
   position: absolute;
-  max-width: 52px;
-  top: 0px;
+  max-width: 40px;
+  top: 4px;
+  left: 4px;
 }

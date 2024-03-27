@@ -6,7 +6,6 @@ import iconStyles from "../../styles/iconFonts.scss";
 import globalStyles from "../../styles/global.scss";
 import LineItems from "./Item";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
-import { currencyCodes } from "constants/currency";
 import { Dispatch } from "redux";
 import BasketService from "services/basket";
 import { connect } from "react-redux";
@@ -23,7 +22,7 @@ import Button from "components/Button";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import HeaderService from "services/headerFooter";
 import noImagePlp from "../../images/noimageplp.png";
-import { currencyCode } from "typings/currency";
+import WishlistService from "services/wishlist";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -34,6 +33,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     fetchFeaturedContent: async () => {
       const res = HeaderService.fetchSearchFeaturedContent(dispatch);
       return res;
+    },
+    updateWishlist: async () => {
+      await WishlistService.updateWishlist(dispatch);
     }
   };
 };
@@ -84,6 +86,8 @@ class Bag extends React.Component<Props, State> {
         });
       }
 
+      // this.props.updateWishlist();
+
       this.props
         .fetchFeaturedContent()
         .then(data => {
@@ -98,6 +102,7 @@ class Bag extends React.Component<Props, State> {
       console.log(err);
     }
   };
+
   componentWillUnmount = () => {
     document.body.classList.remove(globalStyles.noScroll);
   };
@@ -272,6 +277,13 @@ class Bag extends React.Component<Props, State> {
                                       i === wishlistData.length
                                   })}
                                 >
+                                  {data?.salesBadgeImage && (
+                                    <div
+                                      className={cs(styles.badgePositionPlp)}
+                                    >
+                                      <img src={data.salesBadgeImage} />
+                                    </div>
+                                  )}
                                   <Link
                                     to={
                                       i === wishlistData.length
@@ -316,11 +328,44 @@ class Bag extends React.Component<Props, State> {
                                     </p>
                                     <p className={styles.searchFeature}>
                                       <Link to={data.productUrl}>
-                                        {String.fromCharCode(
-                                          ...currencyCode[this.props.currency]
-                                        ) +
-                                          " " +
-                                          data.price[currency]}
+                                        {this.props?.isSale && data.discount ? (
+                                          <span
+                                            className={styles.discountprice}
+                                          >
+                                            {data.discountedPrice
+                                              ? displayPriceWithCommas(
+                                                  data.discountedPrice[
+                                                    currency
+                                                  ],
+                                                  currency
+                                                )
+                                              : ""}{" "}
+                                            &nbsp;{" "}
+                                          </span>
+                                        ) : (
+                                          ""
+                                        )}
+                                        {this.props?.isSale && data.discount ? (
+                                          <span className={styles.strikeprice}>
+                                            {displayPriceWithCommas(
+                                              data.price[currency],
+                                              currency
+                                            )}
+                                          </span>
+                                        ) : (
+                                          <span
+                                            className={
+                                              data.badgeType == "B_flat"
+                                                ? styles.discountprice
+                                                : ""
+                                            }
+                                          >
+                                            {displayPriceWithCommas(
+                                              data.price[currency],
+                                              currency
+                                            )}
+                                          </span>
+                                        )}
                                       </Link>
                                     </p>
                                   </div>
@@ -445,11 +490,10 @@ class Bag extends React.Component<Props, State> {
                   const userConsent = CookieService.getCookie("consent").split(
                     ","
                   );
-                  if (
-                    !this.hasOutOfStockItems() &&
-                    userConsent.includes(GA_CALLS)
-                  ) {
+                  if (!this.hasOutOfStockItems()) {
                     this.props.history.push("/cart");
+                  }
+                  if (userConsent.includes(GA_CALLS)) {
                     dataLayer.push({
                       event: "review_bag_and_checkout"
                     });

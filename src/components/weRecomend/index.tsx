@@ -130,6 +130,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
               onComplete={() => {
                 setCurrentId(item.id);
               }}
+              badgeType={item?.badgeType}
             />
           </div>
         )}
@@ -176,7 +177,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
               ) : (
                 <span
                   className={
-                    item.badgeType == "B_flat" ? globalStyles.cerise : ""
+                    item.badgeType == "B_flat" ? globalStyles.gold : ""
                   }
                 >
                   {" "}

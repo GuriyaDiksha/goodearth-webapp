@@ -39,7 +39,6 @@ const Newsletters: React.FC = () => {
   const { showTimer } = useSelector((state: AppState) => state.info);
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
   const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
-  const [countrycode, setCountrycode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [enableSubmit, setEnableSubmit] = useState(false);
@@ -48,12 +47,8 @@ const Newsletters: React.FC = () => {
   const location = history.location;
   const { countryData } = useSelector((state: AppState) => state.address);
   const countryRef: RefObject<HTMLInputElement> = useRef(null);
-  const isAlphaError = "Only alphabets are allowed";
+  const isAlphaError = "Please enter only alphabetic characters";
   const isExistyError = "This field is required";
-  // const [isAddressChanged, setIsAddressChanged] = useState(false);
-  // const [isCountryChanged, setIsCountryChanged] = useState(false);
-  const { currency } = useSelector((state: AppState) => state);
-  const [isIndia, setIsIndia] = useState(currency === "INR");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -96,7 +91,7 @@ const Newsletters: React.FC = () => {
         }
       }
 
-      const { states, isd, value } = countryOptions.filter(
+      const { states, isd } = countryOptions.filter(
         country => country.value == selectedCountry
       )[0];
 

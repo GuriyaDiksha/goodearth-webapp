@@ -6,4 +6,5 @@ export type SecondaryHeaderDropdownMenuProps = {
   value: string;
   items: CategoryMenu[];
   className?: string;
+  disabled?: boolean;
 };

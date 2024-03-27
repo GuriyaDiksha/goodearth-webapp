@@ -247,6 +247,8 @@ const NewOtpComponent: React.FC<Props> = ({
           ele?.focus();
         }
       }
+    } else if (e.keyCode === 13 || e.which === 13) {
+      sendOtp();
     } else if (e.which === 69) {
       e.preventDefault();
     }

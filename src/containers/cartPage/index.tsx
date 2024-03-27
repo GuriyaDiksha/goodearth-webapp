@@ -1,6 +1,5 @@
 import React from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-// import { Link } from "react-router-dom";
 import initActionCollection from "./initAction";
 import cs from "classnames";
 import { AppState } from "reducers/typings";
@@ -10,7 +9,6 @@ import globalStyles from "styles/global.scss";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import CartItems from "./cartItem";
 import OrderSummary from "containers/checkout/component/orderSummary";
-// import motifTigerTree from "../../images/motifTigerTree.png";
 import { Link } from "react-router-dom";
 import { Dispatch } from "redux";
 import WishlistService from "services/wishlist";
@@ -29,13 +27,14 @@ import noImagePlp from "../../images/noimageplp.png";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import CookieService from "services/cookie";
-import { Currency, currencyCode } from "typings/currency";
+import { Currency } from "typings/currency";
 import { updateLoader, updateNextUrl } from "actions/info";
 import { StaticContext } from "react-router";
-import CheckoutService from "services/checkout";
 import Loader from "components/Loader";
 import { GA_CALLS } from "constants/cookieConsent";
+import { REGISTRY_MIXED_SHIPPING } from "constants/messages";
 import Button from "components/Button";
+import { displayPriceWithCommas } from "utils/utility";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -136,6 +135,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         customerGroup,
         "cart"
       );
+    },
+    updateWishlist: async () => {
+      await WishlistService.updateWishlist(dispatch);
     }
   };
 };
@@ -256,13 +258,26 @@ class CartPage extends React.Component<Props, State> {
 
     if (userConsent.includes(GA_CALLS)) {
       const items = this.props.cart.lineItems.map((line, ind) => {
-        const index = line?.product.categories
-          ? line?.product.categories.length - 1
-          : 0;
-        const category =
-          line?.product.categories && line?.product.categories[index]
-            ? line?.product.categories[index].replace(/\s/g, "")
-            : "";
+        // const index = line?.product.categories
+        //   ? line?.product.categories.length - 1
+        //   : 0;
+        // const category =
+        //   line?.product.categories && line?.product.categories[index]
+        //     ? line?.product.categories[index].replace(/\s/g, "")
+        //     : "";
+
+        const cat1 = line?.product.categories?.[0]?.split(">");
+        const cat2 = line?.product.categories?.[1]?.split(">");
+
+        const L1 = cat1?.[0]?.trim();
+
+        const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
+
+        const L3 = cat2?.[2]
+          ? cat2?.[2]?.trim()
+          : line?.product.categories?.[2]?.split(">")?.[2]?.trim();
+
+        const clickType = localStorage.getItem("clickType");
         // const arr = category.split(">");
         return {
           item_id: line?.product?.id, //Pass the product id
@@ -270,20 +285,34 @@ class CartPage extends React.Component<Props, State> {
           affiliation: line?.product?.title, // Pass the product name
           coupon: "NA", // Pass the coupon if available
           currency: this.props.currency, // Pass the currency code
-          discount: "NA", // Pass the discount amount
+          discount:
+            this.props.isSale &&
+            line.product.childAttributes[0]?.discountedPriceRecords[
+              this.props.currency
+            ]
+              ? line.product?.badgeType == "B_flat"
+                ? line.product.childAttributes[0]?.discountedPriceRecords[
+                    this.props.currency
+                  ]
+                : line?.product?.priceRecords[this.props.currency] -
+                  line.product.childAttributes[0]?.discountedPriceRecords[
+                    this.props.currency
+                  ]
+              : "NA", // Pass the discount amount
           index: ind,
           item_brand: "Goodearth",
-          item_category: category?.split(">")?.join("/"),
-          item_category2: line.product?.childAttributes[0]?.size,
-          item_category3: line.product.is3d ? "3d" : "non3d",
-          item_category4: line.product.is3d ? "YES" : "NO",
+          item_category: L1,
+          item_category2: L2,
+          item_category3: L3,
+          item_category4: "NA",
+          item_category5: line.product.is3d ? "3d" : "non3d",
           item_list_id: "NA",
-          item_list_name: search ? search : "NA",
-          item_variant: "NA",
-          // item_category5: line?.product?.collection,
+          item_list_name: search ? `${clickType}-${search}` : "NA",
+          item_variant: line.product?.childAttributes[0]?.size || "NA",
           price: line?.product?.priceRecords[this.props.currency],
           quantity: line?.quantity,
-          collection_category: line?.product?.collections?.join("|")
+          collection_category: line?.product?.collections?.join("|"),
+          price_range: "NA"
         };
       });
       dataLayer.push(function(this: any) {
@@ -321,6 +350,14 @@ class CartPage extends React.Component<Props, State> {
     // }, 800);
   }
 
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    const { currency, updateWishlist } = this.props;
+
+    if (currency !== nextProps?.currency) {
+      updateWishlist();
+    }
+  }
+
   onNotifyCart = (basketLineId: ProductID) => {
     this.props.deleteBasket(basketLineId).then(res => {
       this.setState({
@@ -349,6 +386,16 @@ class CartPage extends React.Component<Props, State> {
       count = count + items[i].quantity;
     }
     return count;
+  }
+
+  checkMixItems() {
+    let item1 = false,
+      item2 = false;
+    this.props.cart.lineItems.map(data => {
+      if (!data.bridalProfile) item1 = true;
+      if (data.bridalProfile) item2 = true;
+    });
+    return item1 && item2;
   }
 
   onUndoWishlistClick = () => {
@@ -521,6 +568,20 @@ class CartPage extends React.Component<Props, State> {
                               )}
                             >
                               <div className={styles.searchImageboxNew}>
+                                {data?.salesBadgeImage && (
+                                  <div
+                                    className={cs(
+                                      {
+                                        [styles.badgePositionPlpMobile]: mobile
+                                      },
+                                      {
+                                        [styles.badgePositionPlp]: !mobile
+                                      }
+                                    )}
+                                  >
+                                    <img src={data.salesBadgeImage} />
+                                  </div>
+                                )}
                                 <Link to={data.productUrl}>
                                   <img
                                     src={
@@ -545,11 +606,40 @@ class CartPage extends React.Component<Props, State> {
                                 </p>
                                 <p className={styles.searchFeature}>
                                   <Link to={data.productUrl}>
-                                    {String.fromCharCode(
-                                      ...currencyCode[this.props.currency]
-                                    ) +
-                                      " " +
-                                      data.price[currency]}
+                                    {this.props?.isSale && data.discount ? (
+                                      <span className={styles.discountprice}>
+                                        {data.discountedPrice
+                                          ? displayPriceWithCommas(
+                                              data.discountedPrice[currency],
+                                              currency
+                                            )
+                                          : ""}{" "}
+                                        &nbsp;{" "}
+                                      </span>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {this.props?.isSale && data.discount ? (
+                                      <span className={styles.strikeprice}>
+                                        {displayPriceWithCommas(
+                                          data.price[currency],
+                                          currency
+                                        )}
+                                      </span>
+                                    ) : (
+                                      <span
+                                        className={
+                                          data.badgeType == "B_flat"
+                                            ? styles.discountprice
+                                            : ""
+                                        }
+                                      >
+                                        {displayPriceWithCommas(
+                                          data.price[currency],
+                                          currency
+                                        )}
+                                      </span>
+                                    )}
                                   </Link>
                                 </p>
                               </div>
@@ -574,6 +664,20 @@ class CartPage extends React.Component<Props, State> {
                                       i === wishlistData.length
                                   })}
                                 >
+                                  {data?.salesBadgeImage && (
+                                    <div
+                                      className={cs(
+                                        {
+                                          [styles.badgePositionPlpMobile]: mobile
+                                        },
+                                        {
+                                          [styles.badgePositionPlp]: !mobile
+                                        }
+                                      )}
+                                    >
+                                      <img src={data.salesBadgeImage} />
+                                    </div>
+                                  )}
                                   <Link
                                     to={
                                       i === wishlistData.length
@@ -609,11 +713,44 @@ class CartPage extends React.Component<Props, State> {
                                     </p>
                                     <p className={styles.searchFeature}>
                                       <Link to={data.productUrl}>
-                                        {String.fromCharCode(
-                                          ...currencyCode[this.props.currency]
-                                        ) +
-                                          " " +
-                                          data.price[currency]}
+                                        {this.props?.isSale && data.discount ? (
+                                          <span
+                                            className={styles.discountprice}
+                                          >
+                                            {data.discountedPrice
+                                              ? displayPriceWithCommas(
+                                                  data.discountedPrice[
+                                                    currency
+                                                  ],
+                                                  currency
+                                                )
+                                              : ""}{" "}
+                                            &nbsp;{" "}
+                                          </span>
+                                        ) : (
+                                          ""
+                                        )}
+                                        {this.props?.isSale && data.discount ? (
+                                          <span className={styles.strikeprice}>
+                                            {displayPriceWithCommas(
+                                              data.price[currency],
+                                              currency
+                                            )}
+                                          </span>
+                                        ) : (
+                                          <span
+                                            className={
+                                              data.badgeType == "B_flat"
+                                                ? styles.discountprice
+                                                : ""
+                                            }
+                                          >
+                                            {displayPriceWithCommas(
+                                              data.price[currency],
+                                              currency
+                                            )}
+                                          </span>
+                                        )}
                                       </Link>
                                     </p>
                                   </div>
@@ -775,10 +912,13 @@ class CartPage extends React.Component<Props, State> {
             </div>
           )}
           {/* {this.renderMessage()} */}
-          {this.state.newLoading && <Loader />}
+          {this.checkMixItems() && (
+            <div className={styles.mixedItemsMsg}>
+              <p>{REGISTRY_MIXED_SHIPPING}</p>
+            </div>
+          )}
           {this.getItems()}
         </div>
-
         <div
           className={cs(
             bootstrap.col12,

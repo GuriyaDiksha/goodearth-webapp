@@ -196,7 +196,7 @@
             cursor: pointer;
             &:hover {
               color: $aqua;
-              border-bottom: 1px solid $aqua;
+              border-bottom: 0.5px solid $aqua;
             }
           }
           .wishlist-display {
@@ -510,7 +510,7 @@
       width: fit-content;
       &:hover {
         color: $aqua;
-        border-bottom: 1px solid $aqua;
+        border-bottom: 0.5px solid $aqua;
       }
     }
   }
@@ -529,8 +529,9 @@
   img {
     position: absolute;
     width: 100%;
-    max-width: 52px;
-    top: 0px;
+    max-width: 40px;
+    top: 4px;
+    left: 4px;
   }
 }
 
@@ -551,4 +552,36 @@
   color:$gold !important;
   letter-spacing: 0.26px;
   font-weight: normal;
+}
+.flex-price-icon{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.badge-position-plp {
+  width: 40px;
+  max-width: 52px;
+  top: 4px;
+  left: 4px;
+  position: absolute;
+  z-index: 1;
+
+  img{
+    width: 100%;
+  }
+}
+
+.discountprice {
+  color: $gold;
+  font-family: $font-Montserrat;
+  font-size: 14px;
+}
+
+.strikeprice {
+  font-size: 12px !important;
+  text-decoration: line-through;
+  color: $light-charcoal;
+  font-family: $font-Montserrat;
+  vertical-align: middle;
 }

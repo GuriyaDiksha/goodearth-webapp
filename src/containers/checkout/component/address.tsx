@@ -39,7 +39,8 @@ import { countryCurrencyCode } from "constants/currency";
 import ModalStyles from "components/Modal/styles.scss";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
-import bridalRing from "../../../images/bridal/rings.svg";
+// import bridalRing from "../../../images/bridal/rings.svg";
+import bridalGiftIcon from "../../../images/registery/addedReg.svg";
 import { useLocation } from "react-router";
 
 const AddressSection: React.FC<AddressProps & {
@@ -68,7 +69,10 @@ const AddressSection: React.FC<AddressProps & {
     setMode
   } = useContext(AddressContext);
   const { currency, user } = useSelector((state: AppState) => state);
-  const { basket } = useSelector((state: AppState) => state);
+  const {
+    basket,
+    info: { isSale }
+  } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
   const {
     addressList,
@@ -335,11 +339,22 @@ const AddressSection: React.FC<AddressProps & {
                 globalStyles.textCapitalize
               )}
             >
-              {address.registrantName} & {address.coRegistrantName}&#39;s &nbsp;
-              {address.occasion} Registry
+              {address.registrantName && !address.coRegistrantName && (
+                <span>
+                  {address.registrantName}&#39;s&nbsp;
+                  {address.occasion}&nbsp;Registry
+                </span>
+              )}
+              {address.registrantName && address.coRegistrantName && (
+                <span>
+                  {address.registrantName}&nbsp;&&nbsp;
+                  {address.coRegistrantName}&#39;s&nbsp;
+                  {address.occasion}&nbsp;Registry
+                </span>
+              )}
             </span>
             <div className={cs(styles.defaultAddressDiv, styles.bridalAddress)}>
-              <svg
+              {/* <svg
                 viewBox="0 5 40 40"
                 width="35"
                 height="35"
@@ -349,7 +364,13 @@ const AddressSection: React.FC<AddressProps & {
                 className={styles.ceriseBridalRings}
               >
                 <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-              </svg>
+              </svg> */}
+              <img
+                className={styles.ceriseBridalRings}
+                src={bridalGiftIcon}
+                width="25"
+                alt="gift_reg_icon"
+              />
             </div>
           </div>
 
@@ -565,7 +586,9 @@ const AddressSection: React.FC<AddressProps & {
       validate = false;
     }
     if (!pancardCheck) {
-      setPanCheck("Please confirm that the data you have provided is correct");
+      setPanCheck(
+        "Please confirm that the information you have provided is correct"
+      );
       validate = false;
     }
     return validate;
@@ -603,7 +626,7 @@ const AddressSection: React.FC<AddressProps & {
       billingAddressId === 0 &&
       currentCallBackComponent === "checkout-billing"
     ) {
-      setBillingError("Please select billing address");
+      setBillingError("Please select a Billing Address");
       return false;
     }
 
@@ -643,6 +666,7 @@ const AddressSection: React.FC<AddressProps & {
     // }
     if (validate) {
       removeErrorMessages();
+
       props.finalizeAddress(addr, props.activeStep, numberObj);
       // if (activeStep === STEP_BILLING) {
       //   next(showPromo ? STEP_PROMO : STEP_PAYMENT);
@@ -664,7 +688,20 @@ const AddressSection: React.FC<AddressProps & {
         line?.product.categories && line?.product.categories[index]
           ? line?.product.categories[index].replace(/\s/g, "")
           : "";
-      const arr = category.split(">");
+
+      const cat1 = line?.product.categories?.[0]?.split(">");
+      const cat2 = line?.product.categories?.[1]?.split(">");
+
+      const L1 = cat1?.[0]?.trim();
+
+      const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
+
+      const L3 = cat2?.[2]
+        ? cat2?.[2]?.trim()
+        : line?.product.categories?.[2]?.split(">")?.[2]?.trim();
+
+      const clickType = localStorage.getItem("clickType");
+      const search = CookieService.getCookie("search") || "";
 
       return {
         item_id: line?.product?.id, //Pass the product id
@@ -672,20 +709,28 @@ const AddressSection: React.FC<AddressProps & {
         affiliation: line?.product?.title, // Pass the product name
         coupon: "NA", // Pass the coupon if available
         currency: currency, // Pass the currency code
-        discount: "NA", // Pass the discount amount
+        discount:
+          isSale && line.product.discountedPriceRecords
+            ? line?.product?.badgeType == "B_flat"
+            : line?.product?.discountedPriceRecords[currency]
+            ? line?.product?.priceRecords[currency] -
+              line?.product.childAttributes[0]?.discountedPriceRecords[currency]
+            : "NA",
         index: ind,
         item_brand: "Goodearth",
-        item_category: category?.split(">")?.join("/"),
-        item_category2: line.product?.childAttributes[0]?.size,
-        item_category3: line.product.is3d ? "3d" : "non3d",
-        item_category4: line.product.is3d ? "YES" : "NO",
+        item_category: L1,
+        item_category2: L2,
+        item_category3: L3,
+        item_category4: "NA",
+        item_category5: line.product.is3d ? "3d" : "non3d",
         item_list_id: "NA",
-        item_list_name: "NA",
-        item_variant: "NA",
+        item_list_name: search ? `${clickType}-${search}` : "NA",
+        item_variant: line.product?.childAttributes[0]?.size,
         // item_category5: line?.product?.collection,
         price: line?.product?.priceRecords[currency],
         quantity: line?.quantity,
-        collection_category: line?.product?.collections?.join("|")
+        collection_category: line?.product?.collections?.join("|"),
+        price_range: "NA"
       };
     });
 
@@ -773,195 +818,147 @@ const AddressSection: React.FC<AddressProps & {
     }
   };
 
-  const renderPancard = useMemo(() => {
-    if (props.activeStep == STEP_BILLING) {
-      const pass =
-        currency == "INR"
-          ? `As per RBI government regulations, PAN details are mandatory for transaction above ${displayPriceWithCommas(
-              amountPrice[currency],
-              currency
-            )}.`
-          : `AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${displayPriceWithCommas(
-              amountPrice[currency],
-              currency
-            )}.`;
-      const panText =
-        currency == "INR" ? "PAN Card Number*" : " Passport Number*";
-
-      return (
+  const gstSection = useMemo(() => {
+    return (
+      currency == "INR" && (
         <div>
-          {currency == "INR" ? (
-            <div>
-              {/* <hr
-                className={cs(globalStyles.marginy24, styles.widthFitContent)}
-              /> */}
-              {/* <label
+          <CheckboxWithLabel
+            id="gst"
+            onChange={() => {
+              toggleGstInvoice();
+            }}
+            checked={gst && gstDetails?.gstText !== ""}
+            label={[
+              <label
+                key="gst"
+                htmlFor="gst"
+                // className={cs(styles.indicator, {
+                //   [styles.checked]: gst && gstDetails?.gstText
+                // })}
                 className={cs(
-                  styles.flex,
-                  globalStyles.voffset3,
-                  globalStyles.widthSet
+                  styles.formSubheading,
+                  styles.checkBoxHeading,
+                  styles.lineHeightLable
                 )}
-              > */}
-              {/* <div
-                  className={cs(globalStyles.marginR10, globalStyles.marginT5)}
-                >
-                  <span className={styles.checkbox}> */}
-              <CheckboxWithLabel
-                id="gst"
-                onChange={() => {
-                  toggleGstInvoice();
-                }}
-                checked={gst && gstDetails?.gstText !== ""}
-                label={[
-                  <label
-                    key="gst"
-                    htmlFor="gst"
-                    // className={cs(styles.indicator, {
-                    //   [styles.checked]: gst && gstDetails?.gstText
-                    // })}
-                    className={cs(
-                      styles.formSubheading,
-                      styles.checkBoxHeading,
-                      styles.lineHeightLable
-                    )}
-                  >
-                    I need a GST invoice
-                    {gstDetails?.gstText && (
-                      <label className={styles.gstInvoiseNo}>
-                        {gstDetails?.gstType}: {gstDetails?.gstText}
-                      </label>
-                    )}
-                  </label>
-                ]}
-              />
-              {/* </span>
-                </div> */}
-              {/* <div
-                  className={cs(
-                    styles.formSubheading,
-                    styles.checkBoxHeading,
-                    styles.lineHeightLable
-                  )}
-                >
-                  I need a GST invoice
-                  {gstDetails?.gstText && (
-                    <label className={styles.gstInvoiseNo}>
-                      {gstDetails?.gstType}: {gstDetails?.gstText}
-                    </label>
-                  )}
-                </div> */}
-              {/* </label> */}
-            </div>
-          ) : (
-            ""
-          )}
-          {amountPrice[currency] <= basket.total ? (
-            <div
-              className={cs(
-                styles.input2,
-                styles.formSubheading,
-                globalStyles.voffset4
-              )}
-            >
-              <hr className={globalStyles.marginy24} />
-              {pass}
-              <div>
-                <div className={styles.form}>
-                  <div
-                    className={cs(
-                      styles.flex,
-                      globalStyles.voffset3,
-                      styles.payment
-                    )}
-                  >
-                    <input
-                      type="text"
-                      className={cs(
-                        { [styles.disabledInput]: !!user.panPassport },
-                        styles.input,
-                        styles.marginR10,
-                        { [styles.panError]: panError }
-                      )}
-                      onChange={onPanChange}
-                      disabled={!!user.panPassport}
-                      onKeyPress={onPanKeyPress}
-                      value={pancardText}
-                      aria-label="Pancard"
-                    />
-                  </div>
-                  <label className={styles.formLabel}>{panText}</label>
-                  {panError ? (
-                    <span className={globalStyles.errorMsg}>{panError}</span>
-                  ) : (
-                    ""
-                  )}
-                </div>
-              </div>
-              {/* <label className={cs(styles.flex, globalStyles.voffset4)}> */}
-              <div
-                className={cs(globalStyles.marginT30, globalStyles.marginB20)}
               >
-                {/* <span className={styles.checkbox}>  */}
-                <CheckboxWithLabel
-                  id="pancard"
-                  onChange={togglepancard}
-                  checked={pancardCheck}
-                  label={[
-                    <label
-                      key="pancard"
-                      htmlFor="pancard"
-                      // className={cs(styles.indicator, {
-                      //   [styles.checked]: pancardCheck
-                      // })}
-                      className={cs(
-                        styles.formSubheading,
-                        globalStyles.marginB0,
-                        globalStyles.marginT0,
-                        styles.checkBoxHeading,
-                        styles.lineHeightLable
-                      )}
-                    >
-                      I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
-                    </label>
-                  ]}
-                />
+                I need a GST invoice
+                {gstDetails?.gstText && (
+                  <label className={styles.gstInvoiseNo}>
+                    {gstDetails?.gstType}: {gstDetails?.gstText}
+                  </label>
+                )}
+              </label>
+            ]}
+          />
 
-                {/* </span> */}
-              </div>
-              {/* <div
-                  className={cs(
-                    styles.formSubheading,
-                    globalStyles.marginB0,
-                    globalStyles.marginT0,
-                    styles.checkBoxHeading
-                  )}
-                >
-                  I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
-                </div> */}
-              {/* </label> */}
-              {panCheck ? (
-                <span className={globalStyles.errorMsg}>{panCheck}</span>
-              ) : (
-                ""
-              )}
+          {user.customerGroup == "loyalty_cerise_club" ||
+          user.customerGroup == "loyalty_cerise_sitara" ? (
+            <div className={cs(styles.ceriseGstDisclaimer)}>
+              Note: You will not be earning any cerise loyalty points on GST
+              billing
             </div>
           ) : (
             ""
           )}
         </div>
-      );
-    }
-  }, [
-    gst,
-    panCheck,
-    pancardCheck,
-    panError,
-    props.activeStep,
-    basket.total,
-    pancardText,
-    currency,
-    gstDetails
-  ]);
+      )
+    );
+  }, [currency, gstDetails, gst]);
+
+  const renderPancard = useMemo(() => {
+    const pass =
+      currency == "INR"
+        ? `As per RBI government regulations, PAN details are mandatory for transaction above ${displayPriceWithCommas(
+            amountPrice[currency],
+            currency
+          )}.`
+        : `AS PER RBI GOVERNMENT REGULATIONS, PASSPORT DETAILS ARE MANDATORY FOR TRANSACTIONS ABOVE ${displayPriceWithCommas(
+            amountPrice[currency],
+            currency
+          )}.`;
+    const panText =
+      currency == "INR" ? "PAN Card Number*" : " Passport Number*";
+
+    return (
+      amountPrice[currency] <= basket.total && (
+        <div
+          className={cs(
+            styles.input2,
+            styles.formSubheading,
+            globalStyles.voffset4
+          )}
+        >
+          <hr className={globalStyles.marginy24} />
+          {pass}
+          <div>
+            <div className={styles.form}>
+              <div
+                className={cs(
+                  styles.flex,
+                  globalStyles.voffset3,
+                  styles.payment
+                )}
+              >
+                <input
+                  type="text"
+                  className={cs(
+                    { [styles.disabledInput]: !!user.panPassport },
+                    styles.input,
+                    styles.marginR10,
+                    { [styles.panError]: panError }
+                  )}
+                  onChange={onPanChange}
+                  disabled={!!user.panPassport}
+                  onKeyPress={onPanKeyPress}
+                  value={pancardText}
+                  aria-label="Pancard"
+                />
+              </div>
+              <label className={styles.formLabel}>{panText}</label>
+              {panError ? (
+                <span className={globalStyles.errorMsg}>{panError}</span>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
+          {/* <label className={cs(styles.flex, globalStyles.voffset4)}> */}
+          <div className={cs(globalStyles.marginT30, globalStyles.marginB20)}>
+            {/* <span className={styles.checkbox}>  */}
+            <CheckboxWithLabel
+              id="pancard"
+              onChange={togglepancard}
+              checked={pancardCheck}
+              label={[
+                <label
+                  key="pancard"
+                  htmlFor="pancard"
+                  // className={cs(styles.indicator, {
+                  //   [styles.checked]: pancardCheck
+                  // })}
+                  className={cs(
+                    styles.formSubheading,
+                    globalStyles.marginB0,
+                    globalStyles.marginT0,
+                    styles.checkBoxHeading,
+                    styles.lineHeightLable
+                  )}
+                >
+                  I CONFIRM THAT THE DATA I HAVE SHARED IS CORRECT
+                </label>
+              ]}
+            />
+          </div>
+
+          {panCheck ? (
+            <span className={globalStyles.errorMsg}>{panCheck}</span>
+          ) : (
+            ""
+          )}
+        </div>
+      )
+    );
+  }, [currency, basket?.total, panCheck, panError, pancardCheck, pancardText]);
 
   const renderBillingCheckbox = function() {
     const show =
@@ -1107,10 +1104,7 @@ const AddressSection: React.FC<AddressProps & {
                   {children}
                   {shippingError && (
                     <div
-                      className={cs(
-                        globalStyles.errorMsg,
-                        globalStyles.paddT25
-                      )}
+                      className={cs(globalStyles.errorMsg, globalStyles.padd10)}
                     >
                       {shippingError}
                     </div>
@@ -1467,7 +1461,13 @@ const AddressSection: React.FC<AddressProps & {
                   ) : (
                     ""
                   )}
-                  <div>{renderPancard}</div>
+
+                  {props.activeStep == STEP_BILLING && isActive && (
+                    <div>
+                      {gstSection}
+                      {renderPancard}
+                    </div>
+                  )}
                   {props.activeStep == STEP_BILLING &&
                     (error || billingError) && (
                       <div

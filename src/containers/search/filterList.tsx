@@ -27,6 +27,7 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     currency: state.currency,
     salestatus: state.info.isSale,
+    scrollDown: state.info.scrollDown,
     facets: state.searchList.data.results.facets,
     facetObject: state.searchList.facetObject,
     nextUrl: state.searchList.data.next,
@@ -106,7 +107,11 @@ class FilterList extends React.Component<Props, State> {
   createFilterfromUrl = () => {
     const vars: any = {};
     const { history } = this.props;
-    const url = decodeURIComponent(history.location.search.replace(/\+/g, " "));
+    const url = decodeURIComponent(
+      history.location.search
+        .replace(/\+/g, " ")
+        .replace(/%(?![0-9A-Fa-f]{2})/g, "%25")
+    );
     const { filter } = this.state;
 
     const re = /[?&]+([^=&]+)=([^&]*)/gi;
@@ -512,7 +517,10 @@ class FilterList extends React.Component<Props, State> {
             discountVars = "";
             Object.keys(discount).map(data => {
               if (discount[data].isChecked) {
-                data = encodeURIComponent(data).replace(/%20/g, "+");
+                data = encodeURIComponent(data.replace(/%25/g, "%")).replace(
+                  /%20/g,
+                  "+"
+                );
                 data = data.replace("disc_", "");
                 discountVars == ""
                   ? (discountVars = data)
@@ -533,7 +541,7 @@ class FilterList extends React.Component<Props, State> {
     colorVars != "" ? (filterUrl += "&current_color=" + colorVars) : "";
     sizeVars != "" ? (filterUrl += "&available_size=" + sizeVars) : "";
     searchValue = this.state.filter.q.q
-      ? encodeURIComponent(this.state.filter.q.q)
+      ? encodeURIComponent(this.state.filter.q.q.replace(/%25/g, "%"))
       : "";
     categoryShopVars != ""
       ? (filterUrl += "&category_shop=" + categoryShopVars)
@@ -607,7 +615,7 @@ class FilterList extends React.Component<Props, State> {
       }
     );
   };
-
+  prevScroll = 0;
   handleScroll = (event: any) => {
     const windowHeight =
       "innerHeight" in window
@@ -639,8 +647,26 @@ class FilterList extends React.Component<Props, State> {
       });
     }
     // html.clientHeight <= (window.pageYOffset + window.innerHeight-100)
-    if (windowBottom + 2000 >= docHeight && this.state.scrollload) {
+    if (
+      windowBottom + 2000 >= docHeight &&
+      this.state.scrollload &&
+      this.state.flag
+    ) {
       this.appendData();
+    }
+    // to check if scrolling down
+    if (this.props.mobile) {
+      const scroll = window.pageYOffset || document.documentElement.scrollTop;
+      if (this.prevScroll < scroll - 5) {
+        if (!this.props.scrollDown) {
+          this.props.updateScrollDown(true);
+        }
+      } else if (this.prevScroll > scroll) {
+        if (this.props.scrollDown) {
+          this.props.updateScrollDown(false);
+        }
+      }
+      this.prevScroll = scroll;
     }
   };
 
@@ -711,86 +737,99 @@ class FilterList extends React.Component<Props, State> {
     } = this.props;
     const { filter } = this.state;
     if (nextUrl) {
-      this.setState({
-        disableSelectedbox: true
-      });
-    }
-    if (nextUrl && this.state.flag && this.state.scrollload) {
-      this.setState({ flag: false });
-      const filterUrl = "?" + nextUrl.split("?")[1];
-      // const pageSize = mobile ? 10 : 20;
-      const pageSize = 20;
-      const queryString = this.props.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      const searchValue: any = urlParams.get("q") || "";
-      this.setState({ isLoading: true });
-      changeLoader?.(true);
-      updateProduct(filterUrl + `&page_size=${pageSize}`, listdata)
-        .then(searchList => {
-          changeLoader?.(false);
-          productImpression(
-            searchList,
-            searchValue || "PLP",
-            this.props.currency,
-            searchList.results.data.length
+      this.setState(
+        {
+          disableSelectedbox: true,
+          flag: false
+        },
+        () => {
+          let filterUrl = "?" + nextUrl.split("?")[1];
+          // const pageSize = mobile ? 10 : 20;
+          const pageSize = 40;
+          const queryString = this.props.location.search;
+          const urlParams = new URLSearchParams(queryString);
+          const searchValue: any = urlParams.get("q") || "";
+          const isPageSizeExist = new URLSearchParams(filterUrl).get(
+            "page_size"
           );
-          this.createFilterfromUrl();
-          const pricearray: any = [],
-            currentCurrency =
-              "price" +
-              currency[0].toUpperCase() +
-              currency.substring(1).toLowerCase();
-          searchList.results.filtered_facets[currentCurrency]?.map(function(
-            a: any
-          ) {
-            pricearray.push(+a[0]);
-          });
-          if (pricearray.length > 0) {
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.min(a, b);
-              })
-            );
-            minMaxvalue.push(
-              pricearray.reduce(function(a: number, b: number) {
-                return Math.max(a, b);
-              })
-            );
+          if (!isPageSizeExist) {
+            filterUrl = filterUrl + `&page_size=${pageSize}`;
           }
-
-          if (filter.price.min_price) {
-            currentRange.push(filter.price.min_price);
-            currentRange.push(filter.price.max_price);
-          } else {
-            currentRange = minMaxvalue;
-          }
-
-          this.setState(
-            {
-              rangevalue: currentRange,
-              initialrangevalue: {
-                min: minMaxvalue[0],
-                max: minMaxvalue[1]
-              },
-              disableSelectedbox: false,
-              scrollload: true,
-              flag: true,
-              totalItems: searchList.count
-            },
-            () => {
-              if (!this.state.scrollView && this.state.shouldScroll) {
-                this.handleProductSearch();
+          this.setState({ isLoading: true });
+          changeLoader?.(true);
+          updateProduct(filterUrl, listdata)
+            .then(searchList => {
+              changeLoader?.(false);
+              productImpression(
+                searchList,
+                searchValue || "PLP",
+                this.props.currency,
+                searchList.results.data.length,
+                undefined,
+                this.state.filter.price.max_price &&
+                  this.state.filter.price.min_price
+                  ? `${this.state.filter.price.max_price} - ${this.state.filter.price.min_price}`
+                  : undefined
+              );
+              this.createFilterfromUrl();
+              const pricearray: any = [],
+                currentCurrency =
+                  "price" +
+                  currency[0].toUpperCase() +
+                  currency.substring(1).toLowerCase();
+              searchList.results.filtered_facets[currentCurrency]?.map(function(
+                a: any
+              ) {
+                pricearray.push(+a[0]);
+              });
+              if (pricearray.length > 0) {
+                minMaxvalue.push(
+                  pricearray.reduce(function(a: number, b: number) {
+                    return Math.min(a, b);
+                  })
+                );
+                minMaxvalue.push(
+                  pricearray.reduce(function(a: number, b: number) {
+                    return Math.max(a, b);
+                  })
+                );
               }
-            }
-          );
-          this.props.updateFacets(
-            this.getSortedFacets(searchList.results.facets)
-          );
-        })
-        .finally(() => {
-          this.setState({ isLoading: false });
-          changeLoader?.(false);
-        });
+
+              if (filter.price.min_price) {
+                currentRange.push(filter.price.min_price);
+                currentRange.push(filter.price.max_price);
+              } else {
+                currentRange = minMaxvalue;
+              }
+
+              this.setState(
+                {
+                  rangevalue: currentRange,
+                  initialrangevalue: {
+                    min: minMaxvalue[0],
+                    max: minMaxvalue[1]
+                  },
+                  disableSelectedbox: false,
+                  scrollload: true,
+                  flag: true,
+                  totalItems: searchList.count
+                },
+                () => {
+                  if (!this.state.scrollView && this.state.shouldScroll) {
+                    this.handleProductSearch();
+                  }
+                }
+              );
+              this.props.updateFacets(
+                this.getSortedFacets(searchList.results.facets)
+              );
+            })
+            .finally(() => {
+              this.setState({ isLoading: false });
+              changeLoader?.(false);
+            });
+        }
+      );
     }
   };
 
@@ -802,24 +841,35 @@ class FilterList extends React.Component<Props, State> {
     // this.setState({
     //     disableSelectedbox: true
     // });
-    const url = decodeURIComponent(history.location.search);
-    const filterUrl = "?" + url.split("?")[1];
+    const url = decodeURIComponent(
+      history.location.search.replace(/%(?![0-9A-Fa-f]{2})/g, "%25")
+    );
+    let filterUrl = "?" + url.split("?")[1];
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const searchValue: any = urlParams.get("q") || "";
 
     // const pageSize = mobile ? 10 : 20;
-    const pageSize = 20;
+    const pageSize = 40;
+    const isPageSizeExist = new URLSearchParams(filterUrl).get("page_size");
+    if (!isPageSizeExist) {
+      filterUrl = filterUrl + `&page_size=${pageSize}`;
+    }
     this.setState({ isLoading: true });
     changeLoader?.(true);
-    fetchSearchProducts(filterUrl + `&page_size=${pageSize}`)
+    fetchSearchProducts(filterUrl)
       .then(searchList => {
         changeLoader?.(false);
         gaEventsForSearch(searchList);
         productImpression(
           searchList,
           searchValue || "PLP",
-          this.props.currency
+          this.props.currency,
+          undefined,
+          this.props.salestatus,
+          this.state.filter.price.max_price && this.state.filter.price.min_price
+            ? `${this.state.filter.price.max_price} - ${this.state.filter.price.min_price}`
+            : undefined
         );
 
         this.createList(searchList);
@@ -835,6 +885,7 @@ class FilterList extends React.Component<Props, State> {
 
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
+    this.props.updateScrollDown(false);
     this.unlisten = this.props.history.listen(this.stateChange);
 
     const header = document.getElementById("myHeader");

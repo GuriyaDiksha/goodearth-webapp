@@ -4,7 +4,8 @@ import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
-import bridalRing from "../../../images/bridal/rings.svg";
+// import bridalRing from "../../../images/bridal/rings.svg";
+import bridalGiftIcon from "../../../images/registery/addedReg.svg";
 import { AddressContext } from "../AddressMain/context";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
@@ -31,6 +32,7 @@ const AddressItemBridal: React.FC<Props> = ({
               bootstrapStyles.col12,
               bootstrapStyles.colMd6,
               globalStyles.voffset5,
+              globalStyles.marginB30,
               styles.checkoutAddress,
               "address-container"
             )
@@ -62,33 +64,56 @@ const AddressItemBridal: React.FC<Props> = ({
                   />
                   <span className={styles.checkmark}></span>
                 </div>
-                <div
-                  className={cs(
-                    styles.lineHead,
-                    styles.titleWidth,
-                    globalStyles.textCapitalize
-                  )}
-                >
-                  {title}
-                  {addressData.registrantName}&nbsp; &{" "}
-                  {addressData.coRegistrantName}&#39;s {addressData.occasion}{" "}
-                  Registry
-                </div>
-
-                <div
-                  className={cs(styles.defaultAddressDiv, styles.bridalAddress)}
-                >
-                  <svg
-                    viewBox="0 5 40 40"
-                    width="35"
-                    height="35"
-                    preserveAspectRatio="xMidYMid meet"
-                    x="0"
-                    y="0"
-                    className={styles.ceriseBridalRings}
+                <div className={styles.displayFlex}>
+                  <div
+                    className={cs(
+                      styles.lineHead,
+                      styles.titleWidth,
+                      globalStyles.textCapitalize
+                    )}
                   >
-                    <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
-                  </svg>
+                    {title}
+                    {addressData.registrantName &&
+                      !addressData.coRegistrantName && (
+                        <span>
+                          {addressData.registrantName}&#39;s&nbsp;
+                          {addressData.occasion}&nbsp;Registry
+                        </span>
+                      )}
+                    {addressData.registrantName &&
+                      addressData.coRegistrantName && (
+                        <span>
+                          {addressData.registrantName}&nbsp;&&nbsp;
+                          {addressData.coRegistrantName}&#39;s&nbsp;
+                          {addressData.occasion}&nbsp;Registry
+                        </span>
+                      )}
+                  </div>
+
+                  <div
+                    className={cs(
+                      styles.defaultAddressDiv,
+                      styles.bridalAddress
+                    )}
+                  >
+                    {/* <svg
+                      viewBox="0 5 40 40"
+                      width="35"
+                      height="35"
+                      preserveAspectRatio="xMidYMid meet"
+                      x="0"
+                      y="0"
+                      className={styles.ceriseBridalRings}
+                    >
+                      <use xlinkHref={`${bridalRing}#bridal-ring`}></use>
+                    </svg> */}
+                    <img
+                      className={styles.ceriseBridalRings}
+                      src={bridalGiftIcon}
+                      width="30"
+                      alt="gift_reg_icon"
+                    />
+                  </div>
                 </div>
               </div>
 

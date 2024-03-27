@@ -37,12 +37,14 @@ const AddressList: React.FC<Props> = props => {
         props.currentCallBackComponent == "bridal-edit"
       ) {
         if (addressDatas) {
-          addressDatas = addressDatas.filter(address => !address.isTulsi);
-          if (isBridal) {
-            addressDatas = addressDatas.filter(
-              address => address.id != bridalAddressId
-            );
-          }
+          addressDatas = addressDatas.filter(
+            address => address.emailId == email && !address.isTulsi
+          );
+          // if (isBridal) {
+          //   addressDatas = addressDatas.filter(
+          //     address => address.id != bridalAddressId
+          //   );
+          // }
         }
       }
       if (

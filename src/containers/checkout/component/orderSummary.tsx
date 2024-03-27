@@ -2,7 +2,6 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "./orderStyles.scss";
-import paymentStyles from "../styles.scss";
 import { OrderProps } from "./typings";
 import { currencyCode } from "typings/currency";
 import { useLocation, NavLink, useHistory, Link } from "react-router-dom";
@@ -18,11 +17,11 @@ import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommasFloat } from "utils/utility";
 import Button from "components/Button";
-// import { currencyCodes } from "constants/currency";
 import checkoutIcon from "../../../images/checkout.svg";
 import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
 import Loader from "components/Loader";
 import ModalStyles from "components/Modal/styles.scss";
+import { countWishlist } from "actions/wishlist";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -31,7 +30,6 @@ const OrderSummary: React.FC<OrderProps> = props => {
     page,
     shippingAddress,
     salestatus,
-    validbo,
     setCheckoutMobileOrderSummary,
     onsubmit,
     isPaymentNeeded,
@@ -163,15 +161,41 @@ const OrderSummary: React.FC<OrderProps> = props => {
     return count;
   };
 
-  const getSizeAndQty = (data: any, qty: any) => {
+  const colorName = (value: string) => {
+    let cName = value
+      .split("-")
+      .slice(1)
+      .join();
+    if (cName[cName.length - 1] == "s") {
+      cName = cName.slice(0, -1);
+    }
+    return cName;
+  };
+
+  const getSizeAndQty = (
+    data: any,
+    qty: any,
+    groupedProductsCount: number,
+    isGC: boolean
+  ) => {
     const size = data.find(function(attribute: any) {
       if (attribute.name == "Size") {
         return attribute;
       }
     });
-    return size ? (
+
+    const color = data.find(function(attribute: any) {
+      if (attribute.name == "Color") {
+        return attribute;
+      }
+    });
+    return (size || qty || color?.value) && !isGC ? (
       <span className={globalStyles.marginT5}>
-        Size: {size.value} | QTY: {qty}
+        {size && `Size: ${size.value} | `}{" "}
+        {color?.value && groupedProductsCount && groupedProductsCount > 0
+          ? `Color: ${colorName(color?.value)} | `
+          : ""}
+        QTY: {qty}
       </span>
     ) : null;
   };
@@ -298,7 +322,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   )}
 
                   <span className={cs(styles.productSize)}>
-                    {getSizeAndQty(item.product.attributes, item.quantity)}
+                    {getSizeAndQty(
+                      item.product.attributes,
+                      item.quantity,
+                      item?.product?.groupedProductsCount,
+                      item.product.structure == "GiftCard"
+                    )}
                   </span>
                   {item.product.structure == "GiftCard" && (
                     <>
@@ -639,6 +668,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     }
     if (isSuspended) {
       resetInfoPopupCookie();
+      // dispatch(countWishlist(0));
     }
   };
 
@@ -703,10 +733,10 @@ const OrderSummary: React.FC<OrderProps> = props => {
             )}
             key={index + "getDiscount"}
           >
-            <span className={styles.subtotal}>
+            <span className={cs(styles.subtotal, globalStyles.gold)}>
               {discount.name == "price-discount" ? "DISCOUNT" : discount.name}
             </span>
-            <span className={styles.subtotal}>
+            <span className={cs(styles.subtotal, globalStyles.gold)}>
               (-) {displayPriceWithCommasFloat(discount.amount, currency)}
             </span>
           </div>
@@ -1166,7 +1196,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       }
                     )}
                   >
-                    {fullText ? deliveryText : deliveryText.substr(0, 85)}
+                    {deliveryText && deliveryText}
+                    {/* {fullText ? deliveryText : deliveryText.substr(0, 85)}
                     {deliveryText.length > 85 ? (
                       <span
                         className={cs(
@@ -1182,7 +1213,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       </span>
                     ) : (
                       ""
-                    )}
+                    )} */}
                   </div>
                 )}
                 {!mobile
@@ -1198,7 +1229,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <div
                     className={cs(
                       globalStyles.c10LR,
-                      globalStyles.voffset2,
+                      globalStyles.voffset3v1,
                       globalStyles.marginB10,
                       globalStyles.textCenter,
                       styles.summaryPadding

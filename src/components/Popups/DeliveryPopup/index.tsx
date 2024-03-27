@@ -20,7 +20,7 @@ const Delivery: React.FC<PopupProps> = props => {
   const { deliveryText } = useSelector((state: AppState) => state.info);
   const { mobile } = useSelector((state: AppState) => state.device);
 
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator?.userAgent);
+  // const isSafari = /^((?!chrome|android).)*safari/i.test(navigator?.userAgent);
 
   useEffect(() => {
     setTextarea(deliveryText);

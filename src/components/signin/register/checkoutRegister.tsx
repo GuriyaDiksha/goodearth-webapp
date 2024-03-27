@@ -733,7 +733,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 isWords: true
               }}
               validationErrors={{
-                isWords: "Only alphabets are allowed"
+                isWords: "Please enter only alphabetic characters"
               }}
               keyPress={this.handleFirstNameKeyPress}
               required
@@ -751,7 +751,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 isWords: true
               }}
               validationErrors={{
-                isWords: "Only alphabets are allowed"
+                isWords: "Please enter only alphabetic characters"
               }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               inputRef={this.lastNameInput}
@@ -822,8 +822,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isValidDate: "Please enter valid date of birth",
-                isMinAllowedDate: "Please enter valid date of birth",
+                isValidDate: "Please enter a valid Date of Birth",
+                isMinAllowedDate: "Please enter a valid Date of Birth",
                 isMaxAllowedDate: "Age should be at least 15 years"
               }}
               showLabel={true}
@@ -935,8 +935,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isCodeValid: "Required",
-                isValidCode: "Enter valid code"
+                isCodeValid: "Please select a Country Code",
+                isValidCode: "Please enter a valid country code"
               }}
               allowFilter={true}
               showLabel={true}
@@ -966,8 +966,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isExisty: "Please enter your contact number",
-                compulsory: "Please enter your contact number"
+                isExisty: "Please enter your Contact Number",
+                compulsory: "Please enter your Contact Number"
               }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               keyDown={e => (e.which === 69 ? e.preventDefault() : null)}

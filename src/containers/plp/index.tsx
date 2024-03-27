@@ -150,12 +150,14 @@ class PLP extends React.Component<
         if (this.props.mobile) {
           this.setProductCount();
         }
-        // plp filter scroll top
-        if (window.scrollY == 0) {
-          const filterDiv = document.getElementById("inner_filter");
-          // console.log(filterDiv);
-          filterDiv?.scrollTo(0, 0);
-        }
+
+        //Commented: code commented for on every filter selection filter section is going on top
+        //     // plp filter scroll top
+        //     if (window.scrollY == 0) {
+        //       const filterDiv = document.getElementById("inner_filter");
+        //       // console.log(filterDiv);
+        //       filterDiv?.scrollTo(0, 0);
+        //     }
       }, 50)
     );
     if (this.props.device.mobile) {
@@ -189,6 +191,11 @@ class PLP extends React.Component<
     });
     const config = { subtree: true, childList: true };
     observer.observe(document, config);
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
+    console.log("error =================================", error);
+    console.log("errorInfo ===================================", errorInfo);
   }
 
   componentWillUnmount() {
@@ -472,7 +479,7 @@ class PLP extends React.Component<
     const len = product?.categories?.length;
     const category = product?.categories[len - 1];
     // const l3Len = category.split(">").length;
-    const l1 = category?.split(">")[0];
+    const l1 = category?.split(">")?.[0];
 
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
@@ -829,6 +836,7 @@ class PLP extends React.Component<
                   data={showTemplates.Banner?.[0]}
                   mobile={mobile}
                   tablet={tablet}
+                  colbanner={false}
                 />
               ) : null}
             </div>
@@ -961,10 +969,13 @@ class PLP extends React.Component<
                               currency={currency}
                               key={item.id}
                               mobile={mobile}
+                              tablet={tablet}
                               isVisible={index < 3 ? true : undefined}
                               onClickQuickView={this.onClickQuickView}
                               isCorporate={this.state.corporoateGifting}
                               loader={this.state.flag}
+                              notifyMeClick={this.notifyMeClick}
+                              onEnquireClick={this.onEnquireClick}
                             />
                           )}
                         </div>

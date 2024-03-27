@@ -17,7 +17,6 @@ import styles from "../styles.scss";
 import cs from "classnames";
 import { useSelector, useDispatch } from "react-redux";
 import LoginService from "services/login";
-import FormCheckbox from "components/Formsy/FormCheckbox";
 import { AddressData, AddressFormData } from "../typings";
 import { AddressContext } from "components/Address/AddressMain/context";
 import { AppState } from "reducers/typings";
@@ -31,6 +30,13 @@ import Button from "components/Button";
 import SelectDropdown from "components/Formsy/SelectDropdown";
 import iconStyles from "styles/iconFonts.scss";
 import { cloneDeep } from "lodash";
+import BridalService from "services/bridal";
+import {
+  BridalDetailsType,
+  BridalProfileData
+} from "containers/myAccount/components/Bridal/typings";
+import { updateAddressList } from "actions/address";
+import { updateUser } from "actions/user";
 
 type Props = {
   addressData?: AddressData;
@@ -69,19 +75,35 @@ const AddressForm: React.FC<Props> = props => {
     currentCallBackComponent
   } = useContext(AddressContext);
 
+  const { bridalId } = useSelector((state: AppState) => state.user);
+  const [bridalProfile1, setBridalProfile] = useState<BridalProfileData>();
+  const [shareLink, setShareLink] = useState("");
+  const [bridalDetails, setBridalDetails] = useState<BridalDetailsType>({
+    occasion: "",
+    registrantName: "",
+    registryName: "",
+    coRegistrantName: "",
+    userAddress: undefined,
+    eventDate: ""
+  });
+  const { user } = useSelector((state: AppState) => state);
+  const address = props.addressData;
+
   const { currency } = useSelector((state: AppState) => state);
   const [isIndia, setIsIndia] = useState(currency === "INR");
   const [showPincode, setShowPincode] = useState(true);
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
   const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
   const { addressData } = props;
-  const { countryData, pinCodeData, addressList } = useSelector(
+  const { countryData, pinCodeData } = useSelector(
     (state: AppState) => state.address
   );
   const isdList = countryData.map(list => {
     return list.isdCode;
   });
-  const { setBridalAddress, bridalProfile } = useContext(BridalContext);
+  const { changeBridalAddress, setBridalAddress, bridalProfile } = useContext(
+    BridalContext
+  );
   const { email, isLoggedIn } = useSelector((state: AppState) => state.user);
   const { mobile } = useSelector((state: AppState) => state.device);
   const countryRef: RefObject<HTMLInputElement> = useRef(null);
@@ -280,6 +302,56 @@ const AddressForm: React.FC<Props> = props => {
     }, 0);
   };
 
+  const getBridalProfileData = async () => {
+    const data = await BridalService.fetchBridalProfile(dispatch, bridalId);
+    if (data) {
+      setBridalProfile(data);
+      setBridalDetails(Object.assign({}, data, { userAddress: undefined }));
+      setShareLink(`${__DOMAIN__}/${data.shareLink}`);
+      dispatch(
+        updateUser(
+          Object.assign({}, user, {
+            bridalId: data.bridalId,
+            bridalCurrency: data.currency
+          })
+        )
+      );
+    }
+    return data;
+  };
+
+  const changeAddress = (newAddressId: number) => {
+    getBridalProfileData()
+      .then(_data => {
+        AddressService.fetchAddressList(dispatch).then(data => {
+          dispatch(updateAddressList(data));
+          const items = data;
+          for (let i = 0; i < items.length; i++) {
+            if (items[i].id == newAddressId) {
+              setBridalAddress(items[i]);
+              break;
+            }
+          }
+        });
+      })
+      .catch(err => {
+        console.error("Axios Error: ", err.response.data);
+      });
+  };
+
+  const changeBridalAddressOnEdit = (addressId: number) => {
+    const data = {
+      bridalId: bridalId,
+      addressId
+    };
+    BridalService.updateBridalAddress(dispatch, data).then(res => {
+      setBridalProfile(res[0]);
+      setShareLink(`${__DOMAIN__}/${res[0].shareLink}`);
+      changeAddress(data.addressId);
+      // setCurrentScreenValue("manageregistryfull");
+    });
+  };
+
   const submitAddress = (model: any, resetForm: any, invalidateForm: any) => {
     setErrorMessage("");
     setIsLoading(true);
@@ -361,11 +433,15 @@ const AddressForm: React.FC<Props> = props => {
             )[0];
             if (bridalAddress) {
               setBridalAddress(bridalAddress);
+              changeBridalAddress(id);
             }
           }
           setIsAddressChanged(false);
           setIsLoading(false);
           closeAddressForm(id);
+          if (currentCallBackComponent == "account" && address?.isBridal) {
+            changeBridalAddressOnEdit(id);
+          }
         })
         .catch(err => {
           const errData = err.response.data;
@@ -409,7 +485,7 @@ const AddressForm: React.FC<Props> = props => {
 
   const isExistyError = "This field is required";
   const isAlphanumericError = "Only alphabets and numbers are allowed";
-  const isAlphaError = "Only alphabets are allowed";
+  const isAlphaError = "Please enter only alphabetic characters";
   const isEmailError = "Please enter the correct email";
 
   useEffect(() => {
@@ -490,7 +566,6 @@ const AddressForm: React.FC<Props> = props => {
     setNickname(e.target.value);
     setIsAddressChanged(true);
   };
-  const bridalUser = { userId: 0 };
 
   return (
     <div
@@ -539,7 +614,7 @@ const AddressForm: React.FC<Props> = props => {
         onInvalidSubmit={handleInvalidSubmit}
       >
         <div
-          className={cs(styles.categorylabel, {
+          className={cs(globalStyles.voffset6, styles.categorylabel, {
             [styles.checkoutMobilePopup]:
               (mobile && currentCallBackComponent == "checkout-shipping") ||
               currentCallBackComponent == "checkout-billing"
@@ -615,7 +690,7 @@ const AddressForm: React.FC<Props> = props => {
               validationErrors={{
                 isExisty: "Please enter your First Name",
                 isWords: isAlphaError,
-                maxLength: "You cannot type in more than 15 characters"
+                maxLength: "Please do not exceed the limit of 15 characters"
               }}
             />
           </div>
@@ -634,7 +709,7 @@ const AddressForm: React.FC<Props> = props => {
               validationErrors={{
                 isExisty: "Please enter your Last Name",
                 isWords: isAlphaError,
-                maxLength: "You cannot type in more than 15 characters"
+                maxLength: "Please do not exceed the limit of 15 characters"
               }}
             />
           </div>
@@ -658,7 +733,7 @@ const AddressForm: React.FC<Props> = props => {
                   }
                 }}
                 validationErrors={{
-                  isExisty: "Please fill this field",
+                  isExisty: "Please enter a Pin/Zip code",
                   isValidPostcode: "Please enter a valid Pin/Zip code"
                 }}
                 changeState={changeState}
@@ -687,7 +762,7 @@ const AddressForm: React.FC<Props> = props => {
                   maxLength: 20
                 }}
                 validationErrors={{
-                  isExisty: "Please fill this field",
+                  isExisty: "Please enter a Pin/Zip code",
                   matchRegexp: isAlphanumericError,
                   maxLength: "Maximum Length is 20 characters"
                 }}
@@ -878,7 +953,7 @@ const AddressForm: React.FC<Props> = props => {
                 isCodeValid: "Required",
                 isValidCode: "Enter valid code"
               }}
-            /> */}
+            />  */}
 
             <SelectDropdown
               value=""
@@ -898,8 +973,8 @@ const AddressForm: React.FC<Props> = props => {
                 }
               }}
               validationErrors={{
-                isCodeValid: "Required",
-                isValidCode: "Enter valid code"
+                isCodeValid: "Please select a Country Code",
+                isValidCode: "Please enter a valid country code"
               }}
               allowFilter={true}
               options={[]}

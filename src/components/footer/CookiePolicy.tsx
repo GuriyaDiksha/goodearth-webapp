@@ -114,7 +114,7 @@ const CookiePolicy: React.FC<Props> = ({
           .join(","),
         365
       );
-      CookieService.setCookie("recentSearch", JSON.stringify([]));
+      localStorage.setItem("recentSearch", JSON.stringify([]));
 
       WidgetService.postConsentDetail(store.dispatch, {
         ip: ip || CookieService.getCookie("ip"),
@@ -193,7 +193,9 @@ const CookiePolicy: React.FC<Props> = ({
           <div
             className={cs(
               styles.cookieclass,
-              !mobile && regionName !== INDIA_TEXT ? styles.extraHeight : "",
+              !mobile && regionName !== INDIA_TEXT && !isPrefOpen
+                ? styles.extraHeight
+                : "",
               isPrefOpen ? styles.eucookieclass : styles.noneu,
               // styles.eucookieclass,
               isPrefOpen ? styles.euPref : ""
