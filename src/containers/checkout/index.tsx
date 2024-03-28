@@ -651,10 +651,8 @@ class Checkout extends React.Component<Props, State> {
       }
       if (
         shippingData !== this.state.shippingAddress &&
-        ((nextProps.addresses.filter(val => val?.id === shippingData?.id)
+        nextProps.addresses.filter(val => val?.id === shippingData?.id)
           .length !== 0 &&
-          !nextProps.basket.bridal) ||
-          nextProps.basket.bridal) &&
         !isLoading
       ) {
         this.setState({
