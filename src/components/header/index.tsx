@@ -315,10 +315,10 @@ class Header extends React.Component<Props, State> {
     const windowScroll = window?.pageYOffset;
     const menuOverlay = document?.getElementById("menu_overlay");
     const annBar = document?.getElementById("announcement_bar");
-    const annHeight = (annBar as HTMLElement).clientHeight;
+    const annHeight = (annBar as HTMLElement)?.clientHeight;
     const annBarHeight = annHeight - windowScroll;
     const header = document.getElementById("myHeader");
-    const headerHeight = (header as HTMLElement).clientHeight;
+    const headerHeight = (header as HTMLElement)?.clientHeight;
     const topPosition = annBarHeight + headerHeight;
     const timerDiv = document.getElementById("ge-timer");
     const istimer = timerDiv != null ? true : false;
@@ -364,7 +364,7 @@ class Header extends React.Component<Props, State> {
 
       if (menuOverlay) {
         if (istimer) {
-          const timerHeight = (timerDiv as HTMLElement).clientHeight;
+          const timerHeight = (timerDiv as HTMLElement)?.clientHeight;
           menuOverlay.style.top = `${timerHeight + headerHeight + 5}px`;
         } else {
           menuOverlay.style.top = `${headerHeight + 5}px`;
@@ -549,7 +549,7 @@ class Header extends React.Component<Props, State> {
 
       if (menuOverlay) {
         if (istimer) {
-          const timerHeight = (timerDiv as HTMLElement).clientHeight;
+          const timerHeight = (timerDiv as HTMLElement)?.clientHeight;
           const topPosWithTimer = annBarHeight + headerHeight + timerHeight;
           menuOverlay.style.top = `${topPosWithTimer + 5}px`;
         } else {
