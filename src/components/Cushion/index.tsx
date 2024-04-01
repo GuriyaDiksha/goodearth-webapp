@@ -609,9 +609,9 @@ class CushionBag extends React.Component<Props, State> {
       <div>
         <div
           className={cs(styles.bagBackdrop, show ? styles.active : "")}
-          // onClick={(): void => {
-
-          // }}
+          onClick={(): void => {
+            this.props.updateshowFiller();
+          }}
         ></div>
         <div
           className={cs(
