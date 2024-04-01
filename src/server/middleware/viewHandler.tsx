@@ -97,18 +97,13 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
     }
 
     // Collect and render the React components
-    let jsx;
-    try {
-      jsx = extractor.collectChunks(
-        <Provider store={store}>
-          <ConnectedRouter history={history}>
-            <App />
-          </ConnectedRouter>
-        </Provider>
-      );
-    } catch (err) {
-      console.log("logError........." + err);
-    }
+    const jsx = extractor.collectChunks(
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <App />
+        </ConnectedRouter>
+      </Provider>
+    );
 
     const html = renderToString(jsx);
     const meta = Helmet.renderStatic();
