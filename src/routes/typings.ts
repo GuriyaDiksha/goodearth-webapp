@@ -84,6 +84,7 @@ export const enum ROUTES {
   PEHCHAANNAQASHI = "/pehchaan-naqashi-of-kashmir",
   INTERNATIONALSALE = "/internationalsale",
   MEMORYKEEPERS = "/memory-keepers",
+  MEMORYKEEPERSTWO = "/memory-keepers-2",
   HARVESTATTHETABLE = "/harvest-at-the-table"
 }
 
