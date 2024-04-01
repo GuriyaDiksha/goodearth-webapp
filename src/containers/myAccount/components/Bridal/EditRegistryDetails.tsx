@@ -166,7 +166,6 @@ const EditRegistryDetails: React.FC<Props> = props => {
                     label={"Occasion*"}
                     value={props.bridalProfile?.occasion}
                     disable={false}
-                    className={cs(styles.disabledInput)}
                   />
                 </div>
                 <div>
