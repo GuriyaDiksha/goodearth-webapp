@@ -881,7 +881,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               onValidSubmit={this.handleSubmit}
               onInvalidSubmit={this.handleInvalidSubmit}
             >
-              <li className={cs("aaa", styles.radiobtn1, styles.xradio)}>
+              <li className={cs(styles.radiobtn1, styles.xradio)}>
                 <label className={styles.radio1}>
                   <input
                     type="radio"

@@ -6,6 +6,15 @@ import MetaService from "services/meta";
 import { PageMetaRequest } from "services/meta/typings";
 import { AppState } from "reducers/typings";
 
+function ErrorHandler({ error }: any) {
+  return (
+    <div role="alert">
+      <p>An error occurred:</p>
+      <pre>{error?.message}</pre>
+    </div>
+  );
+}
+
 const RouteContainer: React.FC<Props> = ({
   action,
   component,
@@ -20,20 +29,28 @@ const RouteContainer: React.FC<Props> = ({
   const history = useHistory();
   params.refresh = "" + refresh;
   useEffect(() => {
-    action(store, params, location, currency, history);
-    let request: PageMetaRequest | undefined;
+    try {
+      action(store, params, location, currency, history);
+      let request: PageMetaRequest | undefined;
 
-    if (meta) {
-      request = {
-        page: "",
-        pathName: location.pathname,
-        ...meta(location)
-      };
+      if (meta) {
+        request = {
+          page: "",
+          pathName: location.pathname,
+          ...meta(location)
+        };
+      }
+      MetaService.updatePageMeta(store.dispatch, request);
+    } catch (err) {
+      console.log(err);
     }
-    MetaService.updatePageMeta(store.dispatch, request);
   }, [...Object.values(params)]);
 
-  return <Component {...params} />;
+  try {
+    return <Component {...params} />;
+  } catch (error) {
+    return <ErrorHandler error={error} />;
+  }
 };
 
 export default RouteContainer;
