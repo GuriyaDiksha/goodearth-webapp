@@ -29,17 +29,6 @@ import { GA_CALLS } from "constants/cookieConsent";
 import CheckoutFooter from "containers/checkout/checkoutFooter";
 // import { CUST } from "constants/util";
 // import * as _ from "lodash";
-
-function ErrorHandler({ error }: any) {
-  console.log("errorHandler....");
-  return (
-    <div role="alert">
-      <p>An error occurred:</p>
-      <pre>{error?.message}</pre>
-    </div>
-  );
-}
-
 const BaseLayout: React.FC = () => {
   const history = useHistory();
   const { pathname, search } = history.location;
@@ -441,43 +430,39 @@ const BaseLayout: React.FC = () => {
       : true;
 
   const minimalPage = backOrder || maintenance;
-  try {
-    return (
-      <Fragment>
-        {/* <Whatsapp /> */}
-        {!value
-          ? ""
-          : !minimalPage && (isCheckout ? <CheckoutHeader /> : <Header />)}
-        {isLoading && <Loader />}
-        <div
-          className={
-            minimalPage
-              ? ""
-              : cs(globalStyles.contentContainer, bootstrap.containerFluid, {
-                  //Failsafe if padding is required in other pages than pdp
-                  [bootstrap.noPad]:
-                    pathname.indexOf("/catalogue") > -1 && !mobile
-                })
-          }
-          id="no-content"
-        >
-          {/* {!isauth && <FormPage/>} */}
-          <Switch>
-            {routes}
-            <Route path="*">
-              <Redirect to="/404" />
-            </Route>
-          </Switch>
-        </div>
-        {value &&
-          !minimalPage &&
-          (isCheckout ? <CheckoutFooter /> : !isCart && <Footer />)}
-        <Modal />
-      </Fragment>
-    );
-  } catch (error) {
-    return <ErrorHandler error={error} />;
-  }
+  return (
+    <Fragment>
+      {/* <Whatsapp /> */}
+      {!value
+        ? ""
+        : !minimalPage && (isCheckout ? <CheckoutHeader /> : <Header />)}
+      {isLoading && <Loader />}
+      <div
+        className={
+          minimalPage
+            ? ""
+            : cs(globalStyles.contentContainer, bootstrap.containerFluid, {
+                //Failsafe if padding is required in other pages than pdp
+                [bootstrap.noPad]:
+                  pathname.indexOf("/catalogue") > -1 && !mobile
+              })
+        }
+        id="no-content"
+      >
+        {/* {!isauth && <FormPage/>} */}
+        <Switch>
+          {routes}
+          <Route path="*">
+            <Redirect to="/404" />
+          </Route>
+        </Switch>
+      </div>
+      {value &&
+        !minimalPage &&
+        (isCheckout ? <CheckoutFooter /> : !isCart && <Footer />)}
+      <Modal />
+    </Fragment>
+  );
 };
 
 export default BaseLayout;
