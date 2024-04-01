@@ -7,6 +7,7 @@ import { PageMetaRequest } from "services/meta/typings";
 import { AppState } from "reducers/typings";
 
 function ErrorHandler({ error }: any) {
+  console.log("errorHandler....");
   return (
     <div role="alert">
       <p>An error occurred:</p>
