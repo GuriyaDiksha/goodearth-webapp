@@ -304,16 +304,6 @@ const NotifyMePopup: React.FC<Props> = ({
 
   const addToBasket = async () => {
     if (selectedSize) {
-      if (!history.location.pathname.includes("shared-wishlist")) {
-        WishlistService.removeFromWishlist(
-          dispatch,
-          selectedSize.id,
-          undefined,
-          sortBy,
-          selectedSize.size
-        );
-        // WishlistService.countWishlist(dispatch);
-      }
       setShowLoader(true);
       BasketService.addToBasket(dispatch, selectedSize.id, quantity)
         .then(() => {
@@ -325,6 +315,16 @@ const NotifyMePopup: React.FC<Props> = ({
           );
           gtmPushAddToBag();
           closeModal();
+          if (!history.location.pathname.includes("shared-wishlist")) {
+            WishlistService.removeFromWishlist(
+              dispatch,
+              selectedSize.id,
+              undefined,
+              sortBy,
+              selectedSize.size
+            );
+            // WishlistService.countWishlist(dispatch);
+          }
         })
         .catch(err => {
           if (typeof err?.response?.data != "object") {
