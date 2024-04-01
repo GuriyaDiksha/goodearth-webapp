@@ -107,7 +107,7 @@ const viewHandler: Koa.Middleware = async function(ctx, next) {
         </Provider>
       );
     } catch (err) {
-      console.log(err);
+      console.log("logError........." + err);
     }
 
     const html = renderToString(jsx);
