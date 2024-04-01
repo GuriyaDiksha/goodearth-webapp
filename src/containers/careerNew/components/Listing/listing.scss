@@ -218,7 +218,8 @@ body:has(.show-filter){
                         }
         
                     .filter_tag_wrp{  
-                        display: -webkit-inline-box;
+                        // display: -webkit-inline-box;
+                        display: flex;
                         flex-wrap: wrap;
         
                         .filter_tag{
