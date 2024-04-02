@@ -128,6 +128,8 @@ body:has(.mobile) {
     border: none;
     font-family: $font-Lato;
     .nickname-wrapper {
+      padding-top: 10px;
+      padding-bottom: 5px;
       @include b4_12px_montserrat_med_aqua();
       // font-size: 12px;
       // font-weight: 300;
@@ -493,11 +495,7 @@ body:has(.mobile) {
   .line-head {
     @include b4_12px_montserrat_charcoal();
     letter-spacing: 0.36px;
-    // margin-top: 10px;
     word-wrap: break-word;
-    // display: flex;
-   // justify-content: space-between;
-    // margin-top: 10px;
     .radio {
       position: relative;
     }
@@ -513,9 +511,7 @@ body:has(.mobile) {
     &.address-line {
       word-wrap: break-word;
       font-size: 12px;
-      margin-top: 5px;
-      // overflow: hidden;
-      // text-overflow: ellipsis;
+      margin-top: 0px;
       word-break: break-all;
     }
     &.checkout-fix {
