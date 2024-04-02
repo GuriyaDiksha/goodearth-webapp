@@ -479,13 +479,14 @@ span.checkout-forgot-pass{
 }
 .tooltip {
   margin-left: 15px;
+  position: relative;
   &.height-fix {
     height: 40px;
   }
   img {
       height: 15px;
       position: absolute;
-      top: -7px;
+      top: -10px;
       left: 0px;
       cursor: pointer;
       z-index: 1;
@@ -505,8 +506,8 @@ span.checkout-forgot-pass{
         height: 95px;
         width: 117px;
           &.show{
-            bottom: 20px !important;
-            left: -10px !important;
+            bottom: 16px !important;
+            left: 0 !important;
           }
       }
       box-shadow: 0px 3px 6px #00000029;
@@ -515,7 +516,7 @@ span.checkout-forgot-pass{
           display: block;
           position: absolute;
           bottom: 20px;
-          left: -9px;
+          left: 0;
       }
   }
   .manage-line {
@@ -527,24 +528,22 @@ span.checkout-forgot-pass{
     .tooltip-msg {
       &.show {
         bottom: 34px;
-        left: -10px;
+        left: 0;
         @media screen and (max-width: 768px){
-          bottom: 50px !important;
+          bottom: 35px !important;
         }
       }
     } 
     img {
-      top: -8px;
-      left: -10px;
+      left: 0;
     }
+  }
+
+  .reg-whats-app{
+    width: auto;
   }
 }
 
-.width-30{
-  @media screen and (max-width:767px) {
-    width: 30% !important; 
-  }
-}
 .underline-text{
   text-decoration: underline;
 }

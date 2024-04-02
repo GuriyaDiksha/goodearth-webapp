@@ -1182,10 +1182,14 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 disable={false}
                 label={[
                   <span key="1">Subscribe me for Whatsapp updates.</span>
+                  //   (this.state.whatsappChecked ? <div className={styles.manageLine}>
+                  //   Manage your preference from My Preferences section under
+                  //   Profile
+                  // </div>: <></>)
                 ]}
                 handleChange={this.onWhatsappCheckChange}
                 required
-                className={globalStyles.margin0}
+                className={cs(styles.regWhatsApp, globalStyles.margin0)}
               />
               {this.state.whatsappChecked && (
                 <div className={styles.manageLine}>
@@ -1197,7 +1201,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 className={cs(
                   styles.tooltip,
                   globalStyles.margin0,
-                  styles.width30
+                  styles.width30,
+                  styles.regWhatsApp
                 )}
                 ref={this.impactRef}
               >

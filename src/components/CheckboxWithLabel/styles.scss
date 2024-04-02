@@ -38,6 +38,7 @@
       line-height: 0.8;
       transition: all .1s;
     }
+
     input[type="checkbox"]{
       &:not(:checked) + label:before{
         background-color: $white;
