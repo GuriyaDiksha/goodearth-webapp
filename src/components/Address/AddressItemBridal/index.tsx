@@ -76,16 +76,16 @@ const AddressItemBridal: React.FC<Props> = ({
                     {addressData.registrantName &&
                       !addressData.coRegistrantName && (
                         <span>
-                          {addressData.registrantName}&#39;s&nbsp;
-                          {addressData.occasion}&nbsp;Registry
+                          {addressData.registrantName}&#39;s{" "}
+                          {addressData.occasion} Registry
                         </span>
                       )}
                     {addressData.registrantName &&
                       addressData.coRegistrantName && (
                         <span>
-                          {addressData.registrantName}&nbsp;&&nbsp;
-                          {addressData.coRegistrantName}&#39;s&nbsp;
-                          {addressData.occasion}&nbsp;Registry
+                          {addressData.registrantName} &
+                          {addressData.coRegistrantName}&#39;s{" "}
+                          {addressData.occasion} Registry
                         </span>
                       )}
                   </div>
@@ -117,13 +117,7 @@ const AddressItemBridal: React.FC<Props> = ({
                 </div>
               </div>
 
-              <div
-                className={cs(
-                  globalStyles.marginT10,
-                  globalStyles.marginB20,
-                  styles.bridalPredefined
-                )}
-              >
+              <div className={cs(styles.bridalPredefined)}>
                 Address predefined by registrant
               </div>
 
@@ -140,7 +134,7 @@ const AddressItemBridal: React.FC<Props> = ({
                 </div>
                 <div className={styles.text}>{addressData.countryName}</div>
               </div>
-              <p className={styles.phone}>
+              <p className={cs(styles.phone, styles.phoneBridal)}>
                 {addressData.phoneCountryCode} {addressData.phoneNumber}
               </p>
             </div>
