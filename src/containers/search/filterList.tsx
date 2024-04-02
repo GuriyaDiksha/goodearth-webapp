@@ -276,14 +276,14 @@ class FilterList extends React.Component<Props, State> {
 
     // facets.categories.map((data: any) => (count = count + data[2]));
     // console.log("count facets.categories====",facets.categories,facets.subCategories,facets.categoryShop)
-    categoryObj[`View All (${facets.subCategories?.[0][1]})`] = [];
+    categoryObj[`View All Results (${facets.subCategories?.[0][1]})`] = [];
 
     if (filter.categoryShop["selectedCatShop"]) {
       selectIndex = filter.categoryShop["selectedCatShop"].split(">")[0].trim();
     } else {
       filter.categoryShop[
         "selectedCatShop"
-      ] = selectIndex = `View All (${facets.subCategories?.[0][1]})`;
+      ] = selectIndex = `View All Results (${facets.subCategories?.[0][1]})`;
     }
 
     this.setState({ filter: filter });
@@ -294,7 +294,9 @@ class FilterList extends React.Component<Props, State> {
 
       // viewData.length > 2 ? viewData.pop() : "";
       if (!categoryObj[tempKey]) {
-        categoryObj[tempKey] = [["View all ", viewData.join(">").trim()]];
+        categoryObj[tempKey] = [
+          ["View all Results ", viewData.join(">").trim()]
+        ];
         categoryObj[tempKey][0][3] = facets?.categoryShopDetail.filter(
           (ele: any) => ele.name === tempKey
         )?.[0]?.["all_count"];
@@ -1330,6 +1332,7 @@ class FilterList extends React.Component<Props, State> {
             }}
           >
             {data}
+            {/* {data.startsWith("View All")?`${data + "RESULTS"}`:`${data}`} */}
           </span>
           <div
             id={data + "l"}
@@ -1409,7 +1412,9 @@ class FilterList extends React.Component<Props, State> {
                         )
                       }
                     >
-                      {nestedList[0]}
+                      {nestedList[0]?.startsWith("View all")
+                        ? `${nestedList[0]} ${data}`
+                        : nestedList[0]}
                       {nestedList[3] && ` (${nestedList[3]})`}
                     </label>
                   </li>

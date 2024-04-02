@@ -453,6 +453,8 @@
     // text-decoration: underline;
     color: $charcoal19;
     font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 4px;
   }
   
 }
@@ -1152,6 +1154,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
   top: 42%;
   transform: translate(50%, -50%);
   border: 1px solid #9F9F9F;
+  cursor: pointer;
 }
 .checkmark-active::after {
   content:"";
@@ -1163,4 +1166,5 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
   top: 50%;
   left: -26%;
   transform: translate(50%, -50%);
+  cursor: unset;
 }
