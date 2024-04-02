@@ -265,22 +265,24 @@ class Bag extends React.Component<Props, State> {
                   className={cs(
                     bootstrap.col12,
                     globalStyles.marginT20,
-                    globalStyles.marginB20
+                    globalStyles.marginB20,
+                    { [globalStyles.marginB60]: mobile }
                   )}
                 >
                   <div
-                    className={cs(bootstrap.row, globalStyles.flexGutterCenter)}
+                    className={cs(
+                      bootstrap.row,
+                      globalStyles.flexGutterStart,
+                      styles.mobileConatinerBag
+                    )}
                   >
                     {wishlistData.length > 0 &&
                       wishlistData?.slice(0, 8)?.map((data, i) => {
                         return (
-                          <div
-                            key={i}
-                            className={cs(styles.px6, bootstrap.col5)}
-                          >
+                          <div key={i} className={cs(bootstrap.col5)}>
                             <div
                               className={cs(styles.searchImageboxNew, {
-                                [styles.viewAllTile]: i === 7
+                                [styles.viewAllTile]: i === 5
                               })}
                             >
                               {data?.salesBadgeImage && (
@@ -297,7 +299,7 @@ class Bag extends React.Component<Props, State> {
                                   <img src={data.salesBadgeImage} />
                                 </div>
                               )}
-                              {i < 7 ? (
+                              {i < 5 ? (
                                 <Link to={data.productUrl}>
                                   <img
                                     src={
@@ -313,7 +315,7 @@ class Bag extends React.Component<Props, State> {
                                 <Link to={"/wishlist"}>VIEW ALL</Link>
                               )}
                             </div>
-                            {i < 7 && (
+                            {i < 5 && (
                               <div className={styles.imageContent}>
                                 <p
                                   className={cs(
@@ -341,12 +343,17 @@ class Bag extends React.Component<Props, State> {
                                       ""
                                     )}
                                     {this.props?.isSale && data.discount ? (
-                                      <span className={styles.strikeprice}>
-                                        {displayPriceWithCommas(
-                                          data.price[currency],
-                                          currency
-                                        )}
-                                      </span>
+                                      <>
+                                        {data.price[currency]
+                                          .toString()
+                                          .includes("-") && <br />}
+                                        <span className={styles.strikeprice}>
+                                          {displayPriceWithCommas(
+                                            data.price[currency],
+                                            currency
+                                          )}
+                                        </span>
+                                      </>
                                     ) : (
                                       <span
                                         className={
