@@ -183,6 +183,7 @@ const AddressList: React.FC<Props> = props => {
                 isOnlyAddress={addressData.length === 1}
                 showAddressInBridalUse={props.showAddressInBridalUse}
                 isGcCheckout={props.isGcCheckout}
+                currentCallBackComponent={props.currentCallBackComponent}
               />
             );
           })
