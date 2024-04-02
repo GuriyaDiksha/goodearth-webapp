@@ -637,9 +637,11 @@ class Checkout extends React.Component<Props, State> {
 
         this.setState({
           activeStep: STEP_SHIPPING,
-          shippingAddress: nextProps.addresses
-            .filter(val => val.currency == this.props.currency)
-            .find(val => val?.isDefaultForShipping),
+          shippingAddress: nextProps.basket.bridal
+            ? undefined
+            : nextProps.addresses
+                .filter(val => val.currency == this.props.currency)
+                .find(val => val?.isDefaultForShipping),
           billingAddress:
             isGoodearthShipping || nextProps.basket.bridal
               ? undefined
@@ -651,10 +653,9 @@ class Checkout extends React.Component<Props, State> {
       }
       if (
         shippingData !== this.state.shippingAddress &&
-        ((nextProps.addresses.filter(val => val?.id === shippingData?.id)
+        nextProps.addresses.filter(val => val?.id === shippingData?.id)
           .length !== 0 &&
-          !nextProps.basket.bridal) ||
-          nextProps.basket.bridal) &&
+          !nextProps.basket.bridal &&
         !isLoading
       ) {
         this.setState({
