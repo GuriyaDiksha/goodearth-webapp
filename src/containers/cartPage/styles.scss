@@ -569,6 +569,10 @@ hr {
   height: auto;
   width: 100%;
   margin-bottom: 30px;
+
+  @media screen and (max-width:767px) {
+    margin-bottom: 10px;
+  }
 }
 
 .search-image-title {
@@ -637,15 +641,13 @@ hr {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    a {
+      text-transform: capitalize;
+    }
   }
   a {
     @include b4_12px_montserrat_charcoal_caps();
-    // color: #ab1e56;
-    // text-decoration: underline;
-    text-transform: capitalize;
   }
-  // text-transform: uppercase;
-  // letter-spacing: 1px;
 }
 
 .badge-position-plp-mobile {
@@ -817,4 +819,9 @@ hr {
     }
 
   }
+}
+
+.mobile-conatiner{
+  gap: 10px;
+  margin-left: 40px;
 }

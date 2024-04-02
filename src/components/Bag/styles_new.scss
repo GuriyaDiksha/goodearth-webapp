@@ -429,21 +429,23 @@
   right: 0;
 }
 .search-feature {
-  @include b4_12px_montserrat_charcoal();
-  // text-decoration: underline;
+  @include b4_12px_montserrat_charcoal_caps();
   cursor: pointer;
   text-align: center;
   margin-top: 6px;
-  // font-size: 12px;
-  // font-weight: bold;
   a {
-    @include b4_12px_montserrat_charcoal();
-    // color: #ab1e56;
-    // text-decoration: underline;
-    // text-transform: capitalize;
+    @include b4_12px_montserrat_charcoal_caps();
   }
-  // text-transform: uppercase;
-  // letter-spacing: 1px;
+
+  &.wishlist-conetent{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    a {
+      text-transform: capitalize;
+    }
+  }
+  
 }
 
 .wishlist-head {
@@ -463,6 +465,11 @@
     border-bottom: 1px solid $aqua;
     color: $aqua;
   }
+}
+
+.mobile-conatiner-bag{
+  gap: 10px;
+  margin-left: 40px;
 }
 
 .wishlist-display {

@@ -485,12 +485,13 @@ class CartPage extends React.Component<Props, State> {
                   className={cs(
                     bootstrap.col12,
                     globalStyles.marginT20,
-                    globalStyles.marginB20
+                    globalStyles.marginB20,
+                    { [globalStyles.marginB60]: mobile }
                   )}
                 >
                   <div
-                    className={cs(bootstrap.row, {
-                      [globalStyles.flexGutterCenter]: mobile
+                    className={cs(bootstrap.row, globalStyles.flexGutterStart, {
+                      [styles.mobileConatiner]: mobile
                     })}
                   >
                     {wishlistData.length > 0 &&
@@ -498,15 +499,14 @@ class CartPage extends React.Component<Props, State> {
                         return (
                           <div
                             key={i}
-                            className={cs(
-                              bootstrap.colLg3,
-                              styles.px6,
-                              bootstrap.col5
-                            )}
+                            className={cs(bootstrap.colLg3, bootstrap.col5, {
+                              [styles.px6]: !mobile
+                            })}
                           >
                             <div
                               className={cs(styles.searchImageboxNew, {
-                                [styles.viewAllTile]: i === 7
+                                [styles.viewAllTile]:
+                                  (i === 7 && !mobile) || (i === 5 && mobile)
                               })}
                             >
                               {data?.salesBadgeImage && (
@@ -523,7 +523,7 @@ class CartPage extends React.Component<Props, State> {
                                   <img src={data.salesBadgeImage} />
                                 </div>
                               )}
-                              {i < 7 ? (
+                              {(i < 7 && !mobile) || (1 < 5 && mobile) ? (
                                 <Link to={data.productUrl}>
                                   <img
                                     src={
@@ -539,7 +539,7 @@ class CartPage extends React.Component<Props, State> {
                                 <Link to={"/wishlist"}>VIEW ALL</Link>
                               )}
                             </div>
-                            {i < 7 && (
+                            {((i < 7 && !mobile) || (1 < 5 && mobile)) && (
                               <div className={styles.imageContent}>
                                 <p
                                   className={cs(
@@ -567,12 +567,17 @@ class CartPage extends React.Component<Props, State> {
                                       ""
                                     )}
                                     {this.props?.isSale && data.discount ? (
-                                      <span className={styles.strikeprice}>
-                                        {displayPriceWithCommas(
-                                          data.price[currency],
-                                          currency
-                                        )}
-                                      </span>
+                                      <>
+                                        {data.price[currency]
+                                          .toString()
+                                          .includes("-") && <br />}
+                                        <span className={styles.strikeprice}>
+                                          {displayPriceWithCommas(
+                                            data.price[currency],
+                                            currency
+                                          )}
+                                        </span>
+                                      </>
                                     ) : (
                                       <span
                                         className={
