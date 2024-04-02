@@ -1149,3 +1149,13 @@ padding: 30px 20px;
 .extra-height {
   height: 330px;
 }
+
+.padding-bottom{
+  padding-bottom: 60px;
+
+  @media screen and (max-width:767px) {
+    padding-bottom: 120px;
+  }
+
+
+}

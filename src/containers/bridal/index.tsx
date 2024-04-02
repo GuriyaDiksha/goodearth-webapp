@@ -353,12 +353,7 @@ class BridalCheckout extends React.Component<Props, State> {
               )}
               <div className={styles.summaryPadding}>
                 <h3 className={cs(styles.summaryTitle)}>
-                  {/* REGISTRY DETAILS  */}
-                  {registrantName && registryName && (
-                    <span>
-                      {registrantName}&#39;s {registryName}
-                    </span>
-                  )}
+                  <span>{registryName}</span>
                   <img src={addedReg} width="25" alt="gift_reg_icon" />
                 </h3>
               </div>
@@ -597,8 +592,31 @@ class BridalCheckout extends React.Component<Props, State> {
                 <hr />
               </div>
             )}
-            {this.state.bridalProfile.bridalId
-              ? this.state.bridalProfile.items.map((item, index) => {
+            {this.state.bridalProfile.bridalId ? (
+              this.state.bridalProfile.items.length == 0 ? (
+                <>
+                  <div
+                    className={cs(
+                      globalStyles.marginT20,
+                      globalStyles.textCenter
+                    )}
+                  >
+                    <img src={gift_icon} width="40" alt="gift-icon" />
+                  </div>
+                  <div
+                    className={cs(
+                      globalStyles.voffset3,
+                      styles.textCoupon,
+                      styles.endedEvent,
+                      globalStyles.textCenter,
+                      globalStyles.bold
+                    )}
+                  >
+                    No products added to the registry yet.
+                  </div>
+                </>
+              ) : (
+                this.state.bridalProfile.items.map((item, index) => {
                   return (
                     <BridalItem
                       bridalItem={item}
@@ -611,7 +629,10 @@ class BridalCheckout extends React.Component<Props, State> {
                     />
                   );
                 })
-              : ""}
+              )
+            ) : (
+              ""
+            )}
             {this.state.bridalProfile?.message == "Invalid bridal" && (
               <>
                 <div
@@ -654,7 +675,7 @@ class BridalCheckout extends React.Component<Props, State> {
                 </div>
               </>
             )}
-            {!mobile && (
+            {!mobile && this.state.bridalProfile.items.length != 0 && (
               <>
                 <div
                   id="sticky"

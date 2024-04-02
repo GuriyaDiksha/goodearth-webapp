@@ -316,6 +316,7 @@
           text-overflow: ellipsis;
           display: block;
           cursor: pointer;
+          padding-left: 40px;
         }
         .disableColors {
           opacity: 0.5;
@@ -448,8 +449,10 @@
     }
   }
   .selected-cat-shop{
-    color: $gold;
-    text-decoration: underline;
+    // color: $gold;
+    // text-decoration: underline;
+    color: $charcoal19;
+    font-weight: 500;
   }
   
 }
@@ -1138,4 +1141,26 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
   position: relative;
   top: 34%;
   transform: translateY(-50%);
+}
+
+.checkmark {
+  height: 19px;
+  width: 19px;
+  border-radius: 50%;
+  background-color: white;
+  position: absolute;
+  top: 42%;
+  transform: translate(50%, -50%);
+  border: 1px solid #9F9F9F;
+}
+.checkmark-active::after {
+  content:"";
+  height: 13px;
+  width: 13px;
+  border-radius: 50%;
+  background-color: #548b8b;
+  position: absolute;
+  top: 50%;
+  left: -26%;
+  transform: translate(50%, -50%);
 }
