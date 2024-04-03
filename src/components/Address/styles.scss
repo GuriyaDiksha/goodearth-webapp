@@ -941,6 +941,10 @@ margin-top: 5px;
 .bridal-predefined{
   margin: 0 auto 10px auto;
   @include b4_12px_montserrat_med_aqua();
+
+  @media screen and (max-width:767px) {
+    margin: 10px auto 10px auto;
+  }
 }
 
 .faded-container{
