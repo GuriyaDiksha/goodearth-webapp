@@ -425,6 +425,16 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     }
   };
 
+  onGenderSelect = (option: any) => {
+    const form = this.RegisterFormRef.current;
+    const gender = option?.value;
+
+    form &&
+      form.updateInputsWithValue({
+        gender
+      });
+  };
+
   changeCountryData = (countryData: Country[]) => {
     const countryOptions = countryData.map(country => {
       const states = country.regionSet.map(state => {
@@ -697,7 +707,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         onInvalidSubmit={this.handleInvalidSubmit}
       >
         <div className={styles.categorylabel} id="checkout-register-form">
-          <div>
+          <div className={styles.emailWrp}>
             <FormInput
               name="email"
               blur={this.verifyEmail}
@@ -780,6 +790,14 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               options={genderOptions}
               allowFilter={false}
               inputRef={this.genderRef}
+              validations={{
+                isExisty: true
+              }}
+              validationErrors={{
+                isExisty: "Please select your gender",
+                isEmptyString: isExistyError
+              }}
+              handleChange={this.onGenderSelect}
             />
           </div>
           <div className={styles.calendarIconContainer}>
@@ -923,9 +941,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               handleChange={this.onCountryCodeSelect}
               value=""
               validations={{
-                isCodeValid: (values, value) => {
-                  return !(values.phone && value == "");
-                },
+                // isCodeValid: (values, value) => {
+                //   return !(values.phone && value == "");
+                // },
                 isValidCode: (values, value) => {
                   if (value && this.props.isdList.length > 0) {
                     return this.props.isdList.indexOf(value ? value : "") > -1;
@@ -935,7 +953,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isCodeValid: "Please select a Country Code",
+                // isCodeValid: "Please select a Country Code",
                 isValidCode: "Please enter a valid country code"
               }}
               allowFilter={true}

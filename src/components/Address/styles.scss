@@ -52,6 +52,9 @@ body:has(.mobile) {
   &.back-btn-profile {
     margin: 20px 0;
   }
+  &.back-btn-checkout {
+    max-width: 366px;
+  }
   .back-btn {
     text-transform: uppercase;
     cursor: pointer;
@@ -842,6 +845,10 @@ body:has(.mobile) {
       a{
           color: $charcoal19;
           text-decoration: underline;
+      }
+
+      .ship-bill-checkout{
+        margin: 20px 0;
       }
   }
 }

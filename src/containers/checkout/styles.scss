@@ -410,10 +410,10 @@ hr {
     &.country-code {
       display: flex;
       > div {
-        width: 30%;
+        // width: 30%;
         position: relative;
         + div {
-          width: 65%;
+          // width: 65%;
           position: relative;
         }
       }

@@ -186,7 +186,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         disabled={props.disable || false}
         onKeyDown={e => (props.keyDown ? props.keyDown(e) : null)}
       />
-      {focused && (
+      {(props?.value || focused) && (
         <label
           className={cs({
             [globalStyles.hidden]: labelClass
