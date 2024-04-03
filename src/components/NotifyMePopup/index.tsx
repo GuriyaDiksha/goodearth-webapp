@@ -524,7 +524,13 @@ const NotifyMePopup: React.FC<Props> = ({
         </div>
         <div className={styles.inputContainer}>
           {((selectedSize && selectedSize.stock === 0) || allOutOfStock) && (
-            <div className={cs(styles.emailInput, globalStyles.textLeft)}>
+            <div
+              className={cs(
+                styles.emailInput,
+                globalStyles.textLeft,
+                styles.applyFont
+              )}
+            >
               <InputField
                 id="width"
                 value={email}

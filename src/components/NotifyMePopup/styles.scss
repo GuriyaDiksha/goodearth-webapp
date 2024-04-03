@@ -50,6 +50,7 @@
 .label {
     @include pdp_label();
     width:100px;
+    font-family: $font-Montserrat;
 }
 
 .size-label {
@@ -93,6 +94,10 @@
 .email-input {
     width: 100%;
     margin: 0 auto 30px;
+}
+
+.apply-font {
+    font-family: $font-Montserrat;
 }
 
 .body-class {
