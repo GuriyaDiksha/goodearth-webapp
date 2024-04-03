@@ -1300,6 +1300,8 @@ class FilterList extends React.Component<Props, State> {
 
   generateCatagory = (categoryObj: any, data: any, html: any) => {
     const { filter, isViewAll } = this.state;
+    const { history } = this.props;
+    const url = history.location.search;
     html.push(
       <ul className={data} key={`category-${data}`}>
         <li key={data + "l"}>
@@ -1317,9 +1319,13 @@ class FilterList extends React.Component<Props, State> {
                 : data.startsWith("View All")
                 ? styles.menulevel2ViewAll
                 : styles.menulevel2,
-              this.state.activeindex2 == data + "l"
-                ? styles.selectedCatShop
-                : ""
+
+              // this.state.activeindex2 == data + "l" && styles.selectedCatShop
+              url.includes("category_shop=")
+                ? url.split("&category_shop=")[1].split("+")[0] == data
+                  ? styles.selectedCatShop
+                  : ""
+                : data.startsWith("View All") && styles.selectedCatShop
             )}
             onClick={() => {
               this.Clickmenulevel2(data + "l");
@@ -1332,7 +1338,6 @@ class FilterList extends React.Component<Props, State> {
             }}
           >
             {data}
-            {/* {data.startsWith("View All")?`${data + "RESULTS"}`:`${data}`} */}
           </span>
           <div
             id={data + "l"}
@@ -1346,19 +1351,6 @@ class FilterList extends React.Component<Props, State> {
               {categoryObj[data].map((nestedList: any, j: number) => {
                 return (
                   <li key={nestedList[0]}>
-                    {/* <input
-                        type="checkbox"
-                        id={nestedList[1]}
-                        disabled={this.state.disableSelectedbox}
-                        checked={
-                          filter.categoryShop[data]
-                            ? filter.categoryShop[data][nestedList[1]]
-                            : false
-                        }
-                        onClick={this.handleClickCategory}
-                        value={data}
-                        name={nestedList[0]}
-                      /> */}
                     <span
                       className={cs(
                         styles.checkmark,
