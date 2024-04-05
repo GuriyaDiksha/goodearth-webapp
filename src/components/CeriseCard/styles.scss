@@ -5,7 +5,7 @@
     height: 100%;
     cursor: auto;
     @media(min-width:768px)and(max-width:992px){
-        padding-left: 65px;
+        padding: 0 65px;
     }
     @media (max-width: 992px) {
         position: relative;
@@ -45,10 +45,11 @@
 .cerise-card-left-wrp{
     // height: 100%;
     background: #9f9f9f;
-    padding: 30px;
+    padding: 30px 65px 30px;
     // width: 414px;
     flex: 0 0 50%;
     max-width: 50%;
+
 
     &.left-max-width{
         width: 414px;
@@ -240,4 +241,9 @@
 }
 .cerise-background{
     background-color: $cerise;
+}
+@media(min-width:768px)and(max-width:992px){
+    .is-cerise-user{
+        padding: 0;
+    }
 }
