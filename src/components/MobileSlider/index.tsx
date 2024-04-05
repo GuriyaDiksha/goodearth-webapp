@@ -38,13 +38,17 @@ const MobileSlider: React.FC<Props> = ({
       {
         breakpoint: 992,
         settings: {
-          centerMode: true
+          centerMode: true,
+          slidesToShow: 1.3,
+          infinite: false
         }
       },
       {
         breakpoint: 766,
         settings: {
-          centerMode: false
+          centerMode: false,
+          slidesToShow: 1,
+          infinite: true
         }
       }
     ]
