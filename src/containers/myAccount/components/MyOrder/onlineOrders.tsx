@@ -446,7 +446,11 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                       </div>
                       <div className={styles.row}>
                         <span className={styles.label}> Status: </span> &nbsp;
-                        <span className={styles.data}>{item.status}</span>
+                        <span className={styles.data}>
+                          {item.status === "Manual Cancelled"
+                            ? "Cancelled"
+                            : item?.status}
+                        </span>
                       </div>
                       <div className={styles.row}>
                         <span className={styles.label}> Items: </span> &nbsp;
