@@ -1320,12 +1320,11 @@ class FilterList extends React.Component<Props, State> {
                 ? styles.menulevel2ViewAll
                 : styles.menulevel2,
 
-              // this.state.activeindex2 == data + "l" && styles.selectedCatShop
               url.includes("category_shop=")
                 ? url.split("&category_shop=")[1].split("+")[0] == data
-                  ? styles.selectedCatShop
+                  ? "menul2ExceptViewAll"
                   : ""
-                : data.startsWith("View All") && styles.selectedCatShop
+                : data.startsWith("View All") && styles.viewAllSelected
             )}
             onClick={() => {
               this.Clickmenulevel2(data + "l");
