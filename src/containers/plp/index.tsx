@@ -821,14 +821,9 @@ class PLP extends React.Component<
                     : cs(
                         bootstrap.row,
                         styles.imageContainerMobile,
-                        globalStyles.paddTop20
+                        globalStyles.paddTop45
                       )
-                  : cs(
-                      bootstrap.row,
-                      styles.imageContainer,
-                      styles.minHeight,
-                      globalStyles.paddTop20
-                    )
+                  : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
               }
               id="product_images"
             >
