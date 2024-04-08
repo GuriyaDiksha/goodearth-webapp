@@ -46,11 +46,13 @@
 .imageSlideronatiner:hover .slick-arrow.slick-next {
     right: 5px;
     height: 40px;
+    z-index: 3;
   }
 
 .imageSlideronatiner:hover .slick-arrow.slick-prev {
     left: 5px ;
     height: 40px;
+    z-index: 3;
 }
 
 .imageSlideronatiner:hover .slick-prev:before {
