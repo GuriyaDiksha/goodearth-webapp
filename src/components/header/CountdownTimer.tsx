@@ -6,22 +6,27 @@ import { Link } from "react-router-dom";
 import cs from "classnames";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import { SaleTimerData } from "./typings";
+// import { SaleTimerData } from "./typings";
 
 const CountdownTimer: React.FC = () => {
   const { timerData } = useSelector((state: AppState) => state.header);
-  const {
-    themeColorHexCode,
-    ctaText,
-    ctaUrl,
-    text,
-    saleEndDate,
-    saleStartDate
-  } = timerData as SaleTimerData;
+
+  const [ctaText, setCtaText] = useState("");
+  const [ctaUrl, setCtaUrl] = useState("");
+  const [text, setText] = useState("");
+  const [themeColorHexCode, setThemeColorHexCode] = useState("");
   const timerColor = themeColorHexCode || "#ab1e56";
-  const timerStartDate = new Date(saleStartDate);
-  const timerEndDate = new Date(saleEndDate);
+
   const currentDate = new Date();
+  let timerStartDate: any;
+  let timerEndDate: any;
+  timerData?.map(item => {
+    timerStartDate = new Date(item.saleStartDate);
+    timerEndDate = new Date(item.saleEndDate);
+  });
+  // const timerStartDate = new Date(saleStartDate);
+  // const timerEndDate = new Date(saleEndDate);
+  // const currentDate = new Date();
 
   const timeLeft = Math.floor(
     (timerEndDate.getTime() - currentDate.getTime()) / 1000
@@ -34,6 +39,15 @@ const CountdownTimer: React.FC = () => {
   if (timerStartDate > currentDate) return null;
   if (timerEndDate < currentDate) return null;
   useEffect(() => {
+    debugger;
+    timerData?.map(item => {
+      timerStartDate = new Date(item.saleStartDate);
+      timerEndDate = new Date(item.saleEndDate);
+      setCtaText(item.ctaText);
+      setCtaUrl(item.ctaUrl);
+      setText(item.text);
+      setThemeColorHexCode(item.themeColorHexCode);
+    });
     const timer = setInterval(() => {
       const timeLeft = Math.floor(
         (timerEndDate.getTime() - new Date().getTime()) / 1000
