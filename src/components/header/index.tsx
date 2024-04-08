@@ -236,6 +236,15 @@ class Header extends React.Component<Props, State> {
     const config = { subtree: true, childList: true };
     observer.observe(document, config);
     this.onScroll();
+    if (
+      typeof document != "undefined" &&
+      user.email &&
+      (!user.gender || !user.country || !user.lastName || !user.firstName)
+    ) {
+      document?.body?.classList?.add(globalStyles.noScroll);
+    } else {
+      document?.body?.classList?.remove(globalStyles.noScroll);
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -303,7 +312,16 @@ class Header extends React.Component<Props, State> {
   // }
 
   onScroll = (event?: any, timer?: boolean) => {
+    const windowScroll = window?.pageYOffset;
+    const menuOverlay = document?.getElementById("menu_overlay");
+    const annBar = document?.getElementById("announcement_bar");
+    const annHeight = (annBar as HTMLElement).clientHeight;
+    const annBarHeight = annHeight - windowScroll;
     const header = document.getElementById("myHeader");
+    const headerHeight = (header as HTMLElement).clientHeight;
+    const topPosition = annBarHeight + headerHeight;
+    const timerDiv = document.getElementById("ge-timer");
+    const istimer = timerDiv != null ? true : false;
     const sticky = (header as HTMLElement)?.offsetTop;
     const secondaryHeader = document.getElementById("secondaryHeader");
     const sortHeader = document.getElementById("sortHeader");
@@ -344,6 +362,14 @@ class Header extends React.Component<Props, State> {
       (header as HTMLElement).style.marginBottom = "0px";
       const tim = timer !== undefined ? timer : this.props.showTimer;
 
+      if (menuOverlay) {
+        if (istimer) {
+          const timerHeight = (timerDiv as HTMLElement).clientHeight;
+          menuOverlay.style.top = `${timerHeight + headerHeight + 5}px`;
+        } else {
+          menuOverlay.style.top = `${headerHeight + 5}px`;
+        }
+      }
       if (gridList) {
         if (scrollDown || window?.pageYOffset != 0) {
           (gridList as HTMLElement).style.top = "0px";
@@ -521,6 +547,15 @@ class Header extends React.Component<Props, State> {
       (header as HTMLElement).style.marginBottom = "0px";
       const tim = timer !== undefined ? timer : this.props.showTimer;
 
+      if (menuOverlay) {
+        if (istimer) {
+          const timerHeight = (timerDiv as HTMLElement).clientHeight;
+          const topPosWithTimer = annBarHeight + headerHeight + timerHeight;
+          menuOverlay.style.top = `${topPosWithTimer + 5}px`;
+        } else {
+          menuOverlay.style.top = `${topPosition + 5}px`;
+        }
+      }
       if (gridList) {
         if (scrollDown && window?.pageYOffset != 0) {
           (gridList as HTMLElement).style.top = "0px";
@@ -1230,7 +1265,7 @@ class Header extends React.Component<Props, State> {
             />
           )}
           <div className={cs(styles.minimumWidth, styles.headerBg)}>
-            <div className={bootstrap.row}>
+            <div className={cs(bootstrap.row, styles.menuForTablet)}>
               {mobile || tablet ? (
                 <div
                   className={cs(
@@ -1485,6 +1520,7 @@ class Header extends React.Component<Props, State> {
           <div>
             <div className={cs(bootstrap.row)}>
               <div
+                id="menu_overlay"
                 className={
                   showMenu
                     ? cs(bootstrap.col12, styles.mobileList, styles.menuOverlay)

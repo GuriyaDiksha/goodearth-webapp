@@ -12,12 +12,12 @@ import API from "utils/api";
 import { ProductID } from "typings/id";
 import { ApiResponse } from "typings/api";
 import BasketService from "services/basket";
-import WishlistService from "services/wishlist";
+// import WishlistService from "services/wishlist";
 import { Basket } from "typings/basket";
 import { MESSAGE } from "constants/messages";
 import { showGrowlMessage } from "../../utils/validate";
 import { createSharedLinkResponse } from "typings/wishlist";
-import { countWishlist } from "actions/wishlist";
+// import { countWishlist } from "actions/wishlist";
 
 export default {
   updateWishlist: async function(dispatch: Dispatch, sortBy = "added_on") {

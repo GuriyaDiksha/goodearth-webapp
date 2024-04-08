@@ -661,7 +661,7 @@ class FilterList extends React.Component<Props, State> {
         if (!this.props.scrollDown) {
           this.props.updateScrollDown(true);
         }
-      } else if (this.prevScroll > scroll) {
+      } else if (this.prevScroll > scroll || scroll === 0) {
         if (this.props.scrollDown) {
           this.props.updateScrollDown(false);
         }
