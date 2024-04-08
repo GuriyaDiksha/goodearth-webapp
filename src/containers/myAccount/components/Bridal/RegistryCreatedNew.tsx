@@ -299,30 +299,36 @@ const RegistryCreatedNew: React.FC<Props> = ({
                       </div>
                     </div>
                   ) : (
-                    ""
+                    bridalItems && (
+                      <div className="bridalWithItems">
+                        <div className={cs(styles.bridalItemHeading)}>
+                          Products added to Registry
+                        </div>
+                        {bridalItems.map((item, index) => {
+                          return (
+                            <BridalItemsList
+                              product={item}
+                              mobile={mobile}
+                              currency={
+                                bridalProfileData
+                                  ? bridalProfileData.currency
+                                  : "INR"
+                              }
+                              bridalId={
+                                bridalProfileData
+                                  ? bridalProfileData.bridalId
+                                  : 0
+                              }
+                              mIndex={index}
+                              onMobileAdd={handleMobileAdd}
+                              key={item.id}
+                              fetchBridalItems={fetchBridalItems}
+                            />
+                          );
+                        })}
+                      </div>
+                    )
                   )}
-                  {bridalItems
-                    ? bridalItems.map((item, index) => {
-                        return (
-                          <BridalItemsList
-                            product={item}
-                            mobile={mobile}
-                            currency={
-                              bridalProfileData
-                                ? bridalProfileData.currency
-                                : "INR"
-                            }
-                            bridalId={
-                              bridalProfileData ? bridalProfileData.bridalId : 0
-                            }
-                            mIndex={index}
-                            onMobileAdd={handleMobileAdd}
-                            key={item.id}
-                            fetchBridalItems={fetchBridalItems}
-                          />
-                        );
-                      })
-                    : ""}
                 </div>
               </address>
             </div>
