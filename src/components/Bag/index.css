@@ -1,0 +1,20 @@
+ .EmptyCartSlider .slick-arrow.slick-next::before {
+    font-family: "goodearth";
+    color: #4c4c4c;
+    content: "\f103";
+  
+  }
+  .EmptyCartSlider .slick-arrow.slick-prev:before {
+    color: #4c4c4c;
+    font-family: "goodearth";
+    content: "\f102";
+  
+  }
+
+  .EmptyCartSlider .slick-list{
+    padding-left: 0 !important;
+  }
+
+  .EmptyCartSlider .slick-list .slick-slide{
+    padding-right: 10px !important;
+  }
