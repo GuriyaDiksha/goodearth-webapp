@@ -43,6 +43,10 @@
 .firstImageContainer{background-color: transparent !important;}
 .firstImageContainer img{animation: swipeLeft 3s ease-out 2 2s;}
 .secondImageContainer{position: absolute;top:0;z-index: -1;left: 0;right: 0;bottom: 0;}
+
+.imageSlideronatiner .slick-arrow {
+    z-index: 3;
+}
 .imageSlideronatiner:hover .slick-arrow.slick-next {
     right: 5px;
     height: 40px;
