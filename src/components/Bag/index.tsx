@@ -23,6 +23,17 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import HeaderService from "services/headerFooter";
 import noImagePlp from "../../images/noimageplp.png";
 import WishlistService from "services/wishlist";
+import Slider from "react-slick";
+import "./index.css";
+
+const settings = {
+  dots: false,
+  arrows: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 2,
+  centerMode: true
+};
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -206,49 +217,49 @@ class Bag extends React.Component<Props, State> {
           </>
 
           <div className={cs(globalStyles.voffset3, bootstrap.col12)}>
-            <div
-              ref={this.sliderRef}
-              className={cs(bootstrap.row, styles.scrollerWrp)}
-              onMouseMove={this.move}
-              onMouseDown={this.startDragging}
-              onMouseUp={this.stopDragging}
-              onMouseLeave={this.stopDragging}
-            >
-              {this.state.featureData.length > 0
-                ? this.state.featureData.map((data, i) => {
-                    return (
-                      <div
-                        key={i}
-                        className={cs(styles.px6, bootstrap.col5, {
-                          [globalStyles.marginL30]: i === 0,
-                          [globalStyles.marginR30]:
-                            i === this.state.featureData?.length - 1
-                        })}
-                      >
-                        <div className={styles.searchImageboxNew}>
-                          <Link to={data.ctaUrl}>
-                            <img
-                              src={
-                                data.ctaImage == "" ? noImagePlp : data.ctaImage
-                              }
-                              // onError={this.addDefaultSrc}
-                              alt={data.ctaText}
-                              className={styles.imageResultNew}
-                            />
-                          </Link>
+            <div className={cs("EmptyCartSlider")}>
+              <Slider {...settings}>
+                {" "}
+                {this.state.featureData.length > 0
+                  ? this.state.featureData.map((data, i) => {
+                      return (
+                        <div
+                          key={i}
+                          className={cs()
+                          // styles.px5,  {
+                          // [globalStyles.marginL30]: i === 0,
+                          // [globalStyles.marginR30]:
+                          //   i === this.state.featureData?.length - 1
+                          // }
+                          }
+                        >
+                          <div className={styles.searchImageboxNew}>
+                            <Link to={data.ctaUrl}>
+                              <img
+                                src={
+                                  data.ctaImage == ""
+                                    ? noImagePlp
+                                    : data.ctaImage
+                                }
+                                // onError={this.addDefaultSrc}
+                                alt={data.ctaText}
+                                className={styles.imageResultNew}
+                              />
+                            </Link>
+                          </div>
+                          <div className={cs(styles.imageContent)}>
+                            <p className={styles.searchImageTitle}>
+                              {data.ctaText}
+                            </p>
+                            <p className={styles.searchFeature}>
+                              <Link to={data.ctaUrl}>{data.title}</Link>
+                            </p>
+                          </div>
                         </div>
-                        <div className={cs(styles.imageContent)}>
-                          <p className={styles.searchImageTitle}>
-                            {data.ctaText}
-                          </p>
-                          <p className={styles.searchFeature}>
-                            <Link to={data.ctaUrl}>{data.title}</Link>
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })
-                : ""}
+                      );
+                    })
+                  : ""}
+              </Slider>
             </div>
 
             {isLoggedIn && wishlistData.length > 0 && (
@@ -277,7 +288,7 @@ class Bag extends React.Component<Props, State> {
                     )}
                   >
                     {wishlistData.length > 0 &&
-                      wishlistData?.slice(0, 8)?.map((data, i) => {
+                      wishlistData?.slice(0, 6)?.map((data, i) => {
                         return (
                           <div key={i} className={cs(bootstrap.col5)}>
                             <div
@@ -602,7 +613,8 @@ class Bag extends React.Component<Props, State> {
     const {
       totalWithoutShipping,
       freeShippingThreshold,
-      freeShippingApplicable
+      freeShippingApplicable,
+      lineItems
     } = this.props.cart;
     return (
       <div>
@@ -675,7 +687,7 @@ class Bag extends React.Component<Props, State> {
           ) : (
             ""
           )}
-          <div className={styles.bagContents}>{this.getItems()}</div>
+          <div className={cs(styles.bagContents)}>{this.getItems()}</div>
           {this.getFooter()}
         </div>
       </div>
