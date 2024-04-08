@@ -39,7 +39,6 @@ const CountdownTimer: React.FC = () => {
   if (timerStartDate > currentDate) return null;
   if (timerEndDate < currentDate) return null;
   useEffect(() => {
-    debugger;
     timerData?.map(item => {
       timerStartDate = new Date(item.saleStartDate);
       timerEndDate = new Date(item.saleEndDate);
