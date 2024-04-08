@@ -522,7 +522,7 @@ class CartPage extends React.Component<Props, State> {
                     })}
                   >
                     {wishlistData.length > 0 &&
-                      wishlistData?.slice(0, 8)?.map((data, i) => {
+                      wishlistData?.slice(0, mobile ? 6 : 8)?.map((data, i) => {
                         return (
                           <div
                             key={i}
@@ -550,7 +550,7 @@ class CartPage extends React.Component<Props, State> {
                                   <img src={data.salesBadgeImage} />
                                 </div>
                               )}
-                              {(i < 7 && !mobile) || (1 < 5 && mobile) ? (
+                              {(i < 7 && !mobile) || (i < 5 && mobile) ? (
                                 <Link to={data.productUrl}>
                                   <img
                                     src={
@@ -566,7 +566,7 @@ class CartPage extends React.Component<Props, State> {
                                 <Link to={"/wishlist"}>VIEW ALL</Link>
                               )}
                             </div>
-                            {((i < 7 && !mobile) || (1 < 5 && mobile)) && (
+                            {((i < 7 && !mobile) || (i < 5 && mobile)) && (
                               <div className={styles.imageContent}>
                                 <p
                                   className={cs(
