@@ -536,20 +536,21 @@ class CartPage extends React.Component<Props, State> {
                                   (i === 7 && !mobile) || (i === 5 && mobile)
                               })}
                             >
-                              {data?.salesBadgeImage && (
-                                <div
-                                  className={cs(
-                                    {
-                                      [styles.badgePositionPlpMobile]: mobile
-                                    },
-                                    {
-                                      [styles.badgePositionPlp]: !mobile
-                                    }
-                                  )}
-                                >
-                                  <img src={data.salesBadgeImage} />
-                                </div>
-                              )}
+                              {data?.salesBadgeImage &&
+                                ((i < 7 && !mobile) || (i < 5 && mobile)) && (
+                                  <div
+                                    className={cs(
+                                      {
+                                        [styles.badgePositionPlpMobile]: mobile
+                                      },
+                                      {
+                                        [styles.badgePositionPlp]: !mobile
+                                      }
+                                    )}
+                                  >
+                                    <img src={data.salesBadgeImage} />
+                                  </div>
+                                )}
                               {(i < 7 && !mobile) || (i < 5 && mobile) ? (
                                 <Link to={data.productUrl}>
                                   <img
@@ -581,32 +582,26 @@ class CartPage extends React.Component<Props, State> {
                                 <p className={styles.searchFeature}>
                                   <Link to={data.productUrl}>
                                     {this.props?.isSale && data.discount ? (
-                                      <span className={styles.discountprice}>
+                                      <p className={styles.discountprice}>
                                         {data.discountedPrice
                                           ? displayPriceWithCommas(
                                               data.discountedPrice[currency],
                                               currency
                                             )
-                                          : ""}{" "}
-                                        &nbsp;{" "}
-                                      </span>
+                                          : ""}
+                                      </p>
                                     ) : (
                                       ""
                                     )}
                                     {this.props?.isSale && data.discount ? (
-                                      <>
-                                        {data.price[currency]
-                                          .toString()
-                                          .includes("-") && <br />}
-                                        <span className={styles.strikeprice}>
-                                          {displayPriceWithCommas(
-                                            data.price[currency],
-                                            currency
-                                          )}
-                                        </span>
-                                      </>
+                                      <p className={styles.strikeprice}>
+                                        {displayPriceWithCommas(
+                                          data.price[currency],
+                                          currency
+                                        )}
+                                      </p>
                                     ) : (
-                                      <span
+                                      <p
                                         className={
                                           data.badgeType == "B_flat"
                                             ? styles.discountprice
@@ -617,7 +612,7 @@ class CartPage extends React.Component<Props, State> {
                                           data.price[currency],
                                           currency
                                         )}
-                                      </span>
+                                      </p>
                                     )}
                                   </Link>
                                 </p>
