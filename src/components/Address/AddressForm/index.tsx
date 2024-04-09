@@ -1045,7 +1045,7 @@ const AddressForm: React.FC<Props> = props => {
                 }
               }}
               validationErrors={{
-                isCodeValid: "Please select a Country Code",
+                isCodeValid: "Required",
                 isValidCode: "Please enter a valid country code"
               }}
               allowFilter={true}

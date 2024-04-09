@@ -851,7 +851,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             </li>
             <li className={cs(globalStyles.textLeft, styles.otpText)}>
               SEND{" "}
-              <span className={globalStyles.cerise}>
+              <span className={globalStyles.aqua}>
                 {" "}
                 ONE TIME PASSWORD (OTP){" "}
               </span>
@@ -876,13 +876,17 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                     }}
                     checked={this.state.radioType === "email"}
                   />
-                  <span className={styles.checkmark}></span>
+                  <span
+                    className={cs(styles.checkmark, {
+                      [styles.top]: this.props.isCredit
+                    })}
+                  ></span>
                 </label>
                 <FormInput
                   name="email"
                   placeholder={"Email*"}
                   label={"Email*"}
-                  className={styles.relative}
+                  className={cs(styles.relative, styles.smallInput)}
                   disable={this.props.isCredit}
                   inputRef={this.emailInput}
                   value={this.props.email ? this.props.email : ""}

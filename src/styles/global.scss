@@ -42,18 +42,18 @@ h2 {
 }
 
 ::-webkit-input-placeholder { /* Edge */
-  font-weight: 300;
-  font-family: $font-Lato;
+  opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-  font-weight: 300;
-  font-family: $font-Lato;
+  opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
 }
 
 ::placeholder {
-  font-weight: 300;
-  font-family: $font-Lato;
+  opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
 }
 a{
   &:hover {
@@ -286,6 +286,10 @@ a {
 }
 .gold{
   color: $gold !important;
+}
+
+.aqua{
+  color: $aqua-text !important;
 }
 .bold {
 font-weight: bold;

@@ -941,9 +941,9 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               handleChange={this.onCountryCodeSelect}
               value=""
               validations={{
-                // isCodeValid: (values, value) => {
-                //   return !(values.phone && value == "");
-                // },
+                isCodeValid: (values, value) => {
+                  return !(values.phone && value == "");
+                },
                 isValidCode: (values, value) => {
                   if (value && this.props.isdList.length > 0) {
                     return this.props.isdList.indexOf(value ? value : "") > -1;
@@ -953,7 +953,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                // isCodeValid: "Please select a Country Code",
+                isCodeValid: "Required",
                 isValidCode: "Please enter a valid country code"
               }}
               allowFilter={true}

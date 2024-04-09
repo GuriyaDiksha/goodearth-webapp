@@ -14,11 +14,8 @@
     border-radius: 0;
 
     @include placeholder {
-      font-size:14px;
-      color: #19191958;
-      font-style: normal;
-      letter-spacing:1px;
-      font-family: $font-Lato;
+      opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
     }
 }
 
@@ -238,7 +235,7 @@
         color: #19191958;
         font-style: normal;
         letter-spacing: normal;
-        font-family: $font-Lato;
+        font-family:  $font-Montserrat;
       }
     }
   } 
@@ -263,7 +260,7 @@
       position: relative;
       max-width: 366px;
       margin: auto;
-      width: 100%;
+      // width: 100%;
       &.user-gender-picker {
         .Dropdown-root {
           .Dropdown-menu {
@@ -279,7 +276,7 @@
               color: #19191958;
               font-style: normal;
               letter-spacing: normal;
-              font-family: $font-Lato;
+              font-family:  $font-Montserrat;
             }
           }
         }

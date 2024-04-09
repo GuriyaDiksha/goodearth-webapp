@@ -536,10 +536,8 @@ input[type="text"]{
   font-size: 12px !important;
   font-weight: $regular;
   &::placeholder{
-    font-family: $font-Montserrat;
-    font-size: 12px !important;
-    font-weight: $regular;
-    color: #9f9f9f !important;
+    opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
   }
 }
 
@@ -558,10 +556,8 @@ input[type="text"]{
     font-weight: $regular;
     padding: 10px !important;
     &::placeholder{
-      font-family: $font-Montserrat;
-      font-size: 12px;
-      font-weight: $regular;
-      color: #9f9f9f;
+      opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
     }
     &:active{
       font-size: 12px;
@@ -587,6 +583,14 @@ input[type="text"]{
     left: 10px;
     background-color: #fff;
     padding: 3px;
+  }
+
+  .gc-label{
+    left: 50px !important;
+
+    @media screen and (max-width:767px) {
+      left: 10px !important;
+    }
   }
   
   hr {
@@ -1592,4 +1596,13 @@ input[type="text"].country-code-search-input{
   max-width: 40px;
   top: 4px;
   left: 4px;
+}
+
+.gc-wrp{
+  position: relative;
+}
+
+.code-wrp{
+  max-width: 366px;
+  margin: 20px auto;
 }

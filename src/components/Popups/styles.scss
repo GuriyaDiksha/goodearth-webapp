@@ -466,11 +466,8 @@
     border-radius: 0;
     box-shadow: none;
     @include placeholder {
-      font-size: 14px;
-      color: tint(#000, 60%);
-      font-style: normal;
-      letter-spacing: 1px;
-      font-family: $font-Lato;
+      opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
     }
   }
 
@@ -1718,11 +1715,8 @@
     border-radius: 0;
 
     @include placeholder {
-      font-size: 14px;
-      color: tint(#000, 60%);
-      font-style: normal;
-      letter-spacing: 1px;
-      font-family: $font-Lato;
+      opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
     }
   }
   input[type="text"].panError {

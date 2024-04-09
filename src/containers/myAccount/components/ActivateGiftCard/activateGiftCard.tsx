@@ -383,7 +383,7 @@ const Giftcard: React.FC = () => {
                       required
                     />
                   </div>
-                  <div>
+                  <div className={styles.gcWrp}>
                     <FormInput
                       name="giftCardCode"
                       type="text"

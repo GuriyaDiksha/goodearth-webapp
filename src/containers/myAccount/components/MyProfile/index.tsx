@@ -681,7 +681,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                     }
                   }}
                   validationErrors={{
-                    isCodeValid: "Please select a Country Code",
+                    isCodeValid: "Required",
                     isValidCode: "Please enter a valid country code"
                   }}
                   allowFilter={true}
