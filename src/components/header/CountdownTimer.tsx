@@ -70,7 +70,7 @@ const CountdownTimer: React.FC = () => {
         clearInterval(timer);
       }
     };
-  }, []);
+  }, [timeLeft]);
 
   return (
     <div id="ge-timer" className={styles.countdownTimer}>
