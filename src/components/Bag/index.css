@@ -1,13 +1,43 @@
+.EmptyCartSlider .slick-arrow.slick-prev, .EmptyCartSlider .slick-arrow.slick-next{
+  top: 32%;
+} 
+
+.EmptyCartSlider .slick-arrow {
+  position: absolute;
+  height: 0px;
+  width: 0px;
+  top: 0%;
+  display: block;
+  margin-top: 0px;
+  font-size: 0px;
+  border-radius: 0%;
+  padding: 0px;
+}
+ 
  .EmptyCartSlider .slick-arrow.slick-next::before {
     font-family: "goodearth";
     color: #4c4c4c;
     content: "\f103";
+    position: absolute;
+    top: 10px;
+    font-size: 20px;
+    font-weight: 400;
+    right: 0;
+    opacity: 1;
   
   }
+
+
   .EmptyCartSlider .slick-arrow.slick-prev:before {
     color: #4c4c4c;
     font-family: "goodearth";
     content: "\f102";
+    position: absolute;
+    top: 10px;
+    font-size: 20px;
+    font-weight: 400;
+    left: 0;
+    opacity: 1;
   
   }
 
