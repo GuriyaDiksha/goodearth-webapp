@@ -843,10 +843,11 @@ class FilterList extends React.Component<Props, State> {
     // this.setState({
     //     disableSelectedbox: true
     // });
-    const url = decodeURIComponent(
-      history.location.search.replace(/%(?![0-9A-Fa-f]{2})/g, "%25")
-    );
-    let filterUrl = "?" + url.split("?")[1];
+    const url = history.location.search;
+    // const  url = decodeURIComponent(
+    //   history.location.search.replace(/%(?![0-9A-Fa-f]{2})/g, "%25")
+    // );
+    let filterUrl = "?" + url?.split("?")[1];
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const searchValue: any = urlParams.get("q") || "";
@@ -1357,6 +1358,12 @@ class FilterList extends React.Component<Props, State> {
                           filter.categoryShop["selectedCatShop"]
                             ?.split(">")[1]
                             ?.trim() === nestedList[0]) ||
+                          (!isViewAll &&
+                            nestedList[0].includes(
+                              filter.categoryShop["selectedCatShop"]
+                                ?.split(">")[1]
+                                ?.trim()
+                            )) ||
                           (isViewAll &&
                             nestedList[0]?.startsWith("View all") &&
                             filter.categoryShop["selectedCatShop"]?.split("|")
@@ -1377,21 +1384,27 @@ class FilterList extends React.Component<Props, State> {
                       }
                     ></span>
                     <label
-                      className={
+                      className={cs(
                         (!isViewAll &&
                           filter.categoryShop["selectedCatShop"]
                             ?.split(">")[1]
                             ?.trim() === nestedList[0]) ||
-                        (isViewAll &&
-                          nestedList[0]?.startsWith("View all") &&
-                          filter.categoryShop["selectedCatShop"]?.split("|")
-                            .length &&
-                          filter.categoryShop["selectedCatShop"]
-                            ?.split(">")[0]
-                            .trim() === data)
+                          (!isViewAll &&
+                            nestedList[0].includes(
+                              filter.categoryShop["selectedCatShop"]
+                                ?.split(">")[1]
+                                ?.trim()
+                            )) ||
+                          (isViewAll &&
+                            nestedList[0]?.startsWith("View all") &&
+                            filter.categoryShop["selectedCatShop"]?.split("|")
+                              .length &&
+                            filter.categoryShop["selectedCatShop"]
+                              ?.split(">")[0]
+                              .trim() === data)
                           ? styles.selectedCatShop
                           : ""
-                      }
+                      )}
                       htmlFor={nestedList[1]}
                       id={nestedList[1]}
                       onClick={e =>
