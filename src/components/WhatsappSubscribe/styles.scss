@@ -78,6 +78,7 @@
 .show-popup-msg{
     display: flex;
     margin: 20px 0 !important;
+    max-width: max-content !important;
 
     &.manage-msg{
         padding-left: 30px;
@@ -94,6 +95,7 @@
         margin-left: 10px;
         &.oneline{
             display: flex;
+            max-width: max-content !important;
         }
         .info{
             @include b4_12px_montserrat_charcoal();
@@ -101,6 +103,7 @@
             color: #548B8B;
             letter-spacing: 0.3px;
             line-height: 16px;
+            max-width: max-content !important;
         }
         .cta {
             @include b4_12px_montserrat_charcoal();
@@ -108,6 +111,8 @@
             color: #548B8B;
             letter-spacing: 0.3px;
             line-height: 16px;
+            max-width: max-content !important;
+
             a { 
                 color: #548B8B;
                 text-decoration: underline;

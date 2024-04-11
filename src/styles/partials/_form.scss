@@ -65,7 +65,7 @@
     &:active, &:focus {
       background-color: $white;
       border: 1px solid $lightest-charcoal;
-      padding: 18px 20px;//fixed for all textbox
+      padding: 15px 20px;//fixed for all textbox
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
@@ -296,7 +296,7 @@
       flex-wrap: wrap;
       input{
         height: 50px !important;
-        width: inherit; 
+        width: --webkit-fill-available !important; 
 
         @media screen and (max-width:767px) {
           width: 100%;
