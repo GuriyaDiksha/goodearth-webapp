@@ -349,7 +349,6 @@ class FilterList extends React.Component<Props, State> {
     }
     history.replace(mainurl + "?source=plp" + filterUrl, {});
 
-    debugger;
     const currentCategoryShop = encodeURIComponent(categoryShop || "").replace(
       /%20/g,
       "+"
@@ -535,7 +534,6 @@ class FilterList extends React.Component<Props, State> {
           if (!isPageSizeExist) {
             filterUrl = filterUrl + `&page_size=${pageSize}`;
           }
-
           updateProduct(filterUrl, listdata)
             .then(plpList => {
               changeLoader?.(false);
@@ -700,8 +698,8 @@ class FilterList extends React.Component<Props, State> {
         () => {
           this.props.updateOnload(true);
           this.props.mobile
-            ? this.updateDataFromAPI("load")
-            : this.updateDataFromAPI();
+            ? this.updateDataFromAPI("load", undefined, true)
+            : this.updateDataFromAPI(undefined, undefined, true);
         }
       );
     }
