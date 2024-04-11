@@ -21,15 +21,19 @@
     height: 4px;
     font-size: 0px;
     background-color: transparent;
+    opacity: 0.4;
+}
+
+.imageSlideronatiner .slick-slider .slick-dots li.slick-active button{
     opacity: 1;
 }
-.imageSlideronatiner .slick-slider .slick-dots li.slick-active button::before{
+/* .imageSlideronatiner .slick-slider .slick-dots li.slick-active button::before{
     opacity: 1;
-}
+} */
 .imageSlideronatiner .slick-slider .slick-dots li button::before{
     content: "";
     box-shadow: 1px 1px 1px #00000065;
-    opacity: 0.4;
+    opacity: 1;
     background-color: white;
     font-size: 0;
     line-height: 0;
