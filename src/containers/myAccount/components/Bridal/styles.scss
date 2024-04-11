@@ -291,6 +291,7 @@
 
   .widget-qty {
     margin-top: 10px;
+    margin-bottom: 6px;
     // width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -1468,6 +1469,7 @@ margin-bottom: 50px !important;
     // border-radius: 10px;
     // padding: 2px 0;
     margin-top: 10px;
+    margin-bottom: 6px;
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
     display: -webkit-inline-flex;
@@ -1477,7 +1479,7 @@ margin-bottom: 50px !important;
     background-color: unset;
     border: 1px solid #d8d8d8;
     border-radius: 15px;
-    min-width: 130px;
+    min-width: 131px;
     padding: 8px 0;
 
     .qty {
@@ -2060,4 +2062,7 @@ input::placeholder{
 }
 .bottom30{
   padding-bottom: 30px;
+}
+.qty-left-msg{
+  @include gold_13px_lora_italic();
 }

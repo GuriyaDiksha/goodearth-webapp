@@ -1463,6 +1463,15 @@ $list: $grey 92%, $white 8%;
   @include b3_14px_caps_aqua();
 }
 
+@mixin gold_13px_lora_italic{
+  font-family: $font-Lora;
+  font-style: italic;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0.26px;
+  color: $gold;
+}
+
 
 
 

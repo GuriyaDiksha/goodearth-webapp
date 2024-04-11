@@ -687,14 +687,7 @@ hr {
 }
 
 .stock-left {
-  margin-top: 7px;
-  position: relative;
-  text-align: left;
-  display: block;
-  @include err_13px_lora_italic_cerise();
-  color:$gold !important;
-  letter-spacing: 0.26px;
-  font-weight: normal;
+  @include gold_13px_lora_italic();
 }
 .stock-left-with-error {
   top: 30px;
@@ -790,7 +783,6 @@ hr {
   opacity: 0.3;
 }
 .out-of-stock-error{
-  padding-top: 5px;
   @include err_13px_lora_italic_cerise();
 }
 

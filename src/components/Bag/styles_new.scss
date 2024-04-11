@@ -180,13 +180,13 @@
           }
         }
         .stock-left-error {
-          position: static !important;
-          text-align: left;
-          top: 25px;
           @include err_13px_lora_italic_cerise();
-          font-weight: normal;
-          line-height: 15px;
-          margin-top: 5px;
+          // position: static !important;
+          // text-align: left;
+          // top: 25px;
+          // font-weight: normal;
+          // line-height: 15px;
+          // margin-top: 5px;
         }
         .product-actions {
           padding-top: 18px;
@@ -548,14 +548,7 @@
 }
 
 .stock-left {
-  margin-top: 7px;
-  position: relative;
-  text-align: left;
-  display: block;
-  @include err_13px_lora_italic_cerise();
-  color:$gold !important;
-  letter-spacing: 0.26px;
-  font-weight: normal;
+  @include gold_13px_lora_italic();
 }
 .flex-price-icon{
   display: flex;

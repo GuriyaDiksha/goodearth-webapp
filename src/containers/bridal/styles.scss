@@ -319,6 +319,7 @@
 
       .widget-qty {
         margin-top: 10px;
+        margin-bottom: 6px;
         width: 100%;
         display: -webkit-box;
         display: -ms-flexbox;
@@ -954,6 +955,7 @@
   
     .widget-qty {
       margin-top: 10px;
+      margin-bottom: 6px;
       display: -webkit-inline-box;
       display: -ms-inline-flexbox;
       display: -webkit-inline-flex;
@@ -963,7 +965,7 @@
       background-color: unset;
       border: 1px solid #d8d8d8;
       border-radius: 15px;
-      min-width: 130px;
+      min-width: 131px;
       padding: 8px 0;
       
       .qty {
@@ -1183,4 +1185,7 @@
 }
 .aqua-color-text{
   color: $aqua-text!important;
+}
+.qty-left-msg{
+  @include gold_13px_lora_italic();
 }
