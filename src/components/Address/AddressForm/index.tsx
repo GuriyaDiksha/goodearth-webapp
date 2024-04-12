@@ -1051,12 +1051,14 @@ const AddressForm: React.FC<Props> = props => {
               allowFilter={true}
               options={[]}
               inputRef={countryCodeRef}
+              className={styles.countryCodeWrp}
             />
 
             <FormInput
               type="number"
               required
               name="phoneNumber"
+              className={styles.contactNum}
               label={isIndia ? "Mobile Number*" : "Contact Number*"}
               placeholder={isIndia ? "Mobile Number*" : "Contact Number*"}
               handleChange={() => setIsAddressChanged(true)}

@@ -56,6 +56,7 @@ input[type="text"]{
 .contact-num{
   input{
     height: 50px !important;
+    width: 100% !important;
   }
 }
 
@@ -1605,4 +1606,12 @@ input[type="text"].country-code-search-input{
 .code-wrp{
   max-width: 366px;
   margin: 20px auto;
+}
+
+.country-code-wrp{
+  width: 30% !important;
+
+  input{
+    width: 100% !important;
+  }
 }

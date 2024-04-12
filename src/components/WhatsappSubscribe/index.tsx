@@ -516,10 +516,11 @@ const WhatsappSubscribe: React.FC<Props> = ({
               searchIconClass={styles.countryCodeSearchIcon}
               searchInputClass={styles.countryCodeSearchInput}
               inputRef={codeRef}
+              className={styles.countryCodeWrp}
             />
           ) : null}
 
-          <div className={styles.numberInput}>
+          <div className={cs(styles.numberInput, styles.contactNum)}>
             <FormInput
               name="whatsappNo"
               value={phone}

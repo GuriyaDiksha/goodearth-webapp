@@ -963,6 +963,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               searchIconClass={styles.countryCodeSearchIcon}
               searchInputClass={styles.countryCodeSearchInput}
               inputRef={this.countryCodeRef}
+              className={styles.countryCodeWrp}
             />
             <FormInput
               // required
@@ -971,7 +972,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               placeholder={"Contact Number"}
               type="number"
               disable={!this.state.showFields}
-              className={showFieldsClass}
+              className={cs(showFieldsClass, styles.contactNum)}
               label={"Contact Number"}
               validations={{
                 isExisty: true,

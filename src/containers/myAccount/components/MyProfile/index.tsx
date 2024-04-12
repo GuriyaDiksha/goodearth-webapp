@@ -692,6 +692,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                   inputRef={countryCodeRef}
                   handleChange={onCountryCodeSelect}
                   aquaClass={styles.aquaText}
+                  className={styles.countryCodeWrp}
                 />
 
                 <FormInput
