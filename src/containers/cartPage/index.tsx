@@ -467,7 +467,7 @@ class CartPage extends React.Component<Props, State> {
                           bootstrap.col5,
                           {
                             [globalStyles.marginL40]: i === 0 && mobile,
-                            [globalStyles.marginR40]:
+                            [styles.lastDiv]:
                               i === this.state.featureData?.length - 1 && mobile
                           }
                         )}
@@ -513,7 +513,10 @@ class CartPage extends React.Component<Props, State> {
                     bootstrap.col12,
                     globalStyles.marginT20,
                     globalStyles.marginB20,
-                    { [globalStyles.marginB60]: mobile }
+                    {
+                      [globalStyles.marginB60]: mobile,
+                      [styles.mobileWrp]: mobile
+                    }
                   )}
                 >
                   <div
@@ -526,8 +529,9 @@ class CartPage extends React.Component<Props, State> {
                         return (
                           <div
                             key={i}
-                            className={cs(bootstrap.colLg3, bootstrap.col5, {
-                              [styles.px6]: !mobile
+                            className={cs(bootstrap.colLg3, {
+                              [styles.px6]: !mobile,
+                              [styles.col6]: mobile
                             })}
                           >
                             <div
