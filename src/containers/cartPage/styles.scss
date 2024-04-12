@@ -813,6 +813,7 @@ hr {
     left: 50%;
     transform: translate(-50%, -50%);
     border-bottom: 1px solid $charcoal19;
+    width: max-content;
     @include b3_14px_montserrat_caps_charcoal();
     
     &:hover{
@@ -822,8 +823,29 @@ hr {
 
   }
 }
-
+.mobile-wrp{
+  padding: 0 40px;
+}
 .mobile-conatiner{
-  gap: 10px;
-  margin-left: 40px;
+  gap: 5px;
+}
+.col-6{
+  flex: 0 0 49%;
+  max-width: 49%;
+
+  @media screen and (max-width:350) {
+    flex: 0 0 48%;
+  max-width: 48%;
+  }
+}
+.last-div{
+  position: relative;
+  &::after {
+    position: absolute;
+    content: '';
+    right: -40px;
+    width: 40px;
+    height: 100%;
+    top: 0;
+  }
 }

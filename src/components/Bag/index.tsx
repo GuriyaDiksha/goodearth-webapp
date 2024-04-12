@@ -268,7 +268,13 @@ class Bag extends React.Component<Props, State> {
                 <h6 className={styles.wishlistHead}>From your Saved List</h6>
                 <p className={styles.wishlistSubHead}>
                   There’s more waiting for you in your{" "}
-                  <Link className={styles.viewAll} to="/wishlist">
+                  <Link
+                    className={styles.viewAll}
+                    to="/wishlist"
+                    onClick={(): void => {
+                      this.props.toggleBag();
+                    }}
+                  >
                     Saved List
                   </Link>
                 </p>
@@ -324,7 +330,14 @@ class Bag extends React.Component<Props, State> {
                                   />
                                 </Link>
                               ) : (
-                                <Link to={"/wishlist"}>VIEW ALL</Link>
+                                <Link
+                                  to={"/wishlist"}
+                                  onClick={(): void => {
+                                    this.props.toggleBag();
+                                  }}
+                                >
+                                  VIEW ALL
+                                </Link>
                               )}
                             </div>
                             {i < 7 && (
