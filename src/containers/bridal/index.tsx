@@ -597,6 +597,7 @@ class BridalCheckout extends React.Component<Props, State> {
                 <>
                   <div
                     className={cs(
+                      styles.noProduct,
                       globalStyles.marginT20,
                       globalStyles.textCenter
                     )}
@@ -637,6 +638,7 @@ class BridalCheckout extends React.Component<Props, State> {
               <>
                 <div
                   className={cs(
+                    styles.noProduct,
                     globalStyles.marginT20,
                     globalStyles.textCenter
                   )}
