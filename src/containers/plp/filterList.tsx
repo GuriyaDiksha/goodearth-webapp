@@ -224,6 +224,10 @@ class FilterList extends React.Component<Props, State> {
   createUrlfromFilter = (load?: any, currency?: string) => {
     const array = this.state.filter;
     const { history } = this.props;
+
+    const urlParams = new URLSearchParams(history.location.search);
+    const categoryShop = urlParams.get("category_shop");
+
     let filterUrl = "",
       categoryKey: any,
       mainurl: string | undefined = "",
@@ -344,7 +348,13 @@ class FilterList extends React.Component<Props, State> {
       mainurl = history.location.pathname;
     }
     history.replace(mainurl + "?source=plp" + filterUrl, {});
-    this.updateDataFromAPI(load, currency);
+
+    const currentCategoryShop = encodeURIComponent(categoryShop || "").replace(
+      /%20/g,
+      "+"
+    );
+    const isUpdateTemplate = currentCategoryShop !== categoryShopVars;
+    this.updateDataFromAPI(load, currency, isUpdateTemplate);
   };
 
   onchangeRange = (value: any) => {
@@ -524,7 +534,6 @@ class FilterList extends React.Component<Props, State> {
           if (!isPageSizeExist) {
             filterUrl = filterUrl + `&page_size=${pageSize}`;
           }
-
           updateProduct(filterUrl, listdata)
             .then(plpList => {
               changeLoader?.(false);
@@ -612,8 +621,18 @@ class FilterList extends React.Component<Props, State> {
     }
   };
 
-  updateDataFromAPI = (onload?: string, currency?: string) => {
-    const { mobile, fetchPlpProducts, history, changeLoader } = this.props;
+  updateDataFromAPI = (
+    onload?: string,
+    currency?: string,
+    isUpdateTemplate?: boolean
+  ) => {
+    const {
+      mobile,
+      fetchPlpProducts,
+      history,
+      changeLoader,
+      fetchPlpTemplates
+    } = this.props;
 
     if (!onload && mobile) {
       return true;
@@ -622,6 +641,7 @@ class FilterList extends React.Component<Props, State> {
     const url = decodeURI(history.location.search);
     let filterUrl = "?" + url.split("?")[1];
     const urlParams = new URLSearchParams(history.location.search);
+    const categoryShop = urlParams.get("category_shop");
     const categoryShopL1 = urlParams
       .get("category_shop")
       ?.split(">")[1]
@@ -648,6 +668,10 @@ class FilterList extends React.Component<Props, State> {
       this.createList(plpList, false);
       this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
     });
+
+    if (categoryShop && isUpdateTemplate) {
+      fetchPlpTemplates(categoryShop);
+    }
   };
 
   stateChange = (location: any, action: any) => {
@@ -674,8 +698,8 @@ class FilterList extends React.Component<Props, State> {
         () => {
           this.props.updateOnload(true);
           this.props.mobile
-            ? this.updateDataFromAPI("load")
-            : this.updateDataFromAPI();
+            ? this.updateDataFromAPI("load", undefined, true)
+            : this.updateDataFromAPI(undefined, undefined, true);
         }
       );
     }
@@ -733,24 +757,6 @@ class FilterList extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
-    // const urlParams2 = new URLSearchParams(nextProps.history.location.search);
-    // const categoryShop2 = urlParams2.get("category_shop")?.split(">")[1];
-    // const url = decodeURI(
-    //   nextProps?.history.location.search.replace(/\+/g, " ")
-    // );
-    // const re = /[?&]+([^=&]+)=([^&]*)/gi;
-    // let match;
-    // const vars: any = {};
-    // while ((match = re.exec(url))) {
-    //   vars[match[1]] = match[2];
-    // }
-
-    const urlParams = new URLSearchParams(this.props.history.location.search);
-    const categoryShop1 = urlParams.get("category_shop");
-
-    const urlParams2 = new URLSearchParams(nextProps.history.location.search);
-    const categoryShop2 = urlParams2.get("category_shop");
-
     if (
       nextProps.onload &&
       nextProps.facets.categoryShop &&
@@ -806,10 +812,6 @@ class FilterList extends React.Component<Props, State> {
 
     if (this.props.mobileMenuOpenState !== nextProps.mobileMenuOpenState) {
       this.props.onChangeFilterState(false, false);
-    }
-
-    if (categoryShop1 !== categoryShop2 && categoryShop2 && categoryShop1) {
-      this.props.fetchPlpTemplates(categoryShop2);
     }
   };
 
