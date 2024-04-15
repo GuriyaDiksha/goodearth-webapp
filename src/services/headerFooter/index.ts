@@ -189,7 +189,7 @@ export default {
   },
   getSaleTimerData: async function(dispatch: Dispatch) {
     try {
-      const data: SaleTimerData = await API.get<SaleTimerData>(
+      const data: SaleTimerData[] = await API.get<SaleTimerData[]>(
         dispatch,
         `${__API_HOST__}/myapi/common/sale_countdown_timer/`
       );

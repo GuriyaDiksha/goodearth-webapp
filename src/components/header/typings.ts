@@ -363,5 +363,6 @@ export type SaleTimerData = {
   text: string;
   ctaText: string;
   ctaUrl: string;
-  themeColorHexCode: string | null;
+  // themeColorHexCode: string | null;
+  themeColorHexCode: string;
 };
