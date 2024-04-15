@@ -20,13 +20,15 @@ const CountdownTimer: React.FC = () => {
   const currentDate = new Date();
   let timerStartDate: any;
   let timerEndDate: any;
-  timerData?.map(item => {
-    timerStartDate = new Date(item.saleStartDate);
-    timerEndDate = new Date(item.saleEndDate);
+  timerData?.filter(item => {
+    if (
+      currentDate.getTime() >= new Date(item.saleStartDate).getTime() &&
+      currentDate.getTime() <= new Date(item.saleEndDate).getTime()
+    ) {
+      timerStartDate = new Date(item.saleStartDate);
+      timerEndDate = new Date(item.saleEndDate);
+    }
   });
-  // const timerStartDate = new Date(saleStartDate);
-  // const timerEndDate = new Date(saleEndDate);
-  // const currentDate = new Date();
 
   const timeLeft = Math.floor(
     (timerEndDate.getTime() - currentDate.getTime()) / 1000
@@ -38,16 +40,19 @@ const CountdownTimer: React.FC = () => {
 
   if (timerStartDate > currentDate) return null;
   if (timerEndDate < currentDate) return null;
+
   useEffect(() => {
-    timerEndDate.getTime() >= currentDate.getTime() &&
-      timerData?.map(item => {
-        timerStartDate = new Date(item.saleStartDate);
-        timerEndDate = new Date(item.saleEndDate);
+    timerData?.filter(item => {
+      if (
+        currentDate.getTime() >= new Date(item.saleStartDate).getTime() &&
+        currentDate.getTime() <= new Date(item.saleEndDate).getTime()
+      ) {
         setCtaText(item.ctaText);
         setCtaUrl(item.ctaUrl);
         setText(item.text);
         setThemeColorHexCode(item.themeColorHexCode);
-      });
+      }
+    });
     const timer = setInterval(() => {
       const timeLeft = Math.floor(
         (timerEndDate.getTime() - new Date().getTime()) / 1000
