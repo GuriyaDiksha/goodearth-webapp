@@ -14,6 +14,7 @@ export const enum ROUTES {
   CAREERDETAIL = "/careers-detail/:jobId",
   CAREER = "/careers",
   WISHLIST = "/wishlist",
+  SHAREDWISHLIST = "/shared-wishlist",
   GIFTCARD = "/giftcard",
   ResetPassword = "/password-reset/confirm/:uid/:token",
   STATIC = "/customer-assistance/",
@@ -83,6 +84,7 @@ export const enum ROUTES {
   PEHCHAANNAQASHI = "/pehchaan-naqashi-of-kashmir",
   INTERNATIONALSALE = "/internationalsale",
   MEMORYKEEPERS = "/memory-keepers",
+  MEMORYKEEPERSTWO = "/memory-keepers-2",
   HARVESTATTHETABLE = "/harvest-at-the-table"
 }
 

@@ -240,7 +240,7 @@ const Giftcard: React.FC = () => {
               {
                 giftCardCode: [
                   <>
-                    This gift card is already activated.{" "}
+                    The gift card has already been activated.{" "}
                     <Link
                       to="/account/check-balance"
                       key="check-balance-click-here"
@@ -251,7 +251,7 @@ const Giftcard: React.FC = () => {
                     >
                       Click here
                     </Link>{" "}
-                    to check balance.
+                    to check the balance.
                   </>
                 ]
               },

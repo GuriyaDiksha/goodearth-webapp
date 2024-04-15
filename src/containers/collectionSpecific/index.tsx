@@ -21,7 +21,11 @@ import banner from "../../images/bannerBottom.jpg";
 import CollectionService from "services/collection";
 import { getProductIdFromSlug } from "utils/url";
 import ReactHtmlParser from "react-html-parser";
-import { collectionProductImpression, pageViewGTM } from "utils/validate";
+import {
+  collectionProductImpression,
+  pageViewGTM,
+  productImpression
+} from "utils/validate";
 import { Currency } from "typings/currency";
 import { POPUP } from "constants/components";
 import metaActionCollection from "./metaAction";
@@ -88,7 +92,14 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         console.log("Collection Error", error);
       });
       if (filterData) {
-        collectionProductImpression(filterData, "CollectionSpecific", currency);
+        debugger;
+
+        // collectionProductImpression(filterData, "CollectionSpecific", currency);
+        productImpression(
+          { results: { data: filterData?.results } },
+          "CollectionSpecific",
+          currency || "INR"
+        );
         filterData.results = data.concat(filterData.results);
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
@@ -131,7 +142,13 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         console.log("Collection Error", error);
       });
       if (filterData) {
-        collectionProductImpression(filterData, "CollectionSpecific", currency);
+        debugger;
+        // collectionProductImpression(filterData, "CollectionSpecific", currency);
+        productImpression(
+          { results: { data: filterData?.results } },
+          "CollectionSpecific",
+          currency || "INR"
+        );
         dispatch(updateCollectionSpecificData({ ...filterData }));
       }
       // on reload collection specific template banner data update
@@ -672,7 +689,18 @@ class CollectionSpecific extends React.Component<
           />
         )}
         <section id="collection_banner">
-          <div className={cs(bootstrap.row, styles.firstBlock)}>
+          <div
+            className={
+              widgetImages?.length
+                ? cs(bootstrap.row, styles.firstBlock)
+                : mobile
+                ? showTemplates.Banner
+                  ? cs(bootstrap.row, styles.imageContainerMobileBanner)
+                  : cs(bootstrap.row, styles.imageContainerMobile)
+                : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
+            }
+            id="product_images"
+          >
             {/* First check for widgetImages data if available then show that 
              else collection specific banner section will show */}
             {widgetImages?.length ? (
@@ -709,27 +737,13 @@ class CollectionSpecific extends React.Component<
                 </div>
               </>
             ) : (
-              <div
-                className={
-                  mobile
-                    ? banner
-                      ? cs(bootstrap.row, styles.imageContainerMobileBanner)
-                      : cs(bootstrap.row, styles.imageContainerMobile)
-                    : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
-                }
-                id="product_images"
-              >
-                <div className={styles.templateBanner}>
-                  {showTemplates.Banner && (
-                    <Banner
-                      data={showTemplates.Banner}
-                      mobile={mobile}
-                      tablet={tablet}
-                      colbanner={false}
-                    />
-                  )}
-                </div>
-              </div>
+              showTemplates.Banner && (
+                <Banner
+                  data={showTemplates.Banner}
+                  mobile={mobile}
+                  tablet={tablet}
+                />
+              )
             )}
           </div>
         </section>
@@ -831,6 +845,7 @@ class CollectionSpecific extends React.Component<
                       currency={this.props.currency}
                       key={data.id + "plpitem"}
                       mobile={mobile}
+                      tablet={tablet}
                       onClickQuickView={this.onClickQuickView}
                       isCollection={true}
                       loader={

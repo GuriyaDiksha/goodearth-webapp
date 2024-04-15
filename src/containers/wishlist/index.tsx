@@ -35,6 +35,9 @@ import {
   displayPriceWithCommasFloat
 } from "utils/utility";
 import Button from "components/Button";
+import { updateNextUrl } from "actions/info";
+import linkIcon from "./../../images/linkIcon.svg";
+// import { isEqual } from "lodash";
 
 let AbsoluteGrid: any;
 
@@ -42,12 +45,21 @@ const mapStateToProps = (state: AppState) => {
   return {
     mobile: state.device.mobile,
     currency: state.currency,
-    wishlistData: state.wishlist.items,
+    wishlistData: state.router.location.pathname.includes("shared-wishlist")
+      ? state.wishlist.sharedItems
+      : state.wishlist.items,
     wishlistCountData: state.wishlist.count,
     sortedDiscount: state.wishlist.sortedDiscount,
     isLoggedIn: state.user.isLoggedIn,
     isSale: state.info.isSale,
-    showTimer: state.info.showTimer
+    showTimer: state.info.showTimer,
+    location: state.router.location,
+    isShared: state.router.location.pathname.includes("shared-wishlist"),
+    ownerName: state.wishlist.owner_name,
+    message: state.wishlist.message,
+    isSuccess: state.wishlist.is_success,
+    user: state.user,
+    openModal: state.modal.openModal
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch) => {
@@ -64,16 +76,46 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       await WishlistService.removeFromWishlist(dispatch, productId, id, sortBy),
     updateWishlist: async (sortBy: string) =>
       await WishlistService.updateWishlist(dispatch, sortBy),
-    countWishlist: async () => await WishlistService.countWishlist(dispatch),
+    updateWishlistShared: async (sortBy: string, location: any) => {
+      const urlParam = new URLSearchParams(location.search);
+      const uid = urlParam.get("key") || "";
+
+      await WishlistService.updateWishlistShared(dispatch, uid, sortBy);
+    },
+    // countWishlist: async () => await WishlistService.countWishlist(dispatch),
     updateWishlistSequencing: async (sequencing: [number, number][]) =>
       await WishlistService.updateWishlistSequencing(dispatch, sequencing),
-    openLogin: () => LoginService.showLogin(dispatch),
+    openLogin: (url: string, isShareLinkClicked: boolean) => {
+      //Stored this value for share wishlist popup
+      localStorage.setItem("isShareLinkClicked", String(isShareLinkClicked));
+
+      LoginService.showLogin(dispatch);
+      if (url) {
+        dispatch(updateNextUrl(url));
+      }
+    },
+    openSharePopup: (mobile: boolean) => {
+      dispatch(
+        updateComponent(
+          POPUP.SHAREWISHLIST,
+          {
+            // shareUrl: "https://www.goodearth.in/sssss"
+            // bridalDetails={bridalDetails}
+          },
+          mobile ? false : true,
+          mobile ? ModalStyles.bottomAlignSlideUp : "",
+          mobile ? "slide-up-bottom-align" : ""
+        )
+      );
+      dispatch(updateModal(true));
+    },
     openPopup: (
       item: WishListGridItem,
       currency: Currency,
       sortBy: string,
       isSale?: boolean,
-      mobile?: boolean
+      mobile?: boolean,
+      isShared?: boolean
     ) => {
       const childAttributes = item.stockDetails.map(
         ({
@@ -106,13 +148,15 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         }
       });
       const changeSize = async (size: string, quantity?: number) => {
-        await WishlistService.modifyWishlistItem(
-          dispatch,
-          item.id,
-          size,
-          quantity,
-          sortBy
-        );
+        if (!isShared) {
+          await WishlistService.modifyWishlistItem(
+            dispatch,
+            item.id,
+            size,
+            quantity,
+            sortBy
+          );
+        }
       };
 
       const index = item.category.length - 1;
@@ -148,6 +192,21 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         )
       );
       dispatch(updateModal(true));
+    },
+    openWishlistPopup: (mobile: boolean) => {
+      dispatch(
+        updateComponent(
+          POPUP.SHAREWISHLIST,
+          null,
+          mobile ? false : true,
+          mobile ? ModalStyles.bottomAlignSlideUp : "",
+          mobile ? "slide-up-bottom-align" : ""
+        )
+      );
+      dispatch(updateModal(true));
+    },
+    updateComponent: () => {
+      dispatch(updateNextUrl(""));
     }
   };
 };
@@ -200,32 +259,49 @@ class Wishlist extends React.Component<Props, State> {
         mobile: this.props.mobile,
         currency: this.props.currency,
         isSale: this.props.isSale,
-        sortBy: this.state.currentFilter
+        sortBy: this.state.currentFilter,
+        isShared: this.props.isShared
       },
       false
     );
   }
 
-  getWishlist = (sortBy: string) => {
+  getWishlist = (sortBy: string, isUnmount?: boolean) => {
     this.setState({
       isLoading: true
     });
     if (!sortBy && this.state.defaultOption.value) {
       sortBy = this.state.defaultOption.value;
     }
-    this.props
-      .updateWishlist(sortBy)
-      .then(res => {
-        this.setState({
-          isLoading: false
+    if (!this.props.isShared || isUnmount) {
+      this.props
+        .updateWishlist(sortBy)
+        .then(res => {
+          this.setState({
+            isLoading: false
+          });
+        })
+        .catch(error => {
+          this.setState({
+            isLoading: false
+          });
+          // console.log(error);
         });
-      })
-      .catch(error => {
-        this.setState({
-          isLoading: false
+    } else {
+      this.props
+        .updateWishlistShared(sortBy, this.props.location)
+        .then(res => {
+          this.setState({
+            isLoading: false
+          });
+        })
+        .catch(error => {
+          this.setState({
+            isLoading: false
+          });
+          // console.log(error);
         });
-        // console.log(error);
-      });
+    }
   };
 
   onChangeFilter = (data?: string, label?: string) => {
@@ -297,7 +373,7 @@ class Wishlist extends React.Component<Props, State> {
     this.props
       .removeFromWishlist(this.state.defaultOption.value, undefined, data.id)
       .finally(() => {
-        this.props.countWishlist();
+        // this.props.countWishlist();
         Moengage.track_event("remove_from_wishlist", {
           "Product id": data.id,
           "Product name": data.productName,
@@ -313,6 +389,8 @@ class Wishlist extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    this.getWishlist(this.state.defaultOption.value);
+
     this.container = document.getElementById("wishlist");
     this.root = createRoot(this.container);
     window.addEventListener("resize", debounce(this.updateStyle, 100));
@@ -335,6 +413,9 @@ class Wishlist extends React.Component<Props, State> {
 
   componentWillUnmount() {
     window.removeEventListener("resize", debounce(this.updateStyle, 100));
+    if (this.props.isShared) {
+      this.getWishlist(this.state.defaultOption.value, true);
+    }
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -347,18 +428,20 @@ class Wishlist extends React.Component<Props, State> {
           mobile: this.props.mobile,
           currency: this.props.currency,
           isSale: this.props.isSale,
-          sortBy: this.state.currentFilter
+          sortBy: this.state.currentFilter,
+          isShared: this.props.isShared
         },
         false
       );
     }
-    this.state.filterListing
-      ? document.body.classList.add(globalStyles.noScroll)
-      : document.body.classList.remove(globalStyles.noScroll);
+    // this.state.filterListing
+    //   ? document.body.classList.add(globalStyles.noScroll)
+    //   : document.body.classList.remove(globalStyles.noScroll);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     this.updateGrid(nextProps);
+
     if (
       this.props.currency !== nextProps.currency ||
       this.props.isSale !== nextProps.isSale
@@ -384,7 +467,8 @@ class Wishlist extends React.Component<Props, State> {
           mobile: nextProps.mobile,
           currency: nextProps.currency,
           isSale: nextProps.isSale,
-          sortBy: this.state.currentFilter
+          sortBy: this.state.currentFilter,
+          isShared: this.props.isShared
         },
         false
       );
@@ -407,8 +491,8 @@ class Wishlist extends React.Component<Props, State> {
     if (
       this.state.dragDrop &&
       this.state.sampleItems.length > 0 &&
-      nextProps.wishlistData.length == this.state.sampleItems.length &&
-      nextProps.wishlistCountData == this.state.sampleItems.length
+      nextProps.wishlistData.length == this.state.sampleItems.length
+      //nextProps.wishlistCountData == this.state.sampleItems.length
     ) {
       newWishlistData = nextProps.wishlistData.map((data, i) => {
         const item = this.state.sampleItems.filter(
@@ -545,14 +629,13 @@ class Wishlist extends React.Component<Props, State> {
   getWishlistSubtotal() {
     return (
       <div>
-        <span>{"(" + this.state.wishlistCount + " items) Subtotal: "}</span>
-        <span
-          className={cs(
-            globalStyles.cerise,
-            styles.cerise,
-            globalStyles.italic
-          )}
-        >
+        <span>
+          {"(" +
+            this.state.wishlistCount +
+            ` item${this.state.wishlistCount === 1 ? "" : "s"}) Subtotal:`}
+          &nbsp;
+        </span>
+        <span>
           {Number.isSafeInteger(+this.state.totalPrice)
             ? displayPriceWithCommas(this.state.totalPrice, this.props.currency)
             : displayPriceWithCommasFloat(
@@ -577,8 +660,8 @@ class Wishlist extends React.Component<Props, State> {
       }
     }
   };
+
   myrender = (data: WishListGridItem[]) => {
-    console.log(this.root);
     if (data.length > 0) {
       if (this.props.mobile) {
         this.root.render(
@@ -588,7 +671,7 @@ class Wishlist extends React.Component<Props, State> {
             dragEnabled={this.state.dragDrop}
             onDragEnd={() => this.onDropWishlist()}
             onDragMove={() => this.onDragWishlist()}
-            itemWidth={150}
+            itemWidth={160}
             itemHeight={340}
             responsive={true}
             onMove={debounce(this.onMoveDebounced, 40)}
@@ -713,6 +796,19 @@ class Wishlist extends React.Component<Props, State> {
       default:
         break;
     }
+    document.body.classList.remove(globalStyles.noScroll);
+  };
+
+  onSortClick = () => {
+    if (this.state.wishlistCount > 0) {
+      this.setState({ filterListing: true });
+      document.body.classList.add(globalStyles.noScroll);
+    }
+  };
+
+  onCloseFilter = () => {
+    this.setState({ filterListing: false });
+    document.body.classList.remove(globalStyles.noScroll);
   };
 
   render() {
@@ -843,137 +939,161 @@ class Wishlist extends React.Component<Props, State> {
         </div>
       </div>
     );
+    const emptySharedWishlistContent = (
+      <div
+        className={cs(styles.emptySharedWishlistContent, {
+          [globalStyles.marginT100]: this.props.ownerName
+        })}
+      >
+        <p>{this.props.message}</p>
+        <Button
+          className={cs({ [globalStyles.btnFullWidth]: mobile })}
+          variant="mediumMedCharcoalCta366"
+          label={"PROCEED TO GOODEARTH.IN"}
+          onClick={() => this.props.history.push("/")}
+        />
+      </div>
+    );
+
     return (
-      <div className={bootstrapStyles.containerFluid}>
-        {mobile ? (
-          <div
-            className={cs(
-              bootstrapStyles.row,
-              { [styles.pageBody]: !mobile },
-              { [styles.pageBodyMobile]: mobile },
-              {
-                [styles.pageBodyTimer]: this.props.showTimer
-              }
-            )}
-          >
-            <div className={cs(styles.cSort, styles.subheaderAccount)}>
-              <div
-                className={cs(bootstrapStyles.col12, styles.productNumber)}
-                style={{ borderBottom: "1px solid #efeaea" }}
-              >
+      <div
+        className={cs(bootstrapStyles.containerFluid, {
+          [styles.pageBodyTimer]: this.props.showTimer && mobile,
+          [styles.sharedEmptyContainer]:
+            this.state.wishlistCount == 0 &&
+            this.props.isShared &&
+            !this.props.ownerName
+        })}
+      >
+        {!this.props.isShared &&
+          (mobile ? (
+            <div
+              className={cs(
+                bootstrapStyles.row,
+                { [styles.pageBody]: !mobile },
+                { [styles.pageBodyMobile]: mobile },
+                {
+                  [styles.pageBodyTimer]: this.props.showTimer
+                }
+              )}
+            >
+              <div className={cs(styles.cSort, styles.subheaderAccount)}>
                 <div
-                  className={cs(bootstrapStyles.col10, styles.wishlistHeader)}
-                >
-                  Saved Items
-                </div>
-                <div className={bootstrapStyles.col2}>
-                  <i
-                    className={cs(
-                      iconStyles.icon,
-                      iconStyles.iconSort,
-                      styles.iconSort
-                      // globalStyles.cerise
-                    )}
-                    onClick={
-                      this.state.wishlistCount > 0
-                        ? () => this.setState({ filterListing: true })
-                        : () => null
-                    }
-                  ></i>
-                </div>
-                <div
-                  className={
-                    this.state.filterListing
-                      ? bootstrapStyles.row
-                      : globalStyles.hidden
-                  }
+                  className={cs(bootstrapStyles.col12, styles.productNumber)}
+                  style={{ borderBottom: "1px solid #efeaea" }}
                 >
                   <div
-                    className={cs(styles.mobileFilterHeader, {
-                      [styles.mobileFilterHeaderTimer]: this.props.showTimer
-                    })}
-                    id="filterHeader"
+                    className={cs(bootstrapStyles.col10, styles.wishlistHeader)}
                   >
-                    <div className={styles.filterCross}>
-                      <span>Saved Items</span>
-                      <span
-                        onClick={() => this.setState({ filterListing: false })}
-                      >
-                        <i
-                          className={cs(
-                            iconStyles.icon,
-                            iconStyles.iconCrossNarrowBig,
-                            styles.iconClose
-                          )}
-                        ></i>
-                      </span>
+                    Saved Items
+                  </div>
+                  <div className={bootstrapStyles.col2}>
+                    <div
+                      className={cs(styles.iconSort, {
+                        [styles.disable]: this.state.wishlistCount === 0
+                      })}
+                      onClick={() => this.onSortClick()}
+                    >
+                      SORT
                     </div>
                   </div>
-                  <div className={bootstrapStyles.row}>
+                  <div
+                    className={
+                      this.state.filterListing
+                        ? bootstrapStyles.row
+                        : globalStyles.hidden
+                    }
+                  >
                     <div
-                      id="mobileFilterMenu"
-                      className={cs(
-                        bootstrapStyles.col12,
-                        styles.mobileFilterMenu,
-                        { [styles.mobileFilterMenuTimer]: this.props.showTimer }
-                      )}
+                      className={cs(styles.mobileFilterHeader, {
+                        [styles.mobileFilterHeaderTimer]: this.props.showTimer
+                      })}
+                      id="filterHeader"
                     >
-                      <ul className={styles.sort}>
-                        {options.map((data, index) => {
-                          return (
-                            <li key={index}>
-                              <a
-                                onClick={() => this.setWishlistFilter(data)}
-                                className={
-                                  this.state.currentFilter == data.value
-                                    ? globalStyles.cerise
-                                    : ""
-                                }
-                              >
-                                {data.label}
-                              </a>
-                            </li>
-                          );
-                        })}
-                      </ul>
+                      <div className={styles.filterCross}>
+                        <span>Saved Items</span>
+                        <span onClick={() => this.onCloseFilter()}>
+                          <i
+                            className={cs(
+                              iconStyles.icon,
+                              iconStyles.iconCrossNarrowBig,
+                              styles.iconClose
+                            )}
+                          ></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div className={bootstrapStyles.row}>
+                      <div
+                        id="mobileFilterMenu"
+                        className={cs(
+                          bootstrapStyles.col12,
+                          styles.mobileFilterMenu,
+                          {
+                            [styles.mobileFilterMenuTimer]: this.props.showTimer
+                          }
+                        )}
+                      >
+                        <ul className={styles.sort}>
+                          {options.map((data, index) => {
+                            return (
+                              <li key={index}>
+                                <a
+                                  onClick={() => this.setWishlistFilter(data)}
+                                  className={
+                                    this.state.currentFilter == data.value
+                                      ? globalStyles.gold
+                                      : ""
+                                  }
+                                >
+                                  {data.label}
+                                </a>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        ) : (
-          <SecondaryHeader>
-            <div
-              className={cs(
-                bootstrapStyles.colMd7,
-                bootstrapStyles.offsetMd1,
-                styles.careersHeader,
-                globalStyles.verticalMiddle
-              )}
-            >
-              <div>
-                <span className={styles.heading}>SAVED ITEMS</span>
+          ) : (
+            <SecondaryHeader>
+              <div
+                className={cs(
+                  bootstrapStyles.colMd7,
+                  bootstrapStyles.offsetMd1,
+                  styles.careersHeader,
+                  globalStyles.verticalMiddle
+                )}
+              >
+                <div>
+                  <span className={styles.heading}>SAVED ITEMS</span>
+                </div>
               </div>
-            </div>
-            <div
-              className={cs(
-                bootstrapStyles.colMd3,
-                bootstrapStyles.offsetMd1,
-                globalStyles.verticalMiddle
-              )}
-            >
-              <p className={styles.filterText}>SORT BY:</p>
-              <SecondaryHeaderDropdown
-                id="sort-dropdown-wishlist"
-                items={options}
-                value={this.state.defaultOption.value}
-                onChange={this.onChangeFilter}
-                disabled={this.props.wishlistCountData === 0}
-              />
-            </div>
-          </SecondaryHeader>
-        )}
+              <div
+                className={cs(
+                  bootstrapStyles.colMd3,
+                  bootstrapStyles.offsetMd1,
+                  globalStyles.verticalMiddle
+                )}
+              >
+                <p className={styles.filterText}>SORT</p>
+                <SecondaryHeaderDropdown
+                  id="sort-dropdown-wishlist"
+                  items={options}
+                  value={this.state.defaultOption.value}
+                  onChange={this.onChangeFilter}
+                  disabled={this.props.wishlistData.length === 0}
+                />
+              </div>
+            </SecondaryHeader>
+          ))}
+        {this.state.wishlistCount == 0 &&
+          this.props.isShared &&
+          !this.props.ownerName &&
+          emptySharedWishlistContent}
         <div
           className={cs(
             bootstrapStyles.row,
@@ -981,43 +1101,74 @@ class Wishlist extends React.Component<Props, State> {
             { [styles.wishlistBlockOuterTimer]: this.props.showTimer }
           )}
         >
-          {!isLoggedIn && (
+          {!isLoggedIn && !this.props.isShared && (
             <div className={styles.topBlockContainer}>
               <div className={styles.innerContainer}>
-                <h3 className={styles.heading}>Saved Items</h3>
+                <h3 className={styles.heading}>Your Saved List</h3>
                 <p className={styles.subheading}>
-                  {this.state.wishlistCount > 0 ? (
-                    <>
-                      Keep track of your favourite pieces all in one place!
-                      <br />
-                      Login to save this list!
-                    </>
-                  ) : (
+                  {/* {this.state.wishlistCount > 0 ? ( */}
+                  <>
+                    Here are your saved items. Login to share the list and
+                    <br />
+                    continue where you left off.
+                  </>
+                  {/* ) : (
                     <>
                       Looking for your saved items?
                       <br />
                       Login to pick up where you left off
                     </>
-                  )}
+                  )} */}
                 </p>
                 <Button
                   label={"Login"}
                   variant="smallMedCharcoalCta"
-                  onClick={this.props.openLogin}
+                  onClick={() => this.props.openLogin("/wishlist", false)}
                 />
               </div>
             </div>
           )}
+
+          {this.props.isShared && this.props.ownerName && (
+            <div className={styles.sharedWrapper}>
+              <h2 className={styles.heading}>
+                {this.props.ownerName
+                  .toLowerCase()
+                  .replace(/\b(\w)/g, x => x.toUpperCase())}
+                &apos;s Saved List
+              </h2>
+              <p className={styles.subheading}>
+                A wishlist has been shared with you.{mobile && <br />} Start
+                shopping!
+              </p>
+            </div>
+          )}
           <div
-            className={cs(
-              bootstrapStyles.col10,
-              bootstrapStyles.offset1,
-              globalStyles.marginT20
-            )}
+            className={cs(bootstrapStyles.col10, bootstrapStyles.offset1, {
+              [globalStyles.marginT50]: !mobile && !this.props.isShared,
+              [globalStyles.marginT30]: mobile && !this.props.isShared
+            })}
           >
             {this.state.wishlistCount > 0 && (
-              <div className={cs(styles.wishlistTop, styles.wishlistSubtotal)}>
-                {this.getWishlistSubtotal()}
+              <div>
+                <div
+                  className={cs(styles.wishlistTop, styles.wishlistSubtotal)}
+                >
+                  {this.getWishlistSubtotal()}
+                </div>
+                {!this.props.isShared && (
+                  <div
+                    className={styles.shareList}
+                    onClick={() =>
+                      this.props.isLoggedIn
+                        ? this.props.openSharePopup(this.props.mobile)
+                        : this.props.openLogin("/wishlist", true)
+                    }
+                  >
+                    <img src={linkIcon} alt="link" />
+                    <span>SHARE LIST</span>
+                  </div>
+                )}
               </div>
             )}
             <div
@@ -1028,9 +1179,15 @@ class Wishlist extends React.Component<Props, State> {
               className={cs(styles.wishlistBlock, styles.awesome)}
               id="emptyWishlist"
             >
-              {this.state.wishlistCount == 0 && emptyWishlistContent}
+              {this.state.wishlistCount == 0 &&
+                !this.props.isShared &&
+                emptyWishlistContent}
+              {this.state.wishlistCount == 0 &&
+                this.props.isShared &&
+                this.props.ownerName &&
+                emptySharedWishlistContent}
             </div>
-            {this.state.wishlistCount > 0 && (
+            {/* {this.state.wishlistCount > 0 && (
               <div className={cs({ [globalStyles.textCenter]: mobile })}>
                 <div
                   className={cs(styles.wishlistBottom, styles.wishlistSubtotal)}
@@ -1038,7 +1195,7 @@ class Wishlist extends React.Component<Props, State> {
                   {this.getWishlistSubtotal()}
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
         <div className="">

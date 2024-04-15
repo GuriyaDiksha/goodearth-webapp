@@ -750,6 +750,7 @@ hr {
 }
 .out-of-stock-error{
   padding-top: 5px;
+  @include err_13px_lora_italic_cerise();
 }
 
 .continue-shopping-btn-wrapper{

@@ -63,6 +63,7 @@ const WhatPeopleBuying: React.FC<RecommenedSliderProps> = (
               showText={false}
               key={item.id}
               mobile={true}
+              badgeType={item?.badgeType}
             />
           </div>
         )}

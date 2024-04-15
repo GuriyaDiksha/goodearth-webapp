@@ -34,3 +34,10 @@ export type WishListGridItem = WishlistItem & {
   key: number;
   sort: number;
 };
+
+export type createSharedLinkResponse = {
+  is_success: boolean;
+  message: string;
+  secret_key: string;
+  wishlist_link: string;
+};

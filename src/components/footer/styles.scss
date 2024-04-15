@@ -752,6 +752,7 @@
     z-index: 8;
     ul {
       margin-bottom: 0px;
+      height: max-content;
     }
     li {
       border-top: 1px solid #9f9f9f33;
@@ -1147,4 +1148,14 @@ padding: 30px 20px;
 
 .extra-height {
   height: 330px;
+}
+
+.padding-bottom{
+  padding-bottom: 60px;
+
+  @media screen and (max-width:767px) {
+    padding-bottom: 120px;
+  }
+
+
 }

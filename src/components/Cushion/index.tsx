@@ -138,7 +138,7 @@ class CushionBag extends React.Component<Props, State> {
       });
     } else {
       this.setState({
-        sizeError: "Please select a Size to proceed"
+        sizeError: "Please select a size to continue"
       });
     }
   };
@@ -395,7 +395,7 @@ class CushionBag extends React.Component<Props, State> {
     // setSizeerror(true);
     this.setState(
       {
-        sizeError: "Please select a Size to proceed"
+        sizeError: "Please select a size to continue"
       },
       () => {
         this.showError();
@@ -415,7 +415,7 @@ class CushionBag extends React.Component<Props, State> {
 
     if (!selectedSize) {
       this.setState({
-        sizeError: "Please select a Size to proceed"
+        sizeError: "Please select a size to continue"
       });
       this.showError();
     } else {
@@ -516,7 +516,14 @@ class CushionBag extends React.Component<Props, State> {
       // isSale,
       // currency,
       filler: {
-        data: { title, categories, id, priceRecords, discountedPriceRecords }
+        data: {
+          title,
+          categories,
+          id,
+          priceRecords,
+          discountedPriceRecords,
+          badgeType
+        }
       }
     } = this.props;
     const { selectedSize, apiTrigger, addedToBag } = this.state;
@@ -578,6 +585,7 @@ class CushionBag extends React.Component<Props, State> {
                   showText={false}
                   size={selectedSize ? selectedSize.size : undefined}
                   iconClassName={styles.mobileWishlistIcon}
+                  badgeType={badgeType}
                 />
               </div>
             </div>
@@ -601,9 +609,9 @@ class CushionBag extends React.Component<Props, State> {
       <div>
         <div
           className={cs(styles.bagBackdrop, show ? styles.active : "")}
-          // onClick={(): void => {
-
-          // }}
+          onClick={(): void => {
+            this.props.updateshowFiller();
+          }}
         ></div>
         <div
           className={cs(

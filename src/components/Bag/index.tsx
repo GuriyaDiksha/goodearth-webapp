@@ -102,7 +102,7 @@ class Bag extends React.Component<Props, State> {
         });
       }
 
-      this.props.updateWishlist();
+      // this.props.updateWishlist();
 
       this.props
         .fetchFeaturedContent()

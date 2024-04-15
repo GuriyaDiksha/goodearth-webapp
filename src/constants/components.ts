@@ -50,6 +50,9 @@ const BridalPop = loadable(() =>
 const ShareLink = loadable(() =>
   import("containers/myAccount/components/Bridal/ShareLink")
 );
+const ShareWishlist = loadable(() =>
+  import("containers/wishlist/whishlistPopup")
+);
 const Delivery = loadable(() => import("components/Popups/DeliveryPopup"));
 
 const CMSPopup = loadable(() => import("components/Popups/CMSPopup"));
@@ -96,6 +99,7 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   shareLink: ShareLink,
   delivery: Delivery,
   cmsPopup: CMSPopup,
+  shareWishlist: ShareWishlist,
   cerise: CerisePopup,
   maker: MakerPopup,
   resendGc: ResendGcPopup,
@@ -132,6 +136,7 @@ export const enum POPUP {
   BRIDALMOBILEPRODUCTUPDATE = "bridalMobileProductUpdate",
   BRIDALPOP = "bridalPop",
   SHARELINK = "shareLink",
+  SHAREWISHLIST = "shareWishlist",
   DELIVERY = "delivery",
   CMSPOPUP = "cmsPopup",
   CERISE = "cerise",

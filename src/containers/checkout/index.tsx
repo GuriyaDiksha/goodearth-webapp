@@ -52,9 +52,8 @@ import { POPUP } from "constants/components";
 import { Basket } from "typings/basket";
 import { Currency } from "typings/currency";
 import CheckoutBreadcrumb from "./component/CheckoutBreadcrumb";
-import Loader from "components/Loader";
 import { GA_CALLS } from "constants/cookieConsent";
-import { updateShowShippingAddress } from "actions/info";
+import { updateLoader, updateShowShippingAddress } from "actions/info";
 import { useLocation } from "react-router";
 
 const mapStateToProps = (state: AppState) => {
@@ -73,7 +72,8 @@ const mapStateToProps = (state: AppState) => {
     showPromo: state.info.showPromo,
     bridalId: state.user.bridalId,
     billingAddressId: state.address.billingAddressId,
-    showShipping: state.info.showShipping
+    showShipping: state.info.showShipping,
+    isLoading: state.info.isLoading
   };
 };
 
@@ -84,25 +84,28 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     showNotify: (message: string) => {
       showGrowlMessage(dispatch, message, 6000);
     },
+    showRegistryMix: (message: string) => {
+      showGrowlMessage(dispatch, message, 0);
+    },
     specifyShippingAddress: async (
       shippingAddressId: number,
       shippingAddress: AddressData,
       user: User,
       isBridal = false,
-      history: any,
-      boId: string
+      history: any
+      // boId: string
     ) => {
       const data = await AddressService.specifyShippingAddress(
         dispatch,
         shippingAddressId,
         isBridal,
         history,
-        boId
+        undefined
       );
       const userData = { ...user, shippingData: shippingAddress };
       dispatch(updateUser(userData));
       // isLoading(true);
-      AddressService.fetchAddressList(dispatch, boId, isGcCheckout).then(
+      AddressService.fetchAddressList(dispatch, undefined, isGcCheckout).then(
         addressList => {
           dispatch(updateAddressList(addressList));
         }
@@ -113,14 +116,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     specifyBillingAddress: async (
       specifyBillingAddressData: specifyBillingAddressData,
-      boId: string,
       user: User
     ) => {
       const data = await AddressService.specifyBillingAddress(
         dispatch,
         specifyBillingAddressData
       );
-      AddressService.fetchAddressList(dispatch, boId, isGcCheckout).then(
+      AddressService.fetchAddressList(dispatch, undefined, isGcCheckout).then(
         addressList => {
           dispatch(updateAddressList(addressList));
         }
@@ -132,32 +134,38 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       );
       return data;
     },
-    fetchAddressBridal: async (boId: string) => {
+    fetchAddressBridal: async () => {
       const addressList = await AddressService.fetchAddressList(
         dispatch,
-        boId,
+        undefined,
         isGcCheckout
       );
       dispatch(updateAddressList(addressList));
       return addressList;
     },
-    reloadPage: (cookies: Cookies, history: any, isLoggedIn: boolean) => {
+    reloadPage: async (cookies: Cookies, history: any, isLoggedIn: boolean) => {
       dispatch(refreshPage(undefined));
-      MetaService.updateMeta(dispatch, cookies);
-      BasketService.fetchBasket(
-        dispatch,
-        isGcCheckout ? "gc_checkout" : "checkout",
-        history,
-        isLoggedIn
-      );
-      showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
-      // HeaderService.fetchHomepageData(dispatch);
+
       HeaderService.fetchHeaderDetails(dispatch);
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sale status API error === " + err);
       });
       Api.getPopups(dispatch).catch(err => {
         console.log("Popups Api ERROR === " + err);
+      });
+
+      return await BasketService.fetchBasket(
+        dispatch,
+        isGcCheckout ? "gc_checkout" : "checkout",
+        history,
+        isLoggedIn
+      ).then(async () => {
+        const response = await MetaService.updateMeta(dispatch, cookies);
+
+        if (response) {
+          showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
+          return response;
+        }
       });
     },
     finalCheckout: async (data: FormData) => {
@@ -228,6 +236,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         )
       );
       dispatch(updateModal(true));
+    },
+    updateLoaderValue: (value: boolean) => {
+      dispatch(updateLoader(value));
     }
   };
 };
@@ -253,7 +264,6 @@ type State = {
   gstNo: string;
   gstType: string;
   unpublish: boolean;
-  isLoading: boolean;
   id: string;
   addressIdError: string;
   isGoodearthShipping: boolean;
@@ -295,7 +305,6 @@ class Checkout extends React.Component<Props, State> {
       gstNo: "",
       gstType: "",
       unpublish: false,
-      isLoading: false,
       id: "",
       addressIdError: "",
       boEmail: "",
@@ -350,8 +359,6 @@ class Checkout extends React.Component<Props, State> {
     pageViewGTM("Checkout");
     localStorage.setItem("openGCExitModal", "false");
     const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup3");
-    const queryString = this.props.location.search;
-    const urlParams = new URLSearchParams(queryString);
     // const boId = urlParams.get("bo_id");
     // const boId = urlParams.get("bo_id");
 
@@ -501,7 +508,7 @@ class Checkout extends React.Component<Props, State> {
           this.props.showNotify(REGISTRY_OWNER_CHECKOUT);
         }
         if (this.checkToMessage(res)) {
-          this.props.showNotify(REGISTRY_MIXED_SHIPPING);
+          this.props.showRegistryMix(REGISTRY_MIXED_SHIPPING);
         }
         // if (
         //   res?.loyalty?.length &&
@@ -510,7 +517,7 @@ class Checkout extends React.Component<Props, State> {
         this.props.removeRedeem(this.props.user.isLoggedIn);
         // }
 
-        proceedTocheckout(res, this.props.currency);
+        proceedTocheckout(res, this.props.currency, this.props.isSale);
         checkoutGTM(1, this.props.currency, res);
         // code for call loyalty point api only one time
         if (email) {
@@ -559,6 +566,7 @@ class Checkout extends React.Component<Props, State> {
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const { isGoodearthShipping } = this.state;
+    const { isLoading } = this.props;
     const isGcCheckout = this.props.location.pathname.endsWith("gc_checkout");
     if (nextProps.user.isLoggedIn) {
       const { shippingData } = nextProps.user;
@@ -571,7 +579,8 @@ class Checkout extends React.Component<Props, State> {
         ((nextProps.addresses.filter((val: any) => val?.id === shippingData?.id)
           .length !== 0 &&
           !nextProps.basket.bridal) ||
-          nextProps.basket.bridal)
+          nextProps.basket.bridal) &&
+        !isLoading
       ) {
         this.setState({
           shippingAddress: shippingData || undefined,
@@ -628,11 +637,14 @@ class Checkout extends React.Component<Props, State> {
             });
           }
         }
+
         this.setState({
           activeStep: STEP_SHIPPING,
-          shippingAddress: nextProps.addresses
-            .filter(val => val.currency == this.props.currency)
-            .find(val => val?.isDefaultForShipping),
+          shippingAddress: nextProps.basket.bridal
+            ? undefined
+            : nextProps.addresses
+                .filter(val => val.currency == this.props.currency)
+                .find(val => val?.isDefaultForShipping),
           billingAddress:
             isGoodearthShipping || nextProps.basket.bridal
               ? undefined
@@ -644,10 +656,10 @@ class Checkout extends React.Component<Props, State> {
       }
       if (
         shippingData !== this.state.shippingAddress &&
-        ((nextProps.addresses.filter(val => val?.id === shippingData?.id)
+        nextProps.addresses.filter(val => val?.id === shippingData?.id)
           .length !== 0 &&
-          !nextProps.basket.bridal) ||
-          nextProps.basket.bridal)
+        !nextProps.basket.bridal &&
+        !isLoading
       ) {
         this.setState({
           shippingAddress: shippingData || undefined,
@@ -665,7 +677,7 @@ class Checkout extends React.Component<Props, State> {
         this.setState({ isGoodearthShipping: true });
       }
       if (!nextProps.basket.bridal && this.props.basket.bridal) {
-        this.props.fetchAddressBridal(this?.state?.boId);
+        this.props.fetchAddressBridal();
       }
     } else {
       // this.props.updateShipping(nextProps.user.shippingData?.id || 0)
@@ -795,30 +807,20 @@ class Checkout extends React.Component<Props, State> {
     activeStep: string,
     obj: { gstNo?: string; panPassportNo: string; gstType?: string }
   ) => {
-    // let paths = window.location.href.split("/");
-    // let path = paths[0] + "//" + paths[2] + "/myapi/countries/";
-    // let msg;
+    this.props.updateLoaderValue(true);
+    // this.setState({ isLoading: true }, () => {
     if (activeStep == STEP_SHIPPING && address) {
-      // if (this.props.user.isLoggedIn) {
-      //     data.append("shippingAddressId", address.id.toString());
-      // } else {
-      // this.appendObjectToFormData(data, address, null);
-      // data.append("country", path + address.country + "/");
-      // }
-
       const { bridal } = this.props.basket;
-      const { boId } = this.state;
 
       const userConsent = CookieService.getCookie("consent").split(",");
-      this.setState({ isLoading: true });
+
       this.props
         .specifyShippingAddress(
           address.id,
           address,
           this.props.user,
           bridal,
-          this.props.history,
-          boId
+          this.props.history
         )
         .then(data => {
           if (userConsent.includes(GA_CALLS)) {
@@ -849,36 +851,65 @@ class Checkout extends React.Component<Props, State> {
               })
               .catch(err => {
                 console.log(err);
+                this.props.updateLoaderValue(false);
+
+                // this.setState({ isLoading: false });
               })
               .finally(() => {
                 if (data.status) {
                   const isGoodearthShipping = address.isTulsi
                     ? address.isTulsi
                     : false;
-                  this.setState({ isGoodearthShipping });
-                  this.setState(
-                    {
-                      shippingCharge: data.data.basket.shippingCharge,
-                      shippingAddress: address,
-                      billingAddress:
-                        isGoodearthShipping || bridal ? undefined : address,
-                      activeStep: STEP_BILLING
-                    },
-                    () => {
-                      this.nextStep(STEP_BILLING);
-                    }
-                  );
 
                   checkoutGTM(2, this.props.currency, this.props.basket);
                   if (data.data.basket.pageReload) {
-                    const data: any = {
+                    const emailData: any = {
                       email: this.props.user.email
                     };
-                    this.props.getLoyaltyPoints(data);
-                    this.props.reloadPage(
-                      this.props.cookies,
-                      this.props.history,
-                      this.props.user.isLoggedIn
+                    this.props.getLoyaltyPoints(emailData);
+
+                    this.props
+                      .reloadPage(
+                        this.props.cookies,
+                        this.props.history,
+                        this.props.user.isLoggedIn
+                      )
+                      .then(() => {
+                        this.setState({ isGoodearthShipping });
+                        this.setState(
+                          {
+                            shippingCharge: data.data.basket.shippingCharge,
+                            shippingAddress: address,
+                            billingAddress:
+                              isGoodearthShipping || bridal
+                                ? undefined
+                                : address,
+                            activeStep: STEP_BILLING
+                          },
+                          () => {
+                            this.nextStep(STEP_BILLING);
+                            this.props.updateLoaderValue(false);
+
+                            // this.setState({ isLoading: false });
+                          }
+                        );
+                      });
+                  } else {
+                    this.setState({ isGoodearthShipping });
+                    this.setState(
+                      {
+                        shippingCharge: data.data.basket.shippingCharge,
+                        shippingAddress: address,
+                        billingAddress:
+                          isGoodearthShipping || bridal ? undefined : address,
+                        activeStep: STEP_BILLING
+                      },
+                      () => {
+                        this.nextStep(STEP_BILLING);
+                        this.props.updateLoaderValue(false);
+
+                        // this.setState({ isLoading: false });
+                      }
                     );
                   }
                 }
@@ -891,31 +922,56 @@ class Checkout extends React.Component<Props, State> {
               const isGoodearthShipping = address.isTulsi
                 ? address.isTulsi
                 : false;
-              this.setState({ isGoodearthShipping });
-              this.setState(
-                {
-                  shippingCharge: data.data.basket.shippingCharge,
-                  shippingAddress: address,
-                  billingAddress:
-                    isGoodearthShipping || bridal ? undefined : address,
-                  activeStep: STEP_BILLING
-                },
-                () => {
-                  this.nextStep(STEP_BILLING);
-                }
-              );
+
+              if (!data.data.basket.pageReload) {
+                this.setState({ isGoodearthShipping });
+                this.setState(
+                  {
+                    shippingCharge: data.data.basket.shippingCharge,
+                    shippingAddress: address,
+                    billingAddress:
+                      isGoodearthShipping || bridal ? undefined : address,
+                    activeStep: STEP_BILLING
+                  },
+                  () => {
+                    this.nextStep(STEP_BILLING);
+                    this.props.updateLoaderValue(false);
+
+                    // this.setState({ isLoading: false });
+                  }
+                );
+              }
 
               checkoutGTM(2, this.props.currency, this.props.basket);
               if (data.data.basket.pageReload) {
-                const data: any = {
+                const emailData: any = {
                   email: this.props.user.email
                 };
-                this.props.getLoyaltyPoints(data);
-                this.props.reloadPage(
-                  this.props.cookies,
-                  this.props.history,
-                  this.props.user.isLoggedIn
-                );
+                this.props.getLoyaltyPoints(emailData);
+                this.props
+                  .reloadPage(
+                    this.props.cookies,
+                    this.props.history,
+                    this.props.user.isLoggedIn
+                  )
+                  .then(() => {
+                    this.setState({ isGoodearthShipping });
+                    this.setState(
+                      {
+                        shippingCharge: data.data.basket.shippingCharge,
+                        shippingAddress: address,
+                        billingAddress:
+                          isGoodearthShipping || bridal ? undefined : address,
+                        activeStep: STEP_BILLING
+                      },
+                      () => {
+                        this.nextStep(STEP_BILLING);
+                        this.props.updateLoaderValue(false);
+
+                        // this.setState({ isLoading: false });
+                      }
+                    );
+                  });
               }
             }
           }
@@ -930,8 +986,10 @@ class Checkout extends React.Component<Props, State> {
             });
             this.showErrorMsg();
           }
-        })
-        .finally(() => this.setState({ isLoading: false }));
+          this.props.updateLoaderValue(false);
+
+          // this.setState({ isLoading: false });
+        });
     } else {
       let data: specifyBillingAddressData;
       const billingAddress = address ? address : this.state.shippingAddress;
@@ -966,9 +1024,8 @@ class Checkout extends React.Component<Props, State> {
             data
           );
         }
-        this.setState({ isLoading: true });
         this.props
-          .specifyBillingAddress(data, this?.state?.boId, this.props.user)
+          .specifyBillingAddress(data, this.props.user)
           .then(() => {
             const userConsent = CookieService.getCookie("consent").split(",");
             if (userConsent.includes(GA_CALLS)) {
@@ -1013,9 +1070,10 @@ class Checkout extends React.Component<Props, State> {
                     this.props.showPromo &&
                     this.props.basket.voucherDiscounts.length === 0
                   ) {
-                    document
-                      .getElementById("promo-section")
-                      ?.scrollIntoView({ block: "center", behavior: "smooth" });
+                    document.getElementById("promo-section")?.scrollIntoView({
+                      block: "center",
+                      behavior: "smooth"
+                    });
                   } else {
                     if (document.getElementById("cerise-section")) {
                       document
@@ -1067,9 +1125,10 @@ class Checkout extends React.Component<Props, State> {
             this.showErrorMsg();
             this.showErrorMsgs();
           })
-          .finally(() => this.setState({ isLoading: false }));
+          .finally(() => this.props.updateLoaderValue(false));
       }
     }
+    // });
   };
 
   finalOrder = async (data: any) => {
@@ -1204,7 +1263,7 @@ class Checkout extends React.Component<Props, State> {
             </div>
           </div>
         </div>
-        {this.state.isLoading &&
+        {this.props.isLoading &&
           !this.props.user.isLoggedIn &&
           this.props.history.push("/cart", { from: "checkout" })}
       </div>

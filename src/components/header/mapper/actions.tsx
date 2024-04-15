@@ -21,6 +21,7 @@ import BridalService from "services/bridal";
 import { updateNextUrl } from "actions/info";
 import { showGrowlMessage } from "../../../utils/validate";
 import { updateAddressMode } from "actions/address";
+import { updateshowFiller } from "actions/filler";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -36,8 +37,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // window.location.reload();
     },
     onLoadAPiCall: (
-      isLoggedIn: boolean,
-      // basketcall: boolean,
       cookies: Cookies,
       bridalId: number,
       bridalKey?: string,
@@ -48,9 +47,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         BridalService.countBridal(dispatch, bridalId);
       }
       MetaService.updateMeta(dispatch, cookies, bridalKey);
-      WishlistService.countWishlist(dispatch);
-      // if (page?.includes("/wishlist")) {
-      //   WishlistService.updateWishlist(dispatch, sortBy);
+      // if (page?.includes("shared-wishlist")) {
+      //   WishlistService.countWishlist(dispatch);
+      // }
+      // if (!page?.includes("shared-wishlist")) {
+      WishlistService.updateWishlist(dispatch, sortBy);
       // }
       if (!page?.includes("/cart") && !page?.includes("/order/checkout")) {
         BasketService.fetchBasket(dispatch);
@@ -90,12 +91,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       });
       // }
       // if (!page?.includes("/wishlist")) {
-      //   WishlistService.updateWishlist(
-      //     dispatch,
-      //     sortBy == "discount" ? "added_on" : sortBy
-      //   );
+      WishlistService.updateWishlist(dispatch, sortBy);
       // }
-      WishlistService.countWishlist(dispatch);
+      // WishlistService.countWishlist(dispatch);
       // HeaderService.fetchHomepageData(dispatch).catch(err => {
       //   console.log("Homepage API ERROR ==== " + err);
       // });
@@ -137,8 +135,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       Api.getAnnouncement(dispatch).catch(err => {
         console.log("FOOTER API ERROR ==== " + err);
       });
-      // WishlistService.updateWishlist(dispatch);
-      WishlistService.countWishlist(dispatch);
+      WishlistService.updateWishlist(dispatch);
+      // WishlistService.countWishlist(dispatch);
       if (cookies.tkn) {
         MetaService.updateMeta(dispatch, cookies);
       }
@@ -169,6 +167,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     closeInShopAvailability: () => {
       dispatch(updateStoreState(false));
+    },
+    closeFillerPurchase: () => {
+      dispatch(updateshowFiller(false));
     },
     updateShowSearchPopup: (state: boolean) => {
       dispatch(updateShowSearchPopup(state));

@@ -55,11 +55,7 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
   const {
     mode,
 
-    currentCallBackComponent,
-
-    openAddressForm,
-
-    closeAddressForm
+    openAddressForm
   } = useContext(AddressContext);
 
   const dispatch = useDispatch();
@@ -69,8 +65,6 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
       dispatch(updateAddressList(addressList));
     });
   }, []);
-
-  const { addressList } = useSelector((state: AppState) => state.address);
 
   // const manageAddress = (data, index) => {
 

@@ -160,6 +160,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     const elem = this.subscribeRef.current;
     const { email, phoneNo } = model;
     const data: any = {};
+    console.log(this.props.txtvalue);
     if (!this.props.txtvalue) {
       this.props.updateError(
         `Please enter a valid ${
@@ -796,6 +797,21 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         this.props.validateEmptyInputs && this.props.validateEmptyInputs();
         return false;
       }
+    } else if (!this.props.txtvalue) {
+      this.props.updateError(
+        `Please enter a valid ${
+          this.props.isCredit ? "Credit Note" : "Gift Card"
+        } code`
+      );
+      errorTracking(
+        [
+          `Please enter a valid ${
+            this.props.isCredit ? "Credit Note" : "Gift Card"
+          } code`
+        ],
+        location.href
+      );
+      return false;
     }
   };
 
@@ -954,7 +970,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                             : {}
                         }
                         validationErrors={{
-                          isLength: "Phone number should be 10 digit"
+                          isLength: "Please enter a valid Contact Number"
                         }}
                         required={radioType != "number" ? "isFalse" : true}
                         keyDown={e =>

@@ -3,10 +3,10 @@ import { WishListGridItem } from "typings/wishlist";
 import { Props as WishlistProps } from "./index";
 import { Currency } from "typings/currency";
 import styles from "./styles.scss";
-import iconStyles from "../../styles/iconFonts.scss";
 import globalStyles from "../../styles/global.scss";
 import cs from "classnames";
 import { displayPriceWithCommas } from "utils/utility";
+import cross from "./../../icons/wishlist_cross.svg";
 
 type Props = {
   grid: WishlistProps;
@@ -16,13 +16,13 @@ type Props = {
   mobile: boolean;
   isSale: boolean;
   sortBy: string;
+  isShared: boolean;
 };
 
 const SampleDisplay: React.FC<Props> = props => {
   // const { currency } = useSelector((state: AppState) => state);
   // const { isSale } = useSelector((state: AppState) => state.info);
-
-  const { isSale } = props;
+  const { isSale, isShared } = props;
 
   const atbOrNotify = (item: WishListGridItem) => {
     let flag = false;
@@ -44,7 +44,14 @@ const SampleDisplay: React.FC<Props> = props => {
 
   const openPopup = (productId: number) => {
     const { item, currency, mobile } = props;
-    props.grid.openPopup(item, currency, props.sortBy, isSale, mobile);
+    props.grid.openPopup(
+      item,
+      currency,
+      props.sortBy,
+      isSale,
+      mobile,
+      isShared
+    );
   };
 
   const sizeText = (item: WishListGridItem) => {
@@ -58,7 +65,7 @@ const SampleDisplay: React.FC<Props> = props => {
         }
       });
     }
-    return flag ? "Select Size" : "Size: -";
+    return flag ? "Select Size" : "Size: NA";
   };
 
   const renderWishlist = (data: WishListGridItem) => {
@@ -101,29 +108,30 @@ const SampleDisplay: React.FC<Props> = props => {
               <img src={data.salesBadgeImage} />
             </div>
           )}
-          {mobile ? (
-            <i
-              className={cs(
-                iconStyles.icon,
-                iconStyles.iconCross,
-                styles.iconCrossMobile
-              )}
-              onTouchStart={e => {
-                props.removeProduct(data);
-              }}
-            ></i>
-          ) : (
-            <i
-              className={cs(
-                iconStyles.icon,
-                iconStyles.iconCross,
-                styles.iconCross
-              )}
+          {!isShared && (
+            // mobile ? (
+            <img
+              src={cross}
+              alt="remove"
+              className={cs(styles.iconCross)}
               onClick={e => {
                 props.removeProduct(data);
               }}
-            ></i>
-          )}
+            />
+          )
+          // : (
+          //   <i
+          //     className={cs(
+          //       iconStyles.icon,
+          //       iconStyles.iconCross,
+          //       styles.iconCross
+          //     )}
+          //     onClick={e => {
+          //       props.removeProduct(data);
+          //     }}
+          //   ></i>
+          // ))
+          }
 
           <a href={data.productUrl}>
             <img
@@ -209,7 +217,13 @@ const SampleDisplay: React.FC<Props> = props => {
               </span>
             )}
           </p>
-          <span className={cs(globalStyles.errorMsg)}>
+          <span
+            className={cs(
+              globalStyles.errorMsg,
+              globalStyles.gold,
+              styles.errMsg
+            )}
+          >
             {isSale && showStockMessage && `Only ${stock} Left!`}
           </span>
         </div>

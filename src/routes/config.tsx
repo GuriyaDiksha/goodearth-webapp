@@ -19,7 +19,7 @@ import initActionGiftcard from "containers/giftcard/initAction";
 import initActionShop from "containers/shopLocator/initAction";
 // import initActionHome from "containers/home/initAction";
 // import initActionDesignJournalBook from "containers/designJournalBook/initAction";
-import initActionWishlist from "containers/wishlist/initAction";
+// import initActionWishlist from "containers/wishlist/initAction";
 import initActionBridal from "containers/bridal/initAction";
 import initActionCheckout from "containers/checkout/initAction";
 import initActionCart from "containers/cartPage/initAction";
@@ -92,7 +92,13 @@ const routes: RouteConfig = [
   {
     path: ROUTES.WISHLIST,
     component: loadable(() => import("containers/wishlist")),
-    action: initActionWishlist,
+    action: async () => null,
+    exact: true
+  },
+  {
+    path: ROUTES.SHAREDWISHLIST,
+    component: loadable(() => import("containers/wishlist")),
+    action: async () => null,
     exact: true
   },
   {
@@ -302,6 +308,7 @@ const makerRoutes = [
   ROUTES.LILANURPARFUMS,
   ROUTES.PEHCHAANNAQASHI,
   ROUTES.MEMORYKEEPERS,
+  ROUTES.MEMORYKEEPERSTWO,
   ROUTES.HARVESTATTHETABLE
 ];
 

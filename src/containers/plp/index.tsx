@@ -161,6 +161,7 @@ class PLP extends React.Component<
       }, 50)
     );
     if (this.props.device.mobile) {
+      this.updateMobileView("grid");
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
       const chatButtonElem = document.getElementById("chat-button");
@@ -479,7 +480,7 @@ class PLP extends React.Component<
     const len = product?.categories?.length;
     const category = product?.categories[len - 1];
     // const l3Len = category.split(">").length;
-    const l1 = category?.split(">")[0];
+    const l1 = category?.split(">")?.[0];
 
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
@@ -820,14 +821,9 @@ class PLP extends React.Component<
                     : cs(
                         bootstrap.row,
                         styles.imageContainerMobile,
-                        globalStyles.paddTop20
+                        globalStyles.paddTop45
                       )
-                  : cs(
-                      bootstrap.row,
-                      styles.imageContainer,
-                      styles.minHeight,
-                      globalStyles.paddTop20
-                    )
+                  : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
               }
               id="product_images"
             >
@@ -969,6 +965,7 @@ class PLP extends React.Component<
                               currency={currency}
                               key={item.id}
                               mobile={mobile}
+                              tablet={tablet}
                               isVisible={index < 3 ? true : undefined}
                               onClickQuickView={this.onClickQuickView}
                               isCorporate={this.state.corporoateGifting}

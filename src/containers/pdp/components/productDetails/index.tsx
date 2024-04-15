@@ -328,7 +328,7 @@ const ProductDetails: React.FC<Props> = ({
         setQuantity(value);
         setSizeError("");
       } else {
-        setSizeError("Please select a size to proceed");
+        setSizeError("Please select a size to continue");
       }
     },
     [selectedSize]
@@ -430,7 +430,7 @@ const ProductDetails: React.FC<Props> = ({
     subcategoryname = arr[arr.length - 1];
     category = category.replace(/>/g, "/");
     const l1 = arr[arr.length - 3];
-    const category3 = sliderImages.filter(ele => ele?.icon).length
+    const category5 = sliderImages.filter(ele => ele?.icon).length
       ? "3d"
       : "non 3d";
 
@@ -462,6 +462,19 @@ const ProductDetails: React.FC<Props> = ({
     if (subcategory) {
       subcategory = subcategory[subcategory.length - 1];
     }
+
+    const cat1 = categories?.[0]?.split(">");
+    const cat2 = categories?.[1]?.split(">");
+
+    const L1 = cat1?.[0]?.trim();
+
+    const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
+
+    const L3 = cat2?.[2]
+      ? cat2?.[2]?.trim()
+      : data.categories?.[2]?.split(">")?.[2]?.trim();
+
+    const clickType = localStorage.getItem("clickType");
     const size = selectedSize?.size || "";
     const search = CookieService.getCookie("search") || "";
     if (userConsent.includes(GA_CALLS)) {
@@ -504,6 +517,12 @@ const ProductDetails: React.FC<Props> = ({
       dataLayer.push({
         event: "add_to_cart",
         previous_page_url: CookieService.getCookie("prevUrl"),
+        currency: currency,
+        value: discountedPriceRecords[currency]
+          ? discountedPriceRecords[currency]
+          : price
+          ? price
+          : null,
         ecommerce: {
           items: [
             {
@@ -512,22 +531,27 @@ const ProductDetails: React.FC<Props> = ({
               affiliation: title, // Pass the product name
               coupon: "NA", // Pass the coupon if available
               currency: currency, // Pass the currency code
-              discount: discount ? discount : "NA", // Pass the discount amount
+              discount:
+                info.isSale && discount
+                  ? data?.badgeType == "B_flat"
+                    ? discountPrices
+                    : price - discountPrices
+                  : "NA", // Pass the discount amount
               index: "NA",
               item_brand: "Goodearth",
-              item_category: category?.split(">")?.join("|"),
-              item_category2: selectedSize?.size, //pass the item category2 ex.Size
-              item_category3: category3, //pass the product type 3d or non 3d
-              item_list_id: "NA", //pass the item list id
-              item_list_name: search ? search : "NA", //pass the item list name ex.search results
-              item_variant: selectedSize?.size || "",
-              // item_category4: l1,
+              item_category: L1,
+              item_category2: L2,
+              item_category3: L3,
               item_category4: "NA",
-              // item_category5: collection,
+              item_category5: category5,
+              item_list_id: "NA", //pass the item list id
+              item_list_name: search ? `${clickType}-${search}` : "NA",
+              item_variant: selectedSize?.size || "",
               price: discountPrices || price,
               quantity: quantity,
               // dimension12: selectedSize?.color,
-              collection_category: collections?.join("|")
+              collection_category: collections?.join("|"),
+              price_range: "NA"
             }
           ]
         }
@@ -560,8 +584,8 @@ const ProductDetails: React.FC<Props> = ({
 
   const addToBasket = () => {
     if (!selectedSize) {
-      setSizeError("Please select a size to proceed");
-      errorTracking(["Please select a size to proceed"], window.location.href);
+      setSizeError("Please select a size to continue");
+      errorTracking(["Please select a size to continue"], window.location.href);
       showError();
       closeZoomModal();
     } else {
@@ -591,8 +615,8 @@ const ProductDetails: React.FC<Props> = ({
 
   const checkAvailability = () => {
     if (!selectedSize) {
-      setSizeError("Please select a size to proceed");
-      errorTracking(["Please select a size to proceed"], window.location.href);
+      setSizeError("Please select a size to continue");
+      errorTracking(["Please select a size to continue"], window.location.href);
       showError();
     } else {
       setIsLoading(true);
@@ -635,7 +659,7 @@ const ProductDetails: React.FC<Props> = ({
     }
     if (childAttributes[0].size) {
       if (!selectedSize) {
-        setSizeError("Please select a size to proceed");
+        setSizeError("Please select a size to continue");
         showError();
         return false;
       }
@@ -773,7 +797,7 @@ const ProductDetails: React.FC<Props> = ({
   const sizeSelectClick = () => {
     // setSizeerror(true);
     closeZoomModal();
-    setSizeError("Please select a size to proceed");
+    setSizeError("Please select a size to continue");
     showError();
   };
 
@@ -1056,7 +1080,7 @@ const ProductDetails: React.FC<Props> = ({
                       className={cs(
                         bootstrap.col12,
                         bootstrap.colSm2,
-                        { [bootstrap.colMd6]: mobile },
+                        { [bootstrap.colMd2]: mobile },
                         styles.label,
                         styles.colour
                       )}
@@ -1065,7 +1089,7 @@ const ProductDetails: React.FC<Props> = ({
                     </div>
                     <div
                       className={cs(bootstrap.col12, bootstrap.colSm10, {
-                        [bootstrap.colMd6]: mobile
+                        [bootstrap.colMd10]: mobile
                       })}
                     >
                       <ColorSelector
@@ -1095,8 +1119,8 @@ const ProductDetails: React.FC<Props> = ({
                       <div
                         className={cs(
                           bootstrap.col12,
-                          bootstrap.colSm3,
-                          { [bootstrap.colMd6]: mobile },
+                          bootstrap.colSm2,
+                          { [bootstrap.colMd2]: mobile },
                           styles.label,
                           styles.size,
                           { [styles.mobileMargin]: mobile }
@@ -1107,8 +1131,8 @@ const ProductDetails: React.FC<Props> = ({
                       <div
                         className={cs(
                           bootstrap.col12,
-                          { [bootstrap.colMd4]: mobile },
-                          bootstrap.colSm9,
+                          { [bootstrap.colMd10]: mobile },
+                          bootstrap.colSm10,
                           styles.sizeContainer
                         )}
                       >
@@ -1205,7 +1229,7 @@ const ProductDetails: React.FC<Props> = ({
             >
               <div
                 className={cs(bootstrap.col8, {
-                  [bootstrap.colMd12]: mobile && !tablet
+                  [bootstrap.colMd12]: mobile
                 })}
               >
                 {!(
@@ -1216,7 +1240,7 @@ const ProductDetails: React.FC<Props> = ({
                       className={cs(
                         bootstrap.col12,
                         bootstrap.colSm3,
-                        { [bootstrap.colMd6]: mobile },
+                        { [bootstrap.colMd2]: mobile },
                         styles.label,
                         styles.quantity,
                         styles.qtyLabel,
@@ -1230,7 +1254,7 @@ const ProductDetails: React.FC<Props> = ({
                         bootstrap.col12,
                         bootstrap.colSm9,
                         styles.qtyComponent,
-                        { [bootstrap.colMd4]: mobile },
+                        { [bootstrap.colMd10]: mobile },
                         styles.widgetQty
                       )}
                     >
@@ -1397,6 +1421,7 @@ const ProductDetails: React.FC<Props> = ({
                   iconClassName={cs({
                     [styles.mobileWishlistIcon]: mobile
                   })}
+                  badgeType={badgeType}
                 />
               </div>
             </div>

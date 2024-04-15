@@ -432,7 +432,7 @@
   font-size: 13px;
   font-style: italic;
   color: $cerise;
-  font-weight: 500;
+  font-weight: 400;
   font-family: $font-Lora;
   letter-spacing: 0.3px;
   // text-transform: lowercase;
@@ -1260,6 +1260,15 @@ $list: $grey 92%, $white 8%;
   color: $cerise !important;
   font-style: italic !important;
   letter-spacing: 0.5px !important;
+}
+
+@mixin err_14px_lora_italic_gold{
+  font-family: $font-Lora !important;
+  font-size: 14px !important;
+  color: $gold !important;
+  font-style: italic !important;
+  letter-spacing: 0px !important;
+  font-weight: normal;
 }
 
 @mixin search_text{
