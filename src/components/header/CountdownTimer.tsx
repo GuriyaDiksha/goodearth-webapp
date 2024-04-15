@@ -39,14 +39,15 @@ const CountdownTimer: React.FC = () => {
   if (timerStartDate > currentDate) return null;
   if (timerEndDate < currentDate) return null;
   useEffect(() => {
-    timerData?.map(item => {
-      timerStartDate = new Date(item.saleStartDate);
-      timerEndDate = new Date(item.saleEndDate);
-      setCtaText(item.ctaText);
-      setCtaUrl(item.ctaUrl);
-      setText(item.text);
-      setThemeColorHexCode(item.themeColorHexCode);
-    });
+    timerEndDate.getTime() >= currentDate.getTime() &&
+      timerData?.map(item => {
+        timerStartDate = new Date(item.saleStartDate);
+        timerEndDate = new Date(item.saleEndDate);
+        setCtaText(item.ctaText);
+        setCtaUrl(item.ctaUrl);
+        setText(item.text);
+        setThemeColorHexCode(item.themeColorHexCode);
+      });
     const timer = setInterval(() => {
       const timeLeft = Math.floor(
         (timerEndDate.getTime() - new Date().getTime()) / 1000
