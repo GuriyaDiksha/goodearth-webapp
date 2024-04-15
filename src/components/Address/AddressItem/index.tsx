@@ -808,7 +808,7 @@ const AddressItem: React.FC<Props> = props => {
               )}
             >
               {address.line1}
-              {address.line2 && ","}
+              {address.line2 && ", "}
               {address.line2},
             </div>
 
@@ -819,7 +819,7 @@ const AddressItem: React.FC<Props> = props => {
                   currentCallBackComponent == "bridal-edit"
               })}
             >
-              {address.city},{address?.state} - {address.postCode}
+              {address.city}, {address?.state} - {address.postCode}
             </div>
 
             <div
