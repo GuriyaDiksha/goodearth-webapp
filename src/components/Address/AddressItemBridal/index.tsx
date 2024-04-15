@@ -124,12 +124,12 @@ const AddressItemBridal: React.FC<Props> = ({
               <div className={styles.addressMain}>
                 <div className={styles.text}>
                   {addressData.line1}
-                  {addressData.line2 && ","}
+                  {addressData.line2 && ", "}
                   {addressData.line2},
                 </div>
 
                 <div className={styles.text}>
-                  {addressData.city},{addressData.state} -{" "}
+                  {addressData.city}, {addressData.state} -{" "}
                   {addressData.postCode},
                 </div>
                 <div className={styles.text}>{addressData.countryName}</div>
