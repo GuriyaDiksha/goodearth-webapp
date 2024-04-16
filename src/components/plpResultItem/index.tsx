@@ -220,11 +220,12 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     );
   }, []);
 
-  return loader ? (
-    <div className={styles.plpMain}>
-      <SkeletonImage />
-    </div>
-  ) : (
+  // return loader ? (
+  //   <div className={styles.plpMain}>
+  //     <SkeletonImage />
+  //   </div>
+  // ) :
+  return (
     <div className={styles.plpMain}>
       {info.isSale && product.salesBadgeImage && (
         <div className={mobile ? styles.badgeImageMobile : styles.badgeImage}>
