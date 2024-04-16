@@ -283,7 +283,7 @@ class Bag extends React.Component<Props, State> {
                   className={cs(
                     bootstrap.col12,
                     globalStyles.marginT20,
-                    globalStyles.marginB20,
+                    globalStyles.marginB40,
                     { [globalStyles.marginB60]: mobile }
                   )}
                 >

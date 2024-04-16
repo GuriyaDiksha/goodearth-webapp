@@ -514,7 +514,7 @@ class CartPage extends React.Component<Props, State> {
                     globalStyles.marginT20,
                     globalStyles.marginB20,
                     {
-                      [globalStyles.marginB60]: mobile,
+                      [globalStyles.marginB100]: mobile,
                       [styles.mobileWrp]: mobile
                     }
                   )}

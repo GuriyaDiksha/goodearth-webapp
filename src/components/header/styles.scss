@@ -569,8 +569,10 @@
 }
 
 .lower-menu-non-inr-height{
-  height: 100vh;
-  overflow: scroll;
+  @media(max-width:767px){
+    height: 100vh;
+    overflow: scroll;
+  }
 }
 
 // .wishlist-link {
@@ -1615,10 +1617,11 @@ ul.inner-menu-mobile {
   }
 }
 .inner-menu-heading {
-  text-align: center;
+  // text-align: center;
   .back {
     @include b5_10px_montserrat_charcoal();
     text-transform: capitalize;
+    padding-left: 20px;
     &:before {
       content: '';
       float: left;
@@ -1635,6 +1638,7 @@ ul.inner-menu-mobile {
   .title {
     @include b3_14px_montserrat_semibold_charcoal();
     text-transform: uppercase;
+    text-align: center;
     a {
         color: inherit;
     }
@@ -2005,7 +2009,7 @@ div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
 
 @media(min-width:768px)and(max-width:992px){
   .menu-for-tablet{
-    padding: 0 65px;
+    padding: 0 45px;
     .hamburger{
       left:unset;
     }

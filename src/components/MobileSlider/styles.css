@@ -48,7 +48,7 @@
 
 @media(min-width:767px) and (max-width:991px){
     .pdp-slider-padding .slick-list{
-        padding: 0 40% 0 0!important;
+        padding: 0!important;
     }
     .pdp-slider-padding .slick-slide {
         margin-right: 15px;
