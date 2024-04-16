@@ -150,7 +150,6 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             //     ? "firstImageContainer"
             //     : ""
             // }
-            loading="lazy"
           />
           {i === 0 &&
           product?.plpImages?.[1] &&
@@ -168,7 +167,6 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               //   e.target.src = noPlpImage;
               // }}
               // containerClassName={"secondImageContainer"}
-              loading="lazy"
             />
           ) : null}
         </div>
