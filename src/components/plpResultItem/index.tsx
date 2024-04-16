@@ -311,22 +311,22 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           onClick={gtmProductClick}
         >
           {/* {mobile ? ( */}
-          <PlpResultImageSlider mobile={mobile}>
+          {/* <PlpResultImageSlider mobile={mobile}>
             {mobileSlides}
-          </PlpResultImageSlider>
-          {/* ) : (
-            <LazyImage
-              aspectRatio="62:93"
-              src={image}
-              alt={product.altText || product.title}
-              className={styles.imageResultnew}
-              isVisible={isVisible}
-              onError={(e: any) => {
-                e.target.onerror = null;
-                e.target.src = noPlpImage;
-              }}
-            />
-          )} */}
+          </PlpResultImageSlider> */}
+          {/* ) : ( */}
+          <LazyImage
+            aspectRatio="62:93"
+            src={image}
+            alt={product.altText || product.title}
+            className={styles.imageResultnew}
+            isVisible={isVisible}
+            onError={(e: any) => {
+              e.target.onerror = null;
+              e.target.src = noPlpImage;
+            }}
+          />
+          {/* )} */}
         </Link>
         <div
           className={cs(
