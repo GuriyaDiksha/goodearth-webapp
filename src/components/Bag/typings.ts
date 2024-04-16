@@ -50,4 +50,7 @@ export interface State {
   freeShipping: boolean;
   isSuspended: boolean;
   featureData: WidgetImage[];
+  mouseDown: boolean;
+  startX: number;
+  scrollLeft: number;
 }
