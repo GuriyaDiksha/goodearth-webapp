@@ -51,6 +51,7 @@ const EmailVerification: React.FC<Props> = ({
   phoneNo,
   isRegistration
 }) => {
+  const [isDisabled, setIsDisabled] = useState(false);
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
   const [attempts, setAttempts] = useState({
     attempts: 0,
@@ -92,6 +93,7 @@ const EmailVerification: React.FC<Props> = ({
   };
 
   const verifyOtp = async (otp: string) => {
+    debugger;
     try {
       // setIsLoading(true);
       const source =
@@ -166,6 +168,10 @@ const EmailVerification: React.FC<Props> = ({
         attempts: data?.attempts || 0,
         maxAttemptsAllow: data?.maxAttemptsAllow || 5
       });
+
+      if (data.expired) {
+        setIsDisabled(true);
+      }
 
       if (data.alreadyVerified) {
         setError([
@@ -320,6 +326,7 @@ const EmailVerification: React.FC<Props> = ({
           goBackCta={!isCheckout ? goBackCta : null}
           socialLogin={socialLogin}
           uniqueId="emailverifyid"
+          disabled={isDisabled}
         />
         {/* {!boId && (
           <div className={styles.bigTxt} style={{ marginTop: "10px" }}>
