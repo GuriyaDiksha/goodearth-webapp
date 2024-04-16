@@ -318,8 +318,7 @@
       }
 
       .widget-qty {
-        margin-top: 10px;
-        margin-bottom: 6px;
+        margin-top: 6px;
         width: 100%;
         display: -webkit-box;
         display: -ms-flexbox;
@@ -954,8 +953,7 @@
     }
   
     .widget-qty {
-      margin-top: 10px;
-      margin-bottom: 6px;
+      margin-top: 6px;
       display: -webkit-inline-box;
       display: -ms-inline-flexbox;
       display: -webkit-inline-flex;
@@ -1185,6 +1183,9 @@
 }
 .aqua-color-text{
   color: $aqua-text!important;
+}
+.no-product{
+  margin-top: 100px;
 }
 .qty-left-msg{
   @include gold_13px_lora_italic();
