@@ -133,38 +133,40 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     .map((productImage, i: number) => {
       return (
         <div key={i} className={globalStyles.relative}>
-          <LazyImage
+          <img
             alt={product.altText || product.title}
-            aspectRatio="62:93"
+            // aspectRatio="62:93"
             src={productImage.replace("/Micro/", "/Medium/")}
-            isVisible={isVisible}
-            className={globalStyles.imgResponsive}
+            // isVisible={isVisible}
+            className={cs(globalStyles.imgResponsive, {
+              ["firstImageContainer"]: position === 0 && !isSearch && isAnimate
+            })}
             onError={(e: any) => {
               e.target.onerror = null;
               e.target.src = noPlpImage;
             }}
-            containerClassName={
-              position === 0 && !isSearch && isAnimate
-                ? "firstImageContainer"
-                : ""
-            }
+            // containerClassName={
+            //   position === 0 && !isSearch && isAnimate
+            //     ? "firstImageContainer"
+            //     : ""
+            // }
           />
           {i === 0 &&
           product?.plpImages?.[1] &&
           position === 0 &&
           !isSearch &&
           isAnimate ? (
-            <LazyImage
+            <img
               alt={product.altText || product.title}
-              aspectRatio="62:93"
+              // aspectRatio="62:93"
               src={product?.plpImages?.[1].replace("/Micro/", "/Medium/")}
-              isVisible={isVisible}
-              className={cs(globalStyles.imgResponsive, "secondImage")}
+              // isVisible={isVisible}
+              className={cs(globalStyles.imgResponsive, "secondImageContainer")}
               onError={(e: any) => {
                 e.target.onerror = null;
                 e.target.src = noPlpImage;
               }}
-              containerClassName={"secondImageContainer"}
+              // containerClassName={"secondImageContainer"}
             />
           ) : null}
         </div>
