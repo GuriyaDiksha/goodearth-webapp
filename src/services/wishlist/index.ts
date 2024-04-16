@@ -113,7 +113,7 @@ export default {
     // if (isShared) {
     //   WishlistService.countWishlist(dispatch);
     // } else {
-    dispatch(updateWishlist(res.data, sortBy));
+    dispatch(updateWishlist(res.data, sortBy, res.sortedDiscount));
     // }
     return res;
   },
@@ -156,7 +156,7 @@ export default {
       // if (isShared) {
       //   WishlistService.countWishlist(dispatch);
       // } else {
-      dispatch(updateWishlist(res.data, sortBy));
+      dispatch(updateWishlist(res.data, sortBy, res.sortedDiscount));
       // }
 
       BasketService.fetchBasket(dispatch, source);

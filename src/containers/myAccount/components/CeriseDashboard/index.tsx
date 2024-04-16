@@ -25,6 +25,7 @@ const CeriseDashboard = () => {
         />
       </div>
       <Rewards />
+      {/* Temporary hide this section as per product team */}
       {/* <Address /> */}
     </div>
   );

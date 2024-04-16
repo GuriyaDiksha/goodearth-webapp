@@ -231,6 +231,9 @@ class Header extends React.Component<Props, State> {
         if (that.props.showStock) {
           that.props.closeInShopAvailability();
         }
+        if (that.props.filler.show) {
+          that.props.closeFillerPurchase();
+        }
       }
     });
     const config = { subtree: true, childList: true };
@@ -315,11 +318,13 @@ class Header extends React.Component<Props, State> {
     const windowScroll = window?.pageYOffset;
     const menuOverlay = document?.getElementById("menu_overlay");
     const annBar = document?.getElementById("announcement_bar");
-    const annHeight = (annBar as HTMLElement).clientHeight;
-    const annBarHeight = annHeight - windowScroll;
+    const annHeight = (annBar as HTMLElement)?.clientHeight;
+    let annBarHeight;
+    if (annHeight) {
+      annBarHeight = annHeight - windowScroll;
+    }
     const header = document.getElementById("myHeader");
-    const headerHeight = (header as HTMLElement).clientHeight;
-    const topPosition = annBarHeight + headerHeight;
+    const headerHeight = (header as HTMLElement)?.clientHeight;
     const timerDiv = document.getElementById("ge-timer");
     const istimer = timerDiv != null ? true : false;
     const sticky = (header as HTMLElement)?.offsetTop;
@@ -364,7 +369,7 @@ class Header extends React.Component<Props, State> {
 
       if (menuOverlay) {
         if (istimer) {
-          const timerHeight = (timerDiv as HTMLElement).clientHeight;
+          const timerHeight = (timerDiv as HTMLElement)?.clientHeight;
           menuOverlay.style.top = `${timerHeight + headerHeight + 5}px`;
         } else {
           menuOverlay.style.top = `${headerHeight + 5}px`;
@@ -376,7 +381,7 @@ class Header extends React.Component<Props, State> {
           // console.log("top 0");
         } else {
           if (tim) {
-            console.log(tim);
+            // console.log(tim);
             (gridList as HTMLElement).style.top = "93px";
             // console.log("top 93");
           } else {
@@ -549,10 +554,12 @@ class Header extends React.Component<Props, State> {
 
       if (menuOverlay) {
         if (istimer) {
-          const timerHeight = (timerDiv as HTMLElement).clientHeight;
-          const topPosWithTimer = annBarHeight + headerHeight + timerHeight;
+          const timerHeight = (timerDiv as HTMLElement)?.clientHeight;
+          const topPosWithTimer =
+            (annBarHeight ? annBarHeight : 0) + headerHeight + timerHeight;
           menuOverlay.style.top = `${topPosWithTimer + 5}px`;
         } else {
+          const topPosition = (annBarHeight ? annBarHeight : 0) + headerHeight;
           menuOverlay.style.top = `${topPosition + 5}px`;
         }
       }

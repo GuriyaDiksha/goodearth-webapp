@@ -76,6 +76,19 @@ class MainLogin extends React.Component<Props, loginState> {
       : "";
   async checkMailValidation() {
     if (this.state.email) {
+      const pid = new URLSearchParams(this.props.history.location.search).get(
+        "pid"
+      );
+
+      if (pid) {
+        await this.props
+          .login(this.state.email, pid, this.props.currency)
+          .catch(e => {
+            this.setState({ showerror: "Invalid credentials" });
+          });
+        return;
+      }
+
       const data = await this.props.checkUserPassword(this.state.email);
       if (data.otpSent) {
         this.setState({

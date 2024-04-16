@@ -797,6 +797,21 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         this.props.validateEmptyInputs && this.props.validateEmptyInputs();
         return false;
       }
+    } else if (!this.props.txtvalue) {
+      this.props.updateError(
+        `Please enter a valid ${
+          this.props.isCredit ? "Credit Note" : "Gift Card"
+        } code`
+      );
+      errorTracking(
+        [
+          `Please enter a valid ${
+            this.props.isCredit ? "Credit Note" : "Gift Card"
+          } code`
+        ],
+        location.href
+      );
+      return false;
     }
   };
 

@@ -21,6 +21,7 @@ import BridalService from "services/bridal";
 import { updateNextUrl } from "actions/info";
 import { showGrowlMessage } from "../../../utils/validate";
 import { updateAddressMode } from "actions/address";
+import { updateshowFiller } from "actions/filler";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -166,6 +167,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     closeInShopAvailability: () => {
       dispatch(updateStoreState(false));
+    },
+    closeFillerPurchase: () => {
+      dispatch(updateshowFiller(false));
     },
     updateShowSearchPopup: (state: boolean) => {
       dispatch(updateShowSearchPopup(state));

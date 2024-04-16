@@ -79,7 +79,25 @@ body:has(.mobile) {
   position: relative;
   // min-height: 320px;
   border: 1px solid #eaeaea;
-  // cursor: pointer;
+  cursor: pointer;
+  max-width: 556px;
+  margin: auto;
+  min-height: 160px;
+
+  &.checkout{
+    width: 755px;
+    max-width: 755px;
+    
+    @media screen and (max-width:767px) {
+
+      width: 100%;
+      
+    }
+  }
+
+  // &.cerise{
+  //   margin: 0;
+  // }
 
   .address-wrapper {
     max-width: 93%;
@@ -109,6 +127,8 @@ body:has(.mobile) {
     border: none;
     font-family: $font-Lato;
     .nickname-wrapper {
+      padding-top: 10px;
+      padding-bottom: 5px;
       @include b4_12px_montserrat_med_aqua();
       // font-size: 12px;
       // font-weight: 300;
@@ -130,7 +150,7 @@ body:has(.mobile) {
       // padding: 35px 25px 84px 25px;
       padding: 30px 30px 30px 40px;
       border: 1px solid #4C4C4C;
-      min-height: 260px;
+      min-height: 160px;
     }
     .ship-to-this-btn {
       position: absolute;
@@ -152,7 +172,7 @@ body:has(.mobile) {
     div.address-phone-number {
       @include b4_12px_montserrat_charcoal();
       letter-spacing: 0.36px;
-      line-height: 22px;
+      
       &.checkout-fix {
         font-size: 13px;
         font-family: $font-Montserrat;
@@ -247,8 +267,8 @@ body:has(.mobile) {
         // background-color: #ab1e56;
         // border-radius: 50%;
         // fill: #fff;
-        height: 35px;
-        width: 35px;
+        height: 25px;
+        width: 25px;
         padding: 2px;
         position: absolute;
         right: 0px;
@@ -355,6 +375,7 @@ body:has(.mobile) {
     .phone-and-edit-container {
       display: flex;
       justify-content: space-between;
+      margin-top: 15px;
       &.checkout-fix {
         display: unset;
       }
@@ -426,7 +447,7 @@ body:has(.mobile) {
 .cerise-address-item-container {
   min-height: 160px;
   .address-item {
-    padding: 35px 25px 55px 25px;
+    // padding: 35px 25px 55px 25px;
     .line-head,
     .address-line,
     .line {
@@ -440,7 +461,7 @@ body:has(.mobile) {
 }
 
 .address-item-container-bridal {
-  min-height: 260px;
+  min-height: 160px;
   border: 1px solid #eaeaea;
 }
 
@@ -473,11 +494,7 @@ body:has(.mobile) {
   .line-head {
     @include b4_12px_montserrat_charcoal();
     letter-spacing: 0.36px;
-    // margin-top: 10px;
     word-wrap: break-word;
-    // display: flex;
-   // justify-content: space-between;
-    // margin-top: 10px;
     .radio {
       position: relative;
     }
@@ -493,10 +510,7 @@ body:has(.mobile) {
     &.address-line {
       word-wrap: break-word;
       font-size: 12px;
-      margin-top: 5px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      margin-top: 0px;
     }
     &.checkout-fix {
       font-size: 13px;
@@ -570,7 +584,7 @@ body:has(.mobile) {
   flex-direction: column;
   clear: both;
   &.checkout-fix {
-    flex-direction: row;
+    // flex-direction: row;
   }
 }
 
@@ -583,7 +597,7 @@ body:has(.mobile) {
     cursor: unset!important;
     padding: 30px 30px 30px 40px;
     border: 1px solid #4C4C4C;
-    min-height: 260px;
+    min-height: 160px;
   }
 }
 
@@ -712,11 +726,10 @@ body:has(.mobile) {
   }
 
   .address-item-container {
-    border: 1px solid #eaeaea;
-    min-height: 240px;
+    border: 2px solid #eaeaea;
 
     &.default-address {
-      border-color: $med-charcoal;
+      border: 1px solid $med-charcoal;
       .cerise-bridal-rings {
         top: 24px;
       }
@@ -900,6 +913,12 @@ margin-top: 5px;
   padding: 5px 0;
 }
 
+.phone-bridal{
+  line-height: 1;
+  padding-top: 10px;
+  padding-bottom: 0;
+}
+
 .display-flex{
   display: flex;
   justify-content: space-between;
@@ -919,8 +938,12 @@ margin-top: 5px;
 }
 
 .bridal-predefined{
+  margin: 0 auto 10px auto;
   @include b4_12px_montserrat_med_aqua();
-  font-size: 10px !important;
+
+  @media screen and (max-width:767px) {
+    margin: 10px auto 10px auto;
+  }
 }
 
 .faded-container{
@@ -935,7 +958,7 @@ div > .address-in-use {
   background: transparent!important;
   padding: 30px 30px 30px 40px!important;
   border: 1px solid #4C4C4C!important;
-  min-height: 260px;
+  min-height: 160px;
 }
 .is-active-item input{
   left: 13px!important;

@@ -20,6 +20,7 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
   const [qtyCurrent, setQtyCurrent] = useState(1);
   const [buttonStatus, setButtonStatus] = useState(false);
   const [btnDisable, setBtnDisable] = useState(styles.ctaBtn);
+  const [addedToBag, setAddedToBag] = useState(false);
   const [btnContent, setBtnContent] = useState("ADD TO BAG");
   const [err, setErr] = useState("");
 
@@ -93,6 +94,10 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
           3000,
           "ADD_TO_BAG_BRIDAL"
         );
+        setAddedToBag(true);
+        setTimeout(() => {
+          setAddedToBag(false);
+        }, 3000);
       })
       .catch(err => {
         let errorMessage = err.response.data;
@@ -100,6 +105,7 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
           errorMessage = "Can't add to bag";
         }
         showGrowlMessage(dispatch, errorMessage);
+        setAddedToBag(false);
       });
     // closeMobile();
   };
@@ -199,7 +205,7 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
           onClick={addToBag}
           disabled={buttonStatus}
         >
-          {btnContent}
+          {addedToBag ? "ADDED!" : btnContent}
         </button>
       </div>
       {/* {bridalItem.productDeliveryDate && (

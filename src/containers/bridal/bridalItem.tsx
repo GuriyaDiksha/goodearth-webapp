@@ -23,29 +23,26 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     addToBag: async (quantity: number, url: string, bridalId: number) => {
-      try {
-        const res = await BasketService.addToBasket(
-          dispatch,
-          0,
-          quantity,
-          undefined,
-          bridalId,
-          url
-        );
-        showGrowlMessage(
-          dispatch,
-          "Item has been added to your bag!",
-          3000,
-          "ADD_TO_BAG_BRIDAL"
-        );
-        return res;
-      } catch (err) {
-        let errorMessage = err?.response?.data;
-        if (typeof errorMessage != "string") {
-          errorMessage = "Can't add to bag";
-        }
-        showGrowlMessage(dispatch, errorMessage);
-      }
+      const res = await BasketService.addToBasket(
+        dispatch,
+        0,
+        quantity,
+        undefined,
+        bridalId,
+        url
+      );
+      return res;
+    },
+    showGrowlMessage: async () => {
+      showGrowlMessage(
+        dispatch,
+        "Item has been added to your bag!",
+        3000,
+        "ADD_TO_BAG_BRIDAL"
+      );
+    },
+    showerrorMessage: async (text: string) => {
+      showGrowlMessage(dispatch, text);
     }
   };
 };
@@ -67,6 +64,7 @@ type State = {
   btnDisable: string;
   btnContent: string;
   err: string;
+  addedToBag: boolean;
 };
 
 class BridalItem extends React.Component<Props, State> {
@@ -75,7 +73,8 @@ class BridalItem extends React.Component<Props, State> {
     buttonStatus: false,
     btnDisable: globalStyles.aquaBtn,
     btnContent: "ADD TO BAG",
-    err: ""
+    err: "",
+    addedToBag: false
   };
 
   componentDidMount() {
@@ -145,7 +144,25 @@ class BridalItem extends React.Component<Props, State> {
 
   addToBag = () => {
     const productUrl = `${__DOMAIN__}/myapi/product/${this.props.bridalItem.productId}`;
-    this.props.addToBag(this.state.qtyCurrent, productUrl, this.props.bridalId);
+    this.props
+      .addToBag(this.state.qtyCurrent, productUrl, this.props.bridalId)
+      .then(() => {
+        this.setState({
+          addedToBag: true
+        });
+        setTimeout(() => {
+          this.setState({
+            addedToBag: false
+          });
+        }, 3000);
+        this.props.showGrowlMessage();
+      })
+      .catch(err => {
+        this.setState({
+          addedToBag: false
+        });
+        this.props.showerrorMessage(err.response.data);
+      });
   };
 
   openNotifyMePopup = () => {
@@ -195,7 +212,8 @@ class BridalItem extends React.Component<Props, State> {
               )}
             >
               <a className={styles.posRelative}>
-                {!this.props.bridalItem.productAvailable ? (
+                {!this.props.bridalItem.productAvailable ||
+                this.props.bridalItem.price[this.props.currency] == 0 ? (
                   <div className={styles.notAvailableTxt}>Not Available</div>
                 ) : this.props.bridalItem.stock == 0 ? (
                   <div className={styles.outOfStockTxt}>Out of Stock</div>
@@ -212,7 +230,9 @@ class BridalItem extends React.Component<Props, State> {
                 )}
                 <div
                   className={cs("productImage", {
-                    [styles.blurImg]: this.props.bridalItem.stock == 0
+                    [styles.blurImg]:
+                      this.props.bridalItem.stock == 0 ||
+                      this.props.bridalItem.price[this.props.currency] == 0
                   })}
                 >
                   <img
@@ -466,7 +486,11 @@ class BridalItem extends React.Component<Props, State> {
                             : this.addToBag
                         }
                         disabled={this.state.buttonStatus}
-                        label={this.state.btnContent}
+                        label={
+                          this.state.addedToBag
+                            ? "ADDED!"
+                            : this.state.btnContent
+                        }
                         // variant={this.props.bridalItem.stock == 0 ? "smallMedCharcoalCta" : "smallAquaCta"}
                         variant={
                           this.state.btnContent == "NOTIFY ME"
