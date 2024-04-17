@@ -156,14 +156,14 @@ const BridalItemsList: React.FC<Props> = props => {
       <div className={cs("cart-item", styles.bridalPublic)}>
         <div className={cs(bootstrapStyles.row, styles.nowrap)}>
           <div className={cs(bootstrapStyles.col5, bootstrapStyles.colMd3)}>
-            <a href={productUrl} className={styles.productUrl}>
-              {!productAvailable ? (
-                <div className={styles.notAvailableTxt}>Not Available</div>
-              ) : stock == 0 ? (
-                <div className={styles.outOfStockTxt}>Out of Stock</div>
-              ) : (
-                ""
-              )}
+            {!productAvailable ? (
+              <div className={styles.notAvailableTxt}>Not Available</div>
+            ) : stock == 0 ? (
+              <div className={styles.outOfStockTxt}>Out of Stock</div>
+            ) : (
+              ""
+            )}
+            {!productAvailable ? (
               <div
                 className={cs(styles.productImageSection, {
                   [styles.blur]: stock == 0 || !productAvailable
@@ -178,8 +178,26 @@ const BridalItemsList: React.FC<Props> = props => {
                   <img src={productImage} alt={productName} />
                 </div>
               </div>
-            </a>
+            ) : (
+              <a href={productUrl} className={styles.productUrl}>
+                <div
+                  className={cs(styles.productImageSection, {
+                    [styles.blur]: stock == 0 || !productAvailable
+                  })}
+                >
+                  {badgeImage && (
+                    <div className={styles.badgeImage}>
+                      <img src={badgeImage} alt={badgeImage} />
+                    </div>
+                  )}
+                  <div className={styles.productImage}>
+                    <img src={productImage} alt={productName} />
+                  </div>
+                </div>
+              </a>
+            )}
           </div>
+
           <div className={cs(bootstrapStyles.col7, bootstrapStyles.colMd9)}>
             <div className={styles.rowMain}>
               <div
@@ -194,7 +212,11 @@ const BridalItemsList: React.FC<Props> = props => {
                     <div>
                       <div className={styles.collectionName}>{collection}</div>
                       <div className={styles.productName}>
-                        <a href={productUrl}>{productName}</a>
+                        {!productAvailable ? (
+                          productName
+                        ) : (
+                          <a href={productUrl}>{productName}</a>
+                        )}
                       </div>
                     </div>
                     {price[props.currency] != 0 ? (

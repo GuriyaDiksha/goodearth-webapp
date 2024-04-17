@@ -205,6 +205,29 @@ export default {
           if (item1 && item2 && location?.pathname != "/order/checkout") {
             showGrowlMessage(dispatch, MESSAGE.REGISTRY_MIXED_SHIPPING, 6000);
           }
+
+          if (metaResponse.bridalUser) {
+            if (metaResponse.bridalId > 0) {
+              BridalService.countBridal(dispatch, metaResponse.bridalId);
+            }
+            BridalService.fetchBridalItems(
+              dispatch,
+              metaResponse.bridalId
+            ).then(data => {
+              let outOfStock = false;
+              for (let i = 0; i < data.results.length; i++) {
+                if (data.results[i].stock == 0) {
+                  showGrowlMessage(
+                    dispatch,
+                    MESSAGE.PRODUCT_OUT_OF_STOCK,
+                    6000
+                  );
+                  outOfStock = true;
+                  break;
+                }
+              }
+            });
+          }
         }
       }
     );
@@ -336,6 +359,29 @@ export default {
 
           if (item1 && item2 && location?.pathname != "/order/checkout") {
             showGrowlMessage(dispatch, MESSAGE.REGISTRY_MIXED_SHIPPING, 6000);
+          }
+
+          if (metaResponse.bridalUser) {
+            if (metaResponse.bridalId > 0) {
+              BridalService.countBridal(dispatch, metaResponse.bridalId);
+            }
+            BridalService.fetchBridalItems(
+              dispatch,
+              metaResponse.bridalId
+            ).then(data => {
+              let outOfStock = false;
+              for (let i = 0; i < data.results.length; i++) {
+                if (data.results[i].stock == 0) {
+                  showGrowlMessage(
+                    dispatch,
+                    MESSAGE.PRODUCT_OUT_OF_STOCK,
+                    6000
+                  );
+                  outOfStock = true;
+                  break;
+                }
+              }
+            });
           }
         }
       }
