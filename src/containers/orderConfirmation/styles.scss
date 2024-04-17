@@ -446,3 +446,8 @@
   top: 4px;
   left: 4px;
 }
+
+.free{
+  font-weight: $medium !important;
+  @include b3_14px_caps_gold();
+}

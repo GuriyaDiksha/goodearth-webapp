@@ -33,7 +33,7 @@ export interface PLPProductItem {
   partner?: string;
   altText: string;
   groupedProductsCount?: number;
-  code?: string;
+  is3dimage?: string;
   badge_text?: string;
 }
 

@@ -260,7 +260,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               <p className={styles.title}>{item.title}</p>
               <p className={cs(styles.price)}>
                 {item?.is_free_product ? (
-                  <p className={styles.free}>FREE</p>
+                  <p className={styles.freePrice}>FREE</p>
                 ) : (
                   <>
                     <span

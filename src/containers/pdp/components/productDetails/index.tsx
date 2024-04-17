@@ -114,7 +114,8 @@ const ProductDetails: React.FC<Props> = ({
     fillerProduct,
     shortDesc,
     sliderImages,
-    collections
+    collections,
+    badge_text
   },
   data,
   corporatePDP,
@@ -1067,6 +1068,18 @@ const ProductDetails: React.FC<Props> = ({
                 </div>
               )}
             </div>
+
+            {badge_text && (
+              <div
+                className={cs(
+                  globalStyles.badgeContainer,
+                  globalStyles.grey,
+                  styles.badgeMargin
+                )}
+              >
+                {badge_text}
+              </div>
+            )}
 
             {groupedProducts?.length ? (
               <div
