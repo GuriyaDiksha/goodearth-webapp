@@ -32,10 +32,10 @@ hr {
   padding-right: 6px;
 }
 .cart {
-  margin: 40px 160px;
+  margin: 0px 140px;
 
   @media screen and (max-width:767px) {
-    margin: 40px 0px;
+    margin: 0px 0px;
   }
   img {
     max-width: 100%;
@@ -849,4 +849,27 @@ hr {
     height: 100%;
     top: 0;
   }
+}
+
+.free{
+  font-weight: $medium !important;
+  color: $gold !important;
+  @include b3_14px_caps_gold();
+}
+
+.bg-color{
+  background-color: $lightest-grey;
+}
+
+.hr{
+  margin-top: 0;
+  margin-bottom: 0;
+  border: 0;
+  border-top: 1px solid #DEDEDE;
+  box-sizing: content-box;
+  height: 0;
+}
+
+.cart-row{
+  padding:40px 20px 40px 25px;
 }

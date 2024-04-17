@@ -259,24 +259,30 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               )}
               <p className={styles.title}>{item.title}</p>
               <p className={cs(styles.price)}>
-                <span
-                  className={cs(styles.amountPaid, {
-                    [styles.gold]:
-                      isDiscount || item?.product?.badgeType === "B_flat"
-                  })}
-                >
-                  {`${displayPriceWithCommasFloat(
-                    amountPaid,
-                    item.priceCurrency
-                  )}`}
-                </span>
-                {isDiscount && (
-                  <span className={styles.originalPrice}>
-                    {`${displayPriceWithCommasFloat(
-                      price,
-                      item.priceCurrency
-                    )}`}
-                  </span>
+                {item?.is_free_product ? (
+                  <p className={styles.free}>FREE</p>
+                ) : (
+                  <>
+                    <span
+                      className={cs(styles.amountPaid, {
+                        [styles.gold]:
+                          isDiscount || item?.product?.badgeType === "B_flat"
+                      })}
+                    >
+                      {`${displayPriceWithCommasFloat(
+                        amountPaid,
+                        item.priceCurrency
+                      )}`}
+                    </span>
+                    {isDiscount && (
+                      <span className={styles.originalPrice}>
+                        {`${displayPriceWithCommasFloat(
+                          price,
+                          item.priceCurrency
+                        )}`}
+                      </span>
+                    )}
+                  </>
                 )}
               </p>
               {item.product.size && (

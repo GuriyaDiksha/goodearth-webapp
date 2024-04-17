@@ -778,3 +778,9 @@ body:has(.open-summary) {
 .max-width{
   max-width: 67%;
 }
+
+.free{
+  padding-bottom: 8px;
+  font-weight: $medium !important;
+  @include b3_14px_caps_gold();
+}

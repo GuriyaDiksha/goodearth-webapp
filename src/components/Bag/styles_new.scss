@@ -101,15 +101,15 @@
   }
   .bag-contents {
     background-color: $white;
-    padding: 0 29px;
+    padding: 0px;
     flex-grow: 1;
     overflow-y: scroll;
 
     @include scrollbar();
 
     .cart-item {
-      padding: 25px 0;
-      border-bottom: 0.5px solid $light-charcoal;
+      padding: 25px 29px;
+      border-bottom: 0.5px solid #DEDEDE;
 
       .out-of-stock {
         opacity: 0.3;
@@ -596,4 +596,18 @@
     }
 
   }
+}
+
+.free{
+  font-weight: $medium !important;
+  color: $gold !important;
+  @include b3_14px_caps_gold();
+}
+
+.free-quantity {
+  @include b5_10px_montserrat_charcoal();
+}
+
+.bg-color{
+  background-color: $lightest-grey;
 }
