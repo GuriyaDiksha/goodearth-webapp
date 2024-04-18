@@ -197,7 +197,7 @@ const Bridal: React.FC<Props> = props => {
     getBridalProfileData()
       .then(_data => {
         AddressService.fetchAddressList(dispatch).then(data => {
-          dispatch(updateAddressList(data));
+          // dispatch(updateAddressList(data));
           const items = data;
           for (let i = 0; i < items.length; i++) {
             if (items[i].id == newAddressId) {
