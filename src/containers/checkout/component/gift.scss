@@ -467,6 +467,10 @@
   display: block;
   .promo-input-box {
     padding-left: 20px !important;
+    max-width: 300px !important;
+  }
+  .promo-apply{
+    max-width: 130px
   }
 }
 .text-muted {

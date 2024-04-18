@@ -372,10 +372,10 @@
   position: relative;
 
   &.small-input{
-          max-width: 330px;
+          max-width: 340px;
 
     input{
-      max-width: 330px;
+      max-width: 340px;
     }
   }
 }
@@ -697,8 +697,8 @@ hr {
     // border: 1px solid black;
     transform: translate(-50%, -50%);
 
-    height: 14px;
-    width: 14px;
+    height: 13px;
+    width: 13px;
     background-color: #fff;
     border: 1px solid #888;
   }
@@ -712,8 +712,8 @@ hr {
     transform: translate(-50%, -50%);
     // background-color: #191919;
 
-    height: 11px;
-        width: 11px;
+    height: 10px;
+        width: 10px;
         background-color: #548b8b;
   }
 }

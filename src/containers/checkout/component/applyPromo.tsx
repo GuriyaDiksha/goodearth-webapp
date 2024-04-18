@@ -177,6 +177,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                     disabled={txtvalue == ""}
                     variant="smallMedCharcoalCta"
                     stopHover={true}
+                    className={styles.promoApply}
                   />
                 </div>
               </Fragment>

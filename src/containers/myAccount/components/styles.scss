@@ -816,6 +816,7 @@ input[type="text"]{
 
 .login-change {
   // border: 1px solid #eee;
+  letter-spacing: 0 !important;
   padding: 15px;
   padding-left: 8px;
   top: 1px;
@@ -938,7 +939,7 @@ input[type="text"]{
     width: 30%;
     position: relative;
     +div {
-      width: 65%;
+      width: 70%;
       position: relative;
     }
   }
@@ -1609,7 +1610,7 @@ input[type="text"].country-code-search-input{
 }
 
 .country-code-wrp{
-  width: 30% !important;
+  width: 28% !important;
 
   input{
     width: 100% !important;
