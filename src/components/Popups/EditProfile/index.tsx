@@ -97,12 +97,7 @@ const EditProfile: React.FC = () => {
             </div>
             <Button
               variant="mediumMedCharcoalCta366"
-              className={cs(
-                {
-                  [globalStyles.btnFullWidth]: mobile
-                },
-                globalStyles.marginT20
-              )}
+              className={cs(globalStyles.marginT20)}
               onClick={onRequestSend}
               disabled={reqSent}
               label={reqSent ? "request sent!" : "send request"}

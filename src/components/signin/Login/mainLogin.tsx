@@ -600,7 +600,6 @@ class MainLogin extends React.Component<Props, loginState> {
             )}
             <Button
               type="submit"
-              className={cs({ [globalStyles.btnFullWidth]: this.props.mobile })}
               label="continue"
               disabled={this.state.isLoginDisabled}
               variant="mediumMedCharcoalCta366"

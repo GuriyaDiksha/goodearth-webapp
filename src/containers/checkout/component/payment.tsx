@@ -1308,7 +1308,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 className={cs(
                   globalStyles.marginT10,
                   styles.amtBtn,
-                  { [globalStyles.btnFullWidth]: mobile || tablet },
                   // styles.sendToPayment,
                   styles.proceedToPayment
                   // {

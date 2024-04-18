@@ -410,7 +410,6 @@ const Giftcard: React.FC = () => {
                       <Button
                         type="submit"
                         label="proceed"
-                        className={cs({ [globalStyles.btnFullWidth]: mobile })}
                         disabled={isProceedBtnDisabled}
                         variant="mediumMedCharcoalCta366"
                       />

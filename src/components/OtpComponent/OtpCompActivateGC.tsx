@@ -979,9 +979,6 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                     (!this.props.isIndiaGC && this.state.emailInput == "") ||
                     (this.props.isCredit && this.state.emailInput == "")
                   }
-                  className={cs({
-                    [globalStyles.btnFullWidth]: this.props.mobile
-                  })}
                   label="Send otp"
                   variant="mediumMedCharcoalCta366"
                 />

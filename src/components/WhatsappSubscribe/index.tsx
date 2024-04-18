@@ -605,9 +605,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
             <Button
               type="submit"
               label="Save Preferences"
-              className={cs(buttonClass, {
-                [globalStyles.btnFullWidth]: mobile
-              })}
+              className={cs(buttonClass)}
               disabled={isDisabled}
               variant="mediumMedCharcoalCta366"
             />

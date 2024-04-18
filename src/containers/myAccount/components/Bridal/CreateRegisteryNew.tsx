@@ -364,9 +364,7 @@ const CreateRegistryNew: React.FC = () => {
                     variant="mediumMedCharcoalCta366"
                     type="submit"
                     label={"PROCEED"}
-                    className={cs(globalStyles.marginB20, {
-                      [globalStyles.btnFullWidth]: mobile
-                    })}
+                    className={cs(globalStyles.marginB20)}
                   />
                 </div>
               </div>

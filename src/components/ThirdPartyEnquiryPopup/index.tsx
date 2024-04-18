@@ -518,7 +518,6 @@ const CorporateEnquiryPopup: React.FC<Props> = ({
             type="submit"
             label={submitted ? "close" : "submit"}
             variant="mediumAquaCta366"
-            className={cs({ [globalStyles.btnFullWidth]: mobile })}
           />
         </div>
       </div>

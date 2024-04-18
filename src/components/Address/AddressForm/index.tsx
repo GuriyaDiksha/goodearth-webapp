@@ -1161,7 +1161,6 @@ const AddressForm: React.FC<Props> = props => {
                     variant="mediumMedCharcoalCta366"
                     type="submit"
                     label={"SAVE ADDRESS"}
-                    className={cs({ [globalStyles.btnFullWidth]: mobile })}
                     disabled={!isAddressChanged}
                   />
                 ) : (
@@ -1169,7 +1168,6 @@ const AddressForm: React.FC<Props> = props => {
                     variant="mediumMedCharcoalCta366"
                     type="submit"
                     label={"ADD NEW ADDRESS"}
-                    className={cs({ [globalStyles.btnFullWidth]: mobile })}
                   />
                 )}
               </div>

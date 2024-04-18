@@ -768,7 +768,6 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
               <Button
                 type="submit"
                 disabled={!updateProfile}
-                className={cs({ [globalStyles.btnFullWidth]: mobile })}
                 label={updateProfile ? "Update Details" : "Updated"}
                 variant="mediumMedCharcoalCta366"
               />
