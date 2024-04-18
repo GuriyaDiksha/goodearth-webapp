@@ -1121,6 +1121,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 className={cs(
                   globalStyles.marginT10,
                   styles.amtBtn,
+                  { [globalStyles.btnFullWidth]: mobile || tablet },
                   // paymentStyles.sendToPayment,
                   styles.proceedToPayment
                   // {
@@ -1286,9 +1287,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     //         styles.checkoutBtn
                     //       )
                     // }
-                    className={cs(globalStyles.marginT10, styles.checkoutBtn, {
-                      [globalStyles.hidden]: mobile
-                    })}
+                    className={cs(
+                      globalStyles.marginT10,
+                      styles.checkoutBtn,
+                      globalStyles.btnFullWidth,
+                      { [globalStyles.hidden]: mobile }
+                    )}
                     disabled={canCheckout() ? false : true}
                     label={
                       (
