@@ -40,7 +40,6 @@ type Props = {
 };
 
 const Bridal: React.FC<Props> = props => {
-  // const [ addressData, setAddressData ] = useState<AddressData>();
   const [bridalDetails, setBridalDetails] = useState<BridalDetailsType>({
     occasion: "",
     occassion_choice: "",
@@ -386,7 +385,20 @@ const Bridal: React.FC<Props> = props => {
   };
 
   const showManageRegistry = () => {
-    getBridalProfileData();
+    // getBridalProfileData();
+    if (props.bridalId) {
+      getBridalProfileData().then(data => {
+        AddressService.fetchAddressList(dispatch).then(addressList => {
+          dispatch(updateAddressList(addressList));
+          const bridalAddress = addressList.filter(
+            address => address.id == data?.userAddressId
+          )[0];
+          if (bridalAddress) {
+            setBridalAddress(bridalAddress);
+          }
+        });
+      });
+    }
     setCurrentScreenValue("manage");
     window.scrollTo(0, 0);
   };
@@ -505,7 +517,7 @@ const Bridal: React.FC<Props> = props => {
     BridalService.updateBridalAddress(dispatch, data).then(res => {
       setBridalProfile(res[0]);
       setShareLink(`${__DOMAIN__}/${res[0].shareLink}`);
-      changeAddress(data.addressId);
+      // changeAddress(data.addressId);
       // setCurrentScreenValue("manageregistryfull");
       // setCurrentScreenValue("manage");
     });
