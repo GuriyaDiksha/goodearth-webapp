@@ -113,6 +113,7 @@ export type CollectionProductItem = {
   priceRecords: PriceRecord;
   gaVariant?: string;
   altText: string;
+  badge_text?: string;
 };
 
 export interface BasketProduct extends PartialProductItem {
@@ -124,6 +125,7 @@ export interface BasketProduct extends PartialProductItem {
   attributes: ProductAttributes[];
   productDeliveryDate: string;
   is3d: boolean;
+  badge_text?: string;
 }
 
 export interface GroupedProductItem {

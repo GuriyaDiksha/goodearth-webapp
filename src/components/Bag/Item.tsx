@@ -113,7 +113,8 @@ const LineItems: React.FC<BasketItem> = memo(
       inWishlist,
       attributes,
       childAttributes,
-      groupedProductsCount
+      groupedProductsCount,
+      badge_text
     } = product;
     const size =
       attributes.find(attribute => attribute.name == "Size")?.value || "";
@@ -375,6 +376,17 @@ const LineItems: React.FC<BasketItem> = memo(
                   {title}
                 </Link>
               </div>
+              {badge_text && (
+                <div
+                  className={cs(
+                    globalStyles.badgeContainer,
+                    globalStyles.grey,
+                    globalStyles.marginT10
+                  )}
+                >
+                  {badge_text}
+                </div>
+              )}
               <div className={bridalProfile ? styles.flexPriceIcon : ""}>
                 {is_free_product ? (
                   <p className={cs(styles.productPrice, styles.free)}>FREE</p>

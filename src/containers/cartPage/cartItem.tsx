@@ -61,7 +61,8 @@ const CartItems: React.FC<BasketItem> = memo(
       attributes,
       categories,
       sku,
-      groupedProductsCount
+      groupedProductsCount,
+      badge_text
     } = product;
     const showDeliveryTimelines = true;
     useEffect(() => {
@@ -439,6 +440,17 @@ const CartItems: React.FC<BasketItem> = memo(
                     >
                       <Link to={isGiftCard ? "#" : url}>{title}</Link>
                     </div>
+                    {badge_text && mobile && (
+                      <div
+                        className={cs(
+                          globalStyles.badgeContainer,
+                          globalStyles.grey,
+                          globalStyles.marginT10
+                        )}
+                      >
+                        {badge_text}
+                      </div>
+                    )}
                     <div
                       className={cs(
                         styles.productPrice,
@@ -488,6 +500,19 @@ const CartItems: React.FC<BasketItem> = memo(
                         )}
                       </div>
                     </div>
+
+                    {badge_text && !mobile && (
+                      <div
+                        className={cs(
+                          globalStyles.badgeContainer,
+                          globalStyles.grey,
+                          globalStyles.marginT10
+                        )}
+                      >
+                        {badge_text}
+                      </div>
+                    )}
+
                     <div className={cs(styles.sizeQtyWrp)}>
                       <div
                         className={cs(styles.productSize, {

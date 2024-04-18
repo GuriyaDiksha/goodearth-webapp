@@ -286,6 +286,18 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <div className={styles.infoWrp}>
                   <div className={styles.productName}>{item.product.title}</div>
 
+                  {item?.product?.badge_text && (
+                    <div
+                      className={cs(
+                        globalStyles.badgeContainer,
+                        globalStyles.grey,
+                        globalStyles.marginB10
+                      )}
+                    >
+                      {item?.product?.badge_text}
+                    </div>
+                  )}
+
                   {item?.is_free_product ? (
                     <p className={cs(styles.free)}>FREE</p>
                   ) : salestatus && item.product.discount ? (

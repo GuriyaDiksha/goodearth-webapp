@@ -580,6 +580,12 @@ font-weight: bold;
     font-weight: $medium;
     box-shadow: none;
     @include b4_12px_montserrat_gold();
+
+    @media screen and (max-width:767px) {
+      font-size: 10px;
+      height: 25px;
+      line-height: 25px;
+    }
   }
 
   @media screen and (max-width:767px) {

@@ -58,6 +58,20 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                     ) : (
                       ""
                     )}
+                    {item?.badge_text && (
+                      <div
+                        className={cs(
+                          globalStyles.textCenter,
+                          globalStyles.badgePositionDesktop,
+                          styles.badgePosition,
+                          { [globalStyles.badgePositionMobile]: mobile }
+                        )}
+                      >
+                        <div className={cs(globalStyles.badgeContainer)}>
+                          {item?.badge_text}
+                        </div>
+                      </div>
+                    )}
                     <Link
                       to={item.url}
                       className={styles.link}

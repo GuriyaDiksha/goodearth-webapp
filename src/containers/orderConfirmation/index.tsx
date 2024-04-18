@@ -735,6 +735,18 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   {item.collection}
                                 </div>
                               )}
+                              {item?.product?.badge_text && (
+                                <div
+                                  className={cs(
+                                    globalStyles.badgeContainer,
+                                    globalStyles.grey,
+                                    globalStyles.marginB10,
+                                    globalStyles.marginT5
+                                  )}
+                                >
+                                  {item?.product?.badge_text}
+                                </div>
+                              )}
                               <p
                                 className={cs(
                                   styles.productN,

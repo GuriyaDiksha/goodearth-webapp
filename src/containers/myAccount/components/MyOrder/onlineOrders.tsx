@@ -258,6 +258,18 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 </p>
               )}
               <p className={styles.title}>{item.title}</p>
+              {item?.product?.badge_text && (
+                <div
+                  className={cs(
+                    globalStyles.badgeContainer,
+                    globalStyles.grey,
+                    globalStyles.marginB10,
+                    globalStyles.marginT5
+                  )}
+                >
+                  {item?.product?.badge_text}
+                </div>
+              )}
               <p className={cs(styles.price)}>
                 {item?.is_free_product ? (
                   <p className={styles.freePrice}>FREE</p>

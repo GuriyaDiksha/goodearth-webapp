@@ -134,6 +134,20 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             />
           </div>
         )}
+        {item?.badge_text && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.badgePositionDesktop,
+              styles.badgePosition,
+              { [globalStyles.badgePositionMobile]: mobile }
+            )}
+          >
+            <div className={cs(globalStyles.badgeContainer)}>
+              {item?.badge_text}
+            </div>
+          </div>
+        )}
         <Link
           to={item.productUrl}
           onClick={e => gtmPushWeRecommendClick(e, item, i)}
