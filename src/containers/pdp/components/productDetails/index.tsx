@@ -115,7 +115,8 @@ const ProductDetails: React.FC<Props> = ({
     shortDesc,
     sliderImages,
     collections,
-    badge_text
+    badge_text,
+    freeProductText
   },
   data,
   corporatePDP,
@@ -1502,6 +1503,28 @@ const ProductDetails: React.FC<Props> = ({
                 >
                   VIEW DETAILS
                 </Link>
+              </div>
+            )}
+
+            {!isQuickview && freeProductText?.length && (
+              <div className={styles.freeTextSection}>
+                <div className={styles.head}>
+                  <img src={addReg} width="15px" height="15px"></img>
+                  <p>Free Gift Included</p>
+                </div>
+                <hr />
+                <dl className={styles.list}>
+                  {freeProductText.map((text, i) => (
+                    <div className={styles.item} key={i}>
+                      <dt className={styles.title}>
+                        <span className={styles.dot}></span> {text}
+                      </dt>
+                      <dd className={styles.text}>
+                        <span>.</span> {text}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
               </div>
             )}
             {!isQuickview && (

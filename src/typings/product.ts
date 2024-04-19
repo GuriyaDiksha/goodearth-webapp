@@ -79,6 +79,7 @@ export interface Product<T = ProductID> extends PartialProductItem {
   badgeMessage?: string;
   fillerProduct: PartialProductItem | any;
   shortDesc: string | null;
+  freeProductText?: string[];
 }
 
 export interface PartialChildProductAttributes {
