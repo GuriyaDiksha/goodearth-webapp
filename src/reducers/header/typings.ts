@@ -36,7 +36,7 @@ export type SizeChartData = {
 export type HeaderState = {
   megaMenuData: MegaMenuData[];
   announcementData: AnnouncementBar;
-  timerData: null | SaleTimerData;
+  timerData: null | SaleTimerData[];
   storeData: StoreData;
   sizeChartData: SizeChartData;
   mobileMenuOpenState: boolean;

@@ -13,7 +13,7 @@ export const updateheader = (data: MegaMenuData[]) =>
 export const updateAnnouncement = (data: AnnouncementBar) =>
   actionCreator("UPDATE_ANNOUNCEMENT_BAR", data);
 
-export const updateTimerData = (data: SaleTimerData) =>
+export const updateTimerData = (data: SaleTimerData[]) =>
   actionCreator("UPDATE_TIMER_DATA", data);
 
 export const updateStore = (data: any) =>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { RefObject } from "react";
 import styles from "./styles_new.scss";
 import cs from "classnames";
 import { CartProps, State } from "./typings";
@@ -23,6 +23,17 @@ import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import HeaderService from "services/headerFooter";
 import noImagePlp from "../../images/noimageplp.png";
 import WishlistService from "services/wishlist";
+import Slider from "react-slick";
+import "./index.css";
+
+const settings = {
+  dots: false,
+  arrows: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 2,
+  centerMode: true
+};
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -62,9 +73,14 @@ class Bag extends React.Component<Props, State> {
       value: 1,
       freeShipping: false, // for all_free_shipping_india
       isSuspended: true, // for is_covid19
-      featureData: []
+      featureData: [],
+      mouseDown: false,
+      startX: 0,
+      scrollLeft: 0
     };
   }
+
+  sliderRef: RefObject<HTMLDivElement> = React.createRef();
 
   componentDidMount = () => {
     document?.body?.classList?.add(globalStyles.noScroll);
@@ -129,6 +145,32 @@ class Bag extends React.Component<Props, State> {
     return count;
   }
 
+  startDragging = (e: any) => {
+    this.setState({
+      mouseDown: true,
+      startX: e.pageX - (this.sliderRef?.current?.offsetLeft || 3),
+      scrollLeft: this.sliderRef?.current?.scrollLeft || 0
+    });
+  };
+
+  stopDragging = (e: any) => {
+    this.setState({ mouseDown: false });
+  };
+
+  move = (e: any) => {
+    e.preventDefault();
+    const { mouseDown, startX, scrollLeft } = this.state;
+
+    if (!mouseDown) {
+      return;
+    }
+    const x = e.pageX - (this.sliderRef?.current?.offsetLeft || 3);
+    const scroll = x - startX;
+    if (this.sliderRef?.current !== null) {
+      this.sliderRef.current.scrollLeft = scrollLeft - scroll;
+    }
+  };
+
   getItems() {
     const {
       cart: { lineItems },
@@ -153,57 +195,44 @@ class Bag extends React.Component<Props, State> {
       item
     ) : (
       <div className={cs(styles.cart, styles.emptyCart)}>
-        {/* {this.renderMessage()} */}
         <div
-          className={cs(
-            globalStyles.marginT50,
-            globalStyles.textCenter,
-            // bootstrap.colMd4,
-            // bootstrap.offsetMd4,
-            {
-              // [bootstrap.col10]: !mobile,
-              [bootstrap.col12]: mobile
-            }
-          )}
+          className={cs(globalStyles.textCenter, {
+            [bootstrap.col12]: mobile,
+            [globalStyles.marginT50]: !mobile
+          })}
         >
-          {(!isLoggedIn || !wishlistData.length) && (
-            <>
-              {" "}
-              <div className={styles.emptyMsg}>
+          <>
+            <div className={styles.emptyMsg}> Your bag is currently empty </div>
+            <div
+              className={cs(
+                bootstrap.colMd12,
+                styles.searchHeading,
+                globalStyles.textCenter
+              )}
+            >
+              <h2 className={cs(globalStyles.voffset5, globalStyles.marginB30)}>
+                Looking to discover some ideas?
+              </h2>
+            </div>
+          </>
+
+          <div className={cs(globalStyles.voffset3, bootstrap.col12)}>
+            <div className={cs("EmptyCartSlider")}>
+              <Slider {...settings}>
                 {" "}
-                Your bag is currently empty{" "}
-              </div>
-              <div
-                className={cs(
-                  bootstrap.colMd12,
-                  styles.searchHeading,
-                  { [styles.searchHeadingMobile]: mobile },
-                  globalStyles.textCenter
-                )}
-              >
-                <h2 className={globalStyles.voffset5}>
-                  Looking to discover some ideas?
-                </h2>
-              </div>
-            </>
-          )}
-          <div className={cs(bootstrap.col12, globalStyles.voffset3)}>
-            {(!isLoggedIn || wishlistData.length === 0) && (
-              <div
-                className={cs(
-                  bootstrap.row,
-                  styles.noResultPadding,
-                  styles.checkheight,
-                  { [styles.checkheightMobile]: mobile },
-                  styles.cartRow
-                )}
-              >
                 {this.state.featureData.length > 0
                   ? this.state.featureData.map((data, i) => {
                       return (
                         <div
                           key={i}
-                          className={cs(bootstrap.col6, styles.px10)}
+                          className={
+                            cs()
+                            // styles.px5,  {
+                            // [globalStyles.marginL30]: i === 0,
+                            // [globalStyles.marginR30]:
+                            //   i === this.state.featureData?.length - 1
+                            // }
+                          }
                         >
                           <div className={styles.searchImageboxNew}>
                             <Link to={data.ctaUrl}>
@@ -214,18 +243,12 @@ class Bag extends React.Component<Props, State> {
                                     : data.ctaImage
                                 }
                                 // onError={this.addDefaultSrc}
-                                width="200"
                                 alt={data.ctaText}
                                 className={styles.imageResultNew}
                               />
                             </Link>
                           </div>
-                          <div
-                            className={cs(
-                              styles.imageContent,
-                              styles.mobileHeight
-                            )}
-                          >
+                          <div className={cs(styles.imageContent)}>
                             <p className={styles.searchImageTitle}>
                               {data.ctaText}
                             </p>
@@ -237,144 +260,140 @@ class Bag extends React.Component<Props, State> {
                       );
                     })
                   : ""}
-              </div>
-            )}
+              </Slider>
+            </div>
 
             {isLoggedIn && wishlistData.length > 0 && (
               <>
-                <h6 className={styles.wishlistHead}>From your Wishlist</h6>
+                <h6 className={styles.wishlistHead}>From your Saved List</h6>
                 <p className={styles.wishlistSubHead}>
-                  There’s more waiting for you in your Wishlist
+                  There’s more waiting for you in your{" "}
+                  <Link
+                    className={styles.viewAll}
+                    to="/wishlist"
+                    onClick={(): void => {
+                      this.props.toggleBag();
+                    }}
+                  >
+                    Saved List
+                  </Link>
                 </p>
 
                 <div
                   className={cs(
                     bootstrap.col12,
                     globalStyles.marginT20,
-                    globalStyles.marginB30
+                    globalStyles.marginB40,
+                    { [globalStyles.marginB60]: mobile }
                   )}
                 >
                   <div
                     className={cs(
                       bootstrap.row,
-                      styles.noResultPadding,
-                      styles.checkheight,
-                      { [styles.checkheightMobile]: mobile },
-                      styles.cartRow
+                      globalStyles.flexGutterStart,
+                      styles.mobileConatinerBag
                     )}
                   >
-                    {wishlistData.length > 0
-                      ? [...wishlistData?.slice(0, 5), wishlistData[0]]?.map(
-                          (data, i) => {
-                            return (
-                              <div
-                                key={i}
-                                className={cs(bootstrap.col6, styles.px10)}
-                              >
+                    {wishlistData.length > 0 &&
+                      wishlistData?.slice(0, 8)?.map((data, i) => {
+                        return (
+                          <div key={i} className={cs(bootstrap.col5)}>
+                            <div
+                              className={cs(styles.searchImageboxNew, {
+                                [styles.viewAllTile]: i === 7
+                              })}
+                            >
+                              {data?.salesBadgeImage && i < 7 && (
                                 <div
-                                  className={cs(styles.searchImageboxNew, {
-                                    [styles.viewAllMobileWrapper]:
-                                      i === wishlistData.length
-                                  })}
-                                >
-                                  {data?.salesBadgeImage && (
-                                    <div
-                                      className={cs(styles.badgePositionPlp)}
-                                    >
-                                      <img src={data.salesBadgeImage} />
-                                    </div>
-                                  )}
-                                  <Link
-                                    to={
-                                      i === wishlistData.length
-                                        ? "/wishlist"
-                                        : data.productUrl
+                                  className={cs(
+                                    {
+                                      [styles.badgePositionPlpMobile]: mobile
+                                    },
+                                    {
+                                      [styles.badgePositionPlp]: !mobile
                                     }
-                                  >
-                                    <img
-                                      src={
-                                        data.productImage == ""
-                                          ? noImagePlp
-                                          : data.productImage
-                                      }
-                                      // onError={this.addDefaultSrc}
-                                      width="200"
-                                      alt={data.productName}
-                                      className={styles.imageResultNew}
-                                    />
-                                    {i === wishlistData.length && (
-                                      <span
-                                        className={cs(styles.viewAllMobile)}
+                                  )}
+                                >
+                                  <img src={data.salesBadgeImage} />
+                                </div>
+                              )}
+                              {i < 7 ? (
+                                <Link to={data.productUrl}>
+                                  <img
+                                    src={
+                                      data.productImage == ""
+                                        ? noImagePlp
+                                        : data.productImage
+                                    }
+                                    alt={data.productName}
+                                    className={styles.imageResultNew}
+                                  />
+                                </Link>
+                              ) : (
+                                <Link
+                                  to={"/wishlist"}
+                                  onClick={(): void => {
+                                    this.props.toggleBag();
+                                  }}
+                                >
+                                  VIEW ALL
+                                </Link>
+                              )}
+                            </div>
+                            {i < 7 && (
+                              <div className={styles.imageContent}>
+                                <p
+                                  className={cs(
+                                    styles.searchFeature,
+                                    styles.wishlistConetent
+                                  )}
+                                >
+                                  <Link to={data.productUrl}>
+                                    {data.productName}
+                                  </Link>
+                                </p>
+                                <p className={styles.searchFeature}>
+                                  <Link to={data.productUrl}>
+                                    {this.props?.isSale && data.discount ? (
+                                      <p className={styles.discountprice}>
+                                        {data.discountedPrice
+                                          ? displayPriceWithCommas(
+                                              data.discountedPrice[currency],
+                                              currency
+                                            )
+                                          : ""}
+                                      </p>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {this.props?.isSale && data.discount ? (
+                                      <p className={styles.strikeprice}>
+                                        {displayPriceWithCommas(
+                                          data.price[currency],
+                                          currency
+                                        )}
+                                      </p>
+                                    ) : (
+                                      <p
+                                        className={
+                                          data.badgeType == "B_flat"
+                                            ? styles.discountprice
+                                            : ""
+                                        }
                                       >
-                                        VIEW ALL
-                                      </span>
+                                        {displayPriceWithCommas(
+                                          data.price[currency],
+                                          currency
+                                        )}
+                                      </p>
                                     )}
                                   </Link>
-                                </div>
-                                {i < wishlistData.length && (
-                                  <div
-                                    className={cs(
-                                      styles.imageContent,
-                                      styles.mobileHeight
-                                    )}
-                                  >
-                                    {/* <p className={styles.searchImageTitle}>
-                              {data.productName}
-                            </p> */}
-                                    <p className={styles.searchFeature}>
-                                      <Link to={data.productUrl}>
-                                        {data.productName}
-                                      </Link>
-                                    </p>
-                                    <p className={styles.searchFeature}>
-                                      <Link to={data.productUrl}>
-                                        {this.props?.isSale && data.discount ? (
-                                          <span
-                                            className={styles.discountprice}
-                                          >
-                                            {data.discountedPrice
-                                              ? displayPriceWithCommas(
-                                                  data.discountedPrice[
-                                                    currency
-                                                  ],
-                                                  currency
-                                                )
-                                              : ""}{" "}
-                                            &nbsp;{" "}
-                                          </span>
-                                        ) : (
-                                          ""
-                                        )}
-                                        {this.props?.isSale && data.discount ? (
-                                          <span className={styles.strikeprice}>
-                                            {displayPriceWithCommas(
-                                              data.price[currency],
-                                              currency
-                                            )}
-                                          </span>
-                                        ) : (
-                                          <span
-                                            className={
-                                              data.badgeType == "B_flat"
-                                                ? styles.discountprice
-                                                : ""
-                                            }
-                                          >
-                                            {displayPriceWithCommas(
-                                              data.price[currency],
-                                              currency
-                                            )}
-                                          </span>
-                                        )}
-                                      </Link>
-                                    </p>
-                                  </div>
-                                )}
+                                </p>
                               </div>
-                            );
-                          }
-                        )
-                      : ""}
+                            )}
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
               </>
@@ -602,7 +621,8 @@ class Bag extends React.Component<Props, State> {
     const {
       totalWithoutShipping,
       freeShippingThreshold,
-      freeShippingApplicable
+      freeShippingApplicable,
+      lineItems
     } = this.props.cart;
     return (
       <div>
@@ -675,7 +695,7 @@ class Bag extends React.Component<Props, State> {
           ) : (
             ""
           )}
-          <div className={styles.bagContents}>{this.getItems()}</div>
+          <div className={cs(styles.bagContents)}>{this.getItems()}</div>
           {this.getFooter()}
         </div>
       </div>

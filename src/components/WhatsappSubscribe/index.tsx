@@ -612,7 +612,12 @@ const WhatsappSubscribe: React.FC<Props> = ({
           </div>
         )}
       </div>
-      {error && <div className={styles.whatsappNoErr}>{error}</div>}
+      {error && (
+        <p className={styles.whatsappNoErr}>
+          {" "}
+          <span>{error}</span>
+        </p>
+      )}
     </Formsy>
   );
 };

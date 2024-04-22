@@ -74,8 +74,10 @@ const HelloarPopup: React.FC<Props> = ({
           ></i>
         </div>
       </div>
+
+      {/* OLD link:https://viewer.helloar.io?id=${code}&disable_pan=true&fullscreen=false&show_zoom_bar=true */}
       <iframe
-        src={`https://viewer.helloar.io?id=${code}&disable_pan=true&fullscreen=false&show_zoom_bar=true`}
+        src={`https://viewer.shape.helloar.io/?id=${code}`}
         // height="100%"
         width="100%"
         allow="xr-spatial-tracking;"

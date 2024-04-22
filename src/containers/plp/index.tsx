@@ -161,6 +161,7 @@ class PLP extends React.Component<
       }, 50)
     );
     if (this.props.device.mobile) {
+      this.updateMobileView("grid");
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
       const chatButtonElem = document.getElementById("chat-button");
@@ -820,14 +821,9 @@ class PLP extends React.Component<
                     : cs(
                         bootstrap.row,
                         styles.imageContainerMobile,
-                        globalStyles.paddTop20
+                        globalStyles.paddTop45
                       )
-                  : cs(
-                      bootstrap.row,
-                      styles.imageContainer,
-                      styles.minHeight,
-                      globalStyles.paddTop20
-                    )
+                  : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
               }
               id="product_images"
             >
