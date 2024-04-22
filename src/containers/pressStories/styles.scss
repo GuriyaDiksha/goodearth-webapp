@@ -134,10 +134,8 @@
         height: 120px;
         padding: 10px;
         @include placeholder{
-          font-size: 14px;
-          font-style: normal;
-          color: tint(#000,60%);
-          letter-spacing: .5px;
+          opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
         };
       }
     }

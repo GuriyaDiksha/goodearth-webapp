@@ -72,7 +72,7 @@ const SelectDropdown: React.FC<Props &
       case "code":
         return "Please select code";
       case "whatsappNoCountryCode":
-        return "Please select a Country Code";
+        return "Required";
       default:
         return "Please Select option";
     }
@@ -98,7 +98,7 @@ const SelectDropdown: React.FC<Props &
         ref={props.inputRef || null}
         disabled={props.disable}
       />
-      <label>{props.label}</label>
+      {(value || active) && <label>{props.label}</label>}
       <span
         className={cs(
           { [styles.arrow]: true },

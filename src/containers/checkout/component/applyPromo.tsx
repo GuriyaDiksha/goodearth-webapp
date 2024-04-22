@@ -142,7 +142,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
             className={cs(
               styles.loginForm,
               { [globalStyles.voffset3]: newCardBox },
-              bootstrapStyles.colMd7
+              bootstrapStyles.colMd10
             )}
           >
             <div>
@@ -164,9 +164,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                     onChange={this.changeValue}
                     id="gift"
                     className={
-                      this.state.error
-                        ? cs(styles.marginR10, styles.err)
-                        : styles.promoInputBox
+                      this.state.error ? cs(styles.err) : styles.promoInputBox
                     }
                     aria-label="Promocode"
                   />
@@ -179,6 +177,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
                     disabled={txtvalue == ""}
                     variant="smallMedCharcoalCta"
                     stopHover={true}
+                    className={styles.promoApply}
                   />
                 </div>
               </Fragment>
