@@ -1360,9 +1360,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     // canCheckout()
                     //   ?
 
-                    cs(styles.posFixed, styles.checkoutBtn, {
-                      [globalStyles.btnFullWidth]: mobile || tablet
-                    })
+                    cs(styles.posFixed, styles.checkoutBtn)
                     // : cs(
                     //     globalStyles.checkoutBtn,
                     //     styles.posFixed,

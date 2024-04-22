@@ -14,11 +14,8 @@
     border-radius: 0;
 
     @include placeholder {
-      font-size:14px;
-      color: #19191958;
-      font-style: normal;
-      letter-spacing:1px;
-      font-family: $font-Lato;
+      opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
     }
 }
 
@@ -51,54 +48,49 @@
 
 .login-form {
   input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], select, textarea {
-    background-color: #fff;
-    border: 1px solid #D8D8D8;
+    background-color: $white;
+    border: 1px solid $lightest-charcoal;
     width: 100%;
-    padding: 10px;
-    line-height: 25px;
+    max-width: 366px;
+    padding: 15px 20px;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     border-radius: 0;
-    @include b4_12px_montserrat_charcoal();
-    line-height: 20px;
-    letter-spacing: 0.36px;
     height: 50px;
+    @include b4_12px_montserrat_charcoal();
+
     @include placeholder {
-      @include b4_12px_montserrat_charcoal();
-      color: #19191958;
-      line-height: 20px;
-      letter-spacing: 0.36px;
-      font-style: normal;
+      opacity: 0.4;
     }
     text-align: start;
     &.redeem-input {
       padding: 10px 10px !important;
     }
     &:active, &:focus {
-      background-color: #fff;
-      border: 1px solid #d8d8d8;
-      width: 100%;
-      padding: 10px 10px;//fixed for all textbox
-      font-size: 12px;
-      line-height: 20px;
+      background-color: $white;
+      border: 1px solid $lightest-charcoal;
+      padding: 15px 20px;//fixed for all textbox
       -webkit-appearance: none;
       -moz-appearance: none;
       appearance: none;
       border-radius: 0;
       @include placeholder {
-        @include b4_12px_montserrat_charcoal();
-        color: #19191958;
-        line-height: 20px;
-        letter-spacing: 0.36px;
-        font-style: normal;
+        opacity: 0.4;
       }
       text-align: start;
+
+      @media screen and (max-width:767px) {
+        width: 100%;      
+      }
     }
     &:disabled{
-      color: #9F9F9F;
-      // background-color: #d8d8d826; 
-      background-color: #f9f9f9;
+      color: $light-charcoal;
+      background-color: $lightest-grey;
+    }
+
+    @media screen and (max-width:767px) {
+      width: 100%;      
     }
   }
   .no-enough-point {
@@ -136,18 +128,14 @@
   label {
     position: absolute;
     top: -10px;
-    left: 10px;
+    left: 15px;
     background-color: #fff;
-    padding: 2px;
-    letter-spacing: 0.5px;
-    font-family: $font-Montserrat;
-    font-size: 9px;
-    font-weight: $light;
-    color: $charcoal19;
+    padding: 5px;
+    @include b6_9px_light_montserrat_charcoal();
   }
   div.categorylabel > div {
-    position: relative;
-    margin: 20px 0;
+    margin: 20px auto;
+    max-width: 366px;
     &.address-form-checkbox {
       margin-top: 40px;
       text-align: left;
@@ -177,7 +165,7 @@
     }
     &.subscribe {
       text-align: left;
-      margin: 30px 0 0 0;
+      margin: 30px auto 0 auto;
       &.subs1 {
         margin-top: 50px;
       }
@@ -252,7 +240,7 @@
         color: #19191958;
         font-style: normal;
         letter-spacing: normal;
-        font-family: $font-Lato;
+        font-family:  $font-Montserrat;
       }
     }
   } 
@@ -275,6 +263,9 @@
   div {
     div {
       position: relative;
+      max-width: 366px;
+      margin: auto;
+      // width: 100%;
       &.user-gender-picker {
         .Dropdown-root {
           .Dropdown-menu {
@@ -290,10 +281,14 @@
               color: #19191958;
               font-style: normal;
               letter-spacing: normal;
-              font-family: $font-Lato;
+              font-family:  $font-Montserrat;
             }
           }
         }
+      }
+
+      @media screen and (max-width:767px) {
+        width: 100%;      
       }
     }
     @include b5_10px_montserrat_charcoal();
@@ -304,25 +299,46 @@
       position: relative;
       margin: 35px 0 20px 0;
       flex-wrap: wrap;
+
+      .country-code-search-input{
+        width: -webkit-fill-available !important; 
+      }
+      
       input{
         height: 50px !important;
-      }
+        // width: inherit !important; 
+
+        // @media screen and (max-width:767px) {
+        //   width: 100% !important;
+        // } 
+          }
       // .contact-msg {
       //   font-style: italic;
       //   font-size: 12px;
       //   margin-top: 5px;
       //   letter-spacing: 0.5px;
       // }
+
+      
       select {
         cursor: pointer;
       }
       >div {
-        width: 30%;
+        // width: 105px;
         position: relative;
+        margin: 0;
         +div {
-          width: 65%;
+          // width: 253px;
           position: relative;
+
+          // @media screen and (max-width:767px) {
+          //   width: 70%;
+          // }
         }
+
+        // @media screen and (max-width:767px) {
+        //   width: 27% !important;
+        // }
       }
       ul.react-autosuggest__suggestions-list {
         border: 1px solid #ccc;
@@ -368,9 +384,9 @@
   // }
 }
 @media(max-width:425px){
-  .categorylabel .country-code > div {
-    width: 50%!important;
-  }
+  // .categorylabel .country-code > div {
+  //   width: 50%!important;
+  // }
 }
 
 .categorylabel {

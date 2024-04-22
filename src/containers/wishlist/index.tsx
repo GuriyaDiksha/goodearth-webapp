@@ -947,7 +947,6 @@ class Wishlist extends React.Component<Props, State> {
       >
         <p>{this.props.message}</p>
         <Button
-          className={cs({ [globalStyles.btnFullWidth]: mobile })}
           variant="mediumMedCharcoalCta366"
           label={"PROCEED TO GOODEARTH.IN"}
           onClick={() => this.props.history.push("/")}

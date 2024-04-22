@@ -52,6 +52,9 @@ body:has(.mobile) {
   &.back-btn-profile {
     margin: 20px 0;
   }
+  &.back-btn-checkout {
+    max-width: 366px;
+  }
   .back-btn {
     text-transform: uppercase;
     cursor: pointer;
@@ -849,12 +852,16 @@ body:has(.mobile) {
               margin-left: 5px;
           }
       }
-      .country-code {
-          margin: 0px 0 20px 0px;
-      }
+      // .country-code {
+      //     margin: 0px 0 20px 0px;
+      // }
       a{
           color: $charcoal19;
           text-decoration: underline;
+      }
+
+      .ship-bill-checkout{
+        margin: 20px 0;
       }
   }
 }
@@ -897,7 +904,7 @@ body:has(.mobile) {
 .char-limit{
 float: right;
 margin-top: 5px;
-@include b6_9px_light_montserrat_charcoal();
+@include b5_10px_montserrat_charcoal();
 }
 
 .address-main {
@@ -994,4 +1001,23 @@ div > .address-in-use {
 
 .cancel-btn{
   float: right;
+}
+
+.subscribe{
+  margin: 30px 0 !important;
+}
+
+.contact-num{
+  width: 70% !important;
+  input{
+    width: 100% !important;
+  }
+}
+
+.country-code-wrp{
+  width: 28% !important;
+
+  input{
+    width: 100% !important;
+  }
 }
