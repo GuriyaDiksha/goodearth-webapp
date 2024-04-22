@@ -26,7 +26,7 @@ type Props = {
   socialLogin?: ReactNode;
   otpAttemptClass?: string;
   uniqueId: string;
-  disabled: boolean;
+  disabled?: boolean;
 };
 
 const NewOtpComponent: React.FC<Props> = ({

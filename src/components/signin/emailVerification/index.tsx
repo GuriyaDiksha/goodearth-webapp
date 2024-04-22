@@ -93,7 +93,6 @@ const EmailVerification: React.FC<Props> = ({
   };
 
   const verifyOtp = async (otp: string) => {
-    debugger;
     try {
       // setIsLoading(true);
       const source =
@@ -169,10 +168,6 @@ const EmailVerification: React.FC<Props> = ({
         maxAttemptsAllow: data?.maxAttemptsAllow || 5
       });
 
-      if (data.expired) {
-        setIsDisabled(true);
-      }
-
       if (data.alreadyVerified) {
         setError([
           "Looks like you are aleady verified. ",
@@ -189,6 +184,9 @@ const EmailVerification: React.FC<Props> = ({
         ]);
       } else {
         setError(data?.message || "OTP Expired or Invalid OTP");
+        if (data.expired) {
+          setIsDisabled(true);
+        }
       }
     } finally {
       // setIsLoading(false);
@@ -198,6 +196,7 @@ const EmailVerification: React.FC<Props> = ({
     try {
       // setIsLoading(true);
       setError("");
+      setIsDisabled(false);
       setOtpSmsSent(false);
       const res = await LoginService.sendUserOTP(dispatch, email);
       if (res.otpSent) {
