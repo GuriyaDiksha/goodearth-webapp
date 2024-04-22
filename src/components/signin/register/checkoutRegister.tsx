@@ -425,6 +425,16 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     }
   };
 
+  onGenderSelect = (option: any) => {
+    const form = this.RegisterFormRef.current;
+    const gender = option?.value;
+
+    form &&
+      form.updateInputsWithValue({
+        gender
+      });
+  };
+
   changeCountryData = (countryData: Country[]) => {
     const countryOptions = countryData.map(country => {
       const states = country.regionSet.map(state => {
@@ -697,7 +707,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
         onInvalidSubmit={this.handleInvalidSubmit}
       >
         <div className={styles.categorylabel} id="checkout-register-form">
-          <div>
+          <div className={styles.emailWrp}>
             <FormInput
               name="email"
               blur={this.verifyEmail}
@@ -759,29 +769,37 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               showLabel={true}
             />
           </div>
-          <div className={styles.userGenderPicker}>
+          {/* <div className={styles.userGenderPicker}>
             <FormSelect
               required
               name="gender"
               label="Gender*"
-              placeholder="Select Option*"
+              placeholder="Select Gender*"
               options={genderOptions}
               disable={!this.state.showFields}
               className={this.state.showFields ? "" : styles.disabledInput}
               showLabel={true}
             />
-          </div>
-          {/* <div className={styles.userGenderPicker}>
+          </div> */}
+          <div className={styles.userGenderPicker}>
             <SelectDropdown
               required
               name="gender"
-              label="Select Gender*"
+              label="Gender*"
               placeholder="Select Gender*"
               options={genderOptions}
-              allowFilter={true}
+              allowFilter={false}
               inputRef={this.genderRef}
+              validations={{
+                isExisty: true
+              }}
+              validationErrors={{
+                isExisty: "Please select your gender",
+                isEmptyString: isExistyError
+              }}
+              handleChange={this.onGenderSelect}
             />
-          </div> */}
+          </div>
           <div className={styles.calendarIconContainer}>
             <FormInput
               name="dateOfBirth"
@@ -918,7 +936,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             <SelectDropdown
               name="code"
               placeholder="Code"
-              label="Country Code"
+              label="Code"
               options={this.getCountryCodeObject()}
               handleChange={this.onCountryCodeSelect}
               value=""
@@ -935,7 +953,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isCodeValid: "Please select a Country Code",
+                isCodeValid: "Required",
                 isValidCode: "Please enter a valid country code"
               }}
               allowFilter={true}
@@ -945,6 +963,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               searchIconClass={styles.countryCodeSearchIcon}
               searchInputClass={styles.countryCodeSearchInput}
               inputRef={this.countryCodeRef}
+              className={styles.countryCodeWrp}
             />
             <FormInput
               // required
@@ -953,7 +972,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               placeholder={"Contact Number"}
               type="number"
               disable={!this.state.showFields}
-              className={showFieldsClass}
+              className={cs(showFieldsClass, styles.contactNum)}
               label={"Contact Number"}
               validations={{
                 isExisty: true,
@@ -1182,9 +1201,14 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                 disable={false}
                 label={[
                   <span key="1">Subscribe me for Whatsapp updates.</span>
+                  //   (this.state.whatsappChecked ? <div className={styles.manageLine}>
+                  //   Manage your preference from My Preferences section under
+                  //   Profile
+                  // </div>: <></>)
                 ]}
                 handleChange={this.onWhatsappCheckChange}
                 required
+                className={cs(styles.regWhatsApp, globalStyles.margin0)}
               />
               {this.state.whatsappChecked && (
                 <div className={styles.manageLine}>
@@ -1192,7 +1216,15 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
                   Profile
                 </div>
               )}
-              <div className={styles.tooltip} ref={this.impactRef}>
+              <div
+                className={cs(
+                  styles.tooltip,
+                  globalStyles.margin0,
+                  styles.width30,
+                  styles.regWhatsApp
+                )}
+                ref={this.impactRef}
+              >
                 <img
                   src={this.state.showTip ? tooltipOpenIcon : tooltipIcon}
                   onClick={() => {
@@ -1278,9 +1310,6 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             {!this.props.isCheckout && (
               <Button
                 type="submit"
-                className={cs({
-                  [globalStyles.btnFullWidth]: this.props.mobile
-                })}
                 label="Create My Account & Proceed"
                 disabled={this.state.disableButton || !this.state.showFields}
                 variant="mediumMedCharcoalCta366"
@@ -1289,9 +1318,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             {!this.props.isCheckout && (
               <Button
                 type="submit"
-                className={cs(styles.changeEmailBtn, {
-                  [globalStyles.btnFullWidth]: this.props.mobile
-                })}
+                className={cs(styles.changeEmailBtn)}
                 label="Go Back"
                 onClick={this.changeEmail}
                 variant="outlineMediumMedCharcoalCta366"
@@ -1300,7 +1327,6 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             {this.props.isCheckout && (
               <Button
                 type="submit"
-                className={globalStyles.btnFullWidth}
                 label="Continue"
                 disabled={this.state.disableButton || !this.state.showFields}
                 variant="largeAquaCta"

@@ -76,16 +76,16 @@ const AddressForm: React.FC<Props> = props => {
   } = useContext(AddressContext);
 
   const { bridalId } = useSelector((state: AppState) => state.user);
-  const [bridalProfile1, setBridalProfile] = useState<BridalProfileData>();
-  const [shareLink, setShareLink] = useState("");
-  const [bridalDetails, setBridalDetails] = useState<BridalDetailsType>({
-    occasion: "",
-    registrantName: "",
-    registryName: "",
-    coRegistrantName: "",
-    userAddress: undefined,
-    eventDate: ""
-  });
+  // const [bridalProfile1, setBridalProfile] = useState<BridalProfileData>();
+  // const [shareLink, setShareLink] = useState("");
+  // const [bridalDetails, setBridalDetails] = useState<BridalDetailsType>({
+  //   occasion: "",
+  //   registrantName: "",
+  //   registryName: "",
+  //   coRegistrantName: "",
+  //   userAddress: undefined,
+  //   eventDate: ""
+  // });
   const { user } = useSelector((state: AppState) => state);
   const address = props.addressData;
 
@@ -305,9 +305,9 @@ const AddressForm: React.FC<Props> = props => {
   const getBridalProfileData = async () => {
     const data = await BridalService.fetchBridalProfile(dispatch, bridalId);
     if (data) {
-      setBridalProfile(data);
-      setBridalDetails(Object.assign({}, data, { userAddress: undefined }));
-      setShareLink(`${__DOMAIN__}/${data.shareLink}`);
+      // setBridalProfile(data);
+      // setBridalDetails(Object.assign({}, data, { userAddress: undefined }));
+      // setShareLink(`${__DOMAIN__}/${data.shareLink}`);
       dispatch(
         updateUser(
           Object.assign({}, user, {
@@ -345,8 +345,8 @@ const AddressForm: React.FC<Props> = props => {
       addressId
     };
     BridalService.updateBridalAddress(dispatch, data).then(res => {
-      setBridalProfile(res[0]);
-      setShareLink(`${__DOMAIN__}/${res[0].shareLink}`);
+      // setBridalProfile(res[0]);
+      // setShareLink(`${__DOMAIN__}/${res[0].shareLink}`);
       changeAddress(data.addressId);
       // setCurrentScreenValue("manageregistryfull");
     });
@@ -652,7 +652,13 @@ const AddressForm: React.FC<Props> = props => {
                 </div>
               </div>
             )}
-          <div>
+          <div
+            className={cs({
+              [styles.shipBillCheckout]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
+            })}
+          >
             <FormInput
               name="emailId"
               required
@@ -674,7 +680,13 @@ const AddressForm: React.FC<Props> = props => {
               }}
             />
           </div>
-          <div>
+          <div
+            className={cs({
+              [styles.shipBillCheckout]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
+            })}
+          >
             <FormInput
               id="first-field"
               required
@@ -694,7 +706,13 @@ const AddressForm: React.FC<Props> = props => {
               }}
             />
           </div>
-          <div>
+          <div
+            className={cs({
+              [styles.shipBillCheckout]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
+            })}
+          >
             <FormInput
               required
               name="lastName"
@@ -714,7 +732,13 @@ const AddressForm: React.FC<Props> = props => {
             />
           </div>
           {isIndia ? (
-            <div>
+            <div
+              className={cs({
+                [styles.shipBillCheckout]:
+                  currentCallBackComponent == "checkout-shipping" ||
+                  currentCallBackComponent == "checkout-billing"
+              })}
+            >
               <PinCode
                 id="pincode"
                 blur={handlePostcodeBlur}
@@ -744,7 +768,13 @@ const AddressForm: React.FC<Props> = props => {
               />
             </div>
           ) : showPincode ? (
-            <div>
+            <div
+              className={cs({
+                [styles.shipBillCheckout]:
+                  currentCallBackComponent == "checkout-shipping" ||
+                  currentCallBackComponent == "checkout-billing"
+              })}
+            >
               <FormInput
                 required
                 name="postCode"
@@ -791,7 +821,13 @@ const AddressForm: React.FC<Props> = props => {
               />
             </div>
           )}
-          <div>
+          <div
+            className={cs({
+              [styles.shipBillCheckout]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
+            })}
+          >
             <div className="select-group text-left">
               {/* <FormSelect
                 required
@@ -830,7 +866,13 @@ const AddressForm: React.FC<Props> = props => {
             </div>
           </div>
           {stateOptions && stateOptions.length > 0 ? (
-            <div>
+            <div
+              className={cs({
+                [styles.shipBillCheckout]:
+                  currentCallBackComponent == "checkout-shipping" ||
+                  currentCallBackComponent == "checkout-billing"
+              })}
+            >
               <div className="select-group text-left">
                 <FormSelect
                   required
@@ -857,7 +899,13 @@ const AddressForm: React.FC<Props> = props => {
               </div>
             </div>
           ) : (
-            <div>
+            <div
+              className={cs({
+                [styles.shipBillCheckout]:
+                  currentCallBackComponent == "checkout-shipping" ||
+                  currentCallBackComponent == "checkout-billing"
+              })}
+            >
               <FormInput
                 name="province"
                 label={"Province"}
@@ -879,7 +927,13 @@ const AddressForm: React.FC<Props> = props => {
               />
             </div>
           )}
-          <div>
+          <div
+            className={cs({
+              [styles.shipBillCheckout]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
+            })}
+          >
             <FormInput
               required
               name="line1"
@@ -897,7 +951,13 @@ const AddressForm: React.FC<Props> = props => {
               }}
             />
           </div>
-          <div>
+          <div
+            className={cs({
+              [styles.shipBillCheckout]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
+            })}
+          >
             <FormInput
               name="line2"
               label="Nearby landmark (optional)"
@@ -912,7 +972,13 @@ const AddressForm: React.FC<Props> = props => {
               }}
             />
           </div>
-          <div>
+          <div
+            className={cs({
+              [styles.shipBillCheckout]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
+            })}
+          >
             <FormInput
               required
               name="city"
@@ -930,7 +996,13 @@ const AddressForm: React.FC<Props> = props => {
               }}
             />
           </div>
-          <div className={styles.countryCode}>
+          <div
+            className={cs(styles.countryCode, {
+              [styles.shipBillCheckout]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
+            })}
+          >
             {/* <CountryCode
               id="isdcode"
               value=""
@@ -973,18 +1045,20 @@ const AddressForm: React.FC<Props> = props => {
                 }
               }}
               validationErrors={{
-                isCodeValid: "Please select a Country Code",
+                isCodeValid: "Required",
                 isValidCode: "Please enter a valid country code"
               }}
               allowFilter={true}
               options={[]}
               inputRef={countryCodeRef}
+              className={styles.countryCodeWrp}
             />
 
             <FormInput
               type="number"
               required
               name="phoneNumber"
+              className={styles.contactNum}
               label={isIndia ? "Mobile Number*" : "Contact Number*"}
               placeholder={isIndia ? "Mobile Number*" : "Contact Number*"}
               handleChange={() => setIsAddressChanged(true)}
@@ -1014,7 +1088,13 @@ const AddressForm: React.FC<Props> = props => {
             )}
           </div>
 
-          <div>
+          <div
+            className={cs({
+              [styles.shipBillCheckout]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing"
+            })}
+          >
             <FormInput
               id="addressType"
               name="addressType"
@@ -1032,7 +1112,7 @@ const AddressForm: React.FC<Props> = props => {
               maxlength={30}
             />
             <p className={styles.charLimit}>
-              Char Limit:{" "}
+              Character Limit:{" "}
               {30 - nickname?.length >= 0 ? 30 - nickname?.length : 0}/30
             </p>
           </div>
@@ -1052,6 +1132,9 @@ const AddressForm: React.FC<Props> = props => {
           <div
             className={cs(globalStyles.textCenter, {
               [styles.checkoutMobilePopupButton]:
+                currentCallBackComponent == "checkout-shipping" ||
+                currentCallBackComponent == "checkout-billing",
+              [styles.shipBillCheckout]:
                 currentCallBackComponent == "checkout-shipping" ||
                 currentCallBackComponent == "checkout-billing"
             })}
@@ -1078,7 +1161,6 @@ const AddressForm: React.FC<Props> = props => {
                     variant="mediumMedCharcoalCta366"
                     type="submit"
                     label={"SAVE ADDRESS"}
-                    className={cs({ [globalStyles.btnFullWidth]: mobile })}
                     disabled={!isAddressChanged}
                   />
                 ) : (
@@ -1086,7 +1168,6 @@ const AddressForm: React.FC<Props> = props => {
                     variant="mediumMedCharcoalCta366"
                     type="submit"
                     label={"ADD NEW ADDRESS"}
-                    className={cs({ [globalStyles.btnFullWidth]: mobile })}
                   />
                 )}
               </div>
@@ -1128,7 +1209,13 @@ const AddressForm: React.FC<Props> = props => {
       </Formsy>
 
       {
-        <div className={cs(styles.backBtnCenter, styles.backBtnProfile)}>
+        <div
+          className={cs(styles.backBtnCenter, styles.backBtnProfile, {
+            [styles.backBtnCheckout]:
+              currentCallBackComponent == "checkout-shipping" ||
+              currentCallBackComponent == "checkout-billing"
+          })}
+        >
           <span
             className={cs(
               styles.backBtn,

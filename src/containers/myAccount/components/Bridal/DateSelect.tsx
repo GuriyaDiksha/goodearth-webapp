@@ -156,9 +156,6 @@ const DateSelect: React.FC = () => {
                   <Button
                     type="button"
                     disabled={!updateDate || !date}
-                    className={cs({
-                      [globalStyles.btnFullWidth]: mobile
-                    })}
                     label="PROCEED TO FILL DETAILS"
                     onClick={saveBridalDate}
                     variant="mediumMedCharcoalCta366"

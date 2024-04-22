@@ -286,7 +286,7 @@ class Giftcard extends React.Component<Props, GiftState> {
           >
             {newCardBox ? (
               <>
-                <div className={styles.vMargin20}>
+                <div className={cs(styles.codeWrp)}>
                   {toggleOtp ? (
                     ""
                   ) : (
@@ -304,11 +304,7 @@ class Giftcard extends React.Component<Props, GiftState> {
                           value={txtvalue}
                           onChange={this.changeValue}
                           id="gift"
-                          className={
-                            this.state.error
-                              ? cs(styles.marginR10, styles.err)
-                              : styles.marginR10
-                          }
+                          className={this.state.error ? cs(styles.err) : ""}
                         />
                         <span
                           className={cs(
@@ -324,7 +320,7 @@ class Giftcard extends React.Component<Props, GiftState> {
                           ></span>
                         </span>
                       </div>
-                      <label>Gift Card Code</label>
+                      <label className={styles.gcLabel}>Gift Card Code</label>
                     </Fragment>
                   )}
                   {this.state.error && (

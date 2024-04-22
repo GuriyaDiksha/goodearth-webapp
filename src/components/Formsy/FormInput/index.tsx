@@ -9,6 +9,7 @@ import { InjectedProps } from "formsy-react/dist/Wrapper";
 const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
   const [labelClass, setLabelClass] = useState(false);
   const [placeholder, setPlaceholder] = useState(props.placeholder || "");
+  const [focused, setFocused] = useState(false);
 
   const handleClick = useCallback(
     (event: React.MouseEvent | React.FocusEvent) => {
@@ -21,14 +22,25 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
     []
   );
 
+  const handleClickFocus = (event: React.FocusEvent) => {
+    setFocused(true);
+    handleClick(event);
+  };
+
   useEffect(() => {
     !labelClass && props.value && setLabelClass(true);
   }, [props.isPristine]);
 
   const handleClickBlur = useCallback((event: React.FocusEvent) => {
-    if (!labelClass || placeholder !== "") {
+    if (!props.value) {
+      setFocused(false);
+    }
+    if (!placeholder) {
+      setPlaceholder(props.placeholder);
+    }
+
+    if (!labelClass) {
       setLabelClass(true);
-      setPlaceholder("");
     }
     props.blur && props.isValid ? props.blur(event) : "";
   }, []);
@@ -145,11 +157,11 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
           props.value ? styles.black : props.defaultClass || styles.default
         )}
         value={props.value || ""}
-        placeholder={placeholder}
+        placeholder={props?.value || focused ? undefined : props.placeholder}
         onChange={e => handleChange(e)}
         autoComplete="off"
         onBlur={e => handleClickBlur(e)}
-        onFocus={e => handleClick(e)}
+        onFocus={e => handleClickFocus(e)}
         onKeyPress={e => (props.keyPress ? props.keyPress(e) : null)}
         onKeyUp={e => (props.isValid && props.keyUp ? props.keyUp(e) : null)} // use Key up if you want change only if input is valid
         onDrop={
@@ -174,18 +186,20 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         disabled={props.disable || false}
         onKeyDown={e => (props.keyDown ? props.keyDown(e) : null)}
       />
-      <label
-        className={cs({
-          [globalStyles.hidden]: labelClass
-            ? false
-            : props.showLabel
-            ? false
-            : true
-        })}
-        id={props.id}
-      >
-        {props.label || ""}
-      </label>
+      {(props?.value || focused) && (
+        <label
+          className={cs({
+            [globalStyles.hidden]: labelClass
+              ? false
+              : props.showLabel
+              ? false
+              : true
+          })}
+          id={props.id}
+        >
+          {props.label || ""}
+        </label>
+      )}
       {errorMessage && (
         <p
           className={cs(
