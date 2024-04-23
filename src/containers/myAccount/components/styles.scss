@@ -56,6 +56,7 @@ input[type="text"]{
 .contact-num{
   input{
     height: 50px !important;
+    width: 100% !important;
   }
 }
 
@@ -536,10 +537,8 @@ input[type="text"]{
   font-size: 12px !important;
   font-weight: $regular;
   &::placeholder{
-    font-family: $font-Montserrat;
-    font-size: 12px !important;
-    font-weight: $regular;
-    color: #9f9f9f !important;
+    opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
   }
 }
 
@@ -556,19 +555,17 @@ input[type="text"]{
     font-family: $font-Montserrat;
     font-size: 12px !important;
     font-weight: $regular;
-    padding: 10px !important;
+    // padding: 10px !important;
     &::placeholder{
-      font-family: $font-Montserrat;
-      font-size: 12px;
-      font-weight: $regular;
-      color: #9f9f9f;
+      opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
     }
     &:active{
       font-size: 12px;
     }
     &:focus{
       font-size: 12px !important;
-      padding: 10px !important;
+      // padding: 10px !important;
     }
   }
   select{
@@ -584,9 +581,17 @@ input[type="text"]{
     color: #191919;
     position: absolute;
     top: -10px;
-    left: 10px;
+    left: 15px;
     background-color: #fff;
     padding: 3px;
+  }
+
+  .gc-label{
+    left: 50px !important;
+
+    @media screen and (max-width:767px) {
+      left: 10px !important;
+    }
   }
   
   hr {
@@ -811,6 +816,7 @@ input[type="text"]{
 
 .login-change {
   // border: 1px solid #eee;
+  letter-spacing: 0 !important;
   padding: 15px;
   padding-left: 8px;
   top: 1px;
@@ -933,7 +939,7 @@ input[type="text"]{
     width: 30%;
     position: relative;
     +div {
-      width: 65%;
+      width: 70%;
       position: relative;
     }
   }
@@ -1498,7 +1504,7 @@ input[type="text"]{
       margin-top: 25px;
     }
     .save-pref-btn{
-      margin-top: 25px;
+      margin-top: 25px !important;
     }
     a {
       color: $charcoal19;
@@ -1539,6 +1545,7 @@ img.country-code-search-icon{
 input[type="text"].country-code-search-input{
   padding-left: 30px !important;
   height: 40px !important;
+  width: 105px !important;
   &:focus{
     padding-left: 30px !important;
   }
@@ -1597,4 +1604,20 @@ input[type="text"].country-code-search-input{
   font-weight: $medium !important;
   color: $gold !important;
   @include b3_14px_caps_gold();
+}
+.gc-wrp{
+  position: relative;
+}
+
+.code-wrp{
+  max-width: 366px;
+  margin: 20px auto;
+}
+
+.country-code-wrp{
+  width: 28% !important;
+
+  input{
+    width: 100% !important;
+  }
 }

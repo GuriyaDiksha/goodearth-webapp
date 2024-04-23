@@ -42,18 +42,18 @@ h2 {
 }
 
 ::-webkit-input-placeholder { /* Edge */
-  font-weight: 300;
-  font-family: $font-Lato;
+  opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-  font-weight: 300;
-  font-family: $font-Lato;
+  opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
 }
 
 ::placeholder {
-  font-weight: 300;
-  font-family: $font-Lato;
+  opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
 }
 a{
   &:hover {
@@ -159,7 +159,7 @@ a {
   margin: auto !important;
 }
 .margin-0 {
-  margin: 0;
+  margin: 0 !important;
 }
 .margin-t-5 {
   margin-top: 5px;
@@ -293,6 +293,10 @@ a {
 }
 .gold{
   color: $gold !important;
+}
+
+.aqua{
+  color: $aqua-text !important;
 }
 .bold {
 font-weight: bold;
@@ -896,9 +900,11 @@ font-weight: bold;
 
 .btn-full-width{
   width: 100% !important;
+  max-width: 100% !important;
 }
 .btn-full-width-for-popup{
   width: 90% !important;
+  max-width: 90% !important;
 }
 .checkout-btn {
   @include cerise-btn();

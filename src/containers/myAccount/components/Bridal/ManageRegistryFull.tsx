@@ -342,10 +342,7 @@ const ManageRegistryFull: React.FC<Props> = ({
                 <hr />
                 {bridalItems.length == 0 ? (
                   <Button
-                    className={cs(
-                      { [globalStyles.btnFullWidth]: mobile },
-                      styles.buttonCenter
-                    )}
+                    className={cs(styles.buttonCenter)}
                     onClick={() => {
                       history.push("/");
                     }}

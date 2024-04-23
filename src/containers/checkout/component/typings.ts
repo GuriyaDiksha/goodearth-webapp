@@ -127,6 +127,7 @@ export type GiftState = {
   isLoader?: boolean;
   isError?: boolean;
   isEmptyInput?: boolean;
+  codeApplied?: boolean;
 };
 
 export type RedeemState = {

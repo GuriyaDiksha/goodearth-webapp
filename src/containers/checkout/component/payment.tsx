@@ -34,6 +34,7 @@ import { displayPriceWithCommasFloat } from "utils/utility";
 import { Currency } from "typings/currency";
 import Button from "components/Button";
 import { STEP_ORDER } from "../constants";
+import FormTextArea from "components/Formsy/FormTextArea";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -847,27 +848,22 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   {!basket.isOnlyGiftCart && giftWrapRender}
                   {giftwrap && !basket.isOnlyGiftCart && (
                     <div className={styles.giftWrapMessage}>
-                      <textarea
-                        rows={5}
-                        className={styles.giftMessage}
-                        value={textarea}
-                        placeholder={"Add message (optional)"}
-                        autoComplete="new-password"
-                        onChange={(e: any) => {
-                          setTextarea(e.target.value);
-                        }}
-                        maxLength={250}
-                      />
-                      <div
-                        className={cs(
-                          globalStyles.textLeft,
-                          styles.font14,
-                          styles.charLimitText
-                        )}
-                      >
-                        Char Limit: {250 - textarea.length}
-                        /250
-                      </div>
+                      <Formsy>
+                        <FormTextArea
+                          rows={5}
+                          name="giftMessage"
+                          value={textarea}
+                          placeholder={"Add message (optional)"}
+                          handleChange={(e: any) => {
+                            if (e.target.value.length <= 250) {
+                              setTextarea(e.target.value);
+                            } else if (e.target.value.length >= 250) {
+                              setTextarea(e.target.value.substring(0, 250));
+                            }
+                          }}
+                          charLimit={250}
+                        ></FormTextArea>
+                      </Formsy>
                     </div>
                   )}
                   {giftwrap && !basket.isOnlyGiftCart && giftShowPrice}
@@ -1312,7 +1308,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 className={cs(
                   globalStyles.marginT10,
                   styles.amtBtn,
-                  { [globalStyles.btnFullWidth]: mobile || tablet },
                   // styles.sendToPayment,
                   styles.proceedToPayment
                   // {
