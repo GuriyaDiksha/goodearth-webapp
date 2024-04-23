@@ -569,6 +569,7 @@ class CollectionSpecific extends React.Component<
   notifyMeClick = (product: PLPProductItem) => {
     const {
       categories,
+      collection,
       collections,
       priceRecords,
       discountedPriceRecords,
@@ -598,7 +599,8 @@ class CollectionSpecific extends React.Component<
     updateComponentModal(
       POPUP.NOTIFYMEPOPUP,
       {
-        collection: collections && collections.length > 0 ? collections[0] : "",
+        // collection: collections && collections.length > 0 ? collections[0] : "",
+        collection: collection,
         category: category,
         price: priceRecords[currency],
         currency: currency,
