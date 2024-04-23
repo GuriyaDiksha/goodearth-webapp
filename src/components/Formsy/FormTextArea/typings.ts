@@ -26,6 +26,7 @@ export type Props = {
   isPlaceholderVisible?: boolean;
   rows?: number;
   additionalErrorClass?: any;
+  charLimit?: number;
 };
 
 export type State = {

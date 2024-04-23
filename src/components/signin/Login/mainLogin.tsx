@@ -583,7 +583,7 @@ class MainLogin extends React.Component<Props, loginState> {
             <InputField
               id="auto_focus"
               value={this.state.email || this.props.email}
-              placeholder={"Email ID"}
+              placeholder={"Email ID*"}
               label={"Email ID*"}
               border={this.state.highlight}
               keyUp={e => this.handleKeyUp(e, "email")}
@@ -613,7 +613,6 @@ class MainLogin extends React.Component<Props, loginState> {
             )}
             <Button
               type="submit"
-              className={cs({ [globalStyles.btnFullWidth]: this.props.mobile })}
               label="continue"
               disabled={this.state.isLoginDisabled}
               variant="mediumMedCharcoalCta366"

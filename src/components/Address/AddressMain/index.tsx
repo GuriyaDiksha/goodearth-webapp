@@ -479,8 +479,7 @@ const AddressMain: React.FC<Props> = props => {
                       className={cs(
                         globalStyles.marginB20,
                         globalStyles.charcoalBtn,
-                        globalStyles.charcoalBtnHover,
-                        { [globalStyles.btnFullWidth]: mobile }
+                        globalStyles.charcoalBtnHover
                         // {
                         //   [globalStyles.disabledBtn]:
                         //     currentCallBackComponent == "bridal" &&

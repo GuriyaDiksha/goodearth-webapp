@@ -251,9 +251,7 @@ const EmailVerification: React.FC<Props> = ({
   const goBackCta = (
     <Button
       type="submit"
-      className={cs(styles.changeEmailBtn, {
-        [globalStyles.btnFullWidth]: mobile
-      })}
+      className={cs(styles.changeEmailBtn)}
       label="Go Back"
       onClick={changeEmail}
       variant="outlineMediumMedCharcoalCta366"
