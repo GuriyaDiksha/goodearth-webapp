@@ -114,6 +114,72 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         collection_category: line?.product?.collections?.join("|")
       };
     });
+
+    const productsData = result?.lines?.map((line: any, ind: any) => {
+      const index = line.product.categories
+        ? line.product.categories.length - 1
+        : 0;
+      let category =
+        line.product.categories && line.product.categories[index]
+          ? line.product.categories[index].replace(/\s/g, "")
+          : "";
+      const arr = category.split(">");
+      categoryname.push(arr[arr.length - 2]);
+      subcategoryname.push(arr[arr.length - 1]);
+      category = category.replace(/>/g, "/");
+      productid.push(line.product.sku);
+      productname.push(line.title);
+      productprice.push(line.product.pricerecords[result.currency as Currency]);
+      productquantity.push(+line.quantity);
+
+      const search = CookieService.getCookie("search") || "";
+      const clickType = localStorage.getItem("clickType");
+
+      const cat1 = line?.product?.categories?.[0]?.split(">");
+      const cat2 = line?.product?.categories?.[1]?.split(">");
+
+      const L1 = cat1?.[0]?.trim();
+
+      const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
+
+      const L3 = cat2?.[2]
+        ? cat2?.[2]?.trim()
+        : line?.product?.categories?.[2]?.split(">")?.[2]?.trim();
+
+      return {
+        item_id: line.product.sku,
+        item_name: line.title,
+        affiliation: "Pass the affiliation of the product",
+        coupon:
+          isSale && result?.offerDiscounts?.[0].name
+            ? result?.offerDiscounts?.[0].name
+            : "NA",
+        discount:
+          isSale && result?.offerDiscounts?.[0].amount
+            ? line?.product?.badgeType == "B_flat"
+              ? line?.product.discountedPriceRecords[result?.currency]
+              : line?.product.priceRecords[result?.currency] -
+                line?.product.discountedPriceRecords[result?.currency]
+            : "NA",
+        index: ind,
+        item_brand: "Goodearth",
+        item_category: L1,
+        item_category2: L2,
+        item_category3: L3,
+        item_category4: "NA",
+        item_category5: "NA",
+        item_list_id: "NA",
+        item_list_name: search ? `${clickType}-${search}` : "NA",
+        item_variant: line.product.size || "NA",
+        price: line.isEgiftCard
+          ? +line.priceExclTax
+          : line.product.pricerecords[result.currency as Currency],
+        quantity: line.quantity,
+        collection_category: line?.product?.collections?.join("|"),
+        price_range: "NA"
+      };
+    });
+
     const categoryname2: string[] = [];
     const subcategoryname2: string[] = [];
     const productid2: string[] = [];
@@ -208,18 +274,30 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             }
           }
         });
+        const sameAsShipping = shippingAddressId === billingAddressId;
+
         dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
         dataLayer.push({
           event: "GA4_purchase",
+          previous_page_url: CookieService.getCookie("prevUrl"),
+          billing_address: sameAsShipping
+            ? "Same as Shipping Address"
+            : billingAddressId,
+          shipping_address: shippingAddressId,
+          // gst_invoice: gstNo ? "Yes" : "No" ,
+          // gift_wrap: giftwrap ? "Yes" : "No",
+          gift_card_code: result.giftCards?.[0]?.cardId,
+          whatsapp_subscribe: "",
+          delivery_instruction: result.deliveryInstructions ? "Yes" : "No", //Pass NA if not applicable the moment
           ecommerce: {
             transaction_id: transactionId,
-            affiliation: productname, // Pass the product name
-            value: +result.totalInclTax,
+            currency: result.currency,
+            value: result.totalInclTax,
             tax: 0,
-            shipping: +result.shippingInclTax,
-            currency: result.currency, // Pass the currency code
-            coupon: result.offerDiscounts?.[0]?.name,
-            items: items
+            shipping: result.shippingInclTax,
+            coupon: result.offerDisounts?.[0].name, //Pass NA if Not applicable at the moment
+            payment_type: result.paymentMethod,
+            items: productsData
           }
         });
 
@@ -254,71 +332,6 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
 
       AccountServices.setGaStatus(dispatch, formData);
     }
-
-    const productsData = result?.lines?.map((line: any, ind: any) => {
-      const index = line.product.categories
-        ? line.product.categories.length - 1
-        : 0;
-      let category =
-        line.product.categories && line.product.categories[index]
-          ? line.product.categories[index].replace(/\s/g, "")
-          : "";
-      const arr = category.split(">");
-      categoryname.push(arr[arr.length - 2]);
-      subcategoryname.push(arr[arr.length - 1]);
-      category = category.replace(/>/g, "/");
-      productid.push(line.product.sku);
-      productname.push(line.title);
-      productprice.push(line.product.pricerecords[result.currency as Currency]);
-      productquantity.push(+line.quantity);
-
-      const search = CookieService.getCookie("search") || "";
-      const clickType = localStorage.getItem("clickType");
-
-      const cat1 = line?.product?.categories?.[0]?.split(">");
-      const cat2 = line?.product?.categories?.[1]?.split(">");
-
-      const L1 = cat1?.[0]?.trim();
-
-      const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
-
-      const L3 = cat2?.[2]
-        ? cat2?.[2]?.trim()
-        : line?.product?.categories?.[2]?.split(">")?.[2]?.trim();
-
-      return {
-        item_id: line.product.sku,
-        item_name: line.title,
-        affiliation: "Pass the affiliation of the product",
-        coupon:
-          isSale && result?.offerDiscounts?.[0].name
-            ? result?.offerDiscounts?.[0].name
-            : "NA",
-        discount:
-          isSale && result?.offerDiscounts?.[0].amount
-            ? line?.product?.badgeType == "B_flat"
-              ? line?.product.discountedPriceRecords[result?.currency]
-              : line?.product.priceRecords[result?.currency] -
-                line?.product.discountedPriceRecords[result?.currency]
-            : "NA",
-        index: ind,
-        item_brand: "Goodearth",
-        item_category: L1,
-        item_category2: L2,
-        item_category3: L3,
-        item_category4: "NA",
-        item_category5: "NA",
-        item_list_id: "NA",
-        item_list_name: search ? `${clickType}-${search}` : "NA",
-        item_variant: line.product.size || "NA",
-        price: line.isEgiftCard
-          ? +line.priceExclTax
-          : line.product.pricerecords[result.currency as Currency],
-        quantity: line.quantity,
-        collection_category: line?.product?.collections?.join("|"),
-        price_range: "NA"
-      };
-    });
 
     const userConsent = CookieService.getCookie("consent").split(",");
     const sameAsShipping = shippingAddressId === billingAddressId;
