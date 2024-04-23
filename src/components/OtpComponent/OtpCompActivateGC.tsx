@@ -36,7 +36,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
         attempts: 0,
         maxAttemptsAllow: 5
       },
-      startTimer: true
+      startTimer: true,
+      isDisabled: false
     };
   }
   // timerId: any = 0;
@@ -277,6 +278,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 {
                   showerror: data.message,
                   disable: true,
+                  isDisabled: true,
                   attempts: {
                     attempts: data?.attempts || 0,
                     maxAttemptsAllow: data?.maxAttemptsAllow || 5
@@ -602,6 +604,9 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
 
   resendOtp = () => {
     // this.clearTimer();
+    this.setState({
+      isDisabled: false
+    });
     this.sendOtpApiCall(this.state.otpData, true);
   };
 
@@ -721,6 +726,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               setAttempts={this.changeAttepts}
               uniqueId="activategcid"
               containerClassName={styles.otpWrapperGc}
+              isDisabled={this.state.isDisabled}
             />
             <hr />
           </>
