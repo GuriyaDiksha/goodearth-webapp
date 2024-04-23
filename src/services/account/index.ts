@@ -111,7 +111,7 @@ export default {
           if (data.order_statuses) {
             resolve(data);
           } else {
-            resolve("error");
+            resolve(data?.msg ? data : "error");
           }
         });
     });
