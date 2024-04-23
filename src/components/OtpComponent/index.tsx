@@ -34,7 +34,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         attempts: 0,
         maxAttemptsAllow: 5
       },
-      startTimer: true
+      startTimer: true,
+      isDisabled: false
     };
   }
   // timerId: any = 0;
@@ -278,6 +279,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 {
                   showerror: data.message,
                   disable: true,
+                  isDisabled: true,
                   attempts: {
                     attempts: data?.attempts || 0,
                     maxAttemptsAllow: data?.maxAttemptsAllow || 5
@@ -582,6 +584,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
 
   resendOtp = () => {
     // this.clearTimer();
+    this.setState({
+      isDisabled: false
+    });
     this.sendOtpApiCall(this.state.otpData);
   };
 
@@ -685,6 +690,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             startTimer={this.state.startTimer}
             setAttempts={this.changeAttepts}
             uniqueId="otpcomponentid"
+            isDisabled={this.state.isDisabled}
           />
           // <>
           //   {radioType == "number" ? (

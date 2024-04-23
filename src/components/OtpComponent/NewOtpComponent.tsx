@@ -27,6 +27,7 @@ type Props = {
   otpAttemptClass?: string;
   uniqueId: string;
   disabled?: boolean;
+  isDisabled?: boolean;
 };
 
 const NewOtpComponent: React.FC<Props> = ({
