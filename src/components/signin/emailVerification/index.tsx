@@ -51,6 +51,7 @@ const EmailVerification: React.FC<Props> = ({
   phoneNo,
   isRegistration
 }) => {
+  const [isDisabled, setIsDisabled] = useState(false);
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
   const [attempts, setAttempts] = useState({
     attempts: 0,
@@ -183,6 +184,9 @@ const EmailVerification: React.FC<Props> = ({
         ]);
       } else {
         setError(data?.message || "OTP Expired or Invalid OTP");
+        if (data.expired) {
+          setIsDisabled(true);
+        }
       }
     } finally {
       // setIsLoading(false);
@@ -192,6 +196,7 @@ const EmailVerification: React.FC<Props> = ({
     try {
       // setIsLoading(true);
       setError("");
+      setIsDisabled(false);
       setOtpSmsSent(false);
       const res = await LoginService.sendUserOTP(dispatch, email);
       if (res.otpSent) {
@@ -318,6 +323,7 @@ const EmailVerification: React.FC<Props> = ({
           goBackCta={!isCheckout ? goBackCta : null}
           socialLogin={socialLogin}
           uniqueId="emailverifyid"
+          disabled={isDisabled}
         />
         {/* {!boId && (
           <div className={styles.bigTxt} style={{ marginTop: "10px" }}>
