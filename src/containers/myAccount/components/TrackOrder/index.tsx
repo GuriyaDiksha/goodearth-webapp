@@ -104,18 +104,6 @@ class TrackOrder extends React.Component<Props, State> {
               errorTracking([this.state.showerror], location.href);
             }
           );
-        } else if (response.results[0]?.isOnlyGiftOrder) {
-          const err =
-            "E-gift card has been sent to the recipient's email address.";
-          this.setState(
-            {
-              showerror: err,
-              loader: false
-            },
-            () => {
-              errorTracking([this.state.showerror], location.href);
-            }
-          );
         } else if (response.count > 0) {
           this.props
             .fetchCourierData(orderNumber)
