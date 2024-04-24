@@ -37,7 +37,11 @@ const CeriseCard: React.FC<Props> = ({ clickToggle, showInnerMenu }) => {
   return (
     <div
       className={cs(styles.ceriseCardLeftContainer, {
-        [styles.showInnerMenu]: showInnerMenu
+        [styles.showInnerMenu]: showInnerMenu,
+        [styles.isCeriseUser]:
+          slab.toLowerCase() === "cerise" ||
+          slab.toLowerCase() === "cerise sitara" ||
+          slab.toLowerCase() === "cerise club"
       })}
     >
       {slab.toLowerCase() === "cerise" ||

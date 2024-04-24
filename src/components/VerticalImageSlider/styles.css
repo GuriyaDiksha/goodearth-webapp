@@ -33,3 +33,7 @@
 .next-btn.hide{
     opacity: 0.5;
 }
+
+.vertical-image-slider .slick-list{
+  height: 372px!important;
+}

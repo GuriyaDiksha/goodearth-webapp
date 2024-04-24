@@ -324,14 +324,7 @@ const CartItems: React.FC<BasketItem> = memo(
         if (section == "info") {
           return (
             <div>
-              <div
-                className={cs(
-                  globalStyles.italic,
-                  globalStyles.c10LR,
-                  globalStyles.cerise,
-                  styles.outOfStockError
-                )}
-              >
+              <div className={cs(globalStyles.c10LR, styles.outOfStockError)}>
                 Out of stock
               </div>
               {/* <div
@@ -710,7 +703,7 @@ const CartItems: React.FC<BasketItem> = memo(
               [styles.extraWidth]: mobile && !tablet
             })}
           >
-            Estimated delivery:
+            Estimated delivery on or before:
             <span className={styles.expectedDelivetryDate}>
               {productDeliveryDate}
             </span>

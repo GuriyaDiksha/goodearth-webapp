@@ -108,7 +108,6 @@ const RegistryCreated: React.FC<Props> = props => {
                   <Button
                     type="button"
                     variant="mediumMedCharcoalCta366"
-                    className={cs({ [globalStyles.btnFullWidth]: mobile })}
                     label="start adding to registry"
                     onClick={saveBridalDate}
                   />

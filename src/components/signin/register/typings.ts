@@ -39,6 +39,7 @@ export type registerState = {
   whatsappChecked?: boolean;
   selectedCountry?: string;
   phoneNo?: string;
+  countryCodeErr?: string;
 };
 
 export type RegisterProps = {

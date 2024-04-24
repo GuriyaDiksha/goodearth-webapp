@@ -46,6 +46,7 @@
   background: $grey;
   position: absolute;
   top: $dropdown-label-height;
+  box-shadow: 0px 5px 12px #0000001A;
 
   &.right {
     right: -1px;

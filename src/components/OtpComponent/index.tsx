@@ -160,6 +160,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     const elem = this.subscribeRef.current;
     const { email, phoneNo } = model;
     const data: any = {};
+    console.log(this.props.txtvalue);
     if (!this.props.txtvalue) {
       this.props.updateError(
         `Please enter a valid ${
@@ -796,6 +797,21 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         this.props.validateEmptyInputs && this.props.validateEmptyInputs();
         return false;
       }
+    } else if (!this.props.txtvalue) {
+      this.props.updateError(
+        `Please enter a valid ${
+          this.props.isCredit ? "Credit Note" : "Gift Card"
+        } code`
+      );
+      errorTracking(
+        [
+          `Please enter a valid ${
+            this.props.isCredit ? "Credit Note" : "Gift Card"
+          } code`
+        ],
+        location.href
+      );
+      return false;
     }
   };
 
@@ -851,7 +867,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             </li>
             <li className={cs(globalStyles.textLeft, styles.otpText)}>
               SEND{" "}
-              <span className={globalStyles.cerise}>
+              <span className={globalStyles.aqua}>
                 {" "}
                 ONE TIME PASSWORD (OTP){" "}
               </span>
@@ -876,13 +892,17 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                     }}
                     checked={this.state.radioType === "email"}
                   />
-                  <span className={styles.checkmark}></span>
+                  <span
+                    className={cs(styles.checkmark, {
+                      [styles.top]: this.props.isCredit
+                    })}
+                  ></span>
                 </label>
                 <FormInput
                   name="email"
                   placeholder={"Email*"}
                   label={"Email*"}
-                  className={styles.relative}
+                  className={cs(styles.relative, styles.smallInput)}
                   disable={this.props.isCredit}
                   inputRef={this.emailInput}
                   value={this.props.email ? this.props.email : ""}
@@ -1023,9 +1043,6 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 <Button
                   type="submit"
                   disabled={this.state.disable}
-                  className={cs({
-                    [globalStyles.btnFullWidth]: this.props.mobile
-                  })}
                   label="Send otp"
                   variant="mediumMedCharcoalCta366"
                 />

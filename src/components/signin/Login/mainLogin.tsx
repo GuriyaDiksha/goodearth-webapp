@@ -76,6 +76,19 @@ class MainLogin extends React.Component<Props, loginState> {
       : "";
   async checkMailValidation() {
     if (this.state.email) {
+      const pid = new URLSearchParams(this.props.history.location.search).get(
+        "pid"
+      );
+
+      if (pid) {
+        await this.props
+          .login(this.state.email, pid, this.props.currency)
+          .catch(e => {
+            this.setState({ showerror: "Invalid credentials" });
+          });
+        return;
+      }
+
       const data = await this.props.checkUserPassword(this.state.email);
       if (data.otpSent) {
         this.setState({
@@ -570,7 +583,7 @@ class MainLogin extends React.Component<Props, loginState> {
             <InputField
               id="auto_focus"
               value={this.state.email || this.props.email}
-              placeholder={"Email ID"}
+              placeholder={"Email ID*"}
               label={"Email ID*"}
               border={this.state.highlight}
               keyUp={e => this.handleKeyUp(e, "email")}
@@ -600,7 +613,6 @@ class MainLogin extends React.Component<Props, loginState> {
             )}
             <Button
               type="submit"
-              className={cs({ [globalStyles.btnFullWidth]: this.props.mobile })}
               label="continue"
               disabled={this.state.isLoginDisabled}
               variant="mediumMedCharcoalCta366"

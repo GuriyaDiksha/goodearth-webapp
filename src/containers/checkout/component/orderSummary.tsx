@@ -486,7 +486,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 {!mobile
                   ? gift.cardType == "CREDITNOTE"
                     ? "(Credit Note Applied)"
-                    : "(Gift Code Applied)"
+                    : "(Gift Card Applied)"
                   : null}
                 <span
                   className={cs(globalStyles.marginL5, styles.cross)}
@@ -506,7 +506,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <span className={styles.giftCreditCodeText}>
                     {gift.cardType == "CREDITNOTE"
                       ? "(Credit Note Applied)"
-                      : "(Gift Code Applied)"}
+                      : "(Gift Card Applied)"}
                   </span>
                 )}
               </span>
@@ -1360,9 +1360,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     // canCheckout()
                     //   ?
 
-                    cs(styles.posFixed, styles.checkoutBtn, {
-                      [globalStyles.btnFullWidth]: mobile || tablet
-                    })
+                    cs(styles.posFixed, styles.checkoutBtn)
                     // : cs(
                     //     globalStyles.checkoutBtn,
                     //     styles.posFixed,

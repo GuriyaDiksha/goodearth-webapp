@@ -84,6 +84,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     showNotify: (message: string) => {
       showGrowlMessage(dispatch, message, 6000);
     },
+    showRegistryMix: (message: string) => {
+      showGrowlMessage(dispatch, message, 0);
+    },
     specifyShippingAddress: async (
       shippingAddressId: number,
       shippingAddress: AddressData,
@@ -505,7 +508,7 @@ class Checkout extends React.Component<Props, State> {
           this.props.showNotify(REGISTRY_OWNER_CHECKOUT);
         }
         if (this.checkToMessage(res)) {
-          this.props.showNotify(REGISTRY_MIXED_SHIPPING);
+          this.props.showRegistryMix(REGISTRY_MIXED_SHIPPING);
         }
         // if (
         //   res?.loyalty?.length &&
@@ -637,9 +640,11 @@ class Checkout extends React.Component<Props, State> {
 
         this.setState({
           activeStep: STEP_SHIPPING,
-          shippingAddress: nextProps.addresses
-            .filter(val => val.currency == this.props.currency)
-            .find(val => val?.isDefaultForShipping),
+          shippingAddress: nextProps.basket.bridal
+            ? undefined
+            : nextProps.addresses
+                .filter(val => val.currency == this.props.currency)
+                .find(val => val?.isDefaultForShipping),
           billingAddress:
             isGoodearthShipping || nextProps.basket.bridal
               ? undefined
@@ -651,10 +656,9 @@ class Checkout extends React.Component<Props, State> {
       }
       if (
         shippingData !== this.state.shippingAddress &&
-        ((nextProps.addresses.filter(val => val?.id === shippingData?.id)
+        nextProps.addresses.filter(val => val?.id === shippingData?.id)
           .length !== 0 &&
-          !nextProps.basket.bridal) ||
-          nextProps.basket.bridal) &&
+        !nextProps.basket.bridal &&
         !isLoading
       ) {
         this.setState({
