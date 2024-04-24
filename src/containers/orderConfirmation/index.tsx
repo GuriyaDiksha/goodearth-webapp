@@ -155,11 +155,11 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             ? result?.offerDiscounts?.[0].name
             : "NA",
         discount:
-          isSale && result?.offerDiscounts?.[0].amount
+          isSale && result?.offerDiscounts?.[0]?.amount
             ? line?.product?.badgeType == "B_flat"
-              ? line?.product.discountedPriceRecords[result?.currency]
-              : line?.product.priceRecords[result?.currency] -
-                line?.product.discountedPriceRecords[result?.currency]
+              ? line?.product.discountedPriceRecords?.[result?.currency]
+              : line?.product.priceRecords?.[result?.currency] -
+                line?.product.discountedPriceRecords?.[result?.currency]
             : "NA",
         index: ind,
         item_brand: "Goodearth",
@@ -284,8 +284,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             ? "Same as Shipping Address"
             : billingAddressId,
           shipping_address: shippingAddressId,
-          // gst_invoice: gstNo ? "Yes" : "No" ,
-          // gift_wrap: giftwrap ? "Yes" : "No",
+          gst_invoice: result?.is_gst ? "Yes" : "No",
+          gift_wrap: result?.is_gift ? "Yes" : "No",
           gift_card_code: result.giftCards?.[0]?.cardId,
           whatsapp_subscribe: "",
           delivery_instruction: result.deliveryInstructions ? "Yes" : "No", //Pass NA if not applicable the moment
@@ -296,7 +296,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             tax: 0,
             shipping: result.shippingInclTax,
             coupon: result.offerDisounts?.[0].name, //Pass NA if Not applicable at the moment
-            payment_type: result.paymentMethod,
+            payment_type: Object.keys(result.paymentMethodForGA)?.join("|"),
             items: productsData
           }
         });
@@ -343,8 +343,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           ? "Same as Shipping Address"
           : billingAddressId,
         shipping_address: shippingAddressId,
-        // gst_invoice: gstNo ? "Yes" : "No" ,
-        // gift_wrap:giftwrap ? "Yes" : "No",
+        gst_invoice: result?.is_gst ? "Yes" : "No",
+        gift_wrap: result?.is_gift ? "Yes" : "No",
         gift_card_code: result.giftCards?.[0]?.cardId,
         whatsapp_subscribe: "",
         delivery_instruction: result.deliveryInstructions ? "Yes" : "No", //Pass NA if not applicable the moment
@@ -355,7 +355,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           tax: 0,
           shipping: result.shippingInclTax,
           coupon: result.offerDisounts?.[0].name, //Pass NA if Not applicable at the moment
-          payment_type: result.paymentMethod,
+          payment_type: Object.keys(result.paymentMethodForGA)?.join("|"),
           items: productsData
         }
       });
