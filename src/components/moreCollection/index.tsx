@@ -58,7 +58,7 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                     ) : (
                       ""
                     )}
-                    {item?.badge_text && (
+                    {item?.badgeText && (
                       <div
                         className={cs(
                           globalStyles.textCenter,
@@ -68,7 +68,7 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                         )}
                       >
                         <div className={cs(globalStyles.badgeContainer)}>
-                          {item?.badge_text}
+                          {item?.badgeText}
                         </div>
                       </div>
                     )}

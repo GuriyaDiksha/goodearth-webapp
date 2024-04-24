@@ -1506,7 +1506,7 @@ const ProductDetails: React.FC<Props> = ({
               </div>
             )}
 
-            {!isQuickview && freeProductText?.length && (
+            {!isQuickview && freeProductText?.length ? (
               <div className={styles.freeTextSection}>
                 <div className={styles.head}>
                   <img src={addReg} width="15px" height="15px"></img>
@@ -1526,7 +1526,7 @@ const ProductDetails: React.FC<Props> = ({
                   ))}
                 </dl>
               </div>
-            )}
+            ) : null}
             {!isQuickview && (
               <div
                 className={cs(

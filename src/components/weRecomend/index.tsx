@@ -134,7 +134,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             />
           </div>
         )}
-        {item?.badge_text && (
+        {item?.badgeText && (
           <div
             className={cs(
               globalStyles.textCenter,
@@ -144,7 +144,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             )}
           >
             <div className={cs(globalStyles.badgeContainer)}>
-              {item?.badge_text}
+              {item?.badgeText}
             </div>
           </div>
         )}
