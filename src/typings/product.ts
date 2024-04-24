@@ -48,6 +48,11 @@ export type DesignJournalTag = {
   folderCode: string;
 };
 
+export type FreeProductText = {
+  heading: string;
+  free_products: string[];
+};
+
 export interface Product<T = ProductID> extends PartialProductItem {
   breadcrumbs: Breadcrumb[];
   details: string;
@@ -79,7 +84,7 @@ export interface Product<T = ProductID> extends PartialProductItem {
   badgeMessage?: string;
   fillerProduct: PartialProductItem | any;
   shortDesc: string | null;
-  freeProductText?: string[];
+  freeProductText?: FreeProductText[];
 }
 
 export interface PartialChildProductAttributes {

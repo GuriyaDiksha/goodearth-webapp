@@ -395,7 +395,14 @@ class CartPage extends React.Component<Props, State> {
       if (!data.bridalProfile) item1 = true;
       if (data.bridalProfile) item2 = true;
     });
-    return item1 && item2;
+
+    return (
+      item1 &&
+      item2 &&
+      !this.props.cart.lineItems?.every(
+        data => data?.is_free_product || data?.product?.badge_text
+      )
+    );
   }
 
   onUndoWishlistClick = () => {

@@ -291,7 +291,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       className={cs(
                         globalStyles.badgeContainer,
                         globalStyles.grey,
-                        globalStyles.marginB10
+                        styles.badgeContainer
                       )}
                     >
                       {item?.product?.badge_text}

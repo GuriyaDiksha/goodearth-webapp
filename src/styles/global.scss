@@ -571,14 +571,14 @@ font-weight: bold;
   max-width: fit-content;
   height: 25px;
   border-radius: 0px 20px 20px 0px;
-  line-height: 25px !important;
+  line-height: 25px;
   box-shadow: 1px 1px 1px #0000001C;
   padding: 0 9px;
   @include b5_10px_montserrat_charcoal();
 
   &.grey{
     height: 29px;
-    line-height: 29px !important;
+    line-height: 29px;
     background-color: #F7F6F2;
     font-weight: $medium;
     box-shadow: none;

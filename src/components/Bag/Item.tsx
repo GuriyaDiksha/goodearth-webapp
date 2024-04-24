@@ -18,7 +18,6 @@ import PdpQuantity from "components/quantity/pdpQuantity";
 import { showGrowlMessage } from "utils/validate";
 import { updateBasket } from "actions/basket";
 import { displayPriceWithCommas } from "utils/utility";
-import { currencyCodes } from "constants/currency";
 import addedReg from "../../images/registery/addedReg.svg";
 
 const LineItems: React.FC<BasketItem> = memo(
@@ -305,6 +304,12 @@ const LineItems: React.FC<BasketItem> = memo(
       );
     };
 
+    const productClick = (is_free_product?: boolean) => {
+      if (!is_free_product && toggleBag) {
+        toggleBag();
+      }
+    };
+
     const price = priceRecords[currency];
     const isGiftCard = product.structure.toLowerCase() == "giftcard";
     return (
@@ -327,7 +332,10 @@ const LineItems: React.FC<BasketItem> = memo(
           >
             {/* <div className={cs(styles.productImage)}> */}
             <div className={globalStyles.relative}>
-              <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
+              <Link
+                to={isGiftCard || is_free_product ? "#" : url}
+                onClick={() => productClick(is_free_product)}
+              >
                 {salesBadgeImage && (
                   <div className={styles.badgePositionPlpMobile}>
                     <img width="200" src={salesBadgeImage} alt="sales-badge" />
@@ -372,7 +380,10 @@ const LineItems: React.FC<BasketItem> = memo(
                   product.stockRecords[0].numInStock < 1 && styles.outOfStock
                 )}
               >
-                <Link to={isGiftCard ? "#" : url} onClick={toggleBag}>
+                <Link
+                  to={isGiftCard || is_free_product ? "#" : url}
+                  onClick={() => productClick(is_free_product)}
+                >
                   {title}
                 </Link>
               </div>

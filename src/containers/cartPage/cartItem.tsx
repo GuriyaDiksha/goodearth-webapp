@@ -366,7 +366,10 @@ const CartItems: React.FC<BasketItem> = memo(
     return (
       <div
         className={cs(styles.cartItem, styles.gutter15, styles.cart, {
-          [styles.bgColor]: is_free_product
+          [styles.bgColor]: is_free_product,
+          [globalStyles.paddBottom40]: !(
+            productDeliveryDate && showDeliveryTimelines
+          )
         })}
       >
         <div className={cs(bootstrap.row, styles.cartRow)}>
@@ -383,7 +386,7 @@ const CartItems: React.FC<BasketItem> = memo(
             )}
           >
             <div className={globalStyles.relative}>
-              <Link to={isGiftCard ? "#" : url}>
+              <Link to={isGiftCard || is_free_product ? "#" : url}>
                 {salesBadgeImage && (
                   <div className={styles.badgePositionPlpMobile}>
                     <img src={salesBadgeImage} alt="Sales Badge Image" />
@@ -438,7 +441,9 @@ const CartItems: React.FC<BasketItem> = memo(
                         [styles.outOfStock]: stockRecords[0].numInStock < 1
                       })}
                     >
-                      <Link to={isGiftCard ? "#" : url}>{title}</Link>
+                      <Link to={isGiftCard || is_free_product ? "#" : url}>
+                        {title}
+                      </Link>
                     </div>
                     {badge_text && mobile && (
                       <div
@@ -744,9 +749,9 @@ const CartItems: React.FC<BasketItem> = memo(
             </div>
           </div>
         </div>
-        {productDeliveryDate && showDeliveryTimelines && (
+        {productDeliveryDate && showDeliveryTimelines && !is_free_product && (
           <div
-            className={cs(styles.deliveryDate, globalStyles.marginT20, {
+            className={cs(styles.deliveryDate, {
               [styles.extraWidth]: mobile && !tablet
             })}
           >

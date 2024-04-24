@@ -817,9 +817,11 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   <div className={styles.productDetails}>
                                     Qty:&nbsp; {item.quantity}
                                   </div>
-                                  <div className={styles.productDetails}>
-                                    Item Code: {item.product.sku}
-                                  </div>
+                                  {item?.is_free_product ? null : (
+                                    <div className={styles.productDetails}>
+                                      Item Code: {item.product.sku}
+                                    </div>
+                                  )}
                                   {!isSale && (
                                     <div className={styles.productDetails}>
                                       Delivery Estimated:{" "}

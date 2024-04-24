@@ -1517,11 +1517,13 @@ const ProductDetails: React.FC<Props> = ({
                   {freeProductText.map((text, i) => (
                     <div className={styles.item} key={i}>
                       <dt className={styles.title}>
-                        <span className={styles.dot}></span> {text}
+                        <span className={styles.dot}></span> {text?.heading}
                       </dt>
-                      <dd className={styles.text}>
-                        <span>.</span> {text}
-                      </dd>
+                      {text?.free_products?.map(value => (
+                        <dd className={styles.text}>
+                          <span>.</span> {value}
+                        </dd>
+                      ))}
                     </div>
                   ))}
                 </dl>
