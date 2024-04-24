@@ -672,7 +672,7 @@ class Wishlist extends React.Component<Props, State> {
             onDragEnd={() => this.onDropWishlist()}
             onDragMove={() => this.onDragWishlist()}
             itemWidth={160}
-            itemHeight={330}
+            itemHeight={340}
             responsive={true}
             onMove={debounce(this.onMoveDebounced, 40)}
           />
@@ -947,7 +947,6 @@ class Wishlist extends React.Component<Props, State> {
       >
         <p>{this.props.message}</p>
         <Button
-          className={cs({ [globalStyles.btnFullWidth]: mobile })}
           variant="mediumMedCharcoalCta366"
           label={"PROCEED TO GOODEARTH.IN"}
           onClick={() => this.props.history.push("/")}

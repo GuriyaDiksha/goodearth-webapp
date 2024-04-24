@@ -1329,9 +1329,7 @@ const AddressSection: React.FC<AddressProps & {
                                         )
                                       );
                                     }}
-                                    className={cs(styles.sendToAddress, {
-                                      [globalStyles.btnFullWidth]: mobile
-                                    })}
+                                    className={cs(styles.sendToAddress)}
                                     label={ctaText}
                                     variant="mediumMedCharcoalCta366"
                                   />
@@ -1417,8 +1415,7 @@ const AddressSection: React.FC<AddressProps & {
                                       }}
                                       className={cs(
                                         styles.sendToAddress,
-                                        styles.footerSendToAddress,
-                                        { [globalStyles.btnFullWidth]: mobile }
+                                        styles.footerSendToAddress
                                       )}
                                       label={ctaText}
                                       variant="mediumMedCharcoalCta366"
@@ -1493,9 +1490,8 @@ const AddressSection: React.FC<AddressProps & {
                       >
                         <Button
                           className={cs(
-                            globalStyles.marginT20,
+                            globalStyles.marginT20
                             // styles.sendToPayment,
-                            { [globalStyles.btnFullWidth]: mobile }
                           )}
                           onClick={() => {
                             if (ctaText === "ADD A NEW ADDRESS") {
@@ -1553,9 +1549,7 @@ const AddressSection: React.FC<AddressProps & {
                               );
                             }
                           }}
-                          className={cs(styles.sendToAddress, {
-                            [globalStyles.btnFullWidth]: mobile
-                          })}
+                          className={cs(styles.sendToAddress)}
                           label={ctaText}
                           variant="mediumMedCharcoalCta366"
                         />

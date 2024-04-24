@@ -432,7 +432,7 @@
   font-size: 13px;
   font-style: italic;
   color: $cerise;
-  font-weight: 500;
+  font-weight: 400;
   font-family: $font-Lora;
   letter-spacing: 0.3px;
   // text-transform: lowercase;
@@ -1262,6 +1262,15 @@ $list: $grey 92%, $white 8%;
   letter-spacing: 0.5px !important;
 }
 
+@mixin err_14px_lora_italic_gold{
+  font-family: $font-Lora !important;
+  font-size: 14px !important;
+  color: $gold !important;
+  font-style: italic !important;
+  letter-spacing: 0px !important;
+  font-weight: normal;
+}
+
 @mixin search_text{
   font-family: $font-Montserrat;
   font-weight: normal;
@@ -1318,27 +1327,32 @@ $list: $grey 92%, $white 8%;
 }
 
 @mixin large_cta{
-  width: 414px;
+  width: 100%;
+  max-width: 414px;
   height: 58px;
 }
 
 @mixin medium_cta_300{
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
   height: 58px;
 }
 
 @mixin medium_cta_366{
-  width: 366px;
+  width: 100%;
+  max-width: 366px;
   height: 58px;
 }
 
 @mixin small_cta{
-  width: 207px;
+  width: 100%;
+  max-width: 207px;
   height: 50px;
 }
 
 @mixin extra_small_cta{
-  width: 156px;
+  width: 100%;
+  max-width: 156px;
   height: 50px;
 }
 

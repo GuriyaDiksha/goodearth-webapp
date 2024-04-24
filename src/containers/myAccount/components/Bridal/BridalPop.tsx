@@ -83,7 +83,6 @@ const BridalPop: React.FC = () => {
             <NavLink to="/" onClick={closeBridalPop}>
               <Button
                 label="start adding to registry"
-                className={cs({ [globalStyles.btnFullWidth]: mobile })}
                 variant="mediumMedCharcoalCta366"
               />
             </NavLink>

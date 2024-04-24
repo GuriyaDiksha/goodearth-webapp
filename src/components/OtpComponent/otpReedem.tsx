@@ -685,9 +685,6 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
                   variant="mediumMedCharcoalCta366"
                   type="submit"
                   // disabled={this.state.disable}
-                  className={cs({
-                    [globalStyles.btnFullWidth]: this.props?.mobile
-                  })}
                   label={`${
                     this.props.CustomerPointInformation
                       ?.EligibleRedemptionPoints > 0

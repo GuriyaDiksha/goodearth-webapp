@@ -410,10 +410,10 @@ hr {
     &.country-code {
       display: flex;
       > div {
-        width: 30%;
+        // width: 30%;
         position: relative;
         + div {
-          width: 65%;
+          // width: 65%;
           position: relative;
         }
       }
@@ -907,11 +907,8 @@ hr {
     border-radius: 0;
 
     @include placeholder {
-      font-size: 14px;
-      color: tint(#000, 60%);
-      font-style: normal;
-      letter-spacing: 1px;
-      font-family: $font-Lato;
+      opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
     }
   }
   input[type="text"].panError {
@@ -1107,6 +1104,7 @@ hr {
 .char-limit-text {
   font-family: $font-Montserrat;
   letter-spacing: 0;
+  @include b5_10px_montserrat_charcoal();
 }
 
 .linkCerise {
@@ -1545,6 +1543,9 @@ span.add-new-address {
       a{
           color: $charcoal19;
           text-decoration: underline;
+      }
+      span{
+        font-size: 13px !important;
       }
   }
 }

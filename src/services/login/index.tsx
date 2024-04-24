@@ -704,34 +704,35 @@ export default {
         tkn: response.token
       });
 
-      //Code to open share link popup after login
-
-      const isShareLinkClicked = JSON.parse(
-        localStorage.getItem("isShareLinkClicked") || "false"
-      );
-
-      if (
-        isShareLinkClicked &&
-        metaResponse?.user.email &&
-        metaResponse?.user.firstName &&
-        metaResponse?.user.lastName &&
-        metaResponse?.user.country &&
-        metaResponse?.user.gender
-      ) {
-        dispatch(
-          updateComponent(
-            POPUP.SHAREWISHLIST,
-            null,
-            mobile ? false : true,
-            popupStyle,
-            mobile ? "slide-up-bottom-align" : ""
-          )
-        );
-        dispatch(updateModal(true));
-        localStorage.removeItem("isShareLinkClicked");
-      }
       // if (location.pathname == "/wishlist") {
-      WishlistService.updateWishlist(dispatch, sortBy);
+      WishlistService.updateWishlist(dispatch, sortBy).then(() => {
+        //Code to open share link popup after login
+
+        const isShareLinkClicked = JSON.parse(
+          localStorage.getItem("isShareLinkClicked") || "false"
+        );
+
+        if (
+          isShareLinkClicked &&
+          metaResponse?.user.email &&
+          metaResponse?.user.firstName &&
+          metaResponse?.user.lastName &&
+          metaResponse?.user.country &&
+          metaResponse?.user.gender
+        ) {
+          dispatch(
+            updateComponent(
+              POPUP.SHAREWISHLIST,
+              null,
+              mobile ? false : true,
+              popupStyle,
+              mobile ? "slide-up-bottom-align" : ""
+            )
+          );
+          dispatch(updateModal(true));
+          localStorage.removeItem("isShareLinkClicked");
+        }
+      });
       // }
       // WishlistService.countWishlist(dispatch);
       Api.getAnnouncement(dispatch).catch(err => {

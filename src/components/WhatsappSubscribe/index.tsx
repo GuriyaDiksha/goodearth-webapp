@@ -482,7 +482,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
                 isCodeValid: (values, value) => {
                   const bool = !(values.whatsappNo && value == "");
                   if (!bool) {
-                    setCodeError("Please select a Country Code");
+                    setCodeError("Required");
                     return false;
                   } else {
                     setCodeError("");
@@ -506,7 +506,7 @@ const WhatsappSubscribe: React.FC<Props> = ({
                 }
               }}
               validationErrors={{
-                isCodeValid: "Please select a Country Code",
+                isCodeValid: "Required",
                 isValidCode: "Enter valid code"
               }}
               allowFilter={true}
@@ -516,10 +516,11 @@ const WhatsappSubscribe: React.FC<Props> = ({
               searchIconClass={styles.countryCodeSearchIcon}
               searchInputClass={styles.countryCodeSearchInput}
               inputRef={codeRef}
+              className={styles.countryCodeWrp}
             />
           ) : null}
 
-          <div className={styles.numberInput}>
+          <div className={cs(styles.numberInput, styles.contactNum)}>
             <FormInput
               name="whatsappNo"
               value={phone}
@@ -604,16 +605,19 @@ const WhatsappSubscribe: React.FC<Props> = ({
             <Button
               type="submit"
               label="Save Preferences"
-              className={cs(buttonClass, {
-                [globalStyles.btnFullWidth]: mobile
-              })}
+              className={cs(buttonClass)}
               disabled={isDisabled}
               variant="mediumMedCharcoalCta366"
             />
           </div>
         )}
       </div>
-      {error && <div className={styles.whatsappNoErr}>{error}</div>}
+      {error && (
+        <p className={styles.whatsappNoErr}>
+          {" "}
+          <span>{error}</span>
+        </p>
+      )}
     </Formsy>
   );
 };

@@ -240,7 +240,7 @@ const Giftcard: React.FC = () => {
               {
                 giftCardCode: [
                   <>
-                    This gift card is already activated.{" "}
+                    The gift card has already been activated.{" "}
                     <Link
                       to="/account/check-balance"
                       key="check-balance-click-here"
@@ -383,7 +383,7 @@ const Giftcard: React.FC = () => {
                       required
                     />
                   </div>
-                  <div>
+                  <div className={styles.gcWrp}>
                     <FormInput
                       name="giftCardCode"
                       type="text"
@@ -410,7 +410,6 @@ const Giftcard: React.FC = () => {
                       <Button
                         type="submit"
                         label="proceed"
-                        className={cs({ [globalStyles.btnFullWidth]: mobile })}
                         disabled={isProceedBtnDisabled}
                         variant="mediumMedCharcoalCta366"
                       />
