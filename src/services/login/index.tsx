@@ -197,10 +197,12 @@ export default {
           }
           let item1 = false,
             item2 = false;
-          basketRes.lineItems.map(data => {
-            if (!data.bridalProfile) item1 = true;
-            if (data.bridalProfile) item2 = true;
-          });
+          basketRes.lineItems
+            ?.filter(data => !data?.is_free_product)
+            ?.map(data => {
+              if (!data.bridalProfile) item1 = true;
+              if (data.bridalProfile) item2 = true;
+            });
 
           if (item1 && item2 && location?.pathname != "/order/checkout") {
             showGrowlMessage(dispatch, MESSAGE.REGISTRY_MIXED_SHIPPING, 6000);
@@ -329,10 +331,12 @@ export default {
           }
           let item1 = false,
             item2 = false;
-          basketRes.lineItems.map(data => {
-            if (!data.bridalProfile) item1 = true;
-            if (data.bridalProfile) item2 = true;
-          });
+          basketRes.lineItems
+            ?.filter(data => !data?.is_free_product)
+            ?.map(data => {
+              if (!data.bridalProfile) item1 = true;
+              if (data.bridalProfile) item2 = true;
+            });
 
           if (item1 && item2 && location?.pathname != "/order/checkout") {
             showGrowlMessage(dispatch, MESSAGE.REGISTRY_MIXED_SHIPPING, 6000);
@@ -771,10 +775,12 @@ export default {
             }
             let item1 = false,
               item2 = false;
-            basketRes.lineItems.map(data => {
-              if (!data.bridalProfile) item1 = true;
-              if (data.bridalProfile) item2 = true;
-            });
+            basketRes.lineItems
+              ?.filter(data => !data?.is_free_product)
+              ?.map(data => {
+                if (!data.bridalProfile) item1 = true;
+                if (data.bridalProfile) item2 = true;
+              });
             if (item1 && item2 && location?.pathname != "/order/checkout") {
               showGrowlMessage(dispatch, MESSAGE.REGISTRY_MIXED_SHIPPING, 6000);
             }
