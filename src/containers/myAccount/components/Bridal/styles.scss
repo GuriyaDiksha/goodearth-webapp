@@ -291,6 +291,7 @@
 
   .widget-qty {
     margin-top: 10px;
+    margin-bottom: 6px;
     // width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -1468,6 +1469,7 @@ margin-bottom: 50px !important;
     // border-radius: 10px;
     // padding: 2px 0;
     margin-top: 10px;
+    margin-bottom: 6px;
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
     display: -webkit-inline-flex;
@@ -1477,7 +1479,7 @@ margin-bottom: 50px !important;
     background-color: unset;
     border: 1px solid #d8d8d8;
     border-radius: 15px;
-    min-width: 130px;
+    min-width: 131px;
     padding: 8px 0;
 
     .qty {
@@ -1633,6 +1635,11 @@ margin-bottom: 50px !important;
 .registery-form{
   margin-top: 40px;
   text-align: left;
+  max-width: 366px;
+
+  &.form-details{
+    margin: 40px auto 0 auto;
+  }
 }
 .reg-form-heading{
     font-family: $font-Montserrat;
@@ -1715,7 +1722,7 @@ margin-bottom: 50px !important;
 .radio-btn input{
   position: absolute!important;
   left: 0!important;
-  top:2px;
+  top:16px;
 }
 .radio-btn label{
   padding-left: 20px!important;
@@ -1751,7 +1758,8 @@ margin-bottom: 50px !important;
     border: 1px solid #D8D8D8;
 }
 .reg-form-label input::placeholder{
-  font-family: "Montserrat", "sans-serif";
+  opacity: 0.4;
+  @include b4_12px_montserrat_charcoal();
 }
 // .reg-form-label input:focus{
 //   border: 1px solid #D8D8D8!important;
@@ -1771,6 +1779,7 @@ margin-bottom: 50px !important;
   position: absolute!important;
   top: 7px;
   right: 10px;
+  width: auto !important;
 }
 .date-picker div[aria-disabled="true"]{
   color: #ccc!important;
@@ -1866,6 +1875,13 @@ margin-bottom: 50px !important;
   line-height: 24px;
   color: #191919;
   margin-bottom: 15px;
+}
+.bridal-item-heading{
+  font-family: $font-Lora;
+  font-size: 16px;
+  line-height: 24px;
+  color: #191919;
+  padding-top: 5px;
 }
 .no-bridal-item-content{
   font-family: $font-Montserrat;
@@ -1987,7 +2003,8 @@ margin-bottom: 50px !important;
   opacity: 0.4;
 }
 input::placeholder{
-  font-size: 12px!important;
+  opacity: 0.4;
+  @include b4_12px_montserrat_charcoal();
 }
 .price-in-gold{
   color: #9C7D50!important;
@@ -2060,4 +2077,16 @@ input::placeholder{
 }
 .bottom30{
   padding-bottom: 30px;
+}
+.input-wrp{
+  margin: 20px auto;
+}
+
+.date-wrp{
+  .react-datepicker-wrapper{
+    width: auto !important;
+  } 
+}
+.qty-left-msg{
+  @include gold_13px_lora_italic();
 }

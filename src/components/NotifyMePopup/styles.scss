@@ -50,6 +50,7 @@
 .label {
     @include pdp_label();
     width:100px;
+    font-family: $font-Montserrat;
 }
 
 .size-label {
@@ -95,6 +96,10 @@
     margin: 0 auto 30px;
 }
 
+.apply-font {
+    font-family: $font-Montserrat;
+}
+
 .body-class {
     bottom: 0;
     top: auto;
@@ -132,14 +137,15 @@
 }
 
 .size-error {
-    @include error-msg();
-    font-size: 14px !important;
-    font-family: $font-Lora;
-    font-style: italic;
-    font-weight: normal;
-    letter-spacing: 0.3px;
-    padding-left: 6px;
-    color: $gold !important;
+    // @include error-msg();
+    // font-size: 14px !important;
+    // font-family: $font-Lora;
+    // font-style: italic;
+    // font-weight: normal;
+    // letter-spacing: 0.3px;
+    // padding-left: 6px;
+    // color: $gold !important;
+    @include gold_13px_lora_italic();
 }
 
 span{
@@ -195,7 +201,7 @@ span{
 }
 
 .sizes-box{
-    margin-bottom: 10px;
+    margin-bottom: 6px;
 }
 
 .flat-price{

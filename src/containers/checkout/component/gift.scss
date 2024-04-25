@@ -467,6 +467,10 @@
   display: block;
   .promo-input-box {
     padding-left: 20px !important;
+    max-width: 300px !important;
+  }
+  .promo-apply{
+    max-width: 130px
   }
 }
 .text-muted {
@@ -559,7 +563,7 @@
   min-height: 47px;
   z-index: 1;
   cursor: pointer;
-  border: 1px solid #eee;
+  border: 1px solid #d8d8d8;
   
   span {
     right: 12px;
@@ -569,7 +573,7 @@
   ul {
     width: 100%;
     margin-bottom: 0px;
-    border: 1px solid #eee;
+    border: 1px solid #E5E5E5;
     li {
       background-color: #fff;
       box-sizing: border-box;
@@ -578,14 +582,12 @@
       display: block;
       padding: 0px 13px;
       text-align: left;
-      line-height: 30px;
-      font-size: 12px;
-      font-weight: 400;
+      font-size: 12px !important;
+      @include b4_12px_montserrat_light_charcoal();
     }
   }
   li:hover {
-    background-color: #f2f2f2;
-    color: rgba(51, 51, 51, 0.8);
+    @include b4_12px_montserrat_charcoal();
   }
   div:nth-child(2) {
     top: 48px;

@@ -26,6 +26,7 @@ type Props = {
   socialLogin?: ReactNode;
   otpAttemptClass?: string;
   uniqueId: string;
+  disabled?: boolean;
 };
 
 const NewOtpComponent: React.FC<Props> = ({
@@ -47,7 +48,8 @@ const NewOtpComponent: React.FC<Props> = ({
   groupTimerAndAttempts,
   goBackCta,
   socialLogin,
-  uniqueId //made this component unique in dom
+  uniqueId, //made this component unique in dom
+  disabled
 }) => {
   const { mobile } = useSelector((state: AppState) => state.device);
   const [timeRemaining, setTimeRemaining] = useState(90);
@@ -261,7 +263,7 @@ const NewOtpComponent: React.FC<Props> = ({
         Please enter below:
       </p>
       <div className={style.otpInputErr}>
-        <div className={style.otpInputWrp}>
+        <div className={cs(style.otpInputWrp, disabled && style.disabledInput)}>
           <input
             className={cs(style.otpInput, error ? style.error : "")}
             value={input[`${uniqueId}otp1`]}
@@ -274,6 +276,7 @@ const NewOtpComponent: React.FC<Props> = ({
             min={0}
             pattern="\d*"
             max={1}
+            disabled={disabled ? true : false}
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
@@ -287,6 +290,7 @@ const NewOtpComponent: React.FC<Props> = ({
             min={0}
             pattern="\d*"
             max={1}
+            disabled={disabled ? true : false}
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
@@ -300,6 +304,7 @@ const NewOtpComponent: React.FC<Props> = ({
             min={0}
             max={1}
             pattern="\d*"
+            disabled={disabled ? true : false}
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
@@ -313,6 +318,7 @@ const NewOtpComponent: React.FC<Props> = ({
             min={0}
             max={1}
             pattern="\d*"
+            disabled={disabled ? true : false}
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
@@ -326,6 +332,7 @@ const NewOtpComponent: React.FC<Props> = ({
             min={0}
             max={1}
             pattern="\d*"
+            disabled={disabled ? true : false}
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
@@ -339,6 +346,7 @@ const NewOtpComponent: React.FC<Props> = ({
             min={0}
             max={1}
             pattern="\d*"
+            disabled={disabled ? true : false}
           />
         </div>
         {error ? <p className={style.otpError}>{error}</p> : null}
@@ -360,7 +368,7 @@ const NewOtpComponent: React.FC<Props> = ({
         </p>
       )}
       <Button
-        className={cs(verifyCtaClass, { [globalStyles.btnFullWidth]: mobile })}
+        className={cs(verifyCtaClass)}
         onClick={() => sendOtp()}
         disabled={
           `${input?.[`${uniqueId}otp1`]}${input?.[`${uniqueId}otp2`]}${

@@ -184,7 +184,7 @@ const CreateRegistryNew: React.FC = () => {
               destination.
             </p>
           </div>
-          <div className={cs(styles.registeryForm)}>
+          <div className={cs(styles.registeryForm, styles.formDetails)}>
             <div className={cs(styles.regFormHeading)}>1. REGISTRY DETAILS</div>
             <Formsy ref={BridalDetailsFormRef} onValidSubmit={handleSubmit}>
               <div className={styles.categorylabel}>
@@ -272,7 +272,7 @@ const CreateRegistryNew: React.FC = () => {
                     </div>
                   </ul>
                 </div>
-                <div>
+                <div className={styles.inputWrp}>
                   <FormInput
                     className={cs(styles.regFormLabel)}
                     name="registryName"
@@ -291,7 +291,7 @@ const CreateRegistryNew: React.FC = () => {
                     handleChange={onInputChange}
                   />
                 </div>
-                <div>
+                <div className={styles.inputWrp}>
                   <FormInput
                     className={cs(styles.regFormLabel)}
                     name="registrantName"
@@ -310,7 +310,7 @@ const CreateRegistryNew: React.FC = () => {
                     handleChange={onInputChange}
                   />
                 </div>
-                <div>
+                <div className={styles.inputWrp}>
                   <FormInput
                     className={cs(styles.regFormLabel)}
                     name="coRegistrantName"
@@ -344,7 +344,9 @@ const CreateRegistryNew: React.FC = () => {
                     onClickOutside={OnOutsideClick}
                     dateFormat="dd/MM/yyyy"
                     placeholderText="DD/MM/YYYY"
-                    className={cs({ [globalStyles.errorBorder]: dateErrorMsg })}
+                    className={cs(styles.dateWrp, {
+                      [globalStyles.errorBorder]: dateErrorMsg
+                    })}
                     onKeyDown={e => {
                       e.preventDefault();
                     }}
@@ -364,9 +366,7 @@ const CreateRegistryNew: React.FC = () => {
                     variant="mediumMedCharcoalCta366"
                     type="submit"
                     label={"PROCEED"}
-                    className={cs(globalStyles.marginB20, {
-                      [globalStyles.btnFullWidth]: mobile
-                    })}
+                    className={cs(globalStyles.marginB20)}
                   />
                 </div>
               </div>

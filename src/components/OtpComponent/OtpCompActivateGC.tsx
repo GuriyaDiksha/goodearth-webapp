@@ -828,7 +828,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   name="email"
                   placeholder={"Email*"}
                   label={"Email*"}
-                  className={styles.relative}
+                  className={cs(styles.relative, styles.smallInput)}
                   disable={this.props.isCredit}
                   inputRef={this.emailInput}
                   value={this.props.email ? this.props.email : ""}
@@ -979,9 +979,6 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                     (!this.props.isIndiaGC && this.state.emailInput == "") ||
                     (this.props.isCredit && this.state.emailInput == "")
                   }
-                  className={cs({
-                    [globalStyles.btnFullWidth]: this.props.mobile
-                  })}
                   label="Send otp"
                   variant="mediumMedCharcoalCta366"
                 />

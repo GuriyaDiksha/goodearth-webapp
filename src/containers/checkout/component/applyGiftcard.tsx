@@ -41,7 +41,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       cardType: "Select",
       isLoader: false,
       isError: false,
-      isEmptyInput: false
+      isEmptyInput: false,
+      codeApplied: false
     };
   }
   private firstLoad = true;
@@ -71,7 +72,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
 
   changeValue = (event: any) => {
     this.setState({
-      txtvalue: event.target.value
+      txtvalue: event.target.value,
+      codeApplied: false
     });
   };
 
@@ -134,7 +136,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
           this.setState({
             txtvalue: "",
             error: "",
-            isLoader: false
+            isLoader: false,
+            codeApplied: true
           });
         }
       });
@@ -176,7 +179,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       cardType: value,
       error: "",
       isError: false,
-      isEmptyInput: false
+      isEmptyInput: false,
+      codeApplied: false
     });
   };
 
@@ -243,6 +247,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                       value={txtvalue}
                       onChange={this.changeValue}
                       id="gift"
+                      placeholder="Add Code"
                       className={
                         (error && !isError) || isEmptyInput
                           ? cs(
@@ -265,7 +270,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                       })}
                       onClick={this.applyCard}
                     >
-                      Apply
+                      {this.state.codeApplied ? "Applies!" : "Apply"}
                     </span>
                   </div>
                 </div>
@@ -276,7 +281,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
               ) : (
                 ""
               )}
-              {isActivated && error ? (
+              {/* {isActivated && error ? ( */}
+              {error.includes("Balance") ? (
                 <p
                   className={cs(
                     styles.activeUrl,

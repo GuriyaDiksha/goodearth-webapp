@@ -590,7 +590,7 @@ class RegisterForm extends React.Component<Props, registerState> {
                 }
               }}
               validationErrors={{
-                isCodeValid: "Please select a Country Code"
+                isCodeValid: "Required"
               }}
               allowFilter={true}
               showLabel={true}

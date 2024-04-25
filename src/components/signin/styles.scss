@@ -283,7 +283,6 @@ span.error-msg {
 
 .error-msg {
   @include err_13px_lora_italic_cerise();
-  line-height: 16px;
   margin-top: 5px;
   &.main-login-error{
     margin-bottom: 20px;
@@ -387,6 +386,11 @@ img.country-code-search-icon{
 input[type="text"].country-code-search-input{
   padding-left: 30px;
   height: 40px;
+  width: 105px !important;
+
+  @media screen and (max-width:767px) {
+    width: 100% !important;
+  }
   &:focus{
     padding-left: 30px;
   }
@@ -475,14 +479,15 @@ span.checkout-forgot-pass{
 }
 .tooltip {
   margin-left: 15px;
+  position: relative;
   &.height-fix {
     height: 40px;
   }
   img {
       height: 15px;
       position: absolute;
-      top: -7px;
-      left: -10px;
+      top: -10px;
+      left: 0px;
       cursor: pointer;
       z-index: 1;
   }
@@ -501,8 +506,8 @@ span.checkout-forgot-pass{
         height: 95px;
         width: 117px;
           &.show{
-            bottom: 20px !important;
-            left: -10px !important;
+            bottom: 16px !important;
+            left: 0 !important;
           }
       }
       box-shadow: 0px 3px 6px #00000029;
@@ -511,7 +516,7 @@ span.checkout-forgot-pass{
           display: block;
           position: absolute;
           bottom: 20px;
-          left: -9px;
+          left: 0;
       }
   }
   .manage-line {
@@ -523,18 +528,40 @@ span.checkout-forgot-pass{
     .tooltip-msg {
       &.show {
         bottom: 34px;
-        left: -10px;
+        left: 0;
         @media screen and (max-width: 768px){
-          bottom: 50px !important;
+          bottom: 35px !important;
         }
       }
     } 
     img {
-      top: -8px;
-      left: -10px;
+      left: 0;
     }
   }
+
+  .reg-whats-app{
+    width: auto;
+  }
 }
+
 .underline-text{
   text-decoration: underline;
+}
+.email-wrp{
+  position: relative;
+}
+
+.contact-num{
+  width: 70% !important;
+  input{
+    width: 100% !important;
+  }
+}
+
+.country-code-wrp{
+  width: 28% !important;
+
+  input{
+    width: 100% !important;
+  }
 }

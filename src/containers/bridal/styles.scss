@@ -318,7 +318,7 @@
       }
 
       .widget-qty {
-        margin-top: 10px;
+        margin-top: 6px;
         width: 100%;
         display: -webkit-box;
         display: -ms-flexbox;
@@ -748,11 +748,8 @@
       border-radius: 0;
       box-shadow: none;
       @include placeholder {
-        font-size: 14px;
-        color: tint(#000, 60%);
-        font-style: normal;
-        letter-spacing: 1px;
-        font-family: $font-Lato;
+        opacity: 0.4;
+      @include b4_12px_montserrat_charcoal();
       }
     }
     
@@ -953,7 +950,7 @@
     }
   
     .widget-qty {
-      margin-top: 10px;
+      margin-top: 6px;
       display: -webkit-inline-box;
       display: -ms-inline-flexbox;
       display: -webkit-inline-flex;
@@ -963,7 +960,7 @@
       background-color: unset;
       border: 1px solid #d8d8d8;
       border-radius: 15px;
-      min-width: 130px;
+      min-width: 131px;
       padding: 8px 0;
       
       .qty {
@@ -1183,4 +1180,7 @@
 }
 .aqua-color-text{
   color: $aqua-text!important;
+}
+.qty-left-msg{
+  @include gold_13px_lora_italic();
 }

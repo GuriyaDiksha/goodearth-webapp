@@ -120,8 +120,9 @@ class TrackOrder extends React.Component<Props, State> {
           this.props
             .fetchCourierData(orderNumber)
             .then(data => {
-              if (data == "error") {
+              if (data?.msg || data === "error") {
                 const err =
+                  data?.msg ||
                   "Please try again later. Currently, we are unable to retrieve order details.";
                 this.setState(
                   {
@@ -497,9 +498,6 @@ class TrackOrder extends React.Component<Props, State> {
                 <Button
                   type="submit"
                   disabled={!updateSubmit}
-                  className={cs({
-                    [globalStyles.btnFullWidth]: this.props.mobile
-                  })}
                   label={"CHECK ORDER STATUS"}
                   variant="mediumMedCharcoalCta366"
                 />
