@@ -366,13 +366,16 @@ const CartItems: React.FC<BasketItem> = memo(
     return (
       <div
         className={cs(styles.cartItem, styles.gutter15, styles.cart, {
-          [styles.bgColor]: is_free_product,
-          [globalStyles.paddBottom40]: !(
-            productDeliveryDate && showDeliveryTimelines
-          )
+          [styles.bgColor]: is_free_product
         })}
       >
-        <div className={cs(bootstrap.row, styles.cartRow)}>
+        <div
+          className={cs(bootstrap.row, styles.cartRow, {
+            [styles.paddBottom40]: !(
+              productDeliveryDate && showDeliveryTimelines
+            )
+          })}
+        >
           <div
             className={cs(
               bootstrap.col4,

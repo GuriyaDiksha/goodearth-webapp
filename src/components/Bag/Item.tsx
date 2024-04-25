@@ -392,7 +392,7 @@ const LineItems: React.FC<BasketItem> = memo(
                   className={cs(
                     globalStyles.badgeContainer,
                     globalStyles.grey,
-                    globalStyles.marginT10
+                    styles.badgeContainer
                   )}
                 >
                   {badge_text}
