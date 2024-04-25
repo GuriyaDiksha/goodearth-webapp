@@ -576,7 +576,8 @@ class CollectionSpecific extends React.Component<
       title,
       discount,
       badgeType,
-      plpSliderImages
+      plpSliderImages,
+      badge_text
     } = product;
     const selectedIndex = childAttributes?.length == 1 ? 0 : undefined;
     const {
@@ -610,7 +611,8 @@ class CollectionSpecific extends React.Component<
         isSale: sale,
         discountedPrice: discountedPriceRecords[currency],
         list: "plp",
-        sliderImages: plpSliderImages
+        sliderImages: plpSliderImages,
+        badge_text: badge_text
       },
       false,
       this.props.mobile ? ModalStyles.bottomAlignSlideUp : "",

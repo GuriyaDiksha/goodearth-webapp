@@ -780,7 +780,8 @@ const ProductDetails: React.FC<Props> = ({
         discountedPrice: discountPrices,
         list: isQuickview ? "quickview" : "pdp",
         sliderImages: sliderImages,
-        collections: collections
+        collections: collections,
+        badge_text: badge_text
       },
       false,
       mobile ? ModalStyles.bottomAlignSlideUp : "",
