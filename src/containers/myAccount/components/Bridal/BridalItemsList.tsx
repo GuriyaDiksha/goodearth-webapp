@@ -212,7 +212,11 @@ const BridalItemsList: React.FC<Props> = props => {
                     <div>
                       <div className={styles.collectionName}>{collection}</div>
                       <div className={styles.productName}>
-                        <a href={productUrl}>{productName}</a>
+                        {!productAvailable ? (
+                          productName
+                        ) : (
+                          <a href={productUrl}>{productName}</a>
+                        )}
                       </div>
                     </div>
                     {price[props.currency] != 0 ? (
