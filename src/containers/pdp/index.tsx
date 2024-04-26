@@ -1637,7 +1637,9 @@ class PDPContainer extends React.Component<Props, State> {
         )}
         <div
           id="product_detail_sec"
-          className={cs(bootstrap.row, styles.productSection)}
+          className={cs(bootstrap.row, styles.productSection, {
+            [styles.paddingBottom]: this.props.data?.freeProductText
+          })}
           ref={this.containerRef}
         >
           {mobile && (

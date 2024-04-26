@@ -1020,6 +1020,17 @@ const ProductDetails: React.FC<Props> = ({
               >
                 {title}
                 <p>{shortDesc}</p>
+                {badge_text && (
+                  <div
+                    className={cs(
+                      globalStyles.badgeContainer,
+                      globalStyles.grey,
+                      styles.badgeMargin
+                    )}
+                  >
+                    {badge_text}
+                  </div>
+                )}
               </div>
               {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
                 <div
@@ -1070,18 +1081,6 @@ const ProductDetails: React.FC<Props> = ({
                 </div>
               )}
             </div>
-
-            {badge_text && (
-              <div
-                className={cs(
-                  globalStyles.badgeContainer,
-                  globalStyles.grey,
-                  styles.badgeMargin
-                )}
-              >
-                {badge_text}
-              </div>
-            )}
 
             {groupedProducts?.length ? (
               <div
