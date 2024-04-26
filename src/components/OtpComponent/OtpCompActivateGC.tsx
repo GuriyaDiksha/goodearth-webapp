@@ -278,7 +278,6 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 {
                   showerror: data.message,
                   disable: true,
-                  isDisabled: true,
                   attempts: {
                     attempts: data?.attempts || 0,
                     maxAttemptsAllow: data?.maxAttemptsAllow || 5
@@ -339,6 +338,11 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   errorTracking([this.state.showerror], location.href);
                 }
               );
+              if (data.expiry) {
+                this.setState({
+                  isDisabled: true
+                });
+              }
             }
           })
           .finally(() => {
@@ -726,7 +730,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               setAttempts={this.changeAttepts}
               uniqueId="activategcid"
               containerClassName={styles.otpWrapperGc}
-              isDisabled={this.state.isDisabled}
+              disabled={this.state.isDisabled}
             />
             <hr />
           </>

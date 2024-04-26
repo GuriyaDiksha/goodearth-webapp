@@ -355,7 +355,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             radioType: "",
             showerrorOtp: "",
             showerror: "",
-            disable: true
+            disable: true,
+            isDisabled: true
           });
           this.props.toggleOtp(false);
         })
@@ -388,12 +389,18 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               {
                 showerror: data.message,
                 updateStatus: false,
-                disable: true
+                disable: true,
+                isDisabled: true
               },
               () => {
                 errorTracking([this.state.showerror], location.href);
               }
             );
+            if (data.expiry) {
+              this.setState({
+                isDisabled: true
+              });
+            }
           }
         })
         .finally(() => {
@@ -690,7 +697,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             startTimer={this.state.startTimer}
             setAttempts={this.changeAttepts}
             uniqueId="otpcomponentid"
-            isDisabled={this.state.isDisabled}
+            disabled={this.state.isDisabled}
           />
           // <>
           //   {radioType == "number" ? (
