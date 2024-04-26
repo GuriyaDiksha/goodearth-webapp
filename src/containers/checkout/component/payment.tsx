@@ -35,6 +35,7 @@ import { Currency } from "typings/currency";
 import Button from "components/Button";
 import { STEP_ORDER } from "../constants";
 import FormTextArea from "components/Formsy/FormTextArea";
+import ModalStyles from "components/Modal/styles.scss";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -67,6 +68,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   //  const [subscribegbp, setSubscribegbp] = useState(true);
   const [subscribegbp] = useState(true);
   const [isactivepromo, setIsactivepromo] = useState(false);
+  const [isactivecreditnote, setIsactivecreditnote] = useState(false);
   const [isactiveredeem, setIsactiveredeem] = useState(false);
   const [giftwrap, setGiftwrap] = useState(false);
   const [giftwrapprice, setGiftwrapprice] = useState(false);
@@ -95,11 +97,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   };
 
   const PaymentButton = useRef(null);
-
-  const isSafari =
-    typeof window !== "undefined"
-      ? /^((?!chrome|android).)*safari/i.test(window.navigator?.userAgent)
-      : false;
 
   const toggleInput = async () => {
     if (basket.giftCards.length > 0 && isactivepromo) {
@@ -158,36 +155,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     setSubscribevalue(event.target.checked);
   };
 
-  // const setAccept = () => {
-  //   setSubscribegbp(true);
-  //   setGbpError("");
-  // };
-
-  // const closeModal = () => {
-  //   // dispatch(updateComponent(<ShippingPopup closeModal={}/>, true));
-  //   dispatch(updateModal(false));
-  // };
-
-  // const onClikcSubscribeGbp = (event: any) => {
-  //   if (!subscribegbp) {
-  // dispatch(
-  //   updateComponent(
-  //     POPUP.SHIPPINGPOPUP,
-  //     { closeModal: closeModal, acceptCondition: setAccept },
-  //     true
-  //   )
-  // );
-  // dispatch(updateModal(true));
-  //   } else {
-  //     setSubscribegbp(false);
-  //     setGbpError("");
-  //   }
-  // };
-
-  // const onGiftChange =() =>{
-
-  // }
-
   const gtmPushPaymentTracking = (
     paymentMode: string[],
     paymentMethod: string
@@ -210,15 +177,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   const onsubmit = () => {
     const isFree = +basket.total <= 0;
     const userConsent = CookieService.getCookie("consent").split(",");
-
-    // if (isOTPSent) {
-    //   scrollToGivenId("otp");
-    //   setRedeemOtpError("Please redeem your points or cancel request.");
-    //   return false;
-    // } else {
-    //   setRedeemOtpError("");
-    // }
-
     const whatsappFormValues = whatsappFormRef.current?.getCurrentValues();
     let whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
     let whatsappNo = whatsappFormValues?.whatsappNo;
@@ -606,6 +564,22 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     }
   };
 
+  const onCreditNoteToggle = () => {
+    if (!isactivecreditnote) {
+      dispatch(
+        updateComponent(
+          POPUP.CREDITNOTES,
+          null,
+          false,
+          mobile ? ModalStyles.bottomAlignSlideUp : "",
+          mobile ? "slide-up-bottom-align" : ""
+        )
+      );
+      dispatch(updateModal(true));
+    }
+    setIsactivecreditnote(!isactivecreditnote);
+  };
+
   const isPaymentNeeded = useMemo(() => {
     if (+basket.total > 0) {
       return true;
@@ -889,36 +863,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                               styles.lineHeightLable
                             )}
                           >
-                            Apply Gift Card Code/ Credit Note
+                            Apply Gift Card
                           </label>
                         ]}
                       />
-                      {/* <label
-                        className={cs(
-                          globalStyles.flex,
-                          globalStyles.crossCenter
-                        )}
-                      >
-                        <div className={styles.marginR10}>
-                          <span className={styles.checkbox}>
-                            <input
-                              type="radio"
-                              checked={isactivepromo}
-                              onClick={() => {
-                                toggleInput();
-                              }}
-                            />
-                            <span
-                              className={cs(styles.indicator, {
-                                [styles.checked]: isactivepromo
-                              })}
-                            ></span>
-                          </span>
-                        </div>
-                        <div className={cs(styles.formSubheading)}>
-                          {"Apply Gift Card Code/ Credit Note"}
-                        </div>
-                      </label> */}
+
                       {isactivepromo ? (
                         <ApplyGiftcard
                           onRef={(e1: any) => {
@@ -931,40 +880,36 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     </div>
                   </div>
                 )}
-
-                {/* {isPaymentNeeded && <hr className={styles.hr} />} */}
-                {/* {isPaymentNeeded && (
-              <div className={globalStyles.marginT30}>
-                <div className={styles.title}>SELECT YOUR MODE OF PAYMENT</div>
-                {getMethods.map(function(method, index) {
-                  return (
-                    <div className={globalStyles.marginT20} key={index}>
-                      <label
-                        className={cs(
-                          globalStyles.flex,
-                          globalStyles.crossCenter
-                        )}
-                      >
-                        <div className={styles.marginR10}>
-                          <span className={styles.radio}>
-                            <input
-                              type="radio"
-                              value={method.mode}
-                              checked={
-                                method.mode == currentmethod.mode ? true : false
-                              }
-                              onChange={event => onMethodChange(event, method)}
-                            />
-                            <span className={styles.indicator}></span>
-                          </span>
-                        </div>
-                        <div className={globalStyles.c10LR}>{method.value}</div>
-                      </label>
-                    </div>
-                  );
-                })}
               </div>
-            )} */}
+
+              <div className={globalStyles.marginT20}>
+                {!basket.isOnlyGiftCart && !isGcCheckout && (
+                  <div className={globalStyles.flex}>
+                    <hr className={styles.hr} />
+
+                    <div className={styles.inputContainer}>
+                      <CheckboxWithLabel
+                        id="applyCN"
+                        checked={isactivecreditnote}
+                        onChange={onCreditNoteToggle}
+                        label={[
+                          <label
+                            key="applyCN"
+                            htmlFor="applyCN"
+                            className={cs(
+                              styles.formSubheading,
+                              styles.lineHeightLable
+                            )}
+                          >
+                            Apply Credit Note
+                          </label>
+                        ]}
+                      />
+
+                      {isactivecreditnote ? <>Test</> : ""}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* <div
