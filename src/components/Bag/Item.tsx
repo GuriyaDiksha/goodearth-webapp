@@ -333,6 +333,9 @@ const LineItems: React.FC<BasketItem> = memo(
             {/* <div className={cs(styles.productImage)}> */}
             <div className={globalStyles.relative}>
               <Link
+                className={cs({
+                  [styles.removeCursor]: isGiftCard || is_free_product
+                })}
                 to={isGiftCard || is_free_product ? "#" : url}
                 onClick={() => productClick(is_free_product)}
               >
@@ -381,6 +384,9 @@ const LineItems: React.FC<BasketItem> = memo(
                 )}
               >
                 <Link
+                  className={cs({
+                    [styles.removeCursor]: isGiftCard || is_free_product
+                  })}
                   to={isGiftCard || is_free_product ? "#" : url}
                   onClick={() => productClick(is_free_product)}
                 >

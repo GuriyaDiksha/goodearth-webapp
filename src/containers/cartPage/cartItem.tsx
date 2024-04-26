@@ -391,7 +391,12 @@ const CartItems: React.FC<BasketItem> = memo(
             )}
           >
             <div className={globalStyles.relative}>
-              <Link to={isGiftCard || is_free_product ? "#" : url}>
+              <Link
+                className={cs({
+                  [styles.removeCursor]: isGiftCard || is_free_product
+                })}
+                to={isGiftCard || is_free_product ? "#" : url}
+              >
                 {salesBadgeImage && (
                   <div className={styles.badgePositionPlpMobile}>
                     <img src={salesBadgeImage} alt="Sales Badge Image" />
@@ -446,7 +451,12 @@ const CartItems: React.FC<BasketItem> = memo(
                         [styles.outOfStock]: stockRecords[0].numInStock < 1
                       })}
                     >
-                      <Link to={isGiftCard || is_free_product ? "#" : url}>
+                      <Link
+                        className={cs({
+                          [styles.removeCursor]: isGiftCard || is_free_product
+                        })}
+                        to={isGiftCard || is_free_product ? "#" : url}
+                      >
                         {title}
                       </Link>
                     </div>
