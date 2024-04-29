@@ -10,10 +10,10 @@ import GiftCardItem from "./giftDetails";
 import { AppState } from "reducers/typings";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { errorTracking } from "utils/validate";
-import SelectableDropdownMenu from "components/dropdown/selectableDropdownMenu";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import Loader from "components/Loader";
+import Button from "components/Button";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -38,7 +38,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       error: "",
       newCardBox: true,
       isActivated: false,
-      cardType: "Select",
+      cardType: "GIFTCARD",
       isLoader: false,
       isError: false,
       isEmptyInput: false,
@@ -82,11 +82,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     this.setState({ error: "", isError: false, isEmptyInput: false });
 
     let errMsg = "";
-    if (cardType == "Select" && !txtvalue) {
-      errMsg = "Please select a valid option & enter a valid code";
-    } else if (cardType == "Select") {
-      errMsg = "Please select a valid option";
-    } else if (!txtvalue) {
+
+    if (!txtvalue) {
       errMsg = "Please enter a valid code";
     }
 
@@ -95,7 +92,6 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
         {
           error: errMsg,
           isActivated: false,
-          isError: cardType == "Select",
           isEmptyInput: !txtvalue
         },
         () => {
@@ -201,16 +197,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
       giftList,
       mobile
     } = this.props;
-    const modeOptions = [
-      {
-        value: "GIFTCARD",
-        label: "Gift Card"
-      },
-      {
-        value: "CREDITNOTE",
-        label: "Credit Note"
-      }
-    ];
+
     return (
       <Fragment>
         <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
@@ -218,69 +205,68 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
             className={cs(
               styles.loginForm,
               { [globalStyles.voffset3]: newCardBox },
-              bootstrapStyles.colMd7
+              bootstrapStyles.colMd7,
+              globalStyles.paddBottom10
             )}
           >
             {/* {newCardBox ? ( */}
             <div>
               <Fragment>
-                <div className={cs(styles.flex, styles.vCenter)}>
-                  <SelectableDropdownMenu
-                    id="giftcard_dropdown"
-                    align="right"
+                <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
+                  <div
                     className={cs(
-                      { [globalStyles.errorBorder]: isError },
-                      mobile
-                        ? styles.selectRelativemobile
-                        : styles.selectRelative
+                      styles.loginForm,
+                      { [globalStyles.voffset3]: newCardBox },
+                      bootstrapStyles.colMd11
                     )}
-                    items={modeOptions}
-                    onChange={this.onchange}
-                    showCaret={true}
-                    value={cardType}
-                    key={"plpPage"}
-                  ></SelectableDropdownMenu>
-
-                  <div className={cs(styles.giftInput)}>
-                    <input
-                      type="text"
-                      value={txtvalue}
-                      onChange={this.changeValue}
-                      id="gift"
-                      placeholder="Add Code"
-                      className={
-                        (error && !isError) || isEmptyInput
-                          ? cs(
-                              styles.marginR10,
-                              styles.ht50,
-                              styles.err,
-                              styles.giftCardCodeInput
-                            )
-                          : cs(
-                              styles.marginR10,
-                              styles.ht50,
-                              styles.giftCardCodeInput
-                            )
-                      }
-                      aria-label="giftcard code"
-                    />
-                    <span
-                      className={cs(styles.applyBtn, globalStyles.pointer, {
-                        [globalStyles.hidden]: !isLoggedIn
-                      })}
-                      onClick={this.applyCard}
-                    >
-                      {this.state.codeApplied ? "Applies!" : "Apply"}
-                    </span>
+                  >
+                    <div>
+                      <Fragment>
+                        <div
+                          className={cs(
+                            styles.flex,
+                            styles.vCenter,
+                            styles.promoInput,
+                            {
+                              [globalStyles.hidden]: !newCardBox
+                            }
+                          )}
+                        >
+                          <input
+                            type="text"
+                            autoComplete="off"
+                            value={txtvalue}
+                            onChange={this.changeValue}
+                            id="gift"
+                            className={
+                              this.state.error
+                                ? cs(styles.err)
+                                : styles.promoInputBox
+                            }
+                            aria-label="Promocode"
+                          />
+                          <Button
+                            onClick={() => this.applyCard()}
+                            label={"APPLY"}
+                            disabled={txtvalue == ""}
+                            variant="smallMedCharcoalCta"
+                            stopHover={true}
+                            className={styles.promoApply}
+                          />
+                        </div>
+                      </Fragment>
+                      {this.state.error ? (
+                        <p className={cs(globalStyles.errorMsg)}>
+                          {this.state.error}
+                        </p>
+                      ) : (
+                        ""
+                      )}
+                    </div>
                   </div>
                 </div>
               </Fragment>
 
-              {error ? (
-                <span className={cs(globalStyles.errorMsg)}>{error}</span>
-              ) : (
-                ""
-              )}
               {isActivated && error ? (
                 <p
                   className={cs(
@@ -302,19 +288,21 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
               )}
             </div>
           </div>
-          {giftList.map((data, i) => {
-            return (
-              <GiftCardItem
-                isLoggedIn={isLoggedIn}
-                {...data}
-                onClose={this.onClose}
-                currency={currency}
-                type="crd"
-                currStatus={"sucess"}
-                key={"gift" + i}
-              />
-            );
-          })}
+          {giftList
+            ?.filter(ele => ele.cardType === "GIFTCARD")
+            ?.map((data, i) => {
+              return (
+                <GiftCardItem
+                  isLoggedIn={isLoggedIn}
+                  {...data}
+                  onClose={this.onClose}
+                  currency={currency}
+                  type="crd"
+                  currStatus={"sucess"}
+                  key={"gift" + i}
+                />
+              );
+            })}
         </div>
         {isLoader && <Loader />}
       </Fragment>

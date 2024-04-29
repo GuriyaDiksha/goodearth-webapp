@@ -122,6 +122,12 @@ padding: 0px 0px 20px 0px !important;
         border: none;
     }
     } 
+
+    .error{
+        text-align: left;
+        margin-bottom: 20px;
+        @include err_13px_lora_italic_cerise();
+    }
 }
 }
   

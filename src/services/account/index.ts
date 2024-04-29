@@ -326,12 +326,13 @@ export default {
     dispatch: Dispatch,
     sortBy = "expiring_date",
     sortType = "desc",
-    page = 1
+    page = 1,
+    all = false
   ) => {
     const data = await API.get<CreditNoteResponse>(
       dispatch,
       `${__API_HOST__ +
-        `/myapi/giftcard/user_creditnote?sort_by=${sortBy}&sort_type=${sortType}&page=${page}`}`
+        `/myapi/giftcard/user_creditnote?sort_by=${sortBy}&sort_type=${sortType}&page=${page}&all=${all}`}`
     );
     return data;
   }

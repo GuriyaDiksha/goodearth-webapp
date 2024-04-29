@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import cs from "classnames";
 import CheckboxWithLabel from "components/CheckboxWithLabel";
 import styles from "./index.scss";
@@ -9,12 +9,31 @@ import { useSelector } from "react-redux";
 
 type Props = {
   creditNote: CreditNote;
+  setCheckedIds: Dispatch<SetStateAction<string[]>>;
+  checkedIds: string[];
 };
 
 const CreditNoteCard: React.FC<Props> = ({
-  creditNote: { entry_code, is_expired, remaining_amount }
+  creditNote: {
+    entry_code,
+    is_expired,
+    remaining_amount,
+    date_created,
+    expiring_date,
+    applied_amount
+  },
+  checkedIds,
+  setCheckedIds
 }) => {
   const { currency } = useSelector((state: AppState) => state);
+
+  const onCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event?.target.checked) {
+      setCheckedIds([...checkedIds, entry_code]);
+    } else {
+      setCheckedIds([...checkedIds.filter(ele => ele !== entry_code)]);
+    }
+  };
 
   return (
     <>
@@ -30,14 +49,12 @@ const CreditNoteCard: React.FC<Props> = ({
             </div>
           ) : (
             <CheckboxWithLabel
-              name={"creditnote"}
-              id={"creditnote"}
-              checked={true}
+              name={entry_code}
+              id={entry_code}
+              checked={checkedIds.includes(entry_code)}
               className={styles.checkboxWrp}
-              label={[<label key="creditnote" htmlFor={"creditnote"}></label>]}
-              onChange={() => {
-                console.log("click");
-              }}
+              label={[<label key={entry_code} htmlFor={entry_code}></label>]}
+              onChange={onCheck}
             />
           )}
         </div>
@@ -45,13 +62,17 @@ const CreditNoteCard: React.FC<Props> = ({
           className={cs(styles.bodyDiv, { [styles.expiredBody]: is_expired })}
         >
           <p>
-            Date of issue: <span>10 DEC 2023</span>
+            Date of issue: <span>{date_created}</span>
           </p>
           <p>
-            Date of issue: <span>10 DEC 2023</span>
+            Date of expiry: <span>{expiring_date}</span>
           </p>
           <p>
-            Date of issue: <span>10 DEC 2023</span>
+            Total value:{" "}
+            <span>
+              {" "}
+              {displayPriceWithCommasFloat(applied_amount, currency)}
+            </span>
           </p>
           {!is_expired && (
             <p className={styles.balance}>

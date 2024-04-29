@@ -35,7 +35,7 @@ import { Currency } from "typings/currency";
 import Button from "components/Button";
 import { STEP_ORDER } from "../constants";
 import FormTextArea from "components/Formsy/FormTextArea";
-import ModalStyles from "components/Modal/styles.scss";
+import ApplyCreditNote from "./ApplyCreditNote";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -68,7 +68,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   //  const [subscribegbp, setSubscribegbp] = useState(true);
   const [subscribegbp] = useState(true);
   const [isactivepromo, setIsactivepromo] = useState(false);
-  const [isactivecreditnote, setIsactivecreditnote] = useState(false);
   const [isactiveredeem, setIsactiveredeem] = useState(false);
   const [giftwrap, setGiftwrap] = useState(false);
   const [giftwrapprice, setGiftwrapprice] = useState(false);
@@ -102,7 +101,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     if (basket.giftCards.length > 0 && isactivepromo) {
       setIsLoading(true);
       if (PaymentChild.onClose) {
-        for await (const giftcard of basket?.giftCards) {
+        for await (const giftcard of basket?.giftCards?.filter(
+          ele => ele?.cardType === "GIFTCARD"
+        )) {
           const data: any = {
             cardId: giftcard?.cardId,
             type: giftcard?.cardType
@@ -564,22 +565,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     }
   };
 
-  const onCreditNoteToggle = () => {
-    if (!isactivecreditnote) {
-      dispatch(
-        updateComponent(
-          POPUP.CREDITNOTES,
-          null,
-          false,
-          mobile ? ModalStyles.bottomAlignSlideUp : "",
-          mobile ? "slide-up-bottom-align" : ""
-        )
-      );
-      dispatch(updateModal(true));
-    }
-    setIsactivecreditnote(!isactivecreditnote);
-  };
-
   const isPaymentNeeded = useMemo(() => {
     if (+basket.total > 0) {
       return true;
@@ -882,35 +867,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 )}
               </div>
 
-              <div className={globalStyles.marginT20}>
-                {!basket.isOnlyGiftCart && !isGcCheckout && (
-                  <div className={globalStyles.flex}>
-                    <hr className={styles.hr} />
-
-                    <div className={styles.inputContainer}>
-                      <CheckboxWithLabel
-                        id="applyCN"
-                        checked={isactivecreditnote}
-                        onChange={onCreditNoteToggle}
-                        label={[
-                          <label
-                            key="applyCN"
-                            htmlFor="applyCN"
-                            className={cs(
-                              styles.formSubheading,
-                              styles.lineHeightLable
-                            )}
-                          >
-                            Apply Credit Note
-                          </label>
-                        ]}
-                      />
-
-                      {isactivecreditnote ? <>Test</> : ""}
-                    </div>
-                  </div>
-                )}
-              </div>
+              {!basket.isOnlyGiftCart && !isGcCheckout && <ApplyCreditNote />}
 
               {/* <div
             className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
