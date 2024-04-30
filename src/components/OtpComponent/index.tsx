@@ -279,7 +279,6 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 {
                   showerror: data.message,
                   disable: true,
-                  isDisabled: true,
                   attempts: {
                     attempts: data?.attempts || 0,
                     maxAttemptsAllow: data?.maxAttemptsAllow || 5
@@ -355,8 +354,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             radioType: "",
             showerrorOtp: "",
             showerror: "",
-            disable: true,
-            isDisabled: true
+            disable: true
           });
           this.props.toggleOtp(false);
         })
@@ -389,8 +387,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               {
                 showerror: data.message,
                 updateStatus: false,
-                disable: true,
-                isDisabled: true
+                disable: true
               },
               () => {
                 errorTracking([this.state.showerror], location.href);
