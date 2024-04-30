@@ -1,4 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  Ref,
+  createRef,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
@@ -18,11 +25,13 @@ import { GA_CALLS } from "constants/cookieConsent";
 
 type Props = {
   data: CreditNote[];
+  setIsactivecreditnote: (x: boolean) => void;
 };
 
-const CreditNotes: React.FC<Props> = ({ data }) => {
+const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
   const { closeModal } = useContext(Context);
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
+  const [activeKey, setActiveKey] = useState("");
   const [error, setError] = useState("");
   const {
     device: { mobile },
@@ -31,6 +40,7 @@ const CreditNotes: React.FC<Props> = ({ data }) => {
   } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
   const history = useHistory();
+  const bodyRef = useRef<Array<Ref<HTMLDivElement>>>([]);
 
   useEffect(() => {
     const cns = giftCards
@@ -39,8 +49,18 @@ const CreditNotes: React.FC<Props> = ({ data }) => {
     return setCheckedIds([...cns]);
   }, []);
 
+  const onClose = () => {
+    closeModal();
+    setIsactivecreditnote(false);
+  };
+
   const onContinue = async () => {
     setError("");
+
+    if (!checkedIds?.length) {
+      onClose();
+      return;
+    }
 
     for await (const cn of checkedIds) {
       const data: any = {
@@ -64,13 +84,35 @@ const CreditNotes: React.FC<Props> = ({ data }) => {
             gift_card_code: data.cardId
           });
         }
-      } else {
+
+        await BasketService.fetchBasket(
+          dispatch,
+          "checkout",
+          history,
+          isLoggedIn
+        );
+        closeModal();
+      } else if (checkedIds?.length == 1 && !gift.status) {
         setError(gift?.message);
+        return;
       }
     }
+  };
 
-    await BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
-    closeModal();
+  const toggleActive = (key: string) => {
+    if (key !== "") {
+      const currentBody = bodyRef.current[key];
+      currentBody.style.maxHeight = 0 + "px";
+    }
+
+    if (activeKey === key) {
+      bodyRef.current[key].style.maxHeight = 0 + "px";
+    } else {
+      bodyRef.current[key].style.maxHeight =
+        bodyRef.current[key].scrollHeight + 15 + "px";
+    }
+
+    setActiveKey(activeKey !== key ? key : "");
   };
 
   return (
@@ -88,7 +130,7 @@ const CreditNotes: React.FC<Props> = ({ data }) => {
           <div className={style.creditNoteHead}>Apply credit note</div>
           <div
             className={cs(styles.cross, styles.deliveryIcon)}
-            onClick={closeModal}
+            onClick={onClose}
           >
             <i
               className={cs(
@@ -110,10 +152,13 @@ const CreditNotes: React.FC<Props> = ({ data }) => {
                 creditNote={creditNote}
                 setCheckedIds={setCheckedIds}
                 checkedIds={checkedIds}
+                activeKey={activeKey}
+                setActiveKey={toggleActive}
+                ref={bodyRef}
               />
             ))}
           </div>
-          {!!error && <p className={styles.error}>{error}</p>}
+          {error && <p className={styles.error}>{error}</p>}
           <Button
             variant="mediumMedCharcoalCta366"
             label={"Continue"}

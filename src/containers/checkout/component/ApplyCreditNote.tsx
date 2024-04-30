@@ -41,11 +41,10 @@ const ApplyCreditNote = () => {
           updateComponent(
             POPUP.CREDITNOTES,
             {
-              data: results
+              data: results,
+              setIsactivecreditnote
             },
-            false,
-            mobile ? ModalStyles.bottomAlignSlideUp : "",
-            mobile ? "slide-up-bottom-align" : ""
+            false
           )
         );
         dispatch(updateModal(true));

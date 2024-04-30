@@ -15,14 +15,16 @@ padding: 0px 0px 20px 0px !important;
     overflow: auto;
     padding: 0 35px;
 
+    @media screen and (max-width:991px) {
+        max-height: calc(100vh - 150px);
+        height: calc(100vh - 150px);
+    }
+
     &::-webkit-scrollbar {
         // background-color:#fff;
         width: 8px;
       }
-      /* background of the scrollbar except button or resizer */
-      // ::-webkit-scrollbar-track {
-          // background-color:#fff
-      // }
+     
       /* scrollbar itself */
       &::-webkit-scrollbar-thumb {
           background-color:#a6a6a6;
@@ -41,7 +43,6 @@ padding: 0px 0px 20px 0px !important;
     .head-div{
         display: flex;
         justify-content: space-between;
-        padding-bottom: 20px;
         align-items: center;
     
         h6{
@@ -98,6 +99,11 @@ padding: 0px 0px 20px 0px !important;
     }
 
     .body-div{
+        max-height: 0px;
+        padding-top: 20px;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in;
+
         p{
         text-align: left;
         @include b4_12px_montserrat_charcoal();
@@ -123,11 +129,12 @@ padding: 0px 0px 20px 0px !important;
     }
     } 
 
-    .error{
-        text-align: left;
-        margin-bottom: 20px;
-        @include err_13px_lora_italic_cerise();
-    }
+}
+
+.error{
+    text-align: left;
+    margin-bottom: 20px;
+    @include err_13px_lora_italic_cerise();
 }
 }
   
