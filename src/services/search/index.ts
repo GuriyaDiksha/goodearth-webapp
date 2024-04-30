@@ -43,14 +43,17 @@ export default {
   updateProduct: async function(
     dispatch: Dispatch,
     url: string,
-    listdata: any
+    listdata: any,
+    plpMobileView?: string
   ) {
     const res = await API.get<PlpProps>(
       dispatch,
       `${__API_HOST__ + "/myapi/search/" + url}`
     );
     // dispatch(updatePlpProduct(res.results.data));
-    res.results.data = listdata.concat(res.results.data);
+    if (!plpMobileView) {
+      res.results.data = listdata.concat(res.results.data);
+    }
     dispatch(updateProduct({ ...res }));
     return res;
   }
