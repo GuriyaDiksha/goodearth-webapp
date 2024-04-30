@@ -180,7 +180,6 @@ const BridalDetails: React.FC = () => {
                     <Button
                       type="submit"
                       disabled={!updateProfile}
-                      className={cs({ [globalStyles.btnFullWidth]: mobile })}
                       label="Proceed to add shipping details"
                       variant="mediumMedCharcoalCta366"
                     />

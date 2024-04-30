@@ -681,7 +681,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                     }
                   }}
                   validationErrors={{
-                    isCodeValid: "Please select a Country Code",
+                    isCodeValid: "Required",
                     isValidCode: "Please enter a valid country code"
                   }}
                   allowFilter={true}
@@ -692,6 +692,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                   inputRef={countryCodeRef}
                   handleChange={onCountryCodeSelect}
                   aquaClass={styles.aquaText}
+                  className={styles.countryCodeWrp}
                 />
 
                 <FormInput
@@ -767,7 +768,6 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
               <Button
                 type="submit"
                 disabled={!updateProfile}
-                className={cs({ [globalStyles.btnFullWidth]: mobile })}
                 label={updateProfile ? "Update Details" : "Updated"}
                 variant="mediumMedCharcoalCta366"
               />

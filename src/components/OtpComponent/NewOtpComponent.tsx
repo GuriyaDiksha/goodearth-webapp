@@ -360,7 +360,7 @@ const NewOtpComponent: React.FC<Props> = ({
         </p>
       )}
       <Button
-        className={cs(verifyCtaClass, { [globalStyles.btnFullWidth]: mobile })}
+        className={cs(verifyCtaClass)}
         onClick={() => sendOtp()}
         disabled={
           `${input?.[`${uniqueId}otp1`]}${input?.[`${uniqueId}otp2`]}${

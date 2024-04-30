@@ -156,7 +156,6 @@ const CreateRegistry: React.FC = () => {
             disabled={!selectId}
             onClick={moveTonext}
             variant="mediumMedCharcoalCta366"
-            className={cs({ [globalStyles.btnFullWidth]: mobile })}
           />
         </div>
       </div>
