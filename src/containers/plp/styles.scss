@@ -239,6 +239,7 @@
     z-index: 11;
     background-color: white;
     padding-top:5px;
+    padding: 5px 20px 0;
     // -webkit-transition: all 0.5s linear;
     // -moz-transition: all 0.5s linear;
     // -o-transition: all 0.5s linear;
@@ -319,10 +320,11 @@
 .filter-side-menu {
   height: calc(100vh - 240px);
   overflow:scroll;
+  width: 40%;
   &::-webkit-scrollbar {
     display: none;
   }
-  margin: 0px 30px 0px 30px;
+  // margin: 0px 30px 0px 30px;
 
   @media screen and (max-width: 992px){
     height: calc(100% - 60px);
@@ -392,6 +394,10 @@
     min-height: 55px;
     //max-height: 225px;
     overflow: scroll;
+    position: absolute;
+    left: 50%;
+    top: 30px;
+    padding-right: 20px;
     &::-webkit-scrollbar {
       display: none;
     }
@@ -756,6 +762,11 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
   margin-bottom: 10px;
   transition:max-height 0.3s ease-in;
   overflow: hidden;
+  position: absolute;
+  top: 30px;
+  right: 0;
+  left: 50%;
+  padding-right: 20px;
 }
 .showheader2{
   transition:max-height 0.3s ease-in;
@@ -791,8 +802,8 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
 .size-list {
   margin: 0 0 15px 0;
   li {
-    display: inline !important;
-    padding: 0px !important;
+    // display: inline !important;
+    // padding: 0px !important;
   }
   label {
     background: #f9f8f5;
@@ -882,6 +893,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     width: 90%;
     transition:max-height 0.3s ease-in;
     overflow: hidden;
+    width: 50%;
   }
   .slider-custom {
     visibility: hidden;

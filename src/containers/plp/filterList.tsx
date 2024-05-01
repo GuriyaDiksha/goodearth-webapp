@@ -1534,12 +1534,16 @@ class FilterList extends React.Component<Props, State> {
       ? this.setState({
           activeindex: index,
           openMenu: index,
-          showmenulevel1: !this.state.showmenulevel1
+          showmenulevel1: !this.state.showmenulevel1,
+          categoryindex: -1,
+          categorylevel1: !this.state.categorylevel1
         })
       : this.setState({
           activeindex: index,
           openMenu: index,
-          showmenulevel1: true
+          showmenulevel1: true,
+          categoryindex: index,
+          categorylevel1: true
         });
   };
 
@@ -2260,15 +2264,18 @@ class FilterList extends React.Component<Props, State> {
           <li>
             <span
               className={
-                this.state.categoryindex == 0 && this.state.categorylevel1
+                (this.state.activeindex == 0 && this.state.showmenulevel1) ||
+                (this.state.categoryindex == 0 && this.state.categorylevel1)
                   ? cs(styles.menulevel1, styles.menulevel1Open)
                   : styles.menulevel1
               }
               onClick={() => {
-                this.ClickmenuCategory(0);
+                // this.ClickmenuCategory(0);
+                this.Clickmenulevel1(0);
                 this.handleAnimation(
                   "category",
-                  this.state.categoryindex == 0 && this.state.categorylevel1
+                  (this.state.activeindex == 0 && this.state.showmenulevel1) ||
+                    (this.state.categoryindex == 0 && this.state.categorylevel1)
                 );
               }}
             >
@@ -2277,7 +2284,8 @@ class FilterList extends React.Component<Props, State> {
             <div
               id="category"
               className={
-                this.state.categoryindex == 0 && this.state.categorylevel1
+                (this.state.categoryindex == 0 && this.state.categorylevel1) ||
+                (this.state.activeindex == 0 && this.state.showmenulevel1)
                   ? styles.showheader1
                   : styles.hideDiv
               }
@@ -2329,6 +2337,7 @@ class FilterList extends React.Component<Props, State> {
               </div>
             </div>
           </li>
+
           <li>
             <span
               className={
