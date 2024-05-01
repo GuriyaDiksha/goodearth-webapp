@@ -202,7 +202,8 @@ const BridalItemsList: React.FC<Props> = props => {
                 <div className={cs(styles.section, styles.sectionInfo)}>
                   <div
                     className={cs({
-                      [styles.blur]: !productAvailable
+                      [styles.blur]:
+                        !productAvailable || price[props.currency] == 0
                     })}
                   >
                     <div>
