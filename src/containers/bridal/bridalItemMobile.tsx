@@ -156,10 +156,7 @@ const BridalMobile: React.FC<Props> = ({ bridalItem, bridalId }) => {
                   </div>
                   {err ? (
                     <div
-                      className={cs(
-                        globalStyles.errorMsg,
-                        globalStyles.textCenter
-                      )}
+                      className={cs(styles.qtyLeftMsg, globalStyles.textCenter)}
                     >
                       {err}
                     </div>

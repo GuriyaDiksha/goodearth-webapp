@@ -123,10 +123,7 @@ const BridalMobileProductUpdate: React.FC<Props> = props => {
                   />
                 </div> */}
                   <div
-                    className={cs(
-                      globalStyles.errorMsg,
-                      globalStyles.textCenter
-                    )}
+                    className={cs(styles.qtyLeftMsg, globalStyles.textCenter)}
                   >
                     {err}
                   </div>

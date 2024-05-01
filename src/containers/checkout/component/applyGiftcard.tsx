@@ -281,7 +281,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
               ) : (
                 ""
               )}
-              {isActivated && error ? (
+              {/* {isActivated && error ? ( */}
+              {error.includes("Balance") ? (
                 <p
                   className={cs(
                     styles.activeUrl,
