@@ -11,12 +11,11 @@
 padding: 0px 0px 20px 0px !important;
 
 .boxWrp{
-    max-height: 475px;
+    height: 450px;
     overflow: auto;
     padding: 0 35px;
 
     @media screen and (max-width:991px) {
-        max-height: calc(100vh - 150px);
         height: calc(100vh - 150px);
     }
 
@@ -99,10 +98,10 @@ padding: 0px 0px 20px 0px !important;
     }
 
     .body-div{
-        max-height: 0px;
-        padding-top: 20px;
-        overflow: hidden;
-        transition: max-height 0.3s ease-in;
+
+        .first-line{
+            padding-top: 20px;
+        }
 
         p{
         text-align: left;
@@ -119,7 +118,13 @@ padding: 0px 0px 20px 0px !important;
         }
 
         &.expired-body{
-        opacity: 0.4;
+            opacity: 0.4;
+        }
+
+        &.balance-over-body{
+            max-height: 0px;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in;
         }
     }
 

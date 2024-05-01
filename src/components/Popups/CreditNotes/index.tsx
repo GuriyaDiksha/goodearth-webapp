@@ -100,16 +100,22 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
   };
 
   const toggleActive = (key: string) => {
-    if (key !== "") {
-      const currentBody = bodyRef.current[key];
+    const currentBody = bodyRef?.current?.[activeKey];
+    const newBody = bodyRef?.current?.[key];
+
+    debugger;
+
+    //Collapse current state
+    if (activeKey !== "" && currentBody) {
       currentBody.style.maxHeight = 0 + "px";
     }
 
-    if (activeKey === key) {
-      bodyRef.current[key].style.maxHeight = 0 + "px";
-    } else {
-      bodyRef.current[key].style.maxHeight =
-        bodyRef.current[key].scrollHeight + 15 + "px";
+    if (newBody) {
+      if (activeKey !== key) {
+        newBody.style.maxHeight = newBody.scrollHeight + 20 + "px"; //Expand new state
+      } else {
+        newBody.style.maxHeight = 0 + "px"; //collapase new state
+      }
     }
 
     setActiveKey(activeKey !== key ? key : "");

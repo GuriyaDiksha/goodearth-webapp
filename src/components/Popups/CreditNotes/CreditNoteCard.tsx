@@ -15,7 +15,10 @@ type Props = {
   setActiveKey: (x: string) => void;
 };
 
-const CreditNoteCard = forwardRef<HTMLDivElement, Props>(
+const CreditNoteCard = forwardRef<
+  React.MutableRefObject<React.Ref<HTMLDivElement>[]>,
+  Props
+>(
   (
     {
       creditNote: {
@@ -75,9 +78,12 @@ const CreditNoteCard = forwardRef<HTMLDivElement, Props>(
             ref={el =>
               ref && ref?.current ? (ref.current[entry_code] = el) : null
             }
-            className={cs(styles.bodyDiv, { [styles.expiredBody]: is_expired })}
+            className={cs(styles.bodyDiv, {
+              [styles.expiredBody]: is_expired,
+              [styles.balanceOverBody]: remaining_amount === 0 || is_expired
+            })}
           >
-            <p>
+            <p className={styles.firstLine}>
               Date of issue: <span>{date_created}</span>
             </p>
             <p>
