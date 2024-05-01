@@ -339,7 +339,7 @@ const BridalItemsList: React.FC<Props> = props => {
                       </div>
                       <div
                         className={cs(
-                          globalStyles.errorMsg,
+                          styles.qtyLeftMsg,
                           globalStyles.textCenter
                         )}
                       >
