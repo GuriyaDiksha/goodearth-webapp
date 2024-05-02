@@ -92,8 +92,6 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         console.log("Collection Error", error);
       });
       if (filterData) {
-        debugger;
-
         // collectionProductImpression(filterData, "CollectionSpecific", currency);
         productImpression(
           { results: { data: filterData?.results } },
@@ -142,7 +140,6 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         console.log("Collection Error", error);
       });
       if (filterData) {
-        debugger;
         // collectionProductImpression(filterData, "CollectionSpecific", currency);
         productImpression(
           { results: { data: filterData?.results } },
