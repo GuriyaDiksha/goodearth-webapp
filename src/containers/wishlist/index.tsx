@@ -988,7 +988,7 @@ class Wishlist extends React.Component<Props, State> {
                   </div>
                   <div className={bootstrapStyles.col2}>
                     <div
-                      className={cs(styles.iconSort, {
+                      className={cs(styles.iconSort, styles.iconSortMargin, {
                         [styles.disable]: this.state.wishlistCount === 0
                       })}
                       onClick={() => this.onSortClick()}
@@ -1078,7 +1078,9 @@ class Wishlist extends React.Component<Props, State> {
                   globalStyles.verticalMiddle
                 )}
               >
-                <p className={styles.filterText}>SORT</p>
+                <p className={cs(styles.filterText, styles.iconSortMargin)}>
+                  SORT
+                </p>
                 <SecondaryHeaderDropdown
                   id="sort-dropdown-wishlist"
                   items={options}
@@ -1143,10 +1145,15 @@ class Wishlist extends React.Component<Props, State> {
             </div>
           )}
           <div
-            className={cs(bootstrapStyles.col10, bootstrapStyles.offset1, {
-              [globalStyles.marginT50]: !mobile && !this.props.isShared,
-              [globalStyles.marginT30]: mobile && !this.props.isShared
-            })}
+            className={cs(
+              bootstrapStyles.col10,
+              bootstrapStyles.offset1,
+              styles.bootstrapOverride,
+              {
+                [globalStyles.marginT50]: !mobile && !this.props.isShared,
+                [globalStyles.marginT30]: mobile && !this.props.isShared
+              }
+            )}
           >
             {this.state.wishlistCount > 0 && (
               <div>
