@@ -163,7 +163,7 @@ const BridalItemsList: React.FC<Props> = props => {
             ) : (
               ""
             )}
-            {!productAvailable || stock == 0 || price[props.currency] == 0 ? (
+            {!productAvailable || price[props.currency] == 0 ? (
               <div className={cs(styles.productImageSection, styles.blur)}>
                 {badgeImage && (
                   <div className={styles.badgeImage}>
@@ -176,7 +176,11 @@ const BridalItemsList: React.FC<Props> = props => {
               </div>
             ) : (
               <a href={productUrl} className={styles.productUrl}>
-                <div className={styles.productImageSection}>
+                <div
+                  className={cs(styles.productImageSection, {
+                    [styles.blur]: stock == 0 || !productAvailable
+                  })}
+                >
                   {badgeImage && (
                     <div className={styles.badgeImage}>
                       <img src={badgeImage} alt={badgeImage} />
@@ -189,6 +193,7 @@ const BridalItemsList: React.FC<Props> = props => {
               </a>
             )}
           </div>
+
           <div className={cs(bootstrapStyles.col7, bootstrapStyles.colMd9)}>
             <div className={styles.rowMain}>
               <div
@@ -197,16 +202,15 @@ const BridalItemsList: React.FC<Props> = props => {
                 <div className={cs(styles.section, styles.sectionInfo)}>
                   <div
                     className={cs({
-                      [styles.blur]: !productAvailable
+                      [styles.blur]:
+                        !productAvailable || price[props.currency] == 0
                     })}
                   >
                     <div>
                       <div className={styles.collectionName}>{collection}</div>
                       <div className={styles.productName}>
-                        {!productAvailable ||
-                        stock == 0 ||
-                        price[props.currency] == 0 ? (
-                          <span>{productName}</span>
+                        {!productAvailable || price[props.currency] == 0 ? (
+                          productName
                         ) : (
                           <a href={productUrl}>{productName}</a>
                         )}
