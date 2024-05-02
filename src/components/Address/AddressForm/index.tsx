@@ -562,6 +562,20 @@ const AddressForm: React.FC<Props> = props => {
     }
   }, [addressData, countryOptions]);
 
+  useEffect(() => {
+    if (
+      mobile &&
+      (currentCallBackComponent == "checkout-shipping" ||
+        currentCallBackComponent == "checkout-billing")
+    ) {
+      document.body.classList.add(globalStyles.noScroll);
+    }
+
+    return () => {
+      document.body.classList.remove(globalStyles.noScroll);
+    };
+  }, [mobile, currentCallBackComponent]);
+
   const handleCharLimit = (e: any) => {
     setNickname(e.target.value);
     setIsAddressChanged(true);
