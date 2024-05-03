@@ -603,6 +603,10 @@
   font-weight: $medium !important;
   color: $gold !important;
   @include b3_14px_caps_gold();
+
+  &.out-of-stock{
+    opacity: 0.3; 
+  }
 }
 
 .free-quantity {

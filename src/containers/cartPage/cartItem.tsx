@@ -685,7 +685,13 @@ const CartItems: React.FC<BasketItem> = memo(
                   })}
                 >
                   {is_free_product ? (
-                    <p className={cs(styles.productPrice, styles.free)}>FREE</p>
+                    <p
+                      className={cs(styles.productPrice, styles.free, {
+                        [styles.outOfStock]: stockRecords[0].numInStock < 1
+                      })}
+                    >
+                      FREE
+                    </p>
                   ) : (
                     <div
                       className={cs(styles.productPrice, {

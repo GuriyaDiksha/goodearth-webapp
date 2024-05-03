@@ -446,7 +446,7 @@
     .head{
         display: flex;
         gap: 10px;
-        @include b4_12px_montserrat_light_gold();
+        @include b4_12px_montserrat_gold();
     }
 
     .hr{

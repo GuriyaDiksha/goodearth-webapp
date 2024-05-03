@@ -406,7 +406,16 @@ const LineItems: React.FC<BasketItem> = memo(
               )}
               <div className={bridalProfile ? styles.flexPriceIcon : ""}>
                 {is_free_product ? (
-                  <p className={cs(styles.productPrice, styles.free)}>FREE</p>
+                  <p
+                    className={cs(
+                      styles.productPrice,
+                      styles.free,
+                      product.stockRecords[0].numInStock < 1 &&
+                        styles.outOfStock
+                    )}
+                  >
+                    FREE
+                  </p>
                 ) : (
                   <div
                     className={cs(
