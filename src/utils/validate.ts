@@ -1606,7 +1606,8 @@ export const checkoutGTM = (
   basket: Basket,
   paymentMethod?: string,
   gstNo?: string,
-  billingAddressId?: number
+  billingAddressId?: number,
+  deliveryText?: string
 ) => {
   const productList = productForBasketGa(basket, currency);
   const itemList = dataForBilling(basket, currency);
@@ -1644,7 +1645,7 @@ export const checkoutGTM = (
         previous_page_url: CookieService.getCookie("prevUrl"),
         billing_address: billingAddressId,
         gst_invoice: gstNo ? "YES" : "NO",
-        delivery_instruction: "Not", //Pass NA if not applicable the mome
+        delivery_instruction: deliveryText ? "Yes" : "No", //Pass NA if not applicable the mome
         ecommerce: {
           currency: currency, // Pass the currency code
           value: basket.total,
