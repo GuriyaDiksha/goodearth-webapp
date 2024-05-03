@@ -1107,7 +1107,8 @@ class Checkout extends React.Component<Props, State> {
               this.props.basket,
               "",
               obj.gstNo,
-              this.props.billingAddressId
+              this.props.billingAddressId,
+              this.props.deliveryText
             );
           })
           .catch(err => {

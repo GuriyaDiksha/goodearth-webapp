@@ -186,13 +186,13 @@ const LineItems: React.FC<BasketItem> = memo(
         dataLayer.push({
           event: "remove_from_cart",
           previous_page_url: CookieService.getCookie("prevUrl"),
-          currency: currency,
-          value: childAttributes[0]?.discountedPriceRecords[currency]
-            ? childAttributes[0]?.discountedPriceRecords[currency]
-            : price
-            ? price
-            : null,
           ecommerce: {
+            currency: currency,
+            value: childAttributes[0]?.discountedPriceRecords[currency]
+              ? childAttributes[0]?.discountedPriceRecords[currency]
+              : price
+              ? price
+              : null,
             items: [
               {
                 item_id: product.sku || product.childAttributes[0].sku,
