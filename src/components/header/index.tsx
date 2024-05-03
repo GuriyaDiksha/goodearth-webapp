@@ -422,9 +422,9 @@ class Header extends React.Component<Props, State> {
         const tim = timer !== undefined ? timer : this.props.showTimer;
 
         if (tim) {
-          (filterMenu as HTMLElement).style.top = "130px";
+          (filterMenu as HTMLElement).style.top = "150px";
         } else {
-          (filterMenu as HTMLElement).style.top = "100px";
+          (filterMenu as HTMLElement).style.top = "120px";
         }
       }
       if (filterMenuHeader) {
@@ -617,9 +617,9 @@ class Header extends React.Component<Props, State> {
         const tim = timer !== undefined ? timer : this.props.showTimer;
 
         if (tim) {
-          (filterMenu as HTMLElement).style.top = "180px";
+          (filterMenu as HTMLElement).style.top = "200px";
         } else {
-          (filterMenu as HTMLElement).style.top = "140px";
+          (filterMenu as HTMLElement).style.top = "160px";
         }
       }
       if (filterMenuHeader) {

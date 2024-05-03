@@ -44,9 +44,12 @@
         position: fixed;
         padding: 16px 20px 15px 20px;
         border-bottom: 1px solid #ccc;
+        height: 70px;
+        padding: 30px 20px 10px;
         &.mobile-filter-header-sort {
           top: auto;
-          bottom: 204px;
+          // bottom: 204px;
+          bottom: 240px;
         }
         &.mobile-filter-header-sort-discount {
           top: auto;
@@ -97,14 +100,17 @@
             padding: 0 20px;
             li {
               padding: 0 10px;
-              line-height: 50px;
-              @include menu-subcopy();
+              // line-height: 50px;
+              // @include menu-subcopy();
+              @include b4_12px_montserrat_light_charcoal();
               border-bottom: 1px solid tint(#000, 90%);
+              line-height: 59px;
+              letter-spacing: 0.36px;
               a {
                   color: tint(#000, 50%);
               }
               &.gold-color{
-                color: $gold;
+                @include b4_12px_medium_gold();
               }
             }
         }
