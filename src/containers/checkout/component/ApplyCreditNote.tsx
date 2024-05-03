@@ -27,6 +27,7 @@ const ApplyCreditNote = () => {
   const history = useHistory();
 
   useEffect(() => {
+    debugger;
     setIsactivecreditnote(
       !!basket?.giftCards?.filter(ele => ele.cardType === "CREDITNOTE")?.length
     );

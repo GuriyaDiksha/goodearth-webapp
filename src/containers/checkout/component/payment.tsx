@@ -84,7 +84,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
   const whatsappFormRef = useRef<Formsy>(null);
 
-  const prevGiftCardRef = useRef<any>(basket.giftCards);
+  const prevGiftCardRef = useRef<any>(
+    basket.giftCards?.filter(ele => ele?.cardType === "GIFTCARD")
+  );
   const prevLoyaltytRef = useRef<any>(basket.loyalty);
   const fetchCountryData = async () => {
     const data = await LoginService.fetchCountryData(dispatch);
@@ -467,10 +469,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   }, [basket.loyalty]);
 
   useEffect(() => {
-    if (prevGiftCardRef.current.length != basket.giftCards.length) {
-      if (basket.giftCards.length > 0) {
+    const GC = basket.giftCards.filter(ele => ele?.cardType === "GIFTCARD");
+    if (prevGiftCardRef.current.length != GC.length) {
+      if (GC.length > 0) {
         setIsactivepromo(true);
-        prevGiftCardRef.current = basket.giftCards;
+        prevGiftCardRef.current = GC;
       } else {
         setIsactivepromo(false);
       }

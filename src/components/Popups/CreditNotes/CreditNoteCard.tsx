@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 
 type Props = {
   creditNote: CreditNote;
-  setCheckedIds: Dispatch<SetStateAction<string[]>>;
+  onCheck: (e: React.ChangeEvent<HTMLInputElement>, v: string) => void;
   checkedIds: string[];
   activeKey: string;
   setActiveKey: (x: string) => void;
@@ -30,21 +30,13 @@ const CreditNoteCard = forwardRef<
         applied_amount
       },
       checkedIds,
-      setCheckedIds,
+      onCheck,
       activeKey,
       setActiveKey
     },
     ref
   ) => {
     const { currency } = useSelector((state: AppState) => state);
-
-    const onCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event?.target.checked) {
-        setCheckedIds([...checkedIds, entry_code]);
-      } else {
-        setCheckedIds([...checkedIds.filter(ele => ele !== entry_code)]);
-      }
-    };
 
     return (
       <>
@@ -70,7 +62,7 @@ const CreditNoteCard = forwardRef<
                 checked={checkedIds.includes(entry_code)}
                 className={styles.checkboxWrp}
                 label={[<label key={entry_code} htmlFor={entry_code}></label>]}
-                onChange={onCheck}
+                onChange={e => onCheck(e, entry_code)}
               />
             )}
           </div>

@@ -31,12 +31,13 @@ type Props = {
 const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
   const { closeModal } = useContext(Context);
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
+  const [uncheckedIds, setUncheckedIds] = useState<string[]>([]);
   const [activeKey, setActiveKey] = useState("");
   const [error, setError] = useState("");
   const {
     device: { mobile },
     user: { isLoggedIn },
-    basket: { giftCards }
+    basket: { giftCards, total }
   } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -49,20 +50,59 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
     return setCheckedIds([...cns]);
   }, []);
 
+  const onCheck = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    entry_code: string
+  ) => {
+    if (event?.target.checked) {
+      setCheckedIds([...checkedIds, entry_code]);
+    } else {
+      const newUncheckIds = giftCards
+        ?.filter(
+          ele =>
+            ele?.cardType === "CREDITNOTE" &&
+            entry_code === ele?.cardId &&
+            !uncheckedIds.includes(ele?.cardId)
+        )
+        .map(ele => ele?.cardId);
+      setUncheckedIds([...uncheckedIds, ...newUncheckIds]);
+      setCheckedIds([...checkedIds.filter(ele => ele !== entry_code)]);
+    }
+  };
+
   const onClose = () => {
     closeModal();
-    setIsactivecreditnote(false);
+    if (giftCards?.filter(ele => ele?.cardType === "CREDITNOTE").length === 0) {
+      setIsactivecreditnote(false);
+    }
   };
 
   const onContinue = async () => {
+    let error = "";
+    let isAppliedOrRemove = false;
     setError("");
 
-    if (!checkedIds?.length) {
+    const cloneCheckIds = [...checkedIds];
+
+    // Remove already applied CN
+    giftCards
+      ?.filter(ele => ele?.cardType === "CREDITNOTE")
+      ?.map(ele => {
+        if (cloneCheckIds?.includes(ele?.cardId)) {
+          const index = cloneCheckIds.indexOf(ele?.cardId);
+          if (index > -1) {
+            cloneCheckIds.splice(index, 1);
+          }
+        }
+      });
+
+    if (!cloneCheckIds?.length && !uncheckedIds?.length) {
       onClose();
       return;
     }
 
-    for await (const cn of checkedIds) {
+    //Apply CNs
+    for await (const cn of cloneCheckIds) {
       const data: any = {
         cardId: cn,
         type: "CREDITNOTE"
@@ -84,26 +124,39 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
             gift_card_code: data.cardId
           });
         }
-
-        await BasketService.fetchBasket(
-          dispatch,
-          "checkout",
-          history,
-          isLoggedIn
-        );
-        closeModal();
-      } else if (checkedIds?.length == 1 && !gift.status) {
-        setError(gift?.message);
-        return;
+        isAppliedOrRemove = true;
+      } else {
+        error = gift?.message;
       }
+    }
+
+    //Remove CNs
+    for await (const cn of uncheckedIds) {
+      const data: any = {
+        cardId: cn,
+        type: "CREDITNOTE"
+      };
+
+      await CheckoutService.removeGiftCard(dispatch, data);
+      isAppliedOrRemove = true;
+    }
+
+    if (!error || isAppliedOrRemove) {
+      await BasketService.fetchBasket(
+        dispatch,
+        "checkout",
+        history,
+        isLoggedIn
+      );
+      onClose();
+    } else {
+      setError(error);
     }
   };
 
   const toggleActive = (key: string) => {
     const currentBody = bodyRef?.current?.[activeKey];
     const newBody = bodyRef?.current?.[key];
-
-    debugger;
 
     //Collapse current state
     if (activeKey !== "" && currentBody) {
@@ -156,7 +209,7 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
               <CreditNoteCard
                 key={creditNote?.entry_code}
                 creditNote={creditNote}
-                setCheckedIds={setCheckedIds}
+                onCheck={onCheck}
                 checkedIds={checkedIds}
                 activeKey={activeKey}
                 setActiveKey={toggleActive}
@@ -164,7 +217,7 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
               />
             ))}
           </div>
-          {error && <p className={styles.error}>{error}</p>}
+          {error && <p className={cs(style.infoMsg)}>{error}</p>}
           <Button
             variant="mediumMedCharcoalCta366"
             label={"Continue"}
