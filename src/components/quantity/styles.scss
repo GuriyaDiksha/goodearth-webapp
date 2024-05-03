@@ -63,11 +63,7 @@
     font-weight: lighter !important;
 }
 .bag-error-msg{
-    @include error-msg();
-    font-size: 13px;
-    font-weight: normal;
-    color: $gold;
-    padding-top: 5px;
+    @include gold_13px_lora_italic();
 }
 .pdp-error-msg{
     @include error-msg();
@@ -111,6 +107,7 @@
     border-width: 1px;
     max-width: 131px;
     align-items: center;
+    margin-bottom: 6px;
 }
 .quantity-pdp
 {

@@ -70,9 +70,11 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
   };
 
   const onOutsideClick = (event: MouseEvent) => {
-    setOpenState(false);
-    if (mobile) {
-      document.body.classList.remove(globalStyles.noScroll);
+    if (menuOpen) {
+      setOpenState(false);
+      if (mobile) {
+        document.body.classList.remove(globalStyles.noScroll);
+      }
     }
   };
 

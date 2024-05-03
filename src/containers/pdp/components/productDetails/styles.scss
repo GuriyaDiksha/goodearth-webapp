@@ -101,18 +101,7 @@
 }
 
 .size-error-message {
-    @include error-msg();
-    // position: absolute;
-    // top: 45px;
-    display: block;
-    left: 5px;
-    font-family: $font-Lora;
-    font-size: 14px;
-    font-style: italic;
-    font-weight:normal;
-    letter-spacing: 0px;
-    color: #9C7D50
-    // padding: 3px 0px 4px 0px;
+    @include gold_13px_lora_italic();
 }
 
 .bridal-ring {

@@ -622,7 +622,14 @@ const CartItems: React.FC<BasketItem> = memo(
                                     ? "s"
                                     : ""
                                 } have this item in their bag.`}
-                              <br />
+
+                              {saleStatus &&
+                                childAttributes[0].showStockThreshold &&
+                                childAttributes[0].stock > 0 &&
+                                childAttributes[0].othersBasketCount > 0 && (
+                                  <br />
+                                )}
+
                               {saleStatus &&
                                 childAttributes[0].showStockThreshold &&
                                 childAttributes[0].stock > 0 &&

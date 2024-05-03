@@ -1402,13 +1402,14 @@ const ProductDetails: React.FC<Props> = ({
                 })}
               >
                 {Pdpbutton}
-                {onload && !info.isSale && loyaltyDisabled && isQuickview ? (
+                {/* Temporary hide this code as per disscussion with ansuiya */}
+                {/* {onload && !info.isSale && loyaltyDisabled && isQuickview ? (
                   <p className={cs(styles.errorMsg, styles.notEligible)}>
                     This product is not eligible for Cerise points accumulation.
                   </p>
                 ) : (
                   ""
-                )}
+                )} */}
               </div>
               <div
                 className={cs(bootstrap.col4, globalStyles.textCenter, {
@@ -1446,13 +1447,14 @@ const ProductDetails: React.FC<Props> = ({
                 [globalStyles.voffset3]: mobile
               })}
             >
-              {onload && !info.isSale && loyaltyDisabled && !isQuickview ? (
+              {/* Temporary hide this code as per disscussion with ansuiya */}
+              {/* {onload && !info.isSale && loyaltyDisabled && !isQuickview ? (
                 <p className={styles.errorMsg}>
                   This product is not eligible for Cerise points accumulation.
                 </p>
               ) : (
                 ""
-              )}
+              )} */}
             </div>
 
             {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (

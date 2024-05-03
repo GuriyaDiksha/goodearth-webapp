@@ -424,7 +424,7 @@ class BridalItem extends React.Component<Props, State> {
                           {this.state.err ? (
                             <div
                               className={cs(
-                                globalStyles.errorMsg,
+                                styles.qtyLeftMsg,
                                 globalStyles.textCenter
                               )}
                             >
