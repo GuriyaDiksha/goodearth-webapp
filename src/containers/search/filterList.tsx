@@ -1112,6 +1112,7 @@ class FilterList extends React.Component<Props, State> {
     const html: any = [];
     const { filter } = this.state;
     facets?.currentMaterial.map((data: any, i: number) => {
+      const itemCount = data?.[1];
       html.push(
         <li className={styles.materiallabel} key={data?.[0]}>
           <CheckboxWithLabel
@@ -1142,6 +1143,7 @@ class FilterList extends React.Component<Props, State> {
                 {data?.[0]}
               </label>
             ]}
+            itemCount={itemCount}
           />
         </li>
       );
@@ -1668,7 +1670,9 @@ class FilterList extends React.Component<Props, State> {
     if (!facets.currentColor || facets.length == 0) return false;
     const html: any = [];
     const { filter } = this.state;
+    const { mobile } = this.props;
     facets.currentColor.map((data: any, i: number) => {
+      const itemCount = data[1];
       const color: any = {
         "--my-color-var": "#" + data[0].split("-")[0]
       };
@@ -1710,6 +1714,7 @@ class FilterList extends React.Component<Props, State> {
             >
               {data[0].split("-")[0]}
             </label>
+            {mobile && <span className={styles.itemCount}>{itemCount}</span>}
           </li>
         );
       } else {
@@ -1744,6 +1749,7 @@ class FilterList extends React.Component<Props, State> {
             >
               {data[0].split("-")[1]}
             </label>
+            {mobile && <span className={styles.itemCount}>{itemCount}</span>}
           </li>
         );
       }
@@ -2075,6 +2081,7 @@ class FilterList extends React.Component<Props, State> {
     const { filter } = this.state;
     const { mobile } = this.props;
     facets.availableSize.map((data: any, i: number) => {
+      const itemCount = data?.[1];
       html.push(
         <>
           {mobile ? (
@@ -2107,6 +2114,7 @@ class FilterList extends React.Component<Props, State> {
                     {data?.[0]}
                   </label>
                 ]}
+                itemCount={itemCount}
               />
             </li>
           ) : (
@@ -2492,56 +2500,6 @@ class FilterList extends React.Component<Props, State> {
             </div>
           </li>
 
-          {this.props.facets?.currentMaterial?.length > 0 ? (
-            <li
-              className={cs(styles.L1, {
-                [styles.open]:
-                  this.state.activeindex == 4 && this.state.showmenulevel1
-              })}
-            >
-              <span
-                className={
-                  this.state.activeindex == 4 && this.state.showmenulevel1
-                    ? cs(styles.menulevel1, styles.menulevel1Open)
-                    : styles.menulevel1
-                }
-                onClick={() => {
-                  this.Clickmenulevel1(4);
-                  this.handleAnimation(
-                    "material",
-                    this.state.activeindex == 4 && this.state.showmenulevel1
-                  );
-                }}
-              >
-                MATERIAL
-              </span>
-              <div
-                id="material"
-                className={
-                  this.state.activeindex == 4 && this.state.showmenulevel1
-                    ? styles.colorhead
-                    : styles.hideDiv
-                }
-              >
-                <ul>
-                  <span>
-                    {this.createMaterial(
-                      this.props.facets,
-                      this.props.filtered_facets
-                    )}
-                  </span>
-                  <div data-name="currentMaterial">
-                    <span
-                      onClick={e => this.clearFilter(e, "currentMaterial")}
-                      className={styles.plp_filter_sub}
-                    >
-                      Clear
-                    </span>
-                  </div>
-                </ul>
-              </div>
-            </li>
-          ) : null}
           {this.props.facets.availableSize ? (
             this.props.facets.availableSize.length > 0 ? (
               <li
@@ -2596,6 +2554,58 @@ class FilterList extends React.Component<Props, State> {
           ) : (
             ""
           )}
+
+          {this.props.facets?.currentMaterial?.length > 0 ? (
+            <li
+              className={cs(styles.L1, {
+                [styles.open]:
+                  this.state.activeindex == 4 && this.state.showmenulevel1
+              })}
+            >
+              <span
+                className={
+                  this.state.activeindex == 4 && this.state.showmenulevel1
+                    ? cs(styles.menulevel1, styles.menulevel1Open)
+                    : styles.menulevel1
+                }
+                onClick={() => {
+                  this.Clickmenulevel1(4);
+                  this.handleAnimation(
+                    "material",
+                    this.state.activeindex == 4 && this.state.showmenulevel1
+                  );
+                }}
+              >
+                MATERIAL
+              </span>
+              <div
+                id="material"
+                className={
+                  this.state.activeindex == 4 && this.state.showmenulevel1
+                    ? styles.colorhead
+                    : styles.hideDiv
+                }
+              >
+                <ul>
+                  <span>
+                    {this.createMaterial(
+                      this.props.facets,
+                      this.props.filtered_facets
+                    )}
+                  </span>
+                  <div data-name="currentMaterial">
+                    <span
+                      onClick={e => this.clearFilter(e, "currentMaterial")}
+                      className={styles.plp_filter_sub}
+                    >
+                      Clear
+                    </span>
+                  </div>
+                </ul>
+              </div>
+            </li>
+          ) : null}
+
           <li
             className={cs(
               styles.L1,
@@ -2688,6 +2698,7 @@ class FilterList extends React.Component<Props, State> {
               )}
             </div>
           </li>
+
           {mobile && (
             <div className={styles.numberDiv}>
               <span>
