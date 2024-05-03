@@ -562,6 +562,20 @@ const AddressForm: React.FC<Props> = props => {
     }
   }, [addressData, countryOptions]);
 
+  useEffect(() => {
+    if (
+      mobile &&
+      (currentCallBackComponent == "checkout-shipping" ||
+        currentCallBackComponent == "checkout-billing")
+    ) {
+      document.body.classList.add(globalStyles.noScroll);
+    }
+
+    return () => {
+      document.body.classList.remove(globalStyles.noScroll);
+    };
+  }, [mobile, currentCallBackComponent]);
+
   const handleCharLimit = (e: any) => {
     setNickname(e.target.value);
     setIsAddressChanged(true);
@@ -1139,10 +1153,15 @@ const AddressForm: React.FC<Props> = props => {
                 currentCallBackComponent == "checkout-billing"
             })}
           >
-            <div className={cs(globalStyles.flex, styles.btnWrp)}>
+            <div
+              className={cs(globalStyles.flex, styles.btnWrp, {
+                [styles.maxWidth]: mobile
+              })}
+            >
               <div
                 className={cs(
                   {
+                    [styles.maxWidth]: mobile,
                     [styles.fullWidth]:
                       currentCallBackComponent == "bridal-edit" ||
                       currentCallBackComponent == "bridal"
@@ -1162,12 +1181,14 @@ const AddressForm: React.FC<Props> = props => {
                     type="submit"
                     label={"SAVE ADDRESS"}
                     disabled={!isAddressChanged}
+                    className={cs({ [styles.maxWidth]: mobile })}
                   />
                 ) : (
                   <Button
                     variant="mediumMedCharcoalCta366"
                     type="submit"
                     label={"ADD NEW ADDRESS"}
+                    className={cs({ [styles.maxWidth]: mobile })}
                   />
                 )}
               </div>

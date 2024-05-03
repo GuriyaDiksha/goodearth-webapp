@@ -2258,7 +2258,7 @@ class FilterList extends React.Component<Props, State> {
         filter: newFilter
       },
       () => {
-        this.createUrlfromFilter();
+        // this.createUrlfromFilter();
       }
     );
   };
