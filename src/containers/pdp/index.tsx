@@ -1124,6 +1124,7 @@ class PDPContainer extends React.Component<Props, State> {
   notifyMeClick = (product: PLPProductItem) => {
     const {
       categories,
+      collection,
       collections,
       priceRecords,
       discountedPriceRecords,
@@ -1153,8 +1154,8 @@ class PDPContainer extends React.Component<Props, State> {
     updateComponentModal(
       POPUP.NOTIFYMEPOPUP,
       {
-        collection:
-          collections && collections?.length > 0 ? collections[0] : "",
+        collection: collection,
+        // collections && collections?.length > 0 ? collections[0] : "",
         category: category,
         price: priceRecords[currency],
         currency: currency,
