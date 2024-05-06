@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, forwardRef } from "react";
+import React, { forwardRef } from "react";
 import cs from "classnames";
 import CheckboxWithLabel from "components/CheckboxWithLabel";
 import styles from "./index.scss";
@@ -15,10 +15,7 @@ type Props = {
   setActiveKey: (x: string) => void;
 };
 
-const CreditNoteCard = forwardRef<
-  React.MutableRefObject<React.Ref<HTMLDivElement>[]>,
-  Props
->(
+const CreditNoteCard = forwardRef<Props, any>(
   (
     {
       creditNote: {
@@ -66,35 +63,35 @@ const CreditNoteCard = forwardRef<
               />
             )}
           </div>
-          <div
-            ref={el =>
-              ref && ref?.current ? (ref.current[entry_code] = el) : null
-            }
-            className={cs(styles.bodyDiv, {
-              [styles.expiredBody]: is_expired,
-              [styles.balanceOverBody]: remaining_amount === 0 || is_expired
-            })}
-          >
-            <p className={styles.firstLine}>
-              Date of issue: <span>{date_created}</span>
-            </p>
-            <p>
-              Date of expiry: <span>{expiring_date}</span>
-            </p>
-            <p>
-              Total value:{" "}
-              <span>
-                {" "}
-                {displayPriceWithCommasFloat(applied_amount, currency)}
-              </span>
-            </p>
-            {!is_expired && (
-              <p className={styles.balance}>
-                Balance amount:{" "}
-                {displayPriceWithCommasFloat(remaining_amount, currency)}
+          {ref && ref?.current && (
+            <div
+              ref={el => (ref.current[entry_code] = el)}
+              className={cs(styles.bodyDiv, {
+                [styles.expiredBody]: is_expired,
+                [styles.balanceOverBody]: remaining_amount === 0 || is_expired
+              })}
+            >
+              <p className={styles.firstLine}>
+                Date of issue: <span>{date_created}</span>
               </p>
-            )}
-          </div>
+              <p>
+                Date of expiry: <span>{expiring_date}</span>
+              </p>
+              <p>
+                Total value:{" "}
+                <span>
+                  {" "}
+                  {displayPriceWithCommasFloat(applied_amount, currency)}
+                </span>
+              </p>
+              {!is_expired && (
+                <p className={styles.balance}>
+                  Balance amount:{" "}
+                  {displayPriceWithCommasFloat(remaining_amount, currency)}
+                </p>
+              )}
+            </div>
+          )}
         </div>
       </>
     );

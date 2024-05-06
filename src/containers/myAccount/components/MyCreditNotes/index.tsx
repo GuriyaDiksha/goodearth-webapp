@@ -34,7 +34,7 @@ const MyCreditNotes: React.FC<Props> = ({ setCurrentSection }) => {
     AccountService.fetchCreditNotes(dispatch, sortBy, sortType, page)
       .then(response => {
         const { count, previous, next, results } = response;
-        setData(results);
+        setData(results.filter(ele => ele?.type === "CN"));
         setPagination({ count, previous, next });
       })
       .catch(e => {

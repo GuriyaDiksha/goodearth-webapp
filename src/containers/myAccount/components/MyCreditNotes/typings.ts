@@ -13,6 +13,7 @@ export type CreditNote = {
   applied_amount: number;
   expiring_date: string;
   is_expired: boolean;
+  type?: string;
 };
 
 export type HeaderData = Array<{

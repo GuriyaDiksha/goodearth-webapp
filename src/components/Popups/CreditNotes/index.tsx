@@ -1,11 +1,4 @@
-import React, {
-  Ref,
-  createRef,
-  useContext,
-  useEffect,
-  useRef,
-  useState
-} from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
@@ -37,16 +30,18 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
   const {
     device: { mobile },
     user: { isLoggedIn },
-    basket: { giftCards, total }
+    basket: { giftCards }
   } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
   const history = useHistory();
-  const bodyRef = useRef<Array<Ref<HTMLDivElement>>>([]);
+  const bodyRef = useRef<any>([]);
+
+  const creditNotes = useMemo(() => {
+    return giftCards?.filter(ele => ele.cardType === "CREDITNOTE");
+  }, [giftCards]);
 
   useEffect(() => {
-    const cns = giftCards
-      ?.filter(ele => ele?.cardType === "CREDITNOTE")
-      ?.map(ele => ele?.cardId);
+    const cns = creditNotes?.map(ele => ele?.cardId);
     return setCheckedIds([...cns]);
   }, []);
 
@@ -57,12 +52,10 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
     if (event?.target.checked) {
       setCheckedIds([...checkedIds, entry_code]);
     } else {
-      const newUncheckIds = giftCards
+      const newUncheckIds = creditNotes
         ?.filter(
           ele =>
-            ele?.cardType === "CREDITNOTE" &&
-            entry_code === ele?.cardId &&
-            !uncheckedIds.includes(ele?.cardId)
+            entry_code === ele?.cardId && !uncheckedIds.includes(ele?.cardId)
         )
         .map(ele => ele?.cardId);
       setUncheckedIds([...uncheckedIds, ...newUncheckIds]);
@@ -72,7 +65,7 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
 
   const onClose = () => {
     closeModal();
-    if (giftCards?.filter(ele => ele?.cardType === "CREDITNOTE").length === 0) {
+    if (creditNotes.length === 0) {
       setIsactivecreditnote(false);
     }
   };
@@ -85,16 +78,14 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
     const cloneCheckIds = [...checkedIds];
 
     // Remove already applied CN
-    giftCards
-      ?.filter(ele => ele?.cardType === "CREDITNOTE")
-      ?.map(ele => {
-        if (cloneCheckIds?.includes(ele?.cardId)) {
-          const index = cloneCheckIds.indexOf(ele?.cardId);
-          if (index > -1) {
-            cloneCheckIds.splice(index, 1);
-          }
+    creditNotes?.map(ele => {
+      if (cloneCheckIds?.includes(ele?.cardId)) {
+        const index = cloneCheckIds.indexOf(ele?.cardId);
+        if (index > -1) {
+          cloneCheckIds.splice(index, 1);
         }
-      });
+      }
+    });
 
     if (!cloneCheckIds?.length && !uncheckedIds?.length) {
       onClose();
@@ -154,6 +145,7 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
     }
   };
 
+  //This is for expired or balance over cards
   const toggleActive = (key: string) => {
     const currentBody = bodyRef?.current?.[activeKey];
     const newBody = bodyRef?.current?.[key];

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import CheckboxWithLabel from "components/CheckboxWithLabel";
 import { useDispatch, useSelector } from "react-redux";
-import ModalStyles from "components/Modal/styles.scss";
 import AccountService from "services/account";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
@@ -18,20 +17,20 @@ import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
 const ApplyCreditNote = () => {
   const [isactivecreditnote, setIsactivecreditnote] = useState(false);
   const {
-    basket,
+    basket: { giftCards },
     currency,
-    device: { mobile },
     user: { isLoggedIn }
   } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const creditNotes = useMemo(() => {
+    return giftCards?.filter(ele => ele.cardType === "CREDITNOTE");
+  }, [giftCards]);
+
   useEffect(() => {
-    debugger;
-    setIsactivecreditnote(
-      !!basket?.giftCards?.filter(ele => ele.cardType === "CREDITNOTE")?.length
-    );
-  }, [basket?.giftCards?.length]);
+    setIsactivecreditnote(!!creditNotes?.length);
+  }, [creditNotes?.length]);
 
   const fetchCreditNotes = () => {
     AccountService.fetchCreditNotes(dispatch, "expiring_date", "desc", 1, true)
@@ -42,7 +41,7 @@ const ApplyCreditNote = () => {
           updateComponent(
             POPUP.CREDITNOTES,
             {
-              data: results,
+              data: results.filter(ele => ele?.type === "CN"),
               setIsactivecreditnote
             },
             false
@@ -61,12 +60,12 @@ const ApplyCreditNote = () => {
       | React.MouseEvent<HTMLDivElement, MouseEvent>,
     isEdit?: boolean
   ) => {
+    //Open popup and fetch data : On checked true
     if (!isactivecreditnote || isEdit) {
       fetchCreditNotes();
     } else {
-      for await (const giftcard of basket?.giftCards?.filter(
-        ele => ele?.cardType === "CREDITNOTE"
-      )) {
+      //Close popupand remove all CN : On checked false
+      for await (const giftcard of creditNotes) {
         const data: any = {
           cardId: giftcard?.cardId,
           type: giftcard?.cardType
@@ -82,9 +81,11 @@ const ApplyCreditNote = () => {
         isLoggedIn
       );
     }
+    //Set true or false for checkbox
     setIsactivecreditnote(isEdit || !isactivecreditnote);
   };
 
+  //Onclose of individual CN
   const onClose = async (code: string, type: string) => {
     const data: any = {
       cardId: code,
@@ -126,7 +127,7 @@ const ApplyCreditNote = () => {
           ]}
         />
 
-        {isactivecreditnote && !!basket.giftCards?.length && (
+        {isactivecreditnote && !!creditNotes.length && (
           <div
             className={styles.edit}
             onClick={e => onCreditNoteToggle(e, true)}
@@ -138,20 +139,18 @@ const ApplyCreditNote = () => {
 
       <div>
         {isactivecreditnote &&
-          !!basket.giftCards?.length &&
-          basket.giftCards
-            ?.filter(ele => ele.cardType === "CREDITNOTE")
-            ?.map(ele => (
-              <GiftCardItem
-                isLoggedIn={isLoggedIn}
-                {...ele}
-                onClose={onClose}
-                currency={currency}
-                type="crd"
-                currStatus={"success"}
-                key={ele?.code}
-              />
-            ))}
+          !!creditNotes.length &&
+          creditNotes?.map(ele => (
+            <GiftCardItem
+              isLoggedIn={isLoggedIn}
+              {...ele}
+              onClose={onClose}
+              currency={currency}
+              type="crd"
+              currStatus={"success"}
+              key={ele?.code}
+            />
+          ))}
       </div>
     </div>
   );
