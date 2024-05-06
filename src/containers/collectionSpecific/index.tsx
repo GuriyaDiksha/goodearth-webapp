@@ -887,7 +887,7 @@ class CollectionSpecific extends React.Component<
             href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
           />
         )}
-        {mobile && this.state.count > -1 && this.state.showProductCounter && (
+        {this.state.count > -1 && this.state.showProductCounter && (
           <ProductCounter
             current={this.state.count}
             // total={results?.length}

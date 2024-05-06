@@ -1026,7 +1026,7 @@ class Search extends React.Component<
             sortedDiscount={facets.sortedDiscount}
           />
         )}
-        {mobile && this.state.count > -1 && this.state.showProductCounter && (
+        {this.state.count > -1 && this.state.showProductCounter && (
           <ProductCounter
             current={this.state.count}
             total={count}

@@ -16,6 +16,11 @@ z-index: 2; //changed for sort by filter
     &.top-position{
         top: 170px;
     }
+    &.left-position{
+        @media screen and (min-width:991px) {
+            left: calc(60%);
+        }
+    }
     .counter {
         height: 100%;
         color: #000000CC;
