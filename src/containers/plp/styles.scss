@@ -266,7 +266,7 @@
       span {
         line-height: 50px;
         @include cta_white();
-        color: #9F9F9F;
+        color: #191919;
       }
       background-color: #fff;
       border: 1px solid #9F9F9F;
@@ -424,8 +424,9 @@
       overflow: scroll;
       position: absolute;
       left: 50%;
-      top: 30px;
+      top: 15px;
       padding-right: 25px;
+      max-height: auto!important;
     }
     &::-webkit-scrollbar {
       display: none;
@@ -795,7 +796,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
   overflow: hidden;
   @media(max-width:992px){
     position: absolute;
-    top: 30px;
+    top: 15px;
     right: 0;
     left: 50%;
     padding-right: 25px;
@@ -884,40 +885,11 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
           border: 1px solid $aqua-bold;
         }
       }
-      
-      // &:hover {
-      //   border: 1px solid $aqua-bold;
-      //   background-color: #f9f8f5;
-      //   color: $aqua-bold;
-      //   font-weight: 500;
-      // }
-      // &.select_size {
-      //   border: 1px solid $aqua-bold;
-      //   background-color: white;
-      //   font-size:12px;
-      //   color: $aqua-bold;
-      //   font-weight: 500;
-      //   &.select-size{
-      //     border: 1px solid $aqua-bold;
-      //     background-color: white;
-      //     font-size:12px;
-      //     color: #e5e5e5;
-      //     font-weight: 500;
-      //   }
-      // }
-      // &.disableSize{
-      //   color: #E5E5E5;
-      //   border: #E5E5E5;
-      //   border-style: solid;
-      //   border-width: 1px;
-      //   background: linear-gradient(to left top, #f9f8f5 47.75%, currentColor 50.5%, currentColor 49.5%, #f9f8f5 51.25%);
-      //   &:hover {
-      //     border: 1px solid $aqua-bold;
-      //     background: white;
-      //     color: $aqua-bold;
-      //     font-weight: 500;
-      //   }
-      // }
+    }
+  }
+  @media(max-width:992px){
+    .disableSize{
+      opacity: 0.5;
     }
   }
 }
@@ -1203,4 +1175,7 @@ p.corporate-sub-heading {
     margin-bottom: 12px;
     font-weight: 100;
   }
+  .hide{
+    display: none;
+  }  
 }

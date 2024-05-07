@@ -203,8 +203,9 @@ const PlpDropdownMenu = ({
               <span>
                 <pre>
                   {[
-                    "FILTER BY  ",
-                    <span key="filter-count">{`( ${filterCount} )`}</span>
+                    // "FILTER BY  ",
+                    // <span key="filter-count">{`(${filterCount})`}</span>
+                    `FILTER BY (${filterCount})`
                   ]}
                 </pre>
               </span>

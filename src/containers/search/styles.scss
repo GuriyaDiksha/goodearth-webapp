@@ -228,7 +228,7 @@
       span {
         line-height: 50px;
         @include cta_white();
-        color: #9F9F9F;
+        color: #191919;
       }
       background-color: #fff;
       border: 1px solid #9F9F9F;
@@ -336,12 +336,17 @@
       li {
         padding-left: 0px;
         label {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: block;
           cursor: pointer;
           padding-left: 40px;
+          @media(min-width:993px){
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+          }
+          @media(max-width:992px){
+            line-height: 20px;
+          }
         }
         .disableColors {
           opacity: 0.5;
@@ -393,7 +398,7 @@
       overflow: scroll;
       position: absolute;
       left: 50%;
-      top: 30px;
+      top: 12px;
       padding-right: 25px;
     }
     &::-webkit-scrollbar {
@@ -403,6 +408,11 @@
       label {
         padding-left: 35px;
         margin-bottom: 0;
+        &.white-tick{
+          &:after{
+            border-color: #000 !important;
+          }
+        }
       }
       .disableColors{
         opacity: 0.5;
@@ -770,7 +780,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
   overflow: hidden;
   @media(max-width:992px){
     position: absolute;
-    top: 30px;
+    top: 15px;
     right: 0;
     left: 50%;
     padding-right: 25px;
@@ -863,7 +873,6 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
         color: $aqua !important;
       }
     }
-  }
   .disableSize{
       color: #E5E5E5 !important;
       border: 1px solid #E5E5E5;
@@ -872,6 +881,12 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
       &:hover{
         border: 1px solid $aqua-bold;
       }
+    }
+  }
+  @media(max-width:992px){
+    .disableSize{
+      opacity: 0.5;
+    }
   }
 }
 .select_size {
@@ -1258,4 +1273,7 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
     margin-bottom: 12px;
     font-weight: 100;
   }
+  .hide{
+    display: none;
+  }  
 }

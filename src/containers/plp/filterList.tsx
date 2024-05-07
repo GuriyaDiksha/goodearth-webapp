@@ -635,7 +635,7 @@ class FilterList extends React.Component<Props, State> {
     } = this.props;
 
     if (!onload && mobile) {
-      return true;
+      // return true;
     }
     changeLoader?.(true);
     const url = decodeURI(history.location.search);
@@ -1532,21 +1532,39 @@ class FilterList extends React.Component<Props, State> {
   };
 
   Clickmenulevel1 = (index: number) => {
-    index == this.state.activeindex
-      ? this.setState({
-          activeindex: index,
-          openMenu: index,
-          showmenulevel1: !this.state.showmenulevel1,
-          categoryindex: -1,
-          categorylevel1: !this.state.categorylevel1
-        })
-      : this.setState({
-          activeindex: index,
-          openMenu: index,
-          showmenulevel1: true,
-          categoryindex: index,
-          categorylevel1: true
-        });
+    if (window.innerWidth <= 992) {
+      index == this.state.activeindex
+        ? this.setState({
+            activeindex: index,
+            openMenu: index
+          })
+        : this.setState({
+            activeindex: index,
+            openMenu: index,
+            showmenulevel1: true
+          });
+      index == 0
+        ? this.setState({
+            categoryindex: index,
+            categorylevel1: true
+          })
+        : this.setState({
+            categoryindex: -1,
+            categorylevel1: !this.state.categorylevel1
+          });
+    } else {
+      index == this.state.activeindex
+        ? this.setState({
+            activeindex: index,
+            openMenu: index,
+            showmenulevel1: !this.state.showmenulevel1
+          })
+        : this.setState({
+            activeindex: index,
+            openMenu: index,
+            showmenulevel1: true
+          });
+    }
   };
 
   handleAnimation = (id: string, isShow: boolean, isSubCat = false) => {
@@ -1573,7 +1591,9 @@ class FilterList extends React.Component<Props, State> {
             ? `${document.getElementById(id)?.scrollHeight}px`
             : "max-content";
       } else {
-        (document.getElementById(id) as HTMLElement).style.maxHeight = "0px";
+        if (window.innerWidth >= 993) {
+          (document.getElementById(id) as HTMLElement).style.maxHeight = "0px";
+        }
       }
     }
   };
@@ -1832,6 +1852,7 @@ class FilterList extends React.Component<Props, State> {
         }
         break;
       case "all":
+        filter.categoryShop = {};
         filter.currentColor = {};
         filter.availableSize = {};
         filter.currentMaterial = {};
@@ -1923,6 +1944,24 @@ class FilterList extends React.Component<Props, State> {
           break;
         }
         case "categoryShop":
+          const { filter } = this.state;
+          const categoryObjArr = Object.values(filter.categoryShop);
+          const filteredArrays = categoryObjArr.filter(obj =>
+            Object.values(obj as any).some(value => value === true)
+          );
+          const dataArray = Object.values(filteredArrays);
+          const categoryTrueValues: string[] = [];
+          dataArray.forEach(data => {
+            Object.entries(data as any).forEach(([key, value]) => {
+              if (value === true) {
+                categoryTrueValues.push(key);
+              }
+            });
+          });
+          const CategoryFilterCount = categoryTrueValues.length;
+          if (CategoryFilterCount > 0) {
+            filterCount += CategoryFilterCount;
+          }
           break;
         case "price": {
           const filter: any = [];
@@ -2047,7 +2086,7 @@ class FilterList extends React.Component<Props, State> {
       }
     });
     const name: any = "all";
-    if (html.length > 0) {
+    if (html.length > 0 || filterCount > 0) {
       html.push(
         <div data-name={name}>
           <span
@@ -2094,7 +2133,7 @@ class FilterList extends React.Component<Props, State> {
                 label={[
                   <label
                     className={cs({
-                      [styles.disableColors]:
+                      [styles.disableSize]:
                         filtered_facets?.availableSize?.filter(
                           (e: string[]) => e[0] === data?.[0]
                         ).length === 0
@@ -2238,13 +2277,104 @@ class FilterList extends React.Component<Props, State> {
       this.props.facets,
       this.props.filtered_facets
     );
+
+    const catObjArr = Object.values(filter.categoryShop);
+    const catFilteredArrays = catObjArr.filter(obj =>
+      Object.values(obj as any).some(value => value === true)
+    );
+    const catDataArray = Object.values(catFilteredArrays);
+    const catTrueValues: string[] = [];
+    catDataArray.forEach(data => {
+      Object.entries(data as any).forEach(([key, value]) => {
+        if (value === true) {
+          catTrueValues.push(key);
+        }
+      });
+    });
+    const categoryFilterCount = catTrueValues.length;
+
+    const colorObjArr = Object.values(filter.currentColor);
+    const colorFilteredArrays = colorObjArr.filter(obj =>
+      Object.values(obj as any).some(value => value === true)
+    );
+    const colorDataArray = Object.values(colorFilteredArrays);
+    const colorTrueValues: string[] = [];
+    colorDataArray.forEach(data => {
+      Object.entries(data as any).forEach(([key, value]) => {
+        if (value === true) {
+          colorTrueValues.push(key);
+        }
+      });
+    });
+    const colorFilterCount = colorTrueValues.length;
+
+    const sizeObjArr = Object.values(filter.availableSize);
+    const sizeFilteredArrays = sizeObjArr.filter(obj =>
+      Object.values(obj as any).some(value => value === true)
+    );
+    const sizeDataArray = Object.values(sizeFilteredArrays);
+    const sizeTrueValues: string[] = [];
+    sizeDataArray.forEach(data => {
+      Object.entries(data as any).forEach(([key, value]) => {
+        if (value === true) {
+          sizeTrueValues.push(key);
+        }
+      });
+    });
+    const sizeFilterCount = sizeTrueValues.length;
+
+    const materialObjArr = Object.values(filter.currentMaterial);
+    const materialFilteredArrays = materialObjArr.filter(obj =>
+      Object.values(obj as any).some(value => value === true)
+    );
+    const materialDataArray = Object.values(materialFilteredArrays);
+    const materialTrueValues: string[] = [];
+    materialDataArray.forEach(data => {
+      Object.entries(data as any).forEach(([key, value]) => {
+        if (value === true) {
+          materialTrueValues.push(key);
+        }
+      });
+    });
+    const materialFilterCount = materialTrueValues.length;
+
+    const prodTypeObjArr = Object.values(filter.productType);
+    const prodTypeFilteredArrays = prodTypeObjArr.filter(obj =>
+      Object.values(obj as any).some(value => value === true)
+    );
+    const prodTypeDataArray = Object.values(prodTypeFilteredArrays);
+    const prodTypeTrueValues: string[] = [];
+    prodTypeDataArray.forEach(data => {
+      Object.entries(data as any).forEach(([key, value]) => {
+        if (value === true) {
+          prodTypeTrueValues.push(key);
+        }
+      });
+    });
+    const prodTypeFilterCount = prodTypeTrueValues.length;
+
+    const avlDisObjArr = Object.values(filter.availableDiscount);
+    const avlDisFilteredArrays = avlDisObjArr.filter(obj =>
+      Object.values(obj as any).some(value => value === true)
+    );
+    const avlDisDataArray = Object.values(avlDisFilteredArrays);
+    const avlDisTrueValues: string[] = [];
+    avlDisDataArray.forEach(data => {
+      Object.entries(data as any).forEach(([key, value]) => {
+        if (value === true) {
+          avlDisTrueValues.push(key);
+        }
+      });
+    });
+    const avlDisFilterCount = avlDisTrueValues.length;
     return (
       <Fragment>
         <ul id="inner_filter" className={styles.filterSideMenu}>
           <li
             className={cs(styles.L1, styles.filterElements, {
               [styles.noBorder]:
-                this.renderFilterList(filter).length == 0 && mobile
+                this.renderFilterList(filter).length == 0 && mobile,
+              [styles.hide]: mobile
             })}
           >
             {!mobile && <span>Filter By</span>}
@@ -2283,7 +2413,11 @@ class FilterList extends React.Component<Props, State> {
                       );
                     }}
                   >
-                    BY DISCOUNT
+                    {`BY DISCOUNT ${
+                      mobile && avlDisFilterCount > 0
+                        ? `(${avlDisFilterCount})`
+                        : ""
+                    }`}
                   </span>
                 ) : (
                   ""
@@ -2311,37 +2445,39 @@ class FilterList extends React.Component<Props, State> {
                 </div>
               </li>
             )}
+
           <li
             className={cs(styles.L1, {
               [styles.open]:
-                (this.state.activeindex == 0 && this.state.showmenulevel1) ||
-                (this.state.categoryindex == 0 && this.state.categorylevel1)
+                this.state.categoryindex == 0 && this.state.categorylevel1
             })}
           >
             <span
-              className={
-                (this.state.activeindex == 0 && this.state.showmenulevel1) ||
-                (this.state.categoryindex == 0 && this.state.categorylevel1)
+              className={cs(
+                this.state.categorylevel1,
+                this.state.categoryindex == 0 && this.state.categorylevel1
                   ? cs(styles.menulevel1, styles.menulevel1Open)
                   : styles.menulevel1
-              }
+              )}
               onClick={() => {
                 // this.ClickmenuCategory(0);
                 this.Clickmenulevel1(0);
                 this.handleAnimation(
                   "category",
-                  (this.state.activeindex == 0 && this.state.showmenulevel1) ||
-                    (this.state.categoryindex == 0 && this.state.categorylevel1)
+                  this.state.categoryindex == 0 && this.state.categorylevel1
                 );
               }}
             >
-              Category
+              {`Category ${
+                mobile && categoryFilterCount > 0
+                  ? `(${categoryFilterCount})`
+                  : ""
+              }`}
             </span>
             <div
               id="category"
               className={
-                (this.state.categoryindex == 0 && this.state.categorylevel1) ||
-                (this.state.activeindex == 0 && this.state.showmenulevel1)
+                this.state.categoryindex == 0 && this.state.categorylevel1
                   ? styles.showheader1
                   : styles.hideDiv
               }
@@ -2374,7 +2510,11 @@ class FilterList extends React.Component<Props, State> {
                   );
                 }}
               >
-                PRODUCT TYPE
+                {`PRODUCT TYPE ${
+                  mobile && prodTypeFilterCount > 0
+                    ? `(${prodTypeFilterCount})`
+                    : ""
+                }`}
               </span>
               <div
                 id="producttype"
@@ -2417,7 +2557,9 @@ class FilterList extends React.Component<Props, State> {
                 );
               }}
             >
-              COLOUR FAMILY
+              {`COLOUR FAMILY ${
+                mobile && colorFilterCount > 0 ? `(${colorFilterCount})` : ""
+              }`}
             </span>
             <div
               id="color"
@@ -2468,7 +2610,9 @@ class FilterList extends React.Component<Props, State> {
                     );
                   }}
                 >
-                  size
+                  {`SIZE ${
+                    mobile && sizeFilterCount > 0 ? `(${sizeFilterCount})` : ""
+                  }`}
                 </span>
                 <div
                   id="size"
@@ -2522,7 +2666,11 @@ class FilterList extends React.Component<Props, State> {
                   );
                 }}
               >
-                MATERIAL
+                {`MATERIAL ${
+                  mobile && materialFilterCount > 0
+                    ? `(${materialFilterCount})`
+                    : ""
+                }`}
               </span>
               <div
                 id="material"
@@ -2580,7 +2728,9 @@ class FilterList extends React.Component<Props, State> {
                 );
               }}
             >
-              Price
+              {`Price ${
+                mobile && Object.keys(filter.price).length > 0 ? "(1)" : ""
+              }`}
             </span>
             <div
               id="price"
@@ -2656,14 +2806,10 @@ class FilterList extends React.Component<Props, State> {
         </ul>
         {mobile ? (
           <div className={cs(styles.filterButton, bootstrap.row)}>
-            {/* <div className={styles.numberDiv}>
-              <span>
-                {this.state.totalItems > 1
-                  ? this.state.totalItems + " products found"
-                  : this.state.totalItems + " product found"}
-              </span>
-            </div> */}
-            <div className={styles.resetFilter}>
+            <div
+              className={styles.resetFilter}
+              onClick={e => this.clearFilter(e, "all")}
+            >
               <span>Reset Filters</span>
             </div>
             <div className={styles.applyButton} onClick={this.mobileApply}>
