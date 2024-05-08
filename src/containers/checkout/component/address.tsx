@@ -319,8 +319,9 @@ const AddressSection: React.FC<AddressProps & {
     setMode("list");
   };
 
-  const renderSavedAddress = function() {
-    const address = selectedAddress;
+  // const renderSavedAddress = function() {
+  // const address = selectedAddress;
+  const renderSavedAddress = (address?: AddressData) => {
     if (!isActive && address && isBridal && activeStep == STEP_SHIPPING) {
       // saved address for bridal
       return (
@@ -1096,7 +1097,14 @@ const AddressSection: React.FC<AddressProps & {
                 </span>
               </div>
               {ctaText != "ADD A NEW ADDRESS" && renderActions(false)}
-              {renderSavedAddress()}
+              {renderSavedAddress(
+                addressList?.find(val =>
+                  shippingAddressId !== 0
+                    ? val?.id === shippingAddressId
+                    : val?.isDefaultForShipping === true ||
+                      (isBridal && basket.bridalAddressId === val?.id)
+                )
+              )}
             </div>
             {isActive && (
               <>
@@ -1240,7 +1248,14 @@ const AddressSection: React.FC<AddressProps & {
                     your Gift Card.
                   </p>
                 )}
-              {renderSavedAddress()}
+              {renderSavedAddress(
+                addressList?.find(val =>
+                  shippingAddressId !== 0
+                    ? val?.id === shippingAddressId
+                    : val?.isDefaultForShipping === true ||
+                      (isBridal && basket.bridalAddressId === val?.id)
+                )
+              )}
             </div>
             {isActive && (
               <>

@@ -5,6 +5,8 @@ import { Props } from "./typings";
 
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
+import { AppState } from "reducers/typings";
+import { useSelector } from "react-redux";
 
 const InputField: React.FC<Props> = ({
   value,
@@ -23,6 +25,9 @@ const InputField: React.FC<Props> = ({
   const [focused, setFocused] = useState(false);
   const [error, setError] = useState("");
   const [blurred, setBlurred] = useState(false);
+  const {
+    user: { isLoggedIn }
+  } = useSelector((state: AppState) => state);
 
   const onFocus = () => {
     setFocused(true);
@@ -91,7 +96,16 @@ const InputField: React.FC<Props> = ({
             [styles.disabled]: disabled
           })}
         />
-        {<div className={styles.label}>{label}</div>}
+        {
+          <div
+            className={cs(styles.label, {
+              [styles.notifyLabel]:
+                className == "notify-me-email-input" && !isLoggedIn
+            })}
+          >
+            {label}
+          </div>
+        }
         {(error || errorMsg) && (
           <span
             className={cs(errorMsgClass, {
