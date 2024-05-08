@@ -752,17 +752,29 @@ class Search extends React.Component<Props, State> {
                     [globalStyles.marginT10]: !mobile
                   })}
                 >
-                  {this.state.suggestedData.map((data, i) => {
-                    const firstData = data.split(" ")[0];
-                    const lastData = data.split(" ")[1];
+                  {this.state.suggestedData.slice(0, 6).map((data, i) => {
+                    const words = data
+                      .split(" ")
+                      .filter((word: string) => word.trim() !== "");
+                    const allWordsExceptLast = words.slice(0, -1).join(" ");
+                    const lastWord = words[words.length - 1];
                     return (
                       data.length > 0 && (
-                        <li key={i}>
-                          <span>{firstData}</span>
-                          <span className={styles.searchKeyword}>
-                            {lastData}
-                          </span>
-                        </li>
+                        <a href={`/search/?q=${encodeURIComponent(data)}`}>
+                          <li
+                            key={i}
+                            onClick={() => {
+                              this.props.history.push(
+                                `/search/?q=${encodeURIComponent(data)}`
+                              );
+                            }}
+                          >
+                            <span>{allWordsExceptLast}</span>
+                            <span className={styles.searchLastWord}>
+                              {lastWord}
+                            </span>
+                          </li>
+                        </a>
                       )
                     );
                   })}
@@ -936,6 +948,7 @@ class Search extends React.Component<Props, State> {
                             <Link
                               to={"/search/?q=" + encodeURIComponent(ele)}
                               onClick={() => {
+                                debugger;
                                 localStorage.setItem("recentSearchValue", ele);
                                 localStorage.setItem(
                                   "clickType",
