@@ -842,7 +842,7 @@ class Search extends React.Component<
                         />
                       ) : (
                         <PlpResultListViewItem
-                          page="PLP"
+                          page={searchValue}
                           position={i}
                           product={item}
                           addedToWishlist={false}
