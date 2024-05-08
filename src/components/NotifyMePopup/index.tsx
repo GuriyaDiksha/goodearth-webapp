@@ -442,17 +442,31 @@ const NotifyMePopup: React.FC<Props> = ({
             )}
           </div>
           <div className={styles.price}>
-            <p className={styles.productN}>
+            <p className={cs(styles.productN)}>
               {isSale && discount ? (
-                <span className={styles.discountprice}>
-                  {selectedSize
-                    ? displayPriceWithCommas(
-                        selectedSize.discountedPriceRecords[currency],
-                        currency
-                      )
-                    : displayPriceWithCommas(discountedPrice || "", currency)}
-                  &nbsp;{" "}
-                </span>
+                <>
+                  {currency === "INR" && (
+                    <span
+                      className={cs(styles.mrp, {
+                        [globalStyles.gold]:
+                          badgeType == "B_flat" || (isSale && discount)
+                      })}
+                    >
+                      MRP.
+                    </span>
+                  )}
+                  <span className={styles.discountprice}>
+                    {selectedSize
+                      ? displayPriceWithCommas(
+                          selectedSize.discountedPriceRecords[currency],
+                          currency
+                        )
+                      : displayPriceWithCommas(discountedPrice || "", currency)}
+                  </span>
+                  {currency === "INR" && !(isSale && discount) && (
+                    <p className={styles.incTax}>(Incl. of all taxes)</p>
+                  )}
+                </>
               ) : (
                 ""
               )}
@@ -466,16 +480,33 @@ const NotifyMePopup: React.FC<Props> = ({
                     : displayPriceWithCommas(price, currency)}
                 </span>
               ) : (
-                <span className={badgeType == "B_flat" ? styles.flatPrice : ""}>
-                  {selectedSize
-                    ? displayPriceWithCommas(
-                        selectedSize.priceRecords[currency],
-                        currency
-                      )
-                    : displayPriceWithCommas(price, currency)}
-                </span>
+                <>
+                  {currency === "INR" && (
+                    <span
+                      className={cs(styles.mrp, {
+                        [globalStyles.gold]:
+                          badgeType == "B_flat" || (isSale && discount)
+                      })}
+                    >
+                      MRP.
+                    </span>
+                  )}
+                  <span
+                    className={badgeType == "B_flat" ? styles.flatPrice : ""}
+                  >
+                    {selectedSize
+                      ? displayPriceWithCommas(
+                          selectedSize.priceRecords[currency],
+                          currency
+                        )
+                      : displayPriceWithCommas(price, currency)}
+                  </span>
+                </>
               )}
             </p>
+            {currency === "INR" && (
+              <p className={styles.incTax}>(Incl. of all taxes)</p>
+            )}
           </div>
         </div>
         <div className={styles.sizeContainer}>
