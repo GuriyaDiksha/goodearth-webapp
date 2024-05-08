@@ -1605,21 +1605,25 @@ class FilterList extends React.Component<Props, State> {
       index == this.state.activeindex
         ? this.setState({
             activeindex: index,
-            openMenu: index
+            openMenu: index,
+            showFilterByDiscountMenu: false
           })
         : this.setState({
             activeindex: index,
             openMenu: index,
-            showmenulevel1: true
+            showmenulevel1: true,
+            showFilterByDiscountMenu: false
           });
       index == 0
         ? this.setState({
             categoryindex: index,
-            categorylevel1: true
+            categorylevel1: true,
+            showFilterByDiscountMenu: false
           })
         : this.setState({
             categoryindex: -1,
-            categorylevel1: !this.state.categorylevel1
+            categorylevel1: !this.state.categorylevel1,
+            showFilterByDiscountMenu: false
           });
     } else {
       index == this.state.activeindex
@@ -1650,6 +1654,14 @@ class FilterList extends React.Component<Props, State> {
       return {
         showFilterByDiscountMenu: !prevState.showFilterByDiscountMenu
       };
+    });
+  };
+
+  mobileFilterByDiscountMenu = () => {
+    this.setState({
+      showFilterByDiscountMenu: true,
+      categorylevel1: false,
+      showmenulevel1: false
     });
   };
 
@@ -2413,7 +2425,9 @@ class FilterList extends React.Component<Props, State> {
                         : styles.menulevel1
                     }
                     onClick={() => {
-                      this.toggleFilterByDiscountMenu();
+                      mobile
+                        ? this.mobileFilterByDiscountMenu()
+                        : this.toggleFilterByDiscountMenu();
                       this.handleAnimation(
                         "discount",
                         this.state.showFilterByDiscountMenu
@@ -2456,21 +2470,26 @@ class FilterList extends React.Component<Props, State> {
           <li
             className={cs(styles.L1, {
               [styles.open]:
-                this.state.categoryindex == 0 && this.state.categorylevel1
+                this.state.categoryindex == 0 &&
+                this.state.categorylevel1 &&
+                !this.state.showFilterByDiscountMenu
             })}
           >
             <span
               className={
-                this.state.categoryindex == 0 && this.state.categorylevel1
+                this.state.categoryindex == 0 &&
+                this.state.categorylevel1 &&
+                !this.state.showFilterByDiscountMenu
                   ? cs(styles.menulevel1, styles.menulevel1Open)
                   : styles.menulevel1
               }
               onClick={() => {
-                // this.ClickmenuCategory(0);
-                this.Clickmenulevel1(0);
+                mobile ? this.Clickmenulevel1(0) : this.ClickmenuCategory(0);
                 this.handleAnimation(
                   "category",
-                  this.state.categoryindex == 0 && this.state.categorylevel1
+                  this.state.categoryindex == 0 &&
+                    this.state.categorylevel1 &&
+                    !this.state.showFilterByDiscountMenu
                 );
               }}
             >
@@ -2479,7 +2498,9 @@ class FilterList extends React.Component<Props, State> {
             <div
               id="category"
               className={
-                this.state.categoryindex == 0 && this.state.categorylevel1
+                this.state.categoryindex == 0 &&
+                this.state.categorylevel1 &&
+                !this.state.showFilterByDiscountMenu
                   ? styles.showheader1
                   : styles.hideDiv
               }
