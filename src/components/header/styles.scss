@@ -2126,9 +2126,12 @@ div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
   overflow-x: auto;
   justify-content: start;
   padding: 0 0.6rem 0 1rem;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .search-last-word{
-  font-weight: 600;
-  text-transform: capitalize;
+  font-weight: 600!important;
+  text-transform: capitalize!important;
 }
