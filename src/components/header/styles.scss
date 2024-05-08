@@ -2128,6 +2128,7 @@ div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
   padding: 0 0.6rem 0 1rem;
 }
 
-.search-keyword{
-font-weight: 600;
+.search-last-word{
+  font-weight: 600;
+  text-transform: capitalize;
 }
