@@ -760,10 +760,12 @@ class Search extends React.Component<Props, State> {
                     const lastWord = words[words.length - 1];
                     return (
                       data.length > 0 && (
-                        <a href={`/search/?q=${encodeURIComponent(data)}`}>
+                        <Link to={`/search/?q=${encodeURIComponent(data)}`}>
                           <li
                             key={i}
-                            onClick={() => {
+                            onClick={e => {
+                              this.props.hideSearch();
+                              e.preventDefault();
                               this.props.history.push(
                                 `/search/?q=${encodeURIComponent(data)}`
                               );
@@ -774,7 +776,7 @@ class Search extends React.Component<Props, State> {
                               {lastWord}
                             </span>
                           </li>
-                        </a>
+                        </Link>
                       )
                     );
                   })}
