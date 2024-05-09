@@ -401,8 +401,8 @@ const AddressItem: React.FC<Props> = props => {
           )}
           onClick={() => {
             if (
-              currentCallBackComponent == "bridal" ||
-              currentCallBackComponent == "bridal-edit"
+              currentCallBackComponent === "bridal" ||
+              currentCallBackComponent === "bridal-edit"
             ) {
               // if (props.showAddressInBridalUse && address.isBridal) {
               if (address.id != userAddress?.id) {

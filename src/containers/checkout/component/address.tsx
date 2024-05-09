@@ -1510,7 +1510,7 @@ const AddressSection: React.FC<AddressProps & {
                                           !isGoodearthShipping
                                           ? val?.id === shippingAddressId
                                           : val?.id === billingAddressId
-                                        : val?.isDefaultForShipping === true
+                                        : val?.id === billingAddressId
                                     )
                                   : addressList?.find(
                                       val => val?.id === billingAddressId
