@@ -61,7 +61,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         item_id: line.product.sku, //Pass the product id
         item_name: line.title, // Pass the product name
         affiliation: line.title, // Pass the product name
-        coupon: result.offerDisounts?.[0].name, // Pass the coupon if available
+        coupon: result.offerDisounts?.[0]?.name, // Pass the coupon if available
         currency: result.currency, // Pass the currency code
         discount: "", // Pass the discount amount
         index: ind,
@@ -108,7 +108,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         category: category,
         variant: line.product.size || "",
         quantity: line.quantity,
-        coupon: result.offerDisounts?.[0].name,
+        coupon: result.offerDisounts?.[0]?.name,
         dimension12: line.product?.color,
         item_category: category?.split(">")?.join("|"),
         collection_category: line?.product?.collections?.join("|")
@@ -151,8 +151,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         item_name: line.title,
         affiliation: "Pass the affiliation of the product",
         coupon:
-          isSale && result?.offerDiscounts?.[0].name
-            ? result?.offerDiscounts?.[0].name
+          isSale && result?.offerDiscounts?.[0]?.name
+            ? result?.offerDiscounts?.[0]?.name
             : "NA",
         discount:
           isSale && result?.offerDiscounts?.[0]?.amount
@@ -295,7 +295,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             value: result.totalInclTax,
             tax: 0,
             shipping: result.shippingInclTax,
-            coupon: result.offerDisounts?.[0].name, //Pass NA if Not applicable at the moment
+            coupon: result.offerDisounts?.[0]?.name, //Pass NA if Not applicable at the moment
             payment_type: Object.keys(result.paymentMethodForGA)?.join("|"),
             items: productsData
           }
@@ -354,7 +354,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           value: result.totalInclTax,
           tax: 0,
           shipping: result.shippingInclTax,
-          coupon: result.offerDisounts?.[0].name, //Pass NA if Not applicable at the moment
+          coupon: result.offerDisounts?.[0]?.name, //Pass NA if Not applicable at the moment
           payment_type: Object.keys(result.paymentMethodForGA)?.join("|"),
           items: productsData
         }
@@ -368,7 +368,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       if (res.voucherDiscounts?.length > 0) {
         for (let i = 0; i < res.voucherDiscounts.length; i++) {
           for (let j = 0; j < res.offerDiscounts.length; j++) {
-            if (res.voucherDiscounts[i].name == res.offerDiscounts[j].name) {
+            if (res.voucherDiscounts[i]?.name == res.offerDiscounts[j]?.name) {
               res.offerDiscounts.splice(j, 1);
             }
           }
@@ -911,7 +911,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                             className={cs(styles.discountSection)}
                             key={index}
                           >
-                            <p>{discount.name}</p>
+                            <p>{discount?.name}</p>
                             <p>
                               (-){" "}
                               {`${displayPriceWithCommasFloat(
@@ -965,7 +965,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         className={cs(styles.discountSection)}
                         key={`voucher_${i}`}
                       >
-                        <p>{vd.name}</p>
+                        <p>{vd?.name}</p>
                         <p>
                           (-){" "}
                           {`${displayPriceWithCommasFloat(
