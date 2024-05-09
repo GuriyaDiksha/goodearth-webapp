@@ -270,6 +270,18 @@ class BridalItem extends React.Component<Props, State> {
                         </a>
                       </div>
                     </div>
+                    {this.props.bridalItem?.badge_text && (
+                      <div
+                        className={cs(
+                          globalStyles.badgeContainer,
+                          globalStyles.grey,
+                          globalStyles.marginB10,
+                          globalStyles.marginT5
+                        )}
+                      >
+                        {this.props.bridalItem?.badge_text}
+                      </div>
+                    )}
                     {this.props.bridalItem.price[this.props.currency] != 0 ? (
                       <div className={styles.productPrice}>
                         {this.props.bridalItem.discount ? (

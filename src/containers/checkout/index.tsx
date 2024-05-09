@@ -341,10 +341,12 @@ class Checkout extends React.Component<Props, State> {
     let item1 = false,
       item2 = false;
 
-    basket.lineItems.map(data => {
-      if (!data.bridalProfile) item1 = true;
-      if (data.bridalProfile) item2 = true;
-    });
+    basket.lineItems
+      ?.filter(data => !data?.is_free_product)
+      ?.map(data => {
+        if (!data.bridalProfile) item1 = true;
+        if (data.bridalProfile) item2 = true;
+      });
     return item1 && item2;
   }
 

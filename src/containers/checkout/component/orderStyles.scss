@@ -322,13 +322,13 @@ body:has(.open-summary) {
 
 .product-name {
   flex: 2;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   @include b2_14px_charcoal_lora();
 }
 .product-price {
   @include plp_prod_name_desktop();
   @include b3_14px_montserrat_charcoal();
-  padding-bottom: 8px;
+  padding-bottom: 5 px;
 }
 
 .hr-product {
@@ -777,4 +777,16 @@ body:has(.open-summary) {
 }
 .max-width{
   max-width: 67%;
+}
+
+.free{
+  padding-bottom: 8px;
+  font-weight: $medium !important;
+  @include b3_14px_caps_gold();
+}
+
+.badgeContainer{
+  margin-bottom: 5px;
+  height: 25px !important;
+  line-height: 25px !important;
 }

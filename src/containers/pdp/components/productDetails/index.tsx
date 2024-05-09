@@ -114,7 +114,9 @@ const ProductDetails: React.FC<Props> = ({
     fillerProduct,
     shortDesc,
     sliderImages,
-    collections
+    collections,
+    badge_text,
+    freeProductText
   },
   data,
   corporatePDP,
@@ -778,7 +780,8 @@ const ProductDetails: React.FC<Props> = ({
         discountedPrice: discountPrices,
         list: isQuickview ? "quickview" : "pdp",
         sliderImages: sliderImages,
-        collections: collections
+        collections: collections,
+        badge_text: badge_text
       },
       false,
       mobile ? ModalStyles.bottomAlignSlideUp : "",
@@ -1017,6 +1020,17 @@ const ProductDetails: React.FC<Props> = ({
               >
                 {title}
                 <p>{shortDesc}</p>
+                {badge_text && (
+                  <div
+                    className={cs(
+                      globalStyles.badgeContainer,
+                      globalStyles.grey,
+                      styles.badgeMargin
+                    )}
+                  >
+                    {badge_text}
+                  </div>
+                )}
               </div>
               {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
                 <div
@@ -1493,6 +1507,30 @@ const ProductDetails: React.FC<Props> = ({
                 </Link>
               </div>
             )}
+
+            {!isQuickview && freeProductText?.length ? (
+              <div className={styles.freeTextSection}>
+                <div className={styles.head}>
+                  <img src={addReg} width="15px" height="15px"></img>
+                  <p>Free Gift Included</p>
+                </div>
+                <hr />
+                <dl className={styles.list}>
+                  {freeProductText.map((text, i) => (
+                    <div className={styles.item} key={i}>
+                      <dt className={styles.title}>
+                        <span className={styles.dot}></span> {text?.heading}
+                      </dt>
+                      {text?.free_products?.map(value => (
+                        <dd className={styles.text}>
+                          <span>.</span> {value}
+                        </dd>
+                      ))}
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            ) : null}
             {!isQuickview && (
               <div
                 className={cs(

@@ -33,7 +33,7 @@ export interface PLPProductItem {
   partner?: string;
   altText: string;
   groupedProductsCount?: number;
-  code?: string;
+  is3dimage?: string;
   badge_text?: string;
 }
 
@@ -46,6 +46,11 @@ export interface PartialProductItem extends PLPProductItem {
 export type DesignJournalTag = {
   designJournal: boolean;
   folderCode: string;
+};
+
+export type FreeProductText = {
+  heading: string;
+  free_products: string[];
 };
 
 export interface Product<T = ProductID> extends PartialProductItem {
@@ -79,6 +84,7 @@ export interface Product<T = ProductID> extends PartialProductItem {
   badgeMessage?: string;
   fillerProduct: PartialProductItem | any;
   shortDesc: string | null;
+  freeProductText?: FreeProductText[];
 }
 
 export interface PartialChildProductAttributes {
@@ -113,6 +119,7 @@ export type CollectionProductItem = {
   priceRecords: PriceRecord;
   gaVariant?: string;
   altText: string;
+  badgeText?: string;
 };
 
 export interface BasketProduct extends PartialProductItem {
@@ -124,6 +131,7 @@ export interface BasketProduct extends PartialProductItem {
   attributes: ProductAttributes[];
   productDeliveryDate: string;
   is3d: boolean;
+  badge_text?: string;
 }
 
 export interface GroupedProductItem {
