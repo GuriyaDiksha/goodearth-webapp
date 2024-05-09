@@ -38,13 +38,13 @@ export default {
     currency: Currency,
     listPath: string
   ) {
-    if (caches[url]) {
-      dispatch(newPlpList({ ...caches[url] }));
-      dispatch(updatePlpProduct(caches[url].results.data));
+    if (caches[currency + url]) {
+      dispatch(newPlpList({ ...caches[currency + url] }));
+      dispatch(updatePlpProduct(caches[currency + url].results.data));
       if (typeof document != "undefined") {
-        productImpression(caches[url], listPath || "PLP", currency);
+        productImpression(caches[currency + url], listPath || "PLP", currency);
       }
-      return caches[url];
+      return caches[currency + url];
     }
     const res = await API.get<PlpProps>(
       dispatch,
@@ -55,7 +55,7 @@ export default {
     if (typeof document != "undefined") {
       productImpression(res, listPath || "PLP", currency);
     }
-    caches[url] = res;
+    caches[currency + url] = res;
     return res;
   },
   updateProduct: async function(

@@ -695,7 +695,13 @@ class Bag extends React.Component<Props, State> {
           ) : (
             ""
           )}
-          <div className={cs(styles.bagContents)}>{this.getItems()}</div>
+          <div
+            className={cs(styles.bagContents, {
+              [styles.emptyBagContent]: this.props.cart.lineItems?.length == 0
+            })}
+          >
+            {this.getItems()}
+          </div>
           {this.getFooter()}
         </div>
       </div>

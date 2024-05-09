@@ -186,7 +186,8 @@ class BridalCheckout extends React.Component<Props, State> {
       badgeType: bridalItem.badgeType,
       list: "bridalItems",
       sliderImages: [],
-      collections: bridalItem?.collection
+      collections: bridalItem?.collection,
+      badge_text: bridalItem?.badge_text
     };
     const mobile = this.props.mobile;
     this.props.openNotifyMePopup(component, props, mobile);
