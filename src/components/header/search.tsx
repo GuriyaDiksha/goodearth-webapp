@@ -289,7 +289,11 @@ class Search extends React.Component<Props, State> {
         this.state.searchValue
       );
       if (isYml) {
-        CookieService.setCookie("search", data?.product || data?.title, 365);
+        CookieService.setCookie(
+          "search",
+          this.getTextFromHtml(data?.product || data?.title),
+          365
+        );
         localStorage.setItem("clickType", "You Might Like");
       } else {
         localStorage.setItem("clickType", "Products");
