@@ -186,7 +186,7 @@ a {
   margin-right: 10px;
 }
 .margin-t-10 {
-  margin-top: 10px;
+  margin-top: 10px !important;
 }
 
 .margin-t-30 {
@@ -559,38 +559,49 @@ font-weight: bold;
 .three-sixty-icon-position-desktop{
   position: absolute;
   right: 10px;
-  top: 58px;
+  top: 48px;
   z-index: 2;
-  cursor: pointer;
 }
 .three-sixty-icon-position-mobile{
-  top: 53px;
+  top: 45px;
 }
-
+//=================Badge text container start================//
 .badge-container{
   background-color: #fff;
   max-width: fit-content;
   height: 25px;
   border-radius: 0px 20px 20px 0px;
-  font-size: 18px !important;
-  line-height: 25px !important;
-  margin-top: 5px !important;
-  margin-bottom: 5px !important;
+  line-height: 25px;
   box-shadow: 1px 1px 1px #0000001C;
   padding: 0 9px;
   @include b5_10px_montserrat_charcoal();
+
+  &.grey{
+    height: 29px;
+    line-height: 29px;
+    background-color: #F7F6F2;
+    font-weight: $medium;
+    box-shadow: none;
+    @include b4_12px_montserrat_gold();
+
+    @media screen and (max-width:767px) {
+      font-size: 10px;
+      height: 25px;
+      line-height: 25px;
+    }
+  }
 
   @media screen and (max-width:767px) {
     font-size: 8px;
   }
 }
+//=================Badge text container end================//
 
 .badge-position-desktop{
   position: absolute;
   left: 0px;
   bottom: 15px;
   z-index: 2;
-  cursor: pointer;
 }
 
 .badge-position-mobile{
@@ -598,7 +609,7 @@ font-weight: bold;
 }
 
 .list-right-bottom-position{
-  right: 15px;
+  right: 10px;
   bottom: 15px;
 }
 
@@ -608,8 +619,8 @@ font-weight: bold;
 }
 
 .list-left-bottom-position{
-  left: 30px;
-  bottom: 130px;
+  left: 0;
+  bottom: 15px;
 }
 
 

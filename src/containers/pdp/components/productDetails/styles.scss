@@ -433,3 +433,69 @@
         }
     }
 }
+
+.badge-margin{
+    margin: 10px 0 20px 0;
+}
+
+.free-text-section{
+    background: $grey;
+    padding: 20px;
+    margin-top: 25px;
+
+    .head{
+        display: flex;
+        gap: 10px;
+        @include b4_12px_montserrat_gold();
+    }
+
+    .hr{
+        border-color: #0000004D !important;
+    }
+    
+    .list{
+        padding: 0px 30px;
+
+        .item{
+            margin-top: 20px;   
+
+            .title{
+                position: relative;
+                text-transform: inherit !important;
+                @include b4_12px_montserrat_charcoal();
+
+                .dot{
+                    height: 6px;
+                    width: 6px;
+                    background: $gold;
+                    border-radius: 50%;
+                    margin-top: 6px;
+                    display: inline-block;
+                    position: absolute;
+                    left: -20px;
+                    top: 0;
+                }
+            }
+
+            .text{
+                position: relative;
+                padding-left: 10px;
+                line-height: 1.5;
+                margin-bottom: 0;
+
+                span{
+                    position: absolute;
+                    top: -10px;
+                    left: 0;
+                    font-size: 20px;
+                }
+                @include b4_12px_montserrat_light_charcoal();   
+            }
+        }
+
+        @media screen and (max-width:767px) {
+            padding: 0 0 0 15px;
+        }
+      
+    }
+}

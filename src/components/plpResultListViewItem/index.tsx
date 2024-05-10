@@ -227,6 +227,40 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             />
           </div>
         )}
+        {!isCorporate && product?.is3dimage && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.listRightBottomPosition,
+              globalStyles.threeSixtyIconPositionDesktop,
+              { [globalStyles.threeSixtyIconPositionMobile]: mobile }
+            )}
+          >
+            <div
+              className={cs(
+                globalStyles.iconContainer,
+                globalStyles.threeSixtyContainer
+              )}
+            >
+              <img src={plpThreeSixty} alt="360" />
+            </div>
+          </div>
+        )}
+
+        {!isCorporate && product?.badge_text && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.listLeftBottomPosition,
+              globalStyles.badgePositionDesktop,
+              { [globalStyles.badgePositionMobile]: mobile }
+            )}
+          >
+            <div className={cs(globalStyles.badgeContainer)}>
+              {product?.badge_text}
+            </div>
+          </div>
+        )}
         {button}
 
         <Link to={product.url} onClick={gtmProductClick}>
@@ -336,44 +370,10 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             </div>
           </div>
         )}
-        <div className={cs(styles.actions, bootstrapStyles.row)}>
-          {/* {button} */}
+        {/* <div className={cs(styles.actions, bootstrapStyles.row)}> */}
+        {/* {button} */}
 
-          {!isCorporate && product?.code && (
-            <div
-              className={cs(
-                globalStyles.textCenter,
-                globalStyles.listRightBottomPosition,
-                globalStyles.threeSixtyIconPositionDesktop,
-                { [globalStyles.threeSixtyIconPositionMobile]: mobile }
-              )}
-            >
-              <div
-                className={cs(
-                  globalStyles.iconContainer,
-                  globalStyles.threeSixtyContainer
-                )}
-              >
-                <img src={plpThreeSixty} alt="360" />
-              </div>
-            </div>
-          )}
-
-          {!isCorporate && product?.badge_text && (
-            <div
-              className={cs(
-                globalStyles.textCenter,
-                globalStyles.listLeftBottomPosition,
-                globalStyles.badgePositionDesktop,
-                { [globalStyles.badgePositionMobile]: mobile }
-              )}
-            >
-              <div className={cs(globalStyles.badgeContainer)}>
-                {product?.badge_text}
-              </div>
-            </div>
-          )}
-        </div>
+        {/* </div> */}
       </div>
     </div>
   );

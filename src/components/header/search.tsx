@@ -1034,6 +1034,25 @@ class Search extends React.Component<Props, State> {
                                         isPlpTile={true} //passing true for new icons
                                       />
                                     </div>
+                                    {data?.badge_text && (
+                                      <div
+                                        className={cs(
+                                          globalStyles.textCenter,
+                                          globalStyles.badgePositionDesktop,
+                                          {
+                                            [globalStyles.badgePositionMobile]: mobile
+                                          }
+                                        )}
+                                      >
+                                        <div
+                                          className={cs(
+                                            globalStyles.badgeContainer
+                                          )}
+                                        >
+                                          {data?.badge_text}
+                                        </div>
+                                      </div>
+                                    )}
                                     <Link
                                       to={data.link}
                                       onClick={this.showProduct.bind(
@@ -1281,6 +1300,25 @@ class Search extends React.Component<Props, State> {
                                     ""
                                   )}
                                   <div className={styles.imageboxNew}>
+                                    {data?.badge_text && (
+                                      <div
+                                        className={cs(
+                                          globalStyles.textCenter,
+                                          globalStyles.badgePositionDesktop,
+                                          {
+                                            [globalStyles.badgePositionMobile]: mobile
+                                          }
+                                        )}
+                                      >
+                                        <div
+                                          className={cs(
+                                            globalStyles.badgeContainer
+                                          )}
+                                        >
+                                          {data?.badge_text}
+                                        </div>
+                                      </div>
+                                    )}
                                     <Link
                                       to={data.link}
                                       onClick={this.showProduct.bind(

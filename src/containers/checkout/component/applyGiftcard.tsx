@@ -270,7 +270,8 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                       })}
                       onClick={this.applyCard}
                     >
-                      {this.state.codeApplied ? "Applies!" : "Apply"}
+                      Apply
+                      {/* {this.state.codeApplied ? "Applies!" : "Apply"} */}
                     </span>
                   </div>
                 </div>

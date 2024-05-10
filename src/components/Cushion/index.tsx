@@ -498,7 +498,8 @@ class CushionBag extends React.Component<Props, State> {
         discountedPrice: discountPrices,
         list: "pdp",
         sliderImages: data.plpSliderImages,
-        collections: collections
+        collections: collections,
+        badge_text: data?.badge_text
       },
       false
       // ModalStyles.bottomAlign

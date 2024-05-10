@@ -693,13 +693,13 @@ export function productImpression(
         cat1 = child.categories?.[0]?.split(">");
         cat2 = child.categories?.[1]?.split(">");
 
-        L1 = cat1?.[0].trim();
+        L1 = cat1?.[0]?.trim();
 
-        L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+        L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
 
         L3 = cat2?.[2]
           ? cat2?.[2]?.trim()
-          : child.categories?.[2]?.split(">")?.[2].trim();
+          : child.categories?.[2]?.split(">")?.[2]?.trim();
       }
 
       const sizes = child.childAttributes
