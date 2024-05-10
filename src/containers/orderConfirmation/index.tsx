@@ -167,7 +167,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         item_category2: L2,
         item_category3: L3,
         item_category4: "NA",
-        item_category5: "NA",
+        item_category5: line.product?.is3DView ? "3d" : "non 3d",
         item_list_id: "NA",
         item_list_name: search ? `${clickType}-${search}` : "NA",
         item_variant: line.product.size || "NA",
@@ -286,8 +286,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           shipping_address: shippingAddressId,
           gst_invoice: result?.is_gst ? "Yes" : "No",
           gift_wrap: result?.is_gift ? "Yes" : "No",
-          gift_card_code: result.giftCards?.[0]?.cardId,
-          whatsapp_subscribe: "",
+          gift_card_code: result.giftCards?.[0]?.cardId || "NA",
+          whatsapp_subscribe: result?.whatsapp_subscribe ? "Yes" : "No",
           delivery_instruction: result.deliveryInstructions ? "Yes" : "No", //Pass NA if not applicable the moment
           ecommerce: {
             transaction_id: transactionId,
