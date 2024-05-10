@@ -305,7 +305,6 @@ const AddressMain: React.FC<Props> = props => {
       } else if (currentCallBackComponent === "checkout-billing") {
         dispatch(updateBillingAddressId(addressData?.id));
         setIsLoading(false);
-        setIsLoading(false);
       }
       // else {
       // AddressService.updateAddress(dispatch, formData, id, addressId)

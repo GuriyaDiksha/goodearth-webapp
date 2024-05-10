@@ -246,7 +246,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
           </div>
         )}
 
-        {!isCorporate && product?.code && (
+        {!isCorporate && product?.is3dimage && (
           <div
             className={cs(
               globalStyles.textCenter,

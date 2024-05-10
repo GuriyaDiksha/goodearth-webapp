@@ -17,6 +17,7 @@ export type BasketStockRecord = {
 };
 
 export type BasketLineItem = {
+  is_free_product?: boolean;
   GCMeta?: GCMetaType;
   id: number;
   childAttributes: ChildProductAttributes[];
@@ -94,4 +95,5 @@ export interface BasketItem extends BasketLineItem {
   onNotifyCart?: (productId: ProductID) => void;
   tablet?: boolean;
   GCMeta?: GCMetaType;
+  is_free_product?: boolean;
 }

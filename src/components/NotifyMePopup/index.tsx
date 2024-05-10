@@ -57,6 +57,7 @@ type Props = {
   list?: string;
   sliderImages: { icon: boolean }[];
   collections: string[];
+  badge_text?: string;
 };
 
 const NotifyMePopup: React.FC<Props> = ({
@@ -77,7 +78,8 @@ const NotifyMePopup: React.FC<Props> = ({
   sortBy,
   list,
   sliderImages,
-  collections
+  collections,
+  badge_text
 }) => {
   const { dispatch } = useStore();
   const history = useHistory();
@@ -478,6 +480,17 @@ const NotifyMePopup: React.FC<Props> = ({
             </p>
           </div>
         </div>
+        {badge_text && (
+          <div
+            className={cs(
+              globalStyles.badgeContainer,
+              globalStyles.grey,
+              globalStyles.marginT10
+            )}
+          >
+            {badge_text}
+          </div>
+        )}
         <div className={styles.sizeContainer}>
           {sizeExists ? (
             <>

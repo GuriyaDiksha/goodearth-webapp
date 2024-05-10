@@ -748,6 +748,18 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   {item.collection}
                                 </div>
                               )}
+                              {item?.product?.badge_text && (
+                                <div
+                                  className={cs(
+                                    globalStyles.badgeContainer,
+                                    globalStyles.grey,
+                                    globalStyles.marginB10,
+                                    globalStyles.marginT5
+                                  )}
+                                >
+                                  {item?.product?.badge_text}
+                                </div>
+                              )}
                               <p
                                 className={cs(
                                   styles.productN,
@@ -756,39 +768,45 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   globalStyles.marginB10
                                 )}
                               >
-                                {isdisCount || isFlat ? (
-                                  <span className={styles.discountprice}>
-                                    {`${displayPriceWithCommasFloat(
-                                      price1,
-                                      confirmData.currency
-                                    )}`}
-                                    &nbsp;
-                                  </span>
+                                {item?.is_free_product ? (
+                                  <p className={cs(styles.free)}>FREE</p>
                                 ) : (
-                                  ""
-                                )}
-                                {isdisCount ? (
-                                  <span className={styles.strikeprice}>
-                                    {`${displayPriceWithCommasFloat(
-                                      price2,
-                                      confirmData.currency
-                                    )}`}
-                                    &nbsp;
-                                  </span>
-                                ) : (
-                                  <span
-                                    className={cs(
-                                      {
-                                        [globalStyles.hidden]: isFlat
-                                      },
-                                      styles.price
+                                  <>
+                                    {isdisCount || isFlat ? (
+                                      <span className={styles.discountprice}>
+                                        {`${displayPriceWithCommasFloat(
+                                          price1,
+                                          confirmData.currency
+                                        )}`}
+                                        &nbsp;
+                                      </span>
+                                    ) : (
+                                      ""
                                     )}
-                                  >
-                                    {`${displayPriceWithCommasFloat(
-                                      price3,
-                                      confirmData.currency
-                                    )}`}
-                                  </span>
+                                    {isdisCount ? (
+                                      <span className={styles.strikeprice}>
+                                        {`${displayPriceWithCommasFloat(
+                                          price2,
+                                          confirmData.currency
+                                        )}`}
+                                        &nbsp;
+                                      </span>
+                                    ) : (
+                                      <span
+                                        className={cs(
+                                          {
+                                            [globalStyles.hidden]: isFlat
+                                          },
+                                          styles.price
+                                        )}
+                                      >
+                                        {`${displayPriceWithCommasFloat(
+                                          price3,
+                                          confirmData.currency
+                                        )}`}
+                                      </span>
+                                    )}
+                                  </>
                                 )}
                               </p>
 
@@ -812,9 +830,11 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   <div className={styles.productDetails}>
                                     Qty:&nbsp; {item.quantity}
                                   </div>
-                                  <div className={styles.productDetails}>
-                                    Item Code: {item.product.sku}
-                                  </div>
+                                  {item?.is_free_product ? null : (
+                                    <div className={styles.productDetails}>
+                                      Item Code: {item.product.sku}
+                                    </div>
+                                  )}
                                   {!isSale && (
                                     <div className={styles.productDetails}>
                                       Delivery Estimated:{" "}

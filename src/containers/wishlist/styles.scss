@@ -879,3 +879,11 @@ icon-cross {
 .h2-popup{
   line-height: 1;
 }
+
+.badge-position{
+  bottom: 65px;
+
+  @media screen and (max-width:767px) {
+    bottom: 60px;
+  }
+}
