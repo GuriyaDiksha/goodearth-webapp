@@ -284,108 +284,108 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         paymentMode.push("Loyalty");
       }
 
-      // if (userConsent.includes(GA_CALLS)) {
-      //   const categoryname: string[] = [];
-      //   const subcategoryname: string[] = [];
-      //   const productid: string[] = [];
-      //   const productname: string[] = [];
-      //   const productprice: string[] = [];
-      //   const productquantity: number[] = [];
+      if (userConsent.includes(GA_CALLS)) {
+        const categoryname: string[] = [];
+        const subcategoryname: string[] = [];
+        const productid: string[] = [];
+        const productname: string[] = [];
+        const productprice: string[] = [];
+        const productquantity: number[] = [];
 
-      //   const items = basket?.lineItems?.map((line: any, ind) => {
-      //     const index = line.product.categories
-      //       ? line.product.categories.length - 1
-      //       : 0;
-      //     let category =
-      //       line.product.categories && line.product.categories[index]
-      //         ? line.product.categories[index].replace(/\s/g, "")
-      //         : "";
-      //     const arr = category.split(">");
-      //     categoryname.push(arr[arr.length - 2]);
-      //     subcategoryname.push(arr[arr.length - 1]);
-      //     category = category.replace(/>/g, "/");
-      //     productid.push(line.product.sku);
-      //     productname.push(line.title);
-      //     productprice.push(
-      //       line?.product?.priceRecords?.[currency as Currency]
-      //     );
-      //     productquantity.push(+line.quantity);
-      //     const search = CookieService.getCookie("search") || "";
-      //     const cat1 = line?.product?.categories?.[0]?.split(">");
-      //     const cat2 = line?.product?.categories?.[1]?.split(">");
+        const items = basket?.lineItems?.map((line: any, ind) => {
+          const index = line.product.categories
+            ? line.product.categories.length - 1
+            : 0;
+          let category =
+            line.product.categories && line.product.categories[index]
+              ? line.product.categories[index].replace(/\s/g, "")
+              : "";
+          const arr = category.split(">");
+          categoryname.push(arr[arr.length - 2]);
+          subcategoryname.push(arr[arr.length - 1]);
+          category = category.replace(/>/g, "/");
+          productid.push(line.product.sku);
+          productname.push(line.title);
+          productprice.push(
+            line?.product?.priceRecords?.[currency as Currency]
+          );
+          productquantity.push(+line.quantity);
+          const search = CookieService.getCookie("search") || "";
+          const cat1 = line?.product?.categories?.[0]?.split(">");
+          const cat2 = line?.product?.categories?.[1]?.split(">");
 
-      //     const L1 = cat1?.[0]?.trim();
+          const L1 = cat1?.[0]?.trim();
 
-      //     const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
+          const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
 
-      //     const L3 = cat2?.[2]
-      //       ? cat2?.[2]?.trim()
-      //       : line?.product?.categories?.[2]?.split(">")?.[2]?.trim();
+          const L3 = cat2?.[2]
+            ? cat2?.[2]?.trim()
+            : line?.product?.categories?.[2]?.split(">")?.[2]?.trim();
 
-      //     const clickType = localStorage.getItem("clickType");
+          const clickType = localStorage.getItem("clickType");
 
-      //     return {
-      //       item_id: line.product.sku,
-      //       item_name: line.title,
-      //       affiliation: "NA",
-      //       coupon:
-      //         isSale && basket?.offerDiscounts?.[0]?.name
-      //           ? basket?.offerDiscounts?.[0]?.name
-      //           : "NA", //Pass NA if not applicable at the moment
-      //       discount:
-      //         isSale && basket?.offerDiscounts?.[0]?.amount
-      //           ? line?.badgeType == "B_flat"
-      //             ? basket?.offerDiscounts?.[0]?.amount
-      //             : line.product.priceRecords[currency as Currency] -
-      //               basket?.offerDiscounts?.[0]?.amount
-      //           : "NA",
-      //       index: ind,
-      //       item_brand: "Goodearth",
-      //       item_category: L1,
-      //       item_category2: L2,
-      //       item_category3: L3,
-      //       item_category4: "NA",
-      //       item_category5: line.product.is3d ? "3d" : "non3d",
-      //       item_list_id: "NA",
-      //       item_list_name: search ? `${clickType}-${search}` : "NA",
-      //       item_variant: line.product?.childAttributes[0]?.size || "NA",
-      //       price: line.isEgiftCard
-      //         ? +line.priceExclTax
-      //         : line.product.priceRecords[currency as Currency],
-      //       quantity: line.quantity,
-      //       collection_category: line?.product?.collections?.join("|"),
-      //       price_range: "NA"
-      //     };
-      //   });
+          return {
+            item_id: line.product.sku,
+            item_name: line.title,
+            affiliation: "NA",
+            coupon:
+              isSale && basket?.offerDiscounts?.[0]?.name
+                ? basket?.offerDiscounts?.[0]?.name
+                : "NA", //Pass NA if not applicable at the moment
+            discount:
+              isSale && basket?.offerDiscounts?.[0]?.amount
+                ? line?.badgeType == "B_flat"
+                  ? basket?.offerDiscounts?.[0]?.amount
+                  : line.product.priceRecords[currency as Currency] -
+                    basket?.offerDiscounts?.[0]?.amount
+                : "NA",
+            index: ind,
+            item_brand: "Goodearth",
+            item_category: L1,
+            item_category2: L2,
+            item_category3: L3,
+            item_category4: "NA",
+            item_category5: line.product.is3d ? "3d" : "non3d",
+            item_list_id: "NA",
+            item_list_name: search ? `${clickType}-${search}` : "NA",
+            item_variant: line.product?.childAttributes[0]?.size || "NA",
+            price: line.isEgiftCard
+              ? +line.priceExclTax
+              : line.product.priceRecords[currency as Currency],
+            quantity: line.quantity,
+            collection_category: line?.product?.collections?.join("|"),
+            price_range: "NA"
+          };
+        });
 
-      //   const sameAsShipping = shippingAddressId === billingAddressId;
+        const sameAsShipping = shippingAddressId === billingAddressId;
 
-      //   dataLayer.push({
-      //     event: "add_payment_info",
-      //     previous_page_url: CookieService.getCookie("prevUrl"),
-      //     billing_address: sameAsShipping
-      //       ? "Same as Shipping Address"
-      //       : billingAddressId,
-      //     shipping_address: shippingAddressId,
-      //     gst_invoice: gstNo ? "Yes" : "No",
-      //     gift_wrap: giftwrap ? "Yes" : "No",
-      //     gift_card_code: basket.giftCards?.[0]?.cardId,
-      //     delivery_instruction: deliveryText ? "Yes" : "No", //Pass NA if not applicable the moment
-      //     ecommerce: {
-      //       currency: currency,
-      //       value: +basket.total,
-      //       coupon: basket.voucherDiscounts?.[0]?.voucher?.code || "NA", //Pass NA if Not applicable at the moment
-      //       payment_type: currentmethod.value,
-      //       items: items
-      //     }
-      //   });
-      // }
+        dataLayer.push({
+          event: "add_payment_info",
+          previous_page_url: CookieService.getCookie("prevUrl"),
+          billing_address: sameAsShipping
+            ? "Same as Shipping Address"
+            : billingAddressId,
+          shipping_address: shippingAddressId,
+          gst_invoice: gstNo ? "Yes" : "No",
+          gift_wrap: giftwrap ? "Yes" : "No",
+          gift_card_code: basket.giftCards?.[0]?.cardId,
+          delivery_instruction: deliveryText ? "Yes" : "No", //Pass NA if not applicable the moment
+          ecommerce: {
+            currency: currency,
+            value: +basket.total,
+            coupon: basket.voucherDiscounts?.[0]?.voucher?.code || "NA", //Pass NA if Not applicable at the moment
+            payment_type: currentmethod.value,
+            items: items
+          }
+        });
+      }
 
       data["subscribe"] = subscribevalue; //Adding subscribe for main checkout API
       checkout(data)
         .then((response: any) => {
           gtmPushPaymentTracking(paymentMode, paymentMethod);
-          proceedForPayment(basket, currency, paymentMethod, isSale);
+          // proceedForPayment(basket, currency, paymentMethod, isSale);
           dataLayer.push({
             event: "Whatsapp_optin",
             Location: "Checkout",
