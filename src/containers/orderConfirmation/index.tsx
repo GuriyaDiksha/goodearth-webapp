@@ -286,7 +286,10 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           shipping_address: shippingAddressId,
           gst_invoice: result?.is_gst ? "Yes" : "No",
           gift_wrap: result?.is_gift ? "Yes" : "No",
-          gift_card_code: result.giftCards?.[0]?.cardId || "NA",
+          gift_card_code:
+            Object.keys(result.paymentMethodForGA)
+              ?.filter(e => e === "GIFTCARD" || e === "CREDITNOTE")
+              ?.join("|") || "NA",
           whatsapp_subscribe: result?.whatsapp_subscribe ? "Yes" : "No",
           delivery_instruction: result.deliveryInstructions ? "Yes" : "No", //Pass NA if not applicable the moment
           ecommerce: {
