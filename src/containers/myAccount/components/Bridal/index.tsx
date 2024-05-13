@@ -155,7 +155,8 @@ const Bridal: React.FC<Props> = props => {
         AddressService.fetchAddressList(dispatch).then(addressList => {
           dispatch(updateAddressList(addressList));
           const bridalAddress = addressList.filter(
-            address => address.id == data?.userAddressId
+            address =>
+              address.id == (bridalAddressId?.id || data?.userAddressId)
           )[0];
           if (bridalAddress) {
             setBridalAddress(bridalAddress);
@@ -295,15 +296,19 @@ const Bridal: React.FC<Props> = props => {
     let whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
     let whatsappNo = whatsappFormValues?.whatsappNo;
     let whatsappNoCountryCode = whatsappFormValues?.whatsappNoCountryCode;
-
-    if (userAddress) {
+    const newBridalDetails: BridalDetailsType = Object.assign(
+      {},
+      bridalDetails
+    );
+    newBridalDetails["userAddress"] = bridalAddressId;
+    if (newBridalDetails?.userAddress) {
       if (!whatsappFormRef.current) {
         whatsappSubscribe = user.preferenceData.whatsappSubscribe;
         whatsappNo = user.preferenceData.whatsappNo;
         whatsappNoCountryCode = user.preferenceData.whatsappNoCountryCode;
       }
       const formData: any = {
-        userAddressId: userAddress.id,
+        userAddressId: newBridalDetails?.userAddress?.id,
         ...rest,
         currency,
         actionType: "create",

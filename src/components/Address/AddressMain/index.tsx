@@ -540,7 +540,8 @@ const AddressMain: React.FC<Props> = props => {
                           currentCallBackComponent == "bridal" &&
                           props.createRegistry
                         ) {
-                          props.createRegistry();
+                          handleSelect(bridalAddressId);
+                          props.createRegistry && props.createRegistry();
                         } else {
                           openAddressForm();
                         }
