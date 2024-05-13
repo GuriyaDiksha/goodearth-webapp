@@ -38,6 +38,7 @@ import {
 } from "actions/address";
 import { countryCurrencyCode } from "constants/currency";
 import Button from "components/Button";
+import moment from "moment";
 
 const AddressMain: React.FC<Props> = props => {
   // data: [],
@@ -64,9 +65,14 @@ const AddressMain: React.FC<Props> = props => {
   // const [ pincodeList, setPincodeList ] = useState([]);
   const [isdList, setIsdList] = useState<any>([]);
   const { currentCallBackComponent } = props;
+  // const currentDate = moment().format("DD/MM/YYYY");
 
   const {
-    data: { userAddress, occasion }
+    step,
+    changeBridalAddress,
+    setCurrentModuleData,
+    bridalAddressId,
+    data: { occasion }
   } = useContext(BridalContext);
 
   const dispatch = useDispatch();
@@ -385,6 +391,45 @@ const AddressMain: React.FC<Props> = props => {
   //   }
   // };
 
+  // const fetchBridalItems = () => {
+  //   BridalService.fetchBridalItems(dispatch, bridalProfile?.bridalId).then(
+  //     data => {
+  //       const result = data.results;
+  //       if (result.length != 0) {
+  //         let i;
+  //         for (i = 0; i <= result.length; i++) {
+  //           const qtyBought = result[i].qtyBought;
+  //           if (qtyBought && qtyBought >= 1) {
+  //             setAddressMsg(
+  //               `All orders placed before ${currentDate} will be shipped to the older address.`
+  //             );
+  //           }
+  //         }
+  //       }
+  //     }
+  //   );
+  // };
+
+  const handleSelect = (address?: AddressData) => {
+    if (!address) {
+      return;
+    }
+    switch (currentCallBackComponent) {
+      case "bridal":
+        if (step == "manage") {
+          changeBridalAddress(address?.id);
+        } else {
+          setCurrentModuleData("address", {
+            userAddress: address
+          });
+        }
+        break;
+      case "bridal-edit":
+        changeBridalAddress(address?.id);
+        break;
+    }
+  };
+
   // const address = props.addressData;
 
   // const onSelectBridalAddress = (address: AddressData) => {
@@ -523,6 +568,7 @@ const AddressMain: React.FC<Props> = props => {
                         currentCallBackComponent == "bridal-edit" &&
                         props.editRegistryAddress
                       ) {
+                        handleSelect(bridalAddressId);
                         props.editRegistryAddress();
                       } else {
                         openAddressForm();
