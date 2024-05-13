@@ -111,7 +111,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         coupon: result.offerDisounts?.[0]?.name,
         dimension12: line.product?.color,
         item_category: category?.split(">")?.join("|"),
-        collection_category: line?.product?.collections?.join("|")
+        collection_category: line?.product?.collection
       };
     });
 
@@ -175,7 +175,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           ? +line.priceExclTax
           : line.product.pricerecords[result.currency as Currency],
         quantity: line.quantity,
-        collection_category: line?.product?.collections?.join("|"),
+        collection_category: line?.product?.collection,
         price_range: "NA"
       };
     });
