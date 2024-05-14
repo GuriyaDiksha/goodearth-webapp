@@ -71,7 +71,7 @@ const AddressSection: React.FC<AddressProps & {
   const { currency, user } = useSelector((state: AppState) => state);
   const {
     basket,
-    info: { isSale }
+    info: { isSale, deliveryText }
   } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
   const {
@@ -319,6 +319,12 @@ const AddressSection: React.FC<AddressProps & {
     setMode("list");
   };
 
+  // const selectedAddress = addressList?.find(val =>
+  //   shippingAddressId !== 0
+  //     ? val?.id === shippingAddressId
+  //     : val?.isDefaultForShipping === true ||
+  //       (isBridal && basket.bridalAddressId === val?.id)
+  // );
   // const renderSavedAddress = function() {
 
   const renderSavedAddress = () => {
@@ -745,7 +751,7 @@ const AddressSection: React.FC<AddressProps & {
         previous_page_url: CookieService.getCookie("prevUrl"),
         shipping_address: shippingAddressId,
         gst_invoice: "NA",
-        delivery_instruction: "NA", //Pass NA if not applicable the moment
+        delivery_instruction: deliveryText ? "Yes" : "No", //Pass NA if not applicable the moment
         ecommerce: {
           currency: currency, // Pass the currency code
           value: basket?.total,

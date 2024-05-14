@@ -40,7 +40,6 @@ type Props = {
 };
 
 const Bridal: React.FC<Props> = props => {
-  // const [ addressData, setAddressData ] = useState<AddressData>();
   const [bridalDetails, setBridalDetails] = useState<BridalDetailsType>({
     occasion: "",
     occassion_choice: "",
@@ -54,6 +53,7 @@ const Bridal: React.FC<Props> = props => {
   const [currentSection, setCurrentSection] = useState("create");
   const [currentScreenValue, setCurrentScreenValue] = useState("manage");
   const [bridalAddress, setBridalAddress] = useState<AddressData>();
+  const [bridalAddressId, setBridalAddressId] = useState<AddressData>();
   const [bridalProfile, setBridalProfile] = useState<BridalProfileData>();
   const bridalProfileData = bridalProfile as BridalProfileData;
   const [registryName, setRegistryName] = useState("");
@@ -155,7 +155,8 @@ const Bridal: React.FC<Props> = props => {
         AddressService.fetchAddressList(dispatch).then(addressList => {
           dispatch(updateAddressList(addressList));
           const bridalAddress = addressList.filter(
-            address => address.id == data?.userAddressId
+            address =>
+              address.id == (bridalAddressId?.id || data?.userAddressId)
           )[0];
           if (bridalAddress) {
             setBridalAddress(bridalAddress);
@@ -164,6 +165,10 @@ const Bridal: React.FC<Props> = props => {
       });
     }
   }, [props.bridalId]);
+
+  useEffect(() => {
+    setBridalAddressId(bridalAddress);
+  }, [bridalAddress]);
 
   // const openBridalPop = () => {
   //   dispatch(updateComponent(POPUP.BRIDALPOP, null, true));
@@ -197,7 +202,7 @@ const Bridal: React.FC<Props> = props => {
     getBridalProfileData()
       .then(_data => {
         AddressService.fetchAddressList(dispatch).then(data => {
-          dispatch(updateAddressList(data));
+          // dispatch(updateAddressList(data));
           const items = data;
           for (let i = 0; i < items.length; i++) {
             if (items[i].id == newAddressId) {
@@ -291,15 +296,19 @@ const Bridal: React.FC<Props> = props => {
     let whatsappSubscribe = whatsappFormValues?.whatsappSubscribe;
     let whatsappNo = whatsappFormValues?.whatsappNo;
     let whatsappNoCountryCode = whatsappFormValues?.whatsappNoCountryCode;
-
-    if (userAddress) {
+    const newBridalDetails: BridalDetailsType = Object.assign(
+      {},
+      bridalDetails
+    );
+    newBridalDetails["userAddress"] = bridalAddressId;
+    if (newBridalDetails?.userAddress) {
       if (!whatsappFormRef.current) {
         whatsappSubscribe = user.preferenceData.whatsappSubscribe;
         whatsappNo = user.preferenceData.whatsappNo;
         whatsappNoCountryCode = user.preferenceData.whatsappNoCountryCode;
       }
       const formData: any = {
-        userAddressId: userAddress.id,
+        userAddressId: newBridalDetails?.userAddress?.id,
         ...rest,
         currency,
         actionType: "create",
@@ -386,7 +395,21 @@ const Bridal: React.FC<Props> = props => {
   };
 
   const showManageRegistry = () => {
-    getBridalProfileData();
+    // getBridalProfileData();
+    if (props.bridalId) {
+      getBridalProfileData().then(data => {
+        AddressService.fetchAddressList(dispatch).then(addressList => {
+          dispatch(updateAddressList(addressList));
+          const bridalAddress = addressList.filter(
+            address =>
+              address.id == (bridalAddressId?.id || data?.userAddressId)
+          )[0];
+          if (bridalAddress) {
+            setBridalAddress(bridalAddress);
+          }
+        });
+      });
+    }
     setCurrentScreenValue("manage");
     window.scrollTo(0, 0);
   };
@@ -504,8 +527,9 @@ const Bridal: React.FC<Props> = props => {
     };
     BridalService.updateBridalAddress(dispatch, data).then(res => {
       setBridalProfile(res[0]);
+      // setBridalAddress(bridalAddress)
       setShareLink(`${__DOMAIN__}/${res[0].shareLink}`);
-      changeAddress(data.addressId);
+      // changeAddress(data.addressId);
       // setCurrentScreenValue("manageregistryfull");
       // setCurrentScreenValue("manage");
     });
@@ -621,7 +645,9 @@ const Bridal: React.FC<Props> = props => {
         setCurrentModule: setCurrentModule,
         setCurrentModuleData: setCurrentModuleData,
         setCurrentScreenValue: setCurrentScreenValue,
-        changeBridalAddress: changeBridalAddress
+        changeBridalAddress: changeBridalAddress,
+        setBridalAddressId: setBridalAddressId,
+        bridalAddressId: bridalAddressId
       }}
     >
       <div className="bridal-registry">

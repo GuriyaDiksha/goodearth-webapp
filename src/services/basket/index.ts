@@ -8,6 +8,7 @@ import API from "utils/api";
 import { ProductID } from "typings/id";
 import { MESSAGE } from "constants/messages";
 import { showGrowlMessage } from "../../utils/validate";
+import { updateLoader } from "actions/info";
 
 export default {
   fetchBasket: async function(
@@ -50,6 +51,7 @@ export default {
     }
     dispatch(updateBasket(res));
     if (source == "checkout" && isLoggedIn && res.redirectToCart) {
+      dispatch(updateLoader(false));
       history?.push("/cart", {});
     }
     return res;

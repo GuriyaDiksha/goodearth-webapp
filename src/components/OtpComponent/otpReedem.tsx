@@ -32,7 +32,8 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
         maxAttemptsAllow: 5
       },
       startTimer: true,
-      isOtpSent: false
+      isOtpSent: false,
+      isDisabled: false
     };
   }
   // timerId: any = 0;
@@ -157,6 +158,11 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
               }
             );
             this.props.closeModal();
+            if (data.expiry) {
+              this.setState({
+                isDisabled: true
+              });
+            }
           } else {
             // this.props.updateList(data);
             this.setState({
@@ -182,6 +188,11 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
               errorTracking([this.state.showerror], location.href);
             }
           );
+          if (err.response.data.expiry) {
+            this.setState({
+              isDisabled: true
+            });
+          }
         })
         .finally(() => {
           // this.clearTimer();
@@ -298,7 +309,8 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     }
     // this.clearTimer();
     this.setState({
-      showerror: ""
+      showerror: "",
+      isDisabled: false
     });
     // this.sendOtpApiCall(this.state.otpData);
     this.setState({
@@ -375,6 +387,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           id="otp-comp"
         ></div>
         <hr />
+        <div>Test......</div>
         <NewOtpComponent
           otpSentVia={`Email ID${this.props.number ? " & Mobile No" : ""}`}
           resendOtp={this.resendOtp}
@@ -389,6 +402,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           headingClassName={globalStyles.textLeft}
           containerClassName={styles.otpRedeemWrp}
           uniqueId="otpredeemid"
+          disabled={this.state.isDisabled}
         />
         {/* {(this.props.otpFor == "activateGC"
           ? this.props.newCardBox == true
