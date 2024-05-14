@@ -2096,3 +2096,42 @@ div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
 
   }
 }
+
+.suggested-data{
+  li{
+    @include b3_14px_montserrat_charcoal();
+    font-size: 12px;
+    letter-spacing: 0.18px;
+    line-height: 19px;
+    margin-right: 20px;
+    padding: 7px 12px;
+    background: #F8F8F8;
+    border: 1px solid #F8F8F8;
+    border-radius: 15px;
+    transition: 0.3s;
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+    white-space: nowrap;
+
+    &:hover{
+      cursor: pointer;
+      background: #fff;
+      border: 1px solid #E5E5E5;
+    }
+  }
+}
+.suggest-data-div{
+  display: flex;
+  overflow-x: auto;
+  justify-content: start;
+  padding: 0 0.6rem 0 1rem;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.search-last-word{
+  font-weight: 600!important;
+  text-transform: capitalize!important;
+}
