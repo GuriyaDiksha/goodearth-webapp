@@ -519,13 +519,13 @@ const ProductDetails: React.FC<Props> = ({
       dataLayer.push({
         event: "add_to_cart",
         previous_page_url: CookieService.getCookie("prevUrl"),
-        currency: currency,
-        value: discountedPriceRecords[currency]
-          ? discountedPriceRecords[currency]
-          : price
-          ? price
-          : null,
         ecommerce: {
+          currency: currency,
+          value: discountedPriceRecords[currency]
+            ? discountedPriceRecords[currency]
+            : price
+            ? price
+            : null,
           items: [
             {
               item_id: setSelectedSKU(), //Pass the product id

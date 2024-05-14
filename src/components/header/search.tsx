@@ -234,7 +234,11 @@ class Search extends React.Component<Props, State> {
     return div.textContent || div.innerText || "";
   };
 
-  showProduct(data: PartialProductItem | WidgetImage, indices: number) {
+  showProduct(
+    data: PartialProductItem | WidgetImage,
+    indices: number,
+    isYml?: boolean
+  ) {
     const itemData = data as PartialProductItem;
     const products: any = [];
     if (!data) return false;
@@ -284,7 +288,16 @@ class Search extends React.Component<Props, State> {
         this.getTextFromHtml(data?.product || data?.title),
         this.state.searchValue
       );
-      localStorage.setItem("clickType", "Products");
+      if (isYml) {
+        CookieService.setCookie(
+          "search",
+          this.getTextFromHtml(data?.product || data?.title),
+          365
+        );
+        localStorage.setItem("clickType", "You Might Like");
+      } else {
+        localStorage.setItem("clickType", "Products");
+      }
     }
     // this.props.toggle();
     this.props.hideSearch();
@@ -904,7 +917,7 @@ class Search extends React.Component<Props, State> {
                                   "clickType",
                                   "recent searches"
                                 );
-
+                                CookieService.setCookie("search", ele, 365);
                                 this.recentSearch(ele);
                                 this.props.hideSearch();
                               }}
@@ -1049,7 +1062,8 @@ class Search extends React.Component<Props, State> {
                                       onClick={this.showProduct.bind(
                                         this,
                                         data,
-                                        data?.id
+                                        data?.id,
+                                        true
                                       )}
                                     >
                                       <img
@@ -1067,7 +1081,8 @@ class Search extends React.Component<Props, State> {
                                         onClick={this.showProduct.bind(
                                           this,
                                           data,
-                                          data?.id
+                                          data?.id,
+                                          true
                                         )}
                                       >
                                         {ReactHtmlParser(data.product)}{" "}

@@ -841,15 +841,20 @@ class Checkout extends React.Component<Props, State> {
             this.props
               .checkPinCodeShippable(address.postCode)
               .then(response => {
-                this.setState({
-                  errorNotification:
-                    this.props.currency == "INR" &&
-                    !this.props.basket.isOnlyGiftCart
-                      ? response.status
-                        ? ""
-                        : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
-                      : ""
-                });
+                this.setState(
+                  {
+                    errorNotification:
+                      this.props.currency == "INR" &&
+                      !this.props.basket.isOnlyGiftCart
+                        ? response.status
+                          ? ""
+                          : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
+                        : ""
+                  },
+                  () => {
+                    this.props.updateLoaderValue(false);
+                  }
+                );
               })
               .catch(err => {
                 console.log(err);
@@ -1109,7 +1114,8 @@ class Checkout extends React.Component<Props, State> {
               this.props.basket,
               "",
               obj.gstNo,
-              this.props.billingAddressId
+              this.props.billingAddressId,
+              this.props.deliveryText
             );
           })
           .catch(err => {

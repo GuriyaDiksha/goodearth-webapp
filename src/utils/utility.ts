@@ -1,6 +1,14 @@
 import { Currency } from "typings/currency";
 import { currencyCodes } from "constants/currency";
 
+function roundToNearest(price: string | number): string | number {
+  if ((parseFloat(price.toString()) % 1).toFixed(3) < "0.750") {
+    return Math.floor(price);
+  } else {
+    return Math.ceil(price);
+  }
+}
+
 const displayPriceWithCommas = (
   price: string | number,
   currency: Currency,
@@ -11,6 +19,13 @@ const displayPriceWithCommas = (
     arg = "en-IN";
   } else {
     arg = "en-US";
+  }
+  if (price.toString().includes("-")) {
+    price = `${String(roundToNearest(price.toString().split("-")[0]))}-${String(
+      roundToNearest(price.toString().split("-")[1])
+    )}`;
+  } else {
+    price = roundToNearest(price);
   }
   const currency_symbol =
     currencyCodes?.[currency]?.length &&
@@ -42,6 +57,13 @@ const displayPriceWithCommasFloat = (
     arg = "en-IN";
   } else {
     arg = "en-US";
+  }
+  if (price.toString().includes("-")) {
+    price = `${String(roundToNearest(price.toString().split("-")[0]))}-${String(
+      roundToNearest(price.toString().split("-")[1])
+    )}`;
+  } else {
+    price = roundToNearest(price);
   }
   const currency_symbol =
     currencyCodes?.[currency]?.length &&

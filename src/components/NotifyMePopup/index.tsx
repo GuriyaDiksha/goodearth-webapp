@@ -257,13 +257,13 @@ const NotifyMePopup: React.FC<Props> = ({
       dataLayer.push({
         event: "add_to_cart",
         previous_page_url: CookieService.getCookie("prevUrl"),
-        currency: currency,
-        value: selectedSize?.discountedPriceRecords
-          ? selectedSize?.discountedPriceRecords[currency]
-          : selectedSize?.priceRecords
-          ? selectedSize?.priceRecords[currency]
-          : null,
         ecommerce: {
+          currency: currency,
+          value: selectedSize?.discountedPriceRecords
+            ? selectedSize?.discountedPriceRecords[currency]
+            : selectedSize?.priceRecords
+            ? selectedSize?.priceRecords[currency]
+            : null,
           items: [
             {
               item_id: selectedSize?.sku || childAttributes[0].sku, //Pass the product id

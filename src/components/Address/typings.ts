@@ -12,7 +12,7 @@ export type AddressData = AddressFormData & {
   isTulsi?: boolean;
   isBackendOrder?: boolean;
   // addressCurrency: string;
-  currency: string;
+  currency: any;
 };
 
 export type specifyShippingAddressResponse = {
