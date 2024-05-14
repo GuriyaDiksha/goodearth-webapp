@@ -29,7 +29,6 @@ const AddressList: React.FC<Props> = props => {
   const { addressDataList, isBridal } = props;
 
   useEffect(() => {
-    debugger;
     if (bridalAddress) {
       setBridalAddressId(bridalAddress);
     }
