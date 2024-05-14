@@ -52,9 +52,10 @@ const Landing: React.FC = () => {
 
   return (
     <div
-      className={cs(globalStyles.containerStart, {
-        [globalStyles.containerStartTimer]: showTimer
-      })}
+      className={cs(
+        // globalStyles.containerStart,
+        { [globalStyles.containerStartTimer]: showTimer }
+      )}
     >
       {mounted && (
         <MakerEnhance

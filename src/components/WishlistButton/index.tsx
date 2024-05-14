@@ -148,6 +148,7 @@ const WishlistButton: React.FC<Props> = ({
           dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
           dataLayer.push({
             event: "add_to_wishlist",
+            previous_page_url: CookieService.getCookie("prevUrl"),
             ecommerce: {
               currency: currency,
               value: child?.[0].discountedPriceRecords

@@ -101,15 +101,15 @@
   }
   .bag-contents {
     background-color: $white;
-    padding: 0 29px;
+    padding: 0px;
     flex-grow: 1;
     overflow-y: scroll;
 
     @include scrollbar();
 
     .cart-item {
-      padding: 25px 0;
-      border-bottom: 0.5px solid $light-charcoal;
+      padding: 25px 29px;
+      border-bottom: 0.5px solid #DEDEDE;
 
       .out-of-stock {
         opacity: 0.3;
@@ -147,7 +147,7 @@
         .product-price {
           @include b3_14px_montserrat_charcoal();
           text-transform: uppercase;
-          padding-top: 19px;
+          padding-top: 10px;
 
           .discountprice {
             color: $gold;
@@ -165,11 +165,15 @@
         }
 
         .product-size {
-          padding-top: 15px;
+          .size{
+            padding-top: 5px;
+          }
           @include b5_10px_montserrat_charcoal();
         }
         .product-color {
-          padding-top: 5px;
+          .color{
+            padding-top: 5px;
+          }
           @include b5_10px_montserrat_charcoal();
         }
         .widget-qty {
@@ -180,13 +184,13 @@
           }
         }
         .stock-left-error {
-          position: static !important;
-          text-align: left;
-          top: 25px;
           @include err_13px_lora_italic_cerise();
-          font-weight: normal;
-          line-height: 15px;
-          margin-top: 5px;
+          // position: static !important;
+          // text-align: left;
+          // top: 25px;
+          // font-weight: normal;
+          // line-height: 15px;
+          // margin-top: 5px;
         }
         .product-actions {
           padding-top: 18px;
@@ -212,6 +216,10 @@
         }
       }
     }
+  }
+
+  .empty-bag-content{
+    padding: 0 29px;
   }
 
   .bag-footer {
@@ -520,14 +528,7 @@
 }
 
 .stock-left {
-  margin-top: 7px;
-  position: relative;
-  text-align: left;
-  display: block;
-  @include err_13px_lora_italic_cerise();
-  color:$gold !important;
-  letter-spacing: 0.26px;
-  font-weight: normal;
+  @include gold_13px_lora_italic();
 }
 .flex-price-icon{
   display: flex;
@@ -596,4 +597,32 @@
     }
 
   }
+}
+
+.free{
+  font-weight: $medium !important;
+  color: $gold !important;
+  @include b3_14px_caps_gold();
+
+  &.out-of-stock{
+    opacity: 0.3; 
+  }
+}
+
+.free-quantity {
+  @include b5_10px_montserrat_charcoal();
+}
+
+.bg-color{
+  background-color: $lightest-grey;
+}
+
+.badge-container{
+  height: 25px !important;
+  line-height: 25px !important;
+  margin-top: 5px;
+}
+
+.remove-cursor{
+  cursor: default;
 }

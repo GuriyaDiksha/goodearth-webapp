@@ -446,3 +446,10 @@
   top: 4px;
   left: 4px;
 }
+
+.free{
+  letter-spacing: 0;
+  font-weight: $medium !important;
+  font-size: 12px !important;
+  @include b3_14px_caps_gold();
+}

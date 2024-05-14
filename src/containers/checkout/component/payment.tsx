@@ -346,7 +346,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       checkout(data)
         .then((response: any) => {
           gtmPushPaymentTracking(paymentMode, paymentMethod);
-          proceedForPayment(basket, currency, paymentMethod, isSale);
+          // proceedForPayment(basket, currency, paymentMethod, isSale);
           dataLayer.push({
             event: "Whatsapp_optin",
             Location: "Checkout",

@@ -267,7 +267,13 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                 </div>
               </Fragment>
 
-              {isActivated && error ? (
+              {/* {error ? (
+                <span className={cs(globalStyles.errorMsg)}>{error}</span>
+              ) : (
+                ""
+              )} */}
+              {/* {isActivated && error ? ( */}
+              {error.includes("Balance") ? (
                 <p
                   className={cs(
                     styles.activeUrl,

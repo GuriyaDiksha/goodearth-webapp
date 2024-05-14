@@ -12,6 +12,7 @@ type BridalContextType = {
   // bridalItems: BridalItem[];
   data: BridalDetailsType;
   bridalAddress?: AddressData;
+  bridalAddressId?: AddressData;
   setCurrentModule: (module: string) => void;
   setCurrentModuleData: (
     module: string,
@@ -20,6 +21,7 @@ type BridalContextType = {
   setCurrentScreenValue: (value: string) => void;
   changeBridalAddress: (addressId: number) => void;
   setBridalAddress: (address: AddressData) => void;
+  setBridalAddressId: (address: AddressData) => void; //Temporary storing address at FE
 };
 const initState: BridalContextType = {
   isBridal: true,
@@ -42,7 +44,8 @@ const initState: BridalContextType = {
   setCurrentModule: (module: string) => null,
   setCurrentModuleData: (module: string, data: {}) => null,
   setCurrentScreenValue: (value: string) => null,
-  setBridalAddress: (address: AddressData) => null
+  setBridalAddress: (address: AddressData) => null,
+  setBridalAddressId: (address: AddressData) => null
 };
 const BridalContext = React.createContext(initState);
 export default BridalContext;
