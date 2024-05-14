@@ -19,6 +19,8 @@ import multiColour from "../../images/multiColour.svg";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import { displayPriceWithCommas } from "utils/utility";
 import CheckboxWithLabel from "components/CheckboxWithLabel";
+import { GA_CALLS } from "constants/cookieConsent";
+import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -613,6 +615,14 @@ class FilterList extends React.Component<Props, State> {
         isCategoryClicked: true
       },
       () => {
+        const userConsent = CookieService.getCookie("consent").split(",");
+        if (userConsent.includes(GA_CALLS)) {
+          dataLayer.push({
+            event: "Filter used",
+            "Filter type": "Price",
+            "Filter value": value[0] + "-" + value[1]
+          });
+        }
         this.createUrlfromFilter();
       }
     );
@@ -1070,6 +1080,14 @@ class FilterList extends React.Component<Props, State> {
         this.createUrlfromFilter();
       }
     );
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Product Type",
+        "Filter value": event.target.value
+      });
+    }
     event.stopPropagation();
   };
 
@@ -1089,7 +1107,14 @@ class FilterList extends React.Component<Props, State> {
         this.createUrlfromFilter();
       }
     );
-
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Discount Type",
+        "Filter value": event.target.value
+      });
+    }
     event.stopPropagation();
   };
 
@@ -1103,6 +1128,14 @@ class FilterList extends React.Component<Props, State> {
     this.setState({
       filter: filter
     });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Material",
+        "Filter value": event.target.value
+      });
+    }
     this.createUrlfromFilter();
     event.stopPropagation();
   };
@@ -1591,6 +1624,18 @@ class FilterList extends React.Component<Props, State> {
         this.createUrlfromFilter();
       }
     );
+    const userConsent = CookieService.getCookie("consent").split(",");
+    const val =
+      event.target.id.split(">")?.[2] !== undefined
+        ? ` -${event.target.id.split(">")?.[2]}`
+        : "";
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Category",
+        "Filter value": event.target.value + val
+      });
+    }
     event.stopPropagation();
   };
 
@@ -1656,6 +1701,14 @@ class FilterList extends React.Component<Props, State> {
       filter: filter,
       isCategoryClicked: true
     });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Color",
+        "Filter value": event.target.value
+      });
+    }
     this.createUrlfromFilter();
     event.stopPropagation();
   };
@@ -1762,6 +1815,15 @@ class FilterList extends React.Component<Props, State> {
         this.createUrlfromFilter();
       }
     );
+
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Size​",
+        "Filter value": event.target.value
+      });
+    }
 
     event.stopPropagation();
   };
