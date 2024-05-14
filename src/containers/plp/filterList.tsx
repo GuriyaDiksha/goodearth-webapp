@@ -635,7 +635,7 @@ class FilterList extends React.Component<Props, State> {
     } = this.props;
 
     if (!onload && mobile) {
-      // return true;
+      return true;
     }
     changeLoader?.(true);
     const url = decodeURI(history.location.search);
@@ -1864,7 +1864,6 @@ class FilterList extends React.Component<Props, State> {
         }
         break;
       case "all":
-        filter.categoryShop = {};
         filter.currentColor = {};
         filter.availableSize = {};
         filter.currentMaterial = {};
@@ -2279,8 +2278,27 @@ class FilterList extends React.Component<Props, State> {
       showmobileText: "",
       showmobileFilterList: false
     });
+    this.props.openResetPopup?.(false);
     this.props.onChangeFilterState(false, true);
     event.stopPropagation();
+  };
+
+  resetFilterClick = () => {
+    this.props.openResetPopup?.(true);
+  };
+
+  discardFilter = (e: any) => {
+    this.updateDataFromAPI("load");
+    this.clearFilter(e, "all");
+    this.setState({
+      mobileFilter: false,
+      showmobileSort: false,
+      showmobileText: "",
+      showmobileFilterList: false
+    });
+    this.props.openResetPopup?.(false);
+    this.props.onChangeFilterState(false, true);
+    this.props.setFilterCount?.(0);
   };
 
   render() {
@@ -2822,14 +2840,15 @@ class FilterList extends React.Component<Props, State> {
         </ul>
         {mobile ? (
           <div className={cs(styles.filterButton, bootstrap.row)}>
-            <div
-              className={styles.resetFilter}
-              onClick={e => this.clearFilter(e, "all")}
-            >
+            <div className={styles.resetFilter} onClick={this.resetFilterClick}>
               <span>Reset Filters</span>
             </div>
             <div className={styles.applyButton} onClick={this.mobileApply}>
-              <span>Apply Filters</span>
+              <span>{`Apply Filters ${
+                this.props.filterCount && this.props.filterCount > 0
+                  ? `(${this.props.filterCount})`
+                  : ""
+              }`}</span>
             </div>
           </div>
         ) : (

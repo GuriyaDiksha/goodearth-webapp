@@ -838,7 +838,7 @@ class FilterList extends React.Component<Props, State> {
   updateDataFromAPI = (onload?: string) => {
     const { mobile, fetchSearchProducts, history, changeLoader } = this.props;
     if (!onload && mobile) {
-      // return true;
+      return true;
     }
     // this.setState({
     //     disableSelectedbox: true
@@ -1840,6 +1840,7 @@ class FilterList extends React.Component<Props, State> {
   };
 
   clearFilter = (event: any, key: string, ischange?: boolean) => {
+    debugger;
     const elementCount: any = document.getElementById("currentFilter");
     const { filter } = this.state;
     if ((elementCount ? elementCount.childElementCount : null) == 0)
@@ -2276,8 +2277,27 @@ class FilterList extends React.Component<Props, State> {
       showmobileText: "",
       showmobileFilterList: false
     });
+    this.props.openResetPopup?.(false);
     this.props.onChangeFilterState(false, true);
     event.stopPropagation();
+  };
+
+  resetFilterClick = () => {
+    this.props.openResetPopup?.(true);
+  };
+
+  discardFilter = (e: any) => {
+    this.updateDataFromAPI("load");
+    this.clearFilter(e, "all");
+    this.setState({
+      mobileFilter: false,
+      showmobileSort: false,
+      showmobileText: "",
+      showmobileFilterList: false
+    });
+    this.props.openResetPopup?.(false);
+    this.props.onChangeFilterState(false, true);
+    this.props.setFilterCount?.(0);
   };
 
   changeSearchValue = (value: string) => {
@@ -2837,14 +2857,15 @@ class FilterList extends React.Component<Props, State> {
         </ul>
         {mobile ? (
           <div className={cs(styles.filterButton, bootstrap.row)}>
-            <div
-              className={styles.resetFilter}
-              onClick={e => this.clearFilter(e, "all")}
-            >
+            <div className={styles.resetFilter} onClick={this.resetFilterClick}>
               <span>Reset Filters</span>
             </div>
             <div className={styles.applyButton} onClick={this.mobileApply}>
-              <span>Apply Filters</span>
+              <span>{`Apply Filters ${
+                this.props.filterCount && this.props.filterCount > 0
+                  ? `(${this.props.filterCount})`
+                  : ""
+              }`}</span>
             </div>
           </div>
         ) : (

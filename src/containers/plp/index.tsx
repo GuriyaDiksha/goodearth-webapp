@@ -44,6 +44,7 @@ import activeList from "../../images/plpIcons/active_list.svg";
 import inactiveList from "../../images/plpIcons/inactive_list.svg";
 import { CategoryMenu } from "containers/categoryLanding/typings";
 import { GA_CALLS } from "constants/cookieConsent";
+import ResetFilterModal from "./ResetFilterModal";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -83,6 +84,7 @@ class PLP extends React.Component<
     count: number;
     showProductCounter: boolean;
     header: string;
+    isPopup: boolean;
   }
 > {
   constructor(props: Props) {
@@ -106,7 +108,8 @@ class PLP extends React.Component<
         props.location.search.includes("&src_type=cp"),
       isThirdParty: props.location.search.includes("&src_type=cp"),
       showProductCounter: true,
-      header: ""
+      header: "",
+      isPopup: false
     };
   }
   private child: any = FilterList;
@@ -335,6 +338,12 @@ class PLP extends React.Component<
         showmobileSort: false
       });
     }
+  };
+
+  onResetFilterClick = (value: boolean) => {
+    this.setState({
+      isPopup: value
+    });
   };
 
   getVisibleProductID = () => {
@@ -753,6 +762,8 @@ class PLP extends React.Component<
                 changeLoader={this.changeLoader}
                 onStateChange={this.onStateChange}
                 filterCount={this.state.filterCount}
+                open={this.state.mobileFilter}
+                openResetPopup={this.onResetFilterClick}
               />
             )}
           </div>
@@ -1168,6 +1179,9 @@ class PLP extends React.Component<
             value={this.state.sortValue}
             key={"plpPageMobile"}
             sortedDiscount={facets.sortedDiscount}
+            filterApply={this.child.mobileApply}
+            filterDiscard={this.child.discardFilter}
+            isPopup={!this.state.mobileFilter}
             // toggleSort={this.toggleSort}
           />
         )}
@@ -1181,6 +1195,19 @@ class PLP extends React.Component<
               id="plp-product-counter"
             />
           )}
+        {mobile && this.state.isPopup && (
+          <div
+            id="resetFilterModal"
+            className={styles.modalFullscreenContainer}
+          >
+            <div className={styles.modalFullscreen}>
+              <ResetFilterModal
+                applyClick={this.child.mobileApply}
+                discardClick={this.child.discardFilter}
+              />
+            </div>
+          </div>
+        )}
       </div>
     );
   }

@@ -39,6 +39,7 @@ import { updatePlpMobileView } from "actions/plp";
 import PlpResultListViewItem from "components/plpResultListViewItem";
 import { ChildProductAttributes, PLPProductItem } from "typings/product";
 import ModalStyles from "components/Modal/styles.scss";
+import ResetFilterModal from "./ResetFilterModal";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -98,6 +99,7 @@ class Search extends React.Component<
     count: number;
     showProductCounter: boolean;
     corporoateGifting: boolean;
+    isPopup: boolean;
   }
 > {
   private child: any = FilterListSearch;
@@ -121,7 +123,8 @@ class Search extends React.Component<
       corporoateGifting:
         props.location.pathname.includes("corporate-gifting") ||
         props.location.search.includes("&src_type=cp"),
-      showProductCounter: true
+      showProductCounter: true,
+      isPopup: false
     };
   }
 
@@ -426,6 +429,12 @@ class Search extends React.Component<
     }
   };
 
+  onResetFilterClick = (value: boolean) => {
+    this.setState({
+      isPopup: value
+    });
+  };
+
   handleChange = (event: any) => {
     // const regex = /^[A-Za-z0-9% ]+$/;
     // if (event.target.value == "" || regex.test(event.target.value)) {
@@ -671,6 +680,7 @@ class Search extends React.Component<
               changeLoader={this.changeLoader}
               onChangeFilterState={this.onChangeFilterState}
               filterCount={this.state.filterCount}
+              openResetPopup={this.openResetPopup}
             />
           </div>
           {/* Open GridList option code */}
@@ -1032,6 +1042,19 @@ class Search extends React.Component<
             total={count}
             id="plp-product-counter"
           />
+        )}
+        {mobile && this.state.isPopup && (
+          <div
+            id="resetFilterModal"
+            className={styles.modalFullscreenContainer}
+          >
+            <div className={styles.modalFullscreen}>
+              <ResetFilterModal
+                applyClick={this.child.mobileApply}
+                discardClick={this.child.discardFilter}
+              />
+            </div>
+          </div>
         )}
       </div>
     );

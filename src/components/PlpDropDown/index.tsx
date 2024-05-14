@@ -158,7 +158,9 @@ const PlpDropdownMenu = ({
             }}
           >
             {filterCount ? (
-              <span>{`Filter By ( ${filterCount} )`}</span>
+              <span>{`Filter By ${
+                filterCount > 1 ? `( ${filterCount})` : " "
+              }`}</span>
             ) : (
               <span>Refine</span>
             )}

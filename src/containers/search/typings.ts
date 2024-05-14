@@ -37,6 +37,7 @@ export type FilterProps = {
   onChangeFilterState: (data: boolean, cross?: boolean) => void;
   changeLoader?: (data: boolean) => void;
   filterCount: number;
+  openResetPopup?: (data: boolean) => void;
 };
 
 export type State = {

@@ -1275,5 +1275,55 @@ input[type="radio"]:checked, [type="checkbox"]:not(:checked),
   }
   .hide{
     display: none;
+  }
+  // reset filter popup css
+  .modal-fullscreen-container{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000010;
+  }
+  .modal-fullscreen{
+    position: fixed;
+    width: 100%;
+    top: 50%;
+  }
+  .reset-modal-container{
+    max-width: 330px;
+    margin: 0 auto;
+    transform: translateY(-58%);
+    .discard-popup{
+      background: #fff;
+      text-align: center;
+      padding: 40px 50px;
+      .popup-content{
+        .heading{
+          @include h6_16px_lora_charcoal();
+          line-height: 24px;
+        }
+        .inner-text{
+          @include b4_12px_montserrat_charcoal();
+          line-height: 20px;
+          letter-spacing: 0.36px;
+          margin: 22px 0;
+        }
+        .apply-link{
+          @include b4_12px_montserrat_aqua();
+          line-height: 20px;
+          letter-spacing: 0.36px;
+          margin-bottom: 20px;
+          text-decoration: underline;
+          text-underline-offset: 0.3rem;
+        }
+        .discard-cta{
+          @include b4_12px_montserrat_charcoal_caps();
+          line-height: 20px;
+          letter-spacing: 0.36px;
+        }
+      }
+    }
   }  
 }
