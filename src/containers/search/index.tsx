@@ -170,7 +170,8 @@ class Search extends React.Component<
       title,
       discount,
       badgeType,
-      plpSliderImages
+      plpSliderImages,
+      badge_text
     } = product;
     const selectedIndex = childAttributes?.length == 1 ? 0 : undefined;
     const {
@@ -205,7 +206,8 @@ class Search extends React.Component<
         isSale: isSale,
         discountedPrice: discountedPriceRecords[currency],
         list: "plp",
-        sliderImages: plpSliderImages
+        sliderImages: plpSliderImages,
+        badge_text: badge_text
       },
       false,
       this.props.device.mobile ? ModalStyles.bottomAlignSlideUp : "",

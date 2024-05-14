@@ -319,14 +319,17 @@ const AddressSection: React.FC<AddressProps & {
     setMode("list");
   };
 
+  // const selectedAddress = addressList?.find(val =>
+  //   shippingAddressId !== 0
+  //     ? val?.id === shippingAddressId
+  //     : val?.isDefaultForShipping === true ||
+  //       (isBridal && basket.bridalAddressId === val?.id)
+  // );
+  // const renderSavedAddress = function() {
+
   const renderSavedAddress = () => {
-    const selectedAddress = addressList?.find(val =>
-      shippingAddressId !== 0
-        ? val?.id === shippingAddressId
-        : val?.isDefaultForShipping === true ||
-          (isBridal && basket.bridalAddressId === val?.id)
-    );
     const address = selectedAddress;
+
     if (!isActive && address && isBridal && activeStep == STEP_SHIPPING) {
       // saved address for bridal
       return (
@@ -399,6 +402,7 @@ const AddressSection: React.FC<AddressProps & {
       );
     } else if (!isActive && address && STEP_ORDER[activeStep] < currentStep) {
       // saved address for not bridal
+
       return (
         <div
           className={cs(
@@ -1513,7 +1517,7 @@ const AddressSection: React.FC<AddressProps & {
                                           !isGoodearthShipping
                                           ? val?.id === shippingAddressId
                                           : val?.id === billingAddressId
-                                        : val?.isDefaultForShipping === true
+                                        : val?.id === billingAddressId
                                     )
                                   : addressList?.find(
                                       val => val?.id === billingAddressId

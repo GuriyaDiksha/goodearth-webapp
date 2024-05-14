@@ -2,7 +2,8 @@
 @import "../../styles/partials/mixins";
 
 .page-body{
-    margin-top: $header-height;
+    // margin-top: $header-height;
+    margin-top: 40px;
   }
   .page-body-timer {
     margin-top: $header-height + $timer-height;

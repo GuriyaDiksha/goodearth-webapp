@@ -15,7 +15,6 @@ import addedReg from "../../../images/registery/addedReg.svg";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import moment from "moment";
-import Button from "components/Button";
 import { useHistory } from "react-router";
 import BridalService from "services/bridal";
 import { BridalProfileData } from "containers/myAccount/components/Bridal/typings";
@@ -48,7 +47,9 @@ const AddressItem: React.FC<Props> = props => {
     isAddressValid
   } = useContext(AddressContext);
   const { onSelectAddress } = useContext(CheckoutAddressContext);
-  const { bridalProfile } = useContext(BridalContext);
+  const { bridalProfile, setBridalAddressId, bridalAddressId } = useContext(
+    BridalContext
+  );
   const {
     currency,
     basket,
@@ -59,9 +60,9 @@ const AddressItem: React.FC<Props> = props => {
   const [addressMsg, setAddressMsg] = useState("");
   const currentDate = moment().format("DD/MM/YYYY");
   const {
-    step,
-    changeBridalAddress,
-    setCurrentModuleData,
+    // step,
+    // changeBridalAddress,
+    // setCurrentModuleData,
     data: { userAddress }
   } = useContext(BridalContext);
   const [deleteError, setDeleteError] = useState("");
@@ -133,29 +134,33 @@ const AddressItem: React.FC<Props> = props => {
   //     }
   // }
 
-  const handleSelect = (address: AddressData) => {
-    switch (currentCallBackComponent) {
-      case "bridal":
-        if (step == "manage") {
-          changeBridalAddress(address.id);
-        } else {
-          setCurrentModuleData("address", {
-            userAddress: address
-          });
-        }
-        break;
-      case "bridal-edit":
-        changeBridalAddress(address.id);
-        fetchBridalItems();
-        break;
-    }
-  };
+  // const handleSelect = (address: AddressData) => {
+  //   switch (currentCallBackComponent) {
+  //     case "bridal":
+  //       if (step == "manage") {
+  //         changeBridalAddress(address.id);
+  //       } else {
+  //         setCurrentModuleData("address", {
+  //           userAddress: address
+  //         });
+  //       }
+  //       break;
+  //     case "bridal-edit":
+  //       changeBridalAddress(address.id);
+  //       fetchBridalItems();
+  //       break;
+  //   }
+  // };
 
   const onSelectBridalAddress = (address: AddressData) => {
     if (address) {
       const isValid = isAddressValid(address);
       if (isValid) {
-        handleSelect(address);
+        // handleSelect(address);
+        if (currentCallBackComponent === "bridal-edit") {
+          fetchBridalItems();
+        }
+        setBridalAddressId(address);
       } else {
         openAddressForm(address);
       }
@@ -333,8 +338,7 @@ const AddressItem: React.FC<Props> = props => {
             {
               [styles.addressInUse]:
                 // props.showAddressInBridalUse && address.isBridal
-                address.id.toString() ===
-                bridalProfile?.userAddressId.toString()
+                address.id.toString() === bridalAddressId?.id?.toString()
             },
             // { [styles.isActiveItem]: isSlected},
             {
@@ -347,8 +351,8 @@ const AddressItem: React.FC<Props> = props => {
           )}
           onClick={() => {
             if (
-              currentCallBackComponent == "bridal" ||
-              currentCallBackComponent == "bridal-edit"
+              currentCallBackComponent === "bridal" ||
+              currentCallBackComponent === "bridal-edit"
             ) {
               // if (props.showAddressInBridalUse && address.isBridal) {
               if (address.id != userAddress?.id) {
@@ -376,7 +380,7 @@ const AddressItem: React.FC<Props> = props => {
                       className={styles.defaultAddressCheckbox}
                       checked={
                         address.id.toString() ===
-                        bridalProfile?.userAddressId.toString()
+                        bridalAddressId?.id?.toString()
                       }
                       name={id}
                       type="radio"
@@ -616,8 +620,7 @@ const AddressItem: React.FC<Props> = props => {
                     className={styles.defaultAddressCheckbox}
                     checked={
                       // address.id.toString() === bridalAddressId.toString()
-                      address.id.toString() ===
-                      bridalProfile?.userAddressId.toString()
+                      address.id.toString() === bridalAddressId?.id?.toString()
                     }
                     name={id}
                     type="radio"
@@ -801,7 +804,7 @@ const AddressItem: React.FC<Props> = props => {
         </div>
       </div>
       {addressMsg &&
-        address.id.toString() === bridalProfile?.userAddressId.toString() && (
+        address.id.toString() === bridalAddressId?.id?.toString() && (
           <div className={globalStyles.errorMsg}>{addressMsg}</div>
         )}
       {deleteError && (

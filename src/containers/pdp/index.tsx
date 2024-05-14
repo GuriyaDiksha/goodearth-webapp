@@ -1132,7 +1132,8 @@ class PDPContainer extends React.Component<Props, State> {
       title,
       discount,
       badgeType,
-      plpSliderImages
+      plpSliderImages,
+      badge_text
     } = product;
     const {
       updateComponentModal,
@@ -1168,7 +1169,8 @@ class PDPContainer extends React.Component<Props, State> {
         discountedPrice: discountedPriceRecords[currency],
         list: "pdp",
         sliderImages: plpSliderImages,
-        collections: collections
+        collections: collections,
+        badge_text: badge_text
       },
       false,
       undefined
@@ -1636,7 +1638,9 @@ class PDPContainer extends React.Component<Props, State> {
         )}
         <div
           id="product_detail_sec"
-          className={cs(bootstrap.row, styles.productSection)}
+          className={cs(bootstrap.row, styles.productSection, {
+            [styles.paddingBottom]: this.props.data?.freeProductText
+          })}
           ref={this.containerRef}
         >
           {mobile && (

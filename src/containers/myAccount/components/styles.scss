@@ -1600,6 +1600,11 @@ input[type="text"].country-code-search-input{
   left: 4px;
 }
 
+.free-price{
+  font-weight: $medium !important;
+  color: $gold !important;
+  @include b3_14px_caps_gold();
+}
 .gc-wrp{
   position: relative;
 }

@@ -46,7 +46,8 @@ const BridalItemsList: React.FC<Props> = props => {
     stock,
     productAvailable,
     colors,
-    groupedProductsCount
+    groupedProductsCount,
+    badge_text
   } = props.product;
 
   const mobileAddToBag = () => {
@@ -216,6 +217,18 @@ const BridalItemsList: React.FC<Props> = props => {
                         )}
                       </div>
                     </div>
+                    {badge_text && (
+                      <div
+                        className={cs(
+                          globalStyles.badgeContainer,
+                          globalStyles.grey,
+                          globalStyles.marginB10,
+                          globalStyles.marginT5
+                        )}
+                      >
+                        {badge_text}
+                      </div>
+                    )}
                     {price[props.currency] != 0 ? (
                       <div className={styles.productPrice}>
                         {discount ? (

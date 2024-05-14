@@ -291,7 +291,11 @@ class Search extends React.Component<Props, State> {
         this.state.searchValue
       );
       if (isYml) {
-        CookieService.setCookie("search", data?.product || data?.title, 365);
+        CookieService.setCookie(
+          "search",
+          this.getTextFromHtml(data?.product || data?.title),
+          365
+        );
         localStorage.setItem("clickType", "You Might Like");
       } else {
         localStorage.setItem("clickType", "Products");
@@ -1077,6 +1081,25 @@ class Search extends React.Component<Props, State> {
                                         isPlpTile={true} //passing true for new icons
                                       />
                                     </div>
+                                    {data?.badge_text && (
+                                      <div
+                                        className={cs(
+                                          globalStyles.textCenter,
+                                          globalStyles.badgePositionDesktop,
+                                          {
+                                            [globalStyles.badgePositionMobile]: mobile
+                                          }
+                                        )}
+                                      >
+                                        <div
+                                          className={cs(
+                                            globalStyles.badgeContainer
+                                          )}
+                                        >
+                                          {data?.badge_text}
+                                        </div>
+                                      </div>
+                                    )}
                                     <Link
                                       to={data.link}
                                       onClick={this.showProduct.bind(
@@ -1329,6 +1352,25 @@ class Search extends React.Component<Props, State> {
                                     ""
                                   )}
                                   <div className={styles.imageboxNew}>
+                                    {data?.badge_text && (
+                                      <div
+                                        className={cs(
+                                          globalStyles.textCenter,
+                                          globalStyles.badgePositionDesktop,
+                                          {
+                                            [globalStyles.badgePositionMobile]: mobile
+                                          }
+                                        )}
+                                      >
+                                        <div
+                                          className={cs(
+                                            globalStyles.badgeContainer
+                                          )}
+                                        >
+                                          {data?.badge_text}
+                                        </div>
+                                      </div>
+                                    )}
                                     <Link
                                       to={data.link}
                                       onClick={this.showProduct.bind(

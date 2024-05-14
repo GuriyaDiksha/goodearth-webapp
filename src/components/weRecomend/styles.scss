@@ -81,3 +81,12 @@
 .slider {
     padding: 0 3px;
 }
+
+.badge-position{
+    left: 3px;
+    bottom: 135px;
+
+    @media screen and (max-width:767px) {
+        bottom: 127px;
+    }
+}

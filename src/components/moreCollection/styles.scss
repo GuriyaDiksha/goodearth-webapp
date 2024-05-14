@@ -96,3 +96,12 @@
         border-right: 1px solid #ccc;
     }
 }
+
+.badge-position{
+    left: 3px;
+    bottom: 210px;
+
+    @media screen and (max-width:767px) {
+        bottom: 202px;
+    }
+}

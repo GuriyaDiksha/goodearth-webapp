@@ -151,7 +151,7 @@ body:has(.mobile) {
     &.diabled-border{
       // border: 2px solid $cerise;
       // padding: 35px 25px 84px 25px;
-      padding: 30px 30px 30px 40px;
+      padding: 20px 30px 30px 40px;
       border: 1px solid #4C4C4C;
       min-height: 160px;
     }
@@ -598,7 +598,7 @@ body:has(.mobile) {
     // height: 100%;
     // width: 100%;
     cursor: unset!important;
-    padding: 30px 30px 30px 40px;
+    padding: 20px 30px 30px 40px;
     border: 1px solid #4C4C4C;
     min-height: 160px;
   }
@@ -803,7 +803,7 @@ body:has(.mobile) {
     left: 0;
     z-index: 9;
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 100px);
     padding: 20px 20px 60px;
     overflow-y: scroll;
 
@@ -814,9 +814,15 @@ body:has(.mobile) {
       border-bottom: 0.5px solid #e2e2e2;
 
       .form-title {
+        width: auto;
+        max-width: 100%;
+        margin: 0;
         @include b5_10px_montserrat_charcoal_caps();
       }
       .form-close {
+        width: auto;
+        max-width: 100%;
+        margin: 0;
         .iconCross {
           font-size: 12px;
           cursor: pointer;
@@ -862,6 +868,16 @@ body:has(.mobile) {
 
       .ship-bill-checkout{
         margin: 20px 0;
+
+        @media screen and (max-width:767px) {
+          max-width: 100%;
+          width: 100%;
+        }
+
+        .max-width{
+          max-width: 100%;
+          width: 100%;
+        }
       }
   }
 }
