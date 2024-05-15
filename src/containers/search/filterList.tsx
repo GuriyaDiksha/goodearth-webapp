@@ -97,7 +97,8 @@ class FilterList extends React.Component<Props, State> {
       selectedCatShop: "View All",
       isViewAll: false,
       urltempData: { categoryObj: {}, id: "" },
-      isCategoryClicked: false
+      isCategoryClicked: false,
+      isPopupOpen: false
     };
     this.props.onRef(this);
   }
@@ -837,7 +838,8 @@ class FilterList extends React.Component<Props, State> {
 
   updateDataFromAPI = (onload?: string) => {
     const { mobile, fetchSearchProducts, history, changeLoader } = this.props;
-    if (!onload && mobile) {
+    console.log(this.state.isPopupOpen);
+    if (!onload && mobile && !this.state.isPopupOpen) {
       return true;
     }
     // this.setState({
@@ -947,6 +949,13 @@ class FilterList extends React.Component<Props, State> {
       this.createList(nextProps.data);
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
       this.handleAnimation("category", false);
+
+      this.setState({
+        activeindex: 0,
+        showFilterByDiscountMenu: false,
+        showProductFilter: false,
+        showmenulevel1: false
+      });
     }
 
     if (
@@ -1840,7 +1849,6 @@ class FilterList extends React.Component<Props, State> {
   };
 
   clearFilter = (event: any, key: string, ischange?: boolean) => {
-    debugger;
     const elementCount: any = document.getElementById("currentFilter");
     const { filter } = this.state;
     if ((elementCount ? elementCount.childElementCount : null) == 0)
@@ -1895,8 +1903,8 @@ class FilterList extends React.Component<Props, State> {
       this.createUrlfromFilter();
     }
     this.setState({
-      filter: filter,
-      showmenulevel1: false
+      filter: filter
+      // showmenulevel1: false
     });
     if (key == "price" || key == "all") {
       this.setState({
@@ -2275,7 +2283,8 @@ class FilterList extends React.Component<Props, State> {
       mobileFilter: false,
       showmobileSort: false,
       showmobileText: "",
-      showmobileFilterList: false
+      showmobileFilterList: false,
+      isPopupOpen: false
     });
     this.props.openResetPopup?.(false);
     this.props.onChangeFilterState(false, true);
@@ -2284,16 +2293,19 @@ class FilterList extends React.Component<Props, State> {
 
   resetFilterClick = () => {
     this.props.openResetPopup?.(true);
+    this.setState({
+      isPopupOpen: true
+    });
   };
 
   discardFilter = (e: any) => {
-    this.updateDataFromAPI("load");
     this.clearFilter(e, "all");
     this.setState({
       mobileFilter: false,
       showmobileSort: false,
       showmobileText: "",
-      showmobileFilterList: false
+      showmobileFilterList: false,
+      isPopupOpen: false
     });
     this.props.openResetPopup?.(false);
     this.props.onChangeFilterState(false, true);
@@ -2330,6 +2342,14 @@ class FilterList extends React.Component<Props, State> {
   render() {
     const { mobile } = this.props;
     const { filter } = this.state;
+
+    // let categoryFilterCount;
+    // const isCatSelected = filter.categoryShop["selectedCatShop"]?.split(">")[1]?.trim();
+    // if(isCatSelected){
+    //   categoryFilterCount = 1;
+    // }else{
+    //   categoryFilterCount = 0;
+    // }
 
     const colorObjArr = Object.values(filter.currentColor);
     const colorFilteredArrays = colorObjArr.filter(obj =>
@@ -2507,7 +2527,12 @@ class FilterList extends React.Component<Props, State> {
                 );
               }}
             >
-              {`Category`}
+              Category
+              {/* {`Category ${
+                mobile && categoryFilterCount && categoryFilterCount > 0
+                  ? `(${categoryFilterCount})`
+                  : ""
+              }`} */}
             </span>
             <div
               id="category"

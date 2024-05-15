@@ -680,7 +680,7 @@ class Search extends React.Component<
               changeLoader={this.changeLoader}
               onChangeFilterState={this.onChangeFilterState}
               filterCount={this.state.filterCount}
-              openResetPopup={this.openResetPopup}
+              openResetPopup={this.onResetFilterClick}
             />
           </div>
           {/* Open GridList option code */}

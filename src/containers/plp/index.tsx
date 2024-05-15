@@ -1179,9 +1179,6 @@ class PLP extends React.Component<
             value={this.state.sortValue}
             key={"plpPageMobile"}
             sortedDiscount={facets.sortedDiscount}
-            filterApply={this.child.mobileApply}
-            filterDiscard={this.child.discardFilter}
-            isPopup={!this.state.mobileFilter}
             // toggleSort={this.toggleSort}
           />
         )}

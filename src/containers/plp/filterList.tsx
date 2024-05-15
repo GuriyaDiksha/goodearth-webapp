@@ -96,7 +96,8 @@ class FilterList extends React.Component<Props, State> {
       categoryindex: -1,
       activeindex: -1,
       activeindex2: 1,
-      isViewAll: false
+      isViewAll: false,
+      isPopupOpen: false
     };
     this.props.onRef(this);
   }
@@ -633,8 +634,8 @@ class FilterList extends React.Component<Props, State> {
       changeLoader,
       fetchPlpTemplates
     } = this.props;
-
-    if (!onload && mobile) {
+    console.log(this.state.isPopupOpen);
+    if (!onload && mobile && !this.state.isPopupOpen) {
       return true;
     }
     changeLoader?.(true);
@@ -1955,24 +1956,24 @@ class FilterList extends React.Component<Props, State> {
           break;
         }
         case "categoryShop":
-          const { filter } = this.state;
-          const categoryObjArr = Object.values(filter.categoryShop);
-          const filteredArrays = categoryObjArr.filter(obj =>
-            Object.values(obj as any).some(value => value === true)
-          );
-          const dataArray = Object.values(filteredArrays);
-          const categoryTrueValues: string[] = [];
-          dataArray.forEach(data => {
-            Object.entries(data as any).forEach(([key, value]) => {
-              if (value === true) {
-                categoryTrueValues.push(key);
-              }
-            });
-          });
-          const CategoryFilterCount = categoryTrueValues.length;
-          if (CategoryFilterCount > 0) {
-            filterCount += CategoryFilterCount;
-          }
+          // const { filter } = this.state;
+          // const categoryObjArr = Object.values(filter.categoryShop);
+          // const filteredArrays = categoryObjArr.filter(obj =>
+          //   Object.values(obj as any).some(value => value === true)
+          // );
+          // const dataArray = Object.values(filteredArrays);
+          // const categoryTrueValues: string[] = [];
+          // dataArray.forEach(data => {
+          //   Object.entries(data as any).forEach(([key, value]) => {
+          //     if (value === true) {
+          //       categoryTrueValues.push(key);
+          //     }
+          //   });
+          // });
+          // const CategoryFilterCount = categoryTrueValues.length;
+          // if (CategoryFilterCount > 0) {
+          //   filterCount += CategoryFilterCount;
+          // }
           break;
         case "price": {
           const filter: any = [];
@@ -2276,7 +2277,8 @@ class FilterList extends React.Component<Props, State> {
       mobileFilter: false,
       showmobileSort: false,
       showmobileText: "",
-      showmobileFilterList: false
+      showmobileFilterList: false,
+      isPopupOpen: false
     });
     this.props.openResetPopup?.(false);
     this.props.onChangeFilterState(false, true);
@@ -2285,16 +2287,19 @@ class FilterList extends React.Component<Props, State> {
 
   resetFilterClick = () => {
     this.props.openResetPopup?.(true);
+    this.setState({
+      isPopupOpen: true
+    });
   };
 
   discardFilter = (e: any) => {
-    this.updateDataFromAPI("load");
     this.clearFilter(e, "all");
     this.setState({
       mobileFilter: false,
       showmobileSort: false,
       showmobileText: "",
-      showmobileFilterList: false
+      showmobileFilterList: false,
+      isPopupOpen: false
     });
     this.props.openResetPopup?.(false);
     this.props.onChangeFilterState(false, true);
@@ -2310,20 +2315,20 @@ class FilterList extends React.Component<Props, State> {
       this.props.filtered_facets
     );
 
-    const catObjArr = Object.values(filter.categoryShop);
-    const catFilteredArrays = catObjArr.filter(obj =>
-      Object.values(obj as any).some(value => value === true)
-    );
-    const catDataArray = Object.values(catFilteredArrays);
-    const catTrueValues: string[] = [];
-    catDataArray.forEach(data => {
-      Object.entries(data as any).forEach(([key, value]) => {
-        if (value === true) {
-          catTrueValues.push(key);
-        }
-      });
-    });
-    const categoryFilterCount = catTrueValues.length;
+    // const catObjArr = Object.values(filter.categoryShop);
+    // const catFilteredArrays = catObjArr.filter(obj =>
+    //   Object.values(obj as any).some(value => value === true)
+    // );
+    // const catDataArray = Object.values(catFilteredArrays);
+    // const catTrueValues: string[] = [];
+    // catDataArray.forEach(data => {
+    //   Object.entries(data as any).forEach(([key, value]) => {
+    //     if (value === true) {
+    //       catTrueValues.push(key);
+    //     }
+    //   });
+    // });
+    // const categoryFilterCount = catTrueValues.length;
 
     const colorObjArr = Object.values(filter.currentColor);
     const colorFilteredArrays = colorObjArr.filter(obj =>
@@ -2502,11 +2507,12 @@ class FilterList extends React.Component<Props, State> {
                 );
               }}
             >
-              {`Category ${
+              Category
+              {/* {`Category ${
                 mobile && categoryFilterCount > 0
                   ? `(${categoryFilterCount})`
                   : ""
-              }`}
+              }`} */}
             </span>
             <div
               id="category"

@@ -77,4 +77,5 @@ export type State = {
   showmenulevel1: boolean;
   shouldScroll: boolean;
   isViewAll: boolean;
+  isPopupOpen: boolean;
 };

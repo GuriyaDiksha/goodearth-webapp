@@ -205,3 +205,29 @@
   font-size: 14px;
   margin-top: 4px;
 }
+
+.active-filter{
+  position: relative;
+  &::before{
+    content: '';
+    height: 13px;
+    width: 13px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: -20%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #548b8b;
+  }
+  &::after{
+    content: "";
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: #548b8b;
+    position: absolute;
+    top: 50%;
+    left: -20%;
+    transform: translate(-50%, -50%);
+  }
+}

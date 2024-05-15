@@ -77,4 +77,5 @@ export type State = {
   isViewAll: boolean;
   urltempData: any;
   isCategoryClicked: boolean;
+  isPopupOpen: boolean;
 };
