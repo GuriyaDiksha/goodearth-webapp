@@ -74,6 +74,7 @@ export type BridalItemData = {
   productAvailable: boolean;
   childAttributes: childAttributes[];
   groupedProductsCount?: number;
+  badge_text?: string;
 };
 
 export type BridalPublicProfileData = {

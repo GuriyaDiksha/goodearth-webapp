@@ -110,7 +110,18 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
     }
   }, [mobile]);
 
-  const image = product.plpImages ? product.plpImages[0] : "";
+  const gaCall = (action: any) => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "bag_quick_view",
+        cta_location: page.toUpperCase() === "PLP" ? "PLP" : "Search Results"
+      });
+    }
+
+    action();
+  };
+
   const button = useMemo(() => {
     // let buttonText: string,
     let action: EventHandler<MouseEvent>;
@@ -152,7 +163,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
             globalStyles.iconContainer,
             iconStyles.iconPlpCart
           )}
-          onClick={action}
+          onClick={() => gaCall(action)}
         ></div>
       </div>
     );
@@ -247,7 +258,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
           </div>
         )}
 
-        {!isCorporate && product?.code && (
+        {!isCorporate && product?.is3dimage && (
           <div
             className={cs(
               globalStyles.textCenter,

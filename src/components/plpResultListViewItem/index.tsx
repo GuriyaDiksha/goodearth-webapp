@@ -22,7 +22,6 @@ import { GA_CALLS } from "constants/cookieConsent";
 import iconStyles from "styles/iconFonts.scss";
 import plpThreeSixty from "./../../icons/plp-three-sixty.svg";
 import PlpResultImageSlider from "components/PlpResultImageSlider";
-import cartIcon from "./../../icons/plp_cart.svg";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -99,6 +98,18 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
     }
   };
 
+  const gaCall = (action: any) => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "bag_quick_view",
+        cta_location: page.toUpperCase() === "PLP" ? "PLP" : "Search Results"
+      });
+    }
+
+    action();
+  };
+
   const button = useMemo(() => {
     // let buttonText: string,
     let action: EventHandler<MouseEvent>;
@@ -131,7 +142,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             globalStyles.iconContainer,
             iconStyles.iconPlpCart
           )}
-          onClick={action}
+          onClick={() => gaCall(action)}
         ></div>
       </div>
       // <Button
@@ -225,6 +236,40 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
               isPlpTile={true}
               badgeType={product?.badgeType}
             />
+          </div>
+        )}
+        {!isCorporate && product?.is3dimage && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.listRightBottomPosition,
+              globalStyles.threeSixtyIconPositionDesktop,
+              { [globalStyles.threeSixtyIconPositionMobile]: mobile }
+            )}
+          >
+            <div
+              className={cs(
+                globalStyles.iconContainer,
+                globalStyles.threeSixtyContainer
+              )}
+            >
+              <img src={plpThreeSixty} alt="360" />
+            </div>
+          </div>
+        )}
+
+        {!isCorporate && product?.badge_text && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.listLeftBottomPosition,
+              globalStyles.badgePositionDesktop,
+              { [globalStyles.badgePositionMobile]: mobile }
+            )}
+          >
+            <div className={cs(globalStyles.badgeContainer)}>
+              {product?.badge_text}
+            </div>
           </div>
         )}
         {button}
@@ -330,44 +375,10 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             </div>
           </div>
         )}
-        <div className={cs(styles.actions, bootstrapStyles.row)}>
-          {/* {button} */}
+        {/* <div className={cs(styles.actions, bootstrapStyles.row)}> */}
+        {/* {button} */}
 
-          {!isCorporate && product?.code && (
-            <div
-              className={cs(
-                globalStyles.textCenter,
-                globalStyles.listRightBottomPosition,
-                globalStyles.threeSixtyIconPositionDesktop,
-                { [globalStyles.threeSixtyIconPositionMobile]: mobile }
-              )}
-            >
-              <div
-                className={cs(
-                  globalStyles.iconContainer,
-                  globalStyles.threeSixtyContainer
-                )}
-              >
-                <img src={plpThreeSixty} alt="360" />
-              </div>
-            </div>
-          )}
-
-          {!isCorporate && product?.badge_text && (
-            <div
-              className={cs(
-                globalStyles.textCenter,
-                globalStyles.listLeftBottomPosition,
-                globalStyles.badgePositionDesktop,
-                { [globalStyles.badgePositionMobile]: mobile }
-              )}
-            >
-              <div className={cs(globalStyles.badgeContainer)}>
-                {product?.badge_text}
-              </div>
-            </div>
-          )}
-        </div>
+        {/* </div> */}
       </div>
     </div>
   );

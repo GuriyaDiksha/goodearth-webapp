@@ -71,7 +71,7 @@ const AddressSection: React.FC<AddressProps & {
   const { currency, user } = useSelector((state: AppState) => state);
   const {
     basket,
-    info: { isSale }
+    info: { isSale, deliveryText }
   } = useSelector((state: AppState) => state);
   const { mobile } = useSelector((state: AppState) => state.device);
   const {
@@ -319,8 +319,17 @@ const AddressSection: React.FC<AddressProps & {
     setMode("list");
   };
 
-  const renderSavedAddress = function() {
+  // const selectedAddress = addressList?.find(val =>
+  //   shippingAddressId !== 0
+  //     ? val?.id === shippingAddressId
+  //     : val?.isDefaultForShipping === true ||
+  //       (isBridal && basket.bridalAddressId === val?.id)
+  // );
+  // const renderSavedAddress = function() {
+
+  const renderSavedAddress = () => {
     const address = selectedAddress;
+
     if (!isActive && address && isBridal && activeStep == STEP_SHIPPING) {
       // saved address for bridal
       return (
@@ -393,6 +402,7 @@ const AddressSection: React.FC<AddressProps & {
       );
     } else if (!isActive && address && STEP_ORDER[activeStep] < currentStep) {
       // saved address for not bridal
+
       return (
         <div
           className={cs(
@@ -741,7 +751,7 @@ const AddressSection: React.FC<AddressProps & {
         previous_page_url: CookieService.getCookie("prevUrl"),
         shipping_address: shippingAddressId,
         gst_invoice: "NA",
-        delivery_instruction: "NA", //Pass NA if not applicable the moment
+        delivery_instruction: deliveryText ? "Yes" : "No", //Pass NA if not applicable the moment
         ecommerce: {
           currency: currency, // Pass the currency code
           value: basket?.total,
@@ -1466,7 +1476,8 @@ const AddressSection: React.FC<AddressProps & {
                     </div>
                   )}
                   {props.activeStep == STEP_BILLING &&
-                    (error || billingError) && (
+                    (error || billingError) &&
+                    !["edit", "new"].includes(mode) && (
                       <div
                         className={cs(
                           globalStyles.errorMsg,
@@ -1506,7 +1517,7 @@ const AddressSection: React.FC<AddressProps & {
                                           !isGoodearthShipping
                                           ? val?.id === shippingAddressId
                                           : val?.id === billingAddressId
-                                        : val?.isDefaultForShipping === true
+                                        : val?.id === billingAddressId
                                     )
                                   : addressList?.find(
                                       val => val?.id === billingAddressId

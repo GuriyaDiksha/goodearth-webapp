@@ -114,7 +114,9 @@ const ProductDetails: React.FC<Props> = ({
     fillerProduct,
     shortDesc,
     sliderImages,
-    collections
+    collections,
+    badge_text,
+    freeProductText
   },
   data,
   corporatePDP,
@@ -517,13 +519,13 @@ const ProductDetails: React.FC<Props> = ({
       dataLayer.push({
         event: "add_to_cart",
         previous_page_url: CookieService.getCookie("prevUrl"),
-        currency: currency,
-        value: discountedPriceRecords[currency]
-          ? discountedPriceRecords[currency]
-          : price
-          ? price
-          : null,
         ecommerce: {
+          currency: currency,
+          value: discountedPriceRecords[currency]
+            ? discountedPriceRecords[currency]
+            : price
+            ? price
+            : null,
           items: [
             {
               item_id: setSelectedSKU(), //Pass the product id
@@ -778,7 +780,8 @@ const ProductDetails: React.FC<Props> = ({
         discountedPrice: discountPrices,
         list: isQuickview ? "quickview" : "pdp",
         sliderImages: sliderImages,
-        collections: collections
+        collections: collections,
+        badge_text: badge_text
       },
       false,
       mobile ? ModalStyles.bottomAlignSlideUp : "",
@@ -1017,6 +1020,17 @@ const ProductDetails: React.FC<Props> = ({
               >
                 {title}
                 <p>{shortDesc}</p>
+                {badge_text && (
+                  <div
+                    className={cs(
+                      globalStyles.badgeContainer,
+                      globalStyles.grey,
+                      styles.badgeMargin
+                    )}
+                  >
+                    {badge_text}
+                  </div>
+                )}
               </div>
               {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
                 <div
@@ -1388,13 +1402,14 @@ const ProductDetails: React.FC<Props> = ({
                 })}
               >
                 {Pdpbutton}
-                {onload && !info.isSale && loyaltyDisabled && isQuickview ? (
+                {/* Temporary hide this code as per disscussion with ansuiya */}
+                {/* {onload && !info.isSale && loyaltyDisabled && isQuickview ? (
                   <p className={cs(styles.errorMsg, styles.notEligible)}>
                     This product is not eligible for Cerise points accumulation.
                   </p>
                 ) : (
                   ""
-                )}
+                )} */}
               </div>
               <div
                 className={cs(bootstrap.col4, globalStyles.textCenter, {
@@ -1432,13 +1447,14 @@ const ProductDetails: React.FC<Props> = ({
                 [globalStyles.voffset3]: mobile
               })}
             >
-              {onload && !info.isSale && loyaltyDisabled && !isQuickview ? (
+              {/* Temporary hide this code as per disscussion with ansuiya */}
+              {/* {onload && !info.isSale && loyaltyDisabled && !isQuickview ? (
                 <p className={styles.errorMsg}>
                   This product is not eligible for Cerise points accumulation.
                 </p>
               ) : (
                 ""
-              )}
+              )} */}
             </div>
 
             {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (
@@ -1491,6 +1507,30 @@ const ProductDetails: React.FC<Props> = ({
                 </Link>
               </div>
             )}
+
+            {!isQuickview && freeProductText?.length ? (
+              <div className={styles.freeTextSection}>
+                <div className={styles.head}>
+                  <img src={addReg} width="15px" height="15px"></img>
+                  <p>Free Gift Included</p>
+                </div>
+                <hr />
+                <dl className={styles.list}>
+                  {freeProductText.map((text, i) => (
+                    <div className={styles.item} key={i}>
+                      <dt className={styles.title}>
+                        <span className={styles.dot}></span> {text?.heading}
+                      </dt>
+                      {text?.free_products?.map(value => (
+                        <dd className={styles.text}>
+                          <span>.</span> {value}
+                        </dd>
+                      ))}
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            ) : null}
             {!isQuickview && (
               <div
                 className={cs(

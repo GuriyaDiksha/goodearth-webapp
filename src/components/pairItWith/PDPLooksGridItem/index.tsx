@@ -172,6 +172,20 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             />
           </div>
         )}
+
+        {!isCorporate && product?.badge_text && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.badgePositionDesktop,
+              { [globalStyles.badgePositionMobile]: mobile }
+            )}
+          >
+            <div className={cs(globalStyles.badgeContainer)}>
+              {product?.badge_text}
+            </div>
+          </div>
+        )}
         <Link to={product.url} onClick={gtmProductClick}>
           <LazyImage
             alt={product.altText || product.title}

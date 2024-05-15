@@ -120,6 +120,19 @@
       border-bottom: 1px solid $light-charcoal;
     }
 }
+.icon-sort-margin {
+  @media screen and (max-width:767px){
+    margin-left: -7%;
+  }
+}
+
+.bootstrap-override {
+  @media screen and (max-width:767px){
+    flex: 0 0 93.33%;
+    margin-left: 3.33%;
+    max-width: 93.33%;
+  }
+}
 .wishlist-header {
     color: #000;
     line-height: 40px;
@@ -878,4 +891,12 @@ icon-cross {
 
 .h2-popup{
   line-height: 1;
+}
+
+.badge-position{
+  bottom: 65px;
+
+  @media screen and (max-width:767px) {
+    bottom: 60px;
+  }
 }

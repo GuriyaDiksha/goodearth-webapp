@@ -61,7 +61,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         item_id: line.product.sku, //Pass the product id
         item_name: line.title, // Pass the product name
         affiliation: line.title, // Pass the product name
-        coupon: result.offerDisounts?.[0].name, // Pass the coupon if available
+        coupon: result.offerDisounts?.[0]?.name, // Pass the coupon if available
         currency: result.currency, // Pass the currency code
         discount: "", // Pass the discount amount
         index: ind,
@@ -108,12 +108,78 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         category: category,
         variant: line.product.size || "",
         quantity: line.quantity,
-        coupon: result.offerDisounts?.[0].name,
+        coupon: result.offerDisounts?.[0]?.name,
         dimension12: line.product?.color,
         item_category: category?.split(">")?.join("|"),
-        collection_category: line?.product?.collections?.join("|")
+        collection_category: line?.product?.collection
       };
     });
+
+    const productsData = result?.lines?.map((line: any, ind: any) => {
+      const index = line.product.categories
+        ? line.product.categories.length - 1
+        : 0;
+      let category =
+        line.product.categories && line.product.categories[index]
+          ? line.product.categories[index].replace(/\s/g, "")
+          : "";
+      const arr = category.split(">");
+      categoryname.push(arr[arr.length - 2]);
+      subcategoryname.push(arr[arr.length - 1]);
+      category = category.replace(/>/g, "/");
+      productid.push(line.product.sku);
+      productname.push(line.title);
+      productprice.push(line.product.pricerecords[result.currency as Currency]);
+      productquantity.push(+line.quantity);
+
+      const search = CookieService.getCookie("search") || "";
+      const clickType = localStorage.getItem("clickType");
+
+      const cat1 = line?.product?.categories?.[0]?.split(">");
+      const cat2 = line?.product?.categories?.[1]?.split(">");
+
+      const L1 = cat1?.[0]?.trim();
+
+      const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
+
+      const L3 = cat2?.[2]
+        ? cat2?.[2]?.trim()
+        : line?.product?.categories?.[2]?.split(">")?.[2]?.trim();
+
+      return {
+        item_id: line.product.sku,
+        item_name: line.title,
+        affiliation: "Pass the affiliation of the product",
+        coupon:
+          isSale && result?.offerDiscounts?.[0]?.name
+            ? result?.offerDiscounts?.[0]?.name
+            : "NA",
+        discount:
+          isSale && result?.offerDiscounts?.[0]?.amount
+            ? line?.product?.badgeType == "B_flat"
+              ? line?.product.discountedPriceRecords?.[result?.currency]
+              : line?.product.priceRecords?.[result?.currency] -
+                line?.product.discountedPriceRecords?.[result?.currency]
+            : "NA",
+        index: ind,
+        item_brand: "Goodearth",
+        item_category: L1,
+        item_category2: L2,
+        item_category3: L3,
+        item_category4: "NA",
+        item_category5: line.product?.is3DView ? "3d" : "non 3d",
+        item_list_id: "NA",
+        item_list_name: search ? `${clickType}-${search}` : "NA",
+        item_variant: line.product.size || "NA",
+        price: line.isEgiftCard
+          ? +line.priceExclTax
+          : line.product.pricerecords[result.currency as Currency],
+        quantity: line.quantity,
+        collection_category: line?.product?.collection,
+        price_range: "NA"
+      };
+    });
+
     const categoryname2: string[] = [];
     const subcategoryname2: string[] = [];
     const productid2: string[] = [];
@@ -208,18 +274,33 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             }
           }
         });
+        const sameAsShipping = shippingAddressId === billingAddressId;
+
         dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
         dataLayer.push({
           event: "GA4_purchase",
+          previous_page_url: CookieService.getCookie("prevUrl"),
+          billing_address: sameAsShipping
+            ? "Same as Shipping Address"
+            : billingAddressId,
+          shipping_address: shippingAddressId,
+          gst_invoice: result?.is_gst ? "Yes" : "No",
+          gift_wrap: result?.is_gift ? "Yes" : "No",
+          gift_card_code:
+            Object.keys(result.paymentMethodForGA)
+              ?.filter(e => e === "GIFTCARD" || e === "CREDITNOTE")
+              ?.join("|") || "NA",
+          whatsapp_subscribe: result?.whatsapp_subscribe ? "Yes" : "No",
+          delivery_instruction: result.deliveryInstructions ? "Yes" : "No", //Pass NA if not applicable the moment
           ecommerce: {
             transaction_id: transactionId,
-            affiliation: productname, // Pass the product name
-            value: +result.totalInclTax,
+            currency: result.currency,
+            value: result.totalInclTax,
             tax: 0,
-            shipping: +result.shippingInclTax,
-            currency: result.currency, // Pass the currency code
-            coupon: result.offerDiscounts?.[0]?.name,
-            items: items
+            shipping: result.shippingInclTax,
+            coupon: result.offerDisounts?.[0]?.name, //Pass NA if Not applicable at the moment
+            payment_type: Object.keys(result.paymentMethodForGA)?.join("|"),
+            items: productsData
           }
         });
 
@@ -255,71 +336,6 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       AccountServices.setGaStatus(dispatch, formData);
     }
 
-    const productsData = result?.lines?.map((line: any, ind: any) => {
-      const index = line.product.categories
-        ? line.product.categories.length - 1
-        : 0;
-      let category =
-        line.product.categories && line.product.categories[index]
-          ? line.product.categories[index].replace(/\s/g, "")
-          : "";
-      const arr = category.split(">");
-      categoryname.push(arr[arr.length - 2]);
-      subcategoryname.push(arr[arr.length - 1]);
-      category = category.replace(/>/g, "/");
-      productid.push(line.product.sku);
-      productname.push(line.title);
-      productprice.push(line.product.pricerecords[result.currency as Currency]);
-      productquantity.push(+line.quantity);
-
-      const search = CookieService.getCookie("search") || "";
-      const clickType = localStorage.getItem("clickType");
-
-      const cat1 = line?.product?.categories?.[0]?.split(">");
-      const cat2 = line?.product?.categories?.[1]?.split(">");
-
-      const L1 = cat1?.[0]?.trim();
-
-      const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
-
-      const L3 = cat2?.[2]
-        ? cat2?.[2]?.trim()
-        : line?.product?.categories?.[2]?.split(">")?.[2]?.trim();
-
-      return {
-        item_id: line.product.sku,
-        item_name: line.title,
-        affiliation: "Pass the affiliation of the product",
-        coupon:
-          isSale && result?.offerDiscounts?.[0].name
-            ? result?.offerDiscounts?.[0].name
-            : "NA",
-        discount:
-          isSale && result?.offerDiscounts?.[0].amount
-            ? line?.product?.badgeType == "B_flat"
-              ? line?.product.discountedPriceRecords[result?.currency]
-              : line?.product.priceRecords[result?.currency] -
-                line?.product.discountedPriceRecords[result?.currency]
-            : "NA",
-        index: ind,
-        item_brand: "Goodearth",
-        item_category: L1,
-        item_category2: L2,
-        item_category3: L3,
-        item_category4: "NA",
-        item_category5: "NA",
-        item_list_id: "NA",
-        item_list_name: search ? `${clickType}-${search}` : "NA",
-        item_variant: line.product.size || "NA",
-        price: line.isEgiftCard
-          ? +line.priceExclTax
-          : line.product.pricerecords[result.currency as Currency],
-        quantity: line.quantity,
-        collection_category: line?.product?.collections?.join("|"),
-        price_range: "NA"
-      };
-    });
-
     const userConsent = CookieService.getCookie("consent").split(",");
     const sameAsShipping = shippingAddressId === billingAddressId;
 
@@ -330,8 +346,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           ? "Same as Shipping Address"
           : billingAddressId,
         shipping_address: shippingAddressId,
-        // gst_invoice: gstNo ? "Yes" : "No" ,
-        // gift_wrap:giftwrap ? "Yes" : "No",
+        gst_invoice: result?.is_gst ? "Yes" : "No",
+        gift_wrap: result?.is_gift ? "Yes" : "No",
         gift_card_code: result.giftCards?.[0]?.cardId,
         whatsapp_subscribe: "",
         delivery_instruction: result.deliveryInstructions ? "Yes" : "No", //Pass NA if not applicable the moment
@@ -341,8 +357,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           value: result.totalInclTax,
           tax: 0,
           shipping: result.shippingInclTax,
-          coupon: result.offerDisounts?.[0].name, //Pass NA if Not applicable at the moment
-          payment_type: result.paymentMethod,
+          coupon: result.offerDisounts?.[0]?.name, //Pass NA if Not applicable at the moment
+          payment_type: Object.keys(result.paymentMethodForGA)?.join("|"),
           items: productsData
         }
       });
@@ -355,7 +371,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
       if (res.voucherDiscounts?.length > 0) {
         for (let i = 0; i < res.voucherDiscounts.length; i++) {
           for (let j = 0; j < res.offerDiscounts.length; j++) {
-            if (res.voucherDiscounts[i].name == res.offerDiscounts[j].name) {
+            if (res.voucherDiscounts[i]?.name == res.offerDiscounts[j]?.name) {
               res.offerDiscounts.splice(j, 1);
             }
           }
@@ -735,6 +751,18 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   {item.collection}
                                 </div>
                               )}
+                              {item?.product?.badge_text && (
+                                <div
+                                  className={cs(
+                                    globalStyles.badgeContainer,
+                                    globalStyles.grey,
+                                    globalStyles.marginB10,
+                                    globalStyles.marginT5
+                                  )}
+                                >
+                                  {item?.product?.badge_text}
+                                </div>
+                              )}
                               <p
                                 className={cs(
                                   styles.productN,
@@ -743,39 +771,45 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   globalStyles.marginB10
                                 )}
                               >
-                                {isdisCount || isFlat ? (
-                                  <span className={styles.discountprice}>
-                                    {`${displayPriceWithCommasFloat(
-                                      price1,
-                                      confirmData.currency
-                                    )}`}
-                                    &nbsp;
-                                  </span>
+                                {item?.is_free_product ? (
+                                  <p className={cs(styles.free)}>FREE</p>
                                 ) : (
-                                  ""
-                                )}
-                                {isdisCount ? (
-                                  <span className={styles.strikeprice}>
-                                    {`${displayPriceWithCommasFloat(
-                                      price2,
-                                      confirmData.currency
-                                    )}`}
-                                    &nbsp;
-                                  </span>
-                                ) : (
-                                  <span
-                                    className={cs(
-                                      {
-                                        [globalStyles.hidden]: isFlat
-                                      },
-                                      styles.price
+                                  <>
+                                    {isdisCount || isFlat ? (
+                                      <span className={styles.discountprice}>
+                                        {`${displayPriceWithCommasFloat(
+                                          price1,
+                                          confirmData.currency
+                                        )}`}
+                                        &nbsp;
+                                      </span>
+                                    ) : (
+                                      ""
                                     )}
-                                  >
-                                    {`${displayPriceWithCommasFloat(
-                                      price3,
-                                      confirmData.currency
-                                    )}`}
-                                  </span>
+                                    {isdisCount ? (
+                                      <span className={styles.strikeprice}>
+                                        {`${displayPriceWithCommasFloat(
+                                          price2,
+                                          confirmData.currency
+                                        )}`}
+                                        &nbsp;
+                                      </span>
+                                    ) : (
+                                      <span
+                                        className={cs(
+                                          {
+                                            [globalStyles.hidden]: isFlat
+                                          },
+                                          styles.price
+                                        )}
+                                      >
+                                        {`${displayPriceWithCommasFloat(
+                                          price3,
+                                          confirmData.currency
+                                        )}`}
+                                      </span>
+                                    )}
+                                  </>
                                 )}
                               </p>
 
@@ -799,9 +833,11 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   <div className={styles.productDetails}>
                                     Qty:&nbsp; {item.quantity}
                                   </div>
-                                  <div className={styles.productDetails}>
-                                    Item Code: {item.product.sku}
-                                  </div>
+                                  {item?.is_free_product ? null : (
+                                    <div className={styles.productDetails}>
+                                      Item Code: {item.product.sku}
+                                    </div>
+                                  )}
                                   {!isSale && (
                                     <div className={styles.productDetails}>
                                       Delivery Estimated:{" "}
@@ -898,7 +934,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                             className={cs(styles.discountSection)}
                             key={index}
                           >
-                            <p>{discount.name}</p>
+                            <p>{discount?.name}</p>
                             <p>
                               (-){" "}
                               {`${displayPriceWithCommasFloat(
@@ -952,7 +988,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                         className={cs(styles.discountSection)}
                         key={`voucher_${i}`}
                       >
-                        <p>{vd.name}</p>
+                        <p>{vd?.name}</p>
                         <p>
                           (-){" "}
                           {`${displayPriceWithCommasFloat(

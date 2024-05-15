@@ -22,6 +22,7 @@ export type otpState = {
   startTimer: boolean;
   isOtpSent?: boolean;
   disable?: boolean;
+  isDisabled?: boolean;
 };
 
 export type otpProps = {

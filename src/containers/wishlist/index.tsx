@@ -184,7 +184,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             list: "wishlist",
             sliderImages: [],
             collections: item?.collection,
-            category: category
+            category: category,
+            badge_text: item?.badge_text
           },
           false,
           mobile ? ModalStyles.bottomAlignSlideUp : "",
@@ -811,6 +812,31 @@ class Wishlist extends React.Component<Props, State> {
     document.body.classList.remove(globalStyles.noScroll);
   };
 
+  gaCall = (click_type: string) => {
+    const { firstName, lastName } = this.props.user;
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "share_wishlist",
+        click_type: click_type,
+        cta_location: "NA",
+        cta_name:
+          `${firstName} ${lastName}`
+            .toLowerCase()
+            .replace(/\b(\w)/g, x => x.toUpperCase()) + "'s Saved List"
+      });
+    }
+  };
+
+  onSharlinkClick = () => {
+    this.gaCall("Share list");
+    if (this.props.isLoggedIn) {
+      this.props.openSharePopup(this.props.mobile);
+    } else {
+      this.props.openLogin("/wishlist", true);
+    }
+  };
+
   render() {
     const { mobile, isLoggedIn, sortedDiscount } = this.props;
     const options = [
@@ -988,7 +1014,7 @@ class Wishlist extends React.Component<Props, State> {
                   </div>
                   <div className={bootstrapStyles.col2}>
                     <div
-                      className={cs(styles.iconSort, {
+                      className={cs(styles.iconSort, styles.iconSortMargin, {
                         [styles.disable]: this.state.wishlistCount === 0
                       })}
                       onClick={() => this.onSortClick()}
@@ -1078,7 +1104,9 @@ class Wishlist extends React.Component<Props, State> {
                   globalStyles.verticalMiddle
                 )}
               >
-                <p className={styles.filterText}>SORT</p>
+                <p className={cs(styles.filterText, styles.iconSortMargin)}>
+                  SORT
+                </p>
                 <SecondaryHeaderDropdown
                   id="sort-dropdown-wishlist"
                   items={options}
@@ -1143,10 +1171,15 @@ class Wishlist extends React.Component<Props, State> {
             </div>
           )}
           <div
-            className={cs(bootstrapStyles.col10, bootstrapStyles.offset1, {
-              [globalStyles.marginT50]: !mobile && !this.props.isShared,
-              [globalStyles.marginT30]: mobile && !this.props.isShared
-            })}
+            className={cs(
+              bootstrapStyles.col10,
+              bootstrapStyles.offset1,
+              styles.bootstrapOverride,
+              {
+                [globalStyles.marginT50]: !mobile && !this.props.isShared,
+                [globalStyles.marginT30]: mobile && !this.props.isShared
+              }
+            )}
           >
             {this.state.wishlistCount > 0 && (
               <div>
@@ -1158,11 +1191,7 @@ class Wishlist extends React.Component<Props, State> {
                 {!this.props.isShared && (
                   <div
                     className={styles.shareList}
-                    onClick={() =>
-                      this.props.isLoggedIn
-                        ? this.props.openSharePopup(this.props.mobile)
-                        : this.props.openLogin("/wishlist", true)
-                    }
+                    onClick={this.onSharlinkClick}
                   >
                     <img src={linkIcon} alt="link" />
                     <span>SHARE LIST</span>

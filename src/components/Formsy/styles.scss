@@ -134,3 +134,9 @@ input[type="date"] {
   float: right;
   margin-top: 5px !important;
 }
+
+.fix-drop-down {
+  position: absolute !important;
+  width: 100%;
+  z-index: 1;
+}

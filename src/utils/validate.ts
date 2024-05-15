@@ -693,13 +693,13 @@ export function productImpression(
         cat1 = child.categories?.[0]?.split(">");
         cat2 = child.categories?.[1]?.split(">");
 
-        L1 = cat1?.[0].trim();
+        L1 = cat1?.[0]?.trim();
 
-        L2 = cat1?.[1] ? cat1?.[1].trim() : cat2?.[1].trim();
+        L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
 
         L3 = cat2?.[2]
           ? cat2?.[2]?.trim()
-          : child.categories?.[2]?.split(">")?.[2].trim();
+          : child.categories?.[2]?.split(">")?.[2]?.trim();
       }
 
       const sizes = child.childAttributes
@@ -1606,7 +1606,8 @@ export const checkoutGTM = (
   basket: Basket,
   paymentMethod?: string,
   gstNo?: string,
-  billingAddressId?: number
+  billingAddressId?: number,
+  deliveryText?: string
 ) => {
   const productList = productForBasketGa(basket, currency);
   const itemList = dataForBilling(basket, currency);
@@ -1644,7 +1645,7 @@ export const checkoutGTM = (
         previous_page_url: CookieService.getCookie("prevUrl"),
         billing_address: billingAddressId,
         gst_invoice: gstNo ? "YES" : "NO",
-        delivery_instruction: "Not", //Pass NA if not applicable the mome
+        delivery_instruction: deliveryText ? "Yes" : "No", //Pass NA if not applicable the mome
         ecommerce: {
           currency: currency, // Pass the currency code
           value: basket.total,

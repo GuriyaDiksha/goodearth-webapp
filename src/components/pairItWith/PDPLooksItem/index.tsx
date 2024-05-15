@@ -182,6 +182,19 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             <img src={product.justAddedBadge} />
           </div>
         )}
+        {!isCorporate && product?.badge_text && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.badgePositionDesktop,
+              { [globalStyles.badgePositionMobile]: mobile }
+            )}
+          >
+            <div className={cs(globalStyles.badgeContainer)}>
+              {product?.badge_text}
+            </div>
+          </div>
+        )}
         <Link to={product.url} onClick={gtmProductClick}>
           {/* <MobileSlider>{mobileSlides}</MobileSlider> */}
           <LazyImage

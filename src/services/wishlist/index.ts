@@ -113,7 +113,9 @@ export default {
     // if (isShared) {
     //   WishlistService.countWishlist(dispatch);
     // } else {
-    dispatch(updateWishlist(res.data, sortBy, res.sortedDiscount));
+    dispatch(
+      updateWishlist(res.data, sortBy, res.sortedDiscount, res.sharable_link)
+    );
     // }
     return res;
   },

@@ -92,8 +92,6 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         console.log("Collection Error", error);
       });
       if (filterData) {
-        debugger;
-
         // collectionProductImpression(filterData, "CollectionSpecific", currency);
         productImpression(
           { results: { data: filterData?.results } },
@@ -142,7 +140,6 @@ const mapDispatchToProps = (dispatch: Dispatch, params: any) => {
         console.log("Collection Error", error);
       });
       if (filterData) {
-        debugger;
         // collectionProductImpression(filterData, "CollectionSpecific", currency);
         productImpression(
           { results: { data: filterData?.results } },
@@ -569,6 +566,7 @@ class CollectionSpecific extends React.Component<
   notifyMeClick = (product: PLPProductItem) => {
     const {
       categories,
+      collection,
       collections,
       priceRecords,
       discountedPriceRecords,
@@ -576,7 +574,8 @@ class CollectionSpecific extends React.Component<
       title,
       discount,
       badgeType,
-      plpSliderImages
+      plpSliderImages,
+      badge_text
     } = product;
     const selectedIndex = childAttributes?.length == 1 ? 0 : undefined;
     const {
@@ -598,7 +597,8 @@ class CollectionSpecific extends React.Component<
     updateComponentModal(
       POPUP.NOTIFYMEPOPUP,
       {
-        collection: collections && collections.length > 0 ? collections[0] : "",
+        // collection: collections && collections.length > 0 ? collections[0] : "",
+        collection: collection,
         category: category,
         price: priceRecords[currency],
         currency: currency,
@@ -610,7 +610,8 @@ class CollectionSpecific extends React.Component<
         isSale: sale,
         discountedPrice: discountedPriceRecords[currency],
         list: "plp",
-        sliderImages: plpSliderImages
+        sliderImages: plpSliderImages,
+        badge_text: badge_text
       },
       false,
       this.props.mobile ? ModalStyles.bottomAlignSlideUp : "",
@@ -887,7 +888,7 @@ class CollectionSpecific extends React.Component<
             href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
           />
         )}
-        {mobile && this.state.count > -1 && this.state.showProductCounter && (
+        {this.state.count > -1 && this.state.showProductCounter && (
           <ProductCounter
             current={this.state.count}
             // total={results?.length}
