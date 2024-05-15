@@ -222,12 +222,13 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
           <img src={product.salesBadgeImage} />
         </div>
       )}
-      {product.justAddedBadge && !mobile && (
-        <div className={styles.newBadgeImage}>
-          <img src={product.justAddedBadge} />
-        </div>
-      )}
+
       <div className={styles.imageBoxnew} id={"" + product.id}>
+        {product.justAddedBadge && (
+          <div className={styles.newBadgeImage}>
+            <img src={product.justAddedBadge} />
+          </div>
+        )}
         {!isCorporate && (
           <div
             className={cs(
@@ -337,13 +338,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
             currency={currency}
           />
         )}
-        {product.justAddedBadge && mobile && (
-          <p className={styles.productN}>
-            <span className={styles.mobileBadge}>
-              <img src={product.justAddedBadge} />
-            </span>
-          </p>
-        )}
+
         {sizeExit && (
           <div className={cs(styles.productSizeList, bootstrapStyles.row)}>
             <div className={styles.productSize}> size</div>

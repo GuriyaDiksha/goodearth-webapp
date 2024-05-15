@@ -247,16 +247,18 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           <img src={product.salesBadgeImage} width="100" />
         </div>
       )}
-      {product.justAddedBadge && !mobile && (
-        <div className={styles.newBadgeImage}>
-          <img src={product.justAddedBadge} width="100" />
-        </div>
-      )}
+
       <div
         className={styles.imageBoxnew}
         id={"" + product.id}
         onMouseLeave={onMouseLeave}
       >
+        {product.justAddedBadge && (
+          <div className={styles.newBadgeImage}>
+            <img src={product.justAddedBadge} width="100" />
+          </div>
+        )}
+
         {!isCorporate && (
           <div
             className={cs(
@@ -411,13 +413,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             currency={currency}
           />
         )}
-        {product.justAddedBadge && mobile && (
-          <p className={styles.productN}>
-            <span className={styles.mobileBadge}>
-              <img src={product.justAddedBadge} width="100" />
-            </span>
-          </p>
-        )}
+
         {sizeExit && !mobile && (
           <div
             className={cs(
