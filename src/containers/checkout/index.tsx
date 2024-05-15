@@ -341,10 +341,12 @@ class Checkout extends React.Component<Props, State> {
     let item1 = false,
       item2 = false;
 
-    basket.lineItems.map(data => {
-      if (!data.bridalProfile) item1 = true;
-      if (data.bridalProfile) item2 = true;
-    });
+    basket.lineItems
+      ?.filter(data => !data?.is_free_product)
+      ?.map(data => {
+        if (!data.bridalProfile) item1 = true;
+        if (data.bridalProfile) item2 = true;
+      });
     return item1 && item2;
   }
 
@@ -839,15 +841,20 @@ class Checkout extends React.Component<Props, State> {
             this.props
               .checkPinCodeShippable(address.postCode)
               .then(response => {
-                this.setState({
-                  errorNotification:
-                    this.props.currency == "INR" &&
-                    !this.props.basket.isOnlyGiftCart
-                      ? response.status
-                        ? ""
-                        : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
-                      : ""
-                });
+                this.setState(
+                  {
+                    errorNotification:
+                      this.props.currency == "INR" &&
+                      !this.props.basket.isOnlyGiftCart
+                        ? response.status
+                          ? ""
+                          : "We are currently not delivering to this pin code however, will dispatch your order as soon as deliveries resume."
+                        : ""
+                  },
+                  () => {
+                    this.props.updateLoaderValue(false);
+                  }
+                );
               })
               .catch(err => {
                 console.log(err);
@@ -1107,7 +1114,8 @@ class Checkout extends React.Component<Props, State> {
               this.props.basket,
               "",
               obj.gstNo,
-              this.props.billingAddressId
+              this.props.billingAddressId,
+              this.props.deliveryText
             );
           })
           .catch(err => {

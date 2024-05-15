@@ -108,6 +108,20 @@ const SampleDisplay: React.FC<Props> = props => {
               <img src={data.salesBadgeImage} />
             </div>
           )}
+          {data?.badge_text && (
+            <div
+              className={cs(
+                globalStyles.textCenter,
+                globalStyles.badgePositionDesktop,
+                styles.badgePosition,
+                { [globalStyles.badgePositionMobile]: mobile }
+              )}
+            >
+              <div className={cs(globalStyles.badgeContainer)}>
+                {data?.badge_text}
+              </div>
+            </div>
+          )}
           {!isShared && (
             // mobile ? (
             <img

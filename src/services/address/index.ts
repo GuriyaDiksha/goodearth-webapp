@@ -142,7 +142,7 @@ export default {
     );
     return data;
   },
-  fetchCustomDuties: async (dispatch: Dispatch, currency: string) => {
+  fetchCustomDuties: async (dispatch: Dispatch, currency: any) => {
     let data;
     try {
       data = await API.post<CustomDuties>(

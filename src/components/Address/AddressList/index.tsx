@@ -9,6 +9,7 @@ import { AddressContext } from "../AddressMain/context";
 import AddressItemBridal from "../AddressItemBridal";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
+import BridalContext from "containers/myAccount/components/Bridal/context";
 
 type Props = {
   addressDataList: AddressData[];
@@ -21,10 +22,17 @@ type Props = {
 
 const AddressList: React.FC<Props> = props => {
   const { activeStep } = useContext(AddressContext);
+  const { setBridalAddressId, bridalAddress } = useContext(BridalContext);
   const [addressData, setAddressData] = useState<AddressData[]>([]);
   const { bridalAddressId } = useSelector((state: AppState) => state.basket);
   const { isLoggedIn, email } = useSelector((state: AppState) => state.user);
   const { addressDataList, isBridal } = props;
+
+  useEffect(() => {
+    if (bridalAddress) {
+      setBridalAddressId(bridalAddress);
+    }
+  }, []);
 
   useEffect(() => {
     if (addressDataList.length > 0) {
