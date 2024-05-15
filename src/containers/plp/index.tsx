@@ -147,9 +147,7 @@ class PLP extends React.Component<
     window.addEventListener(
       "scroll",
       throttle(() => {
-        if (this.props.mobile) {
-          this.setProductCount();
-        }
+        this.setProductCount();
 
         //Commented: code commented for on every filter selection filter section is going on top
         //     // plp filter scroll top
@@ -1175,16 +1173,14 @@ class PLP extends React.Component<
             // toggleSort={this.toggleSort}
           />
         )}
-        {mobile &&
-          this.state.count > -1 &&
-          this.state.showProductCounter &&
-          count !== 0 && (
-            <ProductCounter
-              current={this.state.count}
-              total={!this.state.corporoateGifting ? count + 1 : count}
-              id="plp-product-counter"
-            />
-          )}
+        {console.log(this.state.count > -1, this.state.showProductCounter)}
+        {this.state.count > -1 && this.state.showProductCounter && (
+          <ProductCounter
+            current={this.state.count}
+            total={!this.state.corporoateGifting ? count + 1 : count}
+            id="plp-product-counter"
+          />
+        )}
       </div>
     );
   }
