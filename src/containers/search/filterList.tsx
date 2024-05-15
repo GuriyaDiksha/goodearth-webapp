@@ -1921,6 +1921,14 @@ class FilterList extends React.Component<Props, State> {
         ]
       });
     }
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": key === "all" ? "Clear All" : "Clear",
+        "Filter value": "NA"
+      });
+    }
     if (event) {
       event.stopPropagation();
     }
