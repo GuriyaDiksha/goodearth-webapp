@@ -71,6 +71,12 @@
     text-align: right;
     font-weight: 500;
 }
+
+.align-price {
+    display: flex;
+    margin-bottom: auto;
+    margin-top: auto;
+}
 .qty-container {
     display: flex;
     flex-direction: column;
@@ -207,4 +213,20 @@ span{
 .flat-price{
     color: $gold;
     font-size: 16px;
+}
+
+.inc-tax{
+    font-family: $font-Montserrat;
+    font-weight: $regular;
+    font-size: 8px;
+    line-height: 5px;
+    color: $charcoal19;
+    text-align: right;
+    text-transform: initial;
+    margin-top: 5%;
+}
+
+.mrp{
+    font-size: 14px !important;
+    padding-right: 5px;
 }
