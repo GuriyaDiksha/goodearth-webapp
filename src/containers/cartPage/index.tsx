@@ -350,13 +350,13 @@ class CartPage extends React.Component<Props, State> {
     // }, 800);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    const { currency, updateWishlist } = this.props;
+  // UNSAFE_componentWillReceiveProps(nextProps: Props) {
+  //   const { currency, updateWishlist } = this.props;
 
-    if (currency !== nextProps?.currency) {
-      updateWishlist();
-    }
-  }
+  //   if (currency !== nextProps?.currency) {
+  //     updateWishlist();
+  //   }
+  // }
 
   onNotifyCart = (basketLineId: ProductID) => {
     this.props.deleteBasket(basketLineId).then(res => {
