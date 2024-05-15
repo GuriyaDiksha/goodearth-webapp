@@ -960,7 +960,7 @@ class PLP extends React.Component<
                             />
                           ) : (
                             <PlpResultItem
-                              page={categoryShop || "plp"}
+                              page={"plp"}
                               position={index}
                               product={item}
                               addedToWishlist={false}
