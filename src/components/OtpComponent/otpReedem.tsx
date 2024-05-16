@@ -33,7 +33,8 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       },
       startTimer: true,
       isOtpSent: false,
-      isDisabled: false
+      isDisabled: false,
+      attempt_count: 0
     };
   }
   // timerId: any = 0;
@@ -273,13 +274,18 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     this.props
       .sendOtp(formData)
       .then((data: any) => {
+        debugger;
         this.setState(
           {
             toggleOtp: true,
             otpData: formData,
             // disable: true,
             isLoading: false,
-            isOtpSent: true
+            isOtpSent: true,
+            attempts: {
+              ...this.state.attempts,
+              ["attempts"]: data?.attempt_count || 0
+            }
           },
           () => {
             // this.timer();
