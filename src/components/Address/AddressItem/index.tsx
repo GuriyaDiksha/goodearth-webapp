@@ -75,14 +75,15 @@ const AddressItem: React.FC<Props> = props => {
   useEffect(() => {
     if (
       isLoggedIn &&
-      props.isGcCheckout && currentCallBackComponent == "checkout-billing"
+      props.isGcCheckout &&
+      currentCallBackComponent == "checkout-billing"
     ) {
       AddressService.fetchAddressList(dispatch).then(addressList => {
-        const defaultBill = addressList.filter(
+        const defaultBillingAdd = addressList.filter(
           address =>
             address.isDefaultForBilling && currency === address?.currency
         );
-        defaultBill?.map(item => {
+        defaultBillingAdd?.map(item => {
           const defaultBillingAddId = item.id;
           dispatch(updateBillingAddressId(defaultBillingAddId));
         });
