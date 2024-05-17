@@ -39,7 +39,7 @@ export const enum ROUTES {
   BACKENDERROR = "/backend-order-error",
   PUSHPANJALI = "/puspanjali-festive-2020",
   MAINTENANCE = "/maintenance",
-  BRIDALPUBLIC = "/bridal/:id",
+  BRIDALPUBLIC = "/registry/:id",
   MUBARAK = "/mubaarak-hour-notification",
   // WITHMAKER = "/withmaker",
   WITHOUTMAKER = "/withoutmaker",
