@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AddressData } from "../typings";
 import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "styles/global.scss";
@@ -18,6 +18,8 @@ import moment from "moment";
 import { useHistory } from "react-router";
 import BridalService from "services/bridal";
 import { BridalProfileData } from "containers/myAccount/components/Bridal/typings";
+import { updateBillingAddressId } from "actions/address";
+import UserContext from "contexts/user";
 
 type Props = {
   addressData: AddressData;
@@ -68,6 +70,25 @@ const AddressItem: React.FC<Props> = props => {
   const [deleteError, setDeleteError] = useState("");
   const address = props.addressData;
   const bridalProfileData = bridalProfile as BridalProfileData;
+  const { isLoggedIn } = useContext(UserContext);
+
+  useEffect(() => {
+    if (
+      isLoggedIn &&
+      props.isGcCheckout && currentCallBackComponent == "checkout-billing"
+    ) {
+      AddressService.fetchAddressList(dispatch).then(addressList => {
+        const defaultBill = addressList.filter(
+          address =>
+            address.isDefaultForBilling && currency === address?.currency
+        );
+        defaultBill?.map(item => {
+          const defaultBillingAddId = item.id;
+          dispatch(updateBillingAddressId(defaultBillingAddId));
+        });
+      });
+    }
+  }, [isLoggedIn]);
 
   const fetchBridalItems = () => {
     BridalService.fetchBridalItems(dispatch, bridalProfileData.bridalId).then(
