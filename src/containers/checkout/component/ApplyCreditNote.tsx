@@ -13,9 +13,11 @@ import CheckoutService from "services/checkout";
 import BasketService from "services/basket";
 import { useHistory } from "react-router";
 import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
+import { CreditNote } from "containers/myAccount/components/MyCreditNotes/typings";
 
 const ApplyCreditNote = () => {
   const [isactivecreditnote, setIsactivecreditnote] = useState(false);
+  const [creditnoteList, setCreditnoteList] = useState<CreditNote[]>([]);
   const {
     basket: { giftCards },
     currency,
@@ -28,31 +30,24 @@ const ApplyCreditNote = () => {
     return giftCards?.filter(ele => ele.cardType === "CREDITNOTE");
   }, [giftCards]);
 
-  useEffect(() => {
-    setIsactivecreditnote(!!creditNotes?.length);
-  }, [creditNotes?.length]);
-
   const fetchCreditNotes = () => {
     AccountService.fetchCreditNotes(dispatch, "expiring_date", "desc", 1, true)
       .then(response => {
         const { results } = response;
-
-        dispatch(
-          updateComponent(
-            POPUP.CREDITNOTES,
-            {
-              data: results.filter(ele => ele?.type === "CN"),
-              setIsactivecreditnote
-            },
-            false
-          )
-        );
-        dispatch(updateModal(true));
+        setCreditnoteList(results.filter(ele => ele?.type === "CN"));
       })
       .catch(e => {
         console.log("fetch credit notes API failed =====", e);
       });
   };
+
+  useEffect(() => {
+    fetchCreditNotes();
+  }, []);
+
+  useEffect(() => {
+    setIsactivecreditnote(!!creditNotes?.length);
+  }, [creditNotes?.length]);
 
   const onCreditNoteToggle = async (
     event:
@@ -62,7 +57,17 @@ const ApplyCreditNote = () => {
   ) => {
     //Open popup and fetch data : On checked true
     if (!isactivecreditnote || isEdit) {
-      fetchCreditNotes();
+      dispatch(
+        updateComponent(
+          POPUP.CREDITNOTES,
+          {
+            data: creditnoteList,
+            setIsactivecreditnote
+          },
+          false
+        )
+      );
+      dispatch(updateModal(true));
     } else {
       //Close popupand remove all CN : On checked false
       for await (const giftcard of creditNotes) {
@@ -102,6 +107,10 @@ const ApplyCreditNote = () => {
       );
     }
   };
+
+  if (creditnoteList?.length === 0) {
+    return null;
+  }
 
   return (
     <div className={globalStyles.marginT20}>

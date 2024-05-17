@@ -332,7 +332,7 @@ export default {
     const data = await API.get<CreditNoteResponse>(
       dispatch,
       `${__API_HOST__ +
-        `/myapi/giftcard/user_creditnote?sort_by=${sortBy}&sort_type=${sortType}&page=${page}&all=${all}`}`
+        `/myapi/giftcard/user_creditnote/?sort_by=${sortBy}&sort_type=${sortType}&page=${page}&all=${all}`}`
     );
     return data;
   }

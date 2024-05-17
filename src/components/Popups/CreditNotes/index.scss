@@ -36,13 +36,24 @@ padding: 0px 0px 20px 0px !important;
         .credit-note{
         padding: 25px 20px;
         margin-bottom: 10px;
-        border: 0.8px solid #707070;
+        border: 0.8px solid #E5E5E5;
         margin-bottom: 10px;
         
         .head-div{
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            .apply{
+                cursor: pointer;
+                @include b4_12px_montserrat_charcoal();
+                border-bottom: 1px solid $charcoal19;
+
+                &.active{
+                    color: $aqua-text;
+                    border-bottom: 1px solid $aqua-text;
+                }
+            }
         
             h6{
             margin-bottom: 0;
@@ -105,6 +116,7 @@ padding: 0px 0px 20px 0px !important;
 
             p{
             text-align: left;
+            padding-top: 5px;
             @include b4_12px_montserrat_charcoal();
         
             span{
@@ -132,15 +144,17 @@ padding: 0px 0px 20px 0px !important;
             background-color: $lightest-grey;
             border: none;
         }
+        &.dark-border{
+            border: 1px solid #707070;
+        }
         } 
 
-    }
+        .error-msg{
+            text-align: left;
+            margin: 5px 0 15px 0;
+            @include err_13px_lora_italic_cerise();
+        }
 
-    .info-msg{
-        padding: 0 35px;
-        text-align: left;
-        margin: 10px 0;
-        @include err_13px_lora_italic_cerise();
     }
 }
   

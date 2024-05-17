@@ -870,7 +870,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 )}
               </div>
 
-              {!basket.isOnlyGiftCart && !isGcCheckout && <ApplyCreditNote />}
+              {!basket.isOnlyGiftCart &&
+                !isGcCheckout &&
+                currency === "INR" && <ApplyCreditNote />}
 
               {/* <div
             className={cs(globalStyles.errorMsg, globalStyles.marginT20)}

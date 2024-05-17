@@ -1,6 +1,5 @@
 import React, { forwardRef } from "react";
 import cs from "classnames";
-import CheckboxWithLabel from "components/CheckboxWithLabel";
 import styles from "./index.scss";
 import { CreditNote } from "containers/myAccount/components/MyCreditNotes/typings";
 import { displayPriceWithCommasFloat } from "utils/utility";
@@ -13,6 +12,7 @@ type Props = {
   checkedIds: string[];
   activeKey: string;
   setActiveKey: (x: string) => void;
+  error: { key: string }[];
 };
 
 const CreditNoteCard = forwardRef<Props, any>(
@@ -20,16 +20,17 @@ const CreditNoteCard = forwardRef<Props, any>(
     {
       creditNote: {
         entry_code,
-        is_expired,
         remaining_amount,
         date_created,
         expiring_date,
-        applied_amount
+        amount,
+        message
       },
       checkedIds,
       onCheck,
       activeKey,
-      setActiveKey
+      setActiveKey,
+      error
     },
     ref
   ) => {
@@ -37,13 +38,18 @@ const CreditNoteCard = forwardRef<Props, any>(
 
     return (
       <>
-        <div className={cs(styles.creditNote, { [styles.bgGrey]: is_expired })}>
+        <div
+          className={cs(styles.creditNote, {
+            [styles.bgGrey]: message,
+            [styles.darkBorder]: checkedIds.includes(entry_code)
+          })}
+        >
           <div className={styles.headDiv}>
             <h6>{entry_code}</h6>
-            {is_expired ? (
+            {message ? (
               <div className={styles.expiredHead}>
                 <p className={cs(styles.iconCarrot)}>
-                  {remaining_amount === 0 ? "Balance Over" : "Expired"}{" "}
+                  {message}
                   <span
                     className={cs({
                       [styles.active]: activeKey === entry_code
@@ -53,22 +59,24 @@ const CreditNoteCard = forwardRef<Props, any>(
                 </p>
               </div>
             ) : (
-              <CheckboxWithLabel
-                name={entry_code}
-                id={entry_code}
-                checked={checkedIds.includes(entry_code)}
-                className={styles.checkboxWrp}
-                label={[<label key={entry_code} htmlFor={entry_code}></label>]}
-                onChange={e => onCheck(e, entry_code)}
-              />
+              <p
+                className={cs(styles.apply, {
+                  [styles.active]: checkedIds.includes(entry_code)
+                })}
+                onClick={() =>
+                  onCheck(checkedIds.includes(entry_code), entry_code)
+                }
+              >
+                {checkedIds.includes(entry_code) ? "REMOVE" : "APPLY"}
+              </p>
             )}
           </div>
           {ref && ref?.current && (
             <div
               ref={el => (ref.current[entry_code] = el)}
               className={cs(styles.bodyDiv, {
-                [styles.expiredBody]: is_expired,
-                [styles.balanceOverBody]: remaining_amount === 0 || is_expired
+                [styles.expiredBody]: message === "Expired",
+                [styles.balanceOverBody]: message
               })}
             >
               <p className={styles.firstLine}>
@@ -79,12 +87,9 @@ const CreditNoteCard = forwardRef<Props, any>(
               </p>
               <p>
                 Total value:{" "}
-                <span>
-                  {" "}
-                  {displayPriceWithCommasFloat(applied_amount, currency)}
-                </span>
+                <span> {displayPriceWithCommasFloat(amount, currency)}</span>
               </p>
-              {!is_expired && (
+              {!message && (
                 <p className={styles.balance}>
                   Balance amount:{" "}
                   {displayPriceWithCommasFloat(remaining_amount, currency)}
@@ -93,6 +98,7 @@ const CreditNoteCard = forwardRef<Props, any>(
             </div>
           )}
         </div>
+        <p className={styles.errorMsg}>{error?.[entry_code]}</p>
       </>
     );
   }

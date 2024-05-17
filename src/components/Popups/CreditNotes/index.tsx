@@ -7,7 +7,6 @@ import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import Button from "components/Button";
 import CreditNoteCard from "./CreditNoteCard";
 import BasketService from "services/basket";
 import { CreditNote } from "containers/myAccount/components/MyCreditNotes/typings";
@@ -24,9 +23,8 @@ type Props = {
 const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
   const { closeModal } = useContext(Context);
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
-  const [uncheckedIds, setUncheckedIds] = useState<string[]>([]);
   const [activeKey, setActiveKey] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<{ key: string }[]>([]);
   const {
     device: { mobile },
     user: { isLoggedIn },
@@ -45,21 +43,66 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
     return setCheckedIds([...cns]);
   }, []);
 
-  const onCheck = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    entry_code: string
-  ) => {
-    if (event?.target.checked) {
-      setCheckedIds([...checkedIds, entry_code]);
+  const applyCN = async (cn: string) => {
+    const data: any = {
+      cardId: cn,
+      type: "CREDITNOTE"
+    };
+
+    const gift: any = await CheckoutService.applyGiftCard(dispatch, data);
+    if (gift.status) {
+      setError({ ...error, [cn]: "" });
+
+      setCheckedIds([...checkedIds, cn]);
+
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "eventsToSend",
+          eventAction: "giftCard",
+          eventCategory: "promoCoupons",
+          eventLabel: data.cardId
+        });
+        dataLayer.push({
+          event: "gift_card_or_credit_note",
+          click_type: "CREDITNOTE",
+          gift_card_code: data.cardId
+        });
+      }
+
+      await BasketService.fetchBasket(
+        dispatch,
+        "checkout",
+        history,
+        isLoggedIn
+      );
     } else {
-      const newUncheckIds = creditNotes
-        ?.filter(
-          ele =>
-            entry_code === ele?.cardId && !uncheckedIds.includes(ele?.cardId)
-        )
-        .map(ele => ele?.cardId);
-      setUncheckedIds([...uncheckedIds, ...newUncheckIds]);
-      setCheckedIds([...checkedIds.filter(ele => ele !== entry_code)]);
+      setError({ ...error, [cn]: gift?.message });
+    }
+  };
+
+  const removeCN = async (cn: string) => {
+    const data: any = {
+      cardId: cn,
+      type: "CREDITNOTE"
+    };
+    const res = await CheckoutService.removeGiftCard(dispatch, data);
+    if (res) {
+      setCheckedIds([...checkedIds.filter(ele => ele !== cn)]);
+      await BasketService.fetchBasket(
+        dispatch,
+        "checkout",
+        history,
+        isLoggedIn
+      );
+    }
+  };
+
+  const onCheck = (isApplied: boolean, entry_code: string) => {
+    if (isApplied) {
+      removeCN(entry_code);
+    } else {
+      applyCN(entry_code);
     }
   };
 
@@ -67,81 +110,6 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
     closeModal();
     if (creditNotes.length === 0) {
       setIsactivecreditnote(false);
-    }
-  };
-
-  const onContinue = async () => {
-    let error = "";
-    let isAppliedOrRemove = false;
-    setError("");
-
-    const cloneCheckIds = [...checkedIds];
-
-    // Remove already applied CN
-    creditNotes?.map(ele => {
-      if (cloneCheckIds?.includes(ele?.cardId)) {
-        const index = cloneCheckIds.indexOf(ele?.cardId);
-        if (index > -1) {
-          cloneCheckIds.splice(index, 1);
-        }
-      }
-    });
-
-    if (!cloneCheckIds?.length && !uncheckedIds?.length) {
-      onClose();
-      return;
-    }
-
-    //Apply CNs
-    for await (const cn of cloneCheckIds) {
-      const data: any = {
-        cardId: cn,
-        type: "CREDITNOTE"
-      };
-
-      const gift: any = await CheckoutService.applyGiftCard(dispatch, data);
-      if (gift.status) {
-        const userConsent = CookieService.getCookie("consent").split(",");
-        if (userConsent.includes(GA_CALLS)) {
-          dataLayer.push({
-            event: "eventsToSend",
-            eventAction: "giftCard",
-            eventCategory: "promoCoupons",
-            eventLabel: data.cardId
-          });
-          dataLayer.push({
-            event: "gift_card_or_credit_note",
-            click_type: "CREDITNOTE",
-            gift_card_code: data.cardId
-          });
-        }
-        isAppliedOrRemove = true;
-      } else {
-        error = gift?.message;
-      }
-    }
-
-    //Remove CNs
-    for await (const cn of uncheckedIds) {
-      const data: any = {
-        cardId: cn,
-        type: "CREDITNOTE"
-      };
-
-      await CheckoutService.removeGiftCard(dispatch, data);
-      isAppliedOrRemove = true;
-    }
-
-    if (!error || isAppliedOrRemove) {
-      await BasketService.fetchBasket(
-        dispatch,
-        "checkout",
-        history,
-        isLoggedIn
-      );
-      onClose();
-    } else {
-      setError(error);
     }
   };
 
@@ -206,15 +174,10 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
                 activeKey={activeKey}
                 setActiveKey={toggleActive}
                 ref={bodyRef}
+                error={error}
               />
             ))}
           </div>
-          {error && <p className={cs(style.infoMsg)}>{error}</p>}
-          <Button
-            variant="mediumMedCharcoalCta366"
-            label={"Continue"}
-            onClick={onContinue}
-          />
         </div>
       </div>
     </div>

@@ -14,6 +14,7 @@ export type CreditNote = {
   expiring_date: string;
   is_expired: boolean;
   type?: string;
+  message?: string;
 };
 
 export type HeaderData = Array<{
