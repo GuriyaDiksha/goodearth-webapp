@@ -75,7 +75,7 @@ const CreditNotesTable: React.FC<Props> = ({
     const value: SortType =
       sortBy !== key ? "asc" : sortType === "asc" ? "desc" : "asc";
     fetchCreditNotes(key, value, page);
-    setSortBy(sortBy);
+    setSortBy(key);
     setSortType(value);
   };
 
@@ -146,7 +146,7 @@ const CreditNotesTable: React.FC<Props> = ({
               bootstrapStyles.colLg10,
               bootstrapStyles.colSm12,
               styles.tableRow,
-              { [styles.greyRow]: creditNote?.is_expired }
+              { [styles.greyRow]: creditNote?.message }
             )}
           >
             {/* Columns */}
@@ -161,7 +161,7 @@ const CreditNotesTable: React.FC<Props> = ({
               >
                 <div
                   className={cs(styles.circle, {
-                    [styles.greyCircle]: creditNote?.is_expired
+                    [styles.greyCircle]: creditNote?.message
                   })}
                 ></div>
               </div>
@@ -179,7 +179,7 @@ const CreditNotesTable: React.FC<Props> = ({
                   {!mobile && index === 0 && (
                     <div
                       className={cs(styles.circle, {
-                        [styles.greyCircle]: creditNote?.is_expired
+                        [styles.greyCircle]: creditNote?.message
                       })}
                     ></div>
                   )}
@@ -212,7 +212,7 @@ const CreditNotesTable: React.FC<Props> = ({
             <div
               ref={el => (bodyRef.current[creditNote?.entry_code] = el)}
               className={cs(bootstrapStyles.col12, styles.tableSecondaryRow, {
-                [styles.greyRow]: creditNote?.is_expired
+                [styles.greyRow]: creditNote?.message
               })}
             >
               <div className={cs(bootstrapStyles.col1)}></div>
