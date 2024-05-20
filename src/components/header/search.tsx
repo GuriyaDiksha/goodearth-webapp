@@ -91,12 +91,14 @@ type State = {
   spellchecks: any[];
   recentSearchs: any[];
   youMightLikeProducts: any[];
+  suggestedData: any[];
 };
 class Search extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
       searchValue: "",
+      suggestedData: [],
       productData: [],
       url: "/search",
       value: "",
@@ -394,6 +396,7 @@ class Search extends React.Component<Props, State> {
       CookieService.setCookie("search", event.target.value, 365);
     } else {
       this.setState({
+        suggestedData: [],
         productData: [],
         collections: [],
         categories: [],
@@ -419,8 +422,8 @@ class Search extends React.Component<Props, State> {
       )
       .then(data => {
         productImpression(data, "SearchResults", this.props.currency);
-
         this.setState({
+          suggestedData: data.results?.suggested_keywords || [],
           productData: data.results?.products || [],
           url: searchUrl,
           count: data.results?.products.length || [],
@@ -525,6 +528,7 @@ class Search extends React.Component<Props, State> {
       collections,
       categories,
       usefulLink,
+      suggestedData,
       productData,
       trendingWords,
       searchValue,
@@ -536,6 +540,7 @@ class Search extends React.Component<Props, State> {
       collections.length > 0 ||
       categories.length > 0 ||
       usefulLink.length > 0 ||
+      suggestedData.length > 0 ||
       productData.length > 0 ||
       (trendingWords.length > 0 && searchValue.length == 0) ||
       (recentSearchs.length > 0 && searchValue.length == 0);
@@ -743,6 +748,43 @@ class Search extends React.Component<Props, State> {
                   }
                 )}
               >
+                <ul
+                  className={cs(styles.suggestedData, {
+                    [styles.suggestDataDiv]: mobile,
+                    [bootstrapStyles.row]: !mobile,
+                    [styles.noSuggestionPadding]: !mobile && !suggestionsExist,
+                    [globalStyles.marginT10]: !mobile
+                  })}
+                >
+                  {this.state.suggestedData.slice(0, 6).map((data, i) => {
+                    const words = data
+                      .split(" ")
+                      .filter((word: string) => word.trim() !== "");
+                    const allWordsExceptLast = words.slice(0, -1).join(" ");
+                    const lastWord = words[words.length - 1];
+                    return (
+                      data.length > 0 && (
+                        <Link to={`/search/?q=${encodeURIComponent(data)}`}>
+                          <li
+                            key={i}
+                            onClick={e => {
+                              this.props.hideSearch();
+                              e.preventDefault();
+                              this.props.history.push(
+                                `/search/?q=${encodeURIComponent(data)}`
+                              );
+                            }}
+                          >
+                            <span>{allWordsExceptLast}</span>
+                            <span className={styles.searchLastWord}>
+                              {lastWord}
+                            </span>
+                          </li>
+                        </Link>
+                      )
+                    );
+                  })}
+                </ul>
                 <div className={cs(bootstrapStyles.row, styles.suggestionWrap)}>
                   {spellchecks?.length ? (
                     <div
@@ -912,6 +954,7 @@ class Search extends React.Component<Props, State> {
                             <Link
                               to={"/search/?q=" + encodeURIComponent(ele)}
                               onClick={() => {
+                                debugger;
                                 localStorage.setItem("recentSearchValue", ele);
                                 localStorage.setItem(
                                   "clickType",
@@ -1142,7 +1185,12 @@ class Search extends React.Component<Props, State> {
                       </div>
                     )}
                     {categories.length > 0 && (
-                      <div className={globalStyles.marginT30}>
+                      <div
+                        className={cs({
+                          [globalStyles.marginT50]: !mobile,
+                          [globalStyles.marginT30]: mobile
+                        })}
+                      >
                         <p
                           className={cs(
                             styles.productHeading,
