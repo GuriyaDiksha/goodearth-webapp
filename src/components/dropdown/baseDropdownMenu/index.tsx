@@ -163,7 +163,10 @@ const BaseDropdownMenu = ({
           { [styles.rightProfile]: id === "profile-dropdown" },
           { [styles.topPos]: id === "filter-dropdown-pressstories" },
           styles[align],
-          { [styles.openUp]: direction == "up" }
+          {
+            [styles.openUp]: direction == "up",
+            [styles.bottomCurrWidth]: id == "currency-dropdown-sidemenu"
+          }
         )}
       >
         <ul>{children}</ul>
