@@ -353,6 +353,10 @@ class CollectionSpecific extends React.Component<
       (document.getElementById("collection_long_desc") as HTMLElement)
         ?.offsetHeight;
 
+    const bottomHeight =
+      (document.getElementById("view_more_collection") as HTMLElement)
+        ?.offsetHeight + 40;
+
     cards.forEach(card => {
       cardIDs.push(
         Array.from(card.children[0].children).filter(e => e.id != "")[0]?.id
@@ -388,7 +392,9 @@ class CollectionSpecific extends React.Component<
             this.setState({ count: -1 });
           }
         } else if (
-          cards[cards.length - 1].getBoundingClientRect().bottom < height ||
+          cards[cards.length - 1].getBoundingClientRect().bottom +
+            bottomHeight <
+            height ||
           window.scrollY < height
         ) {
           this.setState({ count: -1 });
@@ -862,7 +868,7 @@ class CollectionSpecific extends React.Component<
         </div>
 
         {Object.entries(view_more_collections || {})?.length ? (
-          <div className={styles.moreCollectionWrp}>
+          <div className={styles.moreCollectionWrp} id="view_more_collection">
             <h2>View More Collections</h2>
             <div className={styles.moreCollectionImgsWrp}>
               {Object.entries(view_more_collections)?.map((collection, i) => (
