@@ -1173,7 +1173,6 @@ class PLP extends React.Component<
             // toggleSort={this.toggleSort}
           />
         )}
-        {console.log(this.state.count > -1, this.state.showProductCounter)}
         {this.state.count > -1 && this.state.showProductCounter && (
           <ProductCounter
             current={this.state.count}
