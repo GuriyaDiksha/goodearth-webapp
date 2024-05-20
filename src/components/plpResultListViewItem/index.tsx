@@ -191,11 +191,12 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             />
           </div>
         ];
-  return loader ? (
-    <div className={styles.plpMain}>
-      <SkeletonImage />
-    </div>
-  ) : (
+  // return loader ? (
+  //   <div className={styles.plpMain}>
+  //     <SkeletonImage />
+  //   </div>
+  // ) :
+  return (
     <div className={styles.plpMain}>
       {product.salesBadgeImage && (
         <div className={styles.badgeImage}>

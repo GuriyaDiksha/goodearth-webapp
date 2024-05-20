@@ -15,11 +15,16 @@ const mapActionsToProps = (dispatch: Dispatch) => {
     updateFilterState: (data: boolean) => {
       dispatch(updateFilterState(data));
     },
-    updateProduct: async (filterUrl: string, listdata: any) => {
+    updateProduct: async (
+      filterUrl: string,
+      listdata: any,
+      plpMobileView?: string
+    ) => {
       const data = await SearchService.updateProduct(
         dispatch,
         filterUrl,
-        listdata
+        listdata,
+        plpMobileView
       );
       return data;
     },

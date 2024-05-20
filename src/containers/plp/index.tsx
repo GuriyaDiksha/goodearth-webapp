@@ -455,13 +455,14 @@ class PLP extends React.Component<
           });
           if (leftMostPos != Infinity) {
             const productID = leftMostElement.children[0].children[0]?.id;
-            console.log(this.props);
+            this.child.appendData(plpMobileView);
             this.props.updateMobileView(plpMobileView);
             const top: number =
               leftMostElement.getBoundingClientRect().top - 135;
             window.scrollBy({ top: top, behavior: "smooth" });
             if (productID == cardIDs[0]) this.setState({ count: -1 });
           } else {
+            this.child.appendData(plpMobileView);
             this.props.updateMobileView(plpMobileView);
           }
           observer.disconnect();
@@ -834,7 +835,6 @@ class PLP extends React.Component<
                   data={showTemplates.Banner?.[0]}
                   mobile={mobile}
                   tablet={tablet}
-                  colbanner={false}
                 />
               ) : null}
             </div>

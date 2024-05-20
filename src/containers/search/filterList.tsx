@@ -34,7 +34,8 @@ const mapStateToProps = (state: AppState) => {
     listdata: state.searchList.data.results.data,
     customerGroup: state.user.customerGroup,
     filtered_facets: state.searchList.data.results.filtered_facets,
-    showTimer: state.info.showTimer
+    showTimer: state.info.showTimer,
+    previousUrl: state.searchList.data.previous
   };
 };
 
@@ -727,7 +728,7 @@ class FilterList extends React.Component<Props, State> {
     );
   };
 
-  appendData = () => {
+  appendData = (plpMobileView?: string) => {
     const minMaxvalue: any = [];
     let currentRange: any = [];
     const {
@@ -735,31 +736,44 @@ class FilterList extends React.Component<Props, State> {
       listdata,
       currency,
       updateProduct,
-      changeLoader
+      changeLoader,
+      previousUrl
     } = this.props;
     const { filter } = this.state;
-    if (nextUrl) {
+    if (nextUrl || (previousUrl && plpMobileView)) {
       this.setState(
         {
           disableSelectedbox: true,
           flag: false
         },
         () => {
-          let filterUrl = "?" + nextUrl.split("?")[1];
+          let filterUrl = plpMobileView && previousUrl ? previousUrl : nextUrl;
+
+          // let filterUrl = "?" + nextUrl.split("?")[1];
           // const pageSize = mobile ? 10 : 20;
           const pageSize = 40;
           const queryString = this.props.location.search;
           const urlParams = new URLSearchParams(queryString);
           const searchValue: any = urlParams.get("q") || "";
-          const isPageSizeExist = new URLSearchParams(filterUrl).get(
-            "page_size"
-          );
-          if (!isPageSizeExist) {
-            filterUrl = filterUrl + `&page_size=${pageSize}`;
+
+          if (plpMobileView && filterUrl) {
+            const url = new URL(filterUrl);
+            url.searchParams.set("page", "1");
+            url.searchParams.set("page_size", "40");
+            filterUrl = "?" + url.toString().split("?")[1];
+          } else {
+            filterUrl = "?" + filterUrl?.split("?")[1];
+            const isPageSizeExist = new URLSearchParams(filterUrl).get(
+              "page_size"
+            );
+            if (!isPageSizeExist) {
+              filterUrl = filterUrl + `&page_size=${pageSize}`;
+            }
           }
+
           this.setState({ isLoading: true });
           changeLoader?.(true);
-          updateProduct(filterUrl, listdata)
+          updateProduct(filterUrl, listdata, plpMobileView)
             .then(searchList => {
               changeLoader?.(false);
               productImpression(
