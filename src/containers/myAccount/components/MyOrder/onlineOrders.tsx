@@ -267,14 +267,18 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 >
                   {`${displayPriceWithCommasFloat(
                     amountPaid,
-                    item.priceCurrency
+                    item.priceCurrency,
+                    true,
+                    false
                   )}`}
                 </span>
                 {isDiscount && (
                   <span className={styles.originalPrice}>
                     {`${displayPriceWithCommasFloat(
                       price,
-                      item.priceCurrency
+                      item.priceCurrency,
+                      true,
+                      false
                     )}`}
                   </span>
                 )}
@@ -306,7 +310,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             <span className={styles.value}>
               {`${displayPriceWithCommasFloat(
                 item.orderSubTotal,
-                item.currency
+                item.currency,
+                true,
+                false
               )}`}
             </span>
           </div>
@@ -324,7 +330,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                   <span className={styles.value}>
                     {`(-) ${displayPriceWithCommasFloat(
                       discount.amount,
-                      item.currency
+                      item.currency,
+                      true,
+                      false
                     )}`}
                   </span>
                 </div>
@@ -338,7 +346,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             <span className={styles.value}>
               {`(+) ${displayPriceWithCommasFloat(
                 item.shippingInclTax,
-                item.currency
+                item.currency,
+                true,
+                false
               )}`}
             </span>
           </div>
@@ -348,7 +358,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
           <span className={styles.value}>
             {`${displayPriceWithCommasFloat(
               data?.subTotalWithShipping,
-              item.currency
+              item.currency,
+              true,
+              false
             )}`}
           </span>
         </div>
@@ -361,7 +373,12 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             >
               <span className={styles.label}>{vd.name}</span>
               <span className={styles.value}>
-                {`(-) ${displayPriceWithCommasFloat(vd.amount, item.currency)}`}
+                {`(-) ${displayPriceWithCommasFloat(
+                  vd.amount,
+                  item.currency,
+                  true,
+                  false
+                )}`}
               </span>
             </div>
           );
@@ -377,7 +394,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
               <span className={styles.value}>
                 {`(-) ${displayPriceWithCommasFloat(
                   Object.values(gccn)?.[0],
-                  item.currency
+                  item.currency,
+                  true,
+                  false
                 )}`}
               </span>
             </div>
@@ -392,7 +411,12 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             >
               <span className={styles.label}>Cerise Points</span>
               <span className={styles.value}>
-                {`(-) ${displayPriceWithCommasFloat(point, item.currency)}`}
+                {`(-) ${displayPriceWithCommasFloat(
+                  point,
+                  item.currency,
+                  true,
+                  false
+                )}`}
               </span>
             </div>
           );
@@ -404,7 +428,12 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
             {/* <span className={styles.light}>Incl. Tax</span> */}
           </span>
           <span className={styles.value}>
-            {`${displayPriceWithCommasFloat(item.totalInclTax, item.currency)}`}
+            {`${displayPriceWithCommasFloat(
+              item.totalInclTax,
+              item.currency,
+              true,
+              false
+            )}`}
           </span>
         </div>
       </div>
@@ -462,7 +491,9 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                       <span className={styles.data}>
                         {displayPriceWithCommasFloat(
                           item.totalInclTax,
-                          item.currency
+                          item.currency,
+                          true,
+                          false
                         )}
                       </span>
                     </div>

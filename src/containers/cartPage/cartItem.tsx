@@ -449,7 +449,9 @@ const CartItems: React.FC<BasketItem> = memo(
                           <span className={styles.discountprice}>
                             {displayPriceWithCommas(
                               discountedPriceRecords[currency],
-                              currency
+                              currency,
+                              true,
+                              false
                             )}
                             &nbsp;&nbsp;&nbsp;
                           </span>
@@ -458,7 +460,12 @@ const CartItems: React.FC<BasketItem> = memo(
                         )}
                         {saleStatus && discount ? (
                           <span className={styles.strikeprice}>
-                            {displayPriceWithCommas(price, currency)}
+                            {displayPriceWithCommas(
+                              price,
+                              currency,
+                              true,
+                              false
+                            )}
                           </span>
                         ) : (
                           <span
@@ -468,7 +475,9 @@ const CartItems: React.FC<BasketItem> = memo(
                           >
                             {displayPriceWithCommas(
                               structure == "GiftCard" ? GCValue : price,
-                              currency
+                              currency,
+                              true,
+                              false
                             )}
                           </span>
                         )}
@@ -634,7 +643,9 @@ const CartItems: React.FC<BasketItem> = memo(
                       <span className={styles.discountprice}>
                         {displayPriceWithCommas(
                           discountedPriceRecords[currency],
-                          currency
+                          currency,
+                          true,
+                          false
                         )}
                         &nbsp;&nbsp;&nbsp;
                       </span>
@@ -643,7 +654,7 @@ const CartItems: React.FC<BasketItem> = memo(
                     )}
                     {saleStatus && discount ? (
                       <span className={styles.strikeprice}>
-                        {displayPriceWithCommas(price, currency)}
+                        {displayPriceWithCommas(price, currency, true, false)}
                       </span>
                     ) : (
                       <span
@@ -653,8 +664,18 @@ const CartItems: React.FC<BasketItem> = memo(
                       >
                         {" "}
                         {structure == "GiftCard"
-                          ? displayPriceWithCommas(GCValue, currency)
-                          : displayPriceWithCommas(price, currency)}
+                          ? displayPriceWithCommas(
+                              GCValue,
+                              currency,
+                              true,
+                              false
+                            )
+                          : displayPriceWithCommas(
+                              price,
+                              currency,
+                              true,
+                              false
+                            )}
                       </span>
                     )}
                     <div className={cs({ [globalStyles.voffset2]: !mobile })}>
