@@ -55,6 +55,7 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
   const notifyMeClick = (product: PLPProductItem) => {
     const {
       categories,
+      collection,
       collections,
       priceRecords,
       discountedPriceRecords,
@@ -80,8 +81,8 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
       updateComponent(
         POPUP.NOTIFYMEPOPUP,
         {
-          collection:
-            collections && collections.length > 0 ? collections[0] : "",
+          collection: collection,
+          // collections && collections.length > 0 ? collections[0] : "",
           category: category,
           price: priceRecords[currency],
           currency: currency,
