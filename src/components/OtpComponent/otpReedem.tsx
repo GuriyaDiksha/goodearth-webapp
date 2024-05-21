@@ -393,7 +393,6 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
           id="otp-comp"
         ></div>
         <hr />
-        <div>Test......</div>
         <NewOtpComponent
           otpSentVia={`Email ID${this.props.number ? " & Mobile No" : ""}`}
           resendOtp={this.resendOtp}
