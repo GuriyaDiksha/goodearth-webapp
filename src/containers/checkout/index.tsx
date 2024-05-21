@@ -809,6 +809,7 @@ class Checkout extends React.Component<Props, State> {
     activeStep: string,
     obj: { gstNo?: string; panPassportNo: string; gstType?: string }
   ) => {
+    debugger;
     this.props.updateLoaderValue(true);
     // this.setState({ isLoading: true }, () => {
     if (activeStep == STEP_SHIPPING && address) {

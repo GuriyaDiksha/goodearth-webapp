@@ -623,6 +623,7 @@ const AddressSection: React.FC<AddressProps & {
     }, 500);
   };
   const onSubmit: any = (address?: AddressData | undefined) => {
+    debugger;
     let validate = true;
     const addr = address || null;
     let numberObj: { gstNo?: string; gstType?: string; panPassportNo: string };
@@ -676,7 +677,7 @@ const AddressSection: React.FC<AddressProps & {
     // }
     if (validate) {
       removeErrorMessages();
-
+      debugger;
       props.finalizeAddress(addr, props.activeStep, numberObj);
       // if (activeStep === STEP_BILLING) {
       //   next(showPromo ? STEP_PROMO : STEP_PAYMENT);
