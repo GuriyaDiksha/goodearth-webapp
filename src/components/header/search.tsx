@@ -557,9 +557,11 @@ class Search extends React.Component<Props, State> {
             <div className={cs(bootstrapStyles.row, styles.searchShadow)}>
               <div
                 className={cs(
-                  bootstrapStyles.colMd8,
-                  bootstrapStyles.offsetMd2,
+                  styles.searchTabContainer,
+                  bootstrapStyles.colLg8,
+                  bootstrapStyles.colMd12,
                   bootstrapStyles.col12,
+                  bootstrapStyles.offsetLg2,
                   styles.searchInputBlock
                 )}
               >
@@ -688,7 +690,7 @@ class Search extends React.Component<Props, State> {
                   <div
                     className={cs(
                       bootstrapStyles.colMd8,
-                      bootstrapStyles.offsetMd2,
+                      bootstrapStyles.offsetLg2,
                       styles.checkheight,
                       {
                         [styles.noSuggestionPadding]:
@@ -737,6 +739,7 @@ class Search extends React.Component<Props, State> {
                 className={cs(
                   bootstrapStyles.col12,
                   styles.searchProducts,
+                  styles.searchTabContainer,
                   {
                     [styles.bothProductsSuggestionsMobile]: mobile,
                     [styles.onlySuggestionHeight]:
@@ -999,7 +1002,7 @@ class Search extends React.Component<Props, State> {
                         <>
                           <div
                             className={cs(
-                              bootstrapStyles.offsetMd2,
+                              bootstrapStyles.offsetLg2,
                               globalStyles.marginT50,
                               { [styles.ymlpPadding]: mobile }
                             )}
@@ -1017,12 +1020,13 @@ class Search extends React.Component<Props, State> {
                           <div
                             className={cs(
                               bootstrapStyles.row,
-                              bootstrapStyles.offsetMd2
+                              bootstrapStyles.offsetLg2
                             )}
                           >
                             <div
                               className={cs(
-                                bootstrapStyles.colMd10,
+                                bootstrapStyles.colLg10,
+                                bootstrapStyles.colMd12,
                                 bootstrapStyles.colSm10,
                                 styles.ymlpWrapper
                               )}
