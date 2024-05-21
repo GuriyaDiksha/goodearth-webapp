@@ -369,8 +369,9 @@ class CollectionSpecific extends React.Component<
           if (
             entry.isIntersecting &&
             entry.target.getBoundingClientRect().bottom <
-              window.innerHeight - 450
+              window.innerHeight - 50
           ) {
+            debugger;
             productID = Array.from(entry.target.children[0].children).filter(
               e => e.id != ""
             )[0]?.id;
@@ -383,17 +384,19 @@ class CollectionSpecific extends React.Component<
         });
         if (element) {
           if (idx > -1) {
+            debugger;
             this.setState({ count: idx + 1 });
           }
           if (window.scrollY < height) {
+            debugger;
             this.setState({ count: -1 });
           }
         } else if (
-          cards[cards.length - 1].getBoundingClientRect().bottom +
-            bottomHeight <
-            height ||
-          window.scrollY < height
+          cards[cards.length - 1].getBoundingClientRect().bottom <
+            bottomHeight ||
+          window.scrollY < bottomHeight
         ) {
+          debugger;
           this.setState({ count: -1 });
         }
         observer.disconnect();
