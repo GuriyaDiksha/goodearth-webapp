@@ -136,16 +136,17 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           <img src={product.salesBadgeImage} />
         </div>
       )}
-      {product.justAddedBadge && !mobile && (
-        <div className={styles.newBadgeImage}>
-          <img src={product.justAddedBadge} />
-        </div>
-      )}
+
       <div
         className={styles.imageBoxnew}
         id={"" + product.id}
         // onMouseLeave={onMouseLeave}
       >
+        {product.justAddedBadge && (
+          <div className={styles.newBadgeImage}>
+            <img src={product.justAddedBadge} />
+          </div>
+        )}
         {mobile && !isCorporate && (
           <div
             className={cs(
@@ -312,13 +313,6 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             )}
           </div>
         </div>
-        {product.justAddedBadge && mobile && (
-          <p className={styles.productN}>
-            <span className={styles.mobileBadge}>
-              <img src={product.justAddedBadge} />
-            </span>
-          </p>
-        )}
         <div className={cs(styles.actions, bootstyles.row)}>{button}</div>
       </div>
     </div>
