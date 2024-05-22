@@ -1054,6 +1054,14 @@ class FilterList extends React.Component<Props, State> {
     this.setState({
       filter: filter
     });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Product Type",
+        "Filter value": event.target.value
+      });
+    }
     this.createUrlfromFilter();
     event.stopPropagation();
   };
@@ -1074,7 +1082,14 @@ class FilterList extends React.Component<Props, State> {
         this.createUrlfromFilter();
       }
     );
-
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Discount Type",
+        "Filter value": event.target.value
+      });
+    }
     event.stopPropagation();
   };
 
@@ -1860,6 +1875,14 @@ class FilterList extends React.Component<Props, State> {
           this.state.initialrangevalue.min,
           this.state.initialrangevalue.max
         ]
+      });
+    }
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": key === "all" ? "Clear All" : "Clear",
+        "Filter value": "NA"
       });
     }
     if (event) {
