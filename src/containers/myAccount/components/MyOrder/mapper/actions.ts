@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       return AccountService.fetchCourierData(dispatch, order);
     },
     updateLoaderValue: (value: boolean) => {
-      dispatch(updateLoader(value));
+      return dispatch(updateLoader(value));
     }
   };
 };
