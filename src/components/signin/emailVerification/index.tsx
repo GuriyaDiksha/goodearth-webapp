@@ -35,6 +35,7 @@ type Props = {
   sortBy?: string;
   phoneNo?: string;
   isRegistration?: boolean;
+  attempt_count: number;
 };
 
 const EmailVerification: React.FC<Props> = ({
@@ -49,7 +50,8 @@ const EmailVerification: React.FC<Props> = ({
   products,
   sortBy,
   phoneNo,
-  isRegistration
+  isRegistration,
+  attempt_count
 }) => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
@@ -72,7 +74,10 @@ const EmailVerification: React.FC<Props> = ({
   // const urlParams = new URLSearchParams(queryString);
   // const boId = urlParams.get("bo_id");
 
-  useEffect(() => setOtpSmsSent(!!phoneNo), []);
+  useEffect(() => {
+    setOtpSmsSent(!!phoneNo);
+    setAttempts({ ...attempts, attempts: attempt_count });
+  }, []);
 
   const gtmPushSignIn = (data: any) => {
     const userConsent = CookieService.getCookie("consent").split(",");

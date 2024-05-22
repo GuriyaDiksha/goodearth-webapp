@@ -63,7 +63,8 @@ class MainLogin extends React.Component<Props, loginState> {
       showEmailVerification: false,
       usrWithNoOrder: false,
       phoneNo: "",
-      isUserActive: true
+      isUserActive: true,
+      attempt_count: 0
     };
   }
   static contextType = Context;
@@ -94,7 +95,8 @@ class MainLogin extends React.Component<Props, loginState> {
         this.setState({
           showEmailVerification: true,
           usrWithNoOrder: data.usrWithNoOrder,
-          phoneNo: data?.phoneNo
+          phoneNo: data?.phoneNo,
+          attempt_count: data?.attempt_count || 0
         });
       } else {
         if (!data.isUserActive) {
@@ -753,6 +755,7 @@ class MainLogin extends React.Component<Props, loginState> {
             // nextStep={this.props.nextStep}
             sortBy={this.props.sortBy}
             phoneNo={this.state.phoneNo}
+            attempt_count={this.state.attempt_count}
           />
         ) : (
           <>

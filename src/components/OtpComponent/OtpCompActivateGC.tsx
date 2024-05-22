@@ -37,7 +37,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
         maxAttemptsAllow: 5
       },
       startTimer: true,
-      isDisabled: false
+      isDisabled: false,
+      attempt_count: 0
     };
   }
   // timerId: any = 0;
@@ -483,6 +484,13 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     this.props
       .sendOtp(formData)
       .then((data: any) => {
+        debugger;
+        this.setState({
+          attempts: {
+            ...this.state.attempts,
+            ["attempts"]: data?.attempt_count || 0
+          }
+        });
         if (data.inputType == "GIFT" && data.currStatus == "Invalid-CN") {
           this.setState(
             {
