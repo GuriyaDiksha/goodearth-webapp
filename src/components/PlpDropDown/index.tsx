@@ -158,9 +158,11 @@ const PlpDropdownMenu = ({
             }}
           >
             {filterCount ? (
-              <span>{`Filter By ( ${filterCount} )`}</span>
+              <span className={styles.activeFilter}>
+                Filter By ({filterCount})
+              </span>
             ) : (
-              <span>Refine</span>
+              <span>Filter By</span>
             )}
           </div>
           <div
@@ -203,8 +205,9 @@ const PlpDropdownMenu = ({
               <span>
                 <pre>
                   {[
-                    "FILTER BY  ",
-                    <span key="filter-count">{`( ${filterCount} )`}</span>
+                    // "FILTER BY  ",
+                    // <span key="filter-count">{`(${filterCount})`}</span>
+                    `FILTER BY (${filterCount})`
                   ]}
                 </pre>
               </span>
