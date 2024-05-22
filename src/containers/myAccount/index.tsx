@@ -57,13 +57,20 @@ const MyAccount: React.FC<Props> = props => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const noContentContainerElem = document.getElementById(
-      "no-content"
-    ) as HTMLDivElement;
-    if (
-      noContentContainerElem.classList.contains(globalStyles.contentContainer)
-    ) {
-      noContentContainerElem.classList.remove(globalStyles.contentContainer);
+    try {
+      const noContentContainerElem = document.getElementById(
+        "no-content"
+      ) as HTMLDivElement;
+      if (
+        noContentContainerElem &&
+        noContentContainerElem?.classList?.contains(
+          globalStyles.contentContainer
+        )
+      ) {
+        noContentContainerElem.classList.remove(globalStyles.contentContainer);
+      }
+    } catch (error) {
+      console.log("error account=====", error);
     }
   }, []);
 
