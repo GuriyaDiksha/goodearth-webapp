@@ -47,7 +47,7 @@ class TrackOrder extends React.Component<Props, State> {
   componentDidMount() {
     const orderid = localStorage.getItem("orderNum");
     if (this.props.user.email && orderid) {
-      this.props.updateLoaderValue(true);
+      this.props?.updateLoaderValue(true);
 
       this.sendTrackOrder(orderid, this.props.user.email);
       localStorage.setItem("orderNum", "");
@@ -60,7 +60,7 @@ class TrackOrder extends React.Component<Props, State> {
     const urlParams = new URLSearchParams(queryString);
     const order = urlParams.get("orderno");
     if (order) {
-      this.props.updateLoaderValue(true);
+      this.props?.updateLoaderValue(true);
       if (this.props.user.email) {
         this.sendTrackOrder(order, this.props.user.email);
         this.setState({
@@ -78,7 +78,7 @@ class TrackOrder extends React.Component<Props, State> {
             });
           })
           .catch(err => {
-            this.props.updateLoaderValue(false);
+            this.props?.updateLoaderValue(false);
           });
       }
     }
@@ -97,7 +97,7 @@ class TrackOrder extends React.Component<Props, State> {
               showerror: err
             },
             () => {
-              this.props.updateLoaderValue(false);
+              this.props?.updateLoaderValue(false);
               errorTracking([this.state.showerror], location.href);
             }
           );
@@ -114,7 +114,7 @@ class TrackOrder extends React.Component<Props, State> {
                     showerror: err
                   },
                   () => {
-                    this.props.updateLoaderValue(false);
+                    this.props?.updateLoaderValue(false);
                     errorTracking([this.state.showerror], location.href);
                   }
                 );
@@ -124,7 +124,7 @@ class TrackOrder extends React.Component<Props, State> {
                   orderData: response.results,
                   showTracking: true
                 });
-                this.props.updateLoaderValue(false);
+                this.props?.updateLoaderValue(false);
               }
             })
             .catch(err => {
@@ -135,7 +135,7 @@ class TrackOrder extends React.Component<Props, State> {
                   showerror: errmsg
                 },
                 () => {
-                  this.props.updateLoaderValue(false);
+                  this.props?.updateLoaderValue(false);
                   errorTracking([this.state.showerror], location.href);
                 }
               );
@@ -155,7 +155,7 @@ class TrackOrder extends React.Component<Props, State> {
               showerror: errorMsg
             },
             () => {
-              this.props.updateLoaderValue(false);
+              this.props?.updateLoaderValue(false);
               errorTracking([this.state.showerror as string], location.href);
             }
           );
@@ -167,7 +167,7 @@ class TrackOrder extends React.Component<Props, State> {
               showerror: errMsg
             },
             () => {
-              this.props.updateLoaderValue(false);
+              this.props?.updateLoaderValue(false);
               errorTracking([this.state.showerror], location.href);
             }
           );
@@ -362,7 +362,7 @@ class TrackOrder extends React.Component<Props, State> {
       orderNumber: orderNumber,
       myemail: email
     });
-    this.props.updateLoaderValue(true);
+    this.props?.updateLoaderValue(true);
     this.sendTrackOrder(orderNumber, email);
   };
 
