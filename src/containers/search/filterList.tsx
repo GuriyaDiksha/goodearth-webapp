@@ -19,6 +19,8 @@ import multiColour from "../../images/multiColour.svg";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import { displayPriceWithCommas } from "utils/utility";
 import CheckboxWithLabel from "components/CheckboxWithLabel";
+import { GA_CALLS } from "constants/cookieConsent";
+import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -34,7 +36,8 @@ const mapStateToProps = (state: AppState) => {
     listdata: state.searchList.data.results.data,
     customerGroup: state.user.customerGroup,
     filtered_facets: state.searchList.data.results.filtered_facets,
-    showTimer: state.info.showTimer
+    showTimer: state.info.showTimer,
+    previousUrl: state.searchList.data.previous
   };
 };
 
@@ -613,6 +616,14 @@ class FilterList extends React.Component<Props, State> {
         isCategoryClicked: true
       },
       () => {
+        const userConsent = CookieService.getCookie("consent").split(",");
+        if (userConsent.includes(GA_CALLS)) {
+          dataLayer.push({
+            event: "Filter used",
+            "Filter type": "Price",
+            "Filter value": value[0] + "-" + value[1]
+          });
+        }
         this.createUrlfromFilter();
       }
     );
@@ -727,7 +738,7 @@ class FilterList extends React.Component<Props, State> {
     );
   };
 
-  appendData = () => {
+  appendData = (plpMobileView?: string) => {
     const minMaxvalue: any = [];
     let currentRange: any = [];
     const {
@@ -735,31 +746,44 @@ class FilterList extends React.Component<Props, State> {
       listdata,
       currency,
       updateProduct,
-      changeLoader
+      changeLoader,
+      previousUrl
     } = this.props;
     const { filter } = this.state;
-    if (nextUrl) {
+    if (nextUrl || (previousUrl && plpMobileView)) {
       this.setState(
         {
           disableSelectedbox: true,
           flag: false
         },
         () => {
-          let filterUrl = "?" + nextUrl.split("?")[1];
+          let filterUrl = plpMobileView && previousUrl ? previousUrl : nextUrl;
+
+          // let filterUrl = "?" + nextUrl.split("?")[1];
           // const pageSize = mobile ? 10 : 20;
           const pageSize = 40;
           const queryString = this.props.location.search;
           const urlParams = new URLSearchParams(queryString);
           const searchValue: any = urlParams.get("q") || "";
-          const isPageSizeExist = new URLSearchParams(filterUrl).get(
-            "page_size"
-          );
-          if (!isPageSizeExist) {
-            filterUrl = filterUrl + `&page_size=${pageSize}`;
+
+          if (plpMobileView && filterUrl) {
+            const url = new URL(filterUrl);
+            url.searchParams.set("page", "1");
+            url.searchParams.set("page_size", "40");
+            filterUrl = "?" + url.toString().split("?")[1];
+          } else {
+            filterUrl = "?" + filterUrl?.split("?")[1];
+            const isPageSizeExist = new URLSearchParams(filterUrl).get(
+              "page_size"
+            );
+            if (!isPageSizeExist) {
+              filterUrl = filterUrl + `&page_size=${pageSize}`;
+            }
           }
+
           this.setState({ isLoading: true });
           changeLoader?.(true);
-          updateProduct(filterUrl, listdata)
+          updateProduct(filterUrl, listdata, plpMobileView)
             .then(searchList => {
               changeLoader?.(false);
               productImpression(
@@ -1070,6 +1094,14 @@ class FilterList extends React.Component<Props, State> {
         this.createUrlfromFilter();
       }
     );
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Product Type",
+        "Filter value": event.target.value
+      });
+    }
     event.stopPropagation();
   };
 
@@ -1089,7 +1121,14 @@ class FilterList extends React.Component<Props, State> {
         this.createUrlfromFilter();
       }
     );
-
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Discount Type",
+        "Filter value": event.target.value
+      });
+    }
     event.stopPropagation();
   };
 
@@ -1103,6 +1142,14 @@ class FilterList extends React.Component<Props, State> {
     this.setState({
       filter: filter
     });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Material",
+        "Filter value": event.target.value
+      });
+    }
     this.createUrlfromFilter();
     event.stopPropagation();
   };
@@ -1591,6 +1638,18 @@ class FilterList extends React.Component<Props, State> {
         this.createUrlfromFilter();
       }
     );
+    const userConsent = CookieService.getCookie("consent").split(",");
+    const val =
+      event.target.id.split(">")?.[2] !== undefined
+        ? ` -${event.target.id.split(">")?.[2]}`
+        : "";
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Category",
+        "Filter value": event.target.value + val
+      });
+    }
     event.stopPropagation();
   };
 
@@ -1656,6 +1715,14 @@ class FilterList extends React.Component<Props, State> {
       filter: filter,
       isCategoryClicked: true
     });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Color",
+        "Filter value": event.target.value
+      });
+    }
     this.createUrlfromFilter();
     event.stopPropagation();
   };
@@ -1763,6 +1830,15 @@ class FilterList extends React.Component<Props, State> {
       }
     );
 
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Size​",
+        "Filter value": event.target.value
+      });
+    }
+
     event.stopPropagation();
   };
 
@@ -1857,6 +1933,14 @@ class FilterList extends React.Component<Props, State> {
           this.state.initialrangevalue.min,
           this.state.initialrangevalue.max
         ]
+      });
+    }
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": key === "all" ? "Clear All" : "Clear",
+        "Filter value": "NA"
       });
     }
     if (event) {

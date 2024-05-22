@@ -36,7 +36,8 @@ const mapStateToProps = (state: AppState) => {
     customerGroup: state.user.customerGroup,
     filtered_facets: state.plplist.data.results.filtered_facets,
     showTimer: state.info.showTimer,
-    mobileMenuOpenState: state.header.mobileMenuOpenState
+    mobileMenuOpenState: state.header.mobileMenuOpenState,
+    previousUrl: state.plplist.data.previous
   };
 };
 
@@ -497,7 +498,7 @@ class FilterList extends React.Component<Props, State> {
     );
   };
 
-  appendData = () => {
+  appendData = (plpMobileView?: string) => {
     const minMaxvalue: any = [];
     let currentRange: any = [];
     const {
@@ -506,10 +507,11 @@ class FilterList extends React.Component<Props, State> {
       listdata,
       currency,
       updateProduct,
-      changeLoader
+      changeLoader,
+      previousUrl
     } = this.props;
     const { filter } = this.state;
-    if (nextUrl) {
+    if (nextUrl || (previousUrl && plpMobileView)) {
       this.setState(
         {
           disableSelectedbox: true,
@@ -517,7 +519,8 @@ class FilterList extends React.Component<Props, State> {
         },
         () => {
           changeLoader?.(true);
-          let filterUrl = "?" + nextUrl.split("?")[1];
+          let filterUrl = plpMobileView && previousUrl ? previousUrl : nextUrl;
+          // let filterUrl = "?" + nextUrl.split("?")[1];
           // const pageSize = mobile ? 10 : 20;
           const pageSize = 40;
           const urlParams = new URLSearchParams(
@@ -527,14 +530,23 @@ class FilterList extends React.Component<Props, State> {
             .get("category_shop")
             ?.split(">")[1]
             ?.trim();
-          const isPageSizeExist = new URLSearchParams(filterUrl).get(
-            "page_size"
-          );
 
-          if (!isPageSizeExist) {
-            filterUrl = filterUrl + `&page_size=${pageSize}`;
+          if (plpMobileView && filterUrl) {
+            const url = new URL(filterUrl);
+            url.searchParams.set("page", "1");
+            url.searchParams.set("page_size", "40");
+            filterUrl = "?" + url.toString().split("?")[1];
+          } else {
+            filterUrl = "?" + filterUrl?.split("?")[1];
+            const isPageSizeExist = new URLSearchParams(filterUrl).get(
+              "page_size"
+            );
+            if (!isPageSizeExist) {
+              filterUrl = filterUrl + `&page_size=${pageSize}`;
+            }
           }
-          updateProduct(filterUrl, listdata)
+
+          updateProduct(filterUrl, listdata, plpMobileView)
             .then(plpList => {
               changeLoader?.(false);
               try {
@@ -1042,6 +1054,14 @@ class FilterList extends React.Component<Props, State> {
     this.setState({
       filter: filter
     });
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Product Type",
+        "Filter value": event.target.value
+      });
+    }
     this.createUrlfromFilter();
     event.stopPropagation();
   };
@@ -1062,7 +1082,14 @@ class FilterList extends React.Component<Props, State> {
         this.createUrlfromFilter();
       }
     );
-
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": "Discount Type",
+        "Filter value": event.target.value
+      });
+    }
     event.stopPropagation();
   };
 
@@ -1848,6 +1875,14 @@ class FilterList extends React.Component<Props, State> {
           this.state.initialrangevalue.min,
           this.state.initialrangevalue.max
         ]
+      });
+    }
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "Filter used",
+        "Filter type": key === "all" ? "Clear All" : "Clear",
+        "Filter value": "NA"
       });
     }
     if (event) {

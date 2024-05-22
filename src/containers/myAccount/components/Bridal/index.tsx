@@ -142,7 +142,7 @@ const Bridal: React.FC<Props> = props => {
 
     if (!user.isLoggedIn) {
       LoginService.showLogin(dispatch);
-      dispatch(updateNextUrl("/account/bridal"));
+      dispatch(updateNextUrl("/account/registry"));
     }
 
     return () => {

@@ -147,9 +147,7 @@ class PLP extends React.Component<
     window.addEventListener(
       "scroll",
       throttle(() => {
-        if (this.props.mobile) {
-          this.setProductCount();
-        }
+        this.setProductCount();
 
         //Commented: code commented for on every filter selection filter section is going on top
         //     // plp filter scroll top
@@ -252,6 +250,7 @@ class PLP extends React.Component<
   notifyMeClick = (product: PLPProductItem) => {
     const {
       categories,
+      collection,
       collections,
       priceRecords,
       discountedPriceRecords,
@@ -282,7 +281,8 @@ class PLP extends React.Component<
     updateComponentModal(
       POPUP.NOTIFYMEPOPUP,
       {
-        collection: collections && collections.length > 0 ? collections[0] : "",
+        // collection: collections && collections.length > 0 ? collections[0] : "",
+        collection: collection,
         category: category,
         price: priceRecords[currency],
         currency: currency,
@@ -455,13 +455,14 @@ class PLP extends React.Component<
           });
           if (leftMostPos != Infinity) {
             const productID = leftMostElement.children[0].children[0]?.id;
-            console.log(this.props);
+            this.child.appendData(plpMobileView);
             this.props.updateMobileView(plpMobileView);
             const top: number =
               leftMostElement.getBoundingClientRect().top - 135;
             window.scrollBy({ top: top, behavior: "smooth" });
             if (productID == cardIDs[0]) this.setState({ count: -1 });
           } else {
+            this.child.appendData(plpMobileView);
             this.props.updateMobileView(plpMobileView);
           }
           observer.disconnect();
@@ -834,7 +835,6 @@ class PLP extends React.Component<
                   data={showTemplates.Banner?.[0]}
                   mobile={mobile}
                   tablet={tablet}
-                  colbanner={false}
                 />
               ) : null}
             </div>
@@ -960,7 +960,7 @@ class PLP extends React.Component<
                             />
                           ) : (
                             <PlpResultItem
-                              page={categoryShop || "plp"}
+                              page={"plp"}
                               position={index}
                               product={item}
                               addedToWishlist={false}
@@ -1173,16 +1173,13 @@ class PLP extends React.Component<
             // toggleSort={this.toggleSort}
           />
         )}
-        {mobile &&
-          this.state.count > -1 &&
-          this.state.showProductCounter &&
-          count !== 0 && (
-            <ProductCounter
-              current={this.state.count}
-              total={!this.state.corporoateGifting ? count + 1 : count}
-              id="plp-product-counter"
-            />
-          )}
+        {this.state.count > -1 && this.state.showProductCounter && (
+          <ProductCounter
+            current={this.state.count}
+            total={!this.state.corporoateGifting ? count + 1 : count}
+            id="plp-product-counter"
+          />
+        )}
       </div>
     );
   }

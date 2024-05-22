@@ -1476,7 +1476,8 @@ const AddressSection: React.FC<AddressProps & {
                     </div>
                   )}
                   {props.activeStep == STEP_BILLING &&
-                    (error || billingError) && (
+                    (error || billingError) &&
+                    !["edit", "new"].includes(mode) && (
                       <div
                         className={cs(
                           globalStyles.errorMsg,

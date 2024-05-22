@@ -201,9 +201,9 @@
 .new-badge-image{
     width: 30%;
     position: absolute;
-    top: 5px;
     z-index: 3;
-    right: 6px;
+    left: 0px;
+    bottom: 15px;
     img {
         width: 100%;
     }

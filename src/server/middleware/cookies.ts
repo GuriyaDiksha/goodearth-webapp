@@ -52,7 +52,7 @@ export default async function cookies(
     (!isBridalBasket || isBridalBasket == "no") &&
     // !boId &&
     !pathname.includes("/order/orderconfirmation/") &&
-    !pathname.includes("/bridal/") &&
+    !pathname.includes("/registry/") &&
     !isBot
   ) {
     // Dispatch actions if certain conditions are met

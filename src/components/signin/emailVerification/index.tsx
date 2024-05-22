@@ -35,6 +35,7 @@ type Props = {
   sortBy?: string;
   phoneNo?: string;
   isRegistration?: boolean;
+  attempt_count: number;
 };
 
 const EmailVerification: React.FC<Props> = ({
@@ -49,8 +50,10 @@ const EmailVerification: React.FC<Props> = ({
   products,
   sortBy,
   phoneNo,
-  isRegistration
+  isRegistration,
+  attempt_count
 }) => {
+  const [isDisabled, setIsDisabled] = useState(false);
   const [error, setError] = useState<(JSX.Element | string)[] | string>("");
   const [attempts, setAttempts] = useState({
     attempts: 0,
@@ -71,7 +74,10 @@ const EmailVerification: React.FC<Props> = ({
   // const urlParams = new URLSearchParams(queryString);
   // const boId = urlParams.get("bo_id");
 
-  useEffect(() => setOtpSmsSent(!!phoneNo), []);
+  useEffect(() => {
+    setOtpSmsSent(!!phoneNo);
+    setAttempts({ ...attempts, attempts: attempt_count });
+  }, []);
 
   const gtmPushSignIn = (data: any) => {
     const userConsent = CookieService.getCookie("consent").split(",");
@@ -183,6 +189,9 @@ const EmailVerification: React.FC<Props> = ({
         ]);
       } else {
         setError(data?.message || "OTP Expired or Invalid OTP");
+        if (data.expired) {
+          setIsDisabled(true);
+        }
       }
     } finally {
       // setIsLoading(false);
@@ -192,6 +201,7 @@ const EmailVerification: React.FC<Props> = ({
     try {
       // setIsLoading(true);
       setError("");
+      setIsDisabled(false);
       setOtpSmsSent(false);
       const res = await LoginService.sendUserOTP(dispatch, email);
       if (res.otpSent) {
@@ -318,6 +328,7 @@ const EmailVerification: React.FC<Props> = ({
           goBackCta={!isCheckout ? goBackCta : null}
           socialLogin={socialLogin}
           uniqueId="emailverifyid"
+          disabled={isDisabled}
         />
         {/* {!boId && (
           <div className={styles.bigTxt} style={{ marginTop: "10px" }}>
