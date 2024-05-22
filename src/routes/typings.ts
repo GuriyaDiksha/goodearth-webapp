@@ -85,7 +85,10 @@ export const enum ROUTES {
   INTERNATIONALSALE = "/internationalsale",
   MEMORYKEEPERS = "/memory-keepers",
   MEMORYKEEPERSTWO = "/memory-keepers-2",
-  HARVESTATTHETABLE = "/harvest-at-the-table"
+  HARVESTATTHETABLE = "/harvest-at-the-table",
+  INNERSPACEKONKONASENSHARMA = "/inner-spaces-KonkonaSenSharma",
+  INNERSPACEKONABHANARAINLAMBAH = "/inner-spaces-AbhaNarainLambah",
+  INNERSPACESUNHILSIPPY = "/inner-spaces-SunhilSippy"
 }
 
 export type RouteConfig = RouteObject[];
