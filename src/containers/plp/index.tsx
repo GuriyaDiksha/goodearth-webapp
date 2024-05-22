@@ -150,9 +150,7 @@ class PLP extends React.Component<
     window.addEventListener(
       "scroll",
       throttle(() => {
-        if (this.props.mobile) {
-          this.setProductCount();
-        }
+        this.setProductCount();
 
         //Commented: code commented for on every filter selection filter section is going on top
         //     // plp filter scroll top
@@ -255,6 +253,7 @@ class PLP extends React.Component<
   notifyMeClick = (product: PLPProductItem) => {
     const {
       categories,
+      collection,
       collections,
       priceRecords,
       discountedPriceRecords,
@@ -285,7 +284,8 @@ class PLP extends React.Component<
     updateComponentModal(
       POPUP.NOTIFYMEPOPUP,
       {
-        collection: collections && collections.length > 0 ? collections[0] : "",
+        // collection: collections && collections.length > 0 ? collections[0] : "",
+        collection: collection,
         category: category,
         price: priceRecords[currency],
         currency: currency,
@@ -971,7 +971,7 @@ class PLP extends React.Component<
                             />
                           ) : (
                             <PlpResultItem
-                              page={categoryShop || "plp"}
+                              page={"plp"}
                               position={index}
                               product={item}
                               addedToWishlist={false}
@@ -1184,16 +1184,14 @@ class PLP extends React.Component<
             // toggleSort={this.toggleSort}
           />
         )}
-        {mobile &&
-          this.state.count > -1 &&
-          this.state.showProductCounter &&
-          count !== 0 && (
-            <ProductCounter
-              current={this.state.count}
-              total={!this.state.corporoateGifting ? count + 1 : count}
-              id="plp-product-counter"
-            />
-          )}
+        {console.log(this.state.count > -1, this.state.showProductCounter)}
+        {this.state.count > -1 && this.state.showProductCounter && (
+          <ProductCounter
+            current={this.state.count}
+            total={!this.state.corporoateGifting ? count + 1 : count}
+            id="plp-product-counter"
+          />
+        )}
         {mobile && this.state.isPopup && (
           <div
             id="resetFilterModal"

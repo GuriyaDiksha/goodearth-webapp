@@ -89,7 +89,9 @@ const SelectDropdown: React.FC<Props &
     <div className={cs(styles.dropdown, props.className)} ref={ref}>
       <input
         type="text"
-        className={styles.textBox}
+        className={cs(styles.textBox, {
+          [globalStyles.errorBorder]: errorMessage
+        })}
         placeholder={props.placeholder}
         value={value}
         name={props.name}
@@ -107,56 +109,58 @@ const SelectDropdown: React.FC<Props &
           { [globalStyles.pointer]: !props.disable }
         )}
       ></span>
-      {props.allowFilter && active && (
-        <div
-          className={cs(
-            styles.option,
-            styles.filter,
-            props.searchContainerClass
-          )}
-        >
-          <img
-            src={searchIcon}
-            className={cs(props.searchIconClass || styles.searchIcon)}
-            width="200"
-          />
-          <input
-            type="text"
-            placeholder="Search"
-            onChange={onSearchValueChange}
-            value={searchValue}
-            autoFocus
-            className={cs(props.searchInputClass || styles.searchField)}
-          />
+      <div className={cs(styles.fixDropDown)}>
+        {props.allowFilter && active && (
+          <div
+            className={cs(
+              styles.option,
+              styles.filter,
+              props.searchContainerClass
+            )}
+          >
+            <img
+              src={searchIcon}
+              className={cs(props.searchIconClass || styles.searchIcon)}
+              width="200"
+            />
+            <input
+              type="text"
+              placeholder="Search"
+              onChange={onSearchValueChange}
+              value={searchValue}
+              autoFocus
+              className={cs(props.searchInputClass || styles.searchField)}
+            />
+          </div>
+        )}
+        <div className={cs(styles.options, { [styles.active]: active })}>
+          {options.map((option, i) => {
+            return (
+              <div
+                className={cs(props.optionsClass || styles.option, {
+                  [props.aquaClass || styles.aquaText]:
+                    (option.label?.split("(")?.[1]
+                      ? option.label
+                          ?.split("(")?.[1]
+                          ?.substring(
+                            0,
+                            option.label?.split("(")?.[1]?.length - 1
+                          )
+                      : option.label?.split("(")?.[0]) === value
+                })}
+                onClick={e => onOptionClick(e, option)}
+                key={`${props.name}_${i}`}
+              >
+                {/* <div onClick={e => onOptionClick(e, option)}> */}
+                {option.label?.split("(")?.[0]}{" "}
+                {option.label?.split("(")?.[1]
+                  ? "(" + option.label?.split("(")?.[1]
+                  : null}
+                {/* </div> */}
+              </div>
+            );
+          })}
         </div>
-      )}
-      <div className={cs(styles.options, { [styles.active]: active })}>
-        {options.map((option, i) => {
-          return (
-            <div
-              className={cs(props.optionsClass || styles.option, {
-                [props.aquaClass || styles.aquaText]:
-                  (option.label?.split("(")?.[1]
-                    ? option.label
-                        ?.split("(")?.[1]
-                        ?.substring(
-                          0,
-                          option.label?.split("(")?.[1]?.length - 1
-                        )
-                    : option.label?.split("(")?.[0]) === value
-              })}
-              onClick={e => onOptionClick(e, option)}
-              key={`${props.name}_${i}`}
-            >
-              {/* <div onClick={e => onOptionClick(e, option)}> */}
-              {option.label?.split("(")?.[0]}{" "}
-              {option.label?.split("(")?.[1]
-                ? "(" + option.label?.split("(")?.[1]
-                : null}
-              {/* </div> */}
-            </div>
-          );
-        })}
       </div>
       {errorMessage && (
         <p

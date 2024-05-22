@@ -171,6 +171,22 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
       );
     });
 
+  const gaCall = (action: any) => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "bag_quick_view",
+        cta_location: page.toUpperCase() === "PLP" ? "PLP" : "Search Results"
+      });
+    }
+
+    if (mobile) {
+      action();
+    } else {
+      onClickQuickview();
+    }
+  };
+
   const button = useMemo(() => {
     // let buttonText: string,
     let action: EventHandler<MouseEvent>;
@@ -202,7 +218,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             globalStyles.iconContainer,
             iconStyles.iconPlpCart
           )}
-          onClick={mobile ? action : onClickQuickview}
+          onClick={() => gaCall(action)}
         ></div>
       </div>
       // <Button
@@ -231,16 +247,18 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           <img src={product.salesBadgeImage} width="100" />
         </div>
       )}
-      {product.justAddedBadge && !mobile && (
-        <div className={styles.newBadgeImage}>
-          <img src={product.justAddedBadge} width="100" />
-        </div>
-      )}
+
       <div
         className={styles.imageBoxnew}
         id={"" + product.id}
         onMouseLeave={onMouseLeave}
       >
+        {product.justAddedBadge && (
+          <div className={styles.newBadgeImage}>
+            <img src={product.justAddedBadge} width="100" />
+          </div>
+        )}
+
         {!isCorporate && (
           <div
             className={cs(
@@ -395,13 +413,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             currency={currency}
           />
         )}
-        {product.justAddedBadge && mobile && (
-          <p className={styles.productN}>
-            <span className={styles.mobileBadge}>
-              <img src={product.justAddedBadge} width="100" />
-            </span>
-          </p>
-        )}
+
         {sizeExit && !mobile && (
           <div
             className={cs(
