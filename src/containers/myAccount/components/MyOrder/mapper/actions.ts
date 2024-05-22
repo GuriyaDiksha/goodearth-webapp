@@ -1,3 +1,4 @@
+import { updateLoader } from "actions/info";
 import { Dispatch } from "redux";
 import AccountService from "services/account";
 
@@ -15,6 +16,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     fetchCourierData: (order: string) => {
       return AccountService.fetchCourierData(dispatch, order);
+    },
+    updateLoaderValue: (value: boolean) => {
+      dispatch(updateLoader(value));
     }
   };
 };

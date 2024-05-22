@@ -9,8 +9,6 @@ import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import configData from "./../config/list.json";
 import { updateLoader } from "actions/info";
-
-let isLoading = false;
 class API {
   static async get<T>(
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
@@ -75,6 +73,7 @@ class API {
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
     options: AxiosRequestConfig
   ): Promise<T> {
+    let isLoading = false;
     return new Promise((resolve, reject) => {
       dispatch(
         API.apiAction((cookies: any, info: any) => {
