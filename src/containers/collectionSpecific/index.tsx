@@ -708,21 +708,27 @@ class CollectionSpecific extends React.Component<
               <>
                 <div className={bootstrap.col12}>
                   {widgetImages.map((widget: any) => {
-                    if (mobile && widget.imageType == 2) {
+                    if (widget.imageType == 2) {
                       return (
                         <img
                           key="mobile-collectionspecific-banner"
                           src={widget.image}
-                          className={globalStyles.imgResponsive}
+                          className={cs(
+                            globalStyles.desktopHide,
+                            globalStyles.imgResponsive
+                          )}
                           alt="Collection Widget"
                         />
                       );
-                    } else if (!mobile && widget.imageType == 1) {
+                    } else if (widget.imageType == 1) {
                       return (
                         <img
                           key="desktop-collectionspecific-banner"
                           src={widget.image}
-                          className={globalStyles.imgResponsive}
+                          className={cs(
+                            globalStyles.mobileHide,
+                            globalStyles.imgResponsive
+                          )}
                           alt="Collection Banner"
                         />
                       );

@@ -953,3 +953,15 @@ font-weight: bold;
   color: #4C4C4C;
   border: 1px solid #4C4C4C;
 }
+
+// hidden class for mob and desktop
+@media(max-width:767px){
+  .mobile-hide{
+    display:none!important;
+  }
+}
+@media(min-width:768px){
+  .desktop-hide{
+    display: none!important;
+  }
+}
