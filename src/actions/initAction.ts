@@ -20,7 +20,7 @@ const initAction: any = async (
   const currency = state.currency || "INR";
   const customerGroup = state.user.customerGroup || "";
   const isBridalPublicPage =
-    history.location.pathname.includes("/bridal/") &&
+    history.location.pathname.includes("/registry/") &&
     !history.location.pathname.includes("/account/");
   let bridalKey = "";
   // const basketPage = history.location.pathname.includes("checkout")

@@ -134,7 +134,7 @@ const MyAccount: React.FC<Props> = props => {
   accountMenuItems.push(
     {
       label: "Good Earth Registry",
-      href: "/account/bridal",
+      href: "/account/registry",
       component: Bridal,
       title: "bridal",
       loggedInOnly: true
@@ -174,7 +174,7 @@ const MyAccount: React.FC<Props> = props => {
       ).length > 0 &&
       !isLoggedIn
     ) {
-      if (pathname == "/account/bridal") {
+      if (pathname == "/account/registry") {
         LoginService.showLogin(dispatch);
       } else {
         history.push("/");
@@ -244,7 +244,7 @@ const MyAccount: React.FC<Props> = props => {
                   onClick={() => setAccountListing(true)}
                 >
                   <span>
-                    {pathname == "/account/bridal"
+                    {pathname == "/account/registry"
                       ? bridalId == 0
                         ? "Create a Registry"
                         : "Manage Registry"
@@ -272,7 +272,7 @@ const MyAccount: React.FC<Props> = props => {
                 >
                   <div className={styles.filterCross}>
                     <span>
-                      {pathname == "/account/bridal"
+                      {pathname == "/account/registry"
                         ? bridalId == 0
                           ? "Create a Registry"
                           : "Manage Registry"

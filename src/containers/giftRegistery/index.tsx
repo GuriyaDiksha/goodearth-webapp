@@ -70,7 +70,7 @@ const Registery: React.FC<Props> = ({ mobileFaq }) => {
               {isLoggedIn ? (
                 bridalId == 0 ? (
                   <div className={cs(styles.registeryButton)}>
-                    <a href="/account/bridal">
+                    <a href="/account/registry">
                       <button className={cs(styles.regBtn)}>
                         CREATE MY REGISTRY
                       </button>
@@ -78,7 +78,7 @@ const Registery: React.FC<Props> = ({ mobileFaq }) => {
                   </div>
                 ) : (
                   <div className={cs(styles.registeryButton)}>
-                    <a href="/account/bridal">
+                    <a href="/account/registry">
                       <button className={cs(styles.regBtn)}>
                         VIEW MY REGISTRY
                       </button>

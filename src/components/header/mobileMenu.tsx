@@ -61,7 +61,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
 
   Clickmenulevel1(index: number) {
     if (
-      this.props.location.pathname.indexOf("/bridal/") > 0 &&
+      this.props.location.pathname.indexOf("/registry/") > 0 &&
       !this.props.location.pathname.includes("/account/")
     ) {
       return false;
@@ -960,7 +960,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             className={
               showC
                 ? cs(styles.currency, styles.before)
-                : this.props.location.pathname.indexOf("/bridal/") > 0 &&
+                : this.props.location.pathname.indexOf("/registry/") > 0 &&
                   !this.props.location.pathname.includes("/account/")
                 ? cs(styles.currency, styles.op3)
                 : styles.currency
@@ -1078,7 +1078,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             <li
               key={i}
               className={cs(
-                this.props.location.pathname.indexOf("/bridal/") > 0 &&
+                this.props.location.pathname.indexOf("/registry/") > 0 &&
                   !this.props.location.pathname.includes("/account/")
                   ? styles.iconStyleDisabled
                   : "",
