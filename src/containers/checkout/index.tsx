@@ -358,6 +358,7 @@ class Checkout extends React.Component<Props, State> {
     // const bridalId = CookieService.getCookie("bridalId");
     // const gaKey = CookieService.getCookie("_ga");
     // this.setState({ bridalId, gaKey });
+    this.props.updateLoaderValue(true);
     pageViewGTM("Checkout");
     localStorage.setItem("openGCExitModal", "false");
     const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup3");
@@ -563,6 +564,9 @@ class Checkout extends React.Component<Props, State> {
             }
           }
         }
+      })
+      .finally(() => {
+        this.props.updateLoaderValue(false);
       });
   }
 
