@@ -46,50 +46,43 @@ class TrackOrder extends React.Component<Props, State> {
 
   componentDidMount() {
     const orderid = localStorage.getItem("orderNum");
-    try {
-      if (this.props.user.email && orderid) {
-        this.props?.updateLoaderValue(true);
 
-        this.sendTrackOrder(orderid, this.props.user.email);
-        localStorage.setItem("orderNum", "");
-        this.setState({
-          orderNumber: orderid
-        });
-      }
-    } catch (e) {
-      console.log("error ========", e);
+    if (this.props.user.email && orderid) {
+      this.props?.updateLoaderValue(true);
+
+      this.sendTrackOrder(orderid, this.props.user.email);
+      localStorage.setItem("orderNum", "");
+      this.setState({
+        orderNumber: orderid
+      });
     }
 
-    try {
-      // code for load by email
-      const queryString = this.props.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      const order = urlParams.get("orderno");
-      if (order) {
-        this.props?.updateLoaderValue(true);
-        if (this.props.user.email) {
-          this.sendTrackOrder(order, this.props.user.email);
-          this.setState({
-            orderNumber: order,
-            myemail: this.props.user.email
-          });
-        } else {
-          this.props
-            .fetchEmailbyOrder(order)
-            .then((newemail: any) => {
-              this.sendTrackOrder(order, newemail.email);
-              this.setState({
-                orderNumber: order,
-                myemail: newemail.email
-              });
-            })
-            .catch(err => {
-              this.props?.updateLoaderValue(false);
+    // code for load by email
+    const queryString = this.props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const order = urlParams.get("orderno");
+    if (order) {
+      this.props?.updateLoaderValue(true);
+      if (this.props.user.email) {
+        this.sendTrackOrder(order, this.props.user.email);
+        this.setState({
+          orderNumber: order,
+          myemail: this.props.user.email
+        });
+      } else {
+        this.props
+          .fetchEmailbyOrder(order)
+          .then((newemail: any) => {
+            this.sendTrackOrder(order, newemail.email);
+            this.setState({
+              orderNumber: order,
+              myemail: newemail.email
             });
-        }
+          })
+          .catch(err => {
+            this.props?.updateLoaderValue(false);
+          });
       }
-    } catch (e) {
-      console.log("error 2 =======", e);
     }
   }
 
