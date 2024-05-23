@@ -59,6 +59,7 @@ import {
   updateShowShippingAddress
 } from "actions/info";
 import { useLocation } from "react-router";
+import Loader from "components/Loader";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -77,7 +78,8 @@ const mapStateToProps = (state: AppState) => {
     bridalId: state.user.bridalId,
     billingAddressId: state.address.billingAddressId,
     showShipping: state.info.showShipping,
-    isLoading: state.info.isLoading
+    isLoading: state.info.isLoading,
+    isCheckoutLoading: state.info.isCheckoutLoading
   };
 };
 
