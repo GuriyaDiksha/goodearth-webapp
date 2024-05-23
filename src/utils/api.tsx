@@ -10,7 +10,6 @@ import { POPUP } from "constants/components";
 import configData from "./../config/list.json";
 import { updateLoader } from "actions/info";
 
-let isLoading = false;
 class API {
   static async get<T>(
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
@@ -91,8 +90,7 @@ class API {
           ) {
             requestHeaders["enc-dec"] = "eyJlbmFibGVDcnlwdG8iOiB0cnVlfQ==";
           }
-          if (!info?.isLoading) {
-            isLoading = true;
+          if (!info?.isCheckoutLoading) {
             dispatch(updateLoader(true));
           }
           requestHeaders = {
@@ -105,8 +103,7 @@ class API {
             headers: requestHeaders
           })
             .then(res => {
-              if (isLoading) {
-                isLoading = false;
+              if (info?.isLoading) {
                 dispatch(updateLoader(false));
               }
               if (cookies.sessionid != res.headers.sessionid) {
@@ -126,8 +123,7 @@ class API {
               }
             })
             .catch(err => {
-              if (isLoading) {
-                isLoading = false;
+              if (info?.isLoading) {
                 dispatch(updateLoader(false));
               }
               if (typeof document != "undefined") {
@@ -150,8 +146,7 @@ class API {
               }
             })
             .finally(() => {
-              if (isLoading) {
-                isLoading = false;
+              if (info?.isLoading) {
                 dispatch(updateLoader(false));
               }
             });
