@@ -859,7 +859,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     const lowerMenu = (
       <div
         className={cs(this.props.slab, styles.lowerMenu, {
-          [styles.lowerMenuNonInrHeight]: this.props.currency !== "INR" && showC
+          [styles.lowerMenuNonInrHeight]: this.props.currency !== "INR"
           // [styles.lowerMenuNonInrHeight]:
           //   showC
           //   this.props.slab.toLowerCase() != "cerise" &&
