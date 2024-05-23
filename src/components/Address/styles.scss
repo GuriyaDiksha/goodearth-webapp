@@ -281,10 +281,10 @@ body:has(.mobile) {
     .default-address-checkbox {
       position: absolute;
       left: -27px;
-      height: 14px;
-      width: 14px;
+      height: 19px;
+      width: 19px;
       background-color: #fff;
-      border: 1px solid #888;
+      border: 1px solid $light-charcoal;
       border-radius: 50%;
       // padding: 20px 0;
       &.checkout-fix{
@@ -295,29 +295,29 @@ body:has(.mobile) {
     }
 
     input[type="radio"]:checked.default-address-checkbox {
-      &::after {
-        content: "";
-        height: 13px;
-        width: 13px;
-        border-radius: 50%;
-        background-color: #548b8b;
-        position: absolute;
-        top: 50%;
-        right: 50%;
-        transform: translate(50%, -50%);
-      }
-      &::before {
-        content: "";
-        height: 19px;
-        width: 19px;
-        border-radius: 50%;
-        background-color: white;
-        position: absolute;
-        top: 50%;
-        right: 50%;
-        transform: translate(50%, -50%);
-        border: 1px solid #9F9F9F;
-      }
+      // &::after {
+      //   content: "";
+      //   height: 13px;
+      //   width: 13px;
+      //   border-radius: 50%;
+      //   background-color: #548b8b;
+      //   position: absolute;
+      //   top: 50%;
+      //   left: 50%;
+      //   transform: translate(-50%, -50%);
+      // }
+      // &::before {
+      //   content: "";
+      //   height: 19px;
+      //   width: 19px;
+      //   border-radius: 50%;
+      //   background-color: white;
+      //   position: absolute;
+      //   top: 50%;
+      //   right: 50%;
+      //   transform: translate(50%, -50%);
+      //   border: 1px solid #9F9F9F;
+      // }
       &.checkout-fix {
         &::after {
           content: "";

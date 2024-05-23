@@ -903,9 +903,13 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                     checked={this.state.radioType === "email"}
                   />
                   <span
-                    className={cs(styles.checkmark, {
-                      [styles.top]: this.props.isCredit
-                    })}
+                    className={cs(
+                      globalStyles.radioIndicator,
+                      styles.checkmark,
+                      {
+                        [styles.top]: this.props.isCredit
+                      }
+                    )}
                   ></span>
                 </label>
                 <FormInput
