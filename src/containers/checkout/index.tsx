@@ -53,7 +53,11 @@ import { Basket } from "typings/basket";
 import { Currency } from "typings/currency";
 import CheckoutBreadcrumb from "./component/CheckoutBreadcrumb";
 import { GA_CALLS } from "constants/cookieConsent";
-import { updateLoader, updateShowShippingAddress } from "actions/info";
+import {
+  updateCheckoutLoader,
+  updateLoader,
+  updateShowShippingAddress
+} from "actions/info";
 import { useLocation } from "react-router";
 
 const mapStateToProps = (state: AppState) => {
@@ -238,7 +242,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       dispatch(updateModal(true));
     },
     updateLoaderValue: (value: boolean) => {
-      dispatch(updateLoader(value));
+      dispatch(updateCheckoutLoader(value));
     }
   };
 };
@@ -358,7 +362,6 @@ class Checkout extends React.Component<Props, State> {
     // const bridalId = CookieService.getCookie("bridalId");
     // const gaKey = CookieService.getCookie("_ga");
     // this.setState({ bridalId, gaKey });
-    this.props.updateLoaderValue(true);
     pageViewGTM("Checkout");
     localStorage.setItem("openGCExitModal", "false");
     const checkoutPopupCookie = CookieService.getCookie("checkoutinfopopup3");
@@ -564,9 +567,6 @@ class Checkout extends React.Component<Props, State> {
             }
           }
         }
-      })
-      .finally(() => {
-        this.props.updateLoaderValue(false);
       });
   }
 
