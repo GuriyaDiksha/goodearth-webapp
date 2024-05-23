@@ -103,9 +103,8 @@ class API {
             headers: requestHeaders
           })
             .then(res => {
-              if (info?.isLoading) {
-                dispatch(updateLoader(false));
-              }
+              dispatch(updateLoader(false));
+
               if (cookies.sessionid != res.headers.sessionid) {
                 if (typeof document != "undefined") {
                   CookieService.setCookie(
@@ -123,9 +122,8 @@ class API {
               }
             })
             .catch(err => {
-              if (info?.isLoading) {
-                dispatch(updateLoader(false));
-              }
+              dispatch(updateLoader(false));
+
               if (typeof document != "undefined") {
                 if (err.response.status == 401) {
                   LoginService.logoutClient(dispatch);
@@ -146,9 +144,7 @@ class API {
               }
             })
             .finally(() => {
-              if (info?.isLoading) {
-                dispatch(updateLoader(false));
-              }
+              dispatch(updateLoader(false));
             });
         })
       );
