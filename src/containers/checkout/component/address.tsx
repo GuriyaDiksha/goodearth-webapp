@@ -676,7 +676,6 @@ const AddressSection: React.FC<AddressProps & {
     // }
     if (validate) {
       removeErrorMessages();
-
       props.finalizeAddress(addr, props.activeStep, numberObj);
       // if (activeStep === STEP_BILLING) {
       //   next(showPromo ? STEP_PROMO : STEP_PAYMENT);
@@ -1476,7 +1475,8 @@ const AddressSection: React.FC<AddressProps & {
                     </div>
                   )}
                   {props.activeStep == STEP_BILLING &&
-                    (error || billingError) && (
+                    (error || billingError) &&
+                    !["edit", "new"].includes(mode) && (
                       <div
                         className={cs(
                           globalStyles.errorMsg,

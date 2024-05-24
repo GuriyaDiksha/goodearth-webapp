@@ -138,7 +138,9 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             aspectRatio="62:93"
             src={productImage.replace("/Micro/", "/Medium/")}
             isVisible={isVisible}
-            className={globalStyles.imgResponsive}
+            className={cs(globalStyles.imgResponsive, {
+              // ["firstImageContainer"]: position === 0 && !isSearch && isAnimate
+            })}
             onError={(e: any) => {
               e.target.onerror = null;
               e.target.src = noPlpImage;
@@ -159,7 +161,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               aspectRatio="62:93"
               src={product?.plpImages?.[1].replace("/Micro/", "/Medium/")}
               isVisible={isVisible}
-              className={cs(globalStyles.imgResponsive, "secondImage")}
+              className={cs(globalStyles.imgResponsive)}
               onError={(e: any) => {
                 e.target.onerror = null;
                 e.target.src = noPlpImage;
@@ -220,11 +222,12 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
     );
   }, []);
 
-  return loader ? (
-    <div className={styles.plpMain}>
-      <SkeletonImage />
-    </div>
-  ) : (
+  // return loader ? (
+  //   <div className={styles.plpMain}>
+  //     <SkeletonImage />
+  //   </div>
+  // ) :
+  return (
     <div className={styles.plpMain}>
       {info.isSale && product.salesBadgeImage && (
         <div className={mobile ? styles.badgeImageMobile : styles.badgeImage}>

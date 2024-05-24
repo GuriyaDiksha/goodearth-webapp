@@ -2,13 +2,13 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { AddressData } from "components/Address/typings";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "reducers/typings";
-import CreateRegistry from "./CreateRegistry";
+// import CreateRegistry from "./CreateRegistry";
 import CreateRegistryNew from "./CreateRegisteryNew";
-import DateSelect from "./DateSelect";
-import BridalDetails from "./BridalDetails";
+// import DateSelect from "./DateSelect";
+// import BridalDetails from "./BridalDetails";
 import AddressMain from "components/Address/AddressMain";
-import RegistryCreated from "./RegistryCreated";
-import ManageRegistry from "./ManageRegistry";
+// import RegistryCreated from "./RegistryCreated";
+// import ManageRegistry from "./ManageRegistry";
 import ManageRegistryFull from "./ManageRegistryFull";
 // import ManageAddress from './manageaddress'
 import { confirmPopup } from "utils/validate";
@@ -394,6 +394,7 @@ const Bridal: React.FC<Props> = props => {
     }
   };
 
+  // edit registry detail & adress on currentScreen after refresh
   const showManageRegistry = () => {
     // getBridalProfileData();
     if (props.bridalId) {
@@ -422,16 +423,33 @@ const Bridal: React.FC<Props> = props => {
     setCurrentScreenValue("editRegistryAddress");
   };
 
-  const showCreatedRegistryModule = () => {
-    getBridalProfileData();
+  // edit registry detail & adress on currentModule firstTime
+  const showUpdatedRegistryModuleFirst = () => {
+    // getBridalProfileData();
+    if (props.bridalId) {
+      getBridalProfileData().then(data => {
+        AddressService.fetchAddressList(dispatch).then(addressList => {
+          dispatch(updateAddressList(addressList));
+          const bridalAddress = addressList.filter(
+            address =>
+              address.id == (bridalAddressId?.id || data?.userAddressId)
+          )[0];
+          if (bridalAddress) {
+            setBridalAddress(bridalAddress);
+          }
+        });
+      });
+    }
     setCurrentModule("created");
-  };
-  const showEditRegistryDetailsModule = () => {
-    setCurrentModule("editRegistryDetailsModule");
+    window.scrollTo(0, 0);
   };
 
-  const showEditRegistryAddressModule = () => {
-    setCurrentModule("editRegistryAddressModule");
+  const showEditRegistryDetailsFirst = () => {
+    setCurrentModule("editRegistryDetailsFirst");
+  };
+
+  const showManageAddressComponentFirst = () => {
+    setCurrentModule("editRegistryAddressFirst");
   };
 
   const setSelectedSection = () => {
@@ -453,10 +471,6 @@ const Bridal: React.FC<Props> = props => {
     switch (currentSection) {
       case "create":
         return <CreateRegistryNew />;
-      // case "date":
-      //   return <DateSelect />;
-      // case "details":
-      //   return <BridalDetails />;
       case "address":
         return (
           <AddressMain
@@ -474,9 +488,6 @@ const Bridal: React.FC<Props> = props => {
           />
         );
       case "created":
-        // return (
-        //   <RegistryCreated errorMessage="" openBridalPop={openBridalPop} />
-        // );
         if (bridalAddress && bridalProfile) {
           if (
             Object.keys(bridalAddress).length &&
@@ -486,13 +497,13 @@ const Bridal: React.FC<Props> = props => {
               <NewManageRegistry
                 openShareLinkPopup={openShareLinkPopup}
                 key={1}
-                showManageAddressComponent={showEditRegistryAddressModule}
-                editRegistryForm={showEditRegistryDetailsModule}
+                showManageAddressComponent={showManageAddressComponentFirst}
+                editRegistryForm={showEditRegistryDetailsFirst}
               />
             );
           }
         }
-      case "editRegistryDetailsModule":
+      case "editRegistryDetailsFirst": {
         return (
           <EditRegistryDetails
             bridalProfile={bridalProfile}
@@ -500,10 +511,12 @@ const Bridal: React.FC<Props> = props => {
             eventDate={bridalProfileData ? bridalProfileData.eventDate : ""}
             changeName={changeName}
             changeDate={changeDate}
-            showManageRegistry={showCreatedRegistryModule}
+            showManageRegistry={showUpdatedRegistryModuleFirst}
           />
         );
-      case "editRegistryAddressModule":
+        break;
+      }
+      case "editRegistryAddressFirst":
         return (
           <AddressMain
             isBridal={true}
@@ -512,7 +525,7 @@ const Bridal: React.FC<Props> = props => {
             addresses={[]}
             currentCallBackComponent="bridal-edit"
             currentStep={0}
-            editRegistryAddress={showCreatedRegistryModule}
+            editRegistryAddress={showUpdatedRegistryModuleFirst}
           />
         );
       default:
@@ -553,23 +566,12 @@ const Bridal: React.FC<Props> = props => {
     };
     switch (currentScreenValue) {
       case "manage": {
-        // const addressData = bridalAddress;
-        // const bridalData = bridalDetail;
         if (bridalAddress && bridalProfile) {
           if (
             Object.keys(bridalAddress).length &&
             Object.keys(bridalProfile).length
           ) {
             return (
-              // <ManageRegistry
-              //   openShareLinkPopup={openShareLinkPopup}
-              //   showManageAddressComponent={() =>
-              //     setCurrentScreenValue("editRegistryAddress")
-              //   }
-              //   showRegistryFull={() =>
-              //     setCurrentScreenValue("manageregistryfull")
-              //   }
-              // />
               <NewManageRegistry
                 openShareLinkPopup={openShareLinkPopup}
                 key={1}
@@ -582,8 +584,6 @@ const Bridal: React.FC<Props> = props => {
         break;
       }
       case "manageregistryfull": {
-        // let aData = bridalAddress;
-        // let bData = bridalDetail;
         if (bridalAddress && bridalProfile) {
           if (
             Object.keys(bridalAddress).length &&

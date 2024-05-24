@@ -62,6 +62,16 @@
   &.top-pos{
     top: 24px;
   }
+
+  &.bottom-curr-width{
+    width: 88px;
+    left: -15px;
+    min-width: max-content;
+    box-shadow: none;
+    transform: translateY(-120%);
+    -webkit-transform: translateY(-120%);
+    top: 28px;
+  }
 }
 
 .checkout.menu {
