@@ -957,7 +957,7 @@ const ProductDetails: React.FC<Props> = ({
           discountPrice={discountPrices}
         />
       )} */}
-      {pdpLoader ? (
+      {pdpLoader && !isQuickview ? (
         <PdpSkeleton />
       ) : (
         <div className={bootstrap.row}>
