@@ -30,6 +30,8 @@ import TransactionDashboard from "./components/TransactionDashboard";
 import profileIcon from "../../images/dock_profile.svg";
 import { CONFIG } from "constants/util";
 import MyCreditNotes from "./components/MyCreditNotes";
+import AccountService from "services/account";
+import { CreditNote } from "./components/MyCreditNotes/typings";
 
 type Props = {
   isBridal: boolean;
@@ -45,18 +47,31 @@ const MyAccount: React.FC<Props> = props => {
   const { showTimer } = useSelector((state: AppState) => state.info);
   const { currency } = useSelector((state: AppState) => state);
   const [currentSection, setCurrentSection] = useState("Profile");
+  const [creditnoteList, setCreditnoteList] = useState<CreditNote[]>([]);
   const location = useLocation();
   const [showRegistry, setShowRegistry] = useState(
     location.pathname.includes("bridal") ? true : false
   );
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const { pathname } = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const fetchCreditNotes = () => {
+    AccountService.fetchCreditNotes(dispatch, "expiring_date", "desc", 1, true)
+      .then(response => {
+        const { results } = response;
+        setCreditnoteList(results.filter(ele => ele?.type === "CN"));
+      })
+      .catch(e => {
+        console.log("fetch credit notes API failed =====", e);
+      });
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    fetchCreditNotes();
+  }, []);
 
   useEffect(() => {
     const noContentContainerElem = document.getElementById(
@@ -144,6 +159,7 @@ const MyAccount: React.FC<Props> = props => {
   );
 
   currency === "INR" &&
+    creditnoteList?.length &&
     accountMenuItems.push({
       label: "My Credit Notes",
       href: "/account/credit-notes",
