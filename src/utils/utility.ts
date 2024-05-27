@@ -43,7 +43,11 @@ const displayPriceWithCommas = (
         arr.push(parseInt(e.toString()).toLocaleString(arg));
       });
   } else {
-    arr.push(parseInt(price.toString()).toLocaleString(arg));
+    if (isRound) {
+      arr.push(parseInt(price.toString()).toLocaleString(arg));
+    } else {
+      arr.push(price.toString().toLocaleString(arg));
+    }
   }
   return with_symbol
     ? currency_symbol + " " + arr.join(" - " + currency_symbol + " ")
