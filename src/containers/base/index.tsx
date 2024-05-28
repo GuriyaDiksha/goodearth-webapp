@@ -348,44 +348,46 @@ const BaseLayout: React.FC = () => {
     ) {
       LoginService.getClientIpCurrency(dispatch)
         .then(curr => {
-          if (curr != "error") {
-            if (curr && !cookieCurrency) {
-              const goCurrencyValue: any = curr;
-              if (
-                goCurrencyValue.toString().toLowerCase() !=
-                currency.toString().toLowerCase()
-              ) {
-                const data: any = {
-                  currency: goCurrencyValue.toString().toUpperCase()
-                };
-                LoginService.changeCurrency(dispatch, data).then(res => {
-                  setTimeout(() => {
-                    LoginService.reloadPage(
-                      dispatch,
-                      data?.currency,
-                      customerGroup
-                    );
-                  }, 2000);
-                });
-              } else {
-                CookieService.setCookie(
-                  "currency",
-                  goCurrencyValue.toString().toUpperCase(),
-                  365
-                );
-              }
-            }
-          } else {
-            CookieService.setCookie("currency", "INR", 365);
-          }
+          dispatch(updateComponent(POPUP.COUNTRYPOPUP, null, true));
+          dispatch(updateModal(true));
+          // if (curr != "error") {
+          //   if (curr && !cookieCurrency) {
+          //     const goCurrencyValue: any = curr;
+          //     if (
+          //       goCurrencyValue.toString().toLowerCase() !=
+          //       currency.toString().toLowerCase()
+          //     ) {
+          //       const data: any = {
+          //         currency: goCurrencyValue.toString().toUpperCase()
+          //       };
+          //       LoginService.changeCurrency(dispatch, data).then(res => {
+          //         setTimeout(() => {
+          //           LoginService.reloadPage(
+          //             dispatch,
+          //             data?.currency,
+          //             customerGroup
+          //           );
+          //         }, 2000);
+          //       });
+          //     } else {
+          //       CookieService.setCookie(
+          //         "currency",
+          //         goCurrencyValue.toString().toUpperCase(),
+          //         365
+          //       );
+          //     }
+          //   }
+          // } else {
+          //   CookieService.setCookie("currency", "INR", 365);
+          // }
         })
         .catch(error => {
           console.log(error);
         });
     }
-    if (cookieCurrency != currency) {
-      CookieService.setCookie("currency", currency, 365);
-    }
+    // if (cookieCurrency != currency) {
+    //   CookieService.setCookie("currency", currency, 365);
+    // }
     if (history.location.pathname == "/maintenance") {
       history.push("/");
     }

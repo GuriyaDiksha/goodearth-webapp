@@ -183,6 +183,61 @@
       overflow-x: hidden;
     }
     }
+    .country-first-section{
+      padding: 30px 60px 0 60px;
+
+      p{
+        padding-top: 20px;
+        padding-bottom: 8px;
+        @include b1_16px_charcoal_montserrat();
+      }
+      h3{
+        padding-bottom: 20px;
+        font-weight: $medium !important;
+        @include b1_16px_charcoal_montserrat();
+      }
+      .link{
+        margin: 20px auto 0 auto;
+        max-width: max-content;
+        padding: 0;
+        cursor: pointer;
+        border-bottom: 1px solid $charcoal19;
+        @include b4_12px_montserrat_charcoal_caps();
+
+        &:hover{
+          border-bottom: 1px solid $aqua-text;
+          color: $aqua-text;
+
+        }
+      }
+    }
+    .country-second-section{
+      padding: 30px;
+      p{
+        text-align: left;
+        padding-bottom: 50px;
+        @include b4_12px_montserrat_charcoal_caps();
+      }
+      .dropdown-wrp{
+        max-width: 366px;
+        margin: auto;
+        padding-bottom: 20px;
+      }
+      .link{
+        margin: 20px auto 0 auto;
+        max-width: max-content;
+        padding: 0;
+        cursor: pointer;
+        border-bottom: 1px solid $charcoal19;
+        @include b4_12px_montserrat_charcoal_caps();
+
+        &:hover{
+          border-bottom: 1px solid $aqua-text;
+          color: $aqua-text;
+
+        }
+      }
+    }
     .edit-profile-head{
       padding-bottom: 30px;
       padding-top: 60px;

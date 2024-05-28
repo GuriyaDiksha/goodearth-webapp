@@ -601,6 +601,7 @@ export default {
           CookieService.setCookie("region", data?.continent_name, 365);
           CookieService.setCookie("ip", data?.ip, 365);
           CookieService.setCookie("country", data?.country_name, 365);
+          CookieService.setCookie("countryCode", data?.country_code, 365);
           dispatch(
             updateRegion({
               region: data?.continent_name,
