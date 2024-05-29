@@ -20,6 +20,8 @@ import { Country } from "components/Formsy/CountryCode/typings";
 import Formsy from "formsy-react";
 import CookieService from "services/cookie";
 import { countryCurrencyCode } from "constants/currency";
+import { updateOpenCookiePopup } from "actions/info";
+import { updateRegion } from "actions/widget";
 
 type CountryOptions = {
   value: string;
@@ -41,7 +43,8 @@ const CountryPopup: React.FC = () => {
   const {
     device: { mobile },
     address: { countryData },
-    user: { customerGroup }
+    user: { customerGroup },
+    widget: { ip, region }
   } = useSelector((state: AppState) => state);
   const country = CookieService.getCookie("country");
   const countryCode = CookieService.getCookie("countryCode");
@@ -80,11 +83,25 @@ const CountryPopup: React.FC = () => {
       currency
     };
     LoginService.changeCurrency(dispatch, data).then(res => {
-      CookieService.setCookie("country", data?.country_name, 365);
+      CookieService.setCookie("country", selectedCountry?.country, 365);
       CookieService.setCookie("currency", currency, 365);
-
+      dispatch(
+        updateRegion({
+          region: region,
+          ip: ip,
+          country: selectedCountry?.country
+        })
+      );
       LoginService.reloadPage(dispatch, data?.currency, customerGroup);
+      dispatch(updateOpenCookiePopup(true));
     });
+    closeModal();
+  };
+
+  const onContinue = () => {
+    const currency = countryCurrencyCode[selectedCountry?.code] || "USD";
+    CookieService.setCookie("currency", currency, 365);
+    dispatch(updateOpenCookiePopup(true));
     closeModal();
   };
 
@@ -108,7 +125,7 @@ const CountryPopup: React.FC = () => {
               <Button
                 variant="mediumMedCharcoalCta366"
                 label={"CONTINUE"}
-                onClick={closeModal}
+                onClick={onContinue}
               />
               <p className={styles.link} onClick={() => setCurrentSection(2)}>
                 CHANGE COUNTRY
@@ -131,7 +148,7 @@ const CountryPopup: React.FC = () => {
                     handleChange={option =>
                       setSelectedCountry({
                         country: option?.value,
-                        code: option?.isd
+                        code: option?.code2
                       })
                     }
                     label="Country*"
@@ -148,7 +165,7 @@ const CountryPopup: React.FC = () => {
                 label={"CHANGE COUNTRY SELECTION"}
                 onClick={setCurrency}
               />
-              <p className={styles.link} onClick={closeModal}>
+              <p className={styles.link} onClick={onContinue}>
                 CANCEL
               </p>
             </div>

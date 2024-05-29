@@ -12,7 +12,11 @@ import CookieService from "services/cookie";
 import { checkBlank, checkMail, showErrors, footerGTM } from "utils/validate";
 import { Dispatch } from "redux";
 import HeaderFooterService from "services/headerFooter";
-import { updateShowCookie, updateCookiePrefrence } from "actions/info";
+import {
+  updateShowCookie,
+  updateCookiePrefrence,
+  updateOpenCookiePopup
+} from "actions/info";
 import CookiePolicy from "./CookiePolicy";
 import MakerSmartNav from "containers/base/MakerSmartNav";
 import ReactHtmlParser from "react-html-parser";
@@ -28,7 +32,8 @@ const mapStateToProps = (state: AppState) => {
     showCookie: state.info.showCookie,
     mobileMenuOpenState: state.header.mobileMenuOpenState,
     currency: state.currency,
-    showCookiePref: state.info.showCookiePref
+    showCookiePref: state.info.showCookiePref,
+    openCookiePopup: state.info.openCookiePopup
   };
 };
 
@@ -46,6 +51,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     showCookiePrefs: () => {
       dispatch(updateCookiePrefrence(false));
+    },
+    closePopup: () => {
+      dispatch(updateOpenCookiePopup(false));
     }
   };
 };
@@ -307,6 +315,7 @@ class Footer extends React.Component<Props, FooterState> {
   acceptCookies = () => {
     //CookieService.setCookie("goodearth", "show", 365);
     this.props.hideCookies();
+    this.props.closePopup();
   };
 
   render() {
@@ -1172,9 +1181,10 @@ class Footer extends React.Component<Props, FooterState> {
           )}
 
         {(OLD_COOKIE_SETTINGS
-          ? cookiCheck
-          : (cookiCheck && !this.state.isConsentSave) ||
-            this.props?.showCookiePref) && (
+          ? cookiCheck && this.props.openCookiePopup
+          : ((cookiCheck && !this.state.isConsentSave) ||
+              this.props?.showCookiePref) &&
+            this.props.openCookiePopup) && (
           // || !this.state.isConsentSave)
           <CookiePolicy
             hideCookies={this.props.hideCookies}

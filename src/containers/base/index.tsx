@@ -27,6 +27,7 @@ import { POPUP } from "constants/components";
 import Loader from "components/Loader";
 import { GA_CALLS } from "constants/cookieConsent";
 import CheckoutFooter from "containers/checkout/checkoutFooter";
+import { updateOpenCookiePopup } from "actions/info";
 // import { CUST } from "constants/util";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
@@ -346,9 +347,14 @@ const BaseLayout: React.FC = () => {
         )) ||
       !cookieRegion
     ) {
+      debugger;
+      dispatch(updateOpenCookiePopup(false));
       LoginService.getClientIpCurrency(dispatch)
         .then(curr => {
-          dispatch(updateComponent(POPUP.COUNTRYPOPUP, null, true));
+          debugger;
+          dispatch(
+            updateComponent(POPUP.COUNTRYPOPUP, null, mobile ? false : true)
+          );
           dispatch(updateModal(true));
           // if (curr != "error") {
           //   if (curr && !cookieCurrency) {
