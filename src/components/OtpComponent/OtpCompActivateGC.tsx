@@ -975,20 +975,45 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   >
                     Please agree to the Terms and Conditions before proceeding
                   </p>
-                  <p
-                    id="customererror"
-                    className={
-                      this.state.showerrorOtp
-                        ? cs(styles.errorMsg, globalStyles.wordCap)
-                        : globalStyles.hidden
-                    }
-                  >
-                    {this.state.showerrorOtp}
-                  </p>
+                  {this.state.showerrorOtp &&
+                    !this.state.showerrorOtp?.includes(
+                      "Maximum attempts reached"
+                    ) && (
+                      <p
+                        id="customererror"
+                        className={
+                          this.state.showerrorOtp
+                            ? cs(styles.errorMsg, globalStyles.wordCap)
+                            : globalStyles.hidden
+                        }
+                      >
+                        {this.state.showerrorOtp}
+                      </p>
+                    )}
                   <p>{this.state.showerrorOtp ? <CustomerCareInfo /> : ""}</p>
                 </div>
               </li>
+
               <li className={this.state.showerrorOtp ? styles.margintop : ""}>
+                {this.state.showerrorOtp &&
+                  this.state.showerrorOtp?.includes(
+                    "Maximum attempts reached"
+                  ) && (
+                    <p
+                      id="customererror"
+                      className={
+                        this.state.showerrorOtp
+                          ? cs(
+                              styles.errorMsg,
+                              globalStyles.wordCap,
+                              globalStyles.marginB10
+                            )
+                          : globalStyles.hidden
+                      }
+                    >
+                      {this.state.showerrorOtp}
+                    </p>
+                  )}
                 <Button
                   type="submit"
                   disabled={

@@ -75,7 +75,7 @@ const EmailVerification: React.FC<Props> = ({
 
   useEffect(() => {
     setOtpSmsSent(!!phoneNo);
-    setAttempts({ ...attempts, attempts: attempt_count });
+    setAttempts({ ...attempts, attempts: attempt_count || 0 });
   }, []);
 
   const gtmPushSignIn = (data: any) => {
