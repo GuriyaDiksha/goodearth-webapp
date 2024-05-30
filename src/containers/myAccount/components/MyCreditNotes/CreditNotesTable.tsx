@@ -45,7 +45,7 @@ const CreditNotesTable: React.FC<Props> = ({
 }) => {
   const [activeIndex, setActiveIndex] = useState("");
   const [sortBy, setSortBy] = useState("expiring_date");
-  const [sortType, setSortType] = useState("desc");
+  const [sortType, setSortType] = useState("asc");
   const [page, setPage] = useState(1);
 
   const {
@@ -73,7 +73,7 @@ const CreditNotesTable: React.FC<Props> = ({
 
   const fetchSortedData = (key: SortBy) => {
     const value: SortType =
-      sortBy !== key ? "asc" : sortType === "asc" ? "desc" : "asc";
+      sortBy !== key ? "desc" : sortType === "asc" ? "desc" : "asc";
     fetchCreditNotes(key, value, page);
     setSortBy(key);
     setSortType(value);
