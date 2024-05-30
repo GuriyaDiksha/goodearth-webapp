@@ -347,13 +347,15 @@ const BaseLayout: React.FC = () => {
         )) ||
       !cookieRegion
     ) {
-      debugger;
       dispatch(updateOpenCookiePopup(false));
       LoginService.getClientIpCurrency(dispatch)
         .then(curr => {
-          debugger;
           dispatch(
-            updateComponent(POPUP.COUNTRYPOPUP, null, mobile ? false : true)
+            updateComponent(
+              POPUP.COUNTRYPOPUP,
+              { initSection: 1 },
+              mobile ? false : true
+            )
           );
           dispatch(updateModal(true));
           // if (curr != "error") {

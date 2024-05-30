@@ -30,7 +30,7 @@ type CountryOptions = {
   isd: string | undefined;
 };
 
-const CountryPopup: React.FC = () => {
+const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
   const { closeModal } = useContext(Context);
   const dispatch = useDispatch();
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
@@ -65,11 +65,19 @@ const CountryPopup: React.FC = () => {
   };
 
   useEffect(() => {
+    debugger;
     if (!countryData || countryData?.length == 0) {
       LoginService.fetchCountryData(dispatch).then(countryData => {
         dispatch(updateCountryData(countryData));
-        changeCountryData(countryData);
       });
+    }
+
+    if (countryOptions?.length === 0 && countryData) {
+      changeCountryData(countryData);
+    }
+
+    if (currentSection !== initSection) {
+      setCurrentSection(initSection);
     }
   }, []);
 

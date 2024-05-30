@@ -21,6 +21,9 @@ import CookiePolicy from "./CookiePolicy";
 import MakerSmartNav from "containers/base/MakerSmartNav";
 import ReactHtmlParser from "react-html-parser";
 import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
+import EarthLogo from "./../../icons/earth.svg";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -33,7 +36,8 @@ const mapStateToProps = (state: AppState) => {
     mobileMenuOpenState: state.header.mobileMenuOpenState,
     currency: state.currency,
     showCookiePref: state.info.showCookiePref,
-    openCookiePopup: state.info.openCookiePopup
+    openCookiePopup: state.info.openCookiePopup,
+    country: state.widget.country
   };
 };
 
@@ -54,6 +58,16 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     closePopup: () => {
       dispatch(updateOpenCookiePopup(false));
+    },
+    openPoup: (mobile: boolean) => {
+      dispatch(
+        updateComponent(
+          POPUP.COUNTRYPOPUP,
+          { initSection: 2 },
+          mobile ? false : true
+        )
+      );
+      dispatch(updateModal(true));
     }
   };
 };
@@ -316,6 +330,10 @@ class Footer extends React.Component<Props, FooterState> {
     //CookieService.setCookie("goodearth", "show", 365);
     this.props.hideCookies();
     this.props.closePopup();
+  };
+
+  openCountryPopup = () => {
+    this.props.openPoup(this.props.mobile);
   };
 
   render() {
@@ -687,6 +705,23 @@ class Footer extends React.Component<Props, FooterState> {
                               })}
                           </li>
                         </ul>
+                        <div className={styles.countryWrp}>
+                          <img
+                            src={EarthLogo}
+                            alt={"earth"}
+                            width={20}
+                            onClick={this.openCountryPopup}
+                          />
+                          <p
+                            style={{
+                              color: footerHeadingFontColor
+                            }}
+                            onClick={this.openCountryPopup}
+                            className={styles.country}
+                          >
+                            {this.props.country}
+                          </p>
+                        </div>
                         <ShopLocator
                           goToShopLocator={this.goToShopLocator}
                           saleStatus={this.props.saleStatus}
@@ -1042,6 +1077,23 @@ class Footer extends React.Component<Props, FooterState> {
                 <div className={cs(bootstrap.row)} key={1}>
                   <div className={cs(bootstrap.col1)} key={2}></div>
                   <div className={cs(bootstrap.col10)} key={3}>
+                    <div className={styles.countryWrp}>
+                      <img
+                        src={EarthLogo}
+                        alt={"earth"}
+                        width={20}
+                        onClick={this.openCountryPopup}
+                      />
+                      <p
+                        style={{
+                          color: footerHeadingFontColor
+                        }}
+                        onClick={this.openCountryPopup}
+                        className={styles.country}
+                      >
+                        {this.props.country}
+                      </p>
+                    </div>
                     <ShopLocator
                       goToShopLocator={this.goToShopLocator}
                       saleStatus={this.props.saleStatus}
