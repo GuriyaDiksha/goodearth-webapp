@@ -398,6 +398,7 @@ export default {
     customerGroup: string,
     source?: string
   ) {
+    debugger;
     const res = await API.post<logoutResponse>(
       dispatch,
       `${__API_HOST__ + "/myapi/auth/logout/"}`,

@@ -69,6 +69,8 @@ export default {
         dispatch(updateComponent(POPUP.PROFILEUPDATER, null, true));
         dispatch(updateModal(true));
       }
+      debugger;
+      console.log("user meta=====", user);
       dispatch(updateUser(user));
       if (user.email) {
         const res: { slab: string } = await HeaderService.getCustomerSlab(
