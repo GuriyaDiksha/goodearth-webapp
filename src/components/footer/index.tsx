@@ -1077,23 +1077,6 @@ class Footer extends React.Component<Props, FooterState> {
                 <div className={cs(bootstrap.row)} key={1}>
                   <div className={cs(bootstrap.col1)} key={2}></div>
                   <div className={cs(bootstrap.col10)} key={3}>
-                    <div className={styles.countryWrp}>
-                      <img
-                        src={EarthLogo}
-                        alt={"earth"}
-                        width={20}
-                        onClick={this.openCountryPopup}
-                      />
-                      <p
-                        style={{
-                          color: footerHeadingFontColor
-                        }}
-                        onClick={this.openCountryPopup}
-                        className={styles.country}
-                      >
-                        {this.props.country}
-                      </p>
-                    </div>
                     <ShopLocator
                       goToShopLocator={this.goToShopLocator}
                       saleStatus={this.props.saleStatus}
@@ -1184,6 +1167,23 @@ class Footer extends React.Component<Props, FooterState> {
                     ) : (
                       ""
                     )}
+                    <div className={styles.countryWrp}>
+                      <img
+                        src={EarthLogo}
+                        alt={"earth"}
+                        width={20}
+                        onClick={this.openCountryPopup}
+                      />
+                      <p
+                        style={{
+                          color: footerHeadingFontColor
+                        }}
+                        onClick={this.openCountryPopup}
+                        className={styles.country}
+                      >
+                        {this.props.country}
+                      </p>
+                    </div>
                   </div>
 
                   <div className={cs(bootstrap.col1)} key={4}></div>
