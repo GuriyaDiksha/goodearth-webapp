@@ -34,7 +34,7 @@ const ApplyCreditNote = () => {
     AccountService.fetchCreditNotes(dispatch, "expiring_date", "desc", 1, true)
       .then(response => {
         const { results } = response;
-        setCreditnoteList(results.filter(ele => ele?.type === "CN"));
+        setCreditnoteList(results.filter(ele => ele?.type !== "GC"));
       })
       .catch(e => {
         console.log("fetch credit notes API failed =====", e);
