@@ -27,15 +27,38 @@
     opacity: unset;
 }
 
-.shopLocatorSlider .slick-dots li.slick-active button:before {
-    color: #7EAAA9;
+.shopLocatorSlider .slick-dots li button:before{
+    font-family: 'slick';
+    font-size: 8px;
+    line-height: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    content: '•';
+    text-align: center;
+    opacity: .25;
+    color: black;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.shopLocatorSlider .slick-dots li button:before{
-    font-size: 8px;
+.shopLocatorSlider .slick-dots li.slick-active button:before {
+    color: #7EAAA9;
+    opacity: 1;
 }
 
 .shopLocatorSlider .slick-dots li {
     margin: unset;
     width: 16px;
+}
+
+.slick-dots li button{
+    opacity: 1!important;
+    background: unset!important;
+}
+.slick-dots li.slick-active button {
+    opacity: unset!important;
+    background-color: unset!important;
 }

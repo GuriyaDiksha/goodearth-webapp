@@ -350,13 +350,13 @@ class CartPage extends React.Component<Props, State> {
     // }, 800);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    const { currency, updateWishlist } = this.props;
+  // UNSAFE_componentWillReceiveProps(nextProps: Props) {
+  //   const { currency, updateWishlist } = this.props;
 
-    if (currency !== nextProps?.currency) {
-      updateWishlist();
-    }
-  }
+  //   if (currency !== nextProps?.currency) {
+  //     updateWishlist();
+  //   }
+  // }
 
   onNotifyCart = (basketLineId: ProductID) => {
     this.props.deleteBasket(basketLineId).then(res => {
@@ -391,10 +391,13 @@ class CartPage extends React.Component<Props, State> {
   checkMixItems() {
     let item1 = false,
       item2 = false;
-    this.props.cart.lineItems.map(data => {
-      if (!data.bridalProfile) item1 = true;
-      if (data.bridalProfile) item2 = true;
-    });
+    this.props.cart.lineItems
+      ?.filter(data => !data?.is_free_product)
+      .map(data => {
+        if (!data.bridalProfile) item1 = true;
+        if (data.bridalProfile) item2 = true;
+      });
+
     return item1 && item2;
   }
 

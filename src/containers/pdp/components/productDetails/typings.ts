@@ -24,4 +24,5 @@ export type Props = {
   toggelHeader?: (value: boolean) => void;
   loading: boolean;
   setPDPButton?: (button: JSX.Element) => void;
+  badgeMessage?: string;
 };

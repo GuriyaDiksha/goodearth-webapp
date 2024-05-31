@@ -324,7 +324,7 @@ const AddressForm: React.FC<Props> = props => {
     getBridalProfileData()
       .then(_data => {
         AddressService.fetchAddressList(dispatch).then(data => {
-          dispatch(updateAddressList(data));
+          // dispatch(updateAddressList(data));
           const items = data;
           for (let i = 0; i < items.length; i++) {
             if (items[i].id == newAddressId) {
@@ -373,8 +373,10 @@ const AddressForm: React.FC<Props> = props => {
       ...model,
       state: st,
       province: pro,
-      isDefaultForBilling: false,
-      isDefaultForShipping: false,
+      isDefaultForBilling:
+        mode == "new" ? false : addressData?.isDefaultForBilling,
+      isDefaultForShipping:
+        mode == "new" ? false : addressData?.isDefaultForShipping,
       country: countryCode,
       addressType: addressType || ""
     };

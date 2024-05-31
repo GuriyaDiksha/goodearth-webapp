@@ -25,7 +25,8 @@ export const getProductSliderItems = (
       discountedPriceRecords: product.discountedPriceRecords,
       discount: product.discount,
       badgeType: product.badgeType,
-      altText: product.altText
+      altText: product.altText,
+      badgeText: product?.badge_text
     });
   });
 

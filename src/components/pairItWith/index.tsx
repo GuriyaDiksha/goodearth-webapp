@@ -55,6 +55,7 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
   const notifyMeClick = (product: PLPProductItem) => {
     const {
       categories,
+      collection,
       collections,
       priceRecords,
       discountedPriceRecords,
@@ -62,7 +63,8 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
       title,
       discount,
       badgeType,
-      plpSliderImages
+      plpSliderImages,
+      badge_text
     } = product;
     const selectedIndex = childAttributes?.length == 1 ? 0 : undefined;
     // childAttributes?.map((v, i) => {
@@ -79,8 +81,8 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
       updateComponent(
         POPUP.NOTIFYMEPOPUP,
         {
-          collection:
-            collections && collections.length > 0 ? collections[0] : "",
+          collection: collection,
+          // collections && collections.length > 0 ? collections[0] : "",
           category: category,
           price: priceRecords[currency],
           currency: currency,
@@ -93,7 +95,8 @@ const PairItWithSlider: React.FC<PairItWithSliderProps> = (
           discountedPrice: discountedPriceRecords[currency],
           list: "plp",
           sliderImages: plpSliderImages,
-          collections: collections
+          collections: collections,
+          badge_text: badge_text
         },
         false,
         mobile ? ModalStyles.bottomAlign : undefined

@@ -162,6 +162,7 @@ class Search extends React.Component<
   notifyMeClick = (product: PLPProductItem) => {
     const {
       categories,
+      collection,
       collections,
       priceRecords,
       discountedPriceRecords,
@@ -169,7 +170,8 @@ class Search extends React.Component<
       title,
       discount,
       badgeType,
-      plpSliderImages
+      plpSliderImages,
+      badge_text
     } = product;
     const selectedIndex = childAttributes?.length == 1 ? 0 : undefined;
     const {
@@ -191,7 +193,8 @@ class Search extends React.Component<
     updateComponentModal(
       POPUP.NOTIFYMEPOPUP,
       {
-        collection: collections && collections.length > 0 ? collections[0] : "",
+        // collection: collections && collections.length > 0 ? collections[0] : "",
+        collection: collection,
         category: category,
         price: priceRecords[currency],
         currency: currency,
@@ -203,7 +206,8 @@ class Search extends React.Component<
         isSale: isSale,
         discountedPrice: discountedPriceRecords[currency],
         list: "plp",
-        sliderImages: plpSliderImages
+        sliderImages: plpSliderImages,
+        badge_text: badge_text
       },
       false,
       this.props.device.mobile ? ModalStyles.bottomAlignSlideUp : "",
@@ -391,12 +395,14 @@ class Search extends React.Component<
             if (leftMostPos != Infinity) {
               const productID = leftMostElement.children[0].children[0]?.id;
               console.log(this.props.scrollDown);
+              this.child.appendData(plpMobileView);
               this.props.updateMobileView(plpMobileView);
               const top: number =
                 leftMostElement.getBoundingClientRect().top - 135;
               window.scrollBy({ top: top, behavior: "smooth" });
               if (productID == cardIDs[0]) this.setState({ count: -1 });
             } else {
+              this.child.appendData(plpMobileView);
               this.props.updateMobileView(plpMobileView);
             }
             observer.disconnect();
@@ -842,7 +848,7 @@ class Search extends React.Component<
                         />
                       ) : (
                         <PlpResultListViewItem
-                          page="PLP"
+                          page={searchValue}
                           position={i}
                           product={item}
                           addedToWishlist={false}
@@ -1026,7 +1032,7 @@ class Search extends React.Component<
             sortedDiscount={facets.sortedDiscount}
           />
         )}
-        {mobile && this.state.count > -1 && this.state.showProductCounter && (
+        {this.state.count > -1 && this.state.showProductCounter && (
           <ProductCounter
             current={this.state.count}
             total={count}

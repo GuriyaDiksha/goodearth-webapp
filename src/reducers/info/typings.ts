@@ -16,6 +16,7 @@ export type State = {
   showDeliveryInstruction: boolean;
   showPromo: boolean;
   isLoading: boolean;
+  isCheckoutLoading: boolean;
   showCookiePref: boolean;
   showShipping?: boolean;
   isLoyaltyFilterOpen?: boolean;

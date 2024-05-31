@@ -10,7 +10,6 @@ import { TrackOrderProps, State } from "./typings";
 import TrackDetails from "./trackOrderDetail";
 import mapDispatchToProps from "../MyOrder/mapper/actions";
 import { AppState } from "reducers/typings";
-import Loader from "components/Loader";
 import { withRouter, RouteComponentProps } from "react-router";
 import { errorTracking } from "utils/validate";
 import Button from "components/Button";
@@ -36,7 +35,6 @@ class TrackOrder extends React.Component<Props, State> {
       orderData: {},
       trackingData: {},
       showTracking: false,
-      loader: false,
       orderNumber: "",
       myemail: ""
     };
@@ -48,20 +46,23 @@ class TrackOrder extends React.Component<Props, State> {
 
   componentDidMount() {
     const orderid = localStorage.getItem("orderNum");
+
     if (this.props.user.email && orderid) {
-      this.setState({ loader: true });
+      this.props?.updateLoaderValue(true);
+
       this.sendTrackOrder(orderid, this.props.user.email);
       localStorage.setItem("orderNum", "");
       this.setState({
         orderNumber: orderid
       });
     }
+
     // code for load by email
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const order = urlParams.get("orderno");
     if (order) {
-      this.setState({ loader: true });
+      this.props?.updateLoaderValue(true);
       if (this.props.user.email) {
         this.sendTrackOrder(order, this.props.user.email);
         this.setState({
@@ -79,9 +80,7 @@ class TrackOrder extends React.Component<Props, State> {
             });
           })
           .catch(err => {
-            this.setState({
-              loader: false
-            });
+            this.props?.updateLoaderValue(false);
           });
       }
     }
@@ -97,22 +96,10 @@ class TrackOrder extends React.Component<Props, State> {
             "The entered order number is incorrect. Please enter a valid order number for tracking.";
           this.setState(
             {
-              showerror: err,
-              loader: false
+              showerror: err
             },
             () => {
-              errorTracking([this.state.showerror], location.href);
-            }
-          );
-        } else if (response.results[0]?.isOnlyGiftOrder) {
-          const err =
-            "E-gift card has been sent to the recipient's email address.";
-          this.setState(
-            {
-              showerror: err,
-              loader: false
-            },
-            () => {
+              this.props?.updateLoaderValue(false);
               errorTracking([this.state.showerror], location.href);
             }
           );
@@ -126,10 +113,10 @@ class TrackOrder extends React.Component<Props, State> {
                   "Please try again later. Currently, we are unable to retrieve order details.";
                 this.setState(
                   {
-                    showerror: err,
-                    loader: false
+                    showerror: err
                   },
                   () => {
+                    this.props?.updateLoaderValue(false);
                     errorTracking([this.state.showerror], location.href);
                   }
                 );
@@ -137,9 +124,9 @@ class TrackOrder extends React.Component<Props, State> {
                 this.setState({
                   trackingData: data,
                   orderData: response.results,
-                  showTracking: true,
-                  loader: false
+                  showTracking: true
                 });
+                this.props?.updateLoaderValue(false);
               }
             })
             .catch(err => {
@@ -147,10 +134,10 @@ class TrackOrder extends React.Component<Props, State> {
                 "Please try again later. Currently, we are unable to retrieve order details.";
               this.setState(
                 {
-                  showerror: errmsg,
-                  loader: false
+                  showerror: errmsg
                 },
                 () => {
+                  this.props?.updateLoaderValue(false);
                   errorTracking([this.state.showerror], location.href);
                 }
               );
@@ -167,10 +154,10 @@ class TrackOrder extends React.Component<Props, State> {
           }
           this.setState(
             {
-              showerror: errorMsg,
-              loader: false
+              showerror: errorMsg
             },
             () => {
+              this.props?.updateLoaderValue(false);
               errorTracking([this.state.showerror as string], location.href);
             }
           );
@@ -179,10 +166,10 @@ class TrackOrder extends React.Component<Props, State> {
             "Please try again later. Currently, we are unable to retrieve order details.";
           this.setState(
             {
-              showerror: errMsg,
-              loader: false
+              showerror: errMsg
             },
             () => {
+              this.props?.updateLoaderValue(false);
               errorTracking([this.state.showerror], location.href);
             }
           );
@@ -374,11 +361,10 @@ class TrackOrder extends React.Component<Props, State> {
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     const { email, orderNumber } = model;
     this.setState({
-      loader: true,
       orderNumber: orderNumber,
       myemail: email
     });
-    this.setState({ loader: true });
+    this.props?.updateLoaderValue(true);
     this.sendTrackOrder(orderNumber, email);
   };
 
@@ -521,7 +507,7 @@ class TrackOrder extends React.Component<Props, State> {
   };
 
   render() {
-    const { showTracking, loader } = this.state;
+    const { showTracking } = this.state;
     return (
       <div className={bootstrapStyles.row}>
         <div
@@ -563,7 +549,6 @@ class TrackOrder extends React.Component<Props, State> {
               )}
             </div>
           </div>
-          {loader && <Loader />}
         </div>
       </div>
     );

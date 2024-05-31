@@ -14,6 +14,8 @@ import eye from "./../../images/eye.svg";
 import copy from "./../../images/copy.svg";
 import wup from "./../../images/wup.svg";
 import { showGrowlMessage } from "utils/validate";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const ShareWishlistLink = () => {
   const { mobile } = useSelector((state: AppState) => state.device);
@@ -21,8 +23,25 @@ const ShareWishlistLink = () => {
   const { wishlist_link } = useSelector((state: AppState) => state.wishlist);
   const dispatch = useDispatch();
 
+  const gaCall = (click_type: string) => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "share_wishlist",
+        click_type: click_type,
+        cta_location: "NA",
+        cta_name:
+          `${firstName} ${lastName}`
+            .toLowerCase()
+            .replace(/\b(\w)/g, x => x.toUpperCase()) + "'s Saved List"
+      });
+    }
+  };
+
   const copyLink = (event: React.MouseEvent) => {
     event.preventDefault();
+
+    gaCall("Copy to Clipboard");
 
     const isIOSDevice = navigator.userAgent.match(/ipad|iphone/i);
 
@@ -67,10 +86,12 @@ const ShareWishlistLink = () => {
   });
 
   const createLink = async () => {
+    gaCall("Create Share Link");
     await WishlistService.createSharedWishlistLink(dispatch);
   };
 
   const deleteLink = async () => {
+    gaCall("Delete Link");
     await WishlistService.deleteSharedWishlistLink(dispatch);
   };
 
@@ -157,6 +178,7 @@ const ShareWishlistLink = () => {
                       rel="noopener noreferrer"
                       target="_blank"
                       className={styles.wupLink}
+                      onClick={() => gaCall("Whatsapp")}
                     >
                       <img src={wup} width="25" height={"25px"} />
                     </a>
