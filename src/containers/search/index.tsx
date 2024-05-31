@@ -848,7 +848,7 @@ class Search extends React.Component<
                         />
                       ) : (
                         <PlpResultListViewItem
-                          page="PLP"
+                          page={searchValue}
                           position={i}
                           product={item}
                           addedToWishlist={false}
@@ -1032,7 +1032,7 @@ class Search extends React.Component<
             sortedDiscount={facets.sortedDiscount}
           />
         )}
-        {mobile && this.state.count > -1 && this.state.showProductCounter && (
+        {this.state.count > -1 && this.state.showProductCounter && (
           <ProductCounter
             current={this.state.count}
             total={count}

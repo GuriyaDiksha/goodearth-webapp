@@ -7,7 +7,6 @@ export type State = {
   orderData: any;
   trackingData: any;
   showTracking: boolean;
-  loader: boolean;
   orderNumber: string;
   myemail: string;
 };
