@@ -132,7 +132,7 @@ const StaticPage: React.FC<Props> = props => {
                   onClick={() => setAccountListing(true)}
                 >
                   <span>
-                    {path == "/account/bridal"
+                    {path == "/account/registry"
                       ? bridalId == "0"
                         ? "Create a Registry"
                         : "Manage Registry"
@@ -157,7 +157,7 @@ const StaticPage: React.FC<Props> = props => {
                 >
                   <div className={styles.filterCross}>
                     <span>
-                      {path == "/account/bridal"
+                      {path == "/account/registry"
                         ? bridalId == "0"
                           ? "Create a Registry"
                           : "Manage Registry"

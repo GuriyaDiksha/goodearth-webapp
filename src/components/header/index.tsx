@@ -102,7 +102,7 @@ class Header extends React.Component<Props, State> {
       showCartMobile:
         (this.props.location.pathname.includes("/catalogue/") &&
           !this.props.location.pathname.includes("/catalogue/category")) ||
-        (this.props.location.pathname.includes("/bridal/") &&
+        (this.props.location.pathname.includes("/registry/") &&
           !this.props.location.pathname.includes("/account/")),
       isPlpPage:
         this.props.location.pathname.indexOf("/catalogue/category") > -1 ||
@@ -145,7 +145,7 @@ class Header extends React.Component<Props, State> {
   componentDidMount() {
     const { user } = this.props;
     const isBridalPublicPage =
-      this.props.location.pathname.includes("/bridal/") &&
+      this.props.location.pathname.includes("/registry/") &&
       !this.props.location.pathname.includes("/account/");
     let bridalKey = "";
     document.addEventListener("scroll", this.onScroll);
@@ -282,7 +282,7 @@ class Header extends React.Component<Props, State> {
         this.props.location.pathname.includes("/catalogue/") &&
         !this.props.location.pathname.includes("/catalogue/category");
       const isBridalPublicPage =
-        this.props.location.pathname.includes("/bridal/") &&
+        this.props.location.pathname.includes("/registry/") &&
         !this.props.location.pathname.includes("/account/");
       if (isPDP || isBridalPublicPage) {
         if (!this.state.showCartMobile) {
@@ -422,9 +422,9 @@ class Header extends React.Component<Props, State> {
         const tim = timer !== undefined ? timer : this.props.showTimer;
 
         if (tim) {
-          (filterMenu as HTMLElement).style.top = "130px";
+          (filterMenu as HTMLElement).style.top = "150px";
         } else {
-          (filterMenu as HTMLElement).style.top = "100px";
+          (filterMenu as HTMLElement).style.top = "120px";
         }
       }
       if (filterMenuHeader) {
@@ -617,9 +617,9 @@ class Header extends React.Component<Props, State> {
         const tim = timer !== undefined ? timer : this.props.showTimer;
 
         if (tim) {
-          (filterMenu as HTMLElement).style.top = "180px";
+          (filterMenu as HTMLElement).style.top = "200px";
         } else {
-          (filterMenu as HTMLElement).style.top = "140px";
+          (filterMenu as HTMLElement).style.top = "160px";
         }
       }
       if (filterMenuHeader) {
@@ -919,7 +919,7 @@ class Header extends React.Component<Props, State> {
 
   showSearch = () => {
     if (
-      this.props.history.location.pathname.indexOf("/bridal/") > 0 &&
+      this.props.history.location.pathname.indexOf("/registry/") > 0 &&
       !this.props.location.pathname.includes("/account/")
     ) {
       return false;
@@ -1079,7 +1079,7 @@ class Header extends React.Component<Props, State> {
         label: `Good Earth Registry ${
           isLoggedIn && bridalCountData > 0 ? "(" + bridalCountData + ")" : ""
         }`,
-        href: isLoggedIn ? "/account/bridal" : "/the-good-earth-registry",
+        href: isLoggedIn ? "/account/registry" : "/the-good-earth-registry",
         type: "link",
         value: "Good Earth Registry"
       }
@@ -1114,7 +1114,7 @@ class Header extends React.Component<Props, State> {
     };
 
     const isBridalRegistryPage =
-      this.props.location.pathname.indexOf("/bridal/") > -1 &&
+      this.props.location.pathname.indexOf("/registry/") > -1 &&
       !(this.props.location.pathname.indexOf("/account/") > -1);
 
     const isCartPage = this.props.location.pathname.indexOf("/cart") > -1;

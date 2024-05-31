@@ -38,6 +38,8 @@ export type FilterProps = {
   changeLoader?: (data: boolean) => void;
   onStateChange?: () => void;
   filterCount?: number;
+  open?: boolean;
+  openResetPopup?: (data: boolean) => void;
 };
 
 export type State = {
@@ -75,4 +77,5 @@ export type State = {
   showmenulevel1: boolean;
   shouldScroll: boolean;
   isViewAll: boolean;
+  isPopupOpen: boolean;
 };

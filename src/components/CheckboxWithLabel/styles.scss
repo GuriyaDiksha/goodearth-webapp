@@ -57,3 +57,12 @@
       }
     }
 }
+
+.item-count{
+  float: right;
+  @include b5_10px_montserrat_charcoal();
+  color: $light-charcoal;
+  letter-spacing: 0.27px;
+  margin-bottom: 12px;
+  font-weight: 100;
+}

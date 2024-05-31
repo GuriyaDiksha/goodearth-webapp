@@ -131,6 +131,11 @@ const BridalItemsList: React.FC<Props> = props => {
               "Product ID": props.product.productId,
               Variant: props.product.size
             });
+
+            dataLayer.push({
+              event: "remove_from_registry",
+              click_type: props.product.productName
+            });
           }
           props.fetchBridalItems();
           BridalService.countBridal(dispatch, props.bridalId);
