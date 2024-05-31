@@ -53,8 +53,13 @@ import { Basket } from "typings/basket";
 import { Currency } from "typings/currency";
 import CheckoutBreadcrumb from "./component/CheckoutBreadcrumb";
 import { GA_CALLS } from "constants/cookieConsent";
-import { updateLoader, updateShowShippingAddress } from "actions/info";
+import {
+  updateCheckoutLoader,
+  updateLoader,
+  updateShowShippingAddress
+} from "actions/info";
 import { useLocation } from "react-router";
+import Loader from "components/Loader";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -73,7 +78,8 @@ const mapStateToProps = (state: AppState) => {
     bridalId: state.user.bridalId,
     billingAddressId: state.address.billingAddressId,
     showShipping: state.info.showShipping,
-    isLoading: state.info.isLoading
+    isLoading: state.info.isLoading,
+    isCheckoutLoading: state.info.isCheckoutLoading
   };
 };
 
@@ -238,7 +244,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       dispatch(updateModal(true));
     },
     updateLoaderValue: (value: boolean) => {
-      dispatch(updateLoader(value));
+      dispatch(updateCheckoutLoader(value));
     }
   };
 };

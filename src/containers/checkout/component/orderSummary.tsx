@@ -304,19 +304,33 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     <div className={styles.productPrice}>
                       <span className={styles.discountprice}>
                         {item.product.structure == "GiftCard"
-                          ? displayPriceWithCommasFloat(item.GCValue, currency)
+                          ? displayPriceWithCommasFloat(
+                              item.GCValue,
+                              currency,
+                              true,
+                              false
+                            )
                           : displayPriceWithCommasFloat(
                               item.product.discountedPriceRecords[currency],
-                              currency
+                              currency,
+                              true,
+                              false
                             )}
                       </span>
                       &nbsp; &nbsp;
                       <span className={styles.strikeprice}>
                         {item.product.structure == "GiftCard"
-                          ? displayPriceWithCommasFloat(item.GCValue, currency)
+                          ? displayPriceWithCommasFloat(
+                              item.GCValue,
+                              currency,
+                              true,
+                              false
+                            )
                           : displayPriceWithCommasFloat(
                               item.product.priceRecords[currency],
-                              currency
+                              currency,
+                              true,
+                              false
                             )}{" "}
                       </span>{" "}
                     </div>
@@ -327,10 +341,17 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       })}
                     >
                       {item.product.structure == "GiftCard"
-                        ? displayPriceWithCommasFloat(item.GCValue, currency)
+                        ? displayPriceWithCommasFloat(
+                            item.GCValue,
+                            currency,
+                            true,
+                            false
+                          )
                         : displayPriceWithCommasFloat(
                             item.product.priceRecords[currency],
-                            currency
+                            currency,
+                            true,
+                            false
                           )}
                     </div>
                   )}
@@ -471,7 +492,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 </span>
               </span>
               <span className={styles.subtotal}>
-                (-) {displayPriceWithCommasFloat(gift.amount, currency)}
+                (-){" "}
+                {displayPriceWithCommasFloat(
+                  gift.amount,
+                  currency,
+                  true,
+                  false
+                )}
               </span>
             </div>
           );
@@ -526,7 +553,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
               </span>
             </span>
             <span className={styles.subtotal}>
-              (-) {displayPriceWithCommasFloat(gift.appliedAmount, currency)}
+              (-){" "}
+              {displayPriceWithCommasFloat(
+                gift.appliedAmount,
+                currency,
+                true,
+                false
+              )}
             </span>
           </div>
         );
@@ -569,7 +602,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
             </span>
           </span>
           <span className={styles.subtotal}>
-            (-) {displayPriceWithCommasFloat(redeemDetails.points, currency)}
+            (-){" "}
+            {displayPriceWithCommasFloat(
+              redeemDetails.points,
+              currency,
+              true,
+              false
+            )}
           </span>
         </div>
       );
@@ -751,7 +790,13 @@ const OrderSummary: React.FC<OrderProps> = props => {
               {discount.name == "price-discount" ? "DISCOUNT" : discount.name}
             </span>
             <span className={cs(styles.subtotal, globalStyles.gold)}>
-              (-) {displayPriceWithCommasFloat(discount.amount, currency)}
+              (-){" "}
+              {displayPriceWithCommasFloat(
+                discount.amount,
+                currency,
+                true,
+                false
+              )}
             </span>
           </div>
         ))
@@ -789,7 +834,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 >
                   <span className={styles.subtotal}>SUBTOTAL</span>
                   <span className={styles.subtotal}>
-                    {displayPriceWithCommasFloat(basket.subTotal, currency)}
+                    {displayPriceWithCommasFloat(
+                      basket.subTotal,
+                      currency,
+                      true,
+                      false
+                    )}
                   </span>
                 </div>
               )}
@@ -807,7 +857,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     (+)
                     {displayPriceWithCommasFloat(
                       parseFloat(shippingCharge),
-                      currency
+                      currency,
+                      true,
+                      false
                     )}
                   </span>
                 </div>
@@ -837,7 +889,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                 <span className={styles.subtotal}>
                   {displayPriceWithCommasFloat(
                     basket.subTotalWithShipping,
-                    currency
+                    currency,
+                    true,
+                    false
                   )}
                 </span>
               </div>
@@ -859,7 +913,12 @@ const OrderSummary: React.FC<OrderProps> = props => {
               >
                 <span className={styles.subtotal}>AMOUNT PAYABLE</span>
                 <span className={styles.subtotal}>
-                  {displayPriceWithCommasFloat(basket?.total, currency)}
+                  {displayPriceWithCommasFloat(
+                    basket?.total,
+                    currency,
+                    true,
+                    false
+                  )}
                 </span>
               </div>
             </div>
@@ -881,7 +940,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
             <span className={styles.orderTotal}>
               {displayPriceWithCommasFloat(
                 basket.subTotalWithShipping,
-                currency
+                currency,
+                true,
+                false
               )}
             </span>
           </div>
@@ -986,7 +1047,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <span className={styles.total}>
                     {displayPriceWithCommasFloat(
                       basket.subTotalWithShipping,
-                      currency
+                      currency,
+                      true,
+                      false
                     )}
                     {/* {parseFloat("" + basket.subTotalWithShipping).toFixed(2)} */}
                   </span>
@@ -1024,7 +1087,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <span className={styles.totalAmount}>
                     {displayPriceWithCommasFloat(
                       basket?.total?.toString(),
-                      currency
+                      currency,
+                      true,
+                      false
                     )}
                   </span>
                   <span className={cs(styles.carretUp)}></span>
@@ -1046,7 +1111,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                   <span className={styles.totalAmount}>
                     {displayPriceWithCommasFloat(
                       basket?.total?.toString(),
-                      currency
+                      currency,
+                      true,
+                      false
                     )}
                   </span>
                   <span className={cs(styles.carretDown)}></span>
@@ -1152,7 +1219,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                         Amount Payable:{" "}
                         {displayPriceWithCommasFloat(
                           basket?.total?.toString(),
-                          currency
+                          currency,
+                          true,
+                          false
                         )}
                         {/* {parseFloat(basket?.total?.toString()).toFixed(2)} */}
                         <br />
