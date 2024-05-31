@@ -15,6 +15,7 @@ const initialState: State = {
   showDeliveryInstruction: false,
   showPromo: false,
   isLoading: false,
+  isCheckoutLoading: false,
   showCookiePref: false,
   showShipping: false, //This will handle scenario of backend order with discounts,
   isLoyaltyFilterOpen: false //This will handle filter open state inside loyalty transaction page
@@ -90,6 +91,11 @@ export const info = (state: State = initialState, action: InfoActions) => {
     case "UPDATE_LOADER": {
       const newState = { ...state };
       newState.isLoading = action.payload;
+      return newState;
+    }
+    case "UPDATE_CHECKOUT_LOADER": {
+      const newState = { ...state };
+      newState.isCheckoutLoading = action.payload;
       return newState;
     }
     case "UPDATE_SHOW_COOKIE_PREF": {

@@ -44,7 +44,7 @@ const BaseLayout: React.FC = () => {
     modal: { component }
   } = useSelector((state: AppState) => state);
   const {
-    info: { isLoading }
+    info: { isLoading, isCheckoutLoading }
   } = useSelector((state: AppState) => state);
   // const { customerGroup } = useSelector((state: AppState) => state.user);
   // don't show info popup
@@ -436,7 +436,7 @@ const BaseLayout: React.FC = () => {
       {!value
         ? ""
         : !minimalPage && (isCheckout ? <CheckoutHeader /> : <Header />)}
-      {isLoading && <Loader />}
+      {(isLoading || isCheckoutLoading) && <Loader />}
       <div
         className={
           minimalPage
