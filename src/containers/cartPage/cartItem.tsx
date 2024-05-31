@@ -704,8 +704,7 @@ const CartItems: React.FC<BasketItem> = memo(
                           {displayPriceWithCommas(
                             discountedPriceRecords[currency],
                             currency
-                          )}
-                          &nbsp;&nbsp;&nbsp;
+                          )}{" "}
                         </span>
                       ) : (
                         ""

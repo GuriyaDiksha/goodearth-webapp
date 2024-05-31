@@ -780,8 +780,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                         {`${displayPriceWithCommasFloat(
                                           price1,
                                           confirmData.currency
-                                        )}`}
-                                        &nbsp;
+                                        )}`}{" "}
                                       </span>
                                     ) : (
                                       ""
