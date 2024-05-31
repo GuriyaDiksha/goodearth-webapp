@@ -8,6 +8,7 @@ import cs from "classnames";
 import bootstrapStyles from "./../../../../styles/bootstrap/bootstrap-grid.scss";
 import globalStyles from "./../../../../styles/global.scss";
 import { AppState } from "reducers/typings";
+import { updateLoader } from "actions/info";
 
 type Props = {
   setCurrentSection: () => void;
@@ -31,14 +32,17 @@ const MyCreditNotes: React.FC<Props> = ({ setCurrentSection }) => {
     sortType?: SortType,
     page?: number
   ) => {
+    dispatch(updateLoader(true));
     AccountService.fetchCreditNotes(dispatch, sortBy, sortType, page)
       .then(response => {
         const { count, previous, next, results } = response;
         setData(results.filter(ele => ele?.type !== "GC"));
         setPagination({ count, previous, next });
+        dispatch(updateLoader(false));
       })
       .catch(e => {
         console.log("fetch credit notes API failed =====", e);
+        dispatch(updateLoader(false));
       });
   };
 
