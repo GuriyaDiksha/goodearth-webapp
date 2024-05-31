@@ -401,7 +401,35 @@ const LineItems: React.FC<BasketItem> = memo(
                     styles.badgeContainer
                   )}
                 >
-                  {badge_text}
+                  {saleStatus && discount && discountedPriceRecords ? (
+                    <span className={styles.discountprice}>
+                      {displayPriceWithCommas(
+                        discountedPriceRecords[currency],
+                        currency,
+                        true,
+                        false
+                      )}
+                      &nbsp; &nbsp;
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                  {saleStatus && discount ? (
+                    <span className={styles.strikeprice}>
+                      {isGiftCard
+                        ? displayPriceWithCommas(GCValue, currency, true, false)
+                        : displayPriceWithCommas(price, currency, true, false)}
+                    </span>
+                  ) : (
+                    <span
+                      className={badgeType == "B_flat" ? globalStyles.gold : ""}
+                    >
+                      {" "}
+                      {isGiftCard
+                        ? displayPriceWithCommas(GCValue, currency, true, false)
+                        : displayPriceWithCommas(price, currency, true, false)}
+                    </span>
+                  )}
                 </div>
               )}
               <div className={bridalProfile ? styles.flexPriceIcon : ""}>

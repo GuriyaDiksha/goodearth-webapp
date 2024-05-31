@@ -481,39 +481,44 @@ const CartItems: React.FC<BasketItem> = memo(
                         }
                       )}
                     >
-                      {is_free_product ? (
-                        <p className={styles.free}>FREE</p>
-                      ) : (
-                        <div>
-                          {saleStatus && discount && discountedPriceRecords ? (
-                            <span className={styles.discountprice}>
-                              {displayPriceWithCommas(
-                                discountedPriceRecords[currency],
-                                currency
-                              )}
-                              &nbsp;&nbsp;&nbsp;
-                            </span>
-                          ) : (
-                            ""
-                          )}
-                          {saleStatus && discount ? (
-                            <span className={styles.strikeprice}>
-                              {displayPriceWithCommas(price, currency)}
-                            </span>
-                          ) : (
-                            <span
-                              className={
-                                badgeType == "B_flat" ? globalStyles.gold : ""
-                              }
-                            >
-                              {displayPriceWithCommas(
-                                structure == "GiftCard" ? GCValue : price,
-                                currency
-                              )}
-                            </span>
-                          )}
-                        </div>
-                      )}
+                      <div>
+                        {saleStatus && discount && discountedPriceRecords ? (
+                          <span className={styles.discountprice}>
+                            {displayPriceWithCommas(
+                              discountedPriceRecords[currency],
+                              currency,
+                              true,
+                              false
+                            )}
+                            &nbsp;&nbsp;&nbsp;
+                          </span>
+                        ) : (
+                          ""
+                        )}
+                        {saleStatus && discount ? (
+                          <span className={styles.strikeprice}>
+                            {displayPriceWithCommas(
+                              price,
+                              currency,
+                              true,
+                              false
+                            )}
+                          </span>
+                        ) : (
+                          <span
+                            className={
+                              badgeType == "B_flat" ? globalStyles.gold : ""
+                            }
+                          >
+                            {displayPriceWithCommas(
+                              structure == "GiftCard" ? GCValue : price,
+                              currency,
+                              true,
+                              false
+                            )}
+                          </span>
+                        )}
+                      </div>
                       <div className={cs({ [globalStyles.voffset2]: !mobile })}>
                         {bridalProfile && (
                           <img src={addedReg} width="25" alt="gift_reg_icon" />
@@ -684,31 +689,54 @@ const CartItems: React.FC<BasketItem> = memo(
                     [styles.sectionMobile]: mobile || tablet
                   })}
                 >
-                  {is_free_product ? (
-                    <p
-                      className={cs(styles.productPrice, styles.free, {
-                        [styles.outOfStock]: stockRecords[0].numInStock < 1
-                      })}
-                    >
-                      FREE
-                    </p>
-                  ) : (
-                    <div
-                      className={cs(styles.productPrice, {
-                        [styles.extraWidth]: mobile && !tablet,
-                        [styles.outOfStock]: stockRecords[0].numInStock < 1
-                      })}
-                    >
-                      {saleStatus && discount && discountedPriceRecords ? (
-                        <span className={styles.discountprice}>
-                          {displayPriceWithCommas(
-                            discountedPriceRecords[currency],
-                            currency
-                          )}
-                          &nbsp;&nbsp;&nbsp;
-                        </span>
-                      ) : (
-                        ""
+                  <div
+                    className={cs(styles.productPrice, {
+                      [styles.extraWidth]: mobile && !tablet,
+                      [styles.outOfStock]: stockRecords[0].numInStock < 1
+                    })}
+                  >
+                    {saleStatus && discount && discountedPriceRecords ? (
+                      <span className={styles.discountprice}>
+                        {displayPriceWithCommas(
+                          discountedPriceRecords[currency],
+                          currency,
+                          true,
+                          false
+                        )}
+                        &nbsp;&nbsp;&nbsp;
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                    {saleStatus && discount ? (
+                      <span className={styles.strikeprice}>
+                        {displayPriceWithCommas(price, currency, true, false)}
+                      </span>
+                    ) : (
+                      <span
+                        className={
+                          badgeType == "B_flat" ? globalStyles.gold : ""
+                        }
+                      >
+                        {" "}
+                        {structure == "GiftCard"
+                          ? displayPriceWithCommas(
+                              GCValue,
+                              currency,
+                              true,
+                              false
+                            )
+                          : displayPriceWithCommas(
+                              price,
+                              currency,
+                              true,
+                              false
+                            )}
+                      </span>
+                    )}
+                    <div className={cs({ [globalStyles.voffset2]: !mobile })}>
+                      {bridalProfile && (
+                        <img src={addedReg} width="25" alt="gift_reg_icon" />
                       )}
                       {saleStatus && discount ? (
                         <span className={styles.strikeprice}>
@@ -732,64 +760,64 @@ const CartItems: React.FC<BasketItem> = memo(
                         )}
                       </div>
                     </div>
-                  )}
-                  <div
-                    className={cs(
-                      styles.enableMobile,
-                      {
-                        [globalStyles.hiddenEye]:
-                          isGiftCard || bridalProfile || is_free_product
-                      },
-                      styles.wishlistDisplay
-                    )}
-                  >
-                    <WishlistButton
-                      source="cart"
-                      gtmListType="cart"
-                      title={title}
-                      childAttributes={childAttributes ? childAttributes : []}
-                      priceRecords={priceRecords}
-                      discountedPriceRecords={discountedPriceRecords}
-                      categories={categories}
-                      basketLineId={id}
-                      id={product.id}
-                      size={childAttributes[0].size || ""}
-                      showText={true}
-                      onMoveToWishlist={onMoveToWishlist}
-                      className="wishlist-font"
-                      inWishlist={inWishlist}
-                      badgeType={badgeType}
-                    />
-                    {renderNotifyTrigger("action")}
-                  </div>
-                  {!is_free_product && (
-                    <div>
-                      <div
-                        className={cs(styles.pointer, styles.remove)}
-                        onClick={() => deleteItem()}
-                      >
-                        Remove
-                      </div>
+                    <div
+                      className={cs(
+                        styles.enableMobile,
+                        {
+                          [globalStyles.hiddenEye]:
+                            isGiftCard || bridalProfile || is_free_product
+                        },
+                        styles.wishlistDisplay
+                      )}
+                    >
+                      <WishlistButton
+                        source="cart"
+                        gtmListType="cart"
+                        title={title}
+                        childAttributes={childAttributes ? childAttributes : []}
+                        priceRecords={priceRecords}
+                        discountedPriceRecords={discountedPriceRecords}
+                        categories={categories}
+                        basketLineId={id}
+                        id={product.id}
+                        size={childAttributes[0].size || ""}
+                        showText={true}
+                        onMoveToWishlist={onMoveToWishlist}
+                        className="wishlist-font"
+                        inWishlist={inWishlist}
+                        badgeType={badgeType}
+                      />
+                      {renderNotifyTrigger("action")}
                     </div>
-                  )}
+                    {!is_free_product && (
+                      <div>
+                        <div
+                          className={cs(styles.pointer, styles.remove)}
+                          onClick={() => deleteItem()}
+                        >
+                          Remove
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          {productDeliveryDate && showDeliveryTimelines && !is_free_product && (
+            <div
+              className={cs(styles.deliveryDate, {
+                [styles.extraWidth]: mobile && !tablet
+              })}
+            >
+              Estimated delivery on or before:
+              <span className={styles.expectedDelivetryDate}>
+                {productDeliveryDate}
+              </span>
+            </div>
+          )}
+          <hr className={styles.hr} />
         </div>
-        {productDeliveryDate && showDeliveryTimelines && !is_free_product && (
-          <div
-            className={cs(styles.deliveryDate, {
-              [styles.extraWidth]: mobile && !tablet
-            })}
-          >
-            Estimated delivery on or before:
-            <span className={styles.expectedDelivetryDate}>
-              {productDeliveryDate}
-            </span>
-          </div>
-        )}
-        <hr className={styles.hr} />
       </div>
     );
   }
