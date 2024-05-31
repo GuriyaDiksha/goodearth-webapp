@@ -954,7 +954,6 @@ class Search extends React.Component<Props, State> {
                             <Link
                               to={"/search/?q=" + encodeURIComponent(ele)}
                               onClick={() => {
-                                debugger;
                                 localStorage.setItem("recentSearchValue", ele);
                                 localStorage.setItem(
                                   "clickType",

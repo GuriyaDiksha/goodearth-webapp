@@ -24,7 +24,6 @@ export const initialState: State = {
 export const user = (state = initialState, action: UserActions): State => {
   switch (action.type) {
     case "UPDATE_USER": {
-      debugger;
       return { ...state, ...action.payload };
     }
     case "REFRESH_PAGE": {
@@ -34,7 +33,6 @@ export const user = (state = initialState, action: UserActions): State => {
     }
 
     case "RESET_META": {
-      debugger;
       const state = initialState;
       return { ...state };
     }

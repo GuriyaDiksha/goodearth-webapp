@@ -325,7 +325,7 @@ export default {
   fetchCreditNotes: async (
     dispatch: Dispatch,
     sortBy = "expiring_date",
-    sortType = "desc",
+    sortType = "asc",
     page = 1,
     all = false
   ) => {
