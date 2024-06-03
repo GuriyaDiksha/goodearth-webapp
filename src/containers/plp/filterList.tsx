@@ -1565,6 +1565,7 @@ class FilterList extends React.Component<Props, State> {
         ? this.setState({
             activeindex: index,
             openMenu: index,
+            showmenulevel1: true,
             showFilterByDiscountMenu: false,
             showProductFilter: false
           })

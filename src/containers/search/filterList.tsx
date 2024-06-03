@@ -207,9 +207,9 @@ class FilterList extends React.Component<Props, State> {
 
     if (!this.state.isCategoryClicked) {
       this.setState({
-        showmenulevel2: true,
-        categoryindex: 0,
-        categorylevel1: true
+        showmenulevel2: true
+        // categoryindex: 0,
+        // categorylevel1: true
       });
     }
     this.setState({
@@ -973,12 +973,48 @@ class FilterList extends React.Component<Props, State> {
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
       this.handleAnimation("category", false);
 
-      this.setState({
-        activeindex: 0,
-        showFilterByDiscountMenu: false,
-        showProductFilter: false,
-        showmenulevel1: false
-      });
+      if (
+        nextProps.facets.availableDiscount &&
+        nextProps.facets.availableDiscount.length > 0
+      ) {
+        this.setState({
+          activeindex: 0,
+          showProductFilter: false,
+          showmenulevel1: false,
+          categorylevel1: false
+        });
+      } else {
+        this.setState({
+          activeindex: 0,
+          showProductFilter: false,
+          showmenulevel1: false,
+          showFilterByDiscountMenu: false,
+          categoryindex: 0,
+          categorylevel1: true
+        });
+      }
+
+      // {this.props.salestatus &&
+      //   this.props.facets &&
+      //   this.props.facets.availableDiscount &&
+      //   this.props.facets.availableDiscount.length > 0
+      //   ?(
+      //     this.setState({
+      //       activeindex: 0,
+      //       showProductFilter: false,
+      //       showmenulevel1: false,
+      //       showFilterByDiscountMenu: true,
+      //     })
+      //   )
+      //   :(
+      //     this.setState({
+      //       activeindex: 0,
+      //       showFilterByDiscountMenu: false,
+      //       showProductFilter: false,
+      //       showmenulevel1: false
+      //     })
+      //   )
+      // }
     }
 
     if (
