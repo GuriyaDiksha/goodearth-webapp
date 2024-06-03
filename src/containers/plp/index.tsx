@@ -44,6 +44,7 @@ import activeList from "../../images/plpIcons/active_list.svg";
 import inactiveList from "../../images/plpIcons/inactive_list.svg";
 import { CategoryMenu } from "containers/categoryLanding/typings";
 import { GA_CALLS } from "constants/cookieConsent";
+import ResetFilterModal from "./ResetFilterModal";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -83,6 +84,7 @@ class PLP extends React.Component<
     count: number;
     showProductCounter: boolean;
     header: string;
+    isPopup: boolean;
   }
 > {
   constructor(props: Props) {
@@ -106,7 +108,8 @@ class PLP extends React.Component<
         props.location.search.includes("&src_type=cp"),
       isThirdParty: props.location.search.includes("&src_type=cp"),
       showProductCounter: true,
-      header: ""
+      header: "",
+      isPopup: false
     };
   }
   private child: any = FilterList;
@@ -147,9 +150,7 @@ class PLP extends React.Component<
     window.addEventListener(
       "scroll",
       throttle(() => {
-        if (this.props.mobile) {
-          this.setProductCount();
-        }
+        this.setProductCount();
 
         //Commented: code commented for on every filter selection filter section is going on top
         //     // plp filter scroll top
@@ -339,6 +340,12 @@ class PLP extends React.Component<
         showmobileSort: false
       });
     }
+  };
+
+  onResetFilterClick = (value: boolean) => {
+    this.setState({
+      isPopup: value
+    });
   };
 
   getVisibleProductID = () => {
@@ -758,6 +765,8 @@ class PLP extends React.Component<
                 changeLoader={this.changeLoader}
                 onStateChange={this.onStateChange}
                 filterCount={this.state.filterCount}
+                open={this.state.mobileFilter}
+                openResetPopup={this.onResetFilterClick}
               />
             )}
           </div>
@@ -969,7 +978,7 @@ class PLP extends React.Component<
                             />
                           ) : (
                             <PlpResultItem
-                              page={categoryShop || "plp"}
+                              page={"plp"}
                               position={index}
                               product={item}
                               addedToWishlist={false}
@@ -1182,16 +1191,26 @@ class PLP extends React.Component<
             // toggleSort={this.toggleSort}
           />
         )}
-        {mobile &&
-          this.state.count > -1 &&
-          this.state.showProductCounter &&
-          count !== 0 && (
-            <ProductCounter
-              current={this.state.count}
-              total={!this.state.corporoateGifting ? count + 1 : count}
-              id="plp-product-counter"
-            />
-          )}
+        {this.state.count > -1 && this.state.showProductCounter && (
+          <ProductCounter
+            current={this.state.count}
+            total={!this.state.corporoateGifting ? count + 1 : count}
+            id="plp-product-counter"
+          />
+        )}
+        {mobile && this.state.isPopup && (
+          <div
+            id="resetFilterModal"
+            className={styles.modalFullscreenContainer}
+          >
+            <div className={styles.modalFullscreen}>
+              <ResetFilterModal
+                applyClick={this.child.mobileApply}
+                discardClick={this.child.discardFilter}
+              />
+            </div>
+          </div>
+        )}
       </div>
     );
   }

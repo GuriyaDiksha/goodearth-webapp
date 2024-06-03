@@ -284,12 +284,7 @@ class Search extends React.Component<Props, State> {
           }
         }
       });
-      gaEventsForSearch(
-        data,
-        "Products",
-        this.getTextFromHtml(data?.product || data?.title),
-        this.state.searchValue
-      );
+
       if (isYml) {
         CookieService.setCookie(
           "search",
@@ -297,8 +292,21 @@ class Search extends React.Component<Props, State> {
           365
         );
         localStorage.setItem("clickType", "You Might Like");
+
+        dataLayer.push({
+          event: "search_bar_results_found",
+          cta_name: this.getTextFromHtml(data?.product || data?.title),
+          click_type: "You Might Like",
+          search_term: ""
+        });
       } else {
         localStorage.setItem("clickType", "Products");
+        gaEventsForSearch(
+          data,
+          "Products",
+          this.getTextFromHtml(data?.product || data?.title),
+          this.state.searchValue
+        );
       }
     }
     // this.props.toggle();

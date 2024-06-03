@@ -16,10 +16,23 @@ import RegisterySlider from "./components/registerySlider";
 import { useSelector } from "react-redux";
 import RegisteryDockcta from "./components/registeryDockCTA";
 import { Props } from "./typings";
+import { GA_CALLS } from "constants/cookieConsent";
+import CookieService from "services/cookie";
 
 const Registery: React.FC<Props> = ({ mobileFaq }) => {
   const { mobile } = useSelector((state: AppState) => state.device);
   const { isLoggedIn, bridalId } = useSelector((state: AppState) => state.user);
+
+  const bridalGACall = () => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "ge_create_my_registry_click",
+        user_status: isLoggedIn ? "Logged in" : "Guest",
+        click_url: `${window?.location?.origin}/account/bridal`
+      });
+    }
+  };
   return (
     <div>
       <Switch>
@@ -70,7 +83,7 @@ const Registery: React.FC<Props> = ({ mobileFaq }) => {
               {isLoggedIn ? (
                 bridalId == 0 ? (
                   <div className={cs(styles.registeryButton)}>
-                    <a href="/account/bridal">
+                    <a href="/account/registry" onClick={bridalGACall}>
                       <button className={cs(styles.regBtn)}>
                         CREATE MY REGISTRY
                       </button>
@@ -78,7 +91,7 @@ const Registery: React.FC<Props> = ({ mobileFaq }) => {
                   </div>
                 ) : (
                   <div className={cs(styles.registeryButton)}>
-                    <a href="/account/bridal">
+                    <a href="/account/registry" onClick={bridalGACall}>
                       <button className={cs(styles.regBtn)}>
                         VIEW MY REGISTRY
                       </button>

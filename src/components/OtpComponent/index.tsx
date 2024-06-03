@@ -35,7 +35,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         maxAttemptsAllow: 5
       },
       startTimer: true,
-      isDisabled: false
+      isDisabled: false,
+      attempt_count: 0
     };
   }
   // timerId: any = 0;
@@ -490,6 +491,13 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     this.props
       .sendOtp(formData)
       .then((data: any) => {
+        debugger;
+        this.setState({
+          attempts: {
+            ...this.state.attempts,
+            ["attempts"]: data?.attempt_count || 0
+          }
+        });
         if (data.inputType == "GIFT" && data.currStatus == "Invalid-CN") {
           this.setState(
             {
@@ -1036,20 +1044,44 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   >
                     Please agree to the Terms and Conditions before proceeding
                   </p>
-                  <p
-                    id="customererror"
-                    className={
-                      this.state.showerrorOtp
-                        ? cs(globalStyles.errorMsg, globalStyles.wordCap)
-                        : globalStyles.hidden
-                    }
-                  >
-                    {this.state.showerrorOtp}
-                  </p>
+                  {this.state.showerrorOtp &&
+                    !this.state.showerrorOtp?.includes(
+                      "Maximum attempts reached"
+                    ) && (
+                      <p
+                        id="customererror"
+                        className={
+                          this.state.showerrorOtp
+                            ? cs(globalStyles.errorMsg, globalStyles.wordCap)
+                            : globalStyles.hidden
+                        }
+                      >
+                        {this.state.showerrorOtp}
+                      </p>
+                    )}
                   <p>{this.state.showerrorOtp ? <CustomerCareInfo /> : ""}</p>
                 </div>
               </li>
               <li className={this.state.showerrorOtp ? styles.margintop : ""}>
+                {this.state.showerrorOtp &&
+                  this.state.showerrorOtp?.includes(
+                    "Maximum attempts reached"
+                  ) && (
+                    <p
+                      id="customererror"
+                      className={
+                        this.state.showerrorOtp
+                          ? cs(
+                              globalStyles.errorMsg,
+                              globalStyles.wordCap,
+                              globalStyles.marginB10
+                            )
+                          : globalStyles.hidden
+                      }
+                    >
+                      {this.state.showerrorOtp}
+                    </p>
+                  )}
                 <Button
                   type="submit"
                   disabled={this.state.disable}

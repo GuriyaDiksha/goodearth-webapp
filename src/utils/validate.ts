@@ -1994,7 +1994,11 @@ export const sortGTM = (clickType: string) => {
   }
 };
 
-export const footerGTM = (clickType: string) => {
+export const footerGTM = (
+  clickType: string,
+  isLoggedIn?: boolean,
+  url?: string
+) => {
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
@@ -2003,6 +2007,14 @@ export const footerGTM = (clickType: string) => {
         clickType,
         url: `${location.pathname}${location.search}`
       });
+
+      if (clickType?.toLowerCase() == "good earth registry") {
+        dataLayer.push({
+          event: "ge_create_my_registry_click",
+          user_status: isLoggedIn ? "Logged in" : "Guest",
+          click_url: url
+        });
+      }
     }
   } catch (e) {
     console.log("Footer Navigation GTM error!");

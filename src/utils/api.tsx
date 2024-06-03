@@ -9,7 +9,6 @@ import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import configData from "./../config/list.json";
 import { updateLoader } from "actions/info";
-
 class API {
   static async get<T>(
     dispatch: ThunkDispatch<{}, {}, AnyAction>,

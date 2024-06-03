@@ -14,10 +14,12 @@ import { BridalProfileData } from "./typings";
 import gift_icon from "../../../../images/registery/gift_icon.svg";
 import iconWhatsApp from "../../../../images/whatsapp_new.svg";
 import iconEmail from "../../../../images/mail.svg";
+import { GA_CALLS } from "constants/cookieConsent";
 // import { BridalDetailsType } from './typings';
 // import Modal from '../../components/common/popup/Modal';
 // import InputField from 'components/common/signin/inputField'
 // import Config from "components/config"
+import CookieService from "services/cookie";
 
 type Props = {
   // changeScreen: () => void;
@@ -29,6 +31,16 @@ type Props = {
 const ShareLink: React.FC<Props> = props => {
   const [txt, setTxt] = useState("COPY MESSAGE");
   const { mobile } = useSelector((state: AppState) => state.device);
+
+  const bridalGACall = (click_type: string) => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "share_registry_link",
+        click_type: click_type
+      });
+    }
+  };
   const copyLink = (event: React.MouseEvent) => {
     const copyText = document.getElementById("myInput") as HTMLInputElement;
     const isIOSDevice = navigator.userAgent.match(/ipad|iphone/i);
@@ -39,6 +51,7 @@ const ShareLink: React.FC<Props> = props => {
     }
     document.execCommand("copy");
     setTxt("copied");
+    bridalGACall("Copy Message");
     event.stopPropagation();
   };
   const { closeModal } = useContext(Context);
@@ -137,6 +150,7 @@ const ShareLink: React.FC<Props> = props => {
                   data-action="share/whatsapp/share"
                   rel="noopener noreferrer"
                   target="_blank"
+                  onClick={() => bridalGACall("WhatsApp")}
                 >
                   <div className={styles.shareIcon}>
                     <img src={iconWhatsApp} width="20" alt="wa_icon" />
@@ -147,6 +161,7 @@ const ShareLink: React.FC<Props> = props => {
                   title="Share by Email"
                   rel="noopener noreferrer"
                   target="_blank"
+                  onClick={() => bridalGACall("Email")}
                 >
                   <div className={styles.shareIcon}>
                     <img src={iconEmail} width="20" alt="mail_icon" />
