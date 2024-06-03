@@ -207,9 +207,9 @@ class FilterList extends React.Component<Props, State> {
 
     if (!this.state.isCategoryClicked) {
       this.setState({
-        showmenulevel2: true,
-        categoryindex: 0,
-        categorylevel1: true
+        showmenulevel2: true
+        // categoryindex: 0,
+        // categorylevel1: true
       });
     }
     this.setState({
@@ -862,9 +862,8 @@ class FilterList extends React.Component<Props, State> {
 
   updateDataFromAPI = (onload?: string) => {
     const { mobile, fetchSearchProducts, history, changeLoader } = this.props;
-    console.log(this.state.isPopupOpen);
     if (!onload && mobile && !this.state.isPopupOpen) {
-      return true;
+      // return true;
     }
     // this.setState({
     //     disableSelectedbox: true
@@ -948,7 +947,7 @@ class FilterList extends React.Component<Props, State> {
         if (tim) {
           (filterMenu as HTMLElement).style.top = "180px";
         } else {
-          (filterMenu as HTMLElement).style.top = "140px";
+          (filterMenu as HTMLElement).style.top = "160px";
         }
       }
       if (filterMenuHeader) {
@@ -974,12 +973,48 @@ class FilterList extends React.Component<Props, State> {
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
       this.handleAnimation("category", false);
 
-      this.setState({
-        activeindex: 0,
-        showFilterByDiscountMenu: false,
-        showProductFilter: false,
-        showmenulevel1: false
-      });
+      if (
+        nextProps.facets.availableDiscount &&
+        nextProps.facets.availableDiscount.length > 0
+      ) {
+        this.setState({
+          activeindex: 0,
+          showProductFilter: false,
+          showmenulevel1: false,
+          categorylevel1: false
+        });
+      } else {
+        this.setState({
+          activeindex: 0,
+          showProductFilter: false,
+          showmenulevel1: false,
+          showFilterByDiscountMenu: false,
+          categoryindex: 0,
+          categorylevel1: true
+        });
+      }
+
+      // {this.props.salestatus &&
+      //   this.props.facets &&
+      //   this.props.facets.availableDiscount &&
+      //   this.props.facets.availableDiscount.length > 0
+      //   ?(
+      //     this.setState({
+      //       activeindex: 0,
+      //       showProductFilter: false,
+      //       showmenulevel1: false,
+      //       showFilterByDiscountMenu: true,
+      //     })
+      //   )
+      //   :(
+      //     this.setState({
+      //       activeindex: 0,
+      //       showFilterByDiscountMenu: false,
+      //       showProductFilter: false,
+      //       showmenulevel1: false
+      //     })
+      //   )
+      // }
     }
 
     if (
@@ -2349,7 +2384,8 @@ class FilterList extends React.Component<Props, State> {
         showmobileText: "",
         showmobileFilterList: false,
         show: false,
-        showDifferentImage: false
+        showDifferentImage: false,
+        isCategoryClicked: true
       },
       () => {
         this.createUrlfromFilter("load");
@@ -2579,14 +2615,16 @@ class FilterList extends React.Component<Props, State> {
                     this.props.facets && this.props.facets.availableDiscount,
                     this.props.filtered_facets
                   )}
-                  <div data-name="availableDiscount">
-                    <span
-                      onClick={e => this.clearFilter(e, "availableDiscount")}
-                      className={styles.plp_filter_sub}
-                    >
-                      Clear
-                    </span>
-                  </div>
+                  {!mobile && (
+                    <div data-name="availableDiscount">
+                      <span
+                        onClick={e => this.clearFilter(e, "availableDiscount")}
+                        className={styles.plp_filter_sub}
+                      >
+                        Clear
+                      </span>
+                    </div>
+                  )}
                 </div>
               </li>
             )}
@@ -2678,14 +2716,16 @@ class FilterList extends React.Component<Props, State> {
                   this.props.facets,
                   this.props.filtered_facets
                 )}
-                <div data-name="productType">
-                  <span
-                    onClick={e => this.clearFilter(e, "productType")}
-                    className={styles.plp_filter_sub}
-                  >
-                    Clear
-                  </span>
-                </div>
+                {!mobile && (
+                  <div data-name="productType">
+                    <span
+                      onClick={e => this.clearFilter(e, "productType")}
+                      className={styles.plp_filter_sub}
+                    >
+                      Clear
+                    </span>
+                  </div>
+                )}
               </div>
             </li>
           )}
@@ -2735,14 +2775,16 @@ class FilterList extends React.Component<Props, State> {
                     this.props.filtered_facets
                   )}
                 </span>
-                <div data-name="currentColor">
-                  <span
-                    onClick={e => this.clearFilter(e, "currentColor")}
-                    className={styles.plp_filter_sub}
-                  >
-                    Clear
-                  </span>
-                </div>
+                {!mobile && (
+                  <div data-name="currentColor">
+                    <span
+                      onClick={e => this.clearFilter(e, "currentColor")}
+                      className={styles.plp_filter_sub}
+                    >
+                      Clear
+                    </span>
+                  </div>
+                )}
               </ul>
             </div>
           </li>
@@ -2787,14 +2829,16 @@ class FilterList extends React.Component<Props, State> {
                       this.props.filtered_facets
                     )}
                   </ul>
-                  <div data-name="availableSize">
-                    <span
-                      onClick={e => this.clearFilter(e, "availableSize")}
-                      className={styles.plp_filter_sub}
-                    >
-                      Clear
-                    </span>
-                  </div>
+                  {!mobile && (
+                    <div data-name="availableSize">
+                      <span
+                        onClick={e => this.clearFilter(e, "availableSize")}
+                        className={styles.plp_filter_sub}
+                      >
+                        Clear
+                      </span>
+                    </div>
+                  )}
                 </div>
               </li>
             ) : (
@@ -2846,14 +2890,16 @@ class FilterList extends React.Component<Props, State> {
                       this.props.filtered_facets
                     )}
                   </span>
-                  <div data-name="currentMaterial">
-                    <span
-                      onClick={e => this.clearFilter(e, "currentMaterial")}
-                      className={styles.plp_filter_sub}
-                    >
-                      Clear
-                    </span>
-                  </div>
+                  {!mobile && (
+                    <div data-name="currentMaterial">
+                      <span
+                        onClick={e => this.clearFilter(e, "currentMaterial")}
+                        className={styles.plp_filter_sub}
+                      >
+                        Clear
+                      </span>
+                    </div>
+                  )}
                 </ul>
               </div>
             </li>
@@ -2941,14 +2987,16 @@ class FilterList extends React.Component<Props, State> {
                       )}
                     </div>
                   </div>
-                  <div data-name="price">
-                    <span
-                      onClick={e => this.clearFilter(e, "price")}
-                      className={styles.plp_filter_sub}
-                    >
-                      Clear
-                    </span>
-                  </div>
+                  {!mobile && (
+                    <div data-name="price">
+                      <span
+                        onClick={e => this.clearFilter(e, "price")}
+                        className={styles.plp_filter_sub}
+                      >
+                        Clear
+                      </span>
+                    </div>
+                  )}
                 </>
               )}
             </div>
