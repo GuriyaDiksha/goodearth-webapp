@@ -34,6 +34,6 @@
     opacity: 0.5;
 }
 
-.vertical-image-slider .slick-list{
-  height: 372px!important;
+.vertical-image-slider .slick-list .slick-track{
+  height: calc(100% - 70px);
 }
