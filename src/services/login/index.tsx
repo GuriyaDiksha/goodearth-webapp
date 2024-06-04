@@ -256,7 +256,9 @@ export default {
     currency: Currency,
     source: string,
     history: any,
-    sortBy?: string
+    sortBy?: string,
+    mobile?: boolean,
+    popupStyle?: string
   ) {
     const olddata = { ...formdata };
     const enc = encryptdata(olddata);
@@ -320,13 +322,43 @@ export default {
     Api.getAnnouncement(dispatch).catch(err => {
       console.log("Announcement API ERROR ==== " + err);
     });
-    // if (location.pathname == "/wishlist") {
-    WishlistService.updateWishlist(dispatch, sortBy);
-    // }
-    // WishlistService.countWishlist(dispatch);
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
+
+    // if (location.pathname == "/wishlist") {
+    WishlistService.updateWishlist(dispatch, sortBy).then(() => {
+      //Code to open share link popup after login
+
+      const isShareLinkClicked = JSON.parse(
+        localStorage.getItem("isShareLinkClicked") || "false"
+      );
+
+      if (
+        isShareLinkClicked &&
+        metaResponse?.user.email &&
+        metaResponse?.user.firstName &&
+        metaResponse?.user.lastName &&
+        metaResponse?.user.country &&
+        metaResponse?.user.gender
+      ) {
+        dispatch(
+          updateComponent(
+            POPUP.SHAREWISHLIST,
+            null,
+            mobile ? false : true,
+            popupStyle,
+            mobile ? "slide-up-bottom-align" : ""
+          )
+        );
+        dispatch(updateModal(true));
+        localStorage.removeItem("isShareLinkClicked");
+      }
+    });
+
+    // }
+    // WishlistService.countWishlist(dispatch);
+
     BasketService.fetchBasket(dispatch, source, history, true).then(
       basketRes => {
         if (source == "checkout") {
