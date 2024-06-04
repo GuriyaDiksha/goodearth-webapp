@@ -676,6 +676,8 @@ display: flex;
           a{
             border-bottom: 1px solid $light-charcoal;
             @include b5_10px_montserrat_charcoal();
+            font-size: 8px;
+            margin-left: 2px;
           }
 
           @media screen and (max-width:992px) {
