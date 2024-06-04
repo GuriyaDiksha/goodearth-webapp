@@ -812,6 +812,31 @@ class Wishlist extends React.Component<Props, State> {
     document.body.classList.remove(globalStyles.noScroll);
   };
 
+  gaCall = (click_type: string) => {
+    const { firstName, lastName } = this.props.user;
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "share_wishlist",
+        click_type: click_type,
+        cta_location: "NA",
+        cta_name:
+          `${firstName} ${lastName}`
+            .toLowerCase()
+            .replace(/\b(\w)/g, x => x.toUpperCase()) + "'s Saved List"
+      });
+    }
+  };
+
+  onSharlinkClick = () => {
+    this.gaCall("Share list");
+    if (this.props.isLoggedIn) {
+      this.props.openSharePopup(this.props.mobile);
+    } else {
+      this.props.openLogin("/wishlist", true);
+    }
+  };
+
   render() {
     const { mobile, isLoggedIn, sortedDiscount } = this.props;
     const options = [
@@ -1079,7 +1104,7 @@ class Wishlist extends React.Component<Props, State> {
                   globalStyles.verticalMiddle
                 )}
               >
-                <p className={styles.filterText}>SORT</p>
+                <p className={cs(styles.filterText)}>SORT</p>
                 <SecondaryHeaderDropdown
                   id="sort-dropdown-wishlist"
                   items={options}
@@ -1159,11 +1184,7 @@ class Wishlist extends React.Component<Props, State> {
                 {!this.props.isShared && (
                   <div
                     className={styles.shareList}
-                    onClick={() =>
-                      this.props.isLoggedIn
-                        ? this.props.openSharePopup(this.props.mobile)
-                        : this.props.openLogin("/wishlist", true)
-                    }
+                    onClick={this.onSharlinkClick}
                   >
                     <img src={linkIcon} alt="link" />
                     <span>SHARE LIST</span>
