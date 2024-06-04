@@ -14,6 +14,7 @@ import { useHistory } from "react-router";
 import CheckoutService from "services/checkout";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import AccountService from "services/account";
 
 type Props = {
   data: CreditNote[];
@@ -24,6 +25,8 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
   const { closeModal } = useContext(Context);
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
   const [activeKey, setActiveKey] = useState("");
+  const [creditnoteList, setCreditnoteList] = useState<CreditNote[]>([]);
+
   const [error, setError] = useState<{ key: string }[]>([]);
   const {
     device: { mobile },
@@ -34,13 +37,25 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
   const history = useHistory();
   const bodyRef = useRef<any>([]);
 
+  const fetchCreditNotes = () => {
+    AccountService.fetchCreditNotes(dispatch, "expiring_date", "asc", 1, true)
+      .then(response => {
+        const { results } = response;
+        setCreditnoteList(results.filter(ele => ele?.type !== "GC"));
+      })
+      .catch(e => {
+        console.log("fetch credit notes API failed =====", e);
+      });
+  };
+
   const creditNotes = useMemo(() => {
     return giftCards?.filter(ele => ele.cardType === "CREDITNOTE");
   }, [giftCards]);
 
   useEffect(() => {
+    fetchCreditNotes();
     const cns = creditNotes?.map(ele => ele?.cardId);
-    return setCheckedIds([...cns]);
+    setCheckedIds([...cns]);
   }, []);
 
   const applyCN = async (cn: string) => {
@@ -54,6 +69,8 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
       setError({ ...error, [cn]: "" });
 
       setCheckedIds([...checkedIds, cn]);
+
+      fetchCreditNotes();
 
       const userConsent = CookieService.getCookie("consent").split(",");
       if (userConsent.includes(GA_CALLS)) {
@@ -88,6 +105,7 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
     };
     const res = await CheckoutService.removeGiftCard(dispatch, data);
     if (res) {
+      fetchCreditNotes();
       setCheckedIds([...checkedIds.filter(ele => ele !== cn)]);
       await BasketService.fetchBasket(
         dispatch,
@@ -165,7 +183,7 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
 
         <div className={cs(style.cnBody)}>
           <div className={style.boxWrp}>
-            {data?.map(creditNote => (
+            {creditnoteList?.map(creditNote => (
               <CreditNoteCard
                 key={creditNote?.entry_code}
                 creditNote={creditNote}
