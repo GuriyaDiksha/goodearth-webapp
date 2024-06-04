@@ -78,7 +78,8 @@ const MyAccount: React.FC<Props> = props => {
       "no-content"
     ) as HTMLDivElement;
     if (
-      noContentContainerElem.classList.contains(globalStyles.contentContainer)
+      noContentContainerElem &&
+      noContentContainerElem?.classList?.contains(globalStyles.contentContainer)
     ) {
       noContentContainerElem.classList.remove(globalStyles.contentContainer);
     }

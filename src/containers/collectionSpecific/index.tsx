@@ -350,6 +350,10 @@ class CollectionSpecific extends React.Component<
       (document.getElementById("collection_long_desc") as HTMLElement)
         ?.offsetHeight;
 
+    const bottomHeight =
+      (document.getElementById("view_more_collection") as HTMLElement)
+        ?.offsetHeight + 40;
+
     cards.forEach(card => {
       cardIDs.push(
         Array.from(card.children[0].children).filter(e => e.id != "")[0]?.id
@@ -365,8 +369,9 @@ class CollectionSpecific extends React.Component<
           if (
             entry.isIntersecting &&
             entry.target.getBoundingClientRect().bottom <
-              window.innerHeight - 450
+              window.innerHeight - 50
           ) {
+            debugger;
             productID = Array.from(entry.target.children[0].children).filter(
               e => e.id != ""
             )[0]?.id;
@@ -379,15 +384,19 @@ class CollectionSpecific extends React.Component<
         });
         if (element) {
           if (idx > -1) {
+            debugger;
             this.setState({ count: idx + 1 });
           }
           if (window.scrollY < height) {
+            debugger;
             this.setState({ count: -1 });
           }
         } else if (
-          cards[cards.length - 1].getBoundingClientRect().bottom < height ||
-          window.scrollY < height
+          cards[cards.length - 1].getBoundingClientRect().bottom <
+            bottomHeight ||
+          window.scrollY < bottomHeight
         ) {
+          debugger;
           this.setState({ count: -1 });
         }
         observer.disconnect();
@@ -863,7 +872,7 @@ class CollectionSpecific extends React.Component<
         </div>
 
         {Object.entries(view_more_collections || {})?.length ? (
-          <div className={styles.moreCollectionWrp}>
+          <div className={styles.moreCollectionWrp} id="view_more_collection">
             <h2>View More Collections</h2>
             <div className={styles.moreCollectionImgsWrp}>
               {Object.entries(view_more_collections)?.map((collection, i) => (
@@ -888,7 +897,7 @@ class CollectionSpecific extends React.Component<
             href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
           />
         )}
-        {mobile && this.state.count > -1 && this.state.showProductCounter && (
+        {this.state.count > -1 && this.state.showProductCounter && (
           <ProductCounter
             current={this.state.count}
             // total={results?.length}
