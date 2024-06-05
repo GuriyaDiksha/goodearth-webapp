@@ -359,7 +359,9 @@ class Bag extends React.Component<Props, State> {
                                         {data.discountedPrice
                                           ? displayPriceWithCommas(
                                               data.discountedPrice[currency],
-                                              currency
+                                              currency,
+                                              true,
+                                              false
                                             )
                                           : ""}
                                       </p>
@@ -370,7 +372,9 @@ class Bag extends React.Component<Props, State> {
                                       <p className={styles.strikeprice}>
                                         {displayPriceWithCommas(
                                           data.price[currency],
-                                          currency
+                                          currency,
+                                          true,
+                                          false
                                         )}
                                       </p>
                                     ) : (
@@ -383,7 +387,9 @@ class Bag extends React.Component<Props, State> {
                                       >
                                         {displayPriceWithCommas(
                                           data.price[currency],
-                                          currency
+                                          currency,
+                                          true,
+                                          false
                                         )}
                                       </p>
                                     )}
@@ -425,7 +431,9 @@ class Bag extends React.Component<Props, State> {
                 (-)
                 {displayPriceWithCommasFloat(
                   discount?.amount,
-                  this.props.currency
+                  this.props.currency,
+                  true,
+                  false
                 )}
               </h5>
             </div>
@@ -451,7 +459,9 @@ class Bag extends React.Component<Props, State> {
                   <h5 className={cs(styles.subTotalPrice)}>
                     {displayPriceWithCommasFloat(
                       this.props.cart.subTotal,
-                      this.props.currency
+                      this.props.currency,
+                      true,
+                      false
                     )}
                   </h5>
                 </div>
@@ -484,7 +494,9 @@ class Bag extends React.Component<Props, State> {
                   <h5 className={cs(styles.totalPrice, globalStyles.bold)}>
                     {displayPriceWithCommasFloat(
                       this.props.cart.total,
-                      this.props.currency
+                      this.props.currency,
+                      true,
+                      false
                     )}
                   </h5>
                 </div>
@@ -687,7 +699,9 @@ class Bag extends React.Component<Props, State> {
                 {displayPriceWithCommas(
                   parseInt(freeShippingApplicable?.toString()) -
                     parseInt(totalWithoutShipping?.toString() || ""),
-                  this.props.currency
+                  this.props.currency,
+                  true,
+                  false
                 )}
                 &nbsp;or more to qualify for free shipping.
               </div>

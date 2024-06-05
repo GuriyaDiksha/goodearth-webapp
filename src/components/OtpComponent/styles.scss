@@ -90,8 +90,8 @@
   
       /* Style the indicator (dot/circle) */
       .radio1 .checkmark:after {
-        top: 0.5px;
-        left: 0.5px;
+        // top: 0.5px;
+        // left: 0.5px;
         // width: 7px;
         // height: 7px;
         border-radius: 50%;
@@ -99,7 +99,7 @@
 
         height: 11px;
         width: 11px;
-        background-color: #548b8b;
+        background-color: $aqua;
       }
     }
     .radiobtn {

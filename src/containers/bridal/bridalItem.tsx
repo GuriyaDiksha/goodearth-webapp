@@ -194,11 +194,7 @@ class BridalItem extends React.Component<Props, State> {
   render() {
     const { mobile } = this.props;
     return (
-      <div
-        className={cs(styles.cart, styles.cartContainer, {
-          [styles.notAvailableItem]: !this.props.bridalItem.productAvailable
-        })}
-      >
+      <div className={cs(styles.cart, styles.cartContainer)}>
         <div className={cs(styles.cartItem, globalStyles.gutter15)}>
           <div
             className={cs(bootstrap.row, globalStyles.flex, globalStyles.row)}
@@ -230,8 +226,9 @@ class BridalItem extends React.Component<Props, State> {
                 )}
                 <div
                   className={cs("productImage", {
-                    [styles.blurImg]:
-                      this.props.bridalItem.stock == 0 ||
+                    [styles.blurImg]: this.props.bridalItem.stock == 0,
+                    [styles.notAvailableItem]:
+                      !this.props.bridalItem.productAvailable ||
                       this.props.bridalItem.price[this.props.currency] == 0
                   })}
                 >
@@ -248,7 +245,12 @@ class BridalItem extends React.Component<Props, State> {
                 bootstrap.colLg7,
                 bootstrap.colMd7,
                 bootstrap.col7,
-                { [styles.mobPaddingZero]: mobile }
+                {
+                  [styles.mobPaddingZero]: mobile,
+                  [styles.notAvailableItem]:
+                    !this.props.bridalItem.productAvailable ||
+                    this.props.bridalItem.price[this.props.currency] == 0
+                }
               )}
             >
               <div className={styles.rowMain}>
@@ -484,7 +486,12 @@ class BridalItem extends React.Component<Props, State> {
                 bootstrap.colLg3,
                 bootstrap.colMd3,
                 globalStyles.textCenter,
-                { [styles.hide]: mobile }
+                {
+                  [styles.hide]: mobile,
+                  [styles.notAvailableItem]:
+                    !this.props.bridalItem.productAvailable ||
+                    this.props.bridalItem.price[this.props.currency] == 0
+                }
               )}
             >
               <div className={styles.section}>

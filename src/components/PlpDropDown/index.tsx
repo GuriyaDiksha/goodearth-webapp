@@ -174,7 +174,7 @@ const PlpDropdownMenu = ({
             }}
             id="sort"
           >
-            <span>Sort</span>
+            <span>Sort By</span>
           </div>
         </Fragment>
       </div>
