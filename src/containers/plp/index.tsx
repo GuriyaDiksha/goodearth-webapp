@@ -1176,7 +1176,7 @@ class PLP extends React.Component<
         {this.state.count > -1 && this.state.showProductCounter && (
           <ProductCounter
             current={this.state.count}
-            total={!this.state.corporoateGifting ? count + 1 : count}
+            total={count}
             id="plp-product-counter"
           />
         )}
