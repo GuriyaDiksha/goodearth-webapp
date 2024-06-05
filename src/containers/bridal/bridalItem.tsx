@@ -389,39 +389,43 @@ class BridalItem extends React.Component<Props, State> {
                   <div className={cs(bootstrap.col12, bootstrap.colMd6)}>
                     <div className={cs(styles.section, styles.sectionMiddle)}>
                       <div className="">
-                        {this.props.bridalItem.productAvailable && (
-                          <div className={styles.textMuted}>
-                            Add Your Quantity
-                          </div>
-                        )}
-                        {this.props.bridalItem.productAvailable && (
-                          <div
-                            className={cs(styles.widgetQty, {
-                              [styles.disableQty]:
-                                this.props.bridalItem.stock == 0 ||
-                                this.props.bridalItem.qtyRemaining == 0 ||
-                                this.props.bridalItem.price[
-                                  this.props.currency
-                                ] == 0
-                            })}
-                          >
-                            <span
-                              className={styles.btnQty}
-                              onClick={this.decreaseState}
+                        {this.props.bridalItem.productAvailable &&
+                          this.props.bridalItem.price[this.props.currency] >
+                            0 && (
+                            <div className={styles.textMuted}>
+                              Add Your Quantity
+                            </div>
+                          )}
+                        {this.props.bridalItem.productAvailable &&
+                          this.props.bridalItem.price[this.props.currency] >
+                            0 && (
+                            <div
+                              className={cs(styles.widgetQty, {
+                                [styles.disableQty]:
+                                  this.props.bridalItem.stock == 0 ||
+                                  this.props.bridalItem.qtyRemaining == 0 ||
+                                  this.props.bridalItem.price[
+                                    this.props.currency
+                                  ] == 0
+                              })}
                             >
-                              -
-                            </span>
-                            <span className={styles.qty}>
-                              {this.state.qtyCurrent}
-                            </span>
-                            <span
-                              className={styles.btnQty}
-                              onClick={this.increaseState}
-                            >
-                              +
-                            </span>
-                          </div>
-                        )}
+                              <span
+                                className={styles.btnQty}
+                                onClick={this.decreaseState}
+                              >
+                                -
+                              </span>
+                              <span className={styles.qty}>
+                                {this.state.qtyCurrent}
+                              </span>
+                              <span
+                                className={styles.btnQty}
+                                onClick={this.increaseState}
+                              >
+                                +
+                              </span>
+                            </div>
+                          )}
                         <div className={styles.h10}>
                           {this.state.err ? (
                             <div
@@ -519,7 +523,8 @@ class BridalItem extends React.Component<Props, State> {
                       />
 
                       {this.props.bridalItem.stock == 0 ||
-                      !this.props.bridalItem.productAvailable
+                      !this.props.bridalItem.productAvailable ||
+                      this.props.bridalItem.price[this.props.currency] == 0
                         ? ""
                         : this.props.bridalItem.productDeliveryDate && (
                             <div
