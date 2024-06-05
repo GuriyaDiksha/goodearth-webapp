@@ -195,6 +195,8 @@
         }
         label {
           @include b5_10px_montserrat_charcoal();
+          font-family: "Montserrat", "sans-serif" !important;
+          font-size: 10px !important;
           text-transform: none;
           line-height: 18px;
           letter-spacing: 0.5px;
