@@ -313,7 +313,7 @@
     .heading {
         border-bottom: none;
         // line-height: 30px;
-        line-height: 24px;
+        line-height: 15px;
         @include b4_12px_montserrat_charcoal();
         &:hover{
             font-weight: $medium;
@@ -331,6 +331,8 @@
     }
     .block-heading {
         display: block;
+        margin-top: 10px;
+        line-height: 15px;
         // margin-top: 5px;
     }
     .container {
