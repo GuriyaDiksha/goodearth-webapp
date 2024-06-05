@@ -47,7 +47,7 @@
         display: block;
         border-bottom: none;
         // line-height: 18px;
-        line-height: 24px;
+        line-height: 15px;
         @include b4_12px_montserrat_charcoal();
         &:hover{
             font-weight: $medium;
@@ -68,7 +68,8 @@
         margin-top: 10px;
     }
     .block-heading-image-template {
-        margin-top: 4px;
+        margin-top: 8px;
+        margin-bottom: 20px;
     }
 //     .block-cta {
 //         display: block;
@@ -331,7 +332,7 @@
     }
     .block-heading {
         display: block;
-        margin-top: 10px;
+        margin-top: 8px;
         line-height: 15px;
         // margin-top: 5px;
     }
