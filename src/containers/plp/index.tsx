@@ -866,9 +866,14 @@ class PLP extends React.Component<
               </div>
             ) : (
               <div
-                className={cs(styles.productNumber, styles.imageContainer, {
-                  [styles.prouctMobilePadding]: mobile
-                })}
+                className={cs(
+                  styles.plpContainer,
+                  styles.productNumber,
+                  styles.imageContainer,
+                  {
+                    [styles.prouctMobilePadding]: mobile
+                  }
+                )}
               >
                 <span>
                   {count > 0
@@ -880,7 +885,8 @@ class PLP extends React.Component<
               </div>
             )}
             <div
-              className={
+              className={cs(
+                styles.plpContainer,
                 mobile
                   ? banner
                     ? cs(
@@ -902,7 +908,7 @@ class PLP extends React.Component<
                       globalStyles.paddTop20,
                       "products_container"
                     )
-              }
+              )}
               id="product_images"
             >
               {!mobile || this.props.plpMobileView == "grid"
@@ -946,6 +952,7 @@ class PLP extends React.Component<
                         <div
                           className={cs(
                             bootstrap.colLg4,
+                            bootstrap.colMd4,
                             bootstrap.col6,
                             styles.setWidth,
                             "product-container"

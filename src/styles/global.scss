@@ -953,7 +953,6 @@ font-weight: bold;
   color: #4C4C4C;
   border: 1px solid #4C4C4C;
 }
-
 // start common UI kit css for radioIndicatore and radioCheck 
 .radio-indicator{
   width: 19px!important;
@@ -1004,3 +1003,15 @@ input[type="radio"]:checked.radio-check{
   }
 }
 // end common UI kit css for radioIndicatore and radioCheck 
+
+// hidden class for mob and desktop
+@media(max-width:767px){
+  .mobile-hide{
+    display:none!important;
+  }
+}
+@media(min-width:768px){
+  .desktop-hide{
+    display: none!important;
+  }
+}
