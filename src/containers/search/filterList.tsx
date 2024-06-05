@@ -1097,30 +1097,30 @@ class FilterList extends React.Component<Props, State> {
   }
 
   handleAnimation = (id: string, isShow: boolean, isSubCat = false) => {
-    if (typeof document == "object" && document.getElementById(id)) {
-      if (!isShow) {
-        if (
-          isSubCat &&
-          typeof document == "object" &&
-          document.getElementById("category")
-        ) {
-          (document.getElementById(
-            "category"
-          ) as HTMLElement).style.maxHeight = document.getElementById(
-            "category"
-          )?.scrollHeight
-            ? `${Number(
-                (document.getElementById("category")?.scrollHeight || 0) +
-                  (document.getElementById(id)?.scrollHeight || 0)
-              )}px`
-            : "max-content";
-        }
-        (document.getElementById(id) as HTMLElement).style.maxHeight =
-          document.getElementById(id)?.scrollHeight && id !== "category"
-            ? `${document.getElementById(id)?.scrollHeight}px`
-            : "max-content";
-      } else {
-        if (window.innerWidth >= 993) {
+    if (window.innerWidth >= 993) {
+      if (typeof document == "object" && document.getElementById(id)) {
+        if (!isShow) {
+          if (
+            isSubCat &&
+            typeof document == "object" &&
+            document.getElementById("category")
+          ) {
+            (document.getElementById(
+              "category"
+            ) as HTMLElement).style.maxHeight = document.getElementById(
+              "category"
+            )?.scrollHeight
+              ? `${Number(
+                  (document.getElementById("category")?.scrollHeight || 0) +
+                    (document.getElementById(id)?.scrollHeight || 0)
+                )}px`
+              : "max-content";
+          }
+          (document.getElementById(id) as HTMLElement).style.maxHeight =
+            document.getElementById(id)?.scrollHeight && id !== "category"
+              ? `${document.getElementById(id)?.scrollHeight}px`
+              : "max-content";
+        } else {
           (document.getElementById(id) as HTMLElement).style.maxHeight = "0px";
         }
       }
