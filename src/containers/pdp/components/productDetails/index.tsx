@@ -1455,11 +1455,7 @@ const ProductDetails: React.FC<Props> = ({
                 [globalStyles.voffset3]: mobile
               })}
             >
-              {onload &&
-              !info.isSale &&
-              loyaltyDisabled &&
-              !isQuickview &&
-              isCeriseUser ? (
+              {onload && loyaltyDisabled && !isQuickview && isCeriseUser ? (
                 <p className={styles.errorMsg}>
                   This product is not eligible for Cerise points accumulation.
                 </p>
