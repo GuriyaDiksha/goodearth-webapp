@@ -463,6 +463,13 @@ export default {
     document.cookie = "custGrp=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
     // document.cookie =
     //   "cerisepopup=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
+
+    if (typeof document != "undefined" && typeof window != "undefined") {
+      const pathname = location?.pathname;
+      if (pathname.includes("/order/checkout")) {
+        window.location.href = `${__API_HOST__ + "/cart"}`;
+      }
+    }
     LoginService.showLogin(dispatch);
     dispatch(updateCookies({ tkn: "" }));
     MetaService.updateMeta(dispatch, {});
