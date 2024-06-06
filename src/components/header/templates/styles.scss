@@ -47,7 +47,7 @@
         display: block;
         border-bottom: none;
         // line-height: 18px;
-        line-height: 15px;
+        line-height: 18px;
         @include b4_12px_montserrat_charcoal();
         &:hover{
             font-weight: $medium;
@@ -314,7 +314,7 @@
     .heading {
         border-bottom: none;
         // line-height: 30px;
-        line-height: 15px;
+        line-height: 18px;
         @include b4_12px_montserrat_charcoal();
         &:hover{
             font-weight: $medium;
@@ -333,7 +333,7 @@
     .block-heading {
         display: block;
         margin-top: 9px;
-        line-height: 15px;
+        line-height: 18px;
         // margin-top: 5px;
     }
     .container {
