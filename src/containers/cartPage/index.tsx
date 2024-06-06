@@ -213,6 +213,7 @@ class CartPage extends React.Component<Props, State> {
     // }
     const from = localStorage.getItem("from");
     if (from === "checkout") {
+      localStorage.removeItem("from");
       this.props.clientLogout();
     }
 
