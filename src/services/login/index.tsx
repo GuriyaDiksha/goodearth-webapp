@@ -467,7 +467,7 @@ export default {
     if (typeof document != "undefined" && typeof window != "undefined") {
       const pathname = location?.pathname;
       if (pathname.includes("/order/checkout")) {
-        window.location.href = `${__API_HOST__ + "/cart"}`;
+        window.location.href = `${location?.origin + "/cart"}`;
       }
     }
     LoginService.showLogin(dispatch);
