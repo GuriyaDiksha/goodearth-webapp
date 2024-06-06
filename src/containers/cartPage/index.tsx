@@ -138,6 +138,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     updateWishlist: async () => {
       await WishlistService.updateWishlist(dispatch);
+    },
+    clientLogout: () => {
+      LoginService.logoutClient(dispatch);
     }
   };
 };
@@ -208,6 +211,11 @@ class CartPage extends React.Component<Props, State> {
     //       this.props.history.push("/backend-order-error");
     //     });
     // }
+    const from = localStorage.getItem("from");
+    if (from === "checkout") {
+      localStorage.removeItem("from");
+      this.props.clientLogout();
+    }
 
     if (this.props.history.location.state?.from == "checkout") {
       if (!this.props.isLoggedIn) {

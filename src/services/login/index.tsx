@@ -466,34 +466,36 @@ export default {
 
     if (typeof document != "undefined" && typeof window != "undefined") {
       const pathname = location?.pathname;
+      localStorage.setItem("from", "checkout");
       if (pathname.includes("/order/checkout")) {
-        window.location.href = `${location?.origin + "/cart"}`;
+        window.location.replace(`${location?.origin + "/cart"}`);
       }
+    } else {
+      LoginService.showLogin(dispatch);
+      dispatch(updateCookies({ tkn: "" }));
+      MetaService.updateMeta(dispatch, {});
+      WishlistService.resetWishlist(dispatch);
+      Api.getSalesStatus(dispatch).catch(err => {
+        console.log("Sales Api Status ==== " + err);
+      });
+      HeaderService.fetchHeaderDetails(dispatch).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
+      Api.getAnnouncement(dispatch).catch(err => {
+        console.log("Announcement API ERROR ==== " + err);
+      });
+      Api.getPopups(dispatch).catch(err => {
+        console.log("Popups Api ERROR === " + err);
+      });
+      BasketService.fetchBasket(dispatch);
+      dispatch(resetMeta(undefined));
+      showGrowlMessage(
+        dispatch,
+        MESSAGE.INVALID_SESSION_LOGOUT,
+        5000,
+        "INVALID_SESSION_LOGOUT"
+      );
     }
-    LoginService.showLogin(dispatch);
-    dispatch(updateCookies({ tkn: "" }));
-    MetaService.updateMeta(dispatch, {});
-    WishlistService.resetWishlist(dispatch);
-    Api.getSalesStatus(dispatch).catch(err => {
-      console.log("Sales Api Status ==== " + err);
-    });
-    HeaderService.fetchHeaderDetails(dispatch).catch(err => {
-      console.log("FOOTER API ERROR ==== " + err);
-    });
-    Api.getAnnouncement(dispatch).catch(err => {
-      console.log("Announcement API ERROR ==== " + err);
-    });
-    Api.getPopups(dispatch).catch(err => {
-      console.log("Popups Api ERROR === " + err);
-    });
-    BasketService.fetchBasket(dispatch);
-    dispatch(resetMeta(undefined));
-    showGrowlMessage(
-      dispatch,
-      MESSAGE.INVALID_SESSION_LOGOUT,
-      5000,
-      "INVALID_SESSION_LOGOUT"
-    );
   },
   register: async function(
     dispatch: Dispatch,
