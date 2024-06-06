@@ -63,6 +63,9 @@
         line-height: 16px;
         display: block;
     }
+    .block-title {
+        line-height: 18px;
+     }
     .block-heading {
         display: block;
         margin-top: 10px;
@@ -96,7 +99,7 @@
         display: block;
         border-bottom: none;
         // line-height: 18px;
-        line-height: 24px;
+        line-height: 18px;
         @include b4_12px_montserrat_charcoal();
         &:hover{
             font-weight: $medium;
@@ -114,7 +117,9 @@
     }
     .block-heading {
         display: block;
-        margin-top: 5px;
+        margin-top: 9px;
+        line-height: 18px;
+        margin-bottom: 20px;
     }
     // .block-cta {
     //     display: block;
@@ -329,6 +334,9 @@
         border-bottom: none;
         line-height: 16px;
         display: block;
+    }
+    .block-title {
+       line-height: 18px;
     }
     .block-heading {
         display: block;
