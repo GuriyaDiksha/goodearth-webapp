@@ -17,6 +17,7 @@ import { updateBasket } from "actions/basket";
 import CacheService from "services/cache";
 import { MESSAGE } from "constants/messages";
 import { showGrowlMessage } from "../../utils/validate";
+import { updateCheckoutLoader } from "actions/info";
 
 export default {
   fetchAddressList: async (
@@ -127,6 +128,7 @@ export default {
     }
     dispatch(updateBasket(data.data.basket));
     if (redirectToCart) {
+      dispatch(updateCheckoutLoader(false));
       history?.push("/cart", {});
     }
     return data;
