@@ -672,7 +672,10 @@ class Bag extends React.Component<Props, State> {
             parseInt(freeShippingThreshold?.toString()) &&
           parseInt(totalWithoutShipping?.toString() || "") <
             parseInt(freeShippingApplicable?.toString()) &&
-          this.props.cart.shippable ? (
+          this.props.cart.shippable &&
+          parseInt(freeShippingApplicable?.toString()) -
+            parseInt(totalWithoutShipping?.toString() || "") >
+            0 ? (
             <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
               <div className={styles.freeShipImg}>
                 <img
