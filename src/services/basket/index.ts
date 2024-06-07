@@ -50,7 +50,9 @@ export default {
       );
     }
     dispatch(updateBasket(res));
+    console.log("Fetch basket outer=======", isLoggedIn);
     if (source == "checkout" && isLoggedIn && res.redirectToCart) {
+      console.log("Fetch basket inner=======", isLoggedIn);
       dispatch(updateLoader(false));
       dispatch(updateCheckoutLoader(false));
       history?.push("/cart", {});

@@ -466,6 +466,7 @@ class Checkout extends React.Component<Props, State> {
     //   //     this.props.history.push("/backend-order-error");
     //   //   });
     // } else {
+    console.log("Fetch mount=======", this.props.user.isLoggedIn);
     if (!this.props.user.isLoggedIn) {
       this.props.history.push("/cart", { from: "checkout" });
     }
@@ -1277,6 +1278,7 @@ class Checkout extends React.Component<Props, State> {
             </div>
           </div>
         </div>
+        {console.log("Fetch render=======", this.props.user.isLoggedIn)}
         {this.props.isLoading &&
           !this.props.user.isLoggedIn &&
           this.props.history.push("/cart", { from: "checkout" })}

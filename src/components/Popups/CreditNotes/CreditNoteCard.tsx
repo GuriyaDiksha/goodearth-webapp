@@ -89,7 +89,7 @@ const CreditNoteCard = forwardRef<Props, any>(
                 Total value:{" "}
                 <span> {displayPriceWithCommasFloat(amount, currency)}</span>
               </p>
-              {!message && (
+              {(!message || message === "Balance Over") && (
                 <p className={styles.balance}>
                   Balance amount:{" "}
                   {displayPriceWithCommasFloat(remaining_amount, currency)}
