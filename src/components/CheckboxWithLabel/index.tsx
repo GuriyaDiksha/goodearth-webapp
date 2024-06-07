@@ -2,6 +2,8 @@ import React, { FC } from "react";
 import styles from "./styles.scss";
 import { CheckboxProps } from "./typings";
 import cs from "classnames";
+import { useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
 
 const CheckboxWithLabel: FC<CheckboxProps> = ({
   inputClassName,
@@ -13,8 +15,10 @@ const CheckboxWithLabel: FC<CheckboxProps> = ({
   checked,
   label,
   className,
-  value
+  value,
+  itemCount
 }) => {
+  const { mobile } = useSelector((state: AppState) => state.device);
   return (
     <div className={cs(styles.aquaWhiteCheckbox, className)}>
       <input
@@ -28,7 +32,7 @@ const CheckboxWithLabel: FC<CheckboxProps> = ({
         className={cs(inputClassName)}
         value={value}
       />
-      {label}
+      {label} {mobile && <span className={styles.itemCount}>{itemCount}</span>}
     </div>
   );
 };

@@ -80,7 +80,7 @@ const BottomMenu: React.FC<Props> = ({
   const items: DropdownItem[] = curryList;
 
   const isBridalRegistryPage =
-    location.pathname.indexOf("/bridal/") > -1 &&
+    location.pathname.indexOf("/registry/") > -1 &&
     !location.pathname.includes("/account/");
 
   const currencyChange = (cur: any) => {

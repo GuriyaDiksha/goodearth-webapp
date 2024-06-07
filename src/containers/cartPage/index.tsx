@@ -593,7 +593,9 @@ class CartPage extends React.Component<Props, State> {
                                         {data.discountedPrice
                                           ? displayPriceWithCommas(
                                               data.discountedPrice[currency],
-                                              currency
+                                              currency,
+                                              true,
+                                              false
                                             )
                                           : ""}
                                       </p>
@@ -604,7 +606,9 @@ class CartPage extends React.Component<Props, State> {
                                       <p className={styles.strikeprice}>
                                         {displayPriceWithCommas(
                                           data.price[currency],
-                                          currency
+                                          currency,
+                                          true,
+                                          false
                                         )}
                                       </p>
                                     ) : (
@@ -617,7 +621,9 @@ class CartPage extends React.Component<Props, State> {
                                       >
                                         {displayPriceWithCommas(
                                           data.price[currency],
-                                          currency
+                                          currency,
+                                          true,
+                                          false
                                         )}
                                       </p>
                                     )}

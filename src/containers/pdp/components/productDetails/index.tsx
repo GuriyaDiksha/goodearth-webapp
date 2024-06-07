@@ -703,6 +703,11 @@ const ProductDetails: React.FC<Props> = ({
             "Product ID": productId,
             Variant: selectedSize?.size
           });
+
+          dataLayer.push({
+            event: "add_to_registry",
+            click_type: productTitle
+          });
         }
 
         if (selectedSize) {

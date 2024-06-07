@@ -44,13 +44,16 @@
         position: fixed;
         padding: 16px 20px 15px 20px;
         border-bottom: 1px solid #ccc;
+        height: 70px;
+        padding: 30px 20px 10px;
         &.mobile-filter-header-sort {
           top: auto;
-          bottom: 204px;
+          // bottom: 204px;
+          bottom: 240px;
         }
         &.mobile-filter-header-sort-discount {
           top: auto;
-          bottom: 254px;
+          bottom: 300px;
         }
         .filter-cross {
             line-height: 30px;
@@ -97,14 +100,17 @@
             padding: 0 20px;
             li {
               padding: 0 10px;
-              line-height: 50px;
-              @include menu-subcopy();
+              // line-height: 50px;
+              // @include menu-subcopy();
+              @include b4_12px_montserrat_light_charcoal();
               border-bottom: 1px solid tint(#000, 90%);
+              line-height: 59px;
+              letter-spacing: 0.36px;
               a {
                   color: tint(#000, 50%);
               }
               &.gold-color{
-                color: $gold;
+                @include b4_12px_medium_gold();
               }
             }
         }
@@ -198,4 +204,30 @@
   float: right;
   font-size: 14px;
   margin-top: 4px;
+}
+
+.active-filter{
+  position: relative;
+  &::before{
+    content: '';
+    height: 13px;
+    width: 13px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: -20%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #548b8b;
+  }
+  &::after{
+    content: "";
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: #548b8b;
+    position: absolute;
+    top: 50%;
+    left: -20%;
+    transform: translate(-50%, -50%);
+  }
 }

@@ -30,6 +30,8 @@ import TitleHeadingMobile from "./templates/TitleHeadingMobile";
 import * as util from "../../utils/validate";
 import CeriseCard from "components/CeriseCard";
 import { headerClickGTM } from "../../utils/validate";
+import { GA_CALLS } from "constants/cookieConsent";
+import CookieService from "services/cookie";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -61,7 +63,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
 
   Clickmenulevel1(index: number) {
     if (
-      this.props.location.pathname.indexOf("/bridal/") > 0 &&
+      this.props.location.pathname.indexOf("/registry/") > 0 &&
       !this.props.location.pathname.includes("/account/")
     ) {
       return false;
@@ -822,6 +824,17 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     return html;
   }
 
+  bridalGACall = (url?: string) => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "ge_create_my_registry_click",
+        user_status: this.props.isLoggedIn ? "Logged in" : "Guest",
+        click_url: `${window?.location?.origin}${url}`
+      });
+    }
+  };
+
   render() {
     const curryList = this.props.currencyList.map(data => {
       // return data.currencyCode
@@ -960,7 +973,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             className={
               showC
                 ? cs(styles.currency, styles.before)
-                : this.props.location.pathname.indexOf("/bridal/") > 0 &&
+                : this.props.location.pathname.indexOf("/registry/") > 0 &&
                   !this.props.location.pathname.includes("/account/")
                 ? cs(styles.currency, styles.op3)
                 : styles.currency
@@ -1029,6 +1042,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                       to={item.href as string}
                       onClick={() => {
                         headerClickGTM("Profile Item", "Top", true, isLoggedIn);
+                        if (item?.value === "Good Earth Registry") {
+                          this.bridalGACall(item?.href);
+                        }
                       }}
                     >
                       {item.label}
@@ -1078,7 +1094,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             <li
               key={i}
               className={cs(
-                this.props.location.pathname.indexOf("/bridal/") > 0 &&
+                this.props.location.pathname.indexOf("/registry/") > 0 &&
                   !this.props.location.pathname.includes("/account/")
                   ? styles.iconStyleDisabled
                   : "",
