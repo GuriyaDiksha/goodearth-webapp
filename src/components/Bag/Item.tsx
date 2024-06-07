@@ -401,35 +401,7 @@ const LineItems: React.FC<BasketItem> = memo(
                     styles.badgeContainer
                   )}
                 >
-                  {saleStatus && discount && discountedPriceRecords ? (
-                    <span className={styles.discountprice}>
-                      {displayPriceWithCommas(
-                        discountedPriceRecords[currency],
-                        currency,
-                        true,
-                        false
-                      )}
-                      &nbsp; &nbsp;
-                    </span>
-                  ) : (
-                    ""
-                  )}
-                  {saleStatus && discount ? (
-                    <span className={styles.strikeprice}>
-                      {isGiftCard
-                        ? displayPriceWithCommas(GCValue, currency, true, false)
-                        : displayPriceWithCommas(price, currency, true, false)}
-                    </span>
-                  ) : (
-                    <span
-                      className={badgeType == "B_flat" ? globalStyles.gold : ""}
-                    >
-                      {" "}
-                      {isGiftCard
-                        ? displayPriceWithCommas(GCValue, currency, true, false)
-                        : displayPriceWithCommas(price, currency, true, false)}
-                    </span>
-                  )}
+                  {badge_text}
                 </div>
               )}
               <div className={bridalProfile ? styles.flexPriceIcon : ""}>
@@ -456,7 +428,9 @@ const LineItems: React.FC<BasketItem> = memo(
                       <span className={styles.discountprice}>
                         {displayPriceWithCommas(
                           discountedPriceRecords[currency],
-                          currency
+                          currency,
+                          true,
+                          false
                         )}
                         &nbsp; &nbsp;
                       </span>
@@ -466,8 +440,18 @@ const LineItems: React.FC<BasketItem> = memo(
                     {saleStatus && discount ? (
                       <span className={styles.strikeprice}>
                         {isGiftCard
-                          ? displayPriceWithCommas(GCValue, currency)
-                          : displayPriceWithCommas(price, currency)}
+                          ? displayPriceWithCommas(
+                              GCValue,
+                              currency,
+                              true,
+                              false
+                            )
+                          : displayPriceWithCommas(
+                              price,
+                              currency,
+                              true,
+                              false
+                            )}
                       </span>
                     ) : (
                       <span
@@ -477,8 +461,18 @@ const LineItems: React.FC<BasketItem> = memo(
                       >
                         {" "}
                         {isGiftCard
-                          ? displayPriceWithCommas(GCValue, currency)
-                          : displayPriceWithCommas(price, currency)}
+                          ? displayPriceWithCommas(
+                              GCValue,
+                              currency,
+                              true,
+                              false
+                            )
+                          : displayPriceWithCommas(
+                              price,
+                              currency,
+                              true,
+                              false
+                            )}
                       </span>
                     )}
                   </div>
