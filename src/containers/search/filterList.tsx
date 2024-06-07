@@ -1625,15 +1625,12 @@ class FilterList extends React.Component<Props, State> {
       }
     );
     const userConsent = CookieService.getCookie("consent").split(",");
-    const val =
-      event.target.id.split(">")?.[2] !== undefined
-        ? ` -${event.target.id.split(">")?.[2]}`
-        : "";
+
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "Filter used",
         "Filter type": "Category",
-        "Filter value": event.target.value + val
+        "Filter value": isViewAll ? `${data} > View All` : event.target.id
       });
     }
     event.stopPropagation();
