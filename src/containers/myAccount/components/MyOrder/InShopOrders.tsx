@@ -130,7 +130,12 @@ const InShopOrder: React.FC<OrdersProps> = props => {
               <p className={styles.title}>{item.title}</p>
               <p className={cs(styles.price)}>
                 <span className={cs(styles.amountPaid)}>
-                  {`${displayPriceWithCommasFloat(item.price, "INR")}`}
+                  {`${displayPriceWithCommasFloat(
+                    item.price,
+                    "INR",
+                    true,
+                    false
+                  )}`}
                 </span>
               </p>
             </div>
@@ -193,7 +198,12 @@ const InShopOrder: React.FC<OrdersProps> = props => {
                 <span className={styles.label}>Amount Paid</span>
                 <span className={styles.data}>
                   {data.total > 0
-                    ? displayPriceWithCommasFloat(data.total, "INR")
+                    ? displayPriceWithCommasFloat(
+                        data.total,
+                        "INR",
+                        true,
+                        false
+                      )
                     : data.total}
                 </span>
               </div>
