@@ -457,20 +457,26 @@ export default {
     }
   },
   logoutClient: async function(dispatch: Dispatch) {
-    document.cookie = "atkn=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-    document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-    document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-    document.cookie = "custGrp=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
     // document.cookie =
     //   "cerisepopup=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
+    const pathname = location?.pathname;
 
-    if (typeof document != "undefined" && typeof window != "undefined") {
-      const pathname = location?.pathname;
+    if (
+      typeof document != "undefined" &&
+      typeof window != "undefined" &&
+      pathname.includes("/order/checkout")
+    ) {
       localStorage.setItem("from", "checkout");
-      if (pathname.includes("/order/checkout")) {
-        window.location.replace(`${location?.origin + "/cart"}`);
-      }
+      debugger;
+      window.location.replace(`${location?.origin + "/cart"}`);
     } else {
+      document.cookie = "atkn=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+      document.cookie =
+        "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+      document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+      document.cookie =
+        "custGrp=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
+
       LoginService.showLogin(dispatch);
       dispatch(updateCookies({ tkn: "" }));
       MetaService.updateMeta(dispatch, {});
