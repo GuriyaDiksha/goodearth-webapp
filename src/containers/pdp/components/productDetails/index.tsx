@@ -1413,7 +1413,7 @@ const ProductDetails: React.FC<Props> = ({
                 isQuickview &&
                 isCeriseUser ? (
                   <p className={cs(styles.errorMsg, styles.notEligible)}>
-                    This product is not eligible for Cerise points accumulation.
+                    This product is not eligible for cerise points.
                   </p>
                 ) : (
                   ""
@@ -1457,7 +1457,7 @@ const ProductDetails: React.FC<Props> = ({
             >
               {onload && loyaltyDisabled && !isQuickview && isCeriseUser ? (
                 <p className={styles.errorMsg}>
-                  This product is not eligible for Cerise points accumulation.
+                  This product is not eligible for cerise points.
                 </p>
               ) : (
                 ""
