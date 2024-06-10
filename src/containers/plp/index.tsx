@@ -832,11 +832,9 @@ class PLP extends React.Component<
                         styles.imageContainerMobileBanner,
                         globalStyles.paddTop20
                       )
-                    : cs(
-                        bootstrap.row,
-                        styles.imageContainerMobile,
-                        globalStyles.paddTop45
-                      )
+                    : cs(bootstrap.row, styles.imageContainerMobile, {
+                        [globalStyles.paddTop45]: showTemplates.Banner?.[0]
+                      })
                   : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
               }
               id="product_images"
