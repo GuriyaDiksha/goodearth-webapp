@@ -429,7 +429,6 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 //   : styles.hidden
               }
             >
-              {console.log("data=====", data)}
               {data.children ? (
                 <ul key={data.link}>
                   {data.link && data.children.length > 0 ? (
