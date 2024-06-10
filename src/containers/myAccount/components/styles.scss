@@ -587,7 +587,7 @@ input[type="text"]{
   }
 
   .gc-label{
-    left: 50px !important;
+    left: 10px !important;
 
     @media screen and (max-width:767px) {
       left: 10px !important;
@@ -1612,6 +1612,7 @@ input[type="text"].country-code-search-input{
 .code-wrp{
   max-width: 366px;
   margin: 20px auto;
+  position: relative;
 }
 
 .country-code-wrp{
