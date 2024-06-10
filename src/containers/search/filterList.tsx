@@ -3011,9 +3011,18 @@ class FilterList extends React.Component<Props, State> {
         </ul>
         {mobile ? (
           <div className={cs(styles.filterButton, bootstrap.row)}>
-            <div className={styles.resetFilter} onClick={this.resetFilterClick}>
-              <span>Reset Filters</span>
-            </div>
+            {this.props.filterCount && this.props.filterCount > 0 ? (
+              <div
+                className={styles.resetFilter}
+                onClick={this.resetFilterClick}
+              >
+                <span>Reset Filters</span>
+              </div>
+            ) : (
+              <div className={cs(styles.resetFilter, styles.disableResetCta)}>
+                <span>Reset Filters</span>
+              </div>
+            )}
             <div className={styles.applyButton} onClick={this.mobileApply}>
               <span>{`Apply Filters ${
                 this.props.filterCount && this.props.filterCount > 0
