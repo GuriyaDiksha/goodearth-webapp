@@ -8,7 +8,7 @@ import LoginService from "services/login";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import configData from "./../config/list.json";
-import { updateLoader } from "actions/info";
+import { updateCheckoutLoader, updateLoader } from "actions/info";
 
 class API {
   static async get<T>(
@@ -74,7 +74,6 @@ class API {
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
     options: AxiosRequestConfig
   ): Promise<T> {
-    let isLoading = false;
     return new Promise((resolve, reject) => {
       dispatch(
         API.apiAction((cookies: any, info: any) => {
@@ -91,8 +90,7 @@ class API {
           ) {
             requestHeaders["enc-dec"] = "eyJlbmFibGVDcnlwdG8iOiB0cnVlfQ==";
           }
-          if (!info?.isLoading) {
-            isLoading = true;
+          if (!info?.isCheckoutLoading) {
             dispatch(updateLoader(true));
           }
           requestHeaders = {
@@ -105,10 +103,8 @@ class API {
             headers: requestHeaders
           })
             .then(res => {
-              if (isLoading) {
-                isLoading = false;
-                dispatch(updateLoader(false));
-              }
+              dispatch(updateLoader(false));
+
               if (cookies.sessionid != res.headers.sessionid) {
                 if (typeof document != "undefined") {
                   CookieService.setCookie(
@@ -126,12 +122,13 @@ class API {
               }
             })
             .catch(err => {
-              if (isLoading) {
-                isLoading = false;
-                dispatch(updateLoader(false));
-              }
+              dispatch(updateLoader(false));
+
               if (typeof document != "undefined") {
                 if (err.response.status == 401) {
+                  if (info?.isCheckoutLoading) {
+                    dispatch(updateCheckoutLoader(false));
+                  }
                   LoginService.logoutClient(dispatch);
                 } else if (
                   err.response.status == 406 &&
@@ -150,10 +147,7 @@ class API {
               }
             })
             .finally(() => {
-              if (isLoading) {
-                isLoading = false;
-                dispatch(updateLoader(false));
-              }
+              dispatch(updateLoader(false));
             });
         })
       );
