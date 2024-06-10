@@ -77,7 +77,6 @@ import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
 import addReg from "../../../../images/registery/addReg.svg";
 import addedReg from "../../../../images/registery/addedReg.svg";
-import { countBridal } from "actions/bridal";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -162,6 +161,12 @@ const ProductDetails: React.FC<Props> = ({
   const [isStockset, setIsStockset] = useState(false);
   const [pdpLoader, setPdpLoader] = useState(true);
   const isLoggedIn = useSelector((state: AppState) => state.user.isLoggedIn);
+  const slab = useSelector((state: AppState) => state.user.slab);
+  const isCeriseUser =
+    slab.toLowerCase() === "cerise" ||
+    slab.toLowerCase() === "cerise sitara" ||
+    slab.toLowerCase() === "cerise club";
+
   const canUseDOM = !!(
     typeof window !== "undefined" &&
     typeof window.document !== "undefined" &&
@@ -1407,14 +1412,17 @@ const ProductDetails: React.FC<Props> = ({
                 })}
               >
                 {Pdpbutton}
-                {/* Temporary hide this code as per disscussion with ansuiya */}
-                {/* {onload && !info.isSale && loyaltyDisabled && isQuickview ? (
+                {onload &&
+                !info.isSale &&
+                loyaltyDisabled &&
+                isQuickview &&
+                isCeriseUser ? (
                   <p className={cs(styles.errorMsg, styles.notEligible)}>
-                    This product is not eligible for Cerise points accumulation.
+                    This product is not eligible for cerise points.
                   </p>
                 ) : (
                   ""
-                )} */}
+                )}
               </div>
               <div
                 className={cs(bootstrap.col4, globalStyles.textCenter, {
@@ -1452,14 +1460,13 @@ const ProductDetails: React.FC<Props> = ({
                 [globalStyles.voffset3]: mobile
               })}
             >
-              {/* Temporary hide this code as per disscussion with ansuiya */}
-              {/* {onload && !info.isSale && loyaltyDisabled && !isQuickview ? (
+              {onload && loyaltyDisabled && !isQuickview && isCeriseUser ? (
                 <p className={styles.errorMsg}>
-                  This product is not eligible for Cerise points accumulation.
+                  This product is not eligible for cerise points.
                 </p>
               ) : (
                 ""
-              )} */}
+              )}
             </div>
 
             {bridalId !== 0 && bridalCurrency == currency && !corporatePDP && (

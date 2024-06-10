@@ -464,16 +464,18 @@ hr {
   color: $gold;
   font-family: $font-Montserrat;
   font-size: 14px;
+  font-weight: 400 !important;
 }
 
 .strikeprice {
-  font-size: 12px !important;
+  font-size: 14px !important;
   text-decoration: line-through;
   color: $light-charcoal;
   font-family: $font-Montserrat;
   vertical-align: middle;
   line-height: 1;
   vertical-align: text-top;
+  font-weight: 400 !important;
 }
 
 .delivery-date {

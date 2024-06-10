@@ -12,7 +12,7 @@ const Price: React.FC<Props> = ({ product, isSale, code, currency }) => {
           {displayPriceWithCommas(
             product.discountedPriceRecords[currency as Currency],
             currency
-          )}
+          )}{" "}
         </span>
       ) : (
         ""
@@ -32,7 +32,7 @@ const Price: React.FC<Props> = ({ product, isSale, code, currency }) => {
           {displayPriceWithCommas(
             product.priceRecords[currency as Currency],
             currency
-          )}
+          )}{" "}
         </span>
       )}
     </p>
