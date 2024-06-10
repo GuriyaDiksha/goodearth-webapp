@@ -305,38 +305,78 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 back
               </span>
               <span className={cs(styles.title, bootstrap.col6)}>
-                <Link
-                  to={innerMenuData.url}
-                  onClick={() => {
-                    this.props.onMobileMenuClick({
-                      l1: innerMenuData.text,
-                      clickUrl1: innerMenuData.url
-                    });
-                    this.props.clickToggle();
-                  }}
-                >
-                  {ReactHtmlParser(innerMenuData.text)}
-                </Link>
+                {innerMenuData.text?.includes("Our World") ? (
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={innerMenuData.url}
+                    onClick={() => {
+                      this.props.onMobileMenuClick({
+                        l1: innerMenuData.text,
+                        clickUrl1: innerMenuData.url
+                      });
+                      this.props.clickToggle();
+                    }}
+                  >
+                    {ReactHtmlParser(innerMenuData.text)}
+                  </a>
+                ) : (
+                  <Link
+                    to={innerMenuData.url}
+                    onClick={() => {
+                      this.props.onMobileMenuClick({
+                        l1: innerMenuData.text,
+                        clickUrl1: innerMenuData.url
+                      });
+                      this.props.clickToggle();
+                    }}
+                  >
+                    {ReactHtmlParser(innerMenuData.text)}
+                  </Link>
+                )}
               </span>
               <span className={cs(bootstrap.col3, globalStyles.textRight)}>
-                <Link
-                  to={innerMenuData.url}
-                  onClick={() => {
-                    this.props.onMobileMenuClick({
-                      l1: innerMenuData.text,
-                      clickUrl1: innerMenuData.url
-                    });
-                    this.props.clickToggle();
-                  }}
-                >
-                  <i
-                    className={cs(
-                      fontStyles.icon,
-                      fontStyles.iconDoubleArrowRight,
-                      styles.doubleArrow
-                    )}
-                  ></i>
-                </Link>
+                {innerMenuData.text?.includes("Our World") ? (
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={innerMenuData.url}
+                    onClick={() => {
+                      this.props.onMobileMenuClick({
+                        l1: innerMenuData.text,
+                        clickUrl1: innerMenuData.url
+                      });
+                      this.props.clickToggle();
+                    }}
+                  >
+                    <i
+                      className={cs(
+                        fontStyles.icon,
+                        fontStyles.iconDoubleArrowRight,
+                        styles.doubleArrow
+                      )}
+                    ></i>
+                  </a>
+                ) : (
+                  <Link
+                    to={innerMenuData.url}
+                    onClick={() => {
+                      this.props.onMobileMenuClick({
+                        l1: innerMenuData.text,
+                        clickUrl1: innerMenuData.url
+                      });
+                      this.props.clickToggle();
+                    }}
+                  >
+                    <i
+                      className={cs(
+                        fontStyles.icon,
+                        fontStyles.iconDoubleArrowRight,
+                        styles.doubleArrow
+                      )}
+                    ></i>
+                  </Link>
+                )}
               </span>
             </div>
           </li>
@@ -454,6 +494,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                               clickUrl2: data.link
                             });
                           }}
+                          target={data.openInNewTab ? "_blank" : ""}
                         >
                           {ReactHtmlParser(data.ctaName || "View All")}
                         </Link>
