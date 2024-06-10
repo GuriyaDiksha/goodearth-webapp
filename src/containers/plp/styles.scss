@@ -271,6 +271,12 @@
       background-color: #fff;
       border: 1px solid #9F9F9F;
     }
+    .disable-reset-cta{
+      span{
+        color: #9F9F9F;
+        cursor: unset !important;
+      }
+    }
     .apply-button {
       width: 55%;
       text-align: center;
