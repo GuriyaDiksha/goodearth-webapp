@@ -329,7 +329,7 @@ const BaseLayout: React.FC = () => {
       (!isBridalBasket || isBridalBasket == "no") &&
       // !boId &&
       !location.pathname.includes("/order/orderconfirmation/") &&
-      !location.pathname.includes("/bridal/") &&
+      !location.pathname.includes("/registry/") &&
       !announcementData.isBridalActive
     ) {
       // dispatch(updateComponent(POPUP.CURRENCY, null, true));
@@ -341,7 +341,7 @@ const BaseLayout: React.FC = () => {
     if (
       (!cookieCurrency &&
         !(
-          location.pathname.includes("/bridal/") ||
+          location.pathname.includes("/registry/") ||
           announcementData.isBridalActive ||
           bridal
         )) ||

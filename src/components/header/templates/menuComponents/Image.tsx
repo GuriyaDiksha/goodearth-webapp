@@ -11,6 +11,7 @@ import { AppState } from "reducers/typings";
 import styles from "../styles.scss";
 import ReactHtmlParser from "react-html-parser";
 import { getInnerText, validURL } from "utils/validate";
+import cs from "classnames";
 
 type Props = {
   data: MenuComponent;
@@ -164,7 +165,12 @@ const Image: React.FC<Props> = ({
                     </Link>
                   )}
 
-                  <div className={styles.blockHeading}>
+                  <div
+                    className={cs(
+                      styles.blockHeading,
+                      styles.blockHeadingImageTemplate
+                    )}
+                  >
                     {validURL(componentData.link) ? (
                       <a
                         className={styles.heading}
@@ -273,7 +279,12 @@ const Image: React.FC<Props> = ({
                   </div>
                 )}
                 <div className={styles.container}>
-                  <div className={styles.blockHeading}>
+                  <div
+                    className={cs(
+                      styles.blockHeading,
+                      styles.blockHeadingImageTemplate
+                    )}
+                  >
                     <div
                       className={styles.heading}
                       onClick={() =>

@@ -212,7 +212,6 @@ const SampleDisplay: React.FC<Props> = props => {
                       currency
                     )
                   : ""}{" "}
-                &nbsp;{" "}
               </span>
             ) : (
               ""

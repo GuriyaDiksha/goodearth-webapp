@@ -11,4 +11,5 @@ export type CheckboxProps = {
   inputClassName?: string;
   label: JSX.Element[];
   value?: string;
+  itemCount?: number;
 };

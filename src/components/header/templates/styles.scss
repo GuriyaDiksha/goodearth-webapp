@@ -47,7 +47,7 @@
         display: block;
         border-bottom: none;
         // line-height: 18px;
-        line-height: 24px;
+        line-height: 18px;
         @include b4_12px_montserrat_charcoal();
         &:hover{
             font-weight: $medium;
@@ -63,9 +63,16 @@
         line-height: 16px;
         display: block;
     }
+    .block-title {
+        line-height: 18px;
+     }
     .block-heading {
         display: block;
         margin-top: 10px;
+    }
+    .block-heading-image-template {
+        margin-top: 9px;
+        margin-bottom: 20px;
     }
 //     .block-cta {
 //         display: block;
@@ -92,7 +99,7 @@
         display: block;
         border-bottom: none;
         // line-height: 18px;
-        line-height: 24px;
+        line-height: 18px;
         @include b4_12px_montserrat_charcoal();
         &:hover{
             font-weight: $medium;
@@ -110,7 +117,9 @@
     }
     .block-heading {
         display: block;
-        margin-top: 5px;
+        margin-top: 9px;
+        line-height: 18px;
+        margin-bottom: 20px;
     }
     // .block-cta {
     //     display: block;
@@ -273,7 +282,7 @@
     border-bottom: none;
     // padding-left: 20px;
     letter-spacing: 0.50px;
-    line-height: 30px;
+    line-height: 18px;
     @include b4_12px_montserrat_semibold_charcoal();
     text-transform: uppercase;
     a {
@@ -310,7 +319,7 @@
     .heading {
         border-bottom: none;
         // line-height: 30px;
-        line-height: 24px;
+        line-height: 18px;
         @include b4_12px_montserrat_charcoal();
         &:hover{
             font-weight: $medium;
@@ -326,8 +335,13 @@
         line-height: 16px;
         display: block;
     }
+    .block-title {
+       line-height: 18px;
+    }
     .block-heading {
         display: block;
+        margin-top: 9px;
+        line-height: 18px;
         // margin-top: 5px;
     }
     .container {

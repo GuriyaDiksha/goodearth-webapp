@@ -12,7 +12,8 @@ function roundToNearest(price: string | number): string | number {
 const displayPriceWithCommas = (
   price: string | number,
   currency: Currency,
-  with_symbol: boolean | (() => boolean) = true
+  with_symbol: boolean | (() => boolean) = true,
+  isRound = true
 ) => {
   let arg = "";
   if (currency == "INR") {
@@ -20,12 +21,14 @@ const displayPriceWithCommas = (
   } else {
     arg = "en-US";
   }
-  if (price.toString().includes("-")) {
-    price = `${String(roundToNearest(price.toString().split("-")[0]))}-${String(
-      roundToNearest(price.toString().split("-")[1])
-    )}`;
-  } else {
-    price = roundToNearest(price);
+  if (isRound) {
+    if (price.toString().includes("-")) {
+      price = `${String(
+        roundToNearest(price.toString().split("-")[0])
+      )}-${String(roundToNearest(price.toString().split("-")[1]))}`;
+    } else {
+      price = roundToNearest(price);
+    }
   }
   const currency_symbol =
     currencyCodes?.[currency]?.length &&
@@ -40,7 +43,11 @@ const displayPriceWithCommas = (
         arr.push(parseInt(e.toString()).toLocaleString(arg));
       });
   } else {
-    arr.push(parseInt(price.toString()).toLocaleString(arg));
+    if (isRound) {
+      arr.push(parseInt(price.toString()).toLocaleString(arg));
+    } else {
+      arr.push(price.toString().toLocaleString(arg));
+    }
   }
   return with_symbol
     ? currency_symbol + " " + arr.join(" - " + currency_symbol + " ")
@@ -50,7 +57,8 @@ const displayPriceWithCommas = (
 const displayPriceWithCommasFloat = (
   price: string | number,
   currency: Currency,
-  with_symbol: boolean | (() => boolean) = true
+  with_symbol: boolean | (() => boolean) = true,
+  isRound = true
 ) => {
   let arg = "";
   if (currency == "INR") {
@@ -58,12 +66,14 @@ const displayPriceWithCommasFloat = (
   } else {
     arg = "en-US";
   }
-  if (price.toString().includes("-")) {
-    price = `${String(roundToNearest(price.toString().split("-")[0]))}-${String(
-      roundToNearest(price.toString().split("-")[1])
-    )}`;
-  } else {
-    price = roundToNearest(price);
+  if (isRound) {
+    if (price.toString().includes("-")) {
+      price = `${String(
+        roundToNearest(price.toString().split("-")[0])
+      )}-${String(roundToNearest(price.toString().split("-")[1]))}`;
+    } else {
+      price = roundToNearest(price);
+    }
   }
   const currency_symbol =
     currencyCodes?.[currency]?.length &&
