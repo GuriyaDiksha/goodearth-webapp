@@ -1093,6 +1093,11 @@ input[type="text"]{
   border-bottom: 1px solid lightgray;
   padding: 25px 0px;
   // cursor: pointer;
+
+  @media screen and (min-width:767px) and (max-width:991px){
+    max-width: 366px;
+    margin: auto;
+  }
 }
 
 .balance-section-head{
@@ -1122,6 +1127,10 @@ input[type="text"]{
   height: 16px;
   font-family: $font-Montserrat;
   cursor: pointer;
+
+  @media screen and (min-width:767px) and (max-width:991px){
+    margin-left: 20px;
+  }
 
   &:before,
   &:after{
