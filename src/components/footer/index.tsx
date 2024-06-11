@@ -555,7 +555,11 @@ class Footer extends React.Component<Props, FooterState> {
                                                   ) {
                                                     window.scrollTo(0, 0);
                                                   }
-                                                  footerGTM(currentValue.text);
+                                                  footerGTM(
+                                                    currentValue.text,
+                                                    this.props.isLoggedIn,
+                                                    `${window?.location?.origin}/the-good-earth-registry`
+                                                  );
                                                 }}
                                                 key={j}
                                                 style={{
@@ -576,7 +580,11 @@ class Footer extends React.Component<Props, FooterState> {
                                                   ) {
                                                     window.scrollTo(0, 0);
                                                   }
-                                                  footerGTM(currentValue.text);
+                                                  footerGTM(
+                                                    currentValue.text,
+                                                    this.props.isLoggedIn,
+                                                    `${currentValue.link}`
+                                                  );
                                                 }}
                                                 key={j}
                                                 style={{
@@ -930,7 +938,12 @@ class Footer extends React.Component<Props, FooterState> {
                                               ) {
                                                 window.scrollTo(0, 0);
                                               }
-                                              footerGTM(child.text);
+
+                                              footerGTM(
+                                                child.text,
+                                                this.props.isLoggedIn,
+                                                `${window?.location?.origin}/the-good-earth-registry`
+                                              );
                                             }}
                                             style={{
                                               color: this.state

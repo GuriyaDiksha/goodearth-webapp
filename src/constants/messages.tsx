@@ -69,7 +69,7 @@ export const PRODUCT_OUT_OF_STOCK_REMOVED =
 export const PRODUCT_OUT_OF_STOCK = [
   "Product in your registry is Out of stock ",
   <Link
-    to="/account/bridal"
+    to="/account/registry"
     key="bridal"
     style={{ textDecoration: "underline", pointerEvents: "all" }}
   >
@@ -80,7 +80,7 @@ export const PRODUCT_OUT_OF_STOCK = [
 export const ADD_TO_REGISTRY_SUCCESS = [
   "This product has been added to your registry. Click here to ",
   <Link
-    to="/account/bridal"
+    to="/account/registry"
     key="bridal"
     style={{ textDecoration: "underline", pointerEvents: "all" }}
   >
@@ -91,7 +91,7 @@ export const ADD_TO_REGISTRY_FAIL = "Can't add to bag";
 export const ADD_TO_REGISTRY_AGAIN = [
   "To modify or edit items in your registry please ",
   <Link
-    to="/account/bridal"
+    to="/account/registry"
     key="bridal"
     style={{ textDecoration: "underline", pointerEvents: "all" }}
   >
