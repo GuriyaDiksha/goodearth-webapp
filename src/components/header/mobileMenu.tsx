@@ -203,7 +203,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               "IMAGE",
               "CONTENT",
               "VERTICALIMAGE",
-              "IMAGEWITHSIDESUBHEADING"
+              "IMAGEWITHSIDESUBHEADING",
+              "TITLEHEADING"
             ].includes(template.templateType)
           ) {
             const componentData = template.templateData
@@ -434,6 +435,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   {data.link && data.children.length > 0 ? (
                     data.templateType == "L2L3" ? (
                       <>
+                        {console.log("data====", data)}
                         {!data.hideViewAllOnMobile && (
                           <li
                             onClick={this.props.clickToggle}
@@ -452,6 +454,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                                   clickUrl2: data.viewAllLink || ""
                                 });
                               }}
+                              target={data.openInNewTab ? "_blank" : ""}
                             >
                               View All
                             </Link>
@@ -482,6 +485,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                       </>
                     ) : (
                       <li onClick={this.props.clickToggle} key={"firstchild"}>
+                        {console.log("data 222====", data)}
                         <Link
                           to={data.link}
                           className={cs({
