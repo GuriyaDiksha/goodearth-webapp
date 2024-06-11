@@ -12,7 +12,7 @@ export default async function fetchInitialData(
 
   // Determine if the current page is a public bridal page (not an account page)
   const isBridalPublicPage =
-    ctx.request.path.includes("/bridal/") &&
+    ctx.request.path.includes("/registry/") &&
     !ctx.request.path.includes("/account/");
 
   // Initialize a variable to store the bridal key

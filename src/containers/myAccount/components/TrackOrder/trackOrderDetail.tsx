@@ -307,7 +307,9 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                 <span className={styles.data}>
                   {displayPriceWithCommasFloat(
                     parseFloat(data.totalInclTax),
-                    data.currency
+                    data.currency,
+                    true,
+                    false
                   )}
                   {/* {String.fromCharCode(
                     ...currencyCode[data.currency as Currency]
@@ -437,14 +439,18 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                       >
                         {`${displayPriceWithCommasFloat(
                           amountPaid,
-                          item.priceCurrency
+                          item.priceCurrency,
+                          true,
+                          false
                         )}`}
                       </span>
                       {isDiscount && (
                         <span className={styles.originalPrice}>
                           {`${displayPriceWithCommasFloat(
                             price,
-                            item.priceCurrency
+                            item.priceCurrency,
+                            true,
+                            false
                           )}`}
                         </span>
                       )}

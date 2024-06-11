@@ -79,10 +79,10 @@ class MegaMenu extends React.Component<Props, MenuState> {
   render() {
     const { data, location } = this.props;
     const isBridalRegistryPage =
-      location.pathname.indexOf("/bridal/") > -1 &&
+      location.pathname.indexOf("/registry/") > -1 &&
       !location.pathname.includes("/account/");
     const disbaleClass =
-      location.pathname.indexOf("/bridal/") > -1 &&
+      location.pathname.indexOf("/registry/") > -1 &&
       !location.pathname.includes("/account/")
         ? styles.iconStyleDisabled
         : "";

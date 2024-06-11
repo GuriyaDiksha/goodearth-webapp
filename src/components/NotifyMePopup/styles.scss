@@ -157,7 +157,7 @@
 span{
     &.discountprice {
         color: $gold !important;
-        @include b1_16px_charcoal_montserrat();
+        @include b3_14px_montserrat_charcoal();
       }
       &.strikeprice {
         text-decoration: line-through;

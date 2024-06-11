@@ -54,10 +54,10 @@ class MainMenu extends React.Component<Props, MenuState> {
       <ul className={styles.menuContainer}>
         {data?.map((data: HeaderData, i: number) => {
           const isBridalRegistryPage =
-            location.pathname.indexOf("/bridal/") > -1 &&
+            location.pathname.indexOf("/registry/") > -1 &&
             !location.pathname.includes("/account/");
           const disbaleClass =
-            location.pathname.indexOf("/bridal/") > -1 &&
+            location.pathname.indexOf("/registry/") > -1 &&
             !location.pathname.includes("/account/")
               ? styles.iconStyleDisabled
               : "";
