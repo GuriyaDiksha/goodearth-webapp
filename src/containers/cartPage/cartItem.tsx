@@ -709,8 +709,7 @@ const CartItems: React.FC<BasketItem> = memo(
                             currency,
                             true,
                             false
-                          )}
-                          &nbsp;&nbsp;&nbsp;
+                          )}{" "}
                         </span>
                       ) : (
                         ""
