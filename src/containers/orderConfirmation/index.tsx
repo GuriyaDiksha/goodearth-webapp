@@ -780,8 +780,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                       confirmData.currency,
                                       true,
                                       false
-                                    )}`}
-                                    &nbsp;
+                                    )}`}{" "}
                                   </span>
                                 ) : (
                                   ""
@@ -793,8 +792,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                       confirmData.currency,
                                       true,
                                       false
-                                    )}`}
-                                    &nbsp;
+                                    )}`}{" "}
                                   </span>
                                 ) : (
                                   <span

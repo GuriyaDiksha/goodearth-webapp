@@ -32,6 +32,8 @@ import { CONFIG } from "constants/util";
 import MyCreditNotes from "./components/MyCreditNotes";
 import AccountService from "services/account";
 import { CreditNote } from "./components/MyCreditNotes/typings";
+import { GA_CALLS } from "constants/cookieConsent";
+import CookieService from "services/cookie";
 
 type Props = {
   isBridal: boolean;
@@ -145,7 +147,7 @@ const MyAccount: React.FC<Props> = props => {
   accountMenuItems.push(
     {
       label: "Good Earth Registry",
-      href: "/account/bridal",
+      href: "/account/registry",
       component: Bridal,
       title: "bridal",
       loggedInOnly: true
@@ -196,7 +198,7 @@ const MyAccount: React.FC<Props> = props => {
       ).length > 0 &&
       !isLoggedIn
     ) {
-      if (pathname == "/account/bridal") {
+      if (pathname == "/account/registry") {
         LoginService.showLogin(dispatch);
       } else {
         history.push("/");
@@ -238,6 +240,17 @@ const MyAccount: React.FC<Props> = props => {
       : document.body.classList.remove(globalStyles.noScroll);
   }, [accountListing]);
 
+  const bridalGAcall = (url: string) => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "ge_create_my_registry_click",
+        user_status: isLoggedIn ? "Logged in" : "Guest",
+        click_url: `${window?.location?.origin}${url}`
+      });
+    }
+  };
+
   return (
     <div
       className={cs(styles.containerStart, {
@@ -273,10 +286,15 @@ const MyAccount: React.FC<Props> = props => {
                       ? globalStyles.hidden
                       : styles.collectionHeader
                   }
-                  onClick={() => setAccountListing(true)}
+                  onClick={() => {
+                    setAccountListing(true);
+                    pathname == "/account/bridal" &&
+                      bridalId == 0 &&
+                      bridalGAcall("/account/bridal");
+                  }}
                 >
                   <span>
-                    {pathname == "/account/bridal"
+                    {pathname == "/account/registry"
                       ? bridalId == 0
                         ? "Create a Registry"
                         : "Manage Registry"
@@ -304,7 +322,7 @@ const MyAccount: React.FC<Props> = props => {
                 >
                   <div className={styles.filterCross}>
                     <span>
-                      {pathname == "/account/bridal"
+                      {pathname == "/account/registry"
                         ? bridalId == 0
                           ? "Create a Registry"
                           : "Manage Registry"
@@ -312,7 +330,14 @@ const MyAccount: React.FC<Props> = props => {
                         ? "Activate Gift Card"
                         : currentSection}
                     </span>
-                    <span onClick={() => setAccountListing(false)}>
+                    <span
+                      onClick={() => {
+                        setAccountListing(false);
+                        pathname == "/account/bridal" &&
+                          bridalId == 0 &&
+                          bridalGAcall("/account/bridal");
+                      }}
+                    >
                       <i
                         className={cs(
                           iconStyles.icon,
@@ -391,6 +416,11 @@ const MyAccount: React.FC<Props> = props => {
                               <NavLink
                                 to={item?.href}
                                 activeClassName={styles.gold}
+                                onClick={() => {
+                                  pathname == "/account/bridal" &&
+                                    bridalId == 0 &&
+                                    bridalGAcall("/account/bridal");
+                                }}
                               >
                                 {bridalId == 0
                                   ? "Create a Registry"

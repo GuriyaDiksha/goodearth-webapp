@@ -23,6 +23,7 @@ export type otpState = {
   isOtpSent?: boolean;
   disable?: boolean;
   isDisabled?: boolean;
+  attempt_count: number;
 };
 
 export type otpProps = {

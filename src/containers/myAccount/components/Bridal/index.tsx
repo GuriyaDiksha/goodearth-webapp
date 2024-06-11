@@ -35,6 +35,7 @@ import NewManageRegistry from "./NewManageRegistry";
 // import globalStyles from "styles/global.scss";
 import EditRegistryDetails from "./EditRegistryDetails";
 import { StringifyOptions } from "querystring";
+import moment from "moment";
 type Props = {
   bridalId: number;
 };
@@ -141,7 +142,7 @@ const Bridal: React.FC<Props> = props => {
 
     if (!user.isLoggedIn) {
       LoginService.showLogin(dispatch);
-      dispatch(updateNextUrl("/account/bridal"));
+      dispatch(updateNextUrl("/account/registry"));
     }
 
     return () => {
@@ -341,6 +342,15 @@ const Bridal: React.FC<Props> = props => {
                 event: "Whatsapp_optin",
                 Location: "create_registry",
                 Checkbox: whatsappSubscribe
+                  ? "Whatsapp Opt-in"
+                  : "Whatsapp Opt-out"
+              });
+
+              dataLayer.push({
+                event: "ge_registry_form_step2_submit",
+                click_type: formData.occasion,
+                cta_name: moment(formData?.eventDate).format("YYYY-MM-DD"),
+                wa_checkbox_status: whatsappSubscribe
                   ? "Whatsapp Opt-in"
                   : "Whatsapp Opt-out"
               });

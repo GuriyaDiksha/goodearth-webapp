@@ -139,6 +139,14 @@ const CreateRegistryNew: React.FC = () => {
       setDateErrorMsg("");
       setCurrentModule("address");
       window.scrollTo(0, 0);
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "ge_registry_form_step1_submit",
+          click_type: selectId == "others" ? occassion_choice : occasion,
+          cta_name: moment(date).format("YYYY-MM-DD")
+        });
+      }
     } else {
       setDateErrorMsg("Please enter Occasion Date");
     }

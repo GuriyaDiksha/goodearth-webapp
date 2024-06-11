@@ -6,6 +6,8 @@ import { NavLink } from "react-router-dom";
 import BaseDropdownMenu from "../baseDropdownMenu";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const CeriseProfileMenu = ({
   align,
@@ -28,8 +30,22 @@ const CeriseProfileMenu = ({
   };
   const {
     currency,
-    user: { slab }
+    user: { slab, isLoggedIn }
   } = useSelector((state: AppState) => state);
+
+  const bridalGACall = (item: any) => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (
+      userConsent.includes(GA_CALLS) &&
+      item?.value === "Good Earth Registry"
+    ) {
+      dataLayer.push({
+        event: "ge_create_my_registry_click",
+        user_status: isLoggedIn ? "Logged in" : "Guest",
+        click_url: `${window?.location?.origin}${item?.url}`
+      });
+    }
+  };
 
   const getMenuItems = (): JSX.Element => {
     return (
@@ -66,7 +82,12 @@ const CeriseProfileMenu = ({
               }
               if (type === "link") {
                 innerHTML = (
-                  <NavLink to={item?.href as string}>{item?.label}</NavLink>
+                  <NavLink
+                    to={item?.href as string}
+                    onClick={() => bridalGACall(item)}
+                  >
+                    {item?.label}
+                  </NavLink>
                 );
               }
 

@@ -8,7 +8,6 @@ import WishlistButton from "components/WishlistButton";
 import globalStyles from "../../styles/global.scss";
 import BasketService from "services/basket";
 import { useSelector, useStore } from "react-redux";
-import bridalRing from "../../images/bridal/rings.svg";
 import { AppState } from "reducers/typings";
 import quantityStyles from "../quantity/styles.scss";
 import CookieService from "services/cookie";
@@ -401,35 +400,7 @@ const LineItems: React.FC<BasketItem> = memo(
                     styles.badgeContainer
                   )}
                 >
-                  {saleStatus && discount && discountedPriceRecords ? (
-                    <span className={styles.discountprice}>
-                      {displayPriceWithCommas(
-                        discountedPriceRecords[currency],
-                        currency,
-                        true,
-                        false
-                      )}
-                      &nbsp; &nbsp;
-                    </span>
-                  ) : (
-                    ""
-                  )}
-                  {saleStatus && discount ? (
-                    <span className={styles.strikeprice}>
-                      {isGiftCard
-                        ? displayPriceWithCommas(GCValue, currency, true, false)
-                        : displayPriceWithCommas(price, currency, true, false)}
-                    </span>
-                  ) : (
-                    <span
-                      className={badgeType == "B_flat" ? globalStyles.gold : ""}
-                    >
-                      {" "}
-                      {isGiftCard
-                        ? displayPriceWithCommas(GCValue, currency, true, false)
-                        : displayPriceWithCommas(price, currency, true, false)}
-                    </span>
-                  )}
+                  {badge_text}
                 </div>
               )}
               <div className={bridalProfile ? styles.flexPriceIcon : ""}>
@@ -456,9 +427,10 @@ const LineItems: React.FC<BasketItem> = memo(
                       <span className={styles.discountprice}>
                         {displayPriceWithCommas(
                           discountedPriceRecords[currency],
-                          currency
-                        )}
-                        &nbsp; &nbsp;
+                          currency,
+                          true,
+                          false
+                        )}{" "}
                       </span>
                     ) : (
                       ""
@@ -466,8 +438,18 @@ const LineItems: React.FC<BasketItem> = memo(
                     {saleStatus && discount ? (
                       <span className={styles.strikeprice}>
                         {isGiftCard
-                          ? displayPriceWithCommas(GCValue, currency)
-                          : displayPriceWithCommas(price, currency)}
+                          ? displayPriceWithCommas(
+                              GCValue,
+                              currency,
+                              true,
+                              false
+                            )
+                          : displayPriceWithCommas(
+                              price,
+                              currency,
+                              true,
+                              false
+                            )}
                       </span>
                     ) : (
                       <span
@@ -477,8 +459,18 @@ const LineItems: React.FC<BasketItem> = memo(
                       >
                         {" "}
                         {isGiftCard
-                          ? displayPriceWithCommas(GCValue, currency)
-                          : displayPriceWithCommas(price, currency)}
+                          ? displayPriceWithCommas(
+                              GCValue,
+                              currency,
+                              true,
+                              false
+                            )
+                          : displayPriceWithCommas(
+                              price,
+                              currency,
+                              true,
+                              false
+                            )}
                       </span>
                     )}
                   </div>
