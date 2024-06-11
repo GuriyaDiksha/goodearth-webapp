@@ -205,7 +205,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               "IMAGE",
               "CONTENT",
               "VERTICALIMAGE",
-              "IMAGEWITHSIDESUBHEADING"
+              "IMAGEWITHSIDESUBHEADING",
+              "TITLEHEADING"
             ].includes(template.templateType)
           ) {
             const componentData = template.templateData
