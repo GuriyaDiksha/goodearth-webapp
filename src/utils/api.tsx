@@ -8,7 +8,7 @@ import LoginService from "services/login";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import configData from "./../config/list.json";
-import { updateLoader } from "actions/info";
+import { updateCheckoutLoader, updateLoader } from "actions/info";
 
 class API {
   static async get<T>(
@@ -126,6 +126,9 @@ class API {
 
               if (typeof document != "undefined") {
                 if (err.response.status == 401) {
+                  if (info?.isCheckoutLoading) {
+                    dispatch(updateCheckoutLoader(false));
+                  }
                   LoginService.logoutClient(dispatch);
                 } else if (
                   err.response.status == 406 &&
