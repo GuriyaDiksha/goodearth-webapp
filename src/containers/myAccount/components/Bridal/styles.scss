@@ -1672,7 +1672,7 @@ margin-bottom: 50px !important;
 .radio-btn li{
   position: relative!important;
   top: 0px;
-  left: 22px;
+  left: 25px;
   font-size: 12px;
 }
 @media(max-width:425px){
@@ -1689,35 +1689,35 @@ margin-bottom: 50px !important;
   position: absolute;
   top: 0;
   left: 0;
-  height: 14px;
-  width: 14px;
-  border: 1px solid #d8d8d8;
+  height: 19px;
+  width: 19px;
+  border: 1px solid $light-charcoal;
   border-radius: 50%;
 }
 .active .check-mark:before{
   // border: 1px solid #B59C77;
   // background: #B59C77;
   content: "";
-  height: 16px;
-  width: 16px;
+  height: 19px;
+  width: 19px;
   border-radius: 50%;
   background-color: white;
   position: absolute;
   top: 50%;
-  right: 50%;
-  transform: translate(50%, -50%);
-  border: 1px solid #9f9f9f;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid $light-charcoal;
 }
 .active .check-mark:after{
   content: "";
-  height: 8px;
-  width: 8px;
+  height: 13px;
+  width: 13px;
   border-radius: 50%;
-  background-color: #548b8b;
+  background-color: $aqua;
   position: absolute;
   top: 50%;
-  right: 50%;
-  transform: translate(50%, -50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .radio-btn input{
   position: absolute!important;
@@ -1736,7 +1736,7 @@ margin-bottom: 50px !important;
   border: none!important;
   border-bottom: 1px solid #d8d8d8!important;
   background: transparent;
-  margin-left: 20px;
+  margin-left: 25px;
   padding: 0 0 2px 0;
   width: 90%;
   font-size: 12px!important;
@@ -1965,7 +1965,8 @@ margin-bottom: 50px !important;
 // }
 .other-input p{
   position: absolute!important;
-  top: 20px;
+  top: 38px;
+  left: 25px;
 }
 @media(max-width:425px){
   .other-input p{

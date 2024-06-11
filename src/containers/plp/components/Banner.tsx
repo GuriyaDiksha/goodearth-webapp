@@ -2,6 +2,7 @@ import React from "react";
 import { PlpTemplate } from "services/plp/typings";
 import cs from "classnames";
 import bootstrap from "../../../styles/bootstrap/bootstrap-grid.scss";
+import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import itemStyles from "components/plpResultItem/styles.scss";
 import { useState, useEffect } from "react";
@@ -34,18 +35,45 @@ const Banner: React.FC<Props> = ({ data, mobile, tablet }) => {
             )}
           >
             {data.mediaType == "image" ? (
-              <img
-                className={itemStyles.imageResultnew}
-                src={mobile ? data.mobileMediaUrl : data.desktopMediaUrl}
-              />
+              <>
+                <img
+                  className={cs(
+                    itemStyles.imageResultnew,
+                    globalStyles.mobileHide
+                  )}
+                  src={data.desktopMediaUrl}
+                />
+                <img
+                  className={cs(
+                    itemStyles.imageResultnew,
+                    globalStyles.desktopHide
+                  )}
+                  src={data.mobileMediaUrl}
+                />
+              </>
             ) : (
-              <video
-                className={itemStyles.imageResultnew}
-                src={mobile ? data.mobileMediaUrl : data.desktopMediaUrl}
-                autoPlay
-                loop
-                preload="auto"
-              />
+              <>
+                <video
+                  className={cs(
+                    itemStyles.imageResultnew,
+                    globalStyles.mobileHide
+                  )}
+                  src={data.desktopMediaUrl}
+                  autoPlay
+                  loop
+                  preload="auto"
+                />
+                <video
+                  className={cs(
+                    itemStyles.imageResultnew,
+                    globalStyles.desktopHide
+                  )}
+                  src={data.mobileMediaUrl}
+                  autoPlay
+                  loop
+                  preload="auto"
+                />
+              </>
             )}
           </div>
           <div
