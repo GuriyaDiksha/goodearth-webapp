@@ -65,10 +65,10 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
   };
 
   useEffect(() => {
-    debugger;
     if (!countryData || countryData?.length == 0) {
       LoginService.fetchCountryData(dispatch).then(countryData => {
         dispatch(updateCountryData(countryData));
+        changeCountryData(countryData);
       });
     }
 
