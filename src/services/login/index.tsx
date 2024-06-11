@@ -489,36 +489,51 @@ export default {
     }
   },
   logoutClient: async function(dispatch: Dispatch) {
-    document.cookie = "atkn=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-    document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-    document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-    document.cookie = "custGrp=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
     // document.cookie =
     //   "cerisepopup=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
-    LoginService.showLogin(dispatch);
-    dispatch(updateCookies({ tkn: "" }));
-    MetaService.updateMeta(dispatch, {});
-    WishlistService.resetWishlist(dispatch);
-    Api.getSalesStatus(dispatch).catch(err => {
-      console.log("Sales Api Status ==== " + err);
-    });
-    HeaderService.fetchHeaderDetails(dispatch).catch(err => {
-      console.log("FOOTER API ERROR ==== " + err);
-    });
-    Api.getAnnouncement(dispatch).catch(err => {
-      console.log("Announcement API ERROR ==== " + err);
-    });
-    Api.getPopups(dispatch).catch(err => {
-      console.log("Popups Api ERROR === " + err);
-    });
-    BasketService.fetchBasket(dispatch);
-    dispatch(resetMeta(undefined));
-    showGrowlMessage(
-      dispatch,
-      MESSAGE.INVALID_SESSION_LOGOUT,
-      5000,
-      "INVALID_SESSION_LOGOUT"
-    );
+    const pathname = location?.pathname;
+
+    if (
+      typeof document != "undefined" &&
+      typeof window != "undefined" &&
+      pathname.includes("/order/checkout")
+    ) {
+      localStorage.setItem("from", "checkout");
+      debugger;
+      window.location.replace(`${location?.origin + "/cart"}`);
+    } else {
+      document.cookie = "atkn=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+      document.cookie =
+        "userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+      document.cookie = "email=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+      document.cookie =
+        "custGrp=; expires=THu, 01 Jan 1970 00:00:01 GMT; path=/";
+
+      LoginService.showLogin(dispatch);
+      dispatch(updateCookies({ tkn: "" }));
+      MetaService.updateMeta(dispatch, {});
+      WishlistService.resetWishlist(dispatch);
+      Api.getSalesStatus(dispatch).catch(err => {
+        console.log("Sales Api Status ==== " + err);
+      });
+      HeaderService.fetchHeaderDetails(dispatch).catch(err => {
+        console.log("FOOTER API ERROR ==== " + err);
+      });
+      Api.getAnnouncement(dispatch).catch(err => {
+        console.log("Announcement API ERROR ==== " + err);
+      });
+      Api.getPopups(dispatch).catch(err => {
+        console.log("Popups Api ERROR === " + err);
+      });
+      BasketService.fetchBasket(dispatch);
+      dispatch(resetMeta(undefined));
+      showGrowlMessage(
+        dispatch,
+        MESSAGE.INVALID_SESSION_LOGOUT,
+        5000,
+        "INVALID_SESSION_LOGOUT"
+      );
+    }
   },
   register: async function(
     dispatch: Dispatch,
