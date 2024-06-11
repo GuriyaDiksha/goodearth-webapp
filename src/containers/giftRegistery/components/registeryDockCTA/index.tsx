@@ -23,11 +23,11 @@ const RegisteryDockcta: React.FC = () => {
           </span>
           {bridalId == 0 ? (
             <span className={cs(styles.dockCta)}>
-              <a href="/account/bridal">CREATE MY REGISTRY</a>
+              <a href="/account/registry">CREATE MY REGISTRY</a>
             </span>
           ) : (
             <span className={cs(styles.dockCta)}>
-              <a href="/account/bridal">VIEW MY REGISTRY</a>
+              <a href="/account/registry">VIEW MY REGISTRY</a>
             </span>
           )}
         </div>
