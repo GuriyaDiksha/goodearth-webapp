@@ -172,6 +172,7 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
                 variant="mediumMedCharcoalCta366"
                 label={"CHANGE COUNTRY SELECTION"}
                 onClick={setCurrency}
+                disabled={selectedCountry?.country === country}
               />
               <p className={styles.link} onClick={onContinue}>
                 CANCEL

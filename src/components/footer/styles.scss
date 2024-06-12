@@ -1171,7 +1171,13 @@ padding: 30px 20px;
 
   .country{
     cursor: pointer;
-    @include b3_14px_montserrat_medium_charcoal()
+    font-size: 12px;
+    font-weight: 400;
+   letter-spacing: 0.50px;
+        line-height: 30px;
+        font-weight: normal;
+        color: $charcoal19;
+        font-family: "Montserrat", "sans-serif";
   }
 
   @media screen and (max-width:991px) {
