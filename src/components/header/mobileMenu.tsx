@@ -568,12 +568,24 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         } else {
           html.push(
             <div onClick={() => this.props.clickToggle()}>
+              <div className={styles.featuredTitle}>
+                {ReactHtmlParser(
+                  (template.templateData
+                    ?.componentData as MenuComponentL2L3Data)?.text
+                )}
+              </div>
               <ImageWithSideSubheadingMobile
                 data={template.templateData}
                 templateType={template.templateType}
                 l1={megaMenuData.text}
                 onHeaderMegaMenuClick={this.props.onHeaderMegaMenuClick}
               />
+              <div className={styles.featuredCta}>
+                {ReactHtmlParser(
+                  (template.templateData
+                    ?.componentData as MenuComponentL2L3Data)?.ctaName
+                )}
+              </div>
             </div>
           );
         }
