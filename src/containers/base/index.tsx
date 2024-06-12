@@ -350,44 +350,51 @@ const BaseLayout: React.FC = () => {
       dispatch(updateOpenCookiePopup(false));
       LoginService.getClientIpCurrency(dispatch)
         .then(curr => {
-          dispatch(
-            updateComponent(
-              POPUP.COUNTRYPOPUP,
-              { initSection: 1 },
-              mobile ? false : true
-            )
-          );
-          dispatch(updateModal(true));
-          // if (curr != "error") {
-          //   if (curr && !cookieCurrency) {
-          //     const goCurrencyValue: any = curr;
-          //     if (
-          //       goCurrencyValue.toString().toLowerCase() !=
-          //       currency.toString().toLowerCase()
-          //     ) {
-          //       const data: any = {
-          //         currency: goCurrencyValue.toString().toUpperCase()
-          //       };
-          //       LoginService.changeCurrency(dispatch, data).then(res => {
-          //         setTimeout(() => {
-          //           LoginService.reloadPage(
-          //             dispatch,
-          //             data?.currency,
-          //             customerGroup
-          //           );
-          //         }, 2000);
-          //       });
-          //     } else {
-          //       CookieService.setCookie(
-          //         "currency",
-          //         goCurrencyValue.toString().toUpperCase(),
-          //         365
-          //       );
-          //     }
-          //   }
-          // } else {
-          //   CookieService.setCookie("currency", "INR", 365);
-          // }
+          const countryName = CookieService.getCookie("country");
+
+          if (countryName.toLowerCase() === "india") {
+            if (curr != "error") {
+              if (curr && !cookieCurrency) {
+                const goCurrencyValue: any = curr;
+                if (
+                  goCurrencyValue.toString().toLowerCase() !=
+                  currency.toString().toLowerCase()
+                ) {
+                  const data: any = {
+                    currency: goCurrencyValue.toString().toUpperCase()
+                  };
+                  LoginService.changeCurrency(dispatch, data).then(res => {
+                    setTimeout(() => {
+                      LoginService.reloadPage(
+                        dispatch,
+                        data?.currency,
+                        customerGroup
+                      );
+                    }, 2000);
+                  });
+                } else {
+                  CookieService.setCookie(
+                    "currency",
+                    goCurrencyValue.toString().toUpperCase(),
+                    365
+                  );
+                }
+              }
+            } else {
+              CookieService.setCookie("currency", "INR", 365);
+            }
+
+            dispatch(updateOpenCookiePopup(true));
+          } else {
+            dispatch(
+              updateComponent(
+                POPUP.COUNTRYPOPUP,
+                { initSection: 1 },
+                mobile ? false : true
+              )
+            );
+            dispatch(updateModal(true));
+          }
         })
         .catch(error => {
           console.log(error);
