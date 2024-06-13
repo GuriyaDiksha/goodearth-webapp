@@ -1172,12 +1172,12 @@ padding: 30px 20px;
   .country{
     cursor: pointer;
     font-size: 12px;
-    font-weight: 500;
-   letter-spacing: 0.50px;
-        line-height: 30px;
-        font-weight: normal;
-        color: $charcoal19;
-        font-family: "Montserrat", "sans-serif";
+    font-weight: 500 !important;
+    letter-spacing: 0.50px;
+    line-height: 30px;
+    font-weight: normal;
+    color: $charcoal19;
+    font-family: "Montserrat", "sans-serif";
   }
 
   @media screen and (max-width:991px) {
