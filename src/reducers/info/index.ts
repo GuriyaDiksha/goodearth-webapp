@@ -18,7 +18,8 @@ const initialState: State = {
   isCheckoutLoading: false,
   showCookiePref: false,
   showShipping: false, //This will handle scenario of backend order with discounts,
-  isLoyaltyFilterOpen: false //This will handle filter open state inside loyalty transaction page
+  isLoyaltyFilterOpen: false, //This will handle filter open state inside loyalty transaction page
+  openCookiePopup: true
 };
 
 export const info = (state: State = initialState, action: InfoActions) => {
@@ -111,6 +112,11 @@ export const info = (state: State = initialState, action: InfoActions) => {
     case "UPDATE_IS_LOYALTY_FILER_OPEN": {
       const newState = { ...state };
       newState.isLoyaltyFilterOpen = action.payload;
+      return newState;
+    }
+    case "OPEN_COOKIE_POPUP": {
+      const newState = { ...state };
+      newState.openCookiePopup = action.payload;
       return newState;
     }
     default:
