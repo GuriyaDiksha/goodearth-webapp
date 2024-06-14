@@ -287,8 +287,13 @@
         }
       }
 
-      @media screen and (max-width:767px) {
-        width: 100%;      
+      :not(.check-mark){
+        @media screen and (max-width:767px) {
+          
+            width: 100%;   
+          
+            
+        }
       }
     }
     @include b5_10px_montserrat_charcoal();
