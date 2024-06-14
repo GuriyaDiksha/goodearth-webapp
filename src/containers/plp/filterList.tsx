@@ -2668,51 +2668,50 @@ class FilterList extends React.Component<Props, State> {
               </li>
             )}
 
-          {this.props.facets?.categoryShop?.length > 0 && (
-            <li
-              className={cs(styles.L1, {
-                [styles.open]:
+          <li
+            className={cs(styles.L1, {
+              [styles.open]:
+                this.state.categoryindex == 0 && this.state.categorylevel1
+            })}
+          >
+            <span
+              className={cs(
+                this.state.categorylevel1,
+                this.state.categoryindex == 0 && this.state.categorylevel1
+                  ? cs(styles.menulevel1, styles.menulevel1Open)
+                  : styles.menulevel1
+              )}
+              onClick={() => {
+                // this.ClickmenuCategory(0);
+                mobile ? this.Clickmenulevel1(0) : this.ClickmenuCategory(0);
+                this.handleAnimation(
+                  "category",
                   this.state.categoryindex == 0 && this.state.categorylevel1
-              })}
+                );
+              }}
             >
-              <span
-                className={cs(
-                  this.state.categorylevel1,
-                  this.state.categoryindex == 0 && this.state.categorylevel1
-                    ? cs(styles.menulevel1, styles.menulevel1Open)
-                    : styles.menulevel1
-                )}
-                onClick={() => {
-                  // this.ClickmenuCategory(0);
-                  mobile ? this.Clickmenulevel1(0) : this.ClickmenuCategory(0);
-                  this.handleAnimation(
-                    "category",
-                    this.state.categoryindex == 0 && this.state.categorylevel1
-                  );
-                }}
-              >
-                Category
-                {/* {`Category ${
-                  mobile && categoryFilterCount > 0
-                    ? `(${categoryFilterCount})`
-                    : ""
-                }`} */}
-              </span>
-              <div
-                id="category"
-                className={
-                  this.state.categoryindex == 0 && this.state.categorylevel1
-                    ? styles.showheader1
-                    : styles.hideDiv
-                }
-              >
-                {this.createCatagoryFromFacets(
+              Category
+              {/* {`Category ${
+                mobile && categoryFilterCount > 0
+                  ? `(${categoryFilterCount})`
+                  : ""
+              }`} */}
+            </span>
+            <div
+              id="category"
+              className={
+                this.state.categoryindex == 0 && this.state.categorylevel1
+                  ? styles.showheader1
+                  : styles.hideDiv
+              }
+            >
+              {this.props.facets?.categoryShop?.length > 0 &&
+                this.createCatagoryFromFacets(
                   this.props.facetObject.categoryObj,
                   this.props.facetObject.facets
                 )}
-              </div>
-            </li>
-          )}
+            </div>
+          </li>
 
           {this.productData.length > 0 &&
             this.props.facets?.productType?.length > 0 && (
