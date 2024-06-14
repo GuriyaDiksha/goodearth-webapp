@@ -90,8 +90,8 @@
   
       /* Style the indicator (dot/circle) */
       .radio1 .checkmark:after {
-        top: 0.5px;
-        left: 0.5px;
+        // top: 0.5px;
+        // left: 0.5px;
         // width: 7px;
         // height: 7px;
         border-radius: 50%;
@@ -99,7 +99,7 @@
 
         height: 11px;
         width: 11px;
-        background-color: #548b8b;
+        background-color: $aqua;
       }
     }
     .radiobtn {
@@ -195,6 +195,8 @@
         }
         label {
           @include b5_10px_montserrat_charcoal();
+          font-family: "Montserrat", "sans-serif" !important;
+          font-size: 10px !important;
           text-transform: none;
           line-height: 18px;
           letter-spacing: 0.5px;
@@ -697,8 +699,8 @@ hr {
     // border: 1px solid black;
     transform: translate(-50%, -50%);
 
-    height: 13px;
-    width: 13px;
+    height: 19px;
+    width: 19px;
     background-color: #fff;
     border: 1px solid #888;
   }
@@ -712,9 +714,9 @@ hr {
     transform: translate(-50%, -50%);
     // background-color: #191919;
 
-    height: 10px;
-        width: 10px;
-        background-color: #548b8b;
+    height: 13px;
+    width: 13px;
+    background-color: #548b8b;
   }
 }
 

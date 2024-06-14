@@ -359,6 +359,142 @@ class FilterList extends React.Component<Props, State> {
     this.updateDataFromAPI(load, currency, isUpdateTemplate);
   };
 
+  createUrlfromFilterForCategory = (load?: any, currency?: string) => {
+    const array = this.state.filter;
+    const { history } = this.props;
+
+    const urlParams = new URLSearchParams(history.location.search);
+    const categoryShop = urlParams.get("category_shop");
+
+    let filterUrl = "",
+      categoryKey: any,
+      mainurl: string | undefined = "",
+      colorVars = "",
+      materialVars = "",
+      sizeVars = "",
+      categoryShopVars = "",
+      productVars = "",
+      discountVars = "";
+    Object.keys(array).map((filterType, i) => {
+      Object.keys(array[filterType]).map((key, i) => {
+        switch (filterType) {
+          case "currentColor":
+            if (
+              array[filterType][key].value &&
+              array[filterType][key].isChecked
+            ) {
+              colorVars == ""
+                ? (colorVars = array[filterType][key].value)
+                : (colorVars += "|" + array[filterType][key].value);
+            }
+            break;
+          case "currentMaterial":
+            if (
+              array[filterType][key].value &&
+              array[filterType][key].isChecked
+            ) {
+              materialVars == ""
+                ? (materialVars = array[filterType][key].value)
+                : (materialVars += "|" + array[filterType][key].value);
+            }
+            break;
+          case "availableSize":
+            if (
+              array[filterType][key].value &&
+              array[filterType][key].isChecked
+            ) {
+              sizeVars == ""
+                ? (sizeVars = array[filterType][key].value)
+                : (sizeVars += "|" + array[filterType][key].value);
+            }
+            break;
+          case "categoryShop":
+            categoryKey = array[filterType][key];
+            let l2Selected = false;
+            Object.keys(categoryKey).map(data => {
+              if (categoryKey[data] && !l2Selected) {
+                const orignalData = data;
+                data = encodeURIComponent(data).replace(/%20/g, "+");
+                if ((data.match(/%3E/g) || []).length == 1) {
+                  // Break loop if l2 is selected. No need to add l3s now.
+                  categoryShopVars = data;
+                  l2Selected = true;
+                } else {
+                  categoryShopVars == ""
+                    ? (categoryShopVars = data)
+                    : (categoryShopVars += "|" + data);
+                }
+                mainurl = this.getMainUrl(orignalData);
+              }
+            });
+            break;
+          case "price":
+            filterUrl += "&" + key + "=" + array[filterType][key];
+            break;
+          case "currency":
+            filterUrl += "&" + key + "=" + array[filterType][key];
+            break;
+          case "sortBy":
+            filterUrl += "&sort_by=" + array[filterType][key];
+            break;
+          case "productType": {
+            const product = array[filterType];
+            productVars = "";
+            Object.keys(product).map(data => {
+              if (product[data]) {
+                data = encodeURIComponent(data).replace(/%20/g, "+");
+                data = data.replace("pb_", "");
+                productVars == ""
+                  ? (productVars = data)
+                  : (productVars += "|" + data);
+              }
+            });
+            break;
+          }
+          case "availableDiscount": {
+            const discount = array[filterType];
+            discountVars = "";
+            Object.keys(discount).map(data => {
+              if (discount[data].isChecked) {
+                data = encodeURIComponent(data).replace(/%20/g, "+");
+                data = data.replace("disc_", "");
+                discountVars == ""
+                  ? (discountVars = data)
+                  : (discountVars += "|" + data);
+              }
+            });
+            break;
+          }
+          default:
+            break;
+        }
+      });
+    });
+    categoryShopVars != ""
+      ? (filterUrl += "&category_shop=" + categoryShopVars)
+      : "";
+    // colorVars != "" ? (filterUrl += "&current_color=" + colorVars) : "";
+    // materialVars != ""
+    // ? (filterUrl += "&current_material=" + materialVars)
+    // : "";
+    // sizeVars != "" ? (filterUrl += "&available_size=" + sizeVars) : "";
+    // productVars != "" ? (filterUrl += "&product_type=" + productVars) : "";
+    // discountVars != ""
+    //   ? (filterUrl += "&available_discount=" + discountVars)
+    //   : "";
+    if (mainurl == "" || !mainurl) {
+      mainurl = history.location.pathname;
+    }
+    history.replace(mainurl + "?source=plp" + filterUrl, {});
+
+    const currentCategoryShop = encodeURIComponent(categoryShop || "").replace(
+      /%20/g,
+      "+"
+    );
+    const isUpdateTemplate = currentCategoryShop !== categoryShopVars;
+    this.updateDataFromAPI(load, currency, isUpdateTemplate);
+  };
+
   onchangeRange = (value: any) => {
     if (value[0] == value[1]) return false;
     this.setState({
@@ -646,9 +782,8 @@ class FilterList extends React.Component<Props, State> {
       changeLoader,
       fetchPlpTemplates
     } = this.props;
-    console.log(this.state.isPopupOpen);
     if (!onload && mobile && !this.state.isPopupOpen) {
-      return true;
+      // return true;
     }
     changeLoader?.(true);
     const url = decodeURI(history.location.search);
@@ -1246,6 +1381,7 @@ class FilterList extends React.Component<Props, State> {
   };
 
   createMaterial = (facets: any, filtered_facets: any) => {
+    // debugger
     if (!facets?.currentMaterial || facets.length == 0) return false;
     const html: any = [];
     const { filter } = this.state;
@@ -1554,8 +1690,7 @@ class FilterList extends React.Component<Props, State> {
         "Filter value": event.target.value + val
       });
     }
-
-    this.createUrlfromFilter();
+    this.createUrlfromFilterForCategory();
     event.stopPropagation();
   };
 
@@ -2467,9 +2602,7 @@ class FilterList extends React.Component<Props, State> {
           </li>
 
           {this.props.salestatus &&
-            this.props.facets &&
-            this.props.facets.availableDiscount &&
-            this.props.facets.availableDiscount.length > 0 && (
+            this.props.facets?.availableDiscount?.length > 0 && (
               <li
                 className={cs(
                   styles.L1,
@@ -2580,48 +2713,157 @@ class FilterList extends React.Component<Props, State> {
             </div>
           </li>
 
-          {this.productData.length > 0 && (
+          {this.productData.length > 0 &&
+            this.props.facets?.productType?.length > 0 && (
+              <li
+                className={cs(styles.L1, {
+                  [globalStyles.hidden]: this.productData.length == 0,
+                  [styles.open]: this.state.showProductFilter
+                })}
+              >
+                <span
+                  className={
+                    this.state.showProductFilter
+                      ? cs(styles.menulevel1, styles.menulevel1Open)
+                      : styles.menulevel1
+                  }
+                  onClick={() => {
+                    mobile
+                      ? this.mobileClickProductCategory()
+                      : this.ClickProductCategory();
+                    this.handleAnimation(
+                      "producttype",
+                      this.state.showProductFilter
+                    );
+                  }}
+                >
+                  {`PRODUCT TYPE ${
+                    mobile && prodTypeFilterCount > 0
+                      ? `(${prodTypeFilterCount})`
+                      : ""
+                  }`}
+                </span>
+                <div
+                  id="producttype"
+                  className={
+                    this.state.showProductFilter
+                      ? styles.showheader1
+                      : styles.hideDiv
+                  }
+                >
+                  {productHtml}
+                  {!mobile && (
+                    <div data-name="productType">
+                      <span
+                        onClick={e => this.clearFilter(e, "productType")}
+                        className={styles.plp_filter_sub}
+                      >
+                        Clear
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </li>
+            )}
+
+          {this.props.facets?.currentColor?.length > 0 && (
             <li
               className={cs(styles.L1, {
-                [globalStyles.hidden]: this.productData.length == 0,
-                [styles.open]: this.state.showProductFilter
+                [styles.open]:
+                  this.state.activeindex == 1 && this.state.showmenulevel1
               })}
             >
               <span
                 className={
-                  this.state.showProductFilter
+                  this.state.activeindex == 1 && this.state.showmenulevel1
                     ? cs(styles.menulevel1, styles.menulevel1Open)
                     : styles.menulevel1
                 }
                 onClick={() => {
-                  mobile
-                    ? this.mobileClickProductCategory()
-                    : this.ClickProductCategory();
+                  this.Clickmenulevel1(1);
                   this.handleAnimation(
-                    "producttype",
-                    this.state.showProductFilter
+                    "color",
+                    this.state.activeindex == 1 && this.state.showmenulevel1
                   );
                 }}
               >
-                {`PRODUCT TYPE ${
-                  mobile && prodTypeFilterCount > 0
-                    ? `(${prodTypeFilterCount})`
-                    : ""
+                {`COLOUR FAMILY ${
+                  mobile && colorFilterCount > 0 ? `(${colorFilterCount})` : ""
                 }`}
               </span>
               <div
-                id="producttype"
+                id="color"
                 className={
-                  this.state.showProductFilter
+                  this.state.activeindex == 1 && this.state.showmenulevel1
+                    ? styles.colorhead
+                    : styles.hideDiv
+                }
+              >
+                <ul>
+                  <span>
+                    {this.createColorCheckbox(
+                      this.props.facets,
+                      this.props.filtered_facets
+                    )}
+                  </span>
+                  {!mobile && (
+                    <div data-name="currentColor">
+                      <span
+                        onClick={e => this.clearFilter(e, "currentColor")}
+                        className={styles.plp_filter_sub}
+                      >
+                        Clear
+                      </span>
+                    </div>
+                  )}
+                </ul>
+              </div>
+            </li>
+          )}
+
+          {this.props.facets?.availableSize?.length > 0 && (
+            <li
+              className={cs(styles.L1, {
+                [styles.open]:
+                  this.state.activeindex == 2 && this.state.showmenulevel1
+              })}
+            >
+              <span
+                className={
+                  this.state.activeindex == 2 && this.state.showmenulevel1
+                    ? cs(styles.menulevel1, styles.menulevel1Open)
+                    : styles.menulevel1
+                }
+                onClick={() => {
+                  this.Clickmenulevel1(2);
+                  this.handleAnimation(
+                    "size",
+                    this.state.activeindex == 2 && this.state.showmenulevel1
+                  );
+                }}
+              >
+                {`SIZE ${
+                  mobile && sizeFilterCount > 0 ? `(${sizeFilterCount})` : ""
+                }`}
+              </span>
+              <div
+                id="size"
+                className={
+                  this.state.activeindex == 2 && this.state.showmenulevel1
                     ? styles.showheader1
                     : styles.hideDiv
                 }
               >
-                {productHtml}
+                <ul className={styles.sizeList}>
+                  {this.createSizeCheckbox(
+                    this.props.facets,
+                    this.props.filtered_facets
+                  )}
+                </ul>
                 {!mobile && (
-                  <div data-name="productType">
+                  <div data-name="availableSize">
                     <span
-                      onClick={e => this.clearFilter(e, "productType")}
+                      onClick={e => this.clearFilter(e, "availableSize")}
                       className={styles.plp_filter_sub}
                     >
                       Clear
@@ -2632,119 +2874,7 @@ class FilterList extends React.Component<Props, State> {
             </li>
           )}
 
-          <li
-            className={cs(styles.L1, {
-              [styles.open]:
-                this.state.activeindex == 1 && this.state.showmenulevel1
-            })}
-          >
-            <span
-              className={
-                this.state.activeindex == 1 && this.state.showmenulevel1
-                  ? cs(styles.menulevel1, styles.menulevel1Open)
-                  : styles.menulevel1
-              }
-              onClick={() => {
-                this.Clickmenulevel1(1);
-                this.handleAnimation(
-                  "color",
-                  this.state.activeindex == 1 && this.state.showmenulevel1
-                );
-              }}
-            >
-              {`COLOUR FAMILY ${
-                mobile && colorFilterCount > 0 ? `(${colorFilterCount})` : ""
-              }`}
-            </span>
-            <div
-              id="color"
-              className={
-                this.state.activeindex == 1 && this.state.showmenulevel1
-                  ? styles.colorhead
-                  : styles.hideDiv
-              }
-            >
-              <ul>
-                <span>
-                  {this.createColorCheckbox(
-                    this.props.facets,
-                    this.props.filtered_facets
-                  )}
-                </span>
-                {!mobile && (
-                  <div data-name="currentColor">
-                    <span
-                      onClick={e => this.clearFilter(e, "currentColor")}
-                      className={styles.plp_filter_sub}
-                    >
-                      Clear
-                    </span>
-                  </div>
-                )}
-              </ul>
-            </div>
-          </li>
-
-          {this.props.facets.availableSize ? (
-            this.props.facets.availableSize.length > 0 ? (
-              <li
-                className={cs(styles.L1, {
-                  [styles.open]:
-                    this.state.activeindex == 2 && this.state.showmenulevel1
-                })}
-              >
-                <span
-                  className={
-                    this.state.activeindex == 2 && this.state.showmenulevel1
-                      ? cs(styles.menulevel1, styles.menulevel1Open)
-                      : styles.menulevel1
-                  }
-                  onClick={() => {
-                    this.Clickmenulevel1(2);
-                    this.handleAnimation(
-                      "size",
-                      this.state.activeindex == 2 && this.state.showmenulevel1
-                    );
-                  }}
-                >
-                  {`SIZE ${
-                    mobile && sizeFilterCount > 0 ? `(${sizeFilterCount})` : ""
-                  }`}
-                </span>
-                <div
-                  id="size"
-                  className={
-                    this.state.activeindex == 2 && this.state.showmenulevel1
-                      ? styles.showheader1
-                      : styles.hideDiv
-                  }
-                >
-                  <ul className={styles.sizeList}>
-                    {this.createSizeCheckbox(
-                      this.props.facets,
-                      this.props.filtered_facets
-                    )}
-                  </ul>
-                  {!mobile && (
-                    <div data-name="availableSize">
-                      <span
-                        onClick={e => this.clearFilter(e, "availableSize")}
-                        className={styles.plp_filter_sub}
-                      >
-                        Clear
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </li>
-            ) : (
-              ""
-            )
-          ) : (
-            ""
-          )}
-
-          {this.props.facets?.currentMaterial?.length > 0 ? (
+          {this.props.facets?.currentMaterial?.length > 0 && (
             <li
               className={cs(styles.L1, {
                 [styles.open]:
@@ -2799,7 +2929,7 @@ class FilterList extends React.Component<Props, State> {
                 </ul>
               </div>
             </li>
-          ) : null}
+          )}
 
           <li
             className={cs(
@@ -2907,7 +3037,8 @@ class FilterList extends React.Component<Props, State> {
             </div>
           )}
         </ul>
-        {mobile ? (
+
+        {mobile && (
           <div className={cs(styles.filterButton, bootstrap.row)}>
             {this.props.filterCount && this.props.filterCount > 0 ? (
               <div
@@ -2929,8 +3060,6 @@ class FilterList extends React.Component<Props, State> {
               }`}</span>
             </div>
           </div>
-        ) : (
-          ""
         )}
       </Fragment>
     );

@@ -832,11 +832,9 @@ class PLP extends React.Component<
                         styles.imageContainerMobileBanner,
                         globalStyles.paddTop20
                       )
-                    : cs(
-                        bootstrap.row,
-                        styles.imageContainerMobile,
-                        globalStyles.paddTop45
-                      )
+                    : cs(bootstrap.row, styles.imageContainerMobile, {
+                        [globalStyles.paddTop45]: showTemplates.Banner?.[0]
+                      })
                   : cs(bootstrap.row, styles.imageContainer, styles.minHeight)
               }
               id="product_images"
@@ -866,9 +864,14 @@ class PLP extends React.Component<
               </div>
             ) : (
               <div
-                className={cs(styles.productNumber, styles.imageContainer, {
-                  [styles.prouctMobilePadding]: mobile
-                })}
+                className={cs(
+                  styles.plpContainer,
+                  styles.productNumber,
+                  styles.imageContainer,
+                  {
+                    [styles.prouctMobilePadding]: mobile
+                  }
+                )}
               >
                 <span>
                   {count > 0
@@ -880,7 +883,8 @@ class PLP extends React.Component<
               </div>
             )}
             <div
-              className={
+              className={cs(
+                styles.plpContainer,
                 mobile
                   ? banner
                     ? cs(
@@ -902,7 +906,7 @@ class PLP extends React.Component<
                       globalStyles.paddTop20,
                       "products_container"
                     )
-              }
+              )}
               id="product_images"
             >
               {!mobile || this.props.plpMobileView == "grid"
@@ -946,6 +950,7 @@ class PLP extends React.Component<
                         <div
                           className={cs(
                             bootstrap.colLg4,
+                            bootstrap.colMd4,
                             bootstrap.col6,
                             styles.setWidth,
                             "product-container"
@@ -1187,7 +1192,7 @@ class PLP extends React.Component<
         {this.state.count > -1 && this.state.showProductCounter && (
           <ProductCounter
             current={this.state.count}
-            total={!this.state.corporoateGifting ? count + 1 : count}
+            total={count}
             id="plp-product-counter"
           />
         )}

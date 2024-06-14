@@ -453,6 +453,7 @@ class Footer extends React.Component<Props, FooterState> {
                           }
                         >
                           {mobileFooterList?.map((list, i: number) => {
+                            console.log("########### LIST:", list);
                             return (
                               <li key={i}>
                                 {list.value.length > 0 ? (
@@ -483,6 +484,12 @@ class Footer extends React.Component<Props, FooterState> {
                                     className={
                                       this.props.saleStatus
                                         ? cs(styles.cerise)
+                                        : ""
+                                    }
+                                    target={list.openInNewTab ? "_blank" : ""}
+                                    rel={
+                                      list.openInNewTab
+                                        ? "noopener noreferrer"
                                         : ""
                                     }
                                     style={{
@@ -778,6 +785,14 @@ class Footer extends React.Component<Props, FooterState> {
                                     {item.link ? (
                                       <Link
                                         to={item.link || "#"}
+                                        target={
+                                          item.openInNewTab ? "_blank" : ""
+                                        }
+                                        rel={
+                                          item.openInNewTab
+                                            ? "noopener noreferrer"
+                                            : ""
+                                        }
                                         onClick={() => {
                                           if (
                                             this.props.location.pathname ==
