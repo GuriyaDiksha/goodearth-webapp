@@ -359,6 +359,142 @@ class FilterList extends React.Component<Props, State> {
     this.updateDataFromAPI(load, currency, isUpdateTemplate);
   };
 
+  createUrlfromFilterForCategory = (load?: any, currency?: string) => {
+    const array = this.state.filter;
+    const { history } = this.props;
+
+    const urlParams = new URLSearchParams(history.location.search);
+    const categoryShop = urlParams.get("category_shop");
+
+    let filterUrl = "",
+      categoryKey: any,
+      mainurl: string | undefined = "",
+      colorVars = "",
+      materialVars = "",
+      sizeVars = "",
+      categoryShopVars = "",
+      productVars = "",
+      discountVars = "";
+    Object.keys(array).map((filterType, i) => {
+      Object.keys(array[filterType]).map((key, i) => {
+        switch (filterType) {
+          case "currentColor":
+            if (
+              array[filterType][key].value &&
+              array[filterType][key].isChecked
+            ) {
+              colorVars == ""
+                ? (colorVars = array[filterType][key].value)
+                : (colorVars += "|" + array[filterType][key].value);
+            }
+            break;
+          case "currentMaterial":
+            if (
+              array[filterType][key].value &&
+              array[filterType][key].isChecked
+            ) {
+              materialVars == ""
+                ? (materialVars = array[filterType][key].value)
+                : (materialVars += "|" + array[filterType][key].value);
+            }
+            break;
+          case "availableSize":
+            if (
+              array[filterType][key].value &&
+              array[filterType][key].isChecked
+            ) {
+              sizeVars == ""
+                ? (sizeVars = array[filterType][key].value)
+                : (sizeVars += "|" + array[filterType][key].value);
+            }
+            break;
+          case "categoryShop":
+            categoryKey = array[filterType][key];
+            let l2Selected = false;
+            Object.keys(categoryKey).map(data => {
+              if (categoryKey[data] && !l2Selected) {
+                const orignalData = data;
+                data = encodeURIComponent(data).replace(/%20/g, "+");
+                if ((data.match(/%3E/g) || []).length == 1) {
+                  // Break loop if l2 is selected. No need to add l3s now.
+                  categoryShopVars = data;
+                  l2Selected = true;
+                } else {
+                  categoryShopVars == ""
+                    ? (categoryShopVars = data)
+                    : (categoryShopVars += "|" + data);
+                }
+                mainurl = this.getMainUrl(orignalData);
+              }
+            });
+            break;
+          case "price":
+            filterUrl += "&" + key + "=" + array[filterType][key];
+            break;
+          case "currency":
+            filterUrl += "&" + key + "=" + array[filterType][key];
+            break;
+          case "sortBy":
+            filterUrl += "&sort_by=" + array[filterType][key];
+            break;
+          case "productType": {
+            const product = array[filterType];
+            productVars = "";
+            Object.keys(product).map(data => {
+              if (product[data]) {
+                data = encodeURIComponent(data).replace(/%20/g, "+");
+                data = data.replace("pb_", "");
+                productVars == ""
+                  ? (productVars = data)
+                  : (productVars += "|" + data);
+              }
+            });
+            break;
+          }
+          case "availableDiscount": {
+            const discount = array[filterType];
+            discountVars = "";
+            Object.keys(discount).map(data => {
+              if (discount[data].isChecked) {
+                data = encodeURIComponent(data).replace(/%20/g, "+");
+                data = data.replace("disc_", "");
+                discountVars == ""
+                  ? (discountVars = data)
+                  : (discountVars += "|" + data);
+              }
+            });
+            break;
+          }
+          default:
+            break;
+        }
+      });
+    });
+    categoryShopVars != ""
+      ? (filterUrl += "&category_shop=" + categoryShopVars)
+      : "";
+    // colorVars != "" ? (filterUrl += "&current_color=" + colorVars) : "";
+    // materialVars != ""
+    // ? (filterUrl += "&current_material=" + materialVars)
+    // : "";
+    // sizeVars != "" ? (filterUrl += "&available_size=" + sizeVars) : "";
+    // productVars != "" ? (filterUrl += "&product_type=" + productVars) : "";
+    // discountVars != ""
+    //   ? (filterUrl += "&available_discount=" + discountVars)
+    //   : "";
+    if (mainurl == "" || !mainurl) {
+      mainurl = history.location.pathname;
+    }
+    history.replace(mainurl + "?source=plp" + filterUrl, {});
+
+    const currentCategoryShop = encodeURIComponent(categoryShop || "").replace(
+      /%20/g,
+      "+"
+    );
+    const isUpdateTemplate = currentCategoryShop !== categoryShopVars;
+    this.updateDataFromAPI(load, currency, isUpdateTemplate);
+  };
+
   onchangeRange = (value: any) => {
     if (value[0] == value[1]) return false;
     this.setState({
@@ -1246,6 +1382,7 @@ class FilterList extends React.Component<Props, State> {
   };
 
   createMaterial = (facets: any, filtered_facets: any) => {
+    // debugger
     if (!facets?.currentMaterial || facets.length == 0) return false;
     const html: any = [];
     const { filter } = this.state;
@@ -1554,8 +1691,7 @@ class FilterList extends React.Component<Props, State> {
         "Filter value": event.target.value + val
       });
     }
-
-    this.createUrlfromFilter();
+    this.createUrlfromFilterForCategory();
     event.stopPropagation();
   };
 
