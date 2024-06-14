@@ -379,7 +379,13 @@ class PLP extends React.Component<
   };
 
   setProductCount = () => {
-    const cards = document.querySelectorAll(".product-container");
+    const allcards = document.querySelectorAll(".product-container");
+    const cards: any = [];
+    if (document.getElementById("gift-card-item")) {
+      for (let i = 0; i < allcards.length - 1; i++) {
+        cards.push(allcards[i]);
+      }
+    }
     const cardIDs: any = [];
 
     cards.forEach(card => {
@@ -437,10 +443,15 @@ class PLP extends React.Component<
     if (this.props.plpMobileView != plpMobileView) {
       CookieService.setCookie("plpMobileView", plpMobileView);
       viewSelectionGTM(plpMobileView);
-      const cards = document.querySelectorAll(".product-container");
+      const allcards = document.querySelectorAll(".product-container");
+      const cards: any = [];
+      if (document.getElementById("gift-card-item")) {
+        for (let i = 0; i < allcards.length - 1; i++) {
+          cards.push(allcards[i]);
+        }
+      }
       const cardIDs: any = [];
-
-      cards.forEach(card => {
+      cards.forEach((card: any) => {
         cardIDs.push(card.children[0].children[0]?.id);
       });
 
