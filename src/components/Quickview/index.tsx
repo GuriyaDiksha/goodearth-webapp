@@ -245,7 +245,7 @@ class Quickview extends React.Component<Props, State> {
           styles.quickviewSize
         )}
       >
-        <div className={cs({ [globalStyles.hidden]: index <= 0 })}>
+        <div className={cs({ [globalStyles.visblityHidden]: index <= 0 })}>
           <span
             className={cs(
               styles.preButtonStyle,
@@ -307,7 +307,7 @@ class Quickview extends React.Component<Props, State> {
         </div>
         <div
           className={cs({
-            [globalStyles.hidden]: index >= productListId.length - 1
+            [globalStyles.visblityHidden]: index >= productListId.length - 1
           })}
         >
           <span
