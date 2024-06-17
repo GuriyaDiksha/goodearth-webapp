@@ -54,3 +54,6 @@ export const updateShowShippingAddress = (showShipping: boolean) =>
 
 export const updateIsLoyaltyFilterOpen = (menuOpen: boolean) =>
   actionCreator("UPDATE_IS_LOYALTY_FILER_OPEN", menuOpen);
+
+export const updateOpenCookiePopup = (open: boolean) =>
+  actionCreator("OPEN_COOKIE_POPUP", open);
