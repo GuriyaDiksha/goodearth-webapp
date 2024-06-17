@@ -107,7 +107,7 @@ const LeftImage: React.FC<Props> = ({
                 // globalStyles.marginT30,
                 styles.leftImageCta
               )}
-              // style={{ backgroundColor: ctaColor }}
+              style={{ backgroundColor: ctaColor }}
             >
               <a
                 id="info-popup-accept-button"
