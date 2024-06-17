@@ -146,7 +146,7 @@
 }
 
 .shop-locator{
-  padding-top: 15px;
+  // padding-top: 15px;
   @include b3_14px_montserrat_medium_charcoal;
   text-transform: uppercase;
   div {
@@ -702,7 +702,7 @@
     position: absolute;
     // left: 76%;
     width: 84%;
-    margin-top: 50px;
+    // margin-top: 50px;
     .cursor-pointer {
       &:hover {
         color: $cerise;
@@ -1158,4 +1158,29 @@ padding: 30px 20px;
   }
 
 
+}
+
+.country-wrp{
+  display: flex;
+  gap: 10px;
+  margin: 30px 0;
+
+  img{
+    cursor: pointer;
+  }
+
+  .country{
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500 !important;
+    letter-spacing: 0.50px;
+    line-height: 30px;
+    font-weight: normal;
+    color: $charcoal19;
+    font-family: "Montserrat", "sans-serif";
+  }
+
+  @media screen and (max-width:991px) {
+    margin: 0;
+  }
 }
