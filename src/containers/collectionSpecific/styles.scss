@@ -117,3 +117,15 @@
   text-align: center;
   @include b6_9px_light_montserrat_charcoal();
 }
+
+@media(min-width:768px)and(max-width:992px){
+  .collection-lowertext{
+    max-width: 480px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+  }
+  .cl-container{
+    max-width: 670px;
+    margin: 0 auto;
+  }
+}
