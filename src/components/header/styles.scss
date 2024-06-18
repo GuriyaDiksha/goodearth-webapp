@@ -614,7 +614,11 @@
     line-height: 50px;
     text-transform: uppercase;
     position: relative;
-    span {
+
+    .single-node{
+      @include b3_14px_montserrat_charcoal();
+    }
+    a, span {
       @include b3_14px_montserrat_charcoal();
     }
     li {
@@ -1614,6 +1618,10 @@ visibility: visible !important;
 
 ul.inner-menu-mobile {
   padding: 0 20px;
+  li{
+    line-height: 20px;
+    margin: 20px auto;
+  }
   &>li:first-child {
       background-color: #FCFCFA;
       position: sticky;
@@ -1623,6 +1631,7 @@ ul.inner-menu-mobile {
       // border-bottom: 1px solid #e6e6e6;
       margin:0 -35px 10px -35px;
       padding: 0 35px;
+      line-height: 50px;
   }
 }
 .inner-menu-heading {
@@ -2163,6 +2172,14 @@ div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
   text-transform: capitalize!important;
 }
 
+.featured-title{
+  margin-top: 30px;
+  @include b3_14px_montserrat_caps_charcoal();
+}
+.featured-cta{
+  margin-bottom: 30px;
+  @include b4_12px_montserrat_semibold_charcoal();
+}
 @media(min-width:768px)and(max-width:992px){
   .search-tab-container{
     max-width: 670px;

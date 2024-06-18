@@ -129,25 +129,6 @@ class MegaMenu extends React.Component<Props, MenuState> {
                   >
                     {ReactHtmlParser(data.text)}
                   </span>
-                ) : data.text?.includes("Our World") ? (
-                  <a
-                    className={cs(
-                      styles.menuItemLink,
-                      disbaleClass,
-                      styles.hoverStories,
-                      {
-                        [styles.cerise]: highlightSale
-                      }
-                    )}
-                    href={data.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() =>
-                      this.onHeaderMenuClick(data.text, data.url, i)
-                    }
-                  >
-                    {ReactHtmlParser(data.text)}
-                  </a>
                 ) : (
                   <Link
                     className={cs(
@@ -162,29 +143,13 @@ class MegaMenu extends React.Component<Props, MenuState> {
                     onClick={() =>
                       this.onHeaderMenuClick(data.text, data.url, i)
                     }
+                    target={data?.openInNewTab ? "_blank" : ""}
                     // target="_blank"
                     // rel="noopener noreferrer"
                   >
                     {ReactHtmlParser(data.text)}
                   </Link>
                 )
-              ) : data.text?.includes("Our World") ? (
-                <a
-                  className={cs(
-                    styles.menuItemLink,
-                    disbaleClass,
-                    styles.hoverStories,
-                    {
-                      [styles.cerise]: highlightSale
-                    }
-                  )}
-                  href={data.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => this.onHeaderMenuClick(data.text, data.url, i)}
-                >
-                  {ReactHtmlParser(data.text)}
-                </a>
               ) : (
                 <Link
                   to={isBridalRegistryPage ? "#" : data.url}
@@ -199,6 +164,7 @@ class MegaMenu extends React.Component<Props, MenuState> {
                       ? cs(disbaleClass, styles.hoverA)
                       : cs(disbaleClass, styles.hoverB)
                   )}
+                  target={data?.openInNewTab ? "_blank" : ""}
                 >
                   {ReactHtmlParser(
                     this.props.isSale && data.text ? data.text : data.text
