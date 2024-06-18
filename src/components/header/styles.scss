@@ -614,7 +614,11 @@
     line-height: 50px;
     text-transform: uppercase;
     position: relative;
-    span {
+
+    .single-node{
+      @include b3_14px_montserrat_charcoal();
+    }
+    a, span {
       @include b3_14px_montserrat_charcoal();
     }
     li {
