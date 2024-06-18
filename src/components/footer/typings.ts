@@ -11,6 +11,7 @@ export type FooterList = {
   name: string;
   value: List[];
   link?: string;
+  openInNewTab: boolean;
 }[];
 
 export type FooterState = {
