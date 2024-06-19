@@ -156,22 +156,16 @@ const BaseLayout: React.FC = () => {
             decodeURI(pathname + history.location.search) ||
           pop?.pageRules === "ANY_PAGE"
       );
+
       if (currentPopup && currentPopup.length > 0) {
         //Check for session
         let show = currentPopup[0].session == false;
 
         //Check for cookie path
         if (!show) {
-          if (
-            CookieService.getCookie(
-              pathname.split("/").join("_") + "_" + currentPopup[0].id
-            ) != "show"
-          ) {
+          if (CookieService.getCookie("_" + currentPopup[0].id) != "show") {
             show = true;
-            CookieService.setCookie(
-              pathname.split("/").join("_") + "_" + currentPopup[0].id,
-              "show"
-            );
+            CookieService.setCookie("_" + currentPopup[0].id, "show");
           }
         }
 

@@ -106,13 +106,6 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
     closeModal();
   };
 
-  const onContinue = () => {
-    const currency = countryCurrencyCode[selectedCountry?.code] || "USD";
-    CookieService.setCookie("currency", currency, 365);
-    dispatch(updateOpenCookiePopup(true));
-    closeModal();
-  };
-
   return (
     <div>
       <div
@@ -133,7 +126,7 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
               <Button
                 variant="mediumMedCharcoalCta366"
                 label={"CONTINUE"}
-                onClick={onContinue}
+                onClick={setCurrency}
               />
               <p className={styles.link} onClick={() => setCurrentSection(2)}>
                 CHANGE COUNTRY
@@ -174,7 +167,7 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
                 onClick={setCurrency}
                 disabled={selectedCountry?.country === country}
               />
-              <p className={styles.link} onClick={onContinue}>
+              <p className={styles.link} onClick={setCurrency}>
                 CANCEL
               </p>
             </div>
