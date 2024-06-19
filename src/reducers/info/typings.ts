@@ -20,6 +20,7 @@ export type State = {
   showCookiePref: boolean;
   showShipping?: boolean;
   isLoyaltyFilterOpen?: boolean;
+  openCookiePopup?: boolean;
 };
 
 export type InfoActions = ActionType<typeof Actions>;

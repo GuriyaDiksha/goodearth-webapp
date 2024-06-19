@@ -12,11 +12,18 @@ import CookieService from "services/cookie";
 import { checkBlank, checkMail, showErrors, footerGTM } from "utils/validate";
 import { Dispatch } from "redux";
 import HeaderFooterService from "services/headerFooter";
-import { updateShowCookie, updateCookiePrefrence } from "actions/info";
+import {
+  updateShowCookie,
+  updateCookiePrefrence,
+  updateOpenCookiePopup
+} from "actions/info";
 import CookiePolicy from "./CookiePolicy";
 import MakerSmartNav from "containers/base/MakerSmartNav";
 import ReactHtmlParser from "react-html-parser";
 import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
+import EarthLogo from "./../../icons/earth.svg";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -28,7 +35,9 @@ const mapStateToProps = (state: AppState) => {
     showCookie: state.info.showCookie,
     mobileMenuOpenState: state.header.mobileMenuOpenState,
     currency: state.currency,
-    showCookiePref: state.info.showCookiePref
+    showCookiePref: state.info.showCookiePref,
+    openCookiePopup: state.info.openCookiePopup,
+    country: state.widget.country
   };
 };
 
@@ -46,6 +55,19 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     showCookiePrefs: () => {
       dispatch(updateCookiePrefrence(false));
+    },
+    closePopup: () => {
+      dispatch(updateOpenCookiePopup(false));
+    },
+    openPoup: (mobile: boolean) => {
+      dispatch(
+        updateComponent(
+          POPUP.COUNTRYPOPUP,
+          { initSection: 2 },
+          mobile ? false : true
+        )
+      );
+      dispatch(updateModal(true));
     }
   };
 };
@@ -307,6 +329,11 @@ class Footer extends React.Component<Props, FooterState> {
   acceptCookies = () => {
     //CookieService.setCookie("goodearth", "show", 365);
     this.props.hideCookies();
+    this.props.closePopup();
+  };
+
+  openCountryPopup = () => {
+    this.props.openPoup(this.props.mobile);
   };
 
   render() {
@@ -693,6 +720,23 @@ class Footer extends React.Component<Props, FooterState> {
                               })}
                           </li>
                         </ul>
+                        <div className={styles.countryWrp}>
+                          <img
+                            src={EarthLogo}
+                            alt={"earth"}
+                            width={20}
+                            onClick={this.openCountryPopup}
+                          />
+                          <p
+                            style={{
+                              color: footerHeadingFontColor
+                            }}
+                            onClick={this.openCountryPopup}
+                            className={styles.country}
+                          >
+                            {this.props.country}
+                          </p>
+                        </div>
                         <ShopLocator
                           goToShopLocator={this.goToShopLocator}
                           saleStatus={this.props.saleStatus}
@@ -1151,6 +1195,23 @@ class Footer extends React.Component<Props, FooterState> {
                     ) : (
                       ""
                     )}
+                    <div className={styles.countryWrp}>
+                      <img
+                        src={EarthLogo}
+                        alt={"earth"}
+                        width={20}
+                        onClick={this.openCountryPopup}
+                      />
+                      <p
+                        style={{
+                          color: footerHeadingFontColor
+                        }}
+                        onClick={this.openCountryPopup}
+                        className={styles.country}
+                      >
+                        {this.props.country}
+                      </p>
+                    </div>
                   </div>
 
                   <div className={cs(bootstrap.col1)} key={4}></div>
@@ -1200,9 +1261,10 @@ class Footer extends React.Component<Props, FooterState> {
           )}
 
         {(OLD_COOKIE_SETTINGS
-          ? cookiCheck
-          : (cookiCheck && !this.state.isConsentSave) ||
-            this.props?.showCookiePref) && (
+          ? cookiCheck && this.props.openCookiePopup
+          : ((cookiCheck && !this.state.isConsentSave) ||
+              this.props?.showCookiePref) &&
+            this.props.openCookiePopup) && (
           // || !this.state.isConsentSave)
           <CookiePolicy
             hideCookies={this.props.hideCookies}
