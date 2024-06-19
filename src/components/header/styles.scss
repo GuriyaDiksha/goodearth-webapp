@@ -2177,8 +2177,11 @@ div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
   @include b3_14px_montserrat_caps_charcoal();
 }
 .featured-cta{
-  margin-bottom: 30px;
-  @include b4_12px_montserrat_semibold_charcoal();
+  a{
+    margin-bottom: 30px;
+   @include b4_12px_montserrat_semibold_charcoal();
+  }
+  
 }
 @media(min-width:768px)and(max-width:992px){
   .search-tab-container{

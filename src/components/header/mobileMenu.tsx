@@ -570,10 +570,23 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 onHeaderMegaMenuClick={this.props.onHeaderMegaMenuClick}
               />
               <div className={styles.featuredCta}>
-                {ReactHtmlParser(
-                  (template.templateData
-                    ?.componentData as MenuComponentL2L3Data)?.ctaName
-                )}
+                <Link
+                  to={
+                    (template.templateData
+                      ?.componentData as MenuComponentL2L3Data)?.link
+                  }
+                  target={
+                    (template.templateData
+                      ?.componentData as MenuComponentL2L3Data)?.openInNewTab
+                      ? "_blank"
+                      : ""
+                  }
+                >
+                  {ReactHtmlParser(
+                    (template.templateData
+                      ?.componentData as MenuComponentL2L3Data)?.ctaName
+                  )}
+                </Link>
               </div>
             </div>
           );
