@@ -1887,3 +1887,11 @@
 .text-align-left{
   text-align: left;
 }
+
+.flexible-height {
+  height: auto;
+}
+
+.fixed-height {
+  @include fixed-height(450px);
+}

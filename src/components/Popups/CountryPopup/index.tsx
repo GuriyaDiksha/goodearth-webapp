@@ -40,6 +40,10 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
   });
   const [currentSection, setCurrentSection] = useState(1);
   const countryRef: RefObject<HTMLInputElement> = useRef(null);
+  const [containerHeightFixed, setContainerHeighFixed] = useState<boolean>(
+    false
+  );
+
   const {
     device: { mobile },
     address: { countryData },
@@ -117,11 +121,18 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
           { [styles.centerpageDesktopFsWidth]: mobile }
         )}
       >
-        <div className={cs(styles.gcTnc)}>
+        <div
+          className={cs(
+            styles.gcTnc,
+            containerHeightFixed
+              ? styles["fixed-height"]
+              : styles["flexible-height"]
+          )}
+        >
           {currentSection === 1 ? (
             <div className={styles.countryFirstSection}>
               <img src={GELogo} alt="logo" width={50} />
-              <p>Your country is set to</p>
+              <p>It seems you’re shopping from</p>
               <h3>{country}</h3>
               <Button
                 variant="mediumMedCharcoalCta366"
@@ -157,6 +168,7 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
                     allowFilter={true}
                     inputRef={countryRef}
                     value={selectedCountry?.country}
+                    onInputClick={flag => setContainerHeighFixed(flag)}
                   />
                 </div>
               </Formsy>
