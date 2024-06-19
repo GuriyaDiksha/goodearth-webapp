@@ -126,7 +126,7 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
               <Button
                 variant="mediumMedCharcoalCta366"
                 label={"CONTINUE"}
-                onClick={onContinue}
+                onClick={setCurrency}
               />
               <p className={styles.link} onClick={() => setCurrentSection(2)}>
                 CHANGE COUNTRY
