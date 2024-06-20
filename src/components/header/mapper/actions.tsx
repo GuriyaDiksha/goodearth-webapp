@@ -32,10 +32,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     handleLogOut: (history: any, currency: Currency, customerGroup: string) => {
       LoginService.logout(dispatch, currency, customerGroup);
-      if (history.location.pathname !== "/") {
-        history.push("/");
-      }
-
+      history.push("/");
       // window.location.reload();
     },
     onLoadAPiCall: (
