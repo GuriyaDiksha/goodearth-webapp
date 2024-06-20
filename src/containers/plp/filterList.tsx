@@ -2705,11 +2705,10 @@ class FilterList extends React.Component<Props, State> {
                   : styles.hideDiv
               }
             >
-              {this.props.facets?.categoryShop?.length > 0 &&
-                this.createCatagoryFromFacets(
-                  this.props.facetObject.categoryObj,
-                  this.props.facetObject.facets
-                )}
+              {this.createCatagoryFromFacets(
+                this.props.facetObject.categoryObj,
+                this.props.facetObject.facets
+              )}
             </div>
           </li>
 
