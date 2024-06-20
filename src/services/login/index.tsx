@@ -499,7 +499,6 @@ export default {
       pathname.includes("/order/checkout")
     ) {
       localStorage.setItem("from", "checkout");
-      debugger;
       window.location.replace(`${location?.origin + "/cart"}`);
     } else {
       document.cookie = "atkn=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
