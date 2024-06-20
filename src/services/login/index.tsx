@@ -459,7 +459,6 @@ export default {
       if (userConsent.includes(GA_CALLS)) {
         Moengage.destroy_session();
       }
-      WishlistService.resetWishlist(dispatch);
       // WishlistService.countWishlist(dispatch);
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sales Api Status ==== " + err);
@@ -479,6 +478,7 @@ export default {
         console.log(err);
       });
       // HeaderService.fetchHomepageData(dispatch);
+      WishlistService.resetWishlist(dispatch);
       dispatch(resetMeta(undefined));
       if (source == "reset-pass") {
         showGrowlMessage(dispatch, MESSAGE.INVALID_SESSION_LOGOUT, 5000);
