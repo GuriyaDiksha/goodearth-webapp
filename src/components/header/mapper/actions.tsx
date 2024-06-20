@@ -42,7 +42,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       sortBy = "added_on",
       page?: string
     ) => {
-      WishlistService.updateWishlist(dispatch, sortBy);
       if (bridalId > 0) {
         BridalService.countBridal(dispatch, bridalId);
       }
@@ -53,6 +52,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       // if (!page?.includes("shared-wishlist")) {
 
       // }
+      WishlistService.updateWishlist(dispatch, sortBy);
+
       if (!page?.includes("/cart") && !page?.includes("/order/checkout")) {
         BasketService.fetchBasket(dispatch);
       }

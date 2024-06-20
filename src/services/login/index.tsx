@@ -435,7 +435,6 @@ export default {
       `${__API_HOST__ + "/myapi/auth/logout/"}`,
       {}
     );
-    debugger;
     if (res) {
       document.cookie = "atkn=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       document.cookie =
@@ -460,6 +459,7 @@ export default {
       if (userConsent.includes(GA_CALLS)) {
         Moengage.destroy_session();
       }
+      WishlistService.resetWishlist(dispatch);
       // WishlistService.countWishlist(dispatch);
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sales Api Status ==== " + err);
@@ -479,7 +479,6 @@ export default {
         console.log(err);
       });
       // HeaderService.fetchHomepageData(dispatch);
-      WishlistService.resetWishlist(dispatch);
       dispatch(resetMeta(undefined));
       if (source == "reset-pass") {
         showGrowlMessage(dispatch, MESSAGE.INVALID_SESSION_LOGOUT, 5000);
