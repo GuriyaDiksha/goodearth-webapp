@@ -1620,7 +1620,7 @@ ul.inner-menu-mobile {
   padding: 0 20px;
   li{
     line-height: 20px;
-    margin: 20px auto;
+    margin: 25px auto;
   }
   &>li:first-child {
       background-color: #FCFCFA;
@@ -2177,8 +2177,8 @@ div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
   @include b3_14px_montserrat_caps_charcoal();
 }
 .featured-cta{
+  margin-bottom: 30px;
   a{
-    margin-bottom: 30px;
    @include b4_12px_montserrat_semibold_charcoal();
   }
   
