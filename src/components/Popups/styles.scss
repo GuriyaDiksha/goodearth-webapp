@@ -251,6 +251,10 @@
       padding: 0 45px;
       letter-spacing: .5px;
       font-weight: $regular !important;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      
       p{
         @include b4_12px_montserrat_charcoal();
         text-align: left;
