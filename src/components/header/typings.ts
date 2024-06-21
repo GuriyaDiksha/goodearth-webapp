@@ -73,6 +73,7 @@ export interface MenuComponent {
   children?: MenuComponent[];
 }
 export interface MenuTemplates {
+  labelOnMobile?: string;
   publishOnMobile: boolean;
   templateType: string;
   templateData: MenuComponent;
@@ -86,9 +87,11 @@ export interface MegaMenuData {
   columns: MenuColumn[];
   text: string;
   url: string;
+  openInNewTab?: boolean;
 }
 
 export interface InnerMenuData {
+  openInNewTab?: boolean;
   text: string;
   url: string;
   l2MenuData: L2MenuData[];

@@ -66,3 +66,9 @@
   .react-datepicker__day-name{
     font-weight: 500!important;
   }
+
+@media screen and (max-width:767px) {
+  .react-datepicker__day, .react-datepicker__navigation{
+    width: 10% !important;
+  }
+}
