@@ -717,21 +717,27 @@ class CollectionSpecific extends React.Component<
               <>
                 <div className={bootstrap.col12}>
                   {widgetImages.map((widget: any) => {
-                    if (mobile && widget.imageType == 2) {
+                    if (widget.imageType == 2) {
                       return (
                         <img
                           key="mobile-collectionspecific-banner"
                           src={widget.image}
-                          className={globalStyles.imgResponsive}
+                          className={cs(
+                            globalStyles.desktopHide,
+                            globalStyles.imgResponsive
+                          )}
                           alt="Collection Widget"
                         />
                       );
-                    } else if (!mobile && widget.imageType == 1) {
+                    } else if (widget.imageType == 1) {
                       return (
                         <img
                           key="desktop-collectionspecific-banner"
                           src={widget.image}
-                          className={globalStyles.imgResponsive}
+                          className={cs(
+                            globalStyles.mobileHide,
+                            globalStyles.imgResponsive
+                          )}
                           alt="Collection Banner"
                         />
                       );
@@ -757,13 +763,15 @@ class CollectionSpecific extends React.Component<
             )}
           </div>
         </section>
-        <div
-          className={styles.goBack}
-          onClick={() => {
-            this.props?.history.push("/" + all_collection_link);
-          }}
-        >
-          &lt; BACK TO ALL COLLECTIONS
+        <div className={styles.clContainer}>
+          <div
+            className={styles.goBack}
+            onClick={() => {
+              this.props?.history.push("/" + all_collection_link);
+            }}
+          >
+            &lt; BACK TO ALL COLLECTIONS
+          </div>
         </div>
 
         <div className={styles.tagWrp}>
@@ -790,9 +798,10 @@ class CollectionSpecific extends React.Component<
           <div
             className={cs(
               bootstrap.col8,
-              bootstrap.offset2,
-              bootstrap.colMd4,
-              bootstrap.offsetMd4,
+              // bootstrap.offset2,
+              bootstrap.colMd12,
+              bootstrap.colLg4,
+              bootstrap.offsetLg4,
               styles.collectionLowertext,
               globalStyles.textCenter
             )}
@@ -804,8 +813,10 @@ class CollectionSpecific extends React.Component<
           <div
             id="product_images"
             className={cs(
-              bootstrap.colMd10,
-              bootstrap.offsetMd1,
+              styles.clContainer,
+              bootstrap.colLg10,
+              bootstrap.offsetLg1,
+              bootstrap.colMd12,
               bootstrap.colSm12,
               bootstrap.row
             )}

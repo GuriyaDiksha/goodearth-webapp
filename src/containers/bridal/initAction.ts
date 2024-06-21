@@ -10,10 +10,10 @@ const initActionBridal: InitAction = async (
   const dispatch = store.dispatch;
   const pathArray = location.pathname.split("/");
   const isBridal =
-    pathArray.includes("bridal") && !pathArray.includes("account");
+    pathArray.includes("registry") && !pathArray.includes("account");
   let bridalKey = "";
   if (isBridal) {
-    bridalKey = pathArray[pathArray.indexOf("bridal") + 1];
+    bridalKey = pathArray[pathArray.indexOf("registry") + 1];
   }
   await Api.getAnnouncement(dispatch, bridalKey);
 };

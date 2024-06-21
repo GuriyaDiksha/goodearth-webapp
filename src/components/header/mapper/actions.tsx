@@ -31,7 +31,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       event?.preventDefault();
     },
     handleLogOut: (history: any, currency: Currency, customerGroup: string) => {
-      // debugger
       LoginService.logout(dispatch, currency, customerGroup);
       history.push("/");
       // window.location.reload();
@@ -51,8 +50,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       //   WishlistService.countWishlist(dispatch);
       // }
       // if (!page?.includes("shared-wishlist")) {
-      WishlistService.updateWishlist(dispatch, sortBy);
+
       // }
+      WishlistService.updateWishlist(dispatch, sortBy);
+
       if (!page?.includes("/cart") && !page?.includes("/order/checkout")) {
         BasketService.fetchBasket(dispatch);
       }

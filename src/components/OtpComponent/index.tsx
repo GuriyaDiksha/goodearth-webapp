@@ -556,7 +556,12 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             this.props.updateError(errorMessage);
             errorTracking([errorMessage], location.href);
           } else if (currStatus == "Active" || currStatus == "Expired") {
-            this.props.updateError(message);
+            if (message.includes("Maximum attempts reached")) {
+              this.setState({ showerrorOtp: message });
+            } else {
+              this.props.updateError(message);
+            }
+
             errorTracking([message], location.href);
           } else if (email) {
             this.RegisterFormRef1.current?.updateInputsWithError({ email });
@@ -911,9 +916,13 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                     checked={this.state.radioType === "email"}
                   />
                   <span
-                    className={cs(styles.checkmark, {
-                      [styles.top]: this.props.isCredit
-                    })}
+                    className={cs(
+                      globalStyles.radioIndicator,
+                      styles.checkmark,
+                      {
+                        [styles.top]: this.props.isCredit
+                      }
+                    )}
                   ></span>
                 </label>
                 <FormInput

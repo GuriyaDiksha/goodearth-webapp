@@ -721,7 +721,7 @@ icon-cross {
         justify-content: space-between;
         margin-bottom: 20px;
 
-        @media screen and (max-width:768px) {
+        @media screen and (max-width:992px) {
           margin-bottom: 90px;
         }
       }
@@ -766,7 +766,7 @@ icon-cross {
           cursor: pointer;
           padding-top: 25px;
 
-          @media screen and (max-width:768px) {
+          @media screen and (max-width:992px) {
             margin-bottom: 80px;
           }
         }
