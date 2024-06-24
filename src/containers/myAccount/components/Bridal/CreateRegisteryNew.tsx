@@ -209,7 +209,12 @@ const CreateRegistryNew: React.FC = () => {
                         [styles.active]: selectId == "" || selectId == "wedding"
                       })}
                     >
-                      <span className={cs(styles.checkMark)}></span>
+                      <span
+                        className={cs(
+                          styles.checkMark,
+                          selectId === "wedding" ? styles.markedRegistry : ""
+                        )}
+                      ></span>
                       <li li-data-value="Wedding">Wedding</li>
                     </div>
                     <div
@@ -222,7 +227,14 @@ const CreateRegistryNew: React.FC = () => {
                         [styles.active]: selectId == "anniversary"
                       })}
                     >
-                      <span className={cs(styles.checkMark)}></span>
+                      <span
+                        className={cs(
+                          styles.checkMark,
+                          selectId === "anniversary"
+                            ? styles.markedRegistry
+                            : ""
+                        )}
+                      ></span>
                       <li li-data-value="anniversary">Anniversary</li>
                     </div>
                     <div
@@ -235,7 +247,12 @@ const CreateRegistryNew: React.FC = () => {
                         [styles.active]: selectId == "birthday"
                       })}
                     >
-                      <span className={cs(styles.checkMark)}></span>
+                      <span
+                        className={cs(
+                          styles.checkMark,
+                          selectId === "birthday" ? styles.markedRegistry : ""
+                        )}
+                      ></span>
                       <li li-data-value="birthday">Birthday</li>
                     </div>
                     <div
@@ -248,7 +265,12 @@ const CreateRegistryNew: React.FC = () => {
                         [styles.active]: selectId == "others"
                       })}
                     >
-                      <span className={cs(styles.checkMark)}></span>
+                      <span
+                        className={cs(
+                          styles.checkMark,
+                          selectId === "others" ? styles.markedRegistry : ""
+                        )}
+                      ></span>
                       <li
                         className={cs(styles.lastLiChild)}
                         data-value={
