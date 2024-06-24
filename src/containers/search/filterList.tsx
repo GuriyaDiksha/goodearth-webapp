@@ -1105,19 +1105,22 @@ class FilterList extends React.Component<Props, State> {
             typeof document == "object" &&
             document.getElementById("category")
           ) {
-            (document.getElementById(
-              "category"
-            ) as HTMLElement).style.maxHeight = document.getElementById(
-              "category"
-            )?.scrollHeight
+            let catHeight = (document.getElementById("category") as HTMLElement)
+              .style.maxHeight;
+            const catScrollHeight = document.getElementById("category")
+              ?.scrollHeight;
+            catHeight = catScrollHeight
               ? `${Number(
                   (document.getElementById("category")?.scrollHeight || 0) +
                     (document.getElementById(id)?.scrollHeight || 0)
                 )}px`
               : "max-content";
           }
-          (document.getElementById(id) as HTMLElement).style.maxHeight =
-            document.getElementById(id)?.scrollHeight && id !== "category"
+          let otherHeight = (document.getElementById(id) as HTMLElement).style
+            .maxHeight;
+          const otherScrollHeight = document.getElementById(id)?.scrollHeight;
+          otherHeight =
+            otherScrollHeight && id !== "category"
               ? `${document.getElementById(id)?.scrollHeight}px`
               : "max-content";
         } else {
