@@ -1116,11 +1116,11 @@ class FilterList extends React.Component<Props, State> {
                 )}px`
               : "max-content";
           }
-          let otherHeight = (document.getElementById(id) as HTMLElement).style
-            .maxHeight;
-          const otherScrollHeight = document.getElementById(id)?.scrollHeight;
-          otherHeight =
-            otherScrollHeight && id !== "category"
+          // let otherHeight = (document.getElementById(id) as HTMLElement).style
+          //   .maxHeight;
+          // const otherScrollHeight = document.getElementById(id)?.scrollHeight;
+          (document.getElementById(id) as HTMLElement).style.maxHeight =
+            document.getElementById(id)?.scrollHeight && id !== "category"
               ? `${document.getElementById(id)?.scrollHeight}px`
               : "max-content";
         } else {
