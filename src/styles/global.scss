@@ -644,9 +644,16 @@ font-weight: bold;
 }
 
 .no-scroll {
+  position:relative;
+  height: 100%;
+  width: 100%; 
   overflow: hidden;
   touch-action: none;
   -ms-touch-action: none;
+  -webkit-overflow-scrolling: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .fixed {
