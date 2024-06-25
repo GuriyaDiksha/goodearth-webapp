@@ -35,18 +35,18 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       history.push("/");
       // window.location.reload();
     },
-    onLoadAPiCall: (
+    onLoadAPiCall: async (
       cookies: Cookies,
       bridalId: number,
       bridalKey?: string,
       sortBy = "added_on",
       page?: string
     ) => {
-      WishlistService.updateWishlist(dispatch, sortBy);
+      await WishlistService.updateWishlist(dispatch, sortBy);
       if (bridalId > 0) {
-        BridalService.countBridal(dispatch, bridalId);
+        await BridalService.countBridal(dispatch, bridalId);
       }
-      MetaService.updateMeta(dispatch, cookies, bridalKey);
+      await MetaService.updateMeta(dispatch, cookies, bridalKey);
       // if (page?.includes("shared-wishlist")) {
       //   WishlistService.countWishlist(dispatch);
       // }
@@ -54,8 +54,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 
       // }
       if (!page?.includes("/cart") && !page?.includes("/order/checkout")) {
-        BasketService.fetchBasket(dispatch);
+        await BasketService.fetchBasket(dispatch);
       }
+      return;
     },
     changeCurrency: async (data: { currency: Currency }) => {
       const response = await LoginService.changeCurrency(dispatch, data);
