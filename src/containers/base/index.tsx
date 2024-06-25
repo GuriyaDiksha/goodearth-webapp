@@ -347,7 +347,7 @@ const BaseLayout: React.FC = () => {
         .then(curr => {
           const countryName = CookieService.getCookie("country");
 
-          if (countryName.toLowerCase() !== "india") {
+          if (countryName.toLowerCase() === "india") {
             if (curr != "error") {
               if (curr && !cookieCurrency) {
                 const goCurrencyValue: any = curr;
