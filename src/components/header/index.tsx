@@ -153,13 +153,18 @@ class Header extends React.Component<Props, State> {
       const pathArray = this.props.location.pathname.split("/");
       bridalKey = pathArray[pathArray.length - 1];
     }
-    this.props.onLoadAPiCall(
-      this.props?.cookies,
-      this.props.bridalId,
-      bridalKey,
-      this.props.sortBy,
-      this.props.history?.location?.pathname
-    );
+    this.setState({ isLoading: true });
+    this.props
+      .onLoadAPiCall(
+        this.props?.cookies,
+        this.props.bridalId,
+        bridalKey,
+        this.props.sortBy,
+        this.props.history?.location?.pathname
+      )
+      .then(() => {
+        this.setState({ isLoading: false });
+      });
     if (
       typeof document != "undefined" &&
       user.email &&
