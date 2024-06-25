@@ -13,9 +13,7 @@ export const widget = (state = initialState, action: WidgetActions): State => {
     case "UPDATE_REGION": {
       return {
         ...state,
-        region: action.payload?.region,
-        country: action.payload?.country,
-        ip: action.payload?.ip
+        ...action?.payload
       };
     }
     case "UPDATE_WIDGET_DETAIL": {

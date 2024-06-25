@@ -22,6 +22,8 @@ import { updateNextUrl } from "actions/info";
 import { showGrowlMessage } from "../../../utils/validate";
 import { updateAddressMode } from "actions/address";
 import { updateshowFiller } from "actions/filler";
+import { updateRegion } from "actions/widget";
+import { currentyToCountryMapping } from "constants/currency";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -60,6 +62,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     changeCurrency: async (data: { currency: Currency }) => {
       const response = await LoginService.changeCurrency(dispatch, data);
+      dispatch(
+        updateRegion({ country: currentyToCountryMapping[data?.currency] })
+      );
       return response;
     },
     reloadPage: (
