@@ -189,9 +189,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     updateProfile: () => {
       dispatch(updateComponent(POPUP.PROFILEUPDATER, null, true));
       dispatch(updateModal(true));
-    },
-    countryUpdate: (country: string) => {
-      dispatch(updateRegion({ country }));
     }
   };
 };
