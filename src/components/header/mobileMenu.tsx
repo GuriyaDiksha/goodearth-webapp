@@ -267,7 +267,6 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 l2MenuData.children && l2MenuData.children.push(l3MenuData);
               });
           } else if (["TITLEHEADING"].includes(template.templateType)) {
-            debugger;
             const componentData = template.templateData
               .componentData as MenuComponentTitleData;
             const children = template.templateData.children;
