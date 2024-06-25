@@ -47,7 +47,7 @@ const MyAccount: React.FC<Props> = props => {
   const [currentSection, setCurrentSection] = useState("Profile");
   const location = useLocation();
   const [showRegistry, setShowRegistry] = useState(
-    location.pathname.includes("bridal") ? true : false
+    location.pathname.includes("registry") ? true : false
   );
 
   useEffect(() => {
@@ -257,9 +257,9 @@ const MyAccount: React.FC<Props> = props => {
                   }
                   onClick={() => {
                     setAccountListing(true);
-                    pathname == "/account/bridal" &&
+                    pathname == "/account/registry" &&
                       bridalId == 0 &&
-                      bridalGAcall("/account/bridal");
+                      bridalGAcall("/account/registry");
                   }}
                 >
                   <span>
@@ -302,9 +302,9 @@ const MyAccount: React.FC<Props> = props => {
                     <span
                       onClick={() => {
                         setAccountListing(false);
-                        pathname == "/account/bridal" &&
+                        pathname == "/account/registry" &&
                           bridalId == 0 &&
-                          bridalGAcall("/account/bridal");
+                          bridalGAcall("/account/registry");
                       }}
                     >
                       <i
@@ -386,9 +386,9 @@ const MyAccount: React.FC<Props> = props => {
                                 to={item?.href}
                                 activeClassName={styles.gold}
                                 onClick={() => {
-                                  pathname == "/account/bridal" &&
+                                  pathname == "/account/registry" &&
                                     bridalId == 0 &&
-                                    bridalGAcall("/account/bridal");
+                                    bridalGAcall("/account/registry");
                                 }}
                               >
                                 {bridalId == 0
