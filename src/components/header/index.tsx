@@ -84,6 +84,7 @@ export type Props = ReturnType<typeof mapStateToProps> &
   RouteComponentProps;
 
 class Header extends React.Component<Props, State> {
+  timer: any;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -313,6 +314,21 @@ class Header extends React.Component<Props, State> {
       }
     }
     this.onScroll();
+    const overlayElement = document.getElementById("menu_overlay");
+    if (this.state.showMenu) {
+      if (overlayElement) {
+        this.timer = setTimeout(() => {
+          overlayElement.classList.add(styles.overlayBg);
+        }, 1000);
+      }
+    } else {
+      if (overlayElement) {
+        overlayElement.classList.remove(styles.overlayBg);
+        if (this.timer) {
+          clearTimeout(this.timer);
+        }
+      }
+    }
   }
 
   // mouseOut(data: { show: boolean }) {

@@ -450,6 +450,10 @@
   z-index: 10;
   overflow-x: hidden;
   overflow-y: auto;
+
+  &.overlay-bg{
+    background-color: $grey;
+  }
 }
 
 .menu-slider-animate {
@@ -470,6 +474,7 @@
   height: calc(100vh - #{$header-height});
   overflow: scroll;
   background-color: tint(#000, 90%);
+  top: 95px;
 }
 .op3 {
   opacity: .4;

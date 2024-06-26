@@ -1254,17 +1254,18 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     );
     const innerMenu = (
       <div className={styles.mobileMainMenu}>
-        <ul className={styles.innerMenuMobile} key="innermenu">
-          {this.state.activeindex > -1 &&
-            // this.createListElement(this.props.menudata[this.state.activeindex])}
-            this.createMegaListElement(
+        {this.state.activeindex > -1 && (
+          <ul className={styles.innerMenuMobile} key="innermenu">
+            {/* this.createListElement(this.props.menudata[this.state.activeindex]) */}
+            {this.createMegaListElement(
               this.props.megaMenuData[
                 this.state.activeindex < this.props.megaMenuData.length
                   ? this.state.activeindex
                   : 0
               ]
             )}
-        </ul>
+          </ul>
+        )}
       </div>
     );
     return (
