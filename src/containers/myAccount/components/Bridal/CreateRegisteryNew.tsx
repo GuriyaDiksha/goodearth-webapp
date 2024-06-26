@@ -84,7 +84,8 @@ const CreateRegistryNew: React.FC = () => {
   const onDateChange = (date: Date) => {
     setDate(date);
     setDateErrorMsg("");
-    pickerRef.attr("autocomplete", "off");
+    // pickerRef.attr("autocomplete", "off");
+    OnOutsideClick();
   };
 
   const onCtaClick = () => {
