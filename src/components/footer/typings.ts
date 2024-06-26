@@ -27,6 +27,7 @@ export type FooterState = {
   headingHoverArray: boolean[];
   subheadingHoverArray: boolean[];
   smartNav: string[];
+  country?: string;
 };
 
 export type ShopLocations = { label: string; value: string }[];
