@@ -24,6 +24,7 @@ import { updateAddressMode } from "actions/address";
 import { updateshowFiller } from "actions/filler";
 import { updateRegion } from "actions/widget";
 import { currentyToCountryMapping } from "constants/currency";
+import CookieService from "services/cookie";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -62,6 +63,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     changeCurrency: async (data: { currency: Currency }) => {
       const response = await LoginService.changeCurrency(dispatch, data);
+      CookieService.setCookie(
+        "country",
+        currentyToCountryMapping[data?.currency],
+        365
+      );
       dispatch(
         updateRegion({ country: currentyToCountryMapping[data?.currency] })
       );
