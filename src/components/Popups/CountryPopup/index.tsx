@@ -89,19 +89,25 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
     setSelectedCountry({ country, code: countryCode });
   }, [country, countryCode]);
 
-  const setCurrency = async () => {
-    const currency = countryCurrencyCode[selectedCountry?.code] || "USD";
+  const setCurrency = async (isCancel?: boolean) => {
+    const currency =
+      countryCurrencyCode[isCancel ? countryCode : selectedCountry?.code] ||
+      "USD";
     const data: any = {
       currency
     };
     LoginService.changeCurrency(dispatch, data).then(res => {
-      CookieService.setCookie("country", selectedCountry?.country, 365);
+      CookieService.setCookie(
+        "country",
+        isCancel ? country : selectedCountry?.country,
+        365
+      );
       CookieService.setCookie("currency", currency, 365);
       dispatch(
         updateRegion({
           region: region,
           ip: ip,
-          country: selectedCountry?.country
+          country: isCancel ? country : selectedCountry?.country
         })
       );
       LoginService.reloadPage(dispatch, data?.currency, customerGroup);
@@ -137,7 +143,7 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
               <Button
                 variant="mediumMedCharcoalCta366"
                 label={"CONTINUE"}
-                onClick={setCurrency}
+                onClick={() => setCurrency(false)}
               />
               <p className={styles.link} onClick={() => setCurrentSection(2)}>
                 CHANGE COUNTRY
@@ -176,10 +182,10 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
               <Button
                 variant="mediumMedCharcoalCta366"
                 label={"CHANGE COUNTRY SELECTION"}
-                onClick={setCurrency}
+                onClick={() => setCurrency(false)}
                 disabled={selectedCountry?.country === country}
               />
-              <p className={styles.link} onClick={setCurrency}>
+              <p className={styles.link} onClick={() => setCurrency(true)}>
                 CANCEL
               </p>
             </div>
