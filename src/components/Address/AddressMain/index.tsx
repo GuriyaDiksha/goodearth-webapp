@@ -29,7 +29,11 @@ import { GA_CALLS } from "constants/cookieConsent";
 import styles from "../styles.scss";
 import WhatsappSubscribe from "components/WhatsappSubscribe";
 import Formsy from "formsy-react";
-import { updateAddressMode, updateSameAsShipping } from "actions/address";
+import {
+  isFormModuleOpen,
+  updateAddressMode,
+  updateSameAsShipping
+} from "actions/address";
 import { CONFIG } from "constants/util";
 import {
   updateBillingAddressId,
@@ -329,6 +333,7 @@ const AddressMain: React.FC<Props> = props => {
 
   const closeAddressForm = useCallback((addressId?: any) => {
     dispatch(updateAddressMode("list"));
+    dispatch(isFormModuleOpen(false));
     setTimeout(() => {
       if (addressId) {
         document.getElementById(`address-item-${addressId}`)?.scrollIntoView({
