@@ -75,7 +75,8 @@ const mapStateToProps = (state: AppState) => {
     scrollDown: state.info.scrollDown,
     user: state.user,
     showmobileSort: state.header.showmobileSort,
-    isShared: state.router.location.pathname.includes("shared-wishlist")
+    isShared: state.router.location.pathname.includes("shared-wishlist"),
+    isLoader: state.info.isLoading
   };
 };
 
@@ -1634,7 +1635,7 @@ class Header extends React.Component<Props, State> {
         {this.props.showSizeChart && (
           <Sizechart active={this.props.showSizeChart} />
         )}
-        {this.state.isLoading && <Loader />}
+        {this.state.isLoading && !this.props.isLoader && <Loader />}
         {this.state.showBag && (
           <Bag
             showShipping={this.props.showShipping}
