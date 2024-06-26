@@ -93,7 +93,8 @@ class Footer extends React.Component<Props, FooterState> {
       isConsentSave: false,
       headingHoverArray: [],
       subheadingHoverArray: [],
-      smartNav: ["/", "/homepage"]
+      smartNav: ["/", "/homepage"],
+      country: ""
     };
   }
 
@@ -182,7 +183,10 @@ class Footer extends React.Component<Props, FooterState> {
         this.observer.observe(this.container);
       }
     }
-    this.setState({ isConsentSave: CookieService.getCookie("consent") !== "" });
+    this.setState({
+      isConsentSave: CookieService.getCookie("consent") !== "",
+      country: CookieService.getCookie("country")
+    });
   }
 
   componentDidUpdate(
@@ -734,7 +738,7 @@ class Footer extends React.Component<Props, FooterState> {
                             onClick={this.openCountryPopup}
                             className={styles.country}
                           >
-                            {this.props.country}
+                            {this.props.country || this.state?.country}
                           </p>
                         </div>
                         <ShopLocator
@@ -1209,7 +1213,7 @@ class Footer extends React.Component<Props, FooterState> {
                         onClick={this.openCountryPopup}
                         className={styles.country}
                       >
-                        {this.props.country}
+                        {this.props.country || this.state?.country}
                       </p>
                     </div>
                   </div>
