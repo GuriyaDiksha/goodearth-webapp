@@ -486,6 +486,10 @@
   position: relative;
   float: left;
   width: 50%;
+
+  &.extra-bottom-padding{
+    padding-bottom: 130px;
+  }
   .no-Margin {
     margin: 0;
   }
