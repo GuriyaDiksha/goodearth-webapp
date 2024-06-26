@@ -83,9 +83,12 @@ body:has(.mobile) {
   // min-height: 320px;
   border: 1px solid #eaeaea;
   cursor: pointer;
-  max-width: 556px;
+  // max-width: 556px;
   margin: auto;
   min-height: 160px;
+  @media(min-width:768px){
+    max-width: 556px;
+  }
 
   &.checkout{
     width: 755px;
