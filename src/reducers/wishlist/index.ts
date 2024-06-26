@@ -17,7 +17,6 @@ export const wishlist = (
   state = initialState,
   action: WishlistActions
 ): State => {
-  // debugger
   switch (action.type) {
     case "UPDATE_WISHLIST": {
       return {
