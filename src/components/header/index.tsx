@@ -107,7 +107,8 @@ class Header extends React.Component<Props, State> {
           !this.props.location.pathname.includes("/account/")),
       isPlpPage:
         this.props.location.pathname.indexOf("/catalogue/category") > -1 ||
-        this.props.location.pathname.includes("/search/")
+        this.props.location.pathname.includes("/search/"),
+      isIphone: false
     };
   }
   static contextType = UserContext;
@@ -248,6 +249,12 @@ class Header extends React.Component<Props, State> {
       document?.body?.classList?.add(globalStyles.noScroll);
     } else {
       document?.body?.classList?.remove(globalStyles.noScroll);
+    }
+
+    if (navigator.userAgent.includes("iPhone")) {
+      this.setState({
+        isIphone: true
+      });
     }
   }
 
@@ -1571,6 +1578,9 @@ class Header extends React.Component<Props, State> {
                       profileItems={profileItems}
                       loginItem={loginItem}
                       goLogin={this.props.goLogin}
+                      isIphone={
+                        this.state.isIphone && this.props.currency !== "INR"
+                      }
                     />
                   </div>
                 ) : (
