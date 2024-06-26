@@ -226,19 +226,23 @@ const MyAccount: React.FC<Props> = props => {
         [styles.containerStartTimer]: showTimer
       })}
     >
-      <SecondaryHeader>
-        <div className={cs(bootstrapStyles.colMd11, bootstrapStyles.offsetMd1)}>
-          <span className={cs(styles.heading, globalStyles.verticalMiddle)}>
-            {history?.location?.pathname ===
-            "/account/cerise/transaction" ? null : (
-              <img className={styles.icon} src={profileIcon} />
-            )}{" "}
-            {history?.location?.pathname === "/account/cerise/transaction"
-              ? "Cerise"
-              : "My Account"}
-          </span>
-        </div>
-      </SecondaryHeader>
+      {!mobile && (
+        <SecondaryHeader>
+          <div
+            className={cs(bootstrapStyles.colMd11, bootstrapStyles.offsetMd1)}
+          >
+            <span className={cs(styles.heading, globalStyles.verticalMiddle)}>
+              {history?.location?.pathname ===
+              "/account/cerise/transaction" ? null : (
+                <img className={styles.icon} src={profileIcon} />
+              )}{" "}
+              {history?.location?.pathname === "/account/cerise/transaction"
+                ? "Cerise"
+                : "My Account"}
+            </span>
+          </div>
+        </SecondaryHeader>
+      )}
       <div className={bootstrapStyles.row}>
         {mobile ? (
           <div className={cs(styles.cSort, styles.subheaderAccount)}>
