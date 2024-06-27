@@ -58,7 +58,10 @@ const AddressItemBridal: React.FC<Props> = ({
               <div className={styles.lineHead}>
                 <div className={styles.radio}>
                   <input
-                    className={styles.defaultAddressCheckbox}
+                    className={cs(
+                      styles.defaultAddressCheckbox,
+                      globalStyles.radioCheck
+                    )}
                     checked={shippingAddressId === addressData?.id}
                     type="radio"
                   />

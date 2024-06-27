@@ -75,7 +75,8 @@ const mapStateToProps = (state: AppState) => {
     scrollDown: state.info.scrollDown,
     user: state.user,
     showmobileSort: state.header.showmobileSort,
-    isShared: state.router.location.pathname.includes("shared-wishlist")
+    isShared: state.router.location.pathname.includes("shared-wishlist"),
+    isLoader: state.info.isLoading
   };
 };
 
@@ -84,6 +85,7 @@ export type Props = ReturnType<typeof mapStateToProps> &
   RouteComponentProps;
 
 class Header extends React.Component<Props, State> {
+  timer: any;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -106,7 +108,8 @@ class Header extends React.Component<Props, State> {
           !this.props.location.pathname.includes("/account/")),
       isPlpPage:
         this.props.location.pathname.indexOf("/catalogue/category") > -1 ||
-        this.props.location.pathname.includes("/search/")
+        this.props.location.pathname.includes("/search/"),
+      isIphone: false
     };
   }
   static contextType = UserContext;
@@ -153,13 +156,18 @@ class Header extends React.Component<Props, State> {
       const pathArray = this.props.location.pathname.split("/");
       bridalKey = pathArray[pathArray.length - 1];
     }
-    this.props.onLoadAPiCall(
-      this.props?.cookies,
-      this.props.bridalId,
-      bridalKey,
-      this.props.sortBy,
-      this.props.history?.location?.pathname
-    );
+    this.setState({ isLoading: true });
+    this.props
+      .onLoadAPiCall(
+        this.props?.cookies,
+        this.props.bridalId,
+        bridalKey,
+        this.props.sortBy,
+        this.props.history?.location?.pathname
+      )
+      .then(() => {
+        this.setState({ isLoading: false });
+      });
     if (
       typeof document != "undefined" &&
       user.email &&
@@ -248,6 +256,12 @@ class Header extends React.Component<Props, State> {
     } else {
       document?.body?.classList?.remove(globalStyles.noScroll);
     }
+
+    if (navigator.userAgent.includes("iPhone")) {
+      this.setState({
+        isIphone: true
+      });
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -308,6 +322,21 @@ class Header extends React.Component<Props, State> {
       }
     }
     this.onScroll();
+    const overlayElement = document.getElementById("menu_overlay");
+    if (this.state.showMenu) {
+      if (overlayElement) {
+        this.timer = setTimeout(() => {
+          overlayElement.classList.add(styles.overlayBg);
+        }, 1000);
+      }
+    } else {
+      if (overlayElement) {
+        overlayElement.classList.remove(styles.overlayBg);
+        if (this.timer) {
+          clearTimeout(this.timer);
+        }
+      }
+    }
   }
 
   // mouseOut(data: { show: boolean }) {
@@ -1555,6 +1584,9 @@ class Header extends React.Component<Props, State> {
                       profileItems={profileItems}
                       loginItem={loginItem}
                       goLogin={this.props.goLogin}
+                      isIphone={
+                        this.state.isIphone && this.props.currency !== "INR"
+                      }
                     />
                   </div>
                 ) : (
@@ -1629,7 +1661,7 @@ class Header extends React.Component<Props, State> {
         {this.props.showSizeChart && (
           <Sizechart active={this.props.showSizeChart} />
         )}
-        {this.state.isLoading && <Loader />}
+        {this.state.isLoading && !this.props.isLoader && <Loader />}
         {this.state.showBag && (
           <Bag
             showShipping={this.props.showShipping}

@@ -13,7 +13,6 @@ const displayPriceWithSeparation = (
   price: string | number,
   currency: Currency
 ) => {
-  debugger;
   let arg = "";
   if (currency == "INR") {
     arg = "en-IN";

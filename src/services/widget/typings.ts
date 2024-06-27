@@ -24,7 +24,7 @@ export type ConsentDetail = {
 };
 
 export type RegionDetail = {
-  region: string;
-  ip: string;
+  region?: string;
+  ip?: string;
   country: string;
 };

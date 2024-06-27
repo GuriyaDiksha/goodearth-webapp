@@ -1477,6 +1477,9 @@ $list: $grey 92%, $white 8%;
   color: $gold;
 }
 
+@mixin fixed-height($val) {
+  height: $val !important;
+}
 
 
 

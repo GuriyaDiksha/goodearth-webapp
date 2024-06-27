@@ -16,4 +16,12 @@ export const countryCurrencyCode = {
   SG: "SGD"
 };
 
+export const currentyToCountryMapping = {
+  INR: "India",
+  SGD: "Singapore",
+  AED: "United Arab Emirates",
+  GBP: "United Kingdom",
+  USD: "United States"
+};
+
 export const maximumOtpAttempt = 5;

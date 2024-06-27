@@ -1381,7 +1381,6 @@ class FilterList extends React.Component<Props, State> {
   };
 
   createMaterial = (facets: any, filtered_facets: any) => {
-    // debugger
     if (!facets?.currentMaterial || facets.length == 0) return false;
     const html: any = [];
     const { filter } = this.state;
