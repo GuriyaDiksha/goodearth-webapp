@@ -4,6 +4,9 @@
 .product-n{
   margin: 5px 0;
   width: 100%;
+  // display: flex;
+  // flex-wrap: wrap;
+  // justify-content: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -23,6 +26,7 @@
       color: #9C7D50;
       font-family:  $font-Montserrat;
       font-size: 14px;
+      // padding-right: 5px;
   }
   
   .strikeprice {

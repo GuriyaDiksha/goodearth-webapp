@@ -28,6 +28,7 @@ import Loader from "components/Loader";
 import { GA_CALLS } from "constants/cookieConsent";
 import CheckoutFooter from "containers/checkout/checkoutFooter";
 import { updateOpenCookiePopup } from "actions/info";
+import { updateRegion } from "actions/widget";
 // import { CUST } from "constants/util";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
@@ -371,6 +372,13 @@ const BaseLayout: React.FC = () => {
                     "currency",
                     goCurrencyValue.toString().toUpperCase(),
                     365
+                  );
+                  dispatch(
+                    updateRegion({
+                      region: "India",
+                      ip: "",
+                      country: "India"
+                    })
                   );
                 }
               }

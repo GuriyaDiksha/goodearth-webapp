@@ -40,6 +40,10 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
   });
   const [currentSection, setCurrentSection] = useState(1);
   const countryRef: RefObject<HTMLInputElement> = useRef(null);
+  const [containerHeightFixed, setContainerHeighFixed] = useState<boolean>(
+    false
+  );
+
   const {
     device: { mobile },
     address: { countryData },
@@ -85,19 +89,25 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
     setSelectedCountry({ country, code: countryCode });
   }, [country, countryCode]);
 
-  const setCurrency = async () => {
-    const currency = countryCurrencyCode[selectedCountry?.code] || "USD";
+  const setCurrency = async (isCancel?: boolean) => {
+    const currency =
+      countryCurrencyCode[isCancel ? countryCode : selectedCountry?.code] ||
+      "USD";
     const data: any = {
       currency
     };
     LoginService.changeCurrency(dispatch, data).then(res => {
-      CookieService.setCookie("country", selectedCountry?.country, 365);
+      CookieService.setCookie(
+        "country",
+        isCancel ? country : selectedCountry?.country,
+        365
+      );
       CookieService.setCookie("currency", currency, 365);
       dispatch(
         updateRegion({
           region: region,
           ip: ip,
-          country: selectedCountry?.country
+          country: isCancel ? country : selectedCountry?.country
         })
       );
       LoginService.reloadPage(dispatch, data?.currency, customerGroup);
@@ -117,16 +127,23 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
           { [styles.centerpageDesktopFsWidth]: mobile }
         )}
       >
-        <div className={cs(styles.gcTnc)}>
+        <div
+          className={cs(
+            styles.gcTnc,
+            containerHeightFixed
+              ? styles["fixed-height"]
+              : styles["flexible-height"]
+          )}
+        >
           {currentSection === 1 ? (
             <div className={styles.countryFirstSection}>
               <img src={GELogo} alt="logo" width={50} />
-              <p>Your country is set to</p>
+              <p>It seems you’re shopping from</p>
               <h3>{country}</h3>
               <Button
                 variant="mediumMedCharcoalCta366"
                 label={"CONTINUE"}
-                onClick={setCurrency}
+                onClick={() => setCurrency(false)}
               />
               <p className={styles.link} onClick={() => setCurrentSection(2)}>
                 CHANGE COUNTRY
@@ -157,6 +174,7 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
                     allowFilter={true}
                     inputRef={countryRef}
                     value={selectedCountry?.country}
+                    onInputClick={flag => setContainerHeighFixed(flag)}
                   />
                 </div>
               </Formsy>
@@ -164,10 +182,10 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
               <Button
                 variant="mediumMedCharcoalCta366"
                 label={"CHANGE COUNTRY SELECTION"}
-                onClick={setCurrency}
+                onClick={() => setCurrency(false)}
                 disabled={selectedCountry?.country === country}
               />
-              <p className={styles.link} onClick={setCurrency}>
+              <p className={styles.link} onClick={() => setCurrency(true)}>
                 CANCEL
               </p>
             </div>
