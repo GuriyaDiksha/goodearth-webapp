@@ -790,14 +790,17 @@ class CollectionSpecific extends React.Component<
         </div>
 
         <p className={styles.subTitle}>{ReactHtmlParser(shortDescription)}</p>
-        <div className={bootstrap.row} id="collection_long_desc">
+        <div
+          className={cs(bootstrap.row, styles.collectionLongDesc)}
+          id="collection_long_desc"
+        >
           <div
             className={cs(
               bootstrap.col8,
               // bootstrap.offset2,
               bootstrap.colMd12,
               bootstrap.colLg4,
-              bootstrap.offsetLg4,
+              // bootstrap.offsetLg4,
               styles.collectionLowertext,
               globalStyles.textCenter
             )}
