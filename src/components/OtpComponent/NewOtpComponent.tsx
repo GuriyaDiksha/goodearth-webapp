@@ -274,8 +274,9 @@ const NewOtpComponent: React.FC<Props> = ({
             type="number"
             name={`${uniqueId}otp1`}
             min={0}
+            maxLength={1}
+            inputMode="numeric"
             pattern="\d*"
-            max={1}
             disabled={disabled ? true : false}
           />
           <input
@@ -288,8 +289,9 @@ const NewOtpComponent: React.FC<Props> = ({
             type="number"
             name={`${uniqueId}otp2`}
             min={0}
+            maxLength={1}
             pattern="\d*"
-            max={1}
+            inputMode="numeric"
             disabled={disabled ? true : false}
           />
           <input
@@ -302,8 +304,9 @@ const NewOtpComponent: React.FC<Props> = ({
             type="number"
             name={`${uniqueId}otp3`}
             min={0}
-            max={1}
+            maxLength={1}
             pattern="\d*"
+            inputMode="numeric"
             disabled={disabled ? true : false}
           />
           <input
@@ -316,8 +319,9 @@ const NewOtpComponent: React.FC<Props> = ({
             type="number"
             name={`${uniqueId}otp4`}
             min={0}
-            max={1}
+            maxLength={1}
             pattern="\d*"
+            inputMode="numeric"
             disabled={disabled ? true : false}
           />
           <input
@@ -330,8 +334,9 @@ const NewOtpComponent: React.FC<Props> = ({
             type="number"
             name={`${uniqueId}otp5`}
             min={0}
-            max={1}
+            maxLength={1}
             pattern="\d*"
+            inputMode="numeric"
             disabled={disabled ? true : false}
           />
           <input
@@ -344,8 +349,9 @@ const NewOtpComponent: React.FC<Props> = ({
             type="number"
             name={`${uniqueId}otp6`}
             min={0}
-            max={1}
+            maxLength={1}
             pattern="\d*"
+            inputMode="numeric"
             disabled={disabled ? true : false}
           />
         </div>
