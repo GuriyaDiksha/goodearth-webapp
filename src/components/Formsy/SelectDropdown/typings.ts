@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import { Dispatch, RefObject, SetStateAction } from "react";
 // import FormSelect from "./index";
 export type Props = {
   name: string;
@@ -24,4 +24,5 @@ export type Props = {
   searchContainerClass?: string;
   searchInputClass?: string;
   searchIconClass?: string;
+  onInputClick?: Dispatch<SetStateAction<boolean>>;
 };

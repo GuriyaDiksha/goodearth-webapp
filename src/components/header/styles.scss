@@ -445,9 +445,15 @@
 
 .menu-overlay {
   position: fixed;
-  height: 100%;
+  height: calc(100vh - 95px);
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 10;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &.overlay-bg{
+    background-color: $grey;
+  }
 }
 
 .menu-slider-animate {
@@ -455,10 +461,8 @@
   -webkit-transform: translate3d(0, 0, 0);
   -webkit-transition: transform 1s ease;
   transition: transform 1s ease;
-  height: 100dvh;
-  overflow-y: scroll;
+  height: 100%;
   background-color: $light-beige;
-  overflow-x: hidden;
   max-width: 100%;
 }
 
@@ -470,6 +474,7 @@
   height: calc(100vh - #{$header-height});
   overflow: scroll;
   background-color: tint(#000, 90%);
+  top: 95px;
 }
 .op3 {
   opacity: .4;
@@ -481,6 +486,10 @@
   position: relative;
   float: left;
   width: 50%;
+
+  &.extra-bottom-padding{
+    padding-bottom: 130px;
+  }
   .no-Margin {
     margin: 0;
   }
@@ -568,12 +577,12 @@
   }
 }
 
-.lower-menu-non-inr-height{
-  @media(max-width:767px){
-    height: 90vh;
-    overflow: scroll;
-  }
-}
+// .lower-menu-non-inr-height{
+//   @media(max-width:767px){
+//     height: 90vh;
+//     overflow: scroll;
+//   }
+// }
 
 // .wishlist-link {
 //   padding-left: 20px;

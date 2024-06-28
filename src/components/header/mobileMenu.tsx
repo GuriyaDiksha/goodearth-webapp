@@ -267,7 +267,6 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 l2MenuData.children && l2MenuData.children.push(l3MenuData);
               });
           } else if (["TITLEHEADING"].includes(template.templateType)) {
-            debugger;
             const componentData = template.templateData
               .componentData as MenuComponentTitleData;
             const children = template.templateData.children;
@@ -914,14 +913,19 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     // const wishlistIcon = wishlistCount > 0;
     const lowerMenu = (
       <div
-        className={cs(this.props.slab, styles.lowerMenu, {
-          [styles.lowerMenuNonInrHeight]: this.props.currency !== "INR"
-          // [styles.lowerMenuNonInrHeight]:
-          //   showC
-          //   this.props.slab.toLowerCase() != "cerise" &&
-          //   this.props.slab.toLowerCase() != "cerise club" &&
-          //   this.props.slab.toLowerCase() != "cerise sitara"
-        })}
+        className={cs(
+          this.props.slab,
+          styles.lowerMenu,
+          this.props.isIphone ? styles.extraBottomPadding : "",
+          {
+            // [styles.lowerMenuNonInrHeight]: this.props.currency !== "INR"
+            // [styles.lowerMenuNonInrHeight]:
+            //   showC
+            //   this.props.slab.toLowerCase() != "cerise" &&
+            //   this.props.slab.toLowerCase() != "cerise club" &&
+            //   this.props.slab.toLowerCase() != "cerise sitara"
+          }
+        )}
       >
         <ul>
           {loginItem.label == "Login" && (
@@ -1255,17 +1259,18 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     );
     const innerMenu = (
       <div className={styles.mobileMainMenu}>
-        <ul className={styles.innerMenuMobile} key="innermenu">
-          {this.state.activeindex > -1 &&
-            // this.createListElement(this.props.menudata[this.state.activeindex])}
-            this.createMegaListElement(
+        {this.state.activeindex > -1 && (
+          <ul className={styles.innerMenuMobile} key="innermenu">
+            {/* this.createListElement(this.props.menudata[this.state.activeindex]) */}
+            {this.createMegaListElement(
               this.props.megaMenuData[
                 this.state.activeindex < this.props.megaMenuData.length
                   ? this.state.activeindex
                   : 0
               ]
             )}
-        </ul>
+          </ul>
+        )}
       </div>
     );
     return (

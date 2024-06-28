@@ -371,7 +371,6 @@ class CollectionSpecific extends React.Component<
             entry.target.getBoundingClientRect().bottom <
               window.innerHeight - 50
           ) {
-            debugger;
             productID = Array.from(entry.target.children[0].children).filter(
               e => e.id != ""
             )[0]?.id;
@@ -384,11 +383,9 @@ class CollectionSpecific extends React.Component<
         });
         if (element) {
           if (idx > -1) {
-            debugger;
             this.setState({ count: idx + 1 });
           }
           if (window.scrollY < height) {
-            debugger;
             this.setState({ count: -1 });
           }
         } else if (
@@ -396,7 +393,6 @@ class CollectionSpecific extends React.Component<
             bottomHeight ||
           window.scrollY < bottomHeight
         ) {
-          debugger;
           this.setState({ count: -1 });
         }
         observer.disconnect();
@@ -794,14 +790,17 @@ class CollectionSpecific extends React.Component<
         </div>
 
         <p className={styles.subTitle}>{ReactHtmlParser(shortDescription)}</p>
-        <div className={bootstrap.row} id="collection_long_desc">
+        <div
+          className={cs(bootstrap.row, styles.collectionLongDesc)}
+          id="collection_long_desc"
+        >
           <div
             className={cs(
               bootstrap.col8,
               // bootstrap.offset2,
               bootstrap.colMd12,
               bootstrap.colLg4,
-              bootstrap.offsetLg4,
+              // bootstrap.offsetLg4,
               styles.collectionLowertext,
               globalStyles.textCenter
             )}

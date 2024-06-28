@@ -484,7 +484,6 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     this.props
       .sendOtp(formData)
       .then((data: any) => {
-        debugger;
         this.setState({
           attempts: {
             ...this.state.attempts,

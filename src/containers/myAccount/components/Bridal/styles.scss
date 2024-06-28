@@ -1694,6 +1694,10 @@ margin-bottom: 50px !important;
   width: 19px;
   border: 1px solid $light-charcoal;
   border-radius: 50%;
+
+  &.marked-registry {
+    border: none;
+  }
 }
 .active .check-mark:before{
   // border: 1px solid #B59C77;

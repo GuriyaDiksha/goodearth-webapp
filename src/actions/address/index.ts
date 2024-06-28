@@ -58,3 +58,7 @@ export const updateSameAsShipping = (sameAsShipping: boolean) => {
     sameAsShipping: sameAsShipping
   });
 };
+
+export const isFormModuleOpen = (flag: boolean) => {
+  return actionCreator("IS_FORM_MODULE_OPEN", { isFormModuleOpen: flag });
+};
