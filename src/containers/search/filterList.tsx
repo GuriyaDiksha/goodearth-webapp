@@ -1449,23 +1449,20 @@ class FilterList extends React.Component<Props, State> {
                     <span
                       className={cs(
                         styles.checkmark,
-                        (!isViewAll &&
-                          filter.categoryShop["selectedCatShop"]
-                            ?.split(">")[1]
-                            ?.trim() === nestedList[0]) ||
-                          (!isViewAll &&
+                        url.includes("%7C")
+                          ? nestedList[0]?.startsWith("View all") &&
+                            url.split("&category_shop=")[1].split("+")[0] ==
+                              data
+                            ? styles.checkmarkActive
+                            : ""
+                          : filter.categoryShop["selectedCatShop"]
+                              ?.split(">")[1]
+                              ?.trim() === nestedList[0] ||
                             nestedList[0].includes(
                               filter.categoryShop["selectedCatShop"]
                                 ?.split(">")[1]
                                 ?.trim()
-                            )) ||
-                          (isViewAll &&
-                            nestedList[0]?.startsWith("View all") &&
-                            filter.categoryShop["selectedCatShop"]?.split("|")
-                              .length &&
-                            filter.categoryShop["selectedCatShop"]
-                              ?.split(">")[0]
-                              .trim() === data)
+                            )
                           ? styles.checkmarkActive
                           : ""
                       )}
@@ -1480,23 +1477,21 @@ class FilterList extends React.Component<Props, State> {
                     ></span>
                     <label
                       className={cs(
-                        (!isViewAll &&
-                          filter.categoryShop["selectedCatShop"]
-                            ?.split(">")[1]
-                            ?.trim() === nestedList[0]) ||
-                          (!isViewAll &&
+                        url.includes("%7C")
+                          ? nestedList[0]?.startsWith("View all") &&
+                            filter.categoryShop["selectedCatShop"]
+                              ?.split(">")[0]
+                              .trim() == data
+                            ? styles.selectedCatShop
+                            : ""
+                          : filter.categoryShop["selectedCatShop"]
+                              ?.split(">")[1]
+                              ?.trim() === nestedList[0] ||
                             nestedList[0].includes(
                               filter.categoryShop["selectedCatShop"]
                                 ?.split(">")[1]
                                 ?.trim()
-                            )) ||
-                          (isViewAll &&
-                            nestedList[0]?.startsWith("View all") &&
-                            filter.categoryShop["selectedCatShop"]?.split("|")
-                              .length &&
-                            filter.categoryShop["selectedCatShop"]
-                              ?.split(">")[0]
-                              .trim() === data)
+                            )
                           ? styles.selectedCatShop
                           : ""
                       )}
