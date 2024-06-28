@@ -22,7 +22,8 @@ const mapStateToProps = (state: AppState) => {
     meta: state.meta,
     cookies: state.cookies,
     isLoggedIn: state.user.isLoggedIn,
-    currencyList: state.info.currencyList
+    currencyList: state.info.currencyList,
+    isAddressFormModuleOPen: state.address.isFormModuleOpen
   };
 };
 
@@ -45,54 +46,60 @@ class CheckoutFooter extends React.Component<Props> {
 
     if (this.props.location.pathname == "/order/checkout") {
       return (
-        <div>
-          <div className={cs(styles.headerContainer, styles.footer)}>
-            <div className={cs(bootstrap.row, styles.minimumWidth)}>
-              <div
-                className={cs(bootstrap.colMd2, styles.footerCurr, {
-                  [bootstrap.col5]: !mobile,
-                  [bootstrap.col2]: mobile
-                })}
-              >
-                {mobile ? currency : `currency: ${currency}`}
-                {currency != "AED" && (
-                  <> {String.fromCharCode(...currencyCode[currency])}</>
-                )}
-              </div>
-              {/* {mobile || !tablet ? null : (
+        <>
+          {this.props.isAddressFormModuleOPen ? (
+            <></>
+          ) : (
+            <div>
+              <div className={cs(styles.headerContainer, styles.footer)}>
+                <div className={cs(bootstrap.row, styles.minimumWidth)}>
+                  <div
+                    className={cs(bootstrap.colMd2, styles.footerCurr, {
+                      [bootstrap.col5]: !mobile,
+                      [bootstrap.col2]: mobile
+                    })}
+                  >
+                    {mobile ? currency : `currency: ${currency}`}
+                    {currency != "AED" && (
+                      <> {String.fromCharCode(...currencyCode[currency])}</>
+                    )}
+                  </div>
+                  {/* {mobile || !tablet ? null : (
                 <div className={cs(bootstrap.col3, bootstrap.colMd7)}>
                 </div>
               )} */}
-              <div
-                className={cs(
-                  {
-                    // [bootstrap.colMd3]: !tablet,
-                    // [bootstrap.col3]: !mobile && !tablet,
-                    // [bootstrap.col10]: mobile || tablet
-                  },
-                  bootstrap.col10,
-                  styles.curr
-                )}
-              >
-                <i
-                  className={cs(
-                    iconStyles.icon,
-                    iconStyles.iconPhone,
-                    styles.icon
-                  )}
-                />
-                <a className={styles.mobileNum} href="tel:+919582999555">
-                  +91 95829 99555
-                </a>{" "}
-                /{" "}
-                <a className={styles.mobileNum} href="tel:+919582999888">
-                  +91 95829 99888
-                </a>
+                  <div
+                    className={cs(
+                      {
+                        // [bootstrap.colMd3]: !tablet,
+                        // [bootstrap.col3]: !mobile && !tablet,
+                        // [bootstrap.col10]: mobile || tablet
+                      },
+                      bootstrap.col10,
+                      styles.curr
+                    )}
+                  >
+                    <i
+                      className={cs(
+                        iconStyles.icon,
+                        iconStyles.iconPhone,
+                        styles.icon
+                      )}
+                    />
+                    <a className={styles.mobileNum} href="tel:+919582999555">
+                      +91 95829 99555
+                    </a>{" "}
+                    /{" "}
+                    <a className={styles.mobileNum} href="tel:+919582999888">
+                      +91 95829 99888
+                    </a>
+                  </div>
+                </div>
               </div>
+              {/* <GrowlMessage /> */}
             </div>
-          </div>
-          {/* <GrowlMessage /> */}
-        </div>
+          )}
+        </>
       );
     } else if (
       this.props.location.pathname.indexOf("order/orderconfirmation") > -1
