@@ -16,6 +16,9 @@ input[type="password"]{
 
 .container-start{
   margin-top: 40px;
+  @media(max-width:992px){
+    margin-top:80px;
+  }
 }
 
 .heading {
