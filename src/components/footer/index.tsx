@@ -1253,7 +1253,9 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
         </div>
-        {(this.state.smartNav.indexOf(this.props.location.pathname) > -1 ||
+
+        {/* Product team has decided to temporarily remove the smart nav */}
+        {/* {(this.state.smartNav.indexOf(this.props.location.pathname) > -1 ||
           this.props.location.pathname.includes("/category_landing/") ||
           desktopPlp) &&
           ["INR", "USD"].includes(this.props.currency) && (
@@ -1262,8 +1264,7 @@ class Footer extends React.Component<Props, FooterState> {
               inline={false}
               currency={this.props.currency == "INR" ? "INR" : "USD"}
             />
-          )}
-
+          )} */}
         {(OLD_COOKIE_SETTINGS
           ? cookiCheck && this.props.openCookiePopup
           : ((cookiCheck && !this.state.isConsentSave) ||
