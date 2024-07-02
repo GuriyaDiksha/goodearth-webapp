@@ -175,7 +175,12 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
   return (
     <>
       {isBridal && mode == "list" ? (
-        <div className={cs(bootstrapStyles.row, globalStyles.voffset5)}>
+        <div
+          className={cs(
+            bootstrapStyles.row,
+            mobile ? styles.margin80 : globalStyles.voffset5
+          )}
+        >
           <div
             className={cs(
               bootstrapStyles.col10,

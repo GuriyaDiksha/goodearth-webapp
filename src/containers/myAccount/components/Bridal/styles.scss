@@ -723,6 +723,9 @@
       }
     }
   }
+  .margin-80{
+    margin-top:80px;
+  }
 }
 
 .light {
@@ -1570,6 +1573,9 @@ margin-bottom: 50px !important;
 .gift-icon{
   text-align: center;
   margin-top: 30px;
+  @media(max-width:992px){
+    margin-top: 80px;
+  }
 }
 .gift-icon-address{
   text-align: center;
@@ -1581,6 +1587,9 @@ margin-bottom: 50px !important;
 .back-head{
   position: relative;
   margin-top: 50px;
+  @media(max-width:992px){
+    margin-top: 80px;
+  }
 }
 .back-btn-top{
   text-align: left;
@@ -1640,6 +1649,9 @@ margin-bottom: 50px !important;
 
   &.form-details{
     margin: 40px auto 0 auto;
+  }
+  @media(max-width:767px){
+    padding: 0 20px;
   }
 }
 .reg-form-heading{
