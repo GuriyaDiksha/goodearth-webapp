@@ -400,6 +400,9 @@ const TrackDetails: React.FC<OrdersProps> = props => {
               )}
             </div>
             {data?.lines.map((item: any) => {
+              console.log(item?.product?.badgeType, "badge type");
+              const isFlatPrice =
+                item?.product?.badgeType === "B_flat" ?? false;
               const isDiscount =
                 +item.priceInclTax - +item.priceExclTaxExclDiscounts != 0;
 
@@ -434,7 +437,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                     <p className={cs(styles.price)}>
                       <span
                         className={cs(styles.amountPaid, {
-                          [styles.gold]: isDiscount
+                          [styles.gold]: isDiscount || isFlatPrice
                         })}
                       >
                         {`${displayPriceWithCommasFloat(
