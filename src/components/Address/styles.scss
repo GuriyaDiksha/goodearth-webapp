@@ -1041,3 +1041,10 @@ div > .address-in-use {
     width: 100% !important;
   }
 }
+@media(max-width:767px){
+  .login-form{
+    label{
+      font-size: 8px!important;
+    }
+  }
+}
