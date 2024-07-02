@@ -35,14 +35,14 @@ body:has(.mobile) {
   z-index: 1;
   &.back-btn-address-bridal {
     top: 20px;
-    left: -65px;
+    left: 0;
     text-align: left;
   }
   @media screen and (max-width: 992px) {
     &.back-btn-address-bridal {
       top: -10px;
       right: 0;
-      left: -19px;
+      left: 15px;
     }
   }
 }
