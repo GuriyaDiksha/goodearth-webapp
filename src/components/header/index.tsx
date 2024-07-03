@@ -433,6 +433,8 @@ class Header extends React.Component<Props, State> {
         }
 
         if (requiredHeight) {
+          console.log(requiredHeight, "requiredHeight when scrolled");
+
           (secondaryHeader as HTMLElement).style.top = requiredHeight;
 
           if (sortHeader) {
@@ -621,6 +623,7 @@ class Header extends React.Component<Props, State> {
         }
 
         if (requiredHeight) {
+          console.log(requiredHeight, "requiredHeight when not scrolled");
           (secondaryHeader as HTMLElement).style.top = requiredHeight;
 
           if (sortHeader) {
