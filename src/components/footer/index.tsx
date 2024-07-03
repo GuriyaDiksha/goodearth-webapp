@@ -1232,15 +1232,16 @@ class Footer extends React.Component<Props, FooterState> {
               {
                 [styles.filterOnBottom]: this.props.location.pathname.includes(
                   "/careers/list"
-                ),
-                [styles.paddingBottom]:
-                  (this.state.smartNav.indexOf(this.props.location.pathname) >
-                    -1 ||
-                    this.props.location.pathname.includes(
-                      "/category_landing/"
-                    ) ||
-                    desktopPlp) &&
-                  ["INR", "USD"].includes(this.props.currency)
+                )
+                // Product team has decided to temporarily remove the smart nav
+                // [styles.paddingBottom]:
+                //   (this.state.smartNav.indexOf(this.props.location.pathname) >
+                //     -1 ||
+                //     this.props.location.pathname.includes(
+                //       "/category_landing/"
+                //     ) ||
+                //     desktopPlp) &&
+                //   ["INR", "USD"].includes(this.props.currency)
               }
             )}
           >
