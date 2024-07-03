@@ -355,6 +355,9 @@ class Header extends React.Component<Props, State> {
     const header = document.getElementById("myHeader");
     const headerHeight = (header as HTMLElement)?.clientHeight;
     const timerDiv = document.getElementById("ge-timer");
+    const timerDivHeight = (timerDiv as HTMLElement)?.clientHeight;
+    const mainNavHeader = document.getElementById("main-nav-header");
+    const mainNavHeaderHeight = (mainNavHeader as HTMLElement)?.clientHeight;
     const istimer = timerDiv != null ? true : false;
     const sticky = (header as HTMLElement)?.offsetTop;
     const secondaryHeader = document.getElementById("secondaryHeader");
@@ -389,6 +392,7 @@ class Header extends React.Component<Props, State> {
     );
     const pressInternal = document.getElementById("pressinternal");
     const pressinternalHeader = document.getElementById("pressinternalHeader");
+    const isAnnouncementBarAvailable = annBar ?? false;
 
     if (window?.pageYOffset > sticky) {
       // When announcement bar is hidden
@@ -421,28 +425,24 @@ class Header extends React.Component<Props, State> {
       }
 
       if (secondaryHeader) {
+        let requiredHeight; // calculate the required height for the secondary header based on availability of timer
         if (tim) {
-          (secondaryHeader as HTMLElement).style.top = "90px";
-          if (sortHeader) {
-            (sortHeader as HTMLElement).style.top = "90px";
-          }
-          if (sortHeader2) {
-            (sortHeader2 as HTMLElement).style.top = "90px";
-          }
-          if (sortHeaderMobile) {
-            (sortHeaderMobile as HTMLElement).style.top = "90px";
-          }
+          requiredHeight = `${mainNavHeaderHeight + timerDivHeight}px`;
         } else {
-          (secondaryHeader as HTMLElement).style.top = "50px";
+          requiredHeight = `${mainNavHeaderHeight}px`;
+        }
+
+        if (requiredHeight) {
+          (secondaryHeader as HTMLElement).style.top = requiredHeight;
 
           if (sortHeader) {
-            (sortHeader as HTMLElement).style.top = "50px";
+            (sortHeader as HTMLElement).style.top = requiredHeight;
           }
           if (sortHeader2) {
-            (sortHeader2 as HTMLElement).style.top = "50px";
+            (sortHeader2 as HTMLElement).style.top = requiredHeight;
           }
           if (sortHeaderMobile) {
-            (sortHeaderMobile as HTMLElement).style.top = "50px";
+            (sortHeaderMobile as HTMLElement).style.top = requiredHeight;
           }
         }
         // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
@@ -607,39 +607,32 @@ class Header extends React.Component<Props, State> {
       }
 
       if (secondaryHeader) {
-        if (tim) {
-          (secondaryHeader as HTMLElement).style.top = `${130 -
-            window?.pageYOffset}px`;
-
-          if (sortHeader) {
-            (sortHeader as HTMLElement).style.top = `${130 -
-              window?.pageYOffset}px`;
-          }
-          if (sortHeader2) {
-            (sortHeader2 as HTMLElement).style.top = `${130 -
-              window?.pageYOffset}px`;
-          }
-          if (sortHeaderMobile) {
-            (sortHeaderMobile as HTMLElement).style.top = `${130 -
-              window?.pageYOffset}px`;
-          }
+        let requiredHeight;
+        if (isAnnouncementBarAvailable && !tim) {
+          requiredHeight = `${annHeight + mainNavHeaderHeight}px`;
+        } else if (!isAnnouncementBarAvailable && tim) {
+          requiredHeight = `${timerDivHeight + mainNavHeaderHeight}px`;
+        } else if (isAnnouncementBarAvailable && tim) {
+          requiredHeight = `${timerDivHeight +
+            annHeight +
+            mainNavHeaderHeight}px`;
         } else {
-          (secondaryHeader as HTMLElement).style.top = `${90 -
-            window?.pageYOffset}px`;
-          if (sortHeader) {
-            (sortHeader as HTMLElement).style.top = `${90 -
-              window?.pageYOffset}px`;
-          }
-          if (sortHeader2) {
-            (sortHeader2 as HTMLElement).style.top = `${90 -
-              window?.pageYOffset}px`;
-          }
-          if (sortHeaderMobile) {
-            (sortHeaderMobile as HTMLElement).style.top = `${90 -
-              window?.pageYOffset}px`;
-          }
+          requiredHeight = `${mainNavHeaderHeight}px`;
         }
 
+        if (requiredHeight) {
+          (secondaryHeader as HTMLElement).style.top = requiredHeight;
+
+          if (sortHeader) {
+            (sortHeader as HTMLElement).style.top = requiredHeight;
+          }
+          if (sortHeader2) {
+            (sortHeader2 as HTMLElement).style.top = requiredHeight;
+          }
+          if (sortHeaderMobile) {
+            (sortHeaderMobile as HTMLElement).style.top = requiredHeight;
+          }
+        }
         // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
       }
       if (filterMenu) {
@@ -1300,7 +1293,10 @@ class Header extends React.Component<Props, State> {
               }}
             />
           )}
-          <div className={cs(styles.minimumWidth, styles.headerBg)}>
+          <div
+            className={cs(styles.minimumWidth, styles.headerBg)}
+            id="main-nav-header"
+          >
             <div className={cs(bootstrap.row, styles.menuForTablet)}>
               {mobile || tablet ? (
                 <div

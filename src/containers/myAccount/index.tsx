@@ -245,7 +245,7 @@ const MyAccount: React.FC<Props> = props => {
               <div
                 id="sortHeader"
                 className={cs(styles.cSortHeader, {
-                  [styles.cSortHeaderTimer]: showTimer
+                  // [styles.cSortHeaderTimer]: showTimer
                 })}
               >
                 <div
