@@ -696,8 +696,8 @@ class Search extends React.Component<
                 <div
                   id="gridList"
                   className={cs(styles.listGridBar, {
-                    [styles.listGridBarTimer]: this.props.showTimer,
-                    [styles.hide]: this.props.scrollDown
+                    [styles.listGridBarTimer]: this.props.showTimer
+                    // [styles.hide]: this.props.scrollDown
                   })}
                 >
                   <div
