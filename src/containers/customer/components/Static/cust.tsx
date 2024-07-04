@@ -8,7 +8,7 @@ import { scrollToId, removeFroala } from "utils/validate";
 import { AccordionData } from "../../typings";
 import { Section } from "components/Accordion/typings";
 import faqStyles from "containers/pdp/components/WallpaperFAQ/styles.scss";
-import { updateCookiePrefrence } from "actions/info";
+import { updateCookiePrefrence, updateOpenCookiePopup } from "actions/info";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { AppState } from "reducers/typings";
@@ -25,6 +25,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     showCookiePrefs: () => {
       dispatch(updateCookiePrefrence(true));
+      dispatch(updateOpenCookiePopup(true));
     }
   };
 };
