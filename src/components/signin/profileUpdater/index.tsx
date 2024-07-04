@@ -139,6 +139,12 @@ class ProfileUpdater extends React.Component<Props, State> {
       });
     this.props.fetchCountryData();
     this.changeCountryData(this.props.countryData);
+
+    document.body.classList.add(globalStyles.noScroll);
+  }
+
+  componentWillUnmount(): void {
+    document.body.classList.remove(globalStyles.noScroll);
   }
 
   onCountrySelect = (
