@@ -12,6 +12,9 @@ input[type="password"]{
 
 .container-start-timer{
   margin-top: 80px !important;
+  @media(max-width:992px){
+    margin-top: 130px!important;
+  }
 }
 
 .container-start{
