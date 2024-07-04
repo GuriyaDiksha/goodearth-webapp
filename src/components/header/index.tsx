@@ -107,8 +107,7 @@ class Header extends React.Component<Props, State> {
           !this.props.location.pathname.includes("/account/")),
       isPlpPage:
         this.props.location.pathname.indexOf("/catalogue/category") > -1 ||
-        this.props.location.pathname.includes("/search/"),
-      isIphone: false
+        this.props.location.pathname.includes("/search/")
     };
   }
   static contextType = UserContext;
@@ -250,12 +249,6 @@ class Header extends React.Component<Props, State> {
     } else {
       document?.body?.classList?.remove(globalStyles.noScroll);
     }
-
-    if (navigator.userAgent.includes("iPhone")) {
-      this.setState({
-        isIphone: true
-      });
-    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -394,8 +387,12 @@ class Header extends React.Component<Props, State> {
         if (istimer) {
           const timerHeight = (timerDiv as HTMLElement)?.clientHeight;
           menuOverlay.style.top = `${timerHeight + headerHeight + 5}px`;
+          menuOverlay.style.height = `calc(100vh - ${timerHeight +
+            headerHeight +
+            5}px)`;
         } else {
           menuOverlay.style.top = `${headerHeight + 5}px`;
+          menuOverlay.style.height = `calc(100vh - ${headerHeight + 5}px)`;
         }
       }
       if (gridList) {
@@ -581,9 +578,11 @@ class Header extends React.Component<Props, State> {
           const topPosWithTimer =
             (annBarHeight ? annBarHeight : 0) + headerHeight + timerHeight;
           menuOverlay.style.top = `${topPosWithTimer + 5}px`;
+          menuOverlay.style.height = `calc(100vh - ${topPosWithTimer + 5}px)`;
         } else {
           const topPosition = (annBarHeight ? annBarHeight : 0) + headerHeight;
           menuOverlay.style.top = `${topPosition + 5}px`;
+          menuOverlay.style.height = `calc(100vh - ${topPosition + 5}px)`;
         }
       }
       if (gridList) {
@@ -1547,48 +1546,45 @@ class Header extends React.Component<Props, State> {
               </div>
             </div>
           </div>
-          <div>
-            <div className={cs(bootstrap.row)}>
+          {/* <div>
+            <div className={cs(bootstrap.row)}> */}
+          <div
+            id="menu_overlay"
+            className={
+              showMenu
+                ? cs(bootstrap.col12, styles.mobileList, styles.menuOverlay)
+                : bootstrap.col12
+            }
+          >
+            {mobile || tablet ? (
               <div
-                id="menu_overlay"
                 className={
                   showMenu
-                    ? cs(bootstrap.col12, styles.mobileList, styles.menuOverlay)
-                    : bootstrap.col12
+                    ? styles.menuSliderAnimate
+                    : cs(styles.menuSlider, styles.mobileList)
                 }
               >
-                {mobile || tablet ? (
-                  <div
-                    className={
-                      showMenu
-                        ? styles.menuSliderAnimate
-                        : cs(styles.menuSlider, styles.mobileList)
-                    }
-                  >
-                    <Mobilemenu
-                      onMobileMenuClick={this.onMenuClick}
-                      onHeaderMegaMenuClick={this.onMegaMenuClick}
-                      megaMenuData={this.props.megaMenuData}
-                      location={this.props.location}
-                      clickToggle={this.clickToggle}
-                      wishlistCount={wishlistCount}
-                      changeCurrency={this.changeCurrency}
-                      showCurrency={this.showCurrency}
-                      showC={this.state.showC}
-                      profileItems={profileItems}
-                      loginItem={loginItem}
-                      goLogin={this.props.goLogin}
-                      isIphone={
-                        this.state.isIphone && this.props.currency !== "INR"
-                      }
-                    />
-                  </div>
-                ) : (
-                  ""
-                )}
+                <Mobilemenu
+                  onMobileMenuClick={this.onMenuClick}
+                  onHeaderMegaMenuClick={this.onMegaMenuClick}
+                  megaMenuData={this.props.megaMenuData}
+                  location={this.props.location}
+                  clickToggle={this.clickToggle}
+                  wishlistCount={wishlistCount}
+                  changeCurrency={this.changeCurrency}
+                  showCurrency={this.showCurrency}
+                  showC={this.state.showC}
+                  profileItems={profileItems}
+                  loginItem={loginItem}
+                  goLogin={this.props.goLogin}
+                />
               </div>
-            </div>
+            ) : (
+              ""
+            )}
           </div>
+          {/* </div>
+          </div> */}
         </div>
         <GrowlMessage />
         <MakerUtils />
