@@ -424,7 +424,10 @@ class Header extends React.Component<Props, State> {
         }
       }
 
-      if (secondaryHeader) {
+      /**
+       * secondary header is now not available on mobile devices, so change the condition below
+       */
+      if (secondaryHeader || this.props.mobile) {
         let requiredHeight; // calculate the required height for the secondary header based on availability of timer
         if (tim) {
           requiredHeight = `${mainNavHeaderHeight + timerDivHeight}px`;
@@ -433,10 +436,9 @@ class Header extends React.Component<Props, State> {
         }
 
         if (requiredHeight) {
-          console.log(requiredHeight, "requiredHeight when scrolled");
-
-          (secondaryHeader as HTMLElement).style.top = requiredHeight;
-
+          if (secondaryHeader) {
+            (secondaryHeader as HTMLElement).style.top = requiredHeight;
+          }
           if (sortHeader) {
             (sortHeader as HTMLElement).style.top = requiredHeight;
           }
@@ -608,7 +610,10 @@ class Header extends React.Component<Props, State> {
         }
       }
 
-      if (secondaryHeader) {
+      /**
+       * secondary header is now not available on mobile devices, so change the condition below
+       */
+      if (secondaryHeader || this.props.mobile) {
         let requiredHeight;
         if (isAnnouncementBarAvailable && !tim) {
           requiredHeight = `${annHeight + mainNavHeaderHeight}px`;
@@ -623,9 +628,9 @@ class Header extends React.Component<Props, State> {
         }
 
         if (requiredHeight) {
-          console.log(requiredHeight, "requiredHeight when not scrolled");
-          (secondaryHeader as HTMLElement).style.top = requiredHeight;
-
+          if (secondaryHeader) {
+            (secondaryHeader as HTMLElement).style.top = requiredHeight;
+          }
           if (sortHeader) {
             (sortHeader as HTMLElement).style.top = requiredHeight;
           }
