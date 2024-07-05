@@ -156,6 +156,7 @@ const NewOtpComponent: React.FC<Props> = ({
   };
 
   const onOtpChange = (e: any, doMinusOne?: boolean) => {
+    e.target.value = e.target.value.replace(/[^0-9 ]/g, "");
     const max_chars = 2;
     if (e.target.value.length < max_chars) {
       if (count.current !== 0) {
@@ -234,6 +235,7 @@ const NewOtpComponent: React.FC<Props> = ({
   };
 
   const handleKeyDown = (e: any) => {
+    e.target.value = e.target.value.replace(/[^0-9 ]/g, "");
     if (e.key === "Backspace") {
       const ele: any =
         typeof document == "object" &&
@@ -271,12 +273,13 @@ const NewOtpComponent: React.FC<Props> = ({
             onPaste={e => onPasteOtp(e)}
             onKeyDown={e => handleKeyDown(e)}
             id={`${uniqueId}otp1`}
-            type="number"
+            type="tel"
             name={`${uniqueId}otp1`}
             min={0}
             maxLength={1}
             inputMode="numeric"
-            pattern="\d*"
+            // pattern="\d*"
+            pattern="[0-9]*"
             disabled={disabled ? true : false}
           />
           <input
@@ -286,11 +289,11 @@ const NewOtpComponent: React.FC<Props> = ({
             onPaste={e => onPasteOtp(e)}
             onKeyDown={e => handleKeyDown(e)}
             id={`${uniqueId}otp2`}
-            type="number"
+            type="tel"
             name={`${uniqueId}otp2`}
             min={0}
             maxLength={1}
-            pattern="\d*"
+            pattern="[0-9]*"
             inputMode="numeric"
             disabled={disabled ? true : false}
           />
@@ -301,11 +304,11 @@ const NewOtpComponent: React.FC<Props> = ({
             onPaste={e => onPasteOtp(e)}
             onKeyDown={e => handleKeyDown(e)}
             id={`${uniqueId}otp3`}
-            type="number"
+            type="tel"
             name={`${uniqueId}otp3`}
             min={0}
             maxLength={1}
-            pattern="\d*"
+            pattern="[0-9]*"
             inputMode="numeric"
             disabled={disabled ? true : false}
           />
@@ -316,11 +319,11 @@ const NewOtpComponent: React.FC<Props> = ({
             onPaste={e => onPasteOtp(e)}
             onKeyDown={e => handleKeyDown(e)}
             id={`${uniqueId}otp4`}
-            type="number"
+            type="tel"
             name={`${uniqueId}otp4`}
             min={0}
             maxLength={1}
-            pattern="\d*"
+            pattern="[0-9]*"
             inputMode="numeric"
             disabled={disabled ? true : false}
           />
@@ -331,11 +334,11 @@ const NewOtpComponent: React.FC<Props> = ({
             onPaste={e => onPasteOtp(e)}
             onKeyDown={e => handleKeyDown(e)}
             id={`${uniqueId}otp5`}
-            type="number"
+            type="tel"
             name={`${uniqueId}otp5`}
             min={0}
             maxLength={1}
-            pattern="\d*"
+            pattern="[0-9]*"
             inputMode="numeric"
             disabled={disabled ? true : false}
           />
@@ -346,11 +349,11 @@ const NewOtpComponent: React.FC<Props> = ({
             onPaste={e => onPasteOtp(e)}
             onKeyDown={e => handleKeyDown(e)}
             id={`${uniqueId}otp6`}
-            type="number"
+            type="tel"
             name={`${uniqueId}otp6`}
             min={0}
             maxLength={1}
-            pattern="\d*"
+            pattern="[0-9]*"
             inputMode="numeric"
             disabled={disabled ? true : false}
           />
