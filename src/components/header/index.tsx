@@ -1558,41 +1558,46 @@ class Header extends React.Component<Props, State> {
           </div>
           {/* <div>
             <div className={cs(bootstrap.row)}> */}
-          <div
-            id="menu_overlay"
-            className={
-              showMenu
-                ? cs(bootstrap.col12, styles.mobileList, styles.menuOverlay)
-                : bootstrap.col12
-            }
-          >
-            {mobile || tablet ? (
-              <div
-                className={
-                  showMenu
-                    ? styles.menuSliderAnimate
-                    : cs(styles.menuSlider, styles.mobileList)
-                }
-              >
-                <Mobilemenu
-                  onMobileMenuClick={this.onMenuClick}
-                  onHeaderMegaMenuClick={this.onMegaMenuClick}
-                  megaMenuData={this.props.megaMenuData}
-                  location={this.props.location}
-                  clickToggle={this.clickToggle}
-                  wishlistCount={wishlistCount}
-                  changeCurrency={this.changeCurrency}
-                  showCurrency={this.showCurrency}
-                  showC={this.state.showC}
-                  profileItems={profileItems}
-                  loginItem={loginItem}
-                  goLogin={this.props.goLogin}
-                />
-              </div>
-            ) : (
-              ""
-            )}
-          </div>
+          {this.props.mobileMenuOpenState ? (
+            <div
+              id="menu_overlay"
+              className={
+                showMenu
+                  ? cs(bootstrap.col12, styles.mobileList, styles.menuOverlay)
+                  : bootstrap.col12
+              }
+            >
+              {mobile || tablet ? (
+                <div
+                  className={
+                    showMenu
+                      ? styles.menuSliderAnimate
+                      : cs(styles.menuSlider, styles.mobileList)
+                  }
+                >
+                  <Mobilemenu
+                    onMobileMenuClick={this.onMenuClick}
+                    onHeaderMegaMenuClick={this.onMegaMenuClick}
+                    megaMenuData={this.props.megaMenuData}
+                    location={this.props.location}
+                    clickToggle={this.clickToggle}
+                    wishlistCount={wishlistCount}
+                    changeCurrency={this.changeCurrency}
+                    showCurrency={this.showCurrency}
+                    showC={this.state.showC}
+                    profileItems={profileItems}
+                    loginItem={loginItem}
+                    goLogin={this.props.goLogin}
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          ) : (
+            <></>
+          )}
+
           {/* </div>
           </div> */}
         </div>
