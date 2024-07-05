@@ -452,7 +452,7 @@ class Header extends React.Component<Props, State> {
         const tim = timer !== undefined ? timer : this.props.showTimer;
 
         if (tim) {
-          (filterMenu as HTMLElement).style.top = "150px";
+          (filterMenu as HTMLElement).style.top = "160px"; // before 150px;
         } else {
           (filterMenu as HTMLElement).style.top = "120px";
         }
