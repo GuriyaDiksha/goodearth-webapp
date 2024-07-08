@@ -9,6 +9,29 @@ function roundToNearest(price: string | number): string | number {
   }
 }
 
+const displayPriceWithSeparation = (
+  price: string | number,
+  currency: Currency
+) => {
+  let arg = "";
+  if (currency == "INR") {
+    arg = "en-IN";
+  } else {
+    arg = "en-US";
+  }
+  const currency_symbol =
+    currencyCodes?.[currency]?.length &&
+    String.fromCharCode(...currencyCodes[currency]);
+
+  return `${currency_symbol} ${parseFloat(price.toString()).toLocaleString(
+    arg,
+    {
+      maximumFractionDigits: 2,
+      minimumFractionDigits: 2
+    }
+  )}`;
+};
+
 const displayPriceWithCommas = (
   price: string | number,
   currency: Currency,
@@ -142,6 +165,7 @@ const censorPhoneNumber = (phoneNo: string) => {
 };
 
 export {
+  displayPriceWithSeparation,
   displayPriceWithCommas,
   displayPriceWithCommasFloat,
   makeid,

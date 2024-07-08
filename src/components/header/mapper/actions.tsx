@@ -22,6 +22,9 @@ import { updateNextUrl } from "actions/info";
 import { showGrowlMessage } from "../../../utils/validate";
 import { updateAddressMode } from "actions/address";
 import { updateshowFiller } from "actions/filler";
+import { updateRegion } from "actions/widget";
+import { currentyToCountryMapping } from "constants/currency";
+import CookieService from "services/cookie";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -31,34 +34,43 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       event?.preventDefault();
     },
     handleLogOut: (history: any, currency: Currency, customerGroup: string) => {
-      // debugger
       LoginService.logout(dispatch, currency, customerGroup);
       history.push("/");
       // window.location.reload();
     },
-    onLoadAPiCall: (
+    onLoadAPiCall: async (
       cookies: Cookies,
       bridalId: number,
       bridalKey?: string,
       sortBy = "added_on",
       page?: string
     ) => {
+      await WishlistService.updateWishlist(dispatch, sortBy);
       if (bridalId > 0) {
-        BridalService.countBridal(dispatch, bridalId);
+        await BridalService.countBridal(dispatch, bridalId);
       }
-      MetaService.updateMeta(dispatch, cookies, bridalKey);
+      await MetaService.updateMeta(dispatch, cookies, bridalKey);
       // if (page?.includes("shared-wishlist")) {
       //   WishlistService.countWishlist(dispatch);
       // }
       // if (!page?.includes("shared-wishlist")) {
-      WishlistService.updateWishlist(dispatch, sortBy);
+
       // }
       if (!page?.includes("/cart") && !page?.includes("/order/checkout")) {
-        BasketService.fetchBasket(dispatch);
+        await BasketService.fetchBasket(dispatch);
       }
+      return;
     },
     changeCurrency: async (data: { currency: Currency }) => {
       const response = await LoginService.changeCurrency(dispatch, data);
+      CookieService.setCookie(
+        "country",
+        currentyToCountryMapping[data?.currency],
+        365
+      );
+      dispatch(
+        updateRegion({ country: currentyToCountryMapping[data?.currency] })
+      );
       return response;
     },
     reloadPage: (

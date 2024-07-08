@@ -267,6 +267,10 @@ a {
   display: none;
 }
 
+.visblity-hidden{
+  visibility: hidden;
+}
+
 .mobile-slider-container {
   padding: 0;
 }
@@ -640,9 +644,16 @@ font-weight: bold;
 }
 
 .no-scroll {
+  position:fixed;
+  height: 100%;
+  width: 100%; 
   overflow: hidden;
   touch-action: none;
   -ms-touch-action: none;
+  -webkit-overflow-scrolling: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .fixed {
@@ -952,4 +963,68 @@ font-weight: bold;
   background: #fff;
   color: #4C4C4C;
   border: 1px solid #4C4C4C;
+}
+// start common UI kit css for radioIndicatore and radioCheck 
+.radio-indicator{
+  width: 19px!important;
+  height: 19px!important;
+  border-radius: 50%;
+  display: inline-block;
+  background: white;
+  border: 1px solid $light-charcoal;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  &::after{
+    content: "";
+    height: 13px!important;
+    width: 13px!important;
+    border-radius: 50%;
+    background-color: $aqua;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+input[type="radio"]:checked.radio-check{
+  appearance: none;
+  &::before {
+    content: "";
+    width: 19px!important;
+    height: 19px!important;
+    border-radius: 50%;
+    display: inline-block;
+    background: white;
+    border: 1px solid $light-charcoal;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &::after {
+    content: "";
+    height: 13px!important;
+    width: 13px!important;
+    border-radius: 50%;
+    background-color: $aqua;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+// end common UI kit css for radioIndicatore and radioCheck 
+
+// hidden class for mob and desktop
+@media(max-width:767px){
+  .mobile-hide{
+    display:none!important;
+  }
+}
+@media(min-width:768px){
+  .desktop-hide{
+    display: none!important;
+  }
 }

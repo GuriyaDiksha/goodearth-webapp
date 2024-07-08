@@ -14,12 +14,14 @@ import { useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import ModalStyles from "components/Modal/styles.scss";
 
 const SocialLogin: React.FC<props> = ({ closeModel }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { sortBy } = useSelector((state: AppState) => state.wishlist);
   const currency = useSelector((state: AppState) => state.currency);
+  const { mobile } = useSelector((state: AppState) => state.device);
   const source =
     history.location.pathname.indexOf("checkout") != -1 ? "checkout" : "";
   // const onLoginSuccess = (user: any) => {
@@ -65,7 +67,9 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         currency,
         source,
         history,
-        sortBy
+        sortBy,
+        mobile,
+        mobile ? ModalStyles.bottomAlignSlideUp : ""
       )
         .then(res => {
           // closeModel();

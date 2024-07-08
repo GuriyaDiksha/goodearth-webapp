@@ -116,7 +116,9 @@ const SmartNav: React.FC = () => {
       </section> */}
       {/* Inline will be showed in only specific currencies or if url matches one of the specific urls  */}
       {/* Pass INR for INR and USD for rest of the currencies */}
-      {mounted &&
+
+      {/* Product team has decided to temporarily remove the smart nav */}
+      {/* {mounted &&
         (["INR", "USD"].includes(currency) ||
           ["/anindiansummer", "/artofentertaining"].includes(
             location.pathname
@@ -125,8 +127,8 @@ const SmartNav: React.FC = () => {
             id="M_kQ7IqUS"
             inline={true}
             currency={currency == "INR" ? "INR" : "USD"}
-          />
-        )}
+            />
+        )} */}
     </div>
   );
 };

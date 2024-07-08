@@ -146,7 +146,7 @@
 }
 
 .shop-locator{
-  padding-top: 15px;
+  // padding-top: 15px;
   @include b3_14px_montserrat_medium_charcoal;
   text-transform: uppercase;
   div {
@@ -702,7 +702,7 @@
     position: absolute;
     // left: 76%;
     width: 84%;
-    margin-top: 50px;
+    // margin-top: 50px;
     .cursor-pointer {
       &:hover {
         color: $cerise;
@@ -750,6 +750,7 @@
     max-height: 180px;
     overflow-y: scroll;
     z-index: 8;
+    padding-top: 0 !important;
     ul {
       margin-bottom: 0px;
       height: max-content;
@@ -757,8 +758,9 @@
     li {
       border-top: 1px solid #9f9f9f33;
       cursor: pointer;
-      margin: 0px 10px;
+      margin: 0px 20px;
       @include b4_12px_montserrat_charcoal();
+      font-weight: 300;
       line-height: 40px;
       a {
         color: #000;
@@ -1158,4 +1160,29 @@ padding: 30px 20px;
   }
 
 
+}
+
+.country-wrp{
+  display: flex;
+  gap: 10px;
+  margin: 30px 0;
+
+  img{
+    cursor: pointer;
+  }
+
+  .country{
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500 !important;
+    letter-spacing: 0.50px;
+    line-height: 30px;
+    font-weight: normal;
+    color: $charcoal19;
+    font-family: "Montserrat", "sans-serif";
+  }
+
+  @media screen and (max-width:991px) {
+    margin: 0 0 30px 0;
+  }
 }

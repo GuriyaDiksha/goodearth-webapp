@@ -75,8 +75,8 @@ const EditProfile: React.FC = () => {
           </div>
           {/* <div className={globalStyles.c10LR}> */}
           <div className={styles.editProfile}>
-            <p>Your Request:</p>
             <div className={cs(globalStyles.voffset2)}>
+              <p>Your Request:</p>
               <Formsy>
                 <FormTextArea
                   rows={6}

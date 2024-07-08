@@ -29,7 +29,7 @@ const Registery: React.FC<Props> = ({ mobileFaq }) => {
       dataLayer.push({
         event: "ge_create_my_registry_click",
         user_status: isLoggedIn ? "Logged in" : "Guest",
-        click_url: `${window?.location?.origin}/account/bridal`
+        click_url: `${window?.location?.origin}/account/registry`
       });
     }
   };

@@ -123,7 +123,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     }
   }
 
-  Clickmenulevel2(index: number) {
+  Clickmenulevel2(index: number, hideViewAllOnMobile?: boolean) {
+    if (hideViewAllOnMobile) {
+      return false;
+    }
+
     if (index == this.state.activeindex2) {
       this.setState({
         activeindex2: index,
@@ -186,6 +190,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     const innerMenuData: InnerMenuData = {
       text: megaMenuData.text,
       url: megaMenuData.url,
+      openInNewTab: megaMenuData.openInNewTab,
       l2MenuData: [],
       templates: []
     };
@@ -218,6 +223,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             l2MenuData.link = link;
             l2MenuData.ctaName = ctaName || "";
             l2MenuData.openInNewTab = openInNewTab;
+            l2MenuData.hideViewAllOnMobile = template.hideViewAllOnMobile;
             children &&
               children.length > 0 &&
               children.map((child, index) => {
@@ -308,22 +314,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 back
               </span>
               <span className={cs(styles.title, bootstrap.col6)}>
-                {innerMenuData.text?.includes("Our World") ? (
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={innerMenuData.url}
-                    onClick={() => {
-                      this.props.onMobileMenuClick({
-                        l1: innerMenuData.text,
-                        clickUrl1: innerMenuData.url
-                      });
-                      this.props.clickToggle();
-                    }}
-                  >
-                    {ReactHtmlParser(innerMenuData.text)}
-                  </a>
-                ) : (
+                {
                   <Link
                     to={innerMenuData.url}
                     onClick={() => {
@@ -333,34 +324,14 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                       });
                       this.props.clickToggle();
                     }}
+                    target={innerMenuData?.openInNewTab ? "_blank" : ""}
                   >
                     {ReactHtmlParser(innerMenuData.text)}
                   </Link>
-                )}
+                }
               </span>
               <span className={cs(bootstrap.col3, globalStyles.textRight)}>
-                {innerMenuData.text?.includes("Our World") ? (
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={innerMenuData.url}
-                    onClick={() => {
-                      this.props.onMobileMenuClick({
-                        l1: innerMenuData.text,
-                        clickUrl1: innerMenuData.url
-                      });
-                      this.props.clickToggle();
-                    }}
-                  >
-                    <i
-                      className={cs(
-                        fontStyles.icon,
-                        fontStyles.iconDoubleArrowRight,
-                        styles.doubleArrow
-                      )}
-                    ></i>
-                  </a>
-                ) : (
+                {
                   <Link
                     to={innerMenuData.url}
                     onClick={() => {
@@ -370,6 +341,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                       });
                       this.props.clickToggle();
                     }}
+                    target={innerMenuData?.openInNewTab ? "_blank" : ""}
                   >
                     <i
                       className={cs(
@@ -379,7 +351,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                       )}
                     ></i>
                   </Link>
-                )}
+                }
               </span>
             </div>
           </li>
@@ -417,12 +389,27 @@ class Mobilemenu extends React.Component<Props, MobileState> {
           </li>
         ) : (
           <li key={`l2-${data.text}`}>
-            <span
-              className={spanClass}
-              onClick={this.Clickmenulevel2.bind(this, k)}
-            >
-              <span>{ReactHtmlParser(data.text)}</span>
-            </span>
+            {data?.hideViewAllOnMobile ? (
+              <Link
+                className={styles.singleNode}
+                to={data.link}
+                target={data.openInNewTab ? "_blank" : ""}
+              >
+                {ReactHtmlParser(data.text)}
+              </Link>
+            ) : (
+              <span
+                className={spanClass}
+                onClick={this.Clickmenulevel2.bind(
+                  this,
+                  k,
+                  data?.hideViewAllOnMobile
+                )}
+              >
+                <span>{ReactHtmlParser(data.text)}</span>
+              </span>
+            )}
+
             <div
               id={`menulevel2-${k}`}
               className={
@@ -434,7 +421,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             >
               {data.children ? (
                 <ul key={data.link}>
-                  {data.link && data.children.length > 0 ? (
+                  {data.link &&
+                  data.children.length > 0 &&
+                  !data?.hideViewAllOnMobile ? (
                     data.templateType == "L2L3" ? (
                       <>
                         {!data.hideViewAllOnMobile && (
@@ -568,12 +557,36 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         } else {
           html.push(
             <div onClick={() => this.props.clickToggle()}>
+              {!!template?.labelOnMobile && (
+                <div className={styles.featuredTitle}>
+                  {ReactHtmlParser(template?.labelOnMobile)}
+                </div>
+              )}
               <ImageWithSideSubheadingMobile
                 data={template.templateData}
                 templateType={template.templateType}
                 l1={megaMenuData.text}
                 onHeaderMegaMenuClick={this.props.onHeaderMegaMenuClick}
               />
+              <div className={styles.featuredCta}>
+                <Link
+                  to={
+                    (template.templateData
+                      ?.componentData as MenuComponentL2L3Data)?.link
+                  }
+                  target={
+                    (template.templateData
+                      ?.componentData as MenuComponentL2L3Data)?.openInNewTab
+                      ? "_blank"
+                      : ""
+                  }
+                >
+                  {ReactHtmlParser(
+                    (template.templateData
+                      ?.componentData as MenuComponentL2L3Data)?.ctaName
+                  )}
+                </Link>
+              </div>
             </div>
           );
         }
@@ -900,14 +913,19 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     // const wishlistIcon = wishlistCount > 0;
     const lowerMenu = (
       <div
-        className={cs(this.props.slab, styles.lowerMenu, {
-          [styles.lowerMenuNonInrHeight]: this.props.currency !== "INR"
-          // [styles.lowerMenuNonInrHeight]:
-          //   showC
-          //   this.props.slab.toLowerCase() != "cerise" &&
-          //   this.props.slab.toLowerCase() != "cerise club" &&
-          //   this.props.slab.toLowerCase() != "cerise sitara"
-        })}
+        className={cs(
+          this.props.slab,
+          styles.lowerMenu,
+          this.props.isIphone ? styles.extraBottomPadding : "",
+          {
+            // [styles.lowerMenuNonInrHeight]: this.props.currency !== "INR"
+            // [styles.lowerMenuNonInrHeight]:
+            //   showC
+            //   this.props.slab.toLowerCase() != "cerise" &&
+            //   this.props.slab.toLowerCase() != "cerise club" &&
+            //   this.props.slab.toLowerCase() != "cerise sitara"
+          }
+        )}
       >
         <ul>
           {loginItem.label == "Login" && (
@@ -1241,17 +1259,18 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     );
     const innerMenu = (
       <div className={styles.mobileMainMenu}>
-        <ul className={styles.innerMenuMobile} key="innermenu">
-          {this.state.activeindex > -1 &&
-            // this.createListElement(this.props.menudata[this.state.activeindex])}
-            this.createMegaListElement(
+        {this.state.activeindex > -1 && (
+          <ul className={styles.innerMenuMobile} key="innermenu">
+            {/* this.createListElement(this.props.menudata[this.state.activeindex]) */}
+            {this.createMegaListElement(
               this.props.megaMenuData[
                 this.state.activeindex < this.props.megaMenuData.length
                   ? this.state.activeindex
                   : 0
               ]
             )}
-        </ul>
+          </ul>
+        )}
       </div>
     );
     return (
