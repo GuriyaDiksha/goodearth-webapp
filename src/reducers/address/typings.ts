@@ -1,3 +1,4 @@
+import { isFormModuleOpen } from "./../../actions/address/index";
 import * as Actions from "actions/address";
 import { ActionType } from "typings/actionCreator";
 import {
@@ -19,6 +20,7 @@ export type State = {
   mode: AddressModes;
   customDuties: CustomDuties;
   sameAsShipping: boolean;
+  isFormModuleOpen: boolean;
 };
 
 export { Actions };

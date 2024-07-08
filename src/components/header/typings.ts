@@ -301,7 +301,6 @@ export type MobileListProps = {
   profileItems: DropdownItem[];
   loginItem: DropdownItem;
   goLogin: (e?: React.MouseEvent) => void;
-  isIphone: boolean;
 };
 export interface State {
   show: boolean;
@@ -318,7 +317,6 @@ export interface State {
   isLoading: boolean;
   reloadAnnouncementBar: boolean;
   isPlpPage: boolean;
-  isIphone: boolean;
 }
 
 export interface MenuState {

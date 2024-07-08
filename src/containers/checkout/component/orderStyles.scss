@@ -509,6 +509,10 @@ body:has(.open-summary) {
   padding-right: 5px;
 }
 .checkout-btn {
+  @media screen and (max-width: 992px) {
+    max-width : unset !important
+  }
+
   img {
     width: 15px;
     height: 25px;

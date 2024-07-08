@@ -139,6 +139,12 @@ class ProfileUpdater extends React.Component<Props, State> {
       });
     this.props.fetchCountryData();
     this.changeCountryData(this.props.countryData);
+
+    document.body.classList.add(globalStyles.noScroll);
+  }
+
+  componentWillUnmount(): void {
+    document.body.classList.remove(globalStyles.noScroll);
   }
 
   onCountrySelect = (
@@ -363,7 +369,14 @@ class ProfileUpdater extends React.Component<Props, State> {
   };
 
   render() {
-    const { firstName, lastName, subscribe, gender } = this.state.data;
+    const {
+      firstName,
+      lastName,
+      subscribe,
+      gender,
+      country,
+      state
+    } = this.state.data;
     const isExistyError = "This field is required";
     const formContent = (
       <Formsy
@@ -385,7 +398,7 @@ class ProfileUpdater extends React.Component<Props, State> {
             <FormInput
               name="firstName"
               placeholder={"First Name"}
-              label={"First Name"}
+              label={"First Name *"}
               keyPress={e => (e.key == " Enter" ? e.preventDefault() : "")}
               required
               handleChange={() => {
@@ -400,7 +413,7 @@ class ProfileUpdater extends React.Component<Props, State> {
               name="lastName"
               required
               placeholder={"Last Name"}
-              label={"Last Name"}
+              label={"Last Name *"}
               keyPress={e => (e.key == " Enter" ? e.preventDefault() : "")}
               handleChange={() => {
                 // this.setState({ updateProfile: true });
@@ -440,6 +453,7 @@ class ProfileUpdater extends React.Component<Props, State> {
                   isExisty: "Please select your Country",
                   isEmptyString: isExistyError
                 }}
+                disable={country ? true : false}
               />
               <span className="arrow"></span>
             </div>
@@ -464,6 +478,7 @@ class ProfileUpdater extends React.Component<Props, State> {
                     isExisty: isExistyError,
                     isEmptyString: isExistyError
                   }}
+                  disable={state ? true : false}
                 />
               </div>
             </div>

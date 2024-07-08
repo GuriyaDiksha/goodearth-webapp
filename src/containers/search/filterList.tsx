@@ -53,7 +53,7 @@ class FilterList extends React.Component<Props, State> {
     this.state = {
       shouldScroll: false,
       showmenulevel1: false,
-      categorylevel1: false,
+      categorylevel1: true,
       showmobileFilterList: false,
       show: false,
       showDifferentImage: false,
@@ -93,8 +93,8 @@ class FilterList extends React.Component<Props, State> {
       totalItems: 0,
       showProductFilter: false,
       scrollView: false,
-      showFilterByDiscountMenu: true,
-      categoryindex: -1,
+      showFilterByDiscountMenu: false,
+      categoryindex: 0,
       activeindex: -1,
       activeindex2: 1,
       selectedCatShop: "View All",
@@ -973,26 +973,35 @@ class FilterList extends React.Component<Props, State> {
       this.props.updateFacets(this.getSortedFacets(nextProps.facets));
       this.handleAnimation("category", false);
 
-      if (
-        nextProps.facets.availableDiscount &&
-        nextProps.facets.availableDiscount.length > 0
-      ) {
-        this.setState({
-          activeindex: 0,
-          showProductFilter: false,
-          showmenulevel1: false,
-          categorylevel1: false
-        });
-      } else {
-        this.setState({
-          activeindex: 0,
-          showProductFilter: false,
-          showmenulevel1: false,
-          showFilterByDiscountMenu: false,
-          categoryindex: 0,
-          categorylevel1: true
-        });
-      }
+      this.setState({
+        activeindex: 0,
+        showmenulevel1: false,
+        showFilterByDiscountMenu: false,
+        showProductFilter: false,
+        categoryindex: 0,
+        categorylevel1: true
+      });
+
+      // if (
+      //   nextProps.facets.availableDiscount &&
+      //   nextProps.facets.availableDiscount.length > 0
+      // ) {
+      //   this.setState({
+      //     activeindex: 0,
+      //     showProductFilter: false,
+      //     showmenulevel1: false,
+      //     categorylevel1: false
+      //   });
+      // } else {
+      //   this.setState({
+      //     activeindex: 0,
+      //     showProductFilter: false,
+      //     showmenulevel1: false,
+      //     showFilterByDiscountMenu: false,
+      //     categoryindex: 0,
+      //     categorylevel1: true
+      //   });
+      // }
 
       // {this.props.salestatus &&
       //   this.props.facets &&
@@ -1452,23 +1461,20 @@ class FilterList extends React.Component<Props, State> {
                     <span
                       className={cs(
                         styles.checkmark,
-                        (!isViewAll &&
-                          filter.categoryShop["selectedCatShop"]
-                            ?.split(">")[1]
-                            ?.trim() === nestedList[0]) ||
-                          (!isViewAll &&
+                        url.includes("%7C")
+                          ? nestedList[0]?.startsWith("View all") &&
+                            url.split("&category_shop=")[1].split("+")[0] ==
+                              data
+                            ? styles.checkmarkActive
+                            : ""
+                          : filter.categoryShop["selectedCatShop"]
+                              ?.split(">")[1]
+                              ?.trim() === nestedList[0] ||
                             nestedList[0].includes(
                               filter.categoryShop["selectedCatShop"]
                                 ?.split(">")[1]
                                 ?.trim()
-                            )) ||
-                          (isViewAll &&
-                            nestedList[0]?.startsWith("View all") &&
-                            filter.categoryShop["selectedCatShop"]?.split("|")
-                              .length &&
-                            filter.categoryShop["selectedCatShop"]
-                              ?.split(">")[0]
-                              .trim() === data)
+                            )
                           ? styles.checkmarkActive
                           : ""
                       )}
@@ -1483,23 +1489,21 @@ class FilterList extends React.Component<Props, State> {
                     ></span>
                     <label
                       className={cs(
-                        (!isViewAll &&
-                          filter.categoryShop["selectedCatShop"]
-                            ?.split(">")[1]
-                            ?.trim() === nestedList[0]) ||
-                          (!isViewAll &&
+                        url.includes("%7C")
+                          ? nestedList[0]?.startsWith("View all") &&
+                            filter.categoryShop["selectedCatShop"]
+                              ?.split(">")[0]
+                              .trim() == data
+                            ? styles.selectedCatShop
+                            : ""
+                          : filter.categoryShop["selectedCatShop"]
+                              ?.split(">")[1]
+                              ?.trim() === nestedList[0] ||
                             nestedList[0].includes(
                               filter.categoryShop["selectedCatShop"]
                                 ?.split(">")[1]
                                 ?.trim()
-                            )) ||
-                          (isViewAll &&
-                            nestedList[0]?.startsWith("View all") &&
-                            filter.categoryShop["selectedCatShop"]?.split("|")
-                              .length &&
-                            filter.categoryShop["selectedCatShop"]
-                              ?.split(">")[0]
-                              .trim() === data)
+                            )
                           ? styles.selectedCatShop
                           : ""
                       )}
@@ -1720,7 +1724,7 @@ class FilterList extends React.Component<Props, State> {
             showFilterByDiscountMenu: false,
             showProductFilter: false
           });
-      index == 0
+      index == 0 // on categoryMenuClicked
         ? this.setState({
             categoryindex: index,
             categorylevel1: true,
@@ -1738,12 +1742,16 @@ class FilterList extends React.Component<Props, State> {
         ? this.setState({
             activeindex: index,
             openMenu: index,
-            showmenulevel1: !this.state.showmenulevel1
+            showmenulevel1: !this.state.showmenulevel1,
+            showFilterByDiscountMenu: false,
+            showProductFilter: false
           })
         : this.setState({
             activeindex: index,
             openMenu: index,
-            showmenulevel1: true
+            showmenulevel1: true,
+            showFilterByDiscountMenu: false,
+            showProductFilter: false
           });
     }
   };
@@ -1760,7 +1768,8 @@ class FilterList extends React.Component<Props, State> {
   toggleFilterByDiscountMenu = () => {
     this.setState(prevState => {
       return {
-        showFilterByDiscountMenu: !prevState.showFilterByDiscountMenu
+        showFilterByDiscountMenu: !prevState.showFilterByDiscountMenu,
+        showmenulevel1: false
       };
     });
   };

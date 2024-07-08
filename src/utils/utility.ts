@@ -69,7 +69,7 @@ const displayPriceWithCommas = (
     if (isRound) {
       arr.push(parseInt(price.toString()).toLocaleString(arg));
     } else {
-      arr.push(price.toString().toLocaleString(arg));
+      arr.push(parseFloat(price.toString()).toLocaleString(arg));
     }
   }
   return with_symbol

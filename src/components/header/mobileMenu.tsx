@@ -913,19 +913,14 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     // const wishlistIcon = wishlistCount > 0;
     const lowerMenu = (
       <div
-        className={cs(
-          this.props.slab,
-          styles.lowerMenu,
-          this.props.isIphone ? styles.extraBottomPadding : "",
-          {
-            // [styles.lowerMenuNonInrHeight]: this.props.currency !== "INR"
-            // [styles.lowerMenuNonInrHeight]:
-            //   showC
-            //   this.props.slab.toLowerCase() != "cerise" &&
-            //   this.props.slab.toLowerCase() != "cerise club" &&
-            //   this.props.slab.toLowerCase() != "cerise sitara"
-          }
-        )}
+        className={cs(this.props.slab, styles.lowerMenu, {
+          [styles.lowerMenuNonInrHeight]: this.props.currency !== "INR"
+          // [styles.lowerMenuNonInrHeight]:
+          //   showC
+          //   this.props.slab.toLowerCase() != "cerise" &&
+          //   this.props.slab.toLowerCase() != "cerise club" &&
+          //   this.props.slab.toLowerCase() != "cerise sitara"
+        })}
       >
         <ul>
           {loginItem.label == "Login" && (

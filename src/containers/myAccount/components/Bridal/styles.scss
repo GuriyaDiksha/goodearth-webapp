@@ -1635,10 +1635,14 @@ margin-bottom: 50px !important;
 .registery-form{
   margin-top: 40px;
   text-align: left;
-  max-width: 366px;
+  width: 100%;
+  max-width: 360px;
 
   &.form-details{
     margin: 40px auto 0 auto;
+  }
+  @media(max-width:767px){
+    padding: 0 20px;
   }
 }
 .reg-form-heading{
@@ -2046,8 +2050,8 @@ input::placeholder{
 .badge-image{
     width: 40px;
     position: relative;
-    top: 4px;
-    left: 4px;
+    // top: 4px;
+    // left: 4px;
     img {
         position: absolute;
         top: 0px;
@@ -2094,4 +2098,10 @@ input::placeholder{
 }
 .qty-left-msg{
   @include gold_13px_lora_italic();
+}
+
+@media(max-width:767px){
+  .padding-l-r20{
+    padding: 0 20px;
+  }
 }
