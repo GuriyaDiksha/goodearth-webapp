@@ -165,6 +165,12 @@ class Header extends React.Component<Props, State> {
       )
       .then(() => {
         this.setState({ isLoading: false });
+      })
+      .catch(e => {
+        this.setState({ isLoading: false });
+      })
+      .finally(() => {
+        this.setState({ isLoading: false });
       });
     if (
       typeof document != "undefined" &&
