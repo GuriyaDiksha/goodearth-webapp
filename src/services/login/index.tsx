@@ -37,6 +37,7 @@ import { countBridal } from "actions/bridal";
 import LoginService from "services/login";
 import BridalService from "services/bridal";
 import { result } from "lodash";
+import { updateCheckoutLoader, updateLoader } from "actions/info";
 
 export default {
   showForgotPassword: function(
@@ -526,6 +527,8 @@ export default {
       });
       BasketService.fetchBasket(dispatch);
       dispatch(resetMeta(undefined));
+      dispatch(updateLoader(false));
+      dispatch(updateCheckoutLoader(false));
       showGrowlMessage(
         dispatch,
         MESSAGE.INVALID_SESSION_LOGOUT,
