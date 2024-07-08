@@ -281,6 +281,7 @@ const NewOtpComponent: React.FC<Props> = ({
             // pattern="\d*"
             pattern="[0-9]*"
             disabled={disabled ? true : false}
+            autoComplete="off"
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
@@ -296,6 +297,7 @@ const NewOtpComponent: React.FC<Props> = ({
             pattern="[0-9]*"
             inputMode="numeric"
             disabled={disabled ? true : false}
+            autoComplete="off"
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
@@ -311,6 +313,7 @@ const NewOtpComponent: React.FC<Props> = ({
             pattern="[0-9]*"
             inputMode="numeric"
             disabled={disabled ? true : false}
+            autoComplete="off"
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
@@ -326,6 +329,7 @@ const NewOtpComponent: React.FC<Props> = ({
             pattern="[0-9]*"
             inputMode="numeric"
             disabled={disabled ? true : false}
+            autoComplete="off"
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
@@ -341,6 +345,7 @@ const NewOtpComponent: React.FC<Props> = ({
             pattern="[0-9]*"
             inputMode="numeric"
             disabled={disabled ? true : false}
+            autoComplete="off"
           />
           <input
             className={cs(style.otpInput, error ? style.error : "")}
@@ -356,6 +361,7 @@ const NewOtpComponent: React.FC<Props> = ({
             pattern="[0-9]*"
             inputMode="numeric"
             disabled={disabled ? true : false}
+            autoComplete="off"
           />
         </div>
         {error ? <p className={style.otpError}>{error}</p> : null}
