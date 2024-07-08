@@ -35,14 +35,14 @@ body:has(.mobile) {
   z-index: 1;
   &.back-btn-address-bridal {
     top: 20px;
-    left: -65px;
+    left: 0;
     text-align: left;
   }
   @media screen and (max-width: 992px) {
     &.back-btn-address-bridal {
       top: -10px;
       right: 0;
-      left: -19px;
+      left: 15px;
     }
   }
 }
@@ -83,9 +83,12 @@ body:has(.mobile) {
   // min-height: 320px;
   border: 1px solid #eaeaea;
   cursor: pointer;
-  max-width: 556px;
+  // max-width: 556px;
   margin: auto;
   min-height: 160px;
+  @media(min-width:768px){
+    max-width: 556px;
+  }
 
   &.checkout{
     width: 755px;
@@ -1036,5 +1039,12 @@ div > .address-in-use {
 
   input{
     width: 100% !important;
+  }
+}
+@media(max-width:767px){
+  .login-form{
+    label{
+      font-size: 8px!important;
+    }
   }
 }

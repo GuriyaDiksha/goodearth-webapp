@@ -17,7 +17,8 @@ import {
   updateBillingAddressId,
   updateShippingAddressId,
   updateSameAsShipping,
-  updateCustomDuties
+  updateCustomDuties,
+  isFormModuleOpen
 } from "actions/address";
 import AddressService from "services/address";
 import { useDispatch, useSelector } from "react-redux";
@@ -233,6 +234,7 @@ const AddressSection: React.FC<AddressProps & {
       dispatch(updateSameAsShipping(false));
     }
     openAddressForm();
+    dispatch(isFormModuleOpen(true));
   };
 
   const backToAddressList = () => {

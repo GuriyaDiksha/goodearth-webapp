@@ -1,3 +1,4 @@
+import { isFormModuleOpen } from "./../../actions/address/index";
 import { State, AddressActions } from "./typings";
 
 const initialState: State = {
@@ -10,7 +11,8 @@ const initialState: State = {
   billingAddressId: 0,
   mode: "list",
   customDuties: { message: "" },
-  sameAsShipping: true
+  sameAsShipping: true,
+  isFormModuleOpen: false
 };
 export const address = (
   state = initialState,
@@ -79,6 +81,12 @@ export const address = (
       };
     }
     case "UPDATE_SAME_AS_SHIPPING": {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
+    case "IS_FORM_MODULE_OPEN": {
       return {
         ...state,
         ...action.payload

@@ -257,10 +257,9 @@ const RegistryAddress: React.FC<{ children: React.ReactNode }> = props => {
 
       <div
         className={cs(
-          bootstrapStyles.col10,
-
-          bootstrapStyles.offset1,
-
+          bootstrapStyles.colLg10,
+          bootstrapStyles.offsetLg1,
+          styles.paddingLR20,
           {
             [cs(bootstrapStyles.colMd8, bootstrapStyles.offsetMd2)]:
               mobile || mode == "edit" || mode == "new"
