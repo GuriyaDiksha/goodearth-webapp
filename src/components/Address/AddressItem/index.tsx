@@ -18,7 +18,7 @@ import moment from "moment";
 import { useHistory } from "react-router";
 import BridalService from "services/bridal";
 import { BridalProfileData } from "containers/myAccount/components/Bridal/typings";
-import { updateBillingAddressId } from "actions/address";
+import { isFormModuleOpen, updateBillingAddressId } from "actions/address";
 import UserContext from "contexts/user";
 
 type Props = {
@@ -764,6 +764,7 @@ const AddressItem: React.FC<Props> = props => {
                         false;
                       } else {
                         openAddressForm(address);
+                        dispatch(isFormModuleOpen(true));
                       }
                     }}
                   >

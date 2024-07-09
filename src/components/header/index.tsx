@@ -75,7 +75,8 @@ const mapStateToProps = (state: AppState) => {
     scrollDown: state.info.scrollDown,
     user: state.user,
     showmobileSort: state.header.showmobileSort,
-    isShared: state.router.location.pathname.includes("shared-wishlist")
+    isShared: state.router.location.pathname.includes("shared-wishlist"),
+    isLoader: state.info.isLoading
   };
 };
 
@@ -153,13 +154,24 @@ class Header extends React.Component<Props, State> {
       const pathArray = this.props.location.pathname.split("/");
       bridalKey = pathArray[pathArray.length - 1];
     }
-    this.props.onLoadAPiCall(
-      this.props?.cookies,
-      this.props.bridalId,
-      bridalKey,
-      this.props.sortBy,
-      this.props.history?.location?.pathname
-    );
+    this.setState({ isLoading: true });
+    this.props
+      .onLoadAPiCall(
+        this.props?.cookies,
+        this.props.bridalId,
+        bridalKey,
+        this.props.sortBy,
+        this.props.history?.location?.pathname
+      )
+      .then(() => {
+        this.setState({ isLoading: false });
+      })
+      .catch(e => {
+        this.setState({ isLoading: false });
+      })
+      .finally(() => {
+        this.setState({ isLoading: false });
+      });
     if (
       typeof document != "undefined" &&
       user.email &&
@@ -326,6 +338,9 @@ class Header extends React.Component<Props, State> {
     const header = document.getElementById("myHeader");
     const headerHeight = (header as HTMLElement)?.clientHeight;
     const timerDiv = document.getElementById("ge-timer");
+    const timerDivHeight = (timerDiv as HTMLElement)?.clientHeight;
+    const mainNavHeader = document.getElementById("main-nav-header");
+    const mainNavHeaderHeight = (mainNavHeader as HTMLElement)?.clientHeight;
     const istimer = timerDiv != null ? true : false;
     const sticky = (header as HTMLElement)?.offsetTop;
     const secondaryHeader = document.getElementById("secondaryHeader");
@@ -360,6 +375,7 @@ class Header extends React.Component<Props, State> {
     );
     const pressInternal = document.getElementById("pressinternal");
     const pressinternalHeader = document.getElementById("pressinternalHeader");
+    const isAnnouncementBarAvailable = annBar ?? false;
 
     if (window?.pageYOffset > sticky) {
       // When announcement bar is hidden
@@ -371,8 +387,12 @@ class Header extends React.Component<Props, State> {
         if (istimer) {
           const timerHeight = (timerDiv as HTMLElement)?.clientHeight;
           menuOverlay.style.top = `${timerHeight + headerHeight + 5}px`;
+          // menuOverlay.style.height = `calc(100vh - ${timerHeight +
+          //   headerHeight +
+          //   5}px)`;
         } else {
           menuOverlay.style.top = `${headerHeight + 5}px`;
+          // menuOverlay.style.height = `calc(100vh - ${headerHeight + 5}px)`;
         }
       }
       if (gridList) {
@@ -391,29 +411,29 @@ class Header extends React.Component<Props, State> {
         }
       }
 
-      if (secondaryHeader) {
+      /**
+       * secondary header is now not available on mobile devices, so change the condition below
+       */
+      if (secondaryHeader || this.props.mobile) {
+        let requiredHeight; // calculate the required height for the secondary header based on availability of timer
         if (tim) {
-          (secondaryHeader as HTMLElement).style.top = "90px";
-          if (sortHeader) {
-            (sortHeader as HTMLElement).style.top = "90px";
-          }
-          if (sortHeader2) {
-            (sortHeader2 as HTMLElement).style.top = "90px";
-          }
-          if (sortHeaderMobile) {
-            (sortHeaderMobile as HTMLElement).style.top = "90px";
-          }
+          requiredHeight = `${mainNavHeaderHeight + timerDivHeight}px`;
         } else {
-          (secondaryHeader as HTMLElement).style.top = "50px";
+          requiredHeight = `${mainNavHeaderHeight}px`;
+        }
 
+        if (requiredHeight) {
+          if (secondaryHeader) {
+            (secondaryHeader as HTMLElement).style.top = requiredHeight;
+          }
           if (sortHeader) {
-            (sortHeader as HTMLElement).style.top = "50px";
+            (sortHeader as HTMLElement).style.top = requiredHeight;
           }
           if (sortHeader2) {
-            (sortHeader2 as HTMLElement).style.top = "50px";
+            (sortHeader2 as HTMLElement).style.top = requiredHeight;
           }
           if (sortHeaderMobile) {
-            (sortHeaderMobile as HTMLElement).style.top = "50px";
+            (sortHeaderMobile as HTMLElement).style.top = requiredHeight;
           }
         }
         // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
@@ -422,7 +442,7 @@ class Header extends React.Component<Props, State> {
         const tim = timer !== undefined ? timer : this.props.showTimer;
 
         if (tim) {
-          (filterMenu as HTMLElement).style.top = "150px";
+          (filterMenu as HTMLElement).style.top = "160px"; // before 150px;
         } else {
           (filterMenu as HTMLElement).style.top = "120px";
         }
@@ -558,9 +578,11 @@ class Header extends React.Component<Props, State> {
           const topPosWithTimer =
             (annBarHeight ? annBarHeight : 0) + headerHeight + timerHeight;
           menuOverlay.style.top = `${topPosWithTimer + 5}px`;
+          // menuOverlay.style.height = `calc(100vh - ${topPosWithTimer + 5}px)`;
         } else {
           const topPosition = (annBarHeight ? annBarHeight : 0) + headerHeight;
           menuOverlay.style.top = `${topPosition + 5}px`;
+          // menuOverlay.style.height = `calc(100vh - ${topPosition + 5}px)`;
         }
       }
       if (gridList) {
@@ -577,40 +599,37 @@ class Header extends React.Component<Props, State> {
         }
       }
 
-      if (secondaryHeader) {
-        if (tim) {
-          (secondaryHeader as HTMLElement).style.top = `${130 -
-            window?.pageYOffset}px`;
-
-          if (sortHeader) {
-            (sortHeader as HTMLElement).style.top = `${130 -
-              window?.pageYOffset}px`;
-          }
-          if (sortHeader2) {
-            (sortHeader2 as HTMLElement).style.top = `${130 -
-              window?.pageYOffset}px`;
-          }
-          if (sortHeaderMobile) {
-            (sortHeaderMobile as HTMLElement).style.top = `${130 -
-              window?.pageYOffset}px`;
-          }
+      /**
+       * secondary header is now not available on mobile devices, so change the condition below
+       */
+      if (secondaryHeader || this.props.mobile) {
+        let requiredHeight;
+        if (isAnnouncementBarAvailable && !tim) {
+          requiredHeight = `${annHeight + mainNavHeaderHeight}px`;
+        } else if (!isAnnouncementBarAvailable && tim) {
+          requiredHeight = `${timerDivHeight + mainNavHeaderHeight}px`;
+        } else if (isAnnouncementBarAvailable && tim) {
+          requiredHeight = `${timerDivHeight +
+            annHeight +
+            mainNavHeaderHeight}px`;
         } else {
-          (secondaryHeader as HTMLElement).style.top = `${90 -
-            window?.pageYOffset}px`;
-          if (sortHeader) {
-            (sortHeader as HTMLElement).style.top = `${90 -
-              window?.pageYOffset}px`;
-          }
-          if (sortHeader2) {
-            (sortHeader2 as HTMLElement).style.top = `${90 -
-              window?.pageYOffset}px`;
-          }
-          if (sortHeaderMobile) {
-            (sortHeaderMobile as HTMLElement).style.top = `${90 -
-              window?.pageYOffset}px`;
-          }
+          requiredHeight = `${mainNavHeaderHeight}px`;
         }
 
+        if (requiredHeight) {
+          if (secondaryHeader) {
+            (secondaryHeader as HTMLElement).style.top = requiredHeight;
+          }
+          if (sortHeader) {
+            (sortHeader as HTMLElement).style.top = requiredHeight;
+          }
+          if (sortHeader2) {
+            (sortHeader2 as HTMLElement).style.top = requiredHeight;
+          }
+          if (sortHeaderMobile) {
+            (sortHeaderMobile as HTMLElement).style.top = requiredHeight;
+          }
+        }
         // (secondaryHeader as HTMLElement).style.transition = "all 0.5s linear";
       }
       if (filterMenu) {
@@ -1271,7 +1290,10 @@ class Header extends React.Component<Props, State> {
               }}
             />
           )}
-          <div className={cs(styles.minimumWidth, styles.headerBg)}>
+          <div
+            className={cs(styles.minimumWidth, styles.headerBg)}
+            id="main-nav-header"
+          >
             <div className={cs(bootstrap.row, styles.menuForTablet)}>
               {mobile || tablet ? (
                 <div
@@ -1629,7 +1651,7 @@ class Header extends React.Component<Props, State> {
         {this.props.showSizeChart && (
           <Sizechart active={this.props.showSizeChart} />
         )}
-        {this.state.isLoading && <Loader />}
+        {this.state.isLoading && !this.props.isLoader && <Loader />}
         {this.state.showBag && (
           <Bag
             showShipping={this.props.showShipping}

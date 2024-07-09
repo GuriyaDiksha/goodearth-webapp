@@ -93,7 +93,8 @@ class Footer extends React.Component<Props, FooterState> {
       isConsentSave: false,
       headingHoverArray: [],
       subheadingHoverArray: [],
-      smartNav: ["/", "/homepage"]
+      smartNav: ["/", "/homepage"],
+      country: ""
     };
   }
 
@@ -182,7 +183,10 @@ class Footer extends React.Component<Props, FooterState> {
         this.observer.observe(this.container);
       }
     }
-    this.setState({ isConsentSave: CookieService.getCookie("consent") !== "" });
+    this.setState({
+      isConsentSave: CookieService.getCookie("consent") !== "",
+      country: CookieService.getCookie("country")
+    });
   }
 
   componentDidUpdate(
@@ -480,6 +484,7 @@ class Footer extends React.Component<Props, FooterState> {
                           }
                         >
                           {mobileFooterList?.map((list, i: number) => {
+                            console.log("########### LIST:", list);
                             return (
                               <li key={i}>
                                 {list.value.length > 0 ? (
@@ -510,6 +515,12 @@ class Footer extends React.Component<Props, FooterState> {
                                     className={
                                       this.props.saleStatus
                                         ? cs(styles.cerise)
+                                        : ""
+                                    }
+                                    target={list.openInNewTab ? "_blank" : ""}
+                                    rel={
+                                      list.openInNewTab
+                                        ? "noopener noreferrer"
                                         : ""
                                     }
                                     style={{
@@ -727,7 +738,7 @@ class Footer extends React.Component<Props, FooterState> {
                             onClick={this.openCountryPopup}
                             className={styles.country}
                           >
-                            {this.props.country}
+                            {this.props.country || this.state?.country}
                           </p>
                         </div>
                         <ShopLocator
@@ -822,6 +833,14 @@ class Footer extends React.Component<Props, FooterState> {
                                     {item.link ? (
                                       <Link
                                         to={item.link || "#"}
+                                        target={
+                                          item.openInNewTab ? "_blank" : ""
+                                        }
+                                        rel={
+                                          item.openInNewTab
+                                            ? "noopener noreferrer"
+                                            : ""
+                                        }
                                         onClick={() => {
                                           if (
                                             this.props.location.pathname ==
@@ -1194,7 +1213,7 @@ class Footer extends React.Component<Props, FooterState> {
                         onClick={this.openCountryPopup}
                         className={styles.country}
                       >
-                        {this.props.country}
+                        {this.props.country || this.state?.country}
                       </p>
                     </div>
                   </div>
@@ -1213,15 +1232,16 @@ class Footer extends React.Component<Props, FooterState> {
               {
                 [styles.filterOnBottom]: this.props.location.pathname.includes(
                   "/careers/list"
-                ),
-                [styles.paddingBottom]:
-                  (this.state.smartNav.indexOf(this.props.location.pathname) >
-                    -1 ||
-                    this.props.location.pathname.includes(
-                      "/category_landing/"
-                    ) ||
-                    desktopPlp) &&
-                  ["INR", "USD"].includes(this.props.currency)
+                )
+                // Product team has decided to temporarily remove the smart nav
+                // [styles.paddingBottom]:
+                //   (this.state.smartNav.indexOf(this.props.location.pathname) >
+                //     -1 ||
+                //     this.props.location.pathname.includes(
+                //       "/category_landing/"
+                //     ) ||
+                //     desktopPlp) &&
+                //   ["INR", "USD"].includes(this.props.currency)
               }
             )}
           >
@@ -1234,7 +1254,9 @@ class Footer extends React.Component<Props, FooterState> {
             </div>
           </div>
         </div>
-        {(this.state.smartNav.indexOf(this.props.location.pathname) > -1 ||
+
+        {/* Product team has decided to temporarily remove the smart nav */}
+        {/* {(this.state.smartNav.indexOf(this.props.location.pathname) > -1 ||
           this.props.location.pathname.includes("/category_landing/") ||
           desktopPlp) &&
           ["INR", "USD"].includes(this.props.currency) && (
@@ -1243,8 +1265,7 @@ class Footer extends React.Component<Props, FooterState> {
               inline={false}
               currency={this.props.currency == "INR" ? "INR" : "USD"}
             />
-          )}
-
+          )} */}
         {(OLD_COOKIE_SETTINGS
           ? cookiCheck && this.props.openCookiePopup
           : ((cookiCheck && !this.state.isConsentSave) ||

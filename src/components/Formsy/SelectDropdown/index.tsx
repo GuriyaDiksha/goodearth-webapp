@@ -18,6 +18,9 @@ const SelectDropdown: React.FC<Props &
   const onOutsideClick = (event: MouseEvent) => {
     if (active) {
       setActive(false);
+      if (props.onInputClick) {
+        props.onInputClick(false);
+      }
     }
   };
 
@@ -33,6 +36,9 @@ const SelectDropdown: React.FC<Props &
     }
     setValue(option.value);
     setActive(false);
+    if (props.onInputClick) {
+      props.onInputClick(false);
+    }
   };
 
   const onSearchValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,7 +102,12 @@ const SelectDropdown: React.FC<Props &
         value={value}
         name={props.name}
         readOnly
-        onClick={() => !props.disable && setActive(!active)}
+        onClick={() => {
+          !props.disable && setActive(!active);
+          if (props.onInputClick) {
+            props.onInputClick(!active);
+          }
+        }}
         ref={props.inputRef || null}
         disabled={props.disable}
       />

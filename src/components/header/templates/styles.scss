@@ -295,10 +295,9 @@
     line-height: 30px;
     letter-spacing: .05em;
     font-size: 12px;
-    font-weight: bold;
-    text-transform: uppercase;
+    font-weight: 600;
     color: #1b1b1b;
-    font-family: "LatoFont", "Helvetica", "Arial";
+    font-family: $font-Montserrat;
 }
 
 .block-cta {

@@ -37,6 +37,7 @@ import { countBridal } from "actions/bridal";
 import LoginService from "services/login";
 import BridalService from "services/bridal";
 import { result } from "lodash";
+import { updateCheckoutLoader, updateLoader } from "actions/info";
 
 export default {
   showForgotPassword: function(
@@ -459,7 +460,6 @@ export default {
       if (userConsent.includes(GA_CALLS)) {
         Moengage.destroy_session();
       }
-      WishlistService.resetWishlist(dispatch);
       // WishlistService.countWishlist(dispatch);
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sales Api Status ==== " + err);
@@ -479,6 +479,7 @@ export default {
         console.log(err);
       });
       // HeaderService.fetchHomepageData(dispatch);
+      WishlistService.resetWishlist(dispatch);
       dispatch(resetMeta(undefined));
       if (source == "reset-pass") {
         showGrowlMessage(dispatch, MESSAGE.INVALID_SESSION_LOGOUT, 5000);
@@ -499,7 +500,6 @@ export default {
       pathname.includes("/order/checkout")
     ) {
       localStorage.setItem("from", "checkout");
-      debugger;
       window.location.replace(`${location?.origin + "/cart"}`);
     } else {
       document.cookie = "atkn=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
@@ -527,6 +527,8 @@ export default {
       });
       BasketService.fetchBasket(dispatch);
       dispatch(resetMeta(undefined));
+      dispatch(updateLoader(false));
+      dispatch(updateCheckoutLoader(false));
       showGrowlMessage(
         dispatch,
         MESSAGE.INVALID_SESSION_LOGOUT,

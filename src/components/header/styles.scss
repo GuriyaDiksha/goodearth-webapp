@@ -445,7 +445,7 @@
 
 .menu-overlay {
   position: fixed;
-  height: 100%;
+  height : 100%;
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 10;
 }
@@ -455,11 +455,11 @@
   -webkit-transform: translate3d(0, 0, 0);
   -webkit-transition: transform 1s ease;
   transition: transform 1s ease;
+  background-color: $light-beige;
+  max-width: 100%;
   height: 100dvh;
   overflow-y: scroll;
-  background-color: $light-beige;
   overflow-x: hidden;
-  max-width: 100%;
 }
 
 .menu-slider {
@@ -481,6 +481,7 @@
   position: relative;
   float: left;
   width: 50%;
+  
   .no-Margin {
     margin: 0;
   }
@@ -614,7 +615,11 @@
     line-height: 50px;
     text-transform: uppercase;
     position: relative;
-    span {
+
+    .single-node{
+      @include b3_14px_montserrat_charcoal();
+    }
+    a, span {
       @include b3_14px_montserrat_charcoal();
     }
     li {
@@ -1258,8 +1263,8 @@ visibility: visible !important;
 
 .badge-position-plp {
   width: 60px;
-  top: 10px;
-  left:10px;
+  // top: 10px;
+  // left:10px;
   z-index: 4;
   position: absolute;
   z-index: 1;
@@ -1271,8 +1276,8 @@ visibility: visible !important;
 
 .badge-position-plp-mobile {
     width: 40px;
-    top: 4px;
-    left: 4px;
+    // top: 4px;
+    // left: 4px;
     position: absolute;
     z-index: 4;
   img {
@@ -1614,6 +1619,10 @@ visibility: visible !important;
 
 ul.inner-menu-mobile {
   padding: 0 20px;
+  li{
+    line-height: 20px;
+    margin: 25px auto;
+  }
   &>li:first-child {
       background-color: #FCFCFA;
       position: sticky;
@@ -1623,6 +1632,7 @@ ul.inner-menu-mobile {
       // border-bottom: 1px solid #e6e6e6;
       margin:0 -35px 10px -35px;
       padding: 0 35px;
+      line-height: 50px;
   }
 }
 .inner-menu-heading {
@@ -2163,6 +2173,17 @@ div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
   text-transform: capitalize!important;
 }
 
+.featured-title{
+  margin-top: 30px;
+  @include b3_14px_montserrat_caps_charcoal();
+}
+.featured-cta{
+  margin-bottom: 30px;
+  a{
+   @include b4_12px_montserrat_semibold_charcoal();
+  }
+  
+}
 @media(min-width:768px)and(max-width:992px){
   .search-tab-container{
     max-width: 670px;

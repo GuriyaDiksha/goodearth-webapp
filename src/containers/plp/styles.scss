@@ -207,6 +207,9 @@
 }
 .prouct-mobile-padding{
   padding: 25px 0px 8px 0px;
+  @media(max-width:767px){
+    padding: 60px 0px 10px 0px;
+  }
 }
 
 .border {

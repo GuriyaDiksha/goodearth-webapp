@@ -6,7 +6,7 @@ import { Currency, currencyCode } from "typings/currency";
 import globalStyles from "styles/global.scss";
 import iconStyles from "styles/iconFonts.scss";
 import { Link } from "react-router-dom";
-import { displayPriceWithCommas } from "utils/utility";
+import { displayPriceWithSeparation } from "utils/utility";
 
 const GiftCardItem = ({
   currStatus,
@@ -221,12 +221,12 @@ const GiftCardItem = ({
           <p>
             <span className={styles.lineHead}> Total value: </span>{" "}
             <span className={styles.line}>
-              {displayPriceWithCommas(fullValue, currCode as Currency)}{" "}
+              {displayPriceWithSeparation(fullValue, currCode as Currency)}{" "}
             </span>
           </p>
           <p className={cl(styles.balance)}>
             Balance amount:{" "}
-            {displayPriceWithCommas(remValues, currCode as Currency)}{" "}
+            {displayPriceWithSeparation(remValues, currCode as Currency)}{" "}
           </p>
           {conditionalRefresh && !isLoggedIn && (
             <span

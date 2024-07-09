@@ -84,7 +84,8 @@ const CreateRegistryNew: React.FC = () => {
   const onDateChange = (date: Date) => {
     setDate(date);
     setDateErrorMsg("");
-    pickerRef.attr("autocomplete", "off");
+    // pickerRef.attr("autocomplete", "off");
+    OnOutsideClick();
   };
 
   const onCtaClick = () => {
@@ -192,194 +193,213 @@ const CreateRegistryNew: React.FC = () => {
               destination.
             </p>
           </div>
-          <div className={cs(styles.registeryForm, styles.formDetails)}>
-            <div className={cs(styles.regFormHeading)}>1. REGISTRY DETAILS</div>
-            <Formsy ref={BridalDetailsFormRef} onValidSubmit={handleSubmit}>
-              <div className={styles.categorylabel}>
-                <div className={cs(styles.radioBtn)}>
-                  <ul className="ul">
-                    <p className={cs(styles.regFormLabel)}>Occasion*</p>
-                    <div
-                      onClick={e => {
-                        setRegistry("wedding");
-                        setOtherChoice("");
-                      }}
-                      data-value="Wedding"
-                      className={cs(styles.radioList, {
-                        [styles.active]: selectId == "" || selectId == "wedding"
-                      })}
-                    >
-                      <span className={cs(styles.checkMark)}></span>
-                      <li li-data-value="Wedding">Wedding</li>
-                    </div>
-                    <div
-                      onClick={e => {
-                        setRegistry("anniversary");
-                        setOtherChoice("");
-                      }}
-                      data-value="anniversary"
-                      className={cs(styles.radioList, {
-                        [styles.active]: selectId == "anniversary"
-                      })}
-                    >
-                      <span className={cs(styles.checkMark)}></span>
-                      <li li-data-value="anniversary">Anniversary</li>
-                    </div>
-                    <div
-                      onClick={e => {
-                        setRegistry("birthday");
-                        setOtherChoice("");
-                      }}
-                      data-value="birthday"
-                      className={cs(styles.radioList, {
-                        [styles.active]: selectId == "birthday"
-                      })}
-                    >
-                      <span className={cs(styles.checkMark)}></span>
-                      <li li-data-value="birthday">Birthday</li>
-                    </div>
-                    <div
-                      onClick={e => {
-                        setRegistry("others");
-                      }}
-                      // onChange={handleChangeLi}
-                      data-value="others"
-                      className={cs(styles.radioList, {
-                        [styles.active]: selectId == "others"
-                      })}
-                    >
-                      <span className={cs(styles.checkMark)}></span>
-                      <li
-                        className={cs(styles.lastLiChild)}
-                        data-value={
-                          data.occassion_choice
-                            ? data.occassion_choice
-                            : occasionInCaps
-                        }
-                      >
-                        <FormInput
-                          id="other_value"
-                          className={cs(styles.otherInput, styles.regFormLabel)}
-                          name="occassion_choice"
-                          placeholder="Other"
-                          label=""
-                          inputRef={occasionChoiceRef}
-                          validations={{
-                            maxLength: 50,
-                            isExisty: true
-                          }}
-                          validationErrors={{
-                            maxLength:
-                              "You can not enter more than 50 characters"
-                          }}
-                          required={selectId == "others"}
-                          value={otherChoice || ""}
-                          handleChange={onInputChange}
-                        />
-                      </li>
-                    </div>
-                  </ul>
-                </div>
-                <div className={styles.inputWrp}>
-                  <FormInput
-                    className={cs(styles.regFormLabel)}
-                    name="registryName"
-                    inputRef={regName}
-                    placeholder="Registry Name*"
-                    label={"Registry Name*"}
-                    validations={{
-                      maxLength: 50,
-                      isExisty: true
+        </div>
+        <div className={cs(styles.registeryForm, styles.formDetails)}>
+          <div className={cs(styles.regFormHeading)}>1. REGISTRY DETAILS</div>
+          <Formsy ref={BridalDetailsFormRef} onValidSubmit={handleSubmit}>
+            <div className={styles.categorylabel}>
+              <div className={cs(styles.radioBtn)}>
+                <ul className="ul">
+                  <p className={cs(styles.regFormLabel)}>Occasion*</p>
+                  <div
+                    onClick={e => {
+                      setRegistry("wedding");
+                      setOtherChoice("");
                     }}
-                    validationErrors={{
-                      maxLength: "You can not enter more than 50 characters"
-                    }}
-                    required
-                    value={data.registryName || ""}
-                    handleChange={onInputChange}
-                  />
-                </div>
-                <div className={styles.inputWrp}>
-                  <FormInput
-                    className={cs(styles.regFormLabel)}
-                    name="registrantName"
-                    placeholder="Registrant’s  Name*"
-                    label={"Registrant’s Name*"}
-                    inputRef={registrantNameRef}
-                    validations={{
-                      maxLength: 50,
-                      isExisty: true
-                    }}
-                    validationErrors={{
-                      maxLength: "You can not enter more than 50 characters"
-                    }}
-                    required
-                    value={data.registrantName || ""}
-                    handleChange={onInputChange}
-                  />
-                </div>
-                <div className={styles.inputWrp}>
-                  <FormInput
-                    className={cs(styles.regFormLabel)}
-                    name="coRegistrantName"
-                    placeholder="Co-registrant’s  Name"
-                    label={"Co-registrant’s  Name"}
-                    inputRef={coRegistrantNameRef}
-                    validations={{
-                      maxLength: 50,
-                      isExisty: true
-                    }}
-                    validationErrors={{
-                      maxLength: "You can not enter more than 50 characters"
-                    }}
-                    value={data.coRegistrantName || ""}
-                    handleChange={onInputChange}
-                  />
-                </div>
-                <div className={cs(styles.datePicker, styles.regFormLabel)}>
-                  <label className={styles.eventLabel}>Occasion Date*</label>
-                  <DatePicker
-                    id="datePicker"
-                    name="datePicker"
-                    startOpen={isOpen}
-                    minDate={new Date()}
-                    selected={date}
-                    onChange={onDateChange}
-                    ref={node => {
-                      pickerRef = node;
-                    }}
-                    autoComplete="off"
-                    onClickOutside={OnOutsideClick}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="DD/MM/YYYY"
-                    className={cs(styles.dateWrp, {
-                      [globalStyles.errorBorder]: dateErrorMsg
+                    data-value="Wedding"
+                    className={cs(styles.radioList, {
+                      [styles.active]: selectId == "" || selectId == "wedding"
                     })}
-                    onKeyDown={e => {
-                      e.preventDefault();
-                    }}
-                  />
-                  <div className={cs(styles.calIcon)} onClick={onClickCalIcon}>
-                    <img src={calendarIcon} width="35" height="35" />
+                  >
+                    <span
+                      className={cs(
+                        styles.checkMark,
+                        selectId === "wedding" ? styles.markedRegistry : ""
+                      )}
+                    ></span>
+                    <li li-data-value="Wedding">Wedding</li>
                   </div>
-                  {dateErrorMsg && (
-                    <p className={cs(styles.dateErrorMsg, styles.errorMsg)}>
-                      {dateErrorMsg}
-                    </p>
-                  )}
-                </div>
-                <div className={globalStyles.textCenter}>
-                  <Button
-                    onClick={onCtaClick}
-                    variant="mediumMedCharcoalCta366"
-                    type="submit"
-                    label={"PROCEED"}
-                    className={cs(globalStyles.marginB20)}
-                  />
-                </div>
+                  <div
+                    onClick={e => {
+                      setRegistry("anniversary");
+                      setOtherChoice("");
+                    }}
+                    data-value="anniversary"
+                    className={cs(styles.radioList, {
+                      [styles.active]: selectId == "anniversary"
+                    })}
+                  >
+                    <span
+                      className={cs(
+                        styles.checkMark,
+                        selectId === "anniversary" ? styles.markedRegistry : ""
+                      )}
+                    ></span>
+                    <li li-data-value="anniversary">Anniversary</li>
+                  </div>
+                  <div
+                    onClick={e => {
+                      setRegistry("birthday");
+                      setOtherChoice("");
+                    }}
+                    data-value="birthday"
+                    className={cs(styles.radioList, {
+                      [styles.active]: selectId == "birthday"
+                    })}
+                  >
+                    <span
+                      className={cs(
+                        styles.checkMark,
+                        selectId === "birthday" ? styles.markedRegistry : ""
+                      )}
+                    ></span>
+                    <li li-data-value="birthday">Birthday</li>
+                  </div>
+                  <div
+                    onClick={e => {
+                      setRegistry("others");
+                    }}
+                    // onChange={handleChangeLi}
+                    data-value="others"
+                    className={cs(styles.radioList, {
+                      [styles.active]: selectId == "others"
+                    })}
+                  >
+                    <span
+                      className={cs(
+                        styles.checkMark,
+                        selectId === "others" ? styles.markedRegistry : ""
+                      )}
+                    ></span>
+                    <li
+                      className={cs(styles.lastLiChild)}
+                      data-value={
+                        data.occassion_choice
+                          ? data.occassion_choice
+                          : occasionInCaps
+                      }
+                    >
+                      <FormInput
+                        id="other_value"
+                        className={cs(styles.otherInput, styles.regFormLabel)}
+                        name="occassion_choice"
+                        placeholder="Other"
+                        label=""
+                        inputRef={occasionChoiceRef}
+                        validations={{
+                          maxLength: 50,
+                          isExisty: true
+                        }}
+                        validationErrors={{
+                          maxLength: "You can not enter more than 50 characters"
+                        }}
+                        required={selectId == "others"}
+                        value={otherChoice || ""}
+                        handleChange={onInputChange}
+                      />
+                    </li>
+                  </div>
+                </ul>
               </div>
-            </Formsy>
-          </div>
+              <div className={styles.inputWrp}>
+                <FormInput
+                  className={cs(styles.regFormLabel)}
+                  name="registryName"
+                  inputRef={regName}
+                  placeholder="Registry Name*"
+                  label={"Registry Name*"}
+                  validations={{
+                    maxLength: 50,
+                    isExisty: true
+                  }}
+                  validationErrors={{
+                    maxLength: "You can not enter more than 50 characters"
+                  }}
+                  required
+                  value={data.registryName || ""}
+                  handleChange={onInputChange}
+                />
+              </div>
+              <div className={styles.inputWrp}>
+                <FormInput
+                  className={cs(styles.regFormLabel)}
+                  name="registrantName"
+                  placeholder="Registrant’s  Name*"
+                  label={"Registrant’s Name*"}
+                  inputRef={registrantNameRef}
+                  validations={{
+                    maxLength: 50,
+                    isExisty: true
+                  }}
+                  validationErrors={{
+                    maxLength: "You can not enter more than 50 characters"
+                  }}
+                  required
+                  value={data.registrantName || ""}
+                  handleChange={onInputChange}
+                />
+              </div>
+              <div className={styles.inputWrp}>
+                <FormInput
+                  className={cs(styles.regFormLabel)}
+                  name="coRegistrantName"
+                  placeholder="Co-registrant’s  Name"
+                  label={"Co-registrant’s  Name"}
+                  inputRef={coRegistrantNameRef}
+                  validations={{
+                    maxLength: 50,
+                    isExisty: true
+                  }}
+                  validationErrors={{
+                    maxLength: "You can not enter more than 50 characters"
+                  }}
+                  value={data.coRegistrantName || ""}
+                  handleChange={onInputChange}
+                />
+              </div>
+              <div className={cs(styles.datePicker, styles.regFormLabel)}>
+                <label className={styles.eventLabel}>Occasion Date*</label>
+                <DatePicker
+                  id="datePicker"
+                  name="datePicker"
+                  startOpen={isOpen}
+                  minDate={new Date()}
+                  selected={date}
+                  onChange={onDateChange}
+                  ref={node => {
+                    pickerRef = node;
+                  }}
+                  autoComplete="off"
+                  onClickOutside={OnOutsideClick}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="DD/MM/YYYY"
+                  className={cs(styles.dateWrp, {
+                    [globalStyles.errorBorder]: dateErrorMsg
+                  })}
+                  onKeyDown={e => {
+                    e.preventDefault();
+                  }}
+                />
+                <div className={cs(styles.calIcon)} onClick={onClickCalIcon}>
+                  <img src={calendarIcon} width="35" height="35" />
+                </div>
+                {dateErrorMsg && (
+                  <p className={cs(styles.dateErrorMsg, styles.errorMsg)}>
+                    {dateErrorMsg}
+                  </p>
+                )}
+              </div>
+              <div className={globalStyles.textCenter}>
+                <Button
+                  onClick={onCtaClick}
+                  variant="mediumMedCharcoalCta366"
+                  type="submit"
+                  label={"PROCEED"}
+                  className={cs(globalStyles.marginB20)}
+                />
+              </div>
+            </div>
+          </Formsy>
         </div>
       </div>
     </>

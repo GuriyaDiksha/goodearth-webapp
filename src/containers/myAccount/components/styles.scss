@@ -587,7 +587,7 @@ input[type="text"]{
   }
 
   .gc-label{
-    left: 50px !important;
+    left: 10px !important;
 
     @media screen and (max-width:767px) {
       left: 10px !important;
@@ -1093,6 +1093,11 @@ input[type="text"]{
   border-bottom: 1px solid lightgray;
   padding: 25px 0px;
   // cursor: pointer;
+
+  @media screen and (min-width:767px) and (max-width:991px){
+    max-width: 366px;
+    margin: auto;
+  }
 }
 
 .balance-section-head{
@@ -1122,6 +1127,10 @@ input[type="text"]{
   height: 16px;
   font-family: $font-Montserrat;
   cursor: pointer;
+
+  @media screen and (min-width:767px) and (max-width:991px){
+    margin-left: 20px;
+  }
 
   &:before,
   &:after{
@@ -1596,8 +1605,8 @@ input[type="text"].country-code-search-input{
 .badge-image{
   position: absolute;
   max-width: 40px;
-  top: 4px;
-  left: 4px;
+  // top: 4px;
+  // left: 4px;
 }
 
 .free-price{
@@ -1612,6 +1621,7 @@ input[type="text"].country-code-search-input{
 .code-wrp{
   max-width: 366px;
   margin: 20px auto;
+  position: relative;
 }
 
 .country-code-wrp{

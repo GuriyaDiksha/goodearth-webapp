@@ -491,7 +491,6 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     this.props
       .sendOtp(formData)
       .then((data: any) => {
-        debugger;
         this.setState({
           attempts: {
             ...this.state.attempts,
@@ -556,7 +555,12 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             this.props.updateError(errorMessage);
             errorTracking([errorMessage], location.href);
           } else if (currStatus == "Active" || currStatus == "Expired") {
-            this.props.updateError(message);
+            if (message.includes("Maximum attempts reached")) {
+              this.setState({ showerrorOtp: message });
+            } else {
+              this.props.updateError(message);
+            }
+
             errorTracking([message], location.href);
           } else if (email) {
             this.RegisterFormRef1.current?.updateInputsWithError({ email });

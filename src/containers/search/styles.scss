@@ -381,16 +381,22 @@
     line-height: 50px;
     @media(min-width:993px){
       &:after {
-        content: '';
+        // content: '';
+        // float: right;
+        // border: solid $gold;
+        // border-width: 0 1px 1px 0;
+        // width: 8px;
+        // height: 8px;
+        // transform: rotate(313deg);
+        // top: 20px;
+        // position: relative;
+        // right: 5px;
+        content: '+';
         float: right;
-        border: solid $gold;
-        border-width: 0 1px 1px 0;
-        width: 8px;
-        height: 8px;
-        transform: rotate(313deg);
-        top: 20px;
-        position: relative;
-        right: 5px;
+        font-size: 25px;
+        color: tint(#000, 50%);
+        font-family: $font-Lato;
+        font-weight: 300;
       }
     }
   }
@@ -440,7 +446,9 @@
   .menulevel1-open {
     @media(min-width:993px){
       &:after {
-        transform: rotate(45deg);
+        // transform: rotate(45deg);
+        content: '-';
+        font-size: 43px;
       }
     }
   }
@@ -493,7 +501,7 @@
       width: 8px;
       height: 8px;
       // transform: rotate(313deg);
-      transform: rotate(220deg);
+      transform: rotate(45deg);
       top: 15px;
       position: absolute;
       right: 5px;
@@ -501,7 +509,8 @@
   }
   .menulevel2-open {
     &:after {
-      transform: rotate(45deg);
+      // transform: rotate(45deg);
+      transform: rotate(-135deg);
     }
   }
   .selected-cat-shop{

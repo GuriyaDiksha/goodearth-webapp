@@ -1594,7 +1594,7 @@ span.add-new-address {
     position: fixed;
     bottom: 0px;
     left: 0;
-    max-width: 100%;
+    max-width: unset !important;
     z-index: 9;
   }
 }
