@@ -806,7 +806,8 @@ body:has(.mobile) {
     left: 0;
     z-index: 9;
     width: 100%;
-    height: calc(100vh - 100px);
+    // height: calc(100vh - 100px);
+    height : 100dvh;
     padding: 20px 20px 130px;
     overflow-y: scroll;
     margin-top: 50px;
