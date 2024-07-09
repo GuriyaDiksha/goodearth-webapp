@@ -205,7 +205,6 @@ class Search extends React.Component<Props, State> {
     localStorage.setItem("inputValue", this.state.searchValue.trim());
     localStorage.setItem("clickType", "Input");
 
-    console.log("handle change event");
     this.setState({ searchValue: e.target.value });
   }, 300);
 
@@ -219,7 +218,6 @@ class Search extends React.Component<Props, State> {
       this.props.toggle();
     }
     if (this.props.currency != nextProps.currency) {
-      console.log("will call API-1");
       this.getSearchDataApi(this.state.searchValue);
       // nextProps.mobile
       //   ? this.updateDataFromAPI("load")
@@ -384,13 +382,11 @@ class Search extends React.Component<Props, State> {
   };
 
   checkSearchValueUp = debounce((event: any) => {
-    console.log("key up event");
     if (event.target.value.trim().length > 0) {
       if ((!event.charCode ? event.which : event.charCode) == 13) {
         localStorage.setItem("inputValue", this.state.searchValue.trim());
         localStorage.setItem("clickType", "Input");
 
-        console.log("inside if block here");
         this.props.history.push(
           "/search/?q=" + encodeURIComponent(event.target.value)
         );
@@ -403,7 +399,7 @@ class Search extends React.Component<Props, State> {
       this.setState({
         searchValue: event.target.value
       });
-      console.log("will call API-2");
+
       this.getSearchDataApi(event.target.value);
       CookieService.setCookie("search", event.target.value, 365);
     } else {
@@ -447,7 +443,7 @@ class Search extends React.Component<Props, State> {
         });
       })
       .catch(function(error) {
-        console.log(error, "error in fetching products..");
+        console.log(error);
       });
   }, 200);
 

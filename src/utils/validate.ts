@@ -599,7 +599,7 @@ export function productImpression(
     let collectionName = "";
     const search = CookieService.getCookie("search") || "";
     const clickType = localStorage.getItem("clickType");
-    data?.results?.data?.map((prod: any, i: number) => {
+    data?.results?.data.map((prod: any, i: number) => {
       let category = "";
       if (prod.categories) {
         const index = prod.categories.length - 1;
@@ -669,7 +669,7 @@ export function productImpression(
 
     const childAttr: any[] = [];
     let L1: string, L2: string, L3: string, cat1, cat2;
-    data?.results?.data?.map((child: any, index: number) => {
+    data?.results?.data.map((child: any, index: number) => {
       let category = "";
 
       if (child.categories) {
