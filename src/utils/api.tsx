@@ -130,6 +130,7 @@ class API {
                     dispatch(updateCheckoutLoader(false));
                   }
                   LoginService.logoutClient(dispatch);
+                  reject(err);
                 } else if (
                   err.response.status == 406 &&
                   err.response.data?.reason == "BACKEND_ORDER_BASKET"
