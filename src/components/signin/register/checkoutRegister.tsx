@@ -740,7 +740,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               disable={!this.state.showFields}
               className={showFieldsClass}
               validations={{
-                isWords: true
+                isWords: true,
+                maxLength: 15
               }}
               validationErrors={{
                 isWords: "Please enter only alphabetic characters"
@@ -758,7 +759,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               disable={!this.state.showFields}
               className={showFieldsClass}
               validations={{
-                isWords: true
+                isWords: true,
+                maxLength: 15
               }}
               validationErrors={{
                 isWords: "Please enter only alphabetic characters"
