@@ -671,9 +671,14 @@ class FilterList extends React.Component<Props, State> {
     // to check if scrolling down
     if (this.props.mobile) {
       const scroll = window.pageYOffset || document.documentElement.scrollTop;
+      console.log(this.prevScroll, "prev scroll");
+      console.log(scroll, "scroll");
+      console.log(this.prevScroll < scroll - 5, "condition");
       if (this.prevScroll < scroll - 5) {
         if (!this.props.scrollDown) {
+          console.log("this will be triggered");
           this.props.updateScrollDown(true);
+          console.log("this has been triggered");
         }
       } else if (this.prevScroll > scroll || scroll === 0) {
         if (this.props.scrollDown) {
