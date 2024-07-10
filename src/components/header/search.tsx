@@ -206,7 +206,6 @@ class Search extends React.Component<Props, State> {
     localStorage.setItem("clickType", "Input");
 
     this.setState({ searchValue: e.target.value });
-    console.log("handle change triggered");
   }, 300);
 
   UNSAFE_componentWillReceiveProps = (nextProps: Props) => {
@@ -383,10 +382,8 @@ class Search extends React.Component<Props, State> {
   };
 
   checkSearchValueUp = debounce((event: any) => {
-    console.log("Header -> search : on key up triggered;");
     if (event.target.value.trim().length > 0) {
       if ((!event.charCode ? event.which : event.charCode) == 13) {
-        console.log("on key up -> if -> char-code condition");
         localStorage.setItem("inputValue", this.state.searchValue.trim());
         localStorage.setItem("clickType", "Input");
 
@@ -402,11 +399,9 @@ class Search extends React.Component<Props, State> {
       this.setState({
         searchValue: event.target.value
       });
-      console.log("on key up -> search API will be called");
       this.getSearchDataApi(event.target.value);
       CookieService.setCookie("search", event.target.value, 365);
     } else {
-      console.log("on key up -> else block triggered");
       this.setState({
         suggestedData: [],
         productData: [],
@@ -423,8 +418,6 @@ class Search extends React.Component<Props, State> {
 
   getSearchDataApi = debounce((name: string) => {
     const searchUrl = "/autocomplete?q=" + encodeURIComponent(name);
-    console.log("search api function called");
-    console.log("search URL =======>", searchUrl);
     this.setState({
       url: searchUrl
     });
@@ -435,7 +428,6 @@ class Search extends React.Component<Props, State> {
         }&source=frontend`
       )
       .then(data => {
-        console.log("API called -> received date =====>", data);
         productImpression(data, "SearchResults", this.props.currency);
         this.setState({
           suggestedData: data.results?.suggested_keywords || [],
@@ -450,7 +442,6 @@ class Search extends React.Component<Props, State> {
         });
       })
       .catch(function(error) {
-        console.log("error in API ====>", error);
         console.log(error);
       });
   }, 200);
@@ -970,7 +961,7 @@ class Search extends React.Component<Props, State> {
                         </div>
 
                         {recentSearchs?.map((ele, ind) => (
-                          <div className={styles.recentBlock}>
+                          <div className={styles.recentBlock} key={ind}>
                             <Link
                               to={"/search/?q=" + encodeURIComponent(ele)}
                               onClick={() => {
@@ -1047,8 +1038,9 @@ class Search extends React.Component<Props, State> {
                                 styles.ymlpWrapper
                               )}
                             >
-                              {youMightLikeProducts?.map(data => (
+                              {youMightLikeProducts?.map(data, idx => (
                                 <div
+                                  key={idx}
                                   className={cs(
                                     bootstrapStyles.col6,
                                     styles.ymlpTile
