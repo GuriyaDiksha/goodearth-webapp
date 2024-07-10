@@ -74,6 +74,7 @@ const ShippingTerms = loadable(() => import("components/Popups/ShippingTerms"));
 const RedeemPopup = loadable(() => import("components/Popups/RedeemPopup"));
 const EditProfile = loadable(() => import("components/Popups/EditProfile"));
 const CreditNotes = loadable(() => import("components/Popups/CreditNotes"));
+const CountryPopup = loadable(() => import("components/Popups/CountryPopup"));
 
 export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   currency: CurrencyPopup,
@@ -112,7 +113,8 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   redeemPopup: RedeemPopup,
   whatsappPopup: WhatsappPopup,
   editProfile: EditProfile,
-  creditNotes: CreditNotes
+  creditNotes: CreditNotes,
+  countryPopup: CountryPopup
 };
 
 export const enum POPUP {
@@ -152,5 +154,6 @@ export const enum POPUP {
   REDEEMPOPUP = "redeemPopup",
   WHATSAPP = "whatsappPopup",
   EditProfile = "editProfile",
-  CREDITNOTES = "creditNotes"
+  CREDITNOTES = "creditNotes",
+  COUNTRYPOPUP = "countryPopup"
 }

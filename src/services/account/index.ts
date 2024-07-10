@@ -78,7 +78,7 @@ export default {
       `${__API_HOST__}/myapi/order/my_orders`,
       {
         orderNumber: id,
-        email: email
+        email: email.toLowerCase()
       }
     );
     return data;

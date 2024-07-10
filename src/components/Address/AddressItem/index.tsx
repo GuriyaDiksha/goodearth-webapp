@@ -18,7 +18,7 @@ import moment from "moment";
 import { useHistory } from "react-router";
 import BridalService from "services/bridal";
 import { BridalProfileData } from "containers/myAccount/components/Bridal/typings";
-import { updateBillingAddressId } from "actions/address";
+import { isFormModuleOpen, updateBillingAddressId } from "actions/address";
 import UserContext from "contexts/user";
 
 type Props = {
@@ -399,7 +399,10 @@ const AddressItem: React.FC<Props> = props => {
                   <div className={cs(styles.radio, "bridalRadio")}>
                     <input
                       id={address.id.toString()}
-                      className={styles.defaultAddressCheckbox}
+                      className={cs(
+                        globalStyles.radioCheck,
+                        styles.defaultAddressCheckbox
+                      )}
                       checked={
                         address.id.toString() ===
                         bridalAddressId?.id?.toString()
@@ -468,7 +471,10 @@ const AddressItem: React.FC<Props> = props => {
                     >
                       <input
                         id={address.id.toString()}
-                        className={styles.defaultAddressCheckbox}
+                        className={cs(
+                          globalStyles.radioCheck,
+                          styles.defaultAddressCheckbox
+                        )}
                         checked={
                           address.id.toString() === shippingAddressId.toString()
                         }
@@ -525,7 +531,10 @@ const AddressItem: React.FC<Props> = props => {
                     >
                       <input
                         id={address.id.toString()}
-                        className={styles.defaultAddressCheckbox}
+                        className={cs(
+                          globalStyles.radioCheck,
+                          styles.defaultAddressCheckbox
+                        )}
                         checked={
                           address.id.toString() === billingAddressId.toString()
                         }
@@ -605,7 +614,10 @@ const AddressItem: React.FC<Props> = props => {
                         ? id
                         : address.id.toString()
                     }
-                    className={styles.defaultAddressCheckbox}
+                    className={cs(
+                      globalStyles.radioCheck,
+                      styles.defaultAddressCheckbox
+                    )}
                     checked={
                       currentCallBackComponent == "checkout-billing" &&
                       billingAddressId
@@ -639,7 +651,10 @@ const AddressItem: React.FC<Props> = props => {
                 <div className={cs(styles.radio, "bridalRadio")}>
                   <input
                     id={address.id.toString()}
-                    className={styles.defaultAddressCheckbox}
+                    className={cs(
+                      globalStyles.radioCheck,
+                      styles.defaultAddressCheckbox
+                    )}
                     checked={
                       // address.id.toString() === bridalAddressId.toString()
                       address.id.toString() === bridalAddressId?.id?.toString()
@@ -749,6 +764,7 @@ const AddressItem: React.FC<Props> = props => {
                         false;
                       } else {
                         openAddressForm(address);
+                        dispatch(isFormModuleOpen(true));
                       }
                     }}
                   >

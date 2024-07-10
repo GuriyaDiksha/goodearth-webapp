@@ -52,7 +52,7 @@ const MyAccount: React.FC<Props> = props => {
   const [creditnoteList, setCreditnoteList] = useState<CreditNote[]>([]);
   const location = useLocation();
   const [showRegistry, setShowRegistry] = useState(
-    location.pathname.includes("bridal") ? true : false
+    location.pathname.includes("registry") ? true : false
   );
 
   const { pathname } = useLocation();
@@ -119,7 +119,6 @@ const MyAccount: React.FC<Props> = props => {
     }
   ];
   let ceriseClubAccess = false;
-  // debugger;
 
   if (slab) {
     ceriseClubAccess =
@@ -257,19 +256,23 @@ const MyAccount: React.FC<Props> = props => {
         [styles.containerStartTimer]: showTimer
       })}
     >
-      <SecondaryHeader>
-        <div className={cs(bootstrapStyles.colMd11, bootstrapStyles.offsetMd1)}>
-          <span className={cs(styles.heading, globalStyles.verticalMiddle)}>
-            {history?.location?.pathname ===
-            "/account/cerise/transaction" ? null : (
-              <img className={styles.icon} src={profileIcon} />
-            )}{" "}
-            {history?.location?.pathname === "/account/cerise/transaction"
-              ? "Cerise"
-              : "My Account"}
-          </span>
-        </div>
-      </SecondaryHeader>
+      {!mobile && (
+        <SecondaryHeader>
+          <div
+            className={cs(bootstrapStyles.colMd11, bootstrapStyles.offsetMd1)}
+          >
+            <span className={cs(styles.heading, globalStyles.verticalMiddle)}>
+              {history?.location?.pathname ===
+              "/account/cerise/transaction" ? null : (
+                <img className={styles.icon} src={profileIcon} />
+              )}{" "}
+              {history?.location?.pathname === "/account/cerise/transaction"
+                ? "Cerise"
+                : "My Account"}
+            </span>
+          </div>
+        </SecondaryHeader>
+      )}
       <div className={bootstrapStyles.row}>
         {mobile ? (
           <div className={cs(styles.cSort, styles.subheaderAccount)}>
@@ -277,7 +280,7 @@ const MyAccount: React.FC<Props> = props => {
               <div
                 id="sortHeader"
                 className={cs(styles.cSortHeader, {
-                  [styles.cSortHeaderTimer]: showTimer
+                  // [styles.cSortHeaderTimer]: showTimer
                 })}
               >
                 <div
@@ -288,9 +291,9 @@ const MyAccount: React.FC<Props> = props => {
                   }
                   onClick={() => {
                     setAccountListing(true);
-                    pathname == "/account/bridal" &&
+                    pathname == "/account/registry" &&
                       bridalId == 0 &&
-                      bridalGAcall("/account/bridal");
+                      bridalGAcall("/account/registry");
                   }}
                 >
                   <span>
@@ -333,9 +336,9 @@ const MyAccount: React.FC<Props> = props => {
                     <span
                       onClick={() => {
                         setAccountListing(false);
-                        pathname == "/account/bridal" &&
+                        pathname == "/account/registry" &&
                           bridalId == 0 &&
-                          bridalGAcall("/account/bridal");
+                          bridalGAcall("/account/registry");
                       }}
                     >
                       <i
@@ -417,9 +420,9 @@ const MyAccount: React.FC<Props> = props => {
                                 to={item?.href}
                                 activeClassName={styles.gold}
                                 onClick={() => {
-                                  pathname == "/account/bridal" &&
+                                  pathname == "/account/registry" &&
                                     bridalId == 0 &&
-                                    bridalGAcall("/account/bridal");
+                                    bridalGAcall("/account/registry");
                                 }}
                               >
                                 {bridalId == 0

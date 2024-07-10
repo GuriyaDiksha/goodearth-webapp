@@ -127,8 +127,8 @@ class BridalCheckout extends React.Component<Props, State> {
     const component = POPUP.BRIDALMOBILE;
     const props = {
       // closeMobile={this.closeMobileAdd}
-      bridalItem: this.state.bridalProfile.items[mindex],
-      bridalId: this.state.bridalProfile.bridalId
+      bridalItem: this.state.bridalProfile?.items[mindex],
+      bridalId: this.state.bridalProfile?.bridalId
     };
     this.props.showMobilePopup(component, props);
     this.setState({ mobileIndex: mindex });
@@ -136,9 +136,9 @@ class BridalCheckout extends React.Component<Props, State> {
 
   NotifyMe = (mindex: number) => {
     const component = POPUP.NOTIFYMEPOPUP;
-    const bridalItems = this.state.bridalProfile.items;
+    const bridalItems = this.state.bridalProfile?.items;
     const bridalItem = bridalItems[mindex];
-    const currency = this.state.bridalProfile.currency;
+    const currency = this.state.bridalProfile?.currency;
     const childAttributes = bridalItem.childAttributes.map(
       ({
         id,
@@ -219,6 +219,7 @@ class BridalCheckout extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    debugger;
     pageViewGTM("BridalPublic");
     const cookieString =
       "intro=" + true + "; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
@@ -227,18 +228,22 @@ class BridalCheckout extends React.Component<Props, State> {
     this.props
       .getBridalPublicProfile()
       .then((res: any) => {
+        debugger;
         if (res) {
           this.setState({
             bridalProfile: res
           });
         }
+        console.log(this.state.bridalProfile?.message);
       })
       .catch(res => {
+        debugger;
         if (res.response.data?.message == "Invalid bridal") {
           this.setState({
             bridalProfile: res.response.data
           });
         }
+        console.log(this.state.bridalProfile?.message);
       });
     setTimeout(() => {
       window.scrollTo(0, 0);
@@ -593,8 +598,8 @@ class BridalCheckout extends React.Component<Props, State> {
                 <hr />
               </div>
             )}
-            {this.state.bridalProfile.bridalId ? (
-              this.state.bridalProfile.items.length == 0 ? (
+            {this.state.bridalProfile?.bridalId ? (
+              this.state.bridalProfile?.items.length == 0 ? (
                 <>
                   <div
                     className={cs(
@@ -618,13 +623,14 @@ class BridalCheckout extends React.Component<Props, State> {
                   </div>
                 </>
               ) : (
-                this.state.bridalProfile.items.map((item, index) => {
+                this.state.bridalProfile?.bridalId &&
+                this.state.bridalProfile?.items.map((item, index) => {
                   return (
                     <BridalItem
                       bridalItem={item}
                       onMobileAdd={this.handleMobileAdd}
                       notifyMe={this.NotifyMe}
-                      currency={this.state.bridalProfile.currency}
+                      currency={this.state.bridalProfile?.currency}
                       index={index}
                       key={index}
                       bridalId={bridalId}
@@ -678,24 +684,26 @@ class BridalCheckout extends React.Component<Props, State> {
                 </div>
               </>
             )}
-            {!mobile && this.state.bridalProfile.items.length != 0 && (
-              <>
-                <div
-                  id="sticky"
-                  className={cs(
-                    globalStyles.voffset4,
-                    styles.cart,
-                    styles.cartContainer,
-                    styles.fixedDiv,
-                    styles.stick,
-                    {
-                      [styles.hide]:
-                        this.state.bridalProfile?.message == "Invalid bridal"
-                    }
-                  )}
-                >
-                  <div className={cs(styles.cartItem, globalStyles.gutter15)}>
-                    {/* <input
+            {!mobile &&
+              this.state.bridalProfile?.bridalId &&
+              this.state.bridalProfile?.items.length != 0 && (
+                <>
+                  <div
+                    id="sticky"
+                    className={cs(
+                      globalStyles.voffset4,
+                      styles.cart,
+                      styles.cartContainer,
+                      styles.fixedDiv,
+                      styles.stick,
+                      {
+                        [styles.hide]:
+                          this.state.bridalProfile?.message == "Invalid bridal"
+                      }
+                    )}
+                  >
+                    <div className={cs(styles.cartItem, globalStyles.gutter15)}>
+                      {/* <input
                       type="button"
                       disabled={this.canCheckoutRegistry() ? false : true}
                       className={
@@ -710,17 +718,17 @@ class BridalCheckout extends React.Component<Props, State> {
                       value="REVIEW BAG & CHECKOUT >"
                       onClick={this.redirectCart}
                     /> */}
-                    <Button
-                      onClick={this.redirectCart}
-                      disabled={this.canCheckoutRegistry() ? false : true}
-                      label="REVIEW BAG & CHECKOUT"
-                      variant="mediumAquaCta300"
-                    />
+                      <Button
+                        onClick={this.redirectCart}
+                        disabled={this.canCheckoutRegistry() ? false : true}
+                        label="REVIEW BAG & CHECKOUT"
+                        variant="mediumAquaCta300"
+                      />
+                    </div>
                   </div>
-                </div>
-                {/* <div id="sticky_anchor"></div> */}
-              </>
-            )}
+                  {/* <div id="sticky_anchor"></div> */}
+                </>
+              )}
           </div>
         </div>
       </div>

@@ -17,7 +17,6 @@
 //   ]);
 
 //   if (tags) {
-//     debugger;
 //     dispatch(updateTagsData(tags));
 //   }
 //   if (collectionData) {

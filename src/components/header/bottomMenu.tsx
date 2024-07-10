@@ -54,6 +54,9 @@ const BottomMenu: React.FC<Props> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const scrollDown = useSelector((state: AppState) => state.info.scrollDown);
+  const showMobileSort = useSelector(
+    (state: AppState) => state.header.showmobileSort
+  );
   const location = useSelector((state: AppState) => state.router.location);
   const isPLP =
     location.pathname.includes("/catalogue/category") ||
@@ -117,7 +120,8 @@ const BottomMenu: React.FC<Props> = ({
     <div
       id="header_container"
       className={cs(styles.headerContainerMenu, {
-        [styles.hide]: (isPLP && scrollDown) || isSearch || showMenu,
+        [styles.hide]:
+          (isPLP && (scrollDown || showMobileSort)) || isSearch || showMenu,
         [styles.index]: isCareer
       })}
       // onClick={() => {

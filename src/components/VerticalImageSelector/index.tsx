@@ -98,7 +98,7 @@ const VerticalImageSelector: React.FC<Props> = memo(
     });
 
     return (
-      <div className={cs(styles.container, className)}>
+      <div className={cs(styles.container, className)} key={images?.[0]?.id}>
         {images.length > 4 ? (
           <VerticalImageSlider>
             {images.length > 0 ? imageNodes : tempNode}

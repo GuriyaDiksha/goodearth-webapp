@@ -35,14 +35,14 @@ body:has(.mobile) {
   z-index: 1;
   &.back-btn-address-bridal {
     top: 20px;
-    left: -65px;
+    left: 0;
     text-align: left;
   }
   @media screen and (max-width: 992px) {
     &.back-btn-address-bridal {
       top: -10px;
       right: 0;
-      left: -19px;
+      left: 15px;
     }
   }
 }
@@ -83,9 +83,12 @@ body:has(.mobile) {
   // min-height: 320px;
   border: 1px solid #eaeaea;
   cursor: pointer;
-  max-width: 556px;
+  // max-width: 556px;
   margin: auto;
   min-height: 160px;
+  @media(min-width:768px){
+    max-width: 556px;
+  }
 
   &.checkout{
     width: 755px;
@@ -281,10 +284,10 @@ body:has(.mobile) {
     .default-address-checkbox {
       position: absolute;
       left: -27px;
-      height: 14px;
-      width: 14px;
+      height: 19px;
+      width: 19px;
       background-color: #fff;
-      border: 1px solid #888;
+      // border: 1px solid $light-charcoal;
       border-radius: 50%;
       // padding: 20px 0;
       &.checkout-fix{
@@ -295,29 +298,29 @@ body:has(.mobile) {
     }
 
     input[type="radio"]:checked.default-address-checkbox {
-      &::after {
-        content: "";
-        height: 13px;
-        width: 13px;
-        border-radius: 50%;
-        background-color: #548b8b;
-        position: absolute;
-        top: 50%;
-        right: 50%;
-        transform: translate(50%, -50%);
-      }
-      &::before {
-        content: "";
-        height: 19px;
-        width: 19px;
-        border-radius: 50%;
-        background-color: white;
-        position: absolute;
-        top: 50%;
-        right: 50%;
-        transform: translate(50%, -50%);
-        border: 1px solid #9F9F9F;
-      }
+      // &::after {
+      //   content: "";
+      //   height: 13px;
+      //   width: 13px;
+      //   border-radius: 50%;
+      //   background-color: #548b8b;
+      //   position: absolute;
+      //   top: 50%;
+      //   left: 50%;
+      //   transform: translate(-50%, -50%);
+      // }
+      // &::before {
+      //   content: "";
+      //   height: 19px;
+      //   width: 19px;
+      //   border-radius: 50%;
+      //   background-color: white;
+      //   position: absolute;
+      //   top: 50%;
+      //   right: 50%;
+      //   transform: translate(50%, -50%);
+      //   border: 1px solid #9F9F9F;
+      // }
       &.checkout-fix {
         &::after {
           content: "";
@@ -804,8 +807,9 @@ body:has(.mobile) {
     z-index: 9;
     width: 100%;
     height: calc(100vh - 100px);
-    padding: 20px 20px 60px;
+    padding: 20px 20px 130px;
     overflow-y: scroll;
+    margin-top: 50px;
 
     .form-title-wrapper {
       padding: 8px 0 20px;
@@ -1035,5 +1039,12 @@ div > .address-in-use {
 
   input{
     width: 100% !important;
+  }
+}
+@media(max-width:767px){
+  .login-form{
+    label{
+      font-size: 8px!important;
+    }
   }
 }

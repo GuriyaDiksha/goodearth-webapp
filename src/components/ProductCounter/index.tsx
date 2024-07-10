@@ -23,34 +23,40 @@ const ProductCounter: React.FC<ProductCounterProps> = ({
     });
   };
   return (
-    <div
-      className={cs(styles.scrollDownUp, {
-        [styles.topPosition]: showTimer && timerData,
-        [styles.leftPosition]: id !== "collection-product-counter"
-      })}
-      onClick={scrollToTop}
-    >
-      <div className={cs(styles.counter)}>
+    <>
+      {total !== null && total > 0 ? (
         <div
-          className={cs(styles.counterNumber, {
-            [styles.plpProductCounter]: id == "plp-product-counter"
+          className={cs(styles.scrollDownUp, {
+            [styles.topPosition]: showTimer && timerData,
+            [styles.leftPosition]: id !== "collection-product-counter"
           })}
+          onClick={scrollToTop}
         >
-          <div className={cs(styles.current)}>{current}</div>
-          <div>/</div>
-          <div className={cs(styles.total)}>{total}</div>
+          <div className={cs(styles.counter)}>
+            <div
+              className={cs(styles.counterNumber, {
+                [styles.plpProductCounter]: id == "plp-product-counter"
+              })}
+            >
+              <div className={cs(styles.current)}>{current}</div>
+              <div>/</div>
+              <div className={cs(styles.total)}>{total}</div>
+            </div>
+            <div className={cs(styles.arrowContainer)} onClick={scrollToTop}>
+              <img
+                alt="arrow-up"
+                src={arrow}
+                style={{
+                  width: "8px"
+                }}
+              ></img>
+            </div>
+          </div>
         </div>
-        <div className={cs(styles.arrowContainer)} onClick={scrollToTop}>
-          <img
-            alt="arrow-up"
-            src={arrow}
-            style={{
-              width: "8px"
-            }}
-          ></img>
-        </div>
-      </div>
-    </div>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 export default ProductCounter;

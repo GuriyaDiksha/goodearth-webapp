@@ -5,7 +5,7 @@ import styles from "./gift.scss";
 import { GiftListProps } from "./typings";
 import globalStyles from "styles/global.scss";
 import iconStyles from "styles/iconFonts.scss";
-import { displayPriceWithCommas } from "utils/utility";
+import { displayPriceWithSeparation } from "utils/utility";
 import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
 
 const GiftCardItem = ({
@@ -115,7 +115,7 @@ const GiftCardItem = ({
             Balance:{" "}
             <span>
               {" "}
-              {displayPriceWithCommas(remainingAmount, currency)}
+              {displayPriceWithSeparation(remainingAmount, currency)}
               {` | Expiry:` + expiryDate}
             </span>
           </p>

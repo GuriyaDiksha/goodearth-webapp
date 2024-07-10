@@ -129,7 +129,7 @@ const Image: React.FC<Props> = ({
                     </Link>
                   ))}
                 <div className={styles.container}>
-                  {validURL(data.componentData.link) ? (
+                  {/* {validURL(data.componentData.link) ? (
                     <a
                       href={data.componentData.link}
                       target={componentData.openInNewTab ? "_blank" : ""}
@@ -163,7 +163,7 @@ const Image: React.FC<Props> = ({
                     >
                       {ReactHtmlParser(l2Data.text)}
                     </Link>
-                  )}
+                  )} */}
 
                   <div
                     className={cs(

@@ -37,6 +37,7 @@ import { countBridal } from "actions/bridal";
 import LoginService from "services/login";
 import BridalService from "services/bridal";
 import { result } from "lodash";
+import { updateCheckoutLoader, updateLoader } from "actions/info";
 
 export default {
   showForgotPassword: function(
@@ -256,7 +257,9 @@ export default {
     currency: Currency,
     source: string,
     history: any,
-    sortBy?: string
+    sortBy?: string,
+    mobile?: boolean,
+    popupStyle?: string
   ) {
     const olddata = { ...formdata };
     const enc = encryptdata(olddata);
@@ -320,13 +323,43 @@ export default {
     Api.getAnnouncement(dispatch).catch(err => {
       console.log("Announcement API ERROR ==== " + err);
     });
-    // if (location.pathname == "/wishlist") {
-    WishlistService.updateWishlist(dispatch, sortBy);
-    // }
-    // WishlistService.countWishlist(dispatch);
     const metaResponse = await MetaService.updateMeta(dispatch, {
       tkn: res.token
     });
+
+    // if (location.pathname == "/wishlist") {
+    WishlistService.updateWishlist(dispatch, sortBy).then(() => {
+      //Code to open share link popup after login
+
+      const isShareLinkClicked = JSON.parse(
+        localStorage.getItem("isShareLinkClicked") || "false"
+      );
+
+      if (
+        isShareLinkClicked &&
+        metaResponse?.user.email &&
+        metaResponse?.user.firstName &&
+        metaResponse?.user.lastName &&
+        metaResponse?.user.country &&
+        metaResponse?.user.gender
+      ) {
+        dispatch(
+          updateComponent(
+            POPUP.SHAREWISHLIST,
+            null,
+            mobile ? false : true,
+            popupStyle,
+            mobile ? "slide-up-bottom-align" : ""
+          )
+        );
+        dispatch(updateModal(true));
+        localStorage.removeItem("isShareLinkClicked");
+      }
+    });
+
+    // }
+    // WishlistService.countWishlist(dispatch);
+
     BasketService.fetchBasket(dispatch, source, history, true).then(
       basketRes => {
         if (source == "checkout") {
@@ -427,7 +460,6 @@ export default {
       if (userConsent.includes(GA_CALLS)) {
         Moengage.destroy_session();
       }
-      WishlistService.resetWishlist(dispatch);
       // WishlistService.countWishlist(dispatch);
       Api.getSalesStatus(dispatch).catch(err => {
         console.log("Sales Api Status ==== " + err);
@@ -447,6 +479,7 @@ export default {
         console.log(err);
       });
       // HeaderService.fetchHomepageData(dispatch);
+      WishlistService.resetWishlist(dispatch);
       dispatch(resetMeta(undefined));
       if (source == "reset-pass") {
         showGrowlMessage(dispatch, MESSAGE.INVALID_SESSION_LOGOUT, 5000);
@@ -494,6 +527,8 @@ export default {
       });
       BasketService.fetchBasket(dispatch);
       dispatch(resetMeta(undefined));
+      dispatch(updateLoader(false));
+      dispatch(updateCheckoutLoader(false));
       showGrowlMessage(
         dispatch,
         MESSAGE.INVALID_SESSION_LOGOUT,
@@ -615,6 +650,7 @@ export default {
           CookieService.setCookie("region", data?.continent_name, 365);
           CookieService.setCookie("ip", data?.ip, 365);
           CookieService.setCookie("country", data?.country_name, 365);
+          CookieService.setCookie("countryCode", data?.country_code, 365);
           dispatch(
             updateRegion({
               region: data?.continent_name,

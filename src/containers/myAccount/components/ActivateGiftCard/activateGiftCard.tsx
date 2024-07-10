@@ -42,6 +42,9 @@ const Giftcard: React.FC = () => {
     isProceedBtnDisabled: true,
     isLoading: false
   });
+  const [isGCVerificationDisabled, setIsGCVerificationDisabled] = useState(
+    false
+  );
   const dispatch = useDispatch();
   const ActivateGCForm = useRef<Formsy | null>(null);
 
@@ -298,6 +301,7 @@ const Giftcard: React.FC = () => {
   };
 
   const changeGiftCardCode = () => {
+    setIsGCVerificationDisabled(true);
     setGiftCardState({
       ...giftCardState,
       showSendOtp: false,
@@ -394,7 +398,12 @@ const Giftcard: React.FC = () => {
                       value={txtvalue}
                       handleChange={e => handleChange(e, "txtvalue")}
                       disable={showSendOtp}
-                      required
+                      onFocus={() => {
+                        if (!showSendOtp) {
+                          setIsGCVerificationDisabled(false);
+                        }
+                      }}
+                      required={!isGCVerificationDisabled}
                     />
                     {showSendOtp && (
                       <p
@@ -408,6 +417,7 @@ const Giftcard: React.FC = () => {
                   {!showSendOtp && (
                     <div>
                       <Button
+                        onClick={() => setIsGCVerificationDisabled(false)}
                         type="submit"
                         label="proceed"
                         disabled={isProceedBtnDisabled}

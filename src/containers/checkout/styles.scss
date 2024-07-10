@@ -522,11 +522,11 @@ hr {
 .checkbox .indicator {
   top: 0;
   left: 0;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   background: white;
   display: inline-block;
-  border: 1px solid #666;
+  border: 1px solid $light-charcoal;
 
   &.checked {
     background-color: $aqua;
@@ -563,27 +563,27 @@ hr {
 }
 
 .radio .indicator {
-  top: 0px;
+  top: 4px;
   left: 0px;
-  width: 24px;
-  height: 24px;
+  width: 19px;
+  height: 19px;
   background: white;
   display: inline-block;
   border-radius: 50%;
   border: 1px solid $light-charcoal;
   position: relative;
 
-  @media (max-width: 992px) {
-    width: 18px;
-    height: 18px;
-  }
+  // @media (max-width: 992px) {
+  //   width: 18px;
+  //   height: 18px;
+  // }
 }
 
 .radio .indicator::after {
   display: none;
   content: "";
-  height: 18px;
-  width: 18px;
+  height: 13px;
+  width: 13px;
   border-radius: 50%;
   background-color: $aqua;
   position: absolute;
@@ -591,10 +591,10 @@ hr {
   left: 50%;
   transform: translate(-50%, -50%);
 
-  @media (max-width: 992px) {
-    width: 13px;
-    height: 13px;
-  }
+  // @media (max-width: 992px) {
+  //   width: 13px;
+  //   height: 13px;
+  // }
 }
 .radio input:checked ~ .indicator::after {
   display: block;
@@ -1594,7 +1594,7 @@ span.add-new-address {
     position: fixed;
     bottom: 0px;
     left: 0;
-    max-width: 100%;
+    max-width: unset !important;
     z-index: 9;
   }
 }

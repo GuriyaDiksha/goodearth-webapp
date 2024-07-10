@@ -274,7 +274,6 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
     this.props
       .sendOtp(formData)
       .then((data: any) => {
-        debugger;
         this.setState(
           {
             toggleOtp: true,

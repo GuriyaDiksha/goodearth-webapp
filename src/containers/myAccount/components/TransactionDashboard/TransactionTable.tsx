@@ -409,7 +409,6 @@ const TransactionTable = ({ mobile }: Props) => {
                                 : tooltipIcon
                             }
                             onClick={e => {
-                              debugger;
                               e.stopPropagation();
                               e.preventDefault();
                               setShowTip({

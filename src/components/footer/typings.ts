@@ -11,6 +11,7 @@ export type FooterList = {
   name: string;
   value: List[];
   link?: string;
+  openInNewTab: boolean;
 }[];
 
 export type FooterState = {
@@ -26,6 +27,7 @@ export type FooterState = {
   headingHoverArray: boolean[];
   subheadingHoverArray: boolean[];
   smartNav: string[];
+  country?: string;
 };
 
 export type ShopLocations = { label: string; value: string }[];

@@ -258,17 +258,17 @@
     z-index: 3;
     img {
         position: absolute;
-        top: 10px;
         width: 70px;
-        left: 10px;
+        // top: 10px;
+        // left: 10px;
     }
 }
 .badge-image-mobile{
     width: 40px;
     position: relative;
-    top: 4px;
     z-index: 2;
-    left: 4px;
+    // top: 4px;
+    // left: 4px;
     img {
         position: absolute;
         top: 0px;
