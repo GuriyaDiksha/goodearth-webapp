@@ -1410,6 +1410,9 @@ class FilterList extends React.Component<Props, State> {
     const { filter, isViewAll } = this.state;
     const { history } = this.props;
     const url = history.location.search;
+    const objectEntries = Object.entries(categoryObj).filter(
+      ([key, value]) => !key.includes("view all")
+    );
     html.push(
       <ul className={data} key={`category-${data}`}>
         <li key={data + "l"}>
@@ -1455,77 +1458,156 @@ class FilterList extends React.Component<Props, State> {
             }
           >
             <ul className={styles.categorylabel}>
-              {categoryObj[data].map((nestedList: any, j: number) => {
+              {objectEntries.map(([key, nestedList]: any, j: number) => {
                 return (
-                  <li key={nestedList[0]}>
-                    <span
-                      className={cs(
-                        styles.checkmark,
-                        url.includes("%7C")
-                          ? nestedList[0]?.startsWith("View all") &&
-                            url.split("&category_shop=")[1].split("+")[0] ==
-                              data
-                            ? styles.checkmarkActive
-                            : ""
-                          : filter.categoryShop["selectedCatShop"]
-                              ?.split(">")[1]
-                              ?.trim() === nestedList[0] ||
-                            nestedList[0].includes(
-                              filter.categoryShop["selectedCatShop"]
-                                ?.split(">")[1]
-                                ?.trim()
-                            )
-                          ? styles.checkmarkActive
-                          : ""
-                      )}
-                      onClick={e =>
-                        this.handleClickCategory(
-                          { target: { id: nestedList[1] } },
-                          data,
-                          categoryObj,
-                          nestedList[0]?.startsWith("View all")
-                        )
-                      }
-                    ></span>
-                    <label
-                      className={cs(
-                        url.includes("%7C")
-                          ? nestedList[0]?.startsWith("View all") &&
-                            filter.categoryShop["selectedCatShop"]
-                              ?.split(">")[0]
-                              .trim() == data
-                            ? styles.selectedCatShop
-                            : ""
-                          : filter.categoryShop["selectedCatShop"]
-                              ?.split(">")[1]
-                              ?.trim() === nestedList[0] ||
-                            nestedList[0].includes(
-                              filter.categoryShop["selectedCatShop"]
-                                ?.split(">")[1]
-                                ?.trim()
-                            )
-                          ? styles.selectedCatShop
-                          : ""
-                      )}
-                      htmlFor={nestedList[1]}
-                      id={nestedList[1]}
-                      onClick={e =>
-                        this.handleClickCategory(
-                          e,
-                          data,
-                          categoryObj,
-                          nestedList[0]?.startsWith("View all")
-                        )
-                      }
-                    >
-                      {nestedList[0]?.startsWith("View all")
-                        ? `${nestedList[0]} ${data}`
-                        : nestedList[0]}
-                      {!this.props.mobile &&
-                        nestedList[3] &&
-                        ` (${nestedList[3]})`}
-                    </label>
-                  </li>
+                  key == data &&
+                  (nestedList.length > 2
+                    ? nestedList.map((item: any, i: any) => {
+                        return (
+                          <li key={item[0]}>
+                            <span
+                              className={cs(
+                                styles.checkmark,
+                                url.includes("%7C")
+                                  ? item[0]?.startsWith("View all") &&
+                                    url
+                                      .split("&category_shop=")[1]
+                                      .split("+")[0] == data
+                                    ? styles.checkmarkActive
+                                    : ""
+                                  : filter.categoryShop["selectedCatShop"]
+                                      ?.split(">")[1]
+                                      ?.trim() === item[0] ||
+                                    item[0].includes(
+                                      filter.categoryShop["selectedCatShop"]
+                                        ?.split(">")[1]
+                                        ?.trim()
+                                    )
+                                  ? styles.checkmarkActive
+                                  : ""
+                              )}
+                              onClick={e =>
+                                this.handleClickCategory(
+                                  { target: { id: item[1] } },
+                                  data,
+                                  categoryObj,
+                                  item[0]?.startsWith("View all")
+                                )
+                              }
+                            ></span>
+                            <label
+                              className={cs(
+                                url.includes("%7C")
+                                  ? item[0]?.startsWith("View all") &&
+                                    filter.categoryShop["selectedCatShop"]
+                                      ?.split(">")[0]
+                                      .trim() == data
+                                    ? styles.selectedCatShop
+                                    : ""
+                                  : filter.categoryShop["selectedCatShop"]
+                                      ?.split(">")[1]
+                                      ?.trim() === item[0] ||
+                                    item[0].includes(
+                                      filter.categoryShop["selectedCatShop"]
+                                        ?.split(">")[1]
+                                        ?.trim()
+                                    )
+                                  ? styles.selectedCatShop
+                                  : ""
+                              )}
+                              htmlFor={item[1]}
+                              id={item[1]}
+                              onClick={e =>
+                                this.handleClickCategory(
+                                  e,
+                                  data,
+                                  categoryObj,
+                                  item[0]?.startsWith("View all")
+                                )
+                              }
+                            >
+                              {item[0]}
+                              {!this.props.mobile && item[3] && ` (${item[3]})`}
+                            </label>
+                          </li>
+                        );
+                      })
+                    : nestedList.length === 2 &&
+                      nestedList.map((item: any, i: any) => {
+                        if (item[0].startsWith("View all")) {
+                          return null;
+                        } else {
+                          return (
+                            <li key={item[0]}>
+                              <span
+                                className={cs(
+                                  styles.checkmark,
+                                  url.includes("%7C")
+                                    ? item[0]?.startsWith("View all") &&
+                                      url
+                                        .split("&category_shop=")[1]
+                                        .split("+")[0] == data
+                                      ? styles.checkmarkActive
+                                      : ""
+                                    : filter.categoryShop["selectedCatShop"]
+                                        ?.split(">")[1]
+                                        ?.trim() === item[0] ||
+                                      item[0].includes(
+                                        filter.categoryShop["selectedCatShop"]
+                                          ?.split(">")[1]
+                                          ?.trim()
+                                      )
+                                    ? styles.checkmarkActive
+                                    : ""
+                                )}
+                                onClick={e =>
+                                  this.handleClickCategory(
+                                    { target: { id: item[1] } },
+                                    data,
+                                    categoryObj,
+                                    item[0]?.startsWith("View all")
+                                  )
+                                }
+                              ></span>
+                              <label
+                                className={cs(
+                                  // url.includes("%7C") ?
+                                  //   item[0]?.startsWith("View all") &&
+                                  //   filter.categoryShop["selectedCatShop"]?.split(">")[0].trim() == data
+                                  //   ? styles.selectedCatShop
+                                  //   : ""
+                                  // :
+                                  filter.categoryShop["selectedCatShop"]
+                                    ?.split(">")[1]
+                                    ?.trim() === item[0] ||
+                                    item[0].includes(
+                                      filter.categoryShop["selectedCatShop"]
+                                        ?.split(">")[1]
+                                        ?.trim()
+                                    )
+                                    ? styles.selectedCatShop
+                                    : ""
+                                )}
+                                htmlFor={item[1]}
+                                id={item[1]}
+                                onClick={e =>
+                                  this.handleClickCategory(
+                                    e,
+                                    data,
+                                    categoryObj,
+                                    item[0]?.startsWith("View all")
+                                  )
+                                }
+                              >
+                                {item[0]}
+                                {!this.props.mobile &&
+                                  item[3] &&
+                                  ` (${item[3]})`}
+                              </label>
+                            </li>
+                          );
+                        }
+                      }))
                 );
               })}
             </ul>
@@ -1536,117 +1618,30 @@ class FilterList extends React.Component<Props, State> {
     return html;
   };
 
-  generateSubCatagory = (data: any, html: any, categoryObj: any) => {
-    const name = data && data?.[0].split(">")?.[1]?.trim(),
-      id = data?.[0]?.trim();
-
-    html.push(
-      <ul
-        className={cs(styles.categorylabel, styles.searchCategory)}
-        key={`subcategory-${name}-${id}`}
-      >
-        <li className={styles.categoryTitle} key={id}>
-          <span
-            className={
-              Object.keys(this.state.filter.categoryShop).length == 0
-                ? globalStyles.cerise
-                : ""
-            }
-            // onClick={this.handleClickCategory}
-            data-value="all"
-            id="all"
-          >
-            All (
-            {categoryObj.categoryShop?.[0]
-              ? categoryObj.categoryShop.filter(
-                  (category: any) => category?.[0] == "All"
-                )?.[0][1]
-              : "0"}
-            )
-          </span>
-        </li>
-      </ul>
-    );
-
-    return html;
-  };
-
   createCatagoryFromFacets = (categoryObj: any, categorydata: any) => {
-    // const html: any = [];
-    // if (!categoryObj.categoryShop) return false;
-
-    // if (categoryObj.categoryShop) {
-    //   html.push(
-    //     <ul className={cs(styles.categorylabel, styles.searchCategory)}>
-    //       <li className={styles.categoryTitle}>
-    //         <span
-    //           className={
-    //             Object.keys(this.state.filter.categoryShop).length == 0
-    //               ? globalStyles.cerise
-    //               : ""
-    //           }
-    //           onClick={this.handleClickCategory}
-    //           data-value="all"
-    //           id="all"
-    //         >
-    //           All (
-    //           {categoryObj.categoryShop[0]
-    //             ? categoryObj.categoryShop.filter(
-    //                 (category: any) => category[0] == "All"
-    //               )[0][1]
-    //             : "0"}
-    //           )
-    //         </span>
-    //       </li>
-    //     </ul>
-    //   );
-    // }
-    // categoryObj.categoryShop.map((data: any, i: number) => {
-    //   if (data[0] == "All") return false;
-    //   const len = data[0].split(">").length;
-    //   html.push(
-    //     <ul className={cs(styles.categorylabel, styles.searchCategory)}>
-    //       <li className={styles.categoryTitle}>
-    //         <span
-    //           className={
-    //             this.state.filter.categoryShop[data[0]]
-    //               ? globalStyles.cerise
-    //               : ""
-    //           }
-    //           onClick={this.handleClickCategory}
-    //           data-value={data}
-    //           id={data[0]}
-    //         >
-    //           {data[0].split(">")[len - 1] + " (" + data[2] + ")"}
-    //         </span>
-    //       </li>
-    //     </ul>
-    //   );
-    // });
-
     let html: any = [];
     if (!categoryObj) return false;
-    const cat = categorydata.categories
-      .concat(categorydata.subCategories)
-      .filter(function(a: any) {
-        return a[0].split(">").length == 2;
-      });
+    // const cat = categorydata.categories
+    //   .concat(categorydata.subCategories)
+    //   .filter(function(a: any) {
+    //     return a[0].split(">").length == 2;
+    //   });
 
-    const subcat = cat.sort(function(a: any, b: any) {
-      return +a[1] - +b[1];
-    });
+    // const subcat = cat.sort(function(a: any, b: any) {
+    //   return +a[1] - +b[1];
+    // });
 
     for (const key in categoryObj) {
       html = this.generateCatagory(categoryObj, key, html);
     }
 
-    subcat.map((data: any) => {
-      categorydata.subCategories.map((sub: any) => {
-        if (data[0].indexOf(sub[0]) > -1) {
-          // html = this.generateSubCatagory(sub, html, categoryObj);
-        }
-      });
-    });
+    // subcat.map((data: any) => {
+    //   categorydata.subCategories.map((sub: any) => {
+    //     if (data[0].indexOf(sub[0]) > -1) {
+    //       // html = this.generateSubCatagory(sub, html, categoryObj);
+    //     }
+    //   });
+    // });
     return html;
   };
 
@@ -1659,23 +1654,6 @@ class FilterList extends React.Component<Props, State> {
     //code for checked view all true
     const { filter } = this.state;
     filter.categoryShop = {};
-    if (event.target.id == "all") {
-      // do nothing
-    } else {
-      // if (isViewAll) {
-      //   let qparam = "";
-      //   Object.keys(categoryObj).map(ele => {
-      //     if (ele.trim() == event.target.id.split(">")[0].trim()) {
-      //       categoryObj[ele].map((val: any, index: number) => {
-      //         qparam += index === 0 ? "" : qparam ? "|" + val[1] : val[1];
-      //       });
-      //     }
-      //   });
-      //   filter.categoryShop["selectedCatShop"] = qparam;
-      // } else {
-      //   filter.categoryShop["selectedCatShop"] = event.target.id;
-      // }
-    }
     if (filter.sortBy["sortBy"] == "discount") {
       filter.sortBy = {};
     }
