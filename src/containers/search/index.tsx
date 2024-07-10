@@ -783,7 +783,7 @@ class Search extends React.Component<
                     [styles.border]: mobile,
                     [globalStyles.marginL0]: count == 1 && mobile && !tablet,
                     [globalStyles.marginT0]:
-                      count == 1 && mobile && !tablet && !scrollDown
+                      count == 1 && mobile && !tablet && !this.props.scrollDown
                   }
                 )}
               >
