@@ -589,6 +589,7 @@ class Search extends React.Component<Props, State> {
                   // onPaste={this.checkSearchValue}
                   onKeyUp={this.checkSearchValueUp}
                   onChange={this.handleChange.bind(this)}
+                  onInput={this.checkSearchValueUp}
                 />
                 <span
                   className={cs(styles.linkResults, {
