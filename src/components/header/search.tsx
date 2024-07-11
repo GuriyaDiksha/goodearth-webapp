@@ -1038,7 +1038,7 @@ class Search extends React.Component<Props, State> {
                                 styles.ymlpWrapper
                               )}
                             >
-                              {youMightLikeProducts?.map(data, idx => (
+                              {youMightLikeProducts?.map((data, idx) => (
                                 <div
                                   key={idx}
                                   className={cs(
