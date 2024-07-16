@@ -158,7 +158,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
   updateError = (value?: string, activate?: boolean) => {
     this.setState(
       {
-        error: value ? value : "Please enter a valid Gift Card code.",
+        error: value ? value : "The entered Gift Card Code is invalid",
         isActivated: activate ? true : false
       },
       () => {
