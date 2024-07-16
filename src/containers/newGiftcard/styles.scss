@@ -443,12 +443,28 @@ $banner-mobile-height:180px;
                 flex-direction: column-reverse;
                 position: relative;
                 align-items: center;
+
+                @media screen and (min-width:768px) and (max-width: 991px){
+                    align-items: flex-start;    
+                    margin-top: 10px;               
+                }
                 .preview-gc{
                     position: unset;
+
+                    @media screen and (min-width:768px) and (max-width: 991px){
+                        width: 100%;
+                        min-width: unset;
+                        max-width: unset;
+                    }
                 }
                 .form-gc{
                     padding: 35px 20px 0px 20px;
                     max-width: 100%;
+
+                    @media screen and (min-width:768px) and (max-width: 991px){
+                        padding: 43px 65.5px;
+                        width: 497px;
+                    }
                     .card-design {
                         .designs-container{
                             .img-options{
