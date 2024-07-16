@@ -868,6 +868,7 @@ class Search extends React.Component<Props, State> {
                       this.state.searchValue.length == 0 && (
                         <div
                           className={cs(
+                            bootstrapStyles.offsetLg2,
                             { [globalStyles.marginT30]: !mobile },
                             { [globalStyles.marginT10]: mobile },
                             { [styles.trendingdesktopPad]: !mobile },
@@ -1198,7 +1199,7 @@ class Search extends React.Component<Props, State> {
                     {categories.length > 0 && (
                       <div
                         className={cs({
-                          [globalStyles.marginT50]: !mobile,
+                          // [globalStyles.marginT50]: !mobile,
                           [globalStyles.marginT30]: mobile
                         })}
                       >
