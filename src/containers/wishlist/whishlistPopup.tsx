@@ -31,7 +31,7 @@ const ShareWishlistLink = () => {
         click_type: click_type,
         cta_location: "NA",
         cta_name:
-          `${firstName} ${lastName}`
+          `${firstName?.slice(0, 15)} ${lastName.slice(0, 15)}`
             .toLowerCase()
             .replace(/\b(\w)/g, x => x.toUpperCase()) + "'s Saved List"
       });
@@ -124,7 +124,7 @@ const ShareWishlistLink = () => {
               <div className={globalStyles.voffset8}>
                 <h2 className={styles.h2Popup}>
                   Share{" "}
-                  {`${firstName} ${lastName}`
+                  {`${firstName?.slice(0, 15)} ${lastName?.slice(0, 15)}`
                     .toLowerCase()
                     .replace(/\b(\w)/g, x => x.toUpperCase())}
                   &apos;s
