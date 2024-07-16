@@ -40,7 +40,7 @@ const MobileSlider: React.FC<Props> = ({
         settings: {
           centerMode: true,
           slidesToShow: 1.3,
-          infinite: false
+          infinite: true
         }
       },
       {
