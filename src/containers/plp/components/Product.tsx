@@ -38,7 +38,6 @@ const Product: React.FC<Props> = ({ data, view, mobile }) => {
           controls
           muted
           preload="auto"
-          playsInline
         />
       )}
     </div>
