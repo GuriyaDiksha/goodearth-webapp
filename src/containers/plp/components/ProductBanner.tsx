@@ -28,7 +28,6 @@ const ProductBanner: React.FC<Props> = ({ data, mobile, view }) => {
           autoPlay
           loop
           preload="auto"
-          playsInline
         />
       )}
     </div>
