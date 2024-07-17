@@ -114,8 +114,8 @@ const GiftCardItem = ({
               </p>
             )}
             <p className={cl(styles.balance)}>
-              {" "}
-              Balance amount: {String.fromCharCode(...unicode)} {remValues}
+              Balance amount:{" "}
+              {displayPriceWithSeparation(remValues, currCode as Currency)}{" "}
             </p>
             <div className={cl(styles.balanceTxt)}>
               Gift Card is currently Inactive.{" "}

@@ -2,7 +2,10 @@ import React, { forwardRef } from "react";
 import cs from "classnames";
 import styles from "./index.scss";
 import { CreditNote } from "containers/myAccount/components/MyCreditNotes/typings";
-import { displayPriceWithCommasFloat } from "utils/utility";
+import {
+  displayPriceWithCommasFloat,
+  displayPriceWithSeparation
+} from "utils/utility";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 
@@ -87,12 +90,12 @@ const CreditNoteCard = forwardRef<Props, any>(
               </p>
               <p>
                 Total value:{" "}
-                <span> {displayPriceWithCommasFloat(amount, currency)}</span>
+                <span> {displayPriceWithSeparation(amount, currency)}</span>
               </p>
               {(!message || message === "Balance Over") && (
                 <p className={styles.balance}>
                   Balance amount:{" "}
-                  {displayPriceWithCommasFloat(remaining_amount, currency)}
+                  {displayPriceWithSeparation(remaining_amount, currency)}
                 </p>
               )}
             </div>
