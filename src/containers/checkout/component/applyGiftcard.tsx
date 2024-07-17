@@ -70,6 +70,12 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
     }
   }
 
+  handleKeyPress = (event: any) => {
+    if (event.key === " ") {
+      event.preventDefault();
+    }
+  };
+
   changeValue = (event: any) => {
     this.setState({
       txtvalue: event.target.value,
@@ -236,6 +242,7 @@ class ApplyGiftcard extends React.Component<Props, GiftState> {
                             type="text"
                             autoComplete="off"
                             value={txtvalue}
+                            onKeyDown={this.handleKeyPress}
                             onChange={this.changeValue}
                             id="gift"
                             className={

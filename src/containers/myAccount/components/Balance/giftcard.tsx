@@ -49,6 +49,12 @@ class Giftcard extends React.Component<Props, GiftState> {
     }
   };
 
+  handleKeyPress = (event: any) => {
+    if (event.key === " ") {
+      event.preventDefault();
+    }
+  };
+
   toggleOtp = (value: boolean) => {
     this.setState({
       toggleOtp: value
@@ -303,6 +309,7 @@ class Giftcard extends React.Component<Props, GiftState> {
                           autoComplete="off"
                           value={txtvalue}
                           onChange={this.changeValue}
+                          onKeyDown={this.handleKeyPress}
                           id="gift"
                           className={this.state.error ? cs(styles.err) : ""}
                         />
