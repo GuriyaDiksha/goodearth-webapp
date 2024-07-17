@@ -292,7 +292,6 @@ class Search extends React.Component<Props, State> {
           365
         );
         localStorage.setItem("clickType", "You Might Like");
-        console.log("You Might like event will be triggered");
         dataLayer.push({
           event: "search_bar_results_found",
           cta_name: this.getTextFromHtml(data?.product || data?.title),
@@ -307,13 +306,6 @@ class Search extends React.Component<Props, State> {
           this.getTextFromHtml(data?.product || data?.title),
           this.state.searchValue
         );
-        console.log("Product event will be triggered");
-        dataLayer.push({
-          event: "search_bar_results_found",
-          cta_name: this.getTextFromHtml(data?.product || data?.title),
-          click_type: "Product",
-          search_term: ""
-        });
       }
     }
     // this.props.toggle();
