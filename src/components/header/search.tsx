@@ -292,7 +292,6 @@ class Search extends React.Component<Props, State> {
           365
         );
         localStorage.setItem("clickType", "You Might Like");
-
         dataLayer.push({
           event: "search_bar_results_found",
           cta_name: this.getTextFromHtml(data?.product || data?.title),
@@ -1388,7 +1387,8 @@ class Search extends React.Component<Props, State> {
                                       onClick={this.showProduct.bind(
                                         this,
                                         data,
-                                        i
+                                        i,
+                                        false
                                       )}
                                       // onMouseOver={this.mouseOverImage.bind(
                                       //   this,
