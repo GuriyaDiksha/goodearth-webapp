@@ -140,6 +140,12 @@ $banner-mobile-height:180px;
                         letter-spacing: 0.5px;
                         margin-bottom: 10px;
                     }
+                    &.custom-margin{
+                        @include b4_12px_montserrat_charcoal_caps();
+                        margin-bottom: -20px;
+                        letter-spacing: 0.5px;
+                    }
+
                 }
     
                 .card-design{
