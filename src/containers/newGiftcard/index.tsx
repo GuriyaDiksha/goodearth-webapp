@@ -715,7 +715,7 @@ class NewGiftcard extends React.Component<Props, State> {
               </div>
               {/* 4.E-Gift Card Details */}
               <div className={styles.eGiftCardDetails}>
-                <div className={styles.sectionTitle}>E-GIFT CARD DETAILS</div>
+                <div className={styles.customMargin}>E-GIFT CARD DETAILS</div>
                 <Formsy
                   onValid={() => {
                     this.setState({
@@ -747,6 +747,7 @@ class NewGiftcard extends React.Component<Props, State> {
                       isEnglish: "Only alphabets are allowed"
                     }}
                     required
+                    style={{ marginTop: "22px" }}
                   />
                   <FormInput
                     name="recipientEmail"
