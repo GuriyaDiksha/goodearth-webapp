@@ -474,13 +474,13 @@ class TrackOrder extends React.Component<Props, State> {
                   className={isLoggedIn ? styles.disabledInput : ""}
                   required
                 />
-              </div>
-              <div>
                 {this.state.showerror ? (
                   <p className={cs(styles.ctaError)}>{this.state.showerror}</p>
                 ) : (
                   ""
                 )}
+              </div>
+              <div>
                 <Button
                   type="submit"
                   disabled={!updateSubmit}
