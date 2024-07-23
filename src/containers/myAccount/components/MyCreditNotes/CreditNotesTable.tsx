@@ -7,7 +7,7 @@ import styles from "./styles.scss";
 import { CreditNote, HeaderData, SortBy, SortType } from "./typings";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
-import { displayPriceWithCommasFloat } from "utils/utility";
+import { displayPriceWithSeparation } from "utils/utility";
 import Pagination from "./Pagination";
 
 type Props = {
@@ -184,7 +184,7 @@ const CreditNotesTable: React.FC<Props> = ({
                     ></div>
                   )}
                   {header?.isPrice
-                    ? displayPriceWithCommasFloat(
+                    ? displayPriceWithSeparation(
                         creditNote?.[header?.key],
                         currency
                       )
