@@ -125,7 +125,10 @@ class ShopLocator extends Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
-    const city = window.location.href.split("/").pop();
+    const city = window.location.href
+      .split("/")
+      .pop()
+      ?.split("?")?.[0];
     if (this.state.currentCity !== city) {
       this.setState(
         {

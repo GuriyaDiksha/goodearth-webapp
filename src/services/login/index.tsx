@@ -628,9 +628,16 @@ export default {
     // HeaderService.fetchHomepageData(dispatch).catch(err => {
     //   console.log("Homepage API ERROR ==== " + err);
     // });
-    Api.getAnnouncement(dispatch).catch(err => {
-      console.log("Get announcement API ERROR ==== " + err);
-    });
+
+    // check if the current page is a public bridal page and prevent annoment api call when current page is bridal public page
+    const isBridalPublicPage =
+      window.location.pathname.includes("/registry/") &&
+      !window.location.pathname.includes("/account/");
+    if (!isBridalPublicPage) {
+      Api.getAnnouncement(dispatch).catch(err => {
+        console.log("Get announcement API ERROR ==== " + err);
+      });
+    }
     Api.getSalesStatus(dispatch).catch(err => {
       console.log("Sale status API error === " + err);
     });
