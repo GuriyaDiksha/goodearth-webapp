@@ -292,7 +292,6 @@ class Search extends React.Component<Props, State> {
           365
         );
         localStorage.setItem("clickType", "You Might Like");
-
         dataLayer.push({
           event: "search_bar_results_found",
           cta_name: this.getTextFromHtml(data?.product || data?.title),
@@ -399,7 +398,6 @@ class Search extends React.Component<Props, State> {
       this.setState({
         searchValue: event.target.value
       });
-
       this.getSearchDataApi(event.target.value);
       CookieService.setCookie("search", event.target.value, 365);
     } else {
@@ -581,6 +579,7 @@ class Search extends React.Component<Props, State> {
                   // onPaste={this.checkSearchValue}
                   onKeyUp={this.checkSearchValueUp}
                   onChange={this.handleChange.bind(this)}
+                  onInput={this.checkSearchValueUp}
                 />
                 <span
                   className={cs(styles.linkResults, {
@@ -961,7 +960,7 @@ class Search extends React.Component<Props, State> {
                         </div>
 
                         {recentSearchs?.map((ele, ind) => (
-                          <div className={styles.recentBlock}>
+                          <div className={styles.recentBlock} key={ind}>
                             <Link
                               to={"/search/?q=" + encodeURIComponent(ele)}
                               onClick={() => {
@@ -1038,8 +1037,9 @@ class Search extends React.Component<Props, State> {
                                 styles.ymlpWrapper
                               )}
                             >
-                              {youMightLikeProducts?.map(data => (
+                              {youMightLikeProducts?.map((data, idx) => (
                                 <div
+                                  key={idx}
                                   className={cs(
                                     bootstrapStyles.col6,
                                     styles.ymlpTile
@@ -1387,7 +1387,8 @@ class Search extends React.Component<Props, State> {
                                       onClick={this.showProduct.bind(
                                         this,
                                         data,
-                                        i
+                                        i,
+                                        false
                                       )}
                                       // onMouseOver={this.mouseOverImage.bind(
                                       //   this,

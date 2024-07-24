@@ -22,7 +22,7 @@
     margin-top: 40px;
   }
   .collection-container-timer {
-    margin-top: 60px + $timer-height;
+    margin-top: 40px + $timer-height;
   }
 }
 
@@ -85,7 +85,11 @@
   @include b5_10px_montserrat_charcoal_caps();
 
   @media screen and (max-width:992px) {
-    margin: 40px 0 25px 15px;
+    margin: 0 0 25px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 50px;
   }
 }
 

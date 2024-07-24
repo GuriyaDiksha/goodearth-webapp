@@ -809,9 +809,9 @@ input[type="text"]{
   }
 
   .cta-error{
-    @include error_msg_cerise();
+    @include error_msg();
     text-align: left;
-    margin-bottom: 7px;
+    margin-top: 5px;
   }
 
 .login-change {
