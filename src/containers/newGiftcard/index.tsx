@@ -18,6 +18,7 @@ import { displayPriceWithCommas, makeid } from "utils/utility";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import Button from "components/Button";
 import globalStyles from "styles/global.scss";
+import { table } from "console";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -498,7 +499,7 @@ class NewGiftcard extends React.Component<Props, State> {
   }
 
   render(): React.ReactNode {
-    const { mobile } = this.props.device;
+    const { mobile, tablet } = this.props.device;
     const {
       giftImages,
       selectedImage,
@@ -714,7 +715,7 @@ class NewGiftcard extends React.Component<Props, State> {
               </div>
               {/* 4.E-Gift Card Details */}
               <div className={styles.eGiftCardDetails}>
-                <div className={styles.sectionTitle}>E-GIFT CARD DETAILS</div>
+                <div className={styles.customMargin}>E-GIFT CARD DETAILS</div>
                 <Formsy
                   onValid={() => {
                     this.setState({
@@ -746,6 +747,7 @@ class NewGiftcard extends React.Component<Props, State> {
                       isEnglish: "Only alphabets are allowed"
                     }}
                     required
+                    style={{ marginTop: "22px" }}
                   />
                   <FormInput
                     name="recipientEmail"
@@ -927,7 +929,7 @@ class NewGiftcard extends React.Component<Props, State> {
             <div className={cs(styles.text)}>See Gift Card Preview</div>
           </div>
         )}
-        {mobile && (
+        {(mobile || tablet) && (
           <div className={styles.buyNowCta}>
             <Button
               variant="mediumAquaCta366"
@@ -940,7 +942,7 @@ class NewGiftcard extends React.Component<Props, State> {
             />
           </div>
         )}
-        {mobile && (
+        {(mobile || tablet) && (
           <div
             className={cs(styles.previewModal, { [styles.open]: previewOpen })}
           >
