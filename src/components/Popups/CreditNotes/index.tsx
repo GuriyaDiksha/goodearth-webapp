@@ -38,7 +38,7 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
   const bodyRef = useRef<any>([]);
 
   const fetchCreditNotes = () => {
-    AccountService.fetchCreditNotes(dispatch, "expiring_date", "desc", 1, true)
+    AccountService.fetchCreditNotes(dispatch, "expiring_date", "asc", 1, true)
       .then(response => {
         const { results } = response;
         setCreditnoteList(results.filter(ele => ele?.type !== "GC"));
