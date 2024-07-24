@@ -656,7 +656,9 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               >
                 FIRST NAME
               </p>
-              <p className={styles.line}>{this.props.firstName}</p>
+              <p className={styles.line}>
+                {this.props.firstName?.slice(0, 15)}
+              </p>
               <p
                 className={cs(
                   globalStyles.op2,
@@ -667,7 +669,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               >
                 LAST NAME
               </p>
-              <p className={styles.line}>{this.props.lastName}</p>
+              <p className={styles.line}>{this.props.lastName?.slice(0, 15)}</p>
             </>
           )}
           <p

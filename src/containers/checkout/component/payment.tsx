@@ -857,11 +857,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                           handleChange={(e: any) => {
                             if (e.target.value.length <= 250) {
                               setTextarea(e.target.value);
-                            } else if (e.target.value.length >= 250) {
-                              setTextarea(e.target.value.substring(0, 250));
                             }
                           }}
                           charLimit={250}
+                          maxLength={250}
                         ></FormTextArea>
                       </Formsy>
                     </div>

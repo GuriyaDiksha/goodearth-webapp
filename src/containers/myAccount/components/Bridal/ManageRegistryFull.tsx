@@ -312,8 +312,8 @@ const ManageRegistryFull: React.FC<Props> = ({
                   </span>
                 </p>
                 <p className={globalStyles.voffset2}>
-                  {firstName}
-                  &nbsp; {lastName}
+                  {firstName?.slice(0, 15)}
+                  &nbsp; {lastName.slice(0, 15)}
                   <br />
                 </p>
                 <p className={cs(styles.light, globalStyles.voffset2)}>
