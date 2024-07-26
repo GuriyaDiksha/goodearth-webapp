@@ -93,6 +93,7 @@
     }
     .text {
         margin-left: 10px;
+
         &.oneline{
             display: flex;
             max-width: max-content !important;
@@ -102,8 +103,8 @@
             font-weight: $medium;
             color: #548B8B;
             letter-spacing: 0.3px;
-            line-height: 16px;
-            max-width: max-content !important;
+            line-height: 16px;  
+            white-space: nowrap;
         }
         .cta {
             @include b4_12px_montserrat_charcoal();
@@ -112,14 +113,21 @@
             letter-spacing: 0.3px;
             line-height: 16px;
             max-width: max-content !important;
-
+            white-space: nowrap;
             a { 
                 color: #548B8B;
                 text-decoration: underline;
                 text-underline-offset: 2px;
             }
         }
+        .visible{
+            display: none;
+        }
     }
+    .whatsUp-text{
+        max-width: unset !important;
+    }
+
 }
 
 .save-pref-btn{
