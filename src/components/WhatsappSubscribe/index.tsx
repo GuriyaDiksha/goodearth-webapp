@@ -355,12 +355,6 @@ const WhatsappSubscribe: React.FC<Props> = ({
               <a onClick={openPopup}>Click here</a> to update this number or
               unsubscribe.
             </p>
-            <p className={(styles.cta, styles.visible)}>
-              Whatsapp updates will be sent on {data.whatsappNoCountryCode}{" "}
-              {data.whatsappNo}.&nbsp;
-              <a onClick={openPopup}>Click here</a> to update this number or
-              unsubscribe.
-            </p>
           </div>
         </div>
       );

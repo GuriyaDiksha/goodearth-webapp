@@ -92,7 +92,7 @@
         padding-top: 3px
     }
     .text {
-        margin-left: 10px;
+        margin-left: 15px;
 
         &.oneline{
             display: flex;
@@ -120,12 +120,11 @@
                 text-underline-offset: 2px;
             }
         }
-        .visible{
-            display: none;
-        }
     }
     .whatsUp-text{
         max-width: unset !important;
+        display: flex;
+        flex-wrap: wrap;
     }
 
 }
@@ -203,4 +202,4 @@
     input{
       width: 100% !important;
     }
-  }  
+  }
