@@ -13,6 +13,7 @@ import { Cookies } from "typings/cookies";
 import { Currency } from "typings/currency";
 import { MESSAGE } from "constants/messages";
 import { updateNextUrl } from "actions/info";
+import { updateRegion } from "actions/widget";
 
 const mapActionsToProps = (dispatch: Dispatch) => {
   return {
@@ -70,6 +71,9 @@ const mapActionsToProps = (dispatch: Dispatch) => {
       MetaService.updateMeta(dispatch, cookies);
       BasketService.fetchBasket(dispatch);
       showGrowlMessage(dispatch, MESSAGE.CURRENCY_CHANGED_SUCCESS, 7000);
+    },
+    updateRegion: (data: any) => {
+      dispatch(updateRegion(data));
     }
   };
 };
