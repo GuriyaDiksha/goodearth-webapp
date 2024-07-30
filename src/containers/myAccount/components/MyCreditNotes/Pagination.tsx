@@ -1,5 +1,8 @@
 import React from "react";
 import styles from "./styles.scss";
+import cs from "classnames";
+import paginationLeftIcon from "../../../../images/myCreditNotes/paginationLeft.svg";
+import paginationRightIcon from "../../../../images/myCreditNotes/paginationRight.svg";
 
 type Props = {
   previous: string | null;
@@ -22,14 +25,19 @@ const Pagination: React.FC<Props> = ({
     <div className={styles.paginationWrp}>
       <div className={styles.pagination}>
         <p
-          className={previous ? "" : styles.inactive}
+          className={cs(
+            previous ? "" : styles.inactive,
+            styles.paginationArrow
+          )}
           onClick={() => {
             if (previous) {
               fetchPaginatedData(page - 1);
               collapseExpandItemOnPageChange();
             }
           }}
-        ></p>
+        >
+          <img src={paginationLeftIcon} alt="paginationLeftIcon" />
+        </p>
         {[...Array(Number(Math.ceil(count / 5))).keys()].map((ele, ind) => (
           <p
             key={ind}
@@ -43,14 +51,16 @@ const Pagination: React.FC<Props> = ({
           </p>
         ))}
         <p
-          className={next ? "" : styles.inactive}
+          className={cs(next ? "" : styles.inactive, styles.paginationArrow)}
           onClick={() => {
             if (next) {
               fetchPaginatedData(page + 1);
               collapseExpandItemOnPageChange();
             }
           }}
-        ></p>
+        >
+          <img src={paginationRightIcon} alt="paginationRightIcon" />
+        </p>
       </div>
     </div>
   );
