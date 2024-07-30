@@ -404,6 +404,9 @@ class ProfileUpdater extends React.Component<Props, State> {
               handleChange={() => {
                 // this.setState({ updateProfile: true });
               }}
+              validations={{
+                maxLength: 15
+              }}
               disable={firstName ? true : false}
               className={cs({ [styles.disabledInput]: firstName })}
             />
@@ -417,6 +420,9 @@ class ProfileUpdater extends React.Component<Props, State> {
               keyPress={e => (e.key == " Enter" ? e.preventDefault() : "")}
               handleChange={() => {
                 // this.setState({ updateProfile: true });
+              }}
+              validations={{
+                maxLength: 15
               }}
               disable={lastName ? true : false}
               className={cs({ [styles.disabledInput]: lastName })}

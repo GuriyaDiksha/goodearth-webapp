@@ -5,14 +5,18 @@
     font-size: 22px;
     color: $gold;
     cursor: pointer;
+    &:before{
+        cursor: pointer;
+        margin-top: 1px;
+        margin-left: -1px;
+    }
+    
 }
 
 @media screen and (min-width:992px) {
     .wishlist-icon {
         font-size: 22px;
         cursor: pointer;
-        margin-top: 5px;
-        margin-bottom: 5px;
         color: $gold;
         &:hover {
             color: $gold;
@@ -36,6 +40,9 @@
     border-radius: 50%;
     font-size: 18px;
     line-height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .wishlist-padding-top{

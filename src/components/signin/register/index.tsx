@@ -469,7 +469,8 @@ class RegisterForm extends React.Component<Props, registerState> {
                   if (value) {
                     return englishandSpace.test(value);
                   } else return true;
-                }
+                },
+                maxLength: 15
               }}
               validationErrors={{
                 isEnglish: "Please enter only alphabetic characters"
@@ -492,7 +493,8 @@ class RegisterForm extends React.Component<Props, registerState> {
                   if (value) {
                     return englishandSpace.test(value);
                   } else return true;
-                }
+                },
+                maxLength: 15
               }}
               validationErrors={{
                 isEnglish: "Please enter only alphabetic characters"

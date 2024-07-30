@@ -26,7 +26,12 @@
 
         @media screen and (max-width: 992px) {
             width:85%;
-            margin: 30px auto 100px;
+            margin: -60px auto 100px;
+            padding: 20px;
+        }
+        @media screen and (max-width: 767px) {
+            width:85%;
+            margin: -30px auto 100px;
             padding: 20px;
         }
 
