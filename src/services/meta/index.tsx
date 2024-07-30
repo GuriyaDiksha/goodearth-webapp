@@ -14,6 +14,7 @@ import HeaderService from "services/headerFooter";
 import CookieService from "services/cookie";
 import { POPUP } from "constants/components";
 import { decriptdata } from "utils/validate";
+import { updateRegion } from "actions/widget";
 
 export default {
   fetchMeta: async function(
@@ -82,6 +83,9 @@ export default {
         CookieService.setCookie("user", JSON.stringify(meta.user), 365);
       }
       dispatch(updateCurrency(meta.currency));
+      if (meta?.shippingData?.countryName) {
+        dispatch(updateRegion({ country: meta?.shippingData?.countryName }));
+      }
       return meta;
     }
   },
