@@ -110,7 +110,11 @@ export default {
       res.customerGroup ? res.customerGroup.toLowerCase() : "",
       365
     );
-    showGrowlMessage(dispatch, `${LOGIN_SUCCESS} ${response.firstName}!`, 5000);
+    showGrowlMessage(
+      dispatch,
+      `${LOGIN_SUCCESS} ${response.firstName?.slice(0, 15)}!`,
+      5000
+    );
     if (response.oldBasketHasItems) {
       showGrowlMessage(dispatch, MESSAGE.PREVIOUS_BASKET, 0);
     }
@@ -279,7 +283,11 @@ export default {
       res.customerGroup ? res.customerGroup.toLowerCase() : "",
       365
     );
-    showGrowlMessage(dispatch, `${res.firstName}, ${LOGIN_SUCCESS}`, 5000);
+    showGrowlMessage(
+      dispatch,
+      `${res.firstName?.slice(0, 15)}, ${LOGIN_SUCCESS}`,
+      5000
+    );
     if (res.oldBasketHasItems) {
       showGrowlMessage(dispatch, MESSAGE.PREVIOUS_BASKET, 0);
     }
@@ -771,7 +779,7 @@ export default {
       );
       showGrowlMessage(
         dispatch,
-        `${LOGIN_SUCCESS} ${response.firstName}!`,
+        `${LOGIN_SUCCESS} ${response.firstName?.slice(0, 15)}!`,
         5000
       );
       if (response.oldBasketHasItems) {

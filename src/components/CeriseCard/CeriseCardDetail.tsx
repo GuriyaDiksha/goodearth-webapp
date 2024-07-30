@@ -64,7 +64,7 @@ const CeriseCardDetail: React.FC<Props> = ({
       <div className={styles.nameHeader}>
         <p className={styles.greeting}>Hello!</p>
         <p className={styles.name}>
-          {firstName} {lastName}
+          {firstName?.slice(0, 15)} {lastName?.slice(0, 15)}
         </p>
         <p className={styles.email}>
           {email} {phoneNumber ? "|" : ""} {phoneNumber}
