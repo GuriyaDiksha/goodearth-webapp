@@ -467,6 +467,7 @@
         @media screen and (max-width: 767px) {
           // padding: 15px 0px;
           width: 50%;
+          max-width: unset !important;
         }
       }
     
@@ -489,6 +490,7 @@
         @media screen and (max-width: 767px) {
           // padding: 15px 0px;
           width: 50%;
+          max-width: unset !important;
         }
       }
     }
