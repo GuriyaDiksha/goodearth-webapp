@@ -71,9 +71,11 @@ const MyAccount: React.FC<Props> = props => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    fetchCreditNotes();
-  }, []);
+    if (isLoggedIn) {
+      window.scrollTo(0, 0);
+      fetchCreditNotes();
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     const noContentContainerElem = document.getElementById(
