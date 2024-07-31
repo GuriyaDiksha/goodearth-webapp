@@ -42,8 +42,10 @@ const ApplyCreditNote = () => {
   };
 
   useEffect(() => {
-    fetchCreditNotes();
-  }, []);
+    if (isLoggedIn) {
+      fetchCreditNotes();
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     setIsactivecreditnote(!!creditNotes?.length);
