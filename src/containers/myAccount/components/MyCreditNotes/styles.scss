@@ -130,10 +130,12 @@
     }
 
     p {
+        font-size: 12px !important;
         @include b6_9px_light_montserrat_charcoal();
         cursor: pointer;
 
         &.active {
+            font-size: 12px !important;
             @include b6_9px_montserrat_charcoal();
             border-bottom: 1px solid $charcoal19;
         }
