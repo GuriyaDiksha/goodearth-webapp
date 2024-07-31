@@ -466,9 +466,9 @@ class Checkout extends React.Component<Props, State> {
     //   //     this.props.history.push("/backend-order-error");
     //   //   });
     // } else {
-    // if (!this.props.user.isLoggedIn) {
-    //   this.props.history.push("/cart", { from: "checkout" });
-    // }
+    if (!this.props.user.isLoggedIn) {
+      this.props.history.push("/cart", { from: "checkout" });
+    }
     // }
     if (this.state.isSuspended && checkoutPopupCookie !== "show") {
       // this.props.showPopup(this.setInfoPopupCookie);
@@ -1277,6 +1277,9 @@ class Checkout extends React.Component<Props, State> {
             </div>
           </div>
         </div>
+        {this.props.isLoading &&
+          !this.props.user.isLoggedIn &&
+          this.props.history.push("/cart", { from: "checkout" })}
       </div>
     );
   }
