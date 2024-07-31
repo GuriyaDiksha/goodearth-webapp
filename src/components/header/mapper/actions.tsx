@@ -34,7 +34,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       event?.preventDefault();
     },
     handleLogOut: (history: any, currency: Currency, customerGroup: string) => {
-      debugger;
       LoginService.logout(dispatch, currency, customerGroup);
       history.push("/");
       // window.location.reload();

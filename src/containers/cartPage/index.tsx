@@ -129,7 +129,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     //   return await CheckoutService.getBoDetail(dispatch, id);
     // },
     logout: async (currency: Currency, customerGroup: string) => {
-      debugger;
       return await LoginService.logout(
         dispatch,
         currency,
