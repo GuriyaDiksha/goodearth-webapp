@@ -84,6 +84,14 @@ const CreditNotesTable: React.FC<Props> = ({
     setPage(page);
   };
 
+  const collapseExpandItemOnPageChange = () => {
+    if (activeIndex !== "") {
+      setActiveIndex("");
+      const currentBody = bodyRef.current[activeIndex];
+      currentBody.style.maxHeight = 0 + "px";
+    }
+  };
+
   return (
     <>
       {/* Table Header */}
@@ -249,6 +257,7 @@ const CreditNotesTable: React.FC<Props> = ({
         count={pagination?.count}
         page={page}
         fetchPaginatedData={fetchPaginatedData}
+        collapseExpandItemOnPageChange={collapseExpandItemOnPageChange}
       />
     </>
   );
