@@ -488,6 +488,10 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       disable: true,
       showerror: ""
     });
+    const INVALID_MSG = [
+      "Please enter a valid Gift Card code.",
+      "Please enter a valid Credit Note code."
+    ];
     this.props
       .sendOtp(formData)
       .then((data: any) => {
@@ -500,6 +504,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         if (
           data.inputType == "GIFT" &&
           (data.currStatus == "Invalid-CN" ||
+            INVALID_MSG.includes(data.currStatus) ||
             data.currStatus.includes("incorrect"))
         ) {
           this.setState(
@@ -517,6 +522,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           );
         } else if (
           data.currStatus == "Invalid-CN" ||
+          INVALID_MSG.includes(data.currStatus) ||
           data.currStatus.includes("incorrect")
         ) {
           this.props.updateError(
@@ -552,10 +558,14 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           error.response.data
         );
         if (!status) {
-          if (currStatus == "Invalid-CN" || currStatus.includes("incorrect")) {
-            let errorMessage = `Please ente ${
+          if (
+            currStatus == "Invalid-CN" ||
+            INVALID_MSG.includes(currStatus) ||
+            currStatus.includes("incorrect")
+          ) {
+            let errorMessage = `The entered ${
               this.props.isCredit ? "Credit Note" : "Gift Card"
-            } code`;
+            } Code is invalid`;
             if (message) {
               errorMessage = message;
             }
