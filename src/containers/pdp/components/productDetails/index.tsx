@@ -841,7 +841,7 @@ const ProductDetails: React.FC<Props> = ({
         label={buttonText}
         onClick={action}
         variant={
-          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta300"
+          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta366"
         }
       />
     );
@@ -854,7 +854,7 @@ const ProductDetails: React.FC<Props> = ({
             variant={
               buttonText == "Notify Me"
                 ? "mediumLightGreyCta"
-                : "mediumAquaCta300"
+                : "mediumAquaCta366"
             }
           />
         )
@@ -866,7 +866,7 @@ const ProductDetails: React.FC<Props> = ({
         label={buttonText}
         onClick={action}
         variant={
-          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta300"
+          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta366"
         }
       />
     );
@@ -1403,10 +1403,10 @@ const ProductDetails: React.FC<Props> = ({
             >
               <div
                 id="yourElement"
-                className={cs(globalStyles.textCenter, globalStyles.voffset1, {
+                className={cs(globalStyles.voffset1, {
                   [bootstrap.col8]: !corporatePDP,
                   [styles.addToBagBtnContainer]: mobile,
-                  [bootstrap.colSm8]: !mobile,
+                  [bootstrap.colSm10]: !mobile,
                   [bootstrap.colSm12]: corporatePDP && mobile
                   // [globalStyles.hidden]: mobile && !showAddToBagMobile
                 })}
@@ -1429,6 +1429,7 @@ const ProductDetails: React.FC<Props> = ({
                   [styles.wishlistText]: !mobile,
                   [styles.wishlistBtnContainer]: mobile,
                   [globalStyles.voffset1]: mobile,
+                  [bootstrap.colSm2]: !mobile,
                   [globalStyles.hidden]:
                     partner == "Souk" || partner == "Object D Art"
                   // [globalStyles.hidden]: corporatePDP || !showAddToBagMobile

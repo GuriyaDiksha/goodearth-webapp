@@ -92,7 +92,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     moveToWishListMsg: (onUndoWishlistClick: any) => {
       const msg = (
         <div>
-          Your item has been moved to saved items.&nbsp;&nbsp;
+          Your item has been moved to Default List.&nbsp;&nbsp;
           <span
             className={cs(globalStyles.linkTextUnderline, globalStyles.pointer)}
             onClick={() => {
@@ -515,7 +515,7 @@ class CartPage extends React.Component<Props, State> {
                 <p className={styles.wishlistSubHead}>
                   There’s more waiting for you in your{" "}
                   <Link className={styles.viewAll} to="/wishlist">
-                    Saved List
+                    Default Saved List
                   </Link>
                 </p>
 
@@ -697,7 +697,7 @@ class CartPage extends React.Component<Props, State> {
     if (this.state.showUndoWishlist) {
       return (
         <div className={styles.message}>
-          Your item has been moved to saved items.{" "}
+          Your item has been moved to Default List.{" "}
           <span
             className={cs(globalStyles.colorPrimary, globalStyles.pointer)}
             onClick={this.onUndoWishlistClick}

@@ -352,7 +352,7 @@ class SideMenu extends React.Component<Props, State> {
                       disableClass
                     )}
                   ></i>
-                  <span
+                  {/* <span
                     className={cs(styles.badge, {
                       [styles.wishlistGold]: this.props.location.pathname.includes(
                         "/wishlist"
@@ -360,7 +360,16 @@ class SideMenu extends React.Component<Props, State> {
                     })}
                   >
                     {wishlistCount > 0 ? wishlistCount : ""}
-                  </span>
+                  </span> */}
+                  {wishlistCount > 0 && (
+                    <span
+                      className={cs(styles.whislistDot, {
+                        [styles.wishlistGoldDot]: this.props.location.pathname.includes(
+                          "/wishlist"
+                        )
+                      })}
+                    ></span>
+                  )}
                 </Link>
               </div>
             </li>

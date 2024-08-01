@@ -25,6 +25,8 @@ import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { useHistory } from "react-router";
 import globalStyles from "styles/global.scss";
+import { showGrowlMessage } from "utils/validate";
+import { Link } from "react-router-dom";
 
 const WishlistButton: React.FC<Props> = ({
   gtmListType,
@@ -253,9 +255,24 @@ const WishlistButton: React.FC<Props> = ({
           // WishlistService.countWishlist(dispatch);
         });
       } else {
+        const growlMsg = (
+          <div>
+            Your item has been saved to Default List.{" "}
+            {isLoggedIn ? "Click here" : "Sign In"} to&nbsp;
+            <Link
+              to="/wishlist"
+              key="wishlist"
+              style={{ textDecoration: "underline", pointerEvents: "all" }}
+            >
+              view & mange
+            </Link>
+            &nbsp;your lists.
+          </div>
+        );
         WishlistService.addToWishlist(store.dispatch, id, size)
           .then(() => {
             gtmPushAddToWishlist(true);
+            showGrowlMessage(dispatch, growlMsg);
             // WishlistService.countWishlist(dispatch);
           })
           .finally(() => {
@@ -310,7 +327,7 @@ const WishlistButton: React.FC<Props> = ({
             })}
             onClick={onClick}
           >
-            {addedToWishlist ? "SAVED TO LATER" : "SAVE FOR LATER"}
+            {addedToWishlist ? "SAVED!" : "SAVE"}
           </div>
         )}
       </div>

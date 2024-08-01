@@ -275,7 +275,7 @@ class Bag extends React.Component<Props, State> {
                       this.props.toggleBag();
                     }}
                   >
-                    Saved List
+                    Default Saved List
                   </Link>
                 </p>
 

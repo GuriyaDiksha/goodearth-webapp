@@ -2194,3 +2194,16 @@ div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
     padding:0!important;
   }
 }
+
+.whislist-dot{
+  width: 7px;
+  height: 7px;
+  position: absolute;
+  background: $med-charcoal;
+  border-radius: 100%;
+  right: 3px;
+  top: 6px;
+}
+.wishlist-gold-dot{
+  background: $gold !important;
+}

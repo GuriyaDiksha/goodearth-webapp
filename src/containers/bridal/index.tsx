@@ -219,7 +219,6 @@ class BridalCheckout extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    debugger;
     pageViewGTM("BridalPublic");
     const cookieString =
       "intro=" + true + "; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
@@ -228,7 +227,6 @@ class BridalCheckout extends React.Component<Props, State> {
     this.props
       .getBridalPublicProfile()
       .then((res: any) => {
-        debugger;
         if (res) {
           this.setState({
             bridalProfile: res
@@ -237,7 +235,6 @@ class BridalCheckout extends React.Component<Props, State> {
         console.log(this.state.bridalProfile?.message);
       })
       .catch(res => {
-        debugger;
         if (res.response.data?.message == "Invalid bridal") {
           this.setState({
             bridalProfile: res.response.data
