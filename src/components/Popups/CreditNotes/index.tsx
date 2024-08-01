@@ -158,6 +158,7 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
         className={cs(
           styles.sizeBlockPopup,
           styles.sizeBlockNotFixed,
+          styles.popUpHeight,
           { [styles.centerpageDesktopFs]: !mobile },
           globalStyles.textCenter,
           { [styles.centerpageDesktopFsWidth]: mobile }
