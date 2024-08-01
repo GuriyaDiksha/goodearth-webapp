@@ -1631,6 +1631,7 @@ span.add-new-address {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-left: unset !important;
 
   .edit{
     height: fit-content;
