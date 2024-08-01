@@ -141,7 +141,7 @@ const ApplyCreditNote = () => {
             className={styles.edit}
             onClick={e => onCreditNoteToggle(e, true)}
           >
-            Edit
+            EDIT
           </div>
         )}
       </div>

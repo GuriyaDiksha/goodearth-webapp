@@ -251,14 +251,18 @@ const CreditNotesTable: React.FC<Props> = ({
         </div>
       ))}
 
-      <Pagination
-        previous={pagination?.previous}
-        next={pagination?.next}
-        count={pagination?.count}
-        page={page}
-        fetchPaginatedData={fetchPaginatedData}
-        collapseExpandItemOnPageChange={collapseExpandItemOnPageChange}
-      />
+      {pagination.count > 5 ? (
+        <Pagination
+          previous={pagination?.previous}
+          next={pagination?.next}
+          count={pagination?.count}
+          page={page}
+          fetchPaginatedData={fetchPaginatedData}
+          collapseExpandItemOnPageChange={collapseExpandItemOnPageChange}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 };

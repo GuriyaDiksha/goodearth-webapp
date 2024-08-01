@@ -51,13 +51,15 @@ const CreditNoteCard = forwardRef<Props, any>(
             <h6>{entry_code}</h6>
             {message ? (
               <div className={styles.expiredHead}>
-                <p className={cs(styles.iconCarrot)}>
+                <p
+                  className={cs(styles.iconCarrot)}
+                  onClick={() => setActiveKey(entry_code)}
+                >
                   {message}
                   <span
                     className={cs({
                       [styles.active]: activeKey === entry_code
                     })}
-                    onClick={() => setActiveKey(entry_code)}
                   ></span>
                 </p>
               </div>
