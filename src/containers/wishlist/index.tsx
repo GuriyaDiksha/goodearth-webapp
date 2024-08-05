@@ -821,7 +821,7 @@ class Wishlist extends React.Component<Props, State> {
         click_type: click_type,
         cta_location: "NA",
         cta_name:
-          `${firstName?.slice(0, 15)} ${lastName?.slice(0, 15)}`
+          `${firstName} ${lastName}`
             .toLowerCase()
             .replace(/\b(\w)/g, x => x.toUpperCase()) + "'s Saved List"
       });
