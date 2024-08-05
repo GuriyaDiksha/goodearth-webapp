@@ -244,8 +244,8 @@ const RegistryCreatedNew: React.FC<Props> = ({
                     </div>
                   </div>
                   <p className={cs(styles.fullName)}>
-                    {firstName?.slice(0, 15)}
-                    &nbsp; {lastName?.slice(0, 15)}
+                    {firstName}
+                    &nbsp; {lastName}
                     <br />
                   </p>
                   <p className={cs(styles.addressDetail)}>

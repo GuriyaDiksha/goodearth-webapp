@@ -156,11 +156,7 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
             : props.inputClass || "",
           props.value ? styles.black : props.defaultClass || styles.default
         )}
-        value={
-          props?.validations?.maxLength
-            ? props.value?.slice(0, props?.validations?.maxLength)
-            : props.value || ""
-        }
+        value={props.value || ""}
         placeholder={props?.value || focused ? undefined : props.placeholder}
         onChange={e => handleChange(e)}
         autoComplete="off"
@@ -186,11 +182,6 @@ const FormInput: React.FC<Props & InjectedProps<string | null>> = props => {
         }
         min={props.min || ""}
         max={props.max || ""}
-        maxLength={
-          props?.validations?.maxLength
-            ? props?.validations?.maxLength
-            : undefined
-        }
         ref={props.inputRef || null}
         disabled={props.disable || false}
         onKeyDown={e => (props.keyDown ? props.keyDown(e) : null)}
