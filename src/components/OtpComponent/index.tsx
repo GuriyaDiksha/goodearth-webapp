@@ -640,7 +640,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               >
                 FIRST NAME
               </p>
-              <p>{this.props.firstName?.slice(0, 15)}</p>
+              <p>{this.props.firstName}</p>
               <p
                 className={cs(
                   globalStyles.op2,
@@ -650,7 +650,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               >
                 LAST NAME
               </p>
-              <p>{this.props.lastName?.slice(0, 15)}</p>
+              <p>{this.props.lastName}</p>
             </>
           )}
           <p
