@@ -44,7 +44,6 @@ const GiftCardItem = ({
   } else if (currStatus == "Expired" && type == "CNI") {
     // showExpired = true;
   }
-  console.log(unicode, currCode);
   return (
     <div id="gc-balance-info">
       {status == "expired" && (
@@ -114,8 +113,8 @@ const GiftCardItem = ({
               </p>
             )}
             <p className={cl(styles.balance)}>
-              {" "}
-              Balance amount: {String.fromCharCode(...unicode)} {remValues}
+              Balance amount:{" "}
+              {displayPriceWithSeparation(remValues, currCode as Currency)}{" "}
             </p>
             <div className={cl(styles.balanceTxt)}>
               Gift Card is currently Inactive.{" "}
@@ -169,9 +168,11 @@ const GiftCardItem = ({
               </p>
             )}
             <p className={cl(globalStyles.cerise, globalStyles.voffset1)}>
-              For security purposes, your credit note/gift card is temporarily
-              locked. Please try again later.
+              The {type === "CNI" && "Credit Note"}
+              {type === "GIFT" && "Gift Card"} is Locked, please contact our
+              customer care.
             </p>
+
             {conditionalRefresh && !isLoggedIn && (
               <span
                 className={cl(styles.colorPrimary, globalStyles.pointer)}
