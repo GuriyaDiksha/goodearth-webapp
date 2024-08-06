@@ -122,11 +122,12 @@
                     }
                     .filter-label{
                         @include b3_14px_montserrat_caps_charcoal();
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
                     }
                     img{
                         width: 15px;
-                        float: right;
-                        margin-top: 12px;
                     }
                 }
 
