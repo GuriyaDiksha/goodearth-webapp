@@ -343,16 +343,18 @@ const WhatsappSubscribe: React.FC<Props> = ({
         <div className={styles.showPopupMsg} key={uniqueKey}>
           <img src={waIcon} />
           <div
-            className={cs(styles.text, { [styles.oneline]: oneLineMessage })}
+            className={cs(styles.text, styles.whatsUpText, {
+              [styles.oneline]: oneLineMessage
+            })}
           >
-            <div className={styles.info}>
+            <p className={styles.info}>
               Whatsapp updates will be sent on {data.whatsappNoCountryCode}{" "}
               {data.whatsappNo}.&nbsp;
-            </div>
-            <div className={styles.cta}>
+            </p>
+            <p className={styles.cta}>
               <a onClick={openPopup}>Click here</a> to update this number or
               unsubscribe.
-            </div>
+            </p>
           </div>
         </div>
       );
