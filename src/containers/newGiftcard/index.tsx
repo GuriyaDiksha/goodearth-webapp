@@ -182,8 +182,8 @@ class NewGiftcard extends React.Component<Props, State> {
               newCurrency,
               this.props.customerGroup
             );
-            this.props.updateRegion({ country });
           });
+
           this.setState({
             currency: newCurrency,
             currencyCharCode: newCurrencyCode,
@@ -193,6 +193,7 @@ class NewGiftcard extends React.Component<Props, State> {
             customValueErrorMsg: ""
           });
         }
+        this.props.updateRegion({ country });
       }
     );
   };
