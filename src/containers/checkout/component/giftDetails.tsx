@@ -38,7 +38,7 @@ const GiftCardItem = ({
   return (
     <div
       id="gc-balance-info"
-      className={cs(bootstrapStyles.colMd7, styles.giftDetails)}
+      className={cs(bootstrapStyles.colMd6, styles.giftDetails)}
     >
       {showExpired ? (
         <div>
@@ -90,13 +90,11 @@ const GiftCardItem = ({
         </div>
       ) : (
         <div
-          className={cl(styles.textLeft, styles.rtcinfo, globalStyles.voffset4)}
+          className={cl(styles.textLeft, styles.rtcinfo, globalStyles.voffset2)}
         >
           <span className={styles.txtup}>{cardId} </span>
           <span className={styles.textMuted}>
-            {cardType == "CREDITNOTE"
-              ? "Credit Note Applied"
-              : "Gift Card Applied"}
+            {cardType == "CREDITNOTE" ? "Applied" : "Gift Card Applied"}
           </span>
           <span
             className={styles.cross}
