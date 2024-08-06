@@ -49,6 +49,12 @@ class CreditNote extends React.Component<Props, GiftState> {
     }
   };
 
+  handleKeyPress = (event: any) => {
+    if (event.key === " ") {
+      event.preventDefault();
+    }
+  };
+
   toggleOtp = (value: boolean) => {
     this.setState({
       toggleOtp: value
@@ -60,72 +66,89 @@ class CreditNote extends React.Component<Props, GiftState> {
       code: this.state.txtvalue,
       inputType: "CNI"
     };
-    this.props
-      .balanceCheck(data)
-      .then(response => {
-        const { giftList } = this.state;
-        if (response.currStatus == "Invalid-CN" || response.type == "GIFT") {
+    if (this.state.txtvalue === "") {
+      this.setState(
+        {
+          error: "Please enter a valid Credit Note code."
+        },
+        () => {
+          errorTracking([this.state.error], location.href);
+        }
+      );
+    } else {
+      this.props
+        .balanceCheck(data)
+        .then(response => {
+          const { giftList } = this.state;
+          if (response.currStatus == "Invalid-CN" || response.type == "GIFT") {
+            this.setState(
+              {
+                error: "Please enter a valid Credit Note code."
+              },
+              () => {
+                errorTracking([this.state.error], location.href);
+              }
+            );
+          } else if (
+            response.currStatus == "Locked" &&
+            response.type == "CNI"
+          ) {
+            response.status = "locked";
+            giftList.push(response);
+            this.setState({
+              newCardBox: false,
+              conditionalRefresh: true,
+              txtvalue: "",
+              // showLocked: true,
+              // showExpired: false,
+              // showInactive: false,
+              giftList: giftList,
+              error: ""
+            });
+          } else if (
+            response.currStatus == "Expired" &&
+            response.type == "CNI"
+          ) {
+            response.status = "expired";
+            giftList.push(response);
+            this.setState({
+              newCardBox: false,
+              conditionalRefresh: true,
+              txtvalue: "",
+              // chkbalance: data,
+              // showExpired: true,
+              // showInactive: false,
+              // showLocked: false,
+              giftList: giftList,
+              error: ""
+              // inputBox: false
+            });
+          } else {
+            response.status = "active";
+            giftList.push(response);
+            this.setState({
+              giftList: giftList,
+              newCardBox: false,
+              conditionalRefresh: true,
+              txtvalue: "",
+              error: ""
+              // showExpired: false,
+              // showInactive: false,
+              // showLocked: false
+            });
+          }
+        })
+        .catch(err => {
           this.setState(
             {
-              error: "Please enter a valid Credit Note code."
+              error: err.response.data.message
             },
             () => {
               errorTracking([this.state.error], location.href);
             }
           );
-        } else if (response.currStatus == "Locked" && response.type == "CNI") {
-          response.status = "locked";
-          giftList.push(response);
-          this.setState({
-            newCardBox: false,
-            conditionalRefresh: true,
-            txtvalue: "",
-            // showLocked: true,
-            // showExpired: false,
-            // showInactive: false,
-            giftList: giftList,
-            error: ""
-          });
-        } else if (response.currStatus == "Expired" && response.type == "CNI") {
-          response.status = "expired";
-          giftList.push(response);
-          this.setState({
-            newCardBox: false,
-            conditionalRefresh: true,
-            txtvalue: "",
-            // chkbalance: data,
-            // showExpired: true,
-            // showInactive: false,
-            // showLocked: false,
-            giftList: giftList,
-            error: ""
-            // inputBox: false
-          });
-        } else {
-          response.status = "active";
-          giftList.push(response);
-          this.setState({
-            giftList: giftList,
-            newCardBox: false,
-            conditionalRefresh: true,
-            txtvalue: "",
-            error: ""
-            // showExpired: false,
-            // showInactive: false,
-            // showLocked: false
-          });
-        }
-      })
-      .catch(err => {
-        this.setState(
-          {
-            error: err.response.data.message
-          },
-          () => {
-            errorTracking([this.state.error], location.href);
-          }
-        );
-      });
+        });
+    }
   };
 
   updateList = (response: any) => {
@@ -271,6 +294,7 @@ class CreditNote extends React.Component<Props, GiftState> {
                         autoComplete="off"
                         value={txtvalue}
                         onChange={this.changeValue}
+                        onKeyDown={this.handleKeyPress}
                         id="credit"
                         className={this.state.error ? cs(styles.err) : ""}
                       />

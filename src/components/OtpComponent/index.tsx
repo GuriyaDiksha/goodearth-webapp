@@ -488,6 +488,10 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       disable: true,
       showerror: ""
     });
+    const INVALID_MSG = [
+      "Please enter a valid Gift Card code.",
+      "Please enter a valid Credit Note code."
+    ];
     this.props
       .sendOtp(formData)
       .then((data: any) => {
@@ -497,7 +501,12 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             ["attempts"]: data?.attempt_count || 0
           }
         });
-        if (data.inputType == "GIFT" && data.currStatus == "Invalid-CN") {
+        if (
+          data.inputType == "GIFT" &&
+          (data.currStatus == "Invalid-CN" ||
+            INVALID_MSG.includes(data.currStatus) ||
+            data.currStatus.includes("incorrect"))
+        ) {
           this.setState(
             {
               showerrorOtp: "Invalid Gift Card Code"
@@ -511,17 +520,21 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               errorTracking([this.state.showerrorOtp], location.href);
             }
           );
-        } else if (data.currStatus == "Invalid-CN") {
+        } else if (
+          data.currStatus == "Invalid-CN" ||
+          INVALID_MSG.includes(data.currStatus) ||
+          data.currStatus.includes("incorrect")
+        ) {
           this.props.updateError(
-            `Please enter a valid ${
+            `The entered ${
               this.props.isCredit ? "Credit Note" : "Gift Card"
-            } code`
+            } Code is invalid`
           );
           errorTracking(
             [
-              `Please enter a valid ${
+              `The entered ${
                 this.props.isCredit ? "Credit Note" : "Gift Card"
-              } code`
+              } Code is invalid`
             ],
             location.href
           );
@@ -545,10 +558,14 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           error.response.data
         );
         if (!status) {
-          if (currStatus == "Invalid-CN") {
-            let errorMessage = `Please enter a valid ${
+          if (
+            currStatus == "Invalid-CN" ||
+            INVALID_MSG.includes(currStatus) ||
+            currStatus.includes("incorrect")
+          ) {
+            let errorMessage = `The entered ${
               this.props.isCredit ? "Credit Note" : "Gift Card"
-            } code`;
+            } Code is invalid`;
             if (message) {
               errorMessage = message;
             }
