@@ -78,6 +78,8 @@ export type Basket = {
   pageReload?: boolean;
   amountPayable?: number;
   totalWithoutShipping?: number;
+  showProductWorth?: boolean;
+  productWorthValue?: number;
 };
 
 export type GCMetaType = {
