@@ -18,7 +18,7 @@ import { displayPriceWithCommas, makeid } from "utils/utility";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import Button from "components/Button";
 import globalStyles from "styles/global.scss";
-import { table } from "console";
+// import { table } from "console";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -182,8 +182,8 @@ class NewGiftcard extends React.Component<Props, State> {
               newCurrency,
               this.props.customerGroup
             );
-            this.props.updateRegion({ country });
           });
+
           this.setState({
             currency: newCurrency,
             currencyCharCode: newCurrencyCode,
@@ -193,6 +193,7 @@ class NewGiftcard extends React.Component<Props, State> {
             customValueErrorMsg: ""
           });
         }
+        this.props.updateRegion({ country });
       }
     );
   };
