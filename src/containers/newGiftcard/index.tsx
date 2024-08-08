@@ -18,7 +18,7 @@ import { displayPriceWithCommas, makeid } from "utils/utility";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import Button from "components/Button";
 import globalStyles from "styles/global.scss";
-import { table } from "console";
+// import { table } from "console";
 
 const mapStateToProps = (state: AppState) => {
   return {
