@@ -276,7 +276,9 @@ export default {
     const res = await API.delete<SaveWishlistData>(
       dispatch,
       `${__API_HOST__}/myapi/wishlist/name/`,
-      id
+      {
+        id
+      }
     );
     return res;
   }

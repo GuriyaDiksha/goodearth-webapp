@@ -300,17 +300,12 @@ const CreateWishlist: React.FC<Props> = ({
       });
   };
 
-  // const removeWishlistHandler = (id: number) =>{
-  //   WishlistService.removeWishlistName(dispatch,id);
-  //   fetchWishlistName();
-  // }
-
   const removeWishlistHandler = async (id: number) => {
     try {
-      const result = await WishlistService.removeWishlistName(dispatch, id);
-      console.log("Item removed:", result);
+      await WishlistService.removeWishlistName(dispatch, id);
+      fetchWishlistName();
     } catch (error) {
-      console.error("Failed to remove item:", error);
+      console.log(error);
     }
   };
 
