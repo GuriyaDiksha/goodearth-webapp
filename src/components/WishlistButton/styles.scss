@@ -50,3 +50,112 @@
     color: $gold;
     cursor: pointer;
 }
+
+.create-wishlist-wrapper{
+    width: 100%;
+    max-width: 350px;
+    position: absolute;
+    right: 0;
+    top: 80px;
+    z-index: 1;
+    padding: 20px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 3px 3px 15px #00000033;
+}
+// .create-btn,
+.input-field{
+    input{
+        height: 40px;
+        min-width: 230px;
+        float: left;
+        border: 1px solid #A6A6A6;
+        padding: 0 10px;
+        margin-bottom: 15px;
+        @include b4_12px_montserrat_charcoal;
+    }
+    label{
+        display:none;
+    }
+}
+.create-btn{
+    max-width: 80px!important;
+    height: 40px!important;
+    float: left;
+}
+
+.close-popup{
+    position: absolute;
+    right: 12px;
+    top: 16px;
+    font-size: 26px;
+    color: gray;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.wishlist-form{
+    padding-top: 20px;
+    border-top: 1px solid #E5E5E5;
+}
+
+.heading{
+    margin-bottom: 15px;
+    p{
+        @include b4_12px_montserrat_charcoal();
+        line-height: 19px;
+        letter-spacing: 0.36px;
+    }
+}
+.wishlist-items{
+    padding: 20px 0;
+    border-top: 1px solid #E5E5E5;
+}
+.list-item{
+    display: flex;
+    justify-content: space-between;
+    .list-name{
+        line-height: 22px;
+        letter-spacing: 0.42px;
+    }
+    .add-remove-cta{
+        line-height: 20px;
+        letter-spacing: 0.36px;
+        text-decoration: underline;
+        text-underline-offset: 0.3rem;
+        cursor: pointer;
+    }
+}
+.default-list-item{
+    .list-name{
+        @include b3_14px_montserrat_gold();
+    }
+    .add-remove-cta{
+        @include b4_12px_montserrat_light_gold();
+    }
+}
+.other-list-item{
+    padding-top: 15px;
+    .list-name{
+        @include b3_14px_montserrat_charcoal();
+    }
+    .add-remove-cta{
+        @include b4_12px_montserrat_light_charcoal();
+    }
+}
+.manage-link{
+    clear: both;
+    a{
+        @include b5_10px_montserrat_charcoal;
+        line-height: 16px;
+        letter-spacing: 0.3px;
+        text-decoration: underline;
+        text-underline-offset: 0.3rem;
+    }
+}
+.inputBoxHide{
+    @include b5_10px_montserrat_charcoal;
+    line-height: 16px;
+    letter-spacing: 0.3px;
+    margin-top: 10px;
+}

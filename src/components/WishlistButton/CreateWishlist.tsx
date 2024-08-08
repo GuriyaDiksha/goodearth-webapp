@@ -1,65 +1,121 @@
-// modules
-import React, {
-  memo,
-  useContext,
-  useCallback,
-  useState,
-  useEffect
-} from "react";
+import React, { useState, useEffect, useContext } from "react";
+import styles from "./styles.scss";
 import cs from "classnames";
-import { useStore, useSelector, useDispatch } from "react-redux";
-// contexts
-import WishlistContext from "contexts/wishlist";
-import UserContext from "contexts/user";
-// typings
-import { Props } from "./typings.d";
-// services
+import Button from "components/Button";
+import Formsy from "formsy-react";
+import FormInput from "components/Formsy/FormInput";
+import fontStyles from "styles/iconFonts.scss";
+import { Link } from "react-router-dom";
 import WishlistService from "services/wishlist";
-// styles
-import iconStyles from "styles/iconFonts.scss";
-import stylespdp from "./stylespdp.scss";
-import { AppState } from "reducers/typings";
-import { ChildProductAttributes } from "typings/product";
-import { updateLoader } from "actions/info";
+import { WishlistNameData } from "services/wishlist/typings";
+import {
+  ChildProductAttributes,
+  PartialChildProductAttributes
+} from "src/typings/product";
 import CookieService from "../../services/cookie";
+import { PriceRecord } from "typings/price";
+import { ProductID } from "typings/id";
+import { useStore, useSelector, useDispatch } from "react-redux";
+import { AppState } from "reducers/typings";
 import { GA_CALLS } from "constants/cookieConsent";
 import { showGrowlMessage } from "utils/validate";
-import { Link } from "react-router-dom";
+import UserContext from "contexts/user";
+import { updateLoader } from "actions/info";
 
-const WishlistButtonpdp: React.FC<Props> = ({
+type Props = {
+  hideWishlistPopup?: any;
+  gtmListType?: string;
+  title?: string;
+  childAttributes?: ChildProductAttributes[] | PartialChildProductAttributes[];
+  priceRecords?: PriceRecord;
+  discountedPriceRecords?: PriceRecord;
+  categories?: string[];
+  id: ProductID;
+  showText?: boolean;
+  className?: string;
+  size?: string;
+  mobile?: boolean;
+  iconClassName?: string;
+  basketLineId?: ProductID;
+  onMoveToWishlist?: () => void;
+  source?: string;
+  inWishlist?: boolean;
+  parentWidth?: boolean;
+  onComplete?: () => void;
+  isPlpTile?: boolean;
+  tablet?: boolean;
+  badgeType?: string;
+};
+
+const CreateWishlist: React.FC<Props> = ({
+  hideWishlistPopup,
   gtmListType,
   id,
-  size,
-  showText,
+  // size,
+  // showText,
   title,
   categories,
   priceRecords,
-  discountedPriceRecords,
+  // discountedPriceRecords,
   childAttributes,
-  className,
-  iconClassName,
-  mobile,
+  // className,
+  // iconClassName,
+  // mobile,
   basketLineId,
-  parentWidth,
-  source,
-  // inWishlist,
-  onMoveToWishlist,
-  badgeType,
-  createWishlistPopup
+  // parentWidth,
+  // source,
+  // onMoveToWishlist,
+  badgeType
 }) => {
-  const { wishlistItems, wishlistChildItems } = useContext(WishlistContext);
-  const { isLoggedIn } = useContext(UserContext);
+  const dispatch = useDispatch();
   const store = useStore();
+  const { isLoggedIn } = useContext(UserContext);
   const {
     currency,
-    wishlist: { sortBy },
     info: { isSale }
   } = useSelector((state: AppState) => state);
-  const [addedToWishlist, setAddedToWishlist] = useState(
-    wishlistItems.indexOf(id) != -1 ||
-      (basketLineId && wishlistChildItems.indexOf(id) != -1)
-  );
-  const dispatch = useDispatch();
+  const [wishlistData, setWishListData] = useState<WishlistNameData>({
+    data: [],
+    success: false
+  });
+  const [listName, setListName] = useState("");
+  const [btnName, setBtnName] = useState("ADD");
+
+  const onInputChange = (e: any) => {
+    const value = e.currentTarget.value.trim();
+    setListName(value);
+  };
+
+  const fetchWishlistName = async () => {
+    const data = await WishlistService.fetchWishlistName(dispatch);
+    if (data) {
+      setWishListData(data);
+    }
+    // WishlistService.updateWishlist(dispatch).then(res=>{
+    //   debugger
+    //   console.log(res);
+    // })
+    // if(data.data.length >=1){
+    //   setBtnName("REMOVE");
+    // }
+  };
+
+  const handleSubmit = (model: any) => {
+    const data = { id, listName };
+    WishlistService.addWishlistName(dispatch, data)
+      .then(res => {
+        setListName(res.listName);
+        fetchWishlistName();
+      })
+      .catch(error => {
+        // console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchWishlistName();
+  }, []);
+
   const gtmPushAddToWishlist = (addWishlist?: boolean) => {
     try {
       if (gtmListType) {
@@ -219,43 +275,9 @@ const WishlistButtonpdp: React.FC<Props> = ({
     }
   };
 
-  const onClick = useCallback(async () => {
-    dispatch(updateLoader(true));
-    if (basketLineId) {
-      if (addedToWishlist) {
-        WishlistService.removeFromWishlist(
-          store.dispatch,
-          id,
-          undefined
-          // sortBy,
-          // size
-        ).finally(() => {
-          dispatch(updateLoader(false));
-          // WishlistService.countWishlist(dispatch);
-        });
-      } else {
-        WishlistService.moveToWishlist(
-          store.dispatch,
-          basketLineId,
-          size || childAttributes?.[0].size || "",
-          source,
-          sortBy
-        )
-          .then(() => {
-            onMoveToWishlist?.();
-          })
-          .finally(() => {
-            dispatch(updateLoader(false));
-          });
-      }
-    } else {
-      if (addedToWishlist) {
-        WishlistService.removeFromWishlist(store.dispatch, id).finally(() => {
-          dispatch(updateLoader(false));
-          gtmPushAddToWishlist(false);
-          // WishlistService.countWishlist(dispatch);
-        });
-      } else {
+  const addWishlistHandler = (listName: string) => {
+    WishlistService.addToWishlist(store.dispatch, id, listName)
+      .then(() => {
         const growlMsg = (
           <div>
             Your item has been saved to Default List.{" "}
@@ -270,87 +292,117 @@ const WishlistButtonpdp: React.FC<Props> = ({
             &nbsp;your lists.
           </div>
         );
-        WishlistService.addToWishlist(store.dispatch, id, size)
-          .then(() => {
-            gtmPushAddToWishlist(true);
-            showGrowlMessage(dispatch, growlMsg);
-            // WishlistService.countWishlist(dispatch);
-          })
-          .finally(() => {
-            dispatch(updateLoader(false));
-          });
-      }
-    }
-  }, [addedToWishlist, id, isLoggedIn, basketLineId, size]);
-
-  const openWishlistPopup = () => {
-    createWishlistPopup(true);
+        gtmPushAddToWishlist(true);
+        showGrowlMessage(dispatch, growlMsg);
+      })
+      .finally(() => {
+        dispatch(updateLoader(false));
+      });
   };
 
-  useEffect(() => {
-    setAddedToWishlist(
-      wishlistItems.indexOf(id) != -1 ||
-        (basketLineId && wishlistChildItems.indexOf(id) != -1)
-    );
-  }, [wishlistChildItems, wishlistItems]);
+  // const removeWishlistHandler = (id: number) =>{
+  //   WishlistService.removeWishlistName(dispatch,id);
+  //   fetchWishlistName();
+  // }
+
+  const removeWishlistHandler = async (id: number) => {
+    try {
+      const result = await WishlistService.removeWishlistName(dispatch, id);
+      console.log("Item removed:", result);
+    } catch (error) {
+      console.error("Failed to remove item:", error);
+    }
+  };
 
   return (
     <>
-      <div
-        className={cs(className, stylespdp.wishlistButtonPdp)}
-        // onClick={mobile?onClick:undefined}
-      >
-        <div
-          style={parentWidth ? { width: "100%" } : {}}
-          // className={cs(
-          //   iconStyles.icon,
-          //   stylespdp.wishlistIcon,
-          //   iconClassName,
-          //   {
-          //     [iconStyles.iconWishlistAdded]: addedToWishlist,
-          //     [iconStyles.iconWishlist]: !addedToWishlist,
-          //     [stylespdp.addedToWishlist]: addedToWishlist,
-          //     [stylespdp.mobileWishlist]: mobile
-          //   }
-          // )}
-          title={
-            basketLineId
-              ? addedToWishlist
-                ? "Remove from Saved Items"
-                : "Move to Saved Items"
-              : ""
-          }
-        >
-          <i
-            style={parentWidth && mobile ? { width: "100%" } : {}}
+      <div className={styles.createWishlistWrapper}>
+        <div className={styles.heading}>
+          <p>Save Product to List(s)</p>
+          <span
             className={cs(
-              iconStyles.icon,
-              stylespdp.wishlistIcon,
-              iconClassName,
-              {
-                [iconStyles.iconWishlistAdded]: addedToWishlist,
-                [iconStyles.iconWishlist]: !addedToWishlist,
-                [stylespdp.addedToWishlist]: addedToWishlist,
-                [stylespdp.mobileWishlist]: mobile
-              }
+              styles.closePopup,
+              fontStyles.icon,
+              fontStyles.iconCross
             )}
-            onClick={isLoggedIn ? openWishlistPopup : onClick}
-          ></i>
+            onClick={hideWishlistPopup}
+          ></span>
         </div>
-        {showText && (
-          <div
-            className={cs(stylespdp.label, {
-              [stylespdp.addedToWishlist]: addedToWishlist
-            })}
-          >
-            <span onClick={isLoggedIn ? openWishlistPopup : onClick}>
-              {addedToWishlist ? "SAVED!" : "SAVE"}
+        <div className={styles.wishlistItems}>
+          <li className={cs(styles.listItem, styles.defaultListItem)}>
+            <span className={styles.listName}>Default List</span>
+            <span className={styles.addRemoveCta}>REMOVE</span>
+          </li>
+          {wishlistData.data.length >= 2 && (
+            <div className={styles.otherListWrapper}>
+              {wishlistData.data
+                .filter((item: any) => item.name !== "Default")
+                .map((item: any, i: any) => {
+                  return (
+                    <li
+                      key={i}
+                      className={cs(styles.listItem, styles.otherListItem)}
+                    >
+                      <span className={styles.listName}>{item.name}</span>
+                      <span
+                        className={styles.addRemoveCta}
+                        onClick={() => addWishlistHandler(item.name)}
+                      >
+                        {btnName}
+                      </span>
+                      <span
+                        className={styles.addRemoveCta}
+                        onClick={() => removeWishlistHandler(item.id)}
+                      >
+                        x
+                      </span>
+                    </li>
+                  );
+                })}
+            </div>
+          )}
+        </div>
+        {wishlistData.data.length < 6 ? (
+          <Formsy onValidSubmit={handleSubmit}>
+            <div className={styles.wishlistForm}>
+              <FormInput
+                id=""
+                className={cs(styles.inputField, styles.regFormLabel)}
+                name="create_new_list"
+                placeholder="Create New List"
+                label="Create New List"
+                validations={{
+                  maxLength: 50,
+                  isExisty: true
+                }}
+                validationErrors={{
+                  maxLength: "You can not enter more than 50 characters"
+                }}
+                value={listName || ""}
+                handleChange={onInputChange}
+              />
+              <Button
+                // onClick={onCtaClick}
+                variant="mediumLightGreyCta"
+                type="submit"
+                label={"CREATE"}
+                className={cs(styles.createBtn)}
+              />
+            </div>
+          </Formsy>
+        ) : (
+          <div className={styles.inputBoxHide}>
+            <span>
+              Only upto 5 lists can be created. To edit or make changes
             </span>
           </div>
         )}
+        <div className={styles.manageLink}>
+          <Link to="/wishlist">Manage Your Lists</Link>
+        </div>
       </div>
     </>
   );
 };
 
-export default memo(WishlistButtonpdp);
+export default CreateWishlist;

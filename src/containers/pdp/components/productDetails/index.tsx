@@ -77,6 +77,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
 import addReg from "../../../../images/registery/addReg.svg";
 import addedReg from "../../../../images/registery/addedReg.svg";
+import CreateWishlist from "components/WishlistButton/CreateWishlist";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -189,6 +190,16 @@ const ProductDetails: React.FC<Props> = ({
   } else if (ele[0] && mobile) {
     ele[0].style.zIndex = 6;
   }
+
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+  // Callback function to handle data from the child Component - WislistButtonPdp
+  const createWishlistPopup = (data: any) => {
+    setIsWishlistOpen(data);
+  };
+
+  const hideWishlistPopup = () => {
+    setIsWishlistOpen(false);
+  };
 
   useIsomorphicLayoutEffect(() => {
     setGtmListType("PDP");
@@ -1451,7 +1462,30 @@ const ProductDetails: React.FC<Props> = ({
                     [styles.mobileWishlistIcon]: mobile
                   })}
                   badgeType={badgeType}
+                  createWishlistPopup={createWishlistPopup}
                 />
+              </div>
+              <div className="createWishlistPopup">
+                {isWishlistOpen && (
+                  <CreateWishlist
+                    hideWishlistPopup={hideWishlistPopup}
+                    gtmListType={gtmListType}
+                    title={title}
+                    parentWidth={true}
+                    childAttributes={childAttributes}
+                    priceRecords={priceRecords}
+                    discountedPriceRecords={discountedPriceRecords}
+                    categories={categories}
+                    id={id}
+                    showText={!mobile}
+                    mobile={mobile}
+                    size={selectedSize ? selectedSize.size : undefined}
+                    iconClassName={cs({
+                      [styles.mobileWishlistIcon]: mobile
+                    })}
+                    badgeType={badgeType}
+                  />
+                )}
               </div>
             </div>
             <div

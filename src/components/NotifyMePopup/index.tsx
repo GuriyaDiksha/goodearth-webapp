@@ -321,9 +321,9 @@ const NotifyMePopup: React.FC<Props> = ({
             WishlistService.removeFromWishlist(
               dispatch,
               selectedSize.id,
-              undefined,
-              sortBy,
-              selectedSize.size
+              undefined
+              // sortBy,
+              // selectedSize.size
             );
             // WishlistService.countWishlist(dispatch);
           }

@@ -1,9 +1,9 @@
 import * as Actions from "actions/wishlist";
 import { ActionType } from "typings/actionCreator";
-import { WishlistItem } from "typings/wishlist";
+import { WishlistItem, WishlistData } from "typings/wishlist";
 
 export type State = {
-  items: WishlistItem[];
+  items: WishlistData[];
   sortBy: string;
   sortedDiscount: boolean;
   is_success: boolean;

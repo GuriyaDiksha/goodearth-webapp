@@ -1,8 +1,12 @@
 import { actionCreator } from "utils/actionCreator";
-import { WishlistItem, createSharedLinkResponse } from "typings/wishlist";
+import {
+  WishlistItem,
+  createSharedLinkResponse,
+  WishlistData
+} from "typings/wishlist";
 
 export const updateWishlist = (
-  items: WishlistItem[],
+  items: WishlistData[],
   sortBy = "added_on",
   sortedDiscount = false,
   sharable_link = "" //Added for shared current user's wishlist
@@ -15,7 +19,7 @@ export const updateWishlist = (
   });
 
 export const updateWishlistShared = (
-  items: WishlistItem[],
+  items: WishlistData[],
   sortBy = "added_on",
   sortedDiscount = false,
   owner_name = "", //Added for shared wishlist

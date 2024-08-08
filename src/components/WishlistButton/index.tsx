@@ -212,9 +212,9 @@ const WishlistButton: React.FC<Props> = ({
         WishlistService.removeFromWishlist(
           store.dispatch,
           id,
-          undefined,
-          sortBy,
-          size
+          undefined
+          // sortBy,
+          // size
         ).finally(() => {
           dispatch(updateLoader(false));
           onComplete && onComplete();
@@ -244,9 +244,9 @@ const WishlistButton: React.FC<Props> = ({
         WishlistService.removeFromWishlist(
           store.dispatch,
           id,
-          undefined,
-          undefined,
           undefined
+          // undefined,
+          // undefined
         ).finally(() => {
           dispatch(updateLoader(false));
           onComplete && onComplete();

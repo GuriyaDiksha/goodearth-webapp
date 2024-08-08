@@ -163,7 +163,7 @@ export default {
       tkn: response.token
     });
     // if (location.pathname == "/wishlist") {
-    WishlistService.updateWishlist(dispatch, sortBy);
+    WishlistService.updateWishlist(dispatch);
     // }
     // WishlistService.countWishlist(dispatch);
     Api.getAnnouncement(dispatch).catch(err => {
@@ -336,7 +336,7 @@ export default {
     });
 
     // if (location.pathname == "/wishlist") {
-    WishlistService.updateWishlist(dispatch, sortBy).then(() => {
+    WishlistService.updateWishlist(dispatch).then(() => {
       //Code to open share link popup after login
 
       const isShareLinkClicked = JSON.parse(
@@ -820,7 +820,7 @@ export default {
       });
 
       // if (location.pathname == "/wishlist") {
-      WishlistService.updateWishlist(dispatch, sortBy).then(() => {
+      WishlistService.updateWishlist(dispatch).then(() => {
         //Code to open share link popup after login
 
         const isShareLinkClicked = JSON.parse(
