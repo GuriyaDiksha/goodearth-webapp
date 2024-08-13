@@ -45,6 +45,7 @@ import inactiveList from "../../images/plpIcons/inactive_list.svg";
 import { CategoryMenu } from "containers/categoryLanding/typings";
 import { GA_CALLS } from "constants/cookieConsent";
 import ResetFilterModal from "./ResetFilterModal";
+// import PlpBubbles from "./components/PlpBubbles";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -858,7 +859,7 @@ class PLP extends React.Component<
                 />
               ) : null}
             </div>
-
+            {/* <PlpBubbles /> */}
             {!mobile ? (
               <div
                 className={cs(styles.productNumber, styles.imageContainer, {
