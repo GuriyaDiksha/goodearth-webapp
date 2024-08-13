@@ -167,7 +167,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         item_category2: L2,
         item_category3: L3,
         item_category4: "NA",
-        item_category5: line.product?.is3DView ? "3d" : "non 3d",
+        item_category5: line.product?.is3dimage ? "3d" : "non 3d",
         item_list_id: "NA",
         item_list_name: search ? `${clickType}-${search}` : "NA",
         item_variant: line.product.size || "NA",

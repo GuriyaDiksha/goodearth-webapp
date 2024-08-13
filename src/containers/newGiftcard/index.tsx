@@ -168,7 +168,6 @@ class NewGiftcard extends React.Component<Props, State> {
     const country = e.target.value;
     const newCurrency = countryData[country];
     const newCurrencyCode = currencyCode[newCurrency];
-
     this.setState(
       {
         selectedCountry: country
@@ -183,6 +182,7 @@ class NewGiftcard extends React.Component<Props, State> {
               newCurrency,
               this.props.customerGroup
             );
+            this.props.updateRegion({ country });
           });
           this.setState({
             currency: newCurrency,
