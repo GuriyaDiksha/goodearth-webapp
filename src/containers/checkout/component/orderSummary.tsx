@@ -976,12 +976,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   // };
   // console.log(deliveryText, salestatus, fullText);
 
-  const {
-    totalWithoutShipping,
-    freeShippingThreshold,
-    freeShippingApplicable,
-    shippable
-  } = props.basket;
+  const { showProductWorth, productWorthValue } = props.basket;
   return (
     <div
       className={cs(
@@ -1000,19 +995,14 @@ const OrderSummary: React.FC<OrderProps> = props => {
       )}
       ref={page === "checkoutMobileBottom" ? orderSummaryRefCheckout : null}
     >
-      {totalWithoutShipping &&
-      totalWithoutShipping >= freeShippingThreshold &&
-      totalWithoutShipping < freeShippingApplicable &&
-      shippable &&
-      page != "checkout" &&
-      page != "checkoutMobileBottom" ? (
+      {showProductWorth ? (
         <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
           <img src={freeShippingInfoIcon} alt="free-shipping" />
           <div className={styles.text}>
             Add products worth{" "}
             {String.fromCharCode(...currencyCode[props.currency])}{" "}
-            {freeShippingApplicable - parseInt(totalWithoutShipping.toString())}{" "}
-            or more to qualify for free shipping. Limited time only!
+            {parseFloat(productWorthValue?.toString() || "")} or more to qualify
+            for free shipping. Limited time only!
           </div>
         </div>
       ) : (
