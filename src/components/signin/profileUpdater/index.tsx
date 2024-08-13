@@ -404,12 +404,8 @@ class ProfileUpdater extends React.Component<Props, State> {
               handleChange={() => {
                 // this.setState({ updateProfile: true });
               }}
-              validations={{ minLength: 1, maxLength: 15 }}
-              validationError="This field must be 15 characters or less."
-              disable={firstName?.length <= 15 ? true : false}
-              className={cs({
-                [styles.disabledInput]: firstName?.length <= 15
-              })}
+              disable={firstName ? true : false}
+              className={cs({ [styles.disabledInput]: firstName })}
             />
           </div>
           <div>
@@ -422,8 +418,6 @@ class ProfileUpdater extends React.Component<Props, State> {
               handleChange={() => {
                 // this.setState({ updateProfile: true });
               }}
-              validations={{ minLength: 1, maxLength: 15 }}
-              validationError="This field must be 15 characters or less."
               disable={lastName ? true : false}
               className={cs({ [styles.disabledInput]: lastName })}
             />
