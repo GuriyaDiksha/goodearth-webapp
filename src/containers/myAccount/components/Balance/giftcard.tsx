@@ -49,6 +49,12 @@ class Giftcard extends React.Component<Props, GiftState> {
     }
   };
 
+  handleKeyPress = (event: any) => {
+    if (event.key === " ") {
+      event.preventDefault();
+    }
+  };
+
   toggleOtp = (value: boolean) => {
     this.setState({
       toggleOtp: value
@@ -60,86 +66,103 @@ class Giftcard extends React.Component<Props, GiftState> {
       code: this.state.txtvalue,
       inputType: "GIFT"
     };
-    this.props
-      .balanceCheck(data)
-      .then(response => {
-        const { giftList } = this.state;
-        if (response.currStatus == "Not Activated" && response.type == "GIFT") {
-          response.status = "inactive";
-          giftList.push(response);
-          this.setState({
-            giftList: giftList,
-            newCardBox: false,
-            txtvalue: "",
-            // showInactive: true,
-            // showExpired: false,
-            // showLocked: false,
-            conditionalRefresh: true,
-            error: ""
-          });
-        } else if (
-          response.currStatus == "Expired" &&
-          response.type == "GIFT"
-        ) {
-          response.status = "expired";
-          giftList.push(response);
-          this.setState({
-            newCardBox: false,
-            conditionalRefresh: true,
-            // chkbalance: data,
-            // showExpired: true,
-            txtvalue: "",
-            // showInactive: false,
-            // showLocked: false,
-            giftList: giftList,
-            error: ""
-            // inputBox: false
-          });
-        } else if (response.currStatus == "Locked" && response.type == "GIFT") {
-          response.status = "locked";
-          giftList.push(response);
-          this.setState({
-            newCardBox: false,
-            conditionalRefresh: true,
-            // showLocked: true,
-            // showExpired: false,
-            txtvalue: "",
-            // showInactive: false,
-            giftList: giftList,
-            error: ""
-          });
-        } else {
-          response.status = "active";
-          giftList.push(response);
-          this.setState({
-            giftList: giftList,
-            // showExpired: false,
-            // showInactive: false,
-            // showLocked: false,
-            newCardBox: false,
-            txtvalue: "",
-            error: "",
-            conditionalRefresh: true
-          });
+    if (this.state.txtvalue === "") {
+      this.setState(
+        {
+          error: "Please enter a valid Gift Card code."
+        },
+        () => {
+          errorTracking([this.state.error], location.href);
         }
-      })
-      .catch(err => {
-        const { status, currStatus, message } = err.response.data;
-        if (!status) {
-          if (currStatus == "Invalid-CN") {
-            this.setState(
-              {
-                error: message
-              },
-              () => {
-                errorTracking([this.state.error], location.href);
-              }
-            );
+      );
+    } else {
+      this.props
+        .balanceCheck(data)
+        .then(response => {
+          const { giftList } = this.state;
+          if (
+            response.currStatus == "Not Activated" &&
+            response.type == "GIFT"
+          ) {
+            response.status = "inactive";
+            giftList.push(response);
+            this.setState({
+              giftList: giftList,
+              newCardBox: false,
+              txtvalue: "",
+              // showInactive: true,
+              // showExpired: false,
+              // showLocked: false,
+              conditionalRefresh: true,
+              error: ""
+            });
+          } else if (
+            response.currStatus == "Expired" &&
+            response.type == "GIFT"
+          ) {
+            response.status = "expired";
+            giftList.push(response);
+            this.setState({
+              newCardBox: false,
+              conditionalRefresh: true,
+              // chkbalance: data,
+              // showExpired: true,
+              txtvalue: "",
+              // showInactive: false,
+              // showLocked: false,
+              giftList: giftList,
+              error: ""
+              // inputBox: false
+            });
+          } else if (
+            response.currStatus == "Locked" &&
+            response.type == "GIFT"
+          ) {
+            response.status = "locked";
+            giftList.push(response);
+            this.setState({
+              newCardBox: false,
+              conditionalRefresh: true,
+              // showLocked: true,
+              // showExpired: false,
+              txtvalue: "",
+              // showInactive: false,
+              giftList: giftList,
+              error: ""
+            });
           } else {
-            // to be handled
+            response.status = "active";
+            giftList.push(response);
+            this.setState({
+              giftList: giftList,
+              // showExpired: false,
+              // showInactive: false,
+              // showLocked: false,
+              newCardBox: false,
+              txtvalue: "",
+              error: "",
+              conditionalRefresh: true
+            });
           }
-        }
-      });
+        })
+        .catch(err => {
+          const { status, currStatus, message } = err.response.data;
+          if (!status) {
+            if (currStatus == "Invalid-CN") {
+              this.setState(
+                {
+                  error: message
+                },
+                () => {
+                  errorTracking([this.state.error], location.href);
+                }
+              );
+            } else {
+              // to be handled
+            }
+          }
+        });
+    }
   };
 
   updateList = (response: any) => {
@@ -303,6 +326,7 @@ class Giftcard extends React.Component<Props, GiftState> {
                           autoComplete="off"
                           value={txtvalue}
                           onChange={this.changeValue}
+                          onKeyDown={this.handleKeyPress}
                           id="gift"
                           className={this.state.error ? cs(styles.err) : ""}
                         />
