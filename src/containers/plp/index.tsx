@@ -864,7 +864,7 @@ class PLP extends React.Component<
             <PlpBubbles
               bubbleTitle={this.props.facetObject}
               facets={this.props.facets}
-              categoryShop={categoryShop}
+              categoryShop={categoryShop || ""}
             />
             {!mobile ? (
               <div
