@@ -15,8 +15,6 @@ import { decriptdata } from "utils/validate";
 interface Props {
   id: number;
   name: string;
-  // errorMsg: string;
-  // updateWishlistName: (id: number, listName: string) => void;
   updateWishlistData: any;
   deleteWishlistName: (listName: string) => void;
 }

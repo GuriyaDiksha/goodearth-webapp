@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import WishlistService from "services/wishlist";
 import { WishlistResponse } from "services/wishlist/typings";
-import { useSelector, useDispatch, useStore } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./styles.scss";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
@@ -9,7 +9,6 @@ import SecondaryHeader from "components/SecondaryHeader";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import UserContext from "contexts/user";
 import { AppState } from "reducers/typings";
-import globalstyles from "styles/global.scss";
 import { displayPriceWithCommas } from "utils/utility";
 import iconStyles from "styles/iconFonts.scss";
 import { updateComponent, updateModal } from "../../actions/modal";
@@ -17,8 +16,6 @@ import { POPUP } from "constants/components";
 import ModalStyles from "components/Modal/styles.scss";
 import cross from "./../../icons/wishlist_cross.svg";
 import { updateLoader } from "actions/info";
-import { decriptdata } from "utils/validate";
-import { Context } from "components/Modal/context";
 import Button from "components/Button";
 import LoginService from "services/login";
 import { updateNextUrl } from "actions/info";
@@ -26,13 +23,8 @@ import HeaderService from "services/headerFooter";
 import { SearchFeaturedData } from "components/header/typings";
 import { Link } from "react-router-dom";
 
-// export type Props = {
-//   featureData: WidgetImage[];
-// }
-
 const WishlistDetailPage = () => {
   const { isLoggedIn } = useContext(UserContext);
-  const { closeModal } = useContext(Context);
   const { mobile } = useSelector((state: AppState) => state.device);
   const { isSale } = useSelector((state: AppState) => state.info);
   const isShared = useSelector((state: AppState) =>
@@ -280,26 +272,6 @@ const WishlistDetailPage = () => {
       fetchWishlistName();
     });
   };
-
-  // const [errorMsg, setErrorMsg] = useState("");
-  // const updateWishlistName = async (id: number, listName: string) =>{
-  //   const data ={id,listName};
-  //   WishlistService.updateWishlistName(dispatch, data)
-  //   .then(res => {
-  //     fetchWishlistName();
-  //     setErrorMsg("");
-  //     closeModal();
-  //   })
-  //   .catch((error: any) => {
-  //     const data = decriptdata(error.response?.data);
-  //     console.log(error);
-  //     if(data.success == false){
-  //       if(data.message=="Wishlist name already exist!"){
-  //         setErrorMsg("List with same name exists");
-  //       }
-  //     }
-  //   });
-  // }
 
   const deleteWishlistName = (listName: string) => {
     WishlistService.removeFromWishlist(
