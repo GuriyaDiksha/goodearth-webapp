@@ -22,8 +22,8 @@ const mapStateToProps = (state: AppState) => {
     cookies: state.cookies,
     slab: state.user.slab,
     currencyList: state.info.currencyList,
-    user: state.user,
-    sortBy: state.wishlist.sortBy
+    user: state.user
+    // sortBy: state.wishlist.sortBy
   };
 };
 
@@ -49,7 +49,7 @@ const BottomMenu: React.FC<Props> = ({
   reloadPage,
   cookies,
   user,
-  sortBy,
+  // sortBy,
   showMenu
 }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -107,8 +107,8 @@ const BottomMenu: React.FC<Props> = ({
           response.currency,
           user.customerGroup,
           history.location.pathname,
-          user.isLoggedIn,
-          sortBy
+          user.isLoggedIn
+          // sortBy
         );
       })
       .finally(() => {

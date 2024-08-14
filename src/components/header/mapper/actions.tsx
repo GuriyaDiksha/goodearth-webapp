@@ -42,7 +42,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       cookies: Cookies,
       bridalId: number,
       bridalKey?: string,
-      sortBy = "added_on",
+      // sortBy = "added_on",
       page?: string
     ) => {
       await WishlistService.updateWishlist(dispatch);
@@ -78,8 +78,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       currency: Currency,
       customerGroup: string,
       page?: string,
-      islogin?: boolean,
-      sortBy = "added_on"
+      islogin?: boolean
+      // sortBy = "added_on"
     ) => {
       // if (page == "/") {
       // }

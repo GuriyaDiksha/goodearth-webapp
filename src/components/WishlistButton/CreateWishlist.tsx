@@ -7,7 +7,7 @@ import FormInput from "components/Formsy/FormInput";
 import fontStyles from "styles/iconFonts.scss";
 import { Link } from "react-router-dom";
 import WishlistService from "services/wishlist";
-import { WishlistNameData } from "services/wishlist/typings";
+import { WishlistResponse } from "services/wishlist/typings";
 import {
   ChildProductAttributes,
   PartialChildProductAttributes
@@ -21,6 +21,8 @@ import { GA_CALLS } from "constants/cookieConsent";
 import { showGrowlMessage } from "utils/validate";
 import UserContext from "contexts/user";
 import { updateLoader } from "actions/info";
+import { decriptdata } from "utils/validate";
+import globalStyles from "styles/global.scss";
 
 type Props = {
   hideWishlistPopup?: any;
@@ -74,47 +76,55 @@ const CreateWishlist: React.FC<Props> = ({
     currency,
     info: { isSale }
   } = useSelector((state: AppState) => state);
-  const [wishlistData, setWishListData] = useState<WishlistNameData>({
-    data: [],
-    success: false
+  const [wishlistDataItem, setWishListItemData] = useState<WishlistResponse>({
+    data: []
   });
+
   const [listName, setListName] = useState("");
-  const [btnName, setBtnName] = useState("ADD");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [isenable, setIsenable] = useState(false);
 
   const onInputChange = (e: any) => {
     const value = e.currentTarget.value.trim();
     setListName(value);
+    if (value) {
+      setIsenable(true);
+    } else {
+      setIsenable(false);
+      setErrorMsg("");
+      setIsenable(false);
+    }
   };
 
   const fetchWishlistName = async () => {
-    const data = await WishlistService.fetchWishlistName(dispatch);
+    const data = await WishlistService.updateWishlist(dispatch);
     if (data) {
-      setWishListData(data);
+      setWishListItemData(data);
     }
-    // WishlistService.updateWishlist(dispatch).then(res=>{
-    //   debugger
-    //   console.log(res);
-    // })
-    // if(data.data.length >=1){
-    //   setBtnName("REMOVE");
-    // }
-  };
-
-  const handleSubmit = (model: any) => {
-    const data = { id, listName };
-    WishlistService.addWishlistName(dispatch, data)
-      .then(res => {
-        setListName(res.listName);
-        fetchWishlistName();
-      })
-      .catch(error => {
-        // console.log(error);
-      });
   };
 
   useEffect(() => {
     fetchWishlistName();
   }, []);
+
+  const handleSubmit = (listName: string) => {
+    WishlistService.addToWishlist(store.dispatch, undefined, listName)
+      .then(res => {
+        setListName(listName);
+        fetchWishlistName();
+        setErrorMsg("");
+        setIsenable(false);
+      })
+      .catch((error: any) => {
+        const data = decriptdata(error.response?.data);
+        console.log(error);
+        if (data.success == false) {
+          if (data.message == "Wishlist name already exist!") {
+            setErrorMsg("List with same name exists");
+          }
+        }
+      });
+  };
 
   const gtmPushAddToWishlist = (addWishlist?: boolean) => {
     try {
@@ -280,7 +290,7 @@ const CreateWishlist: React.FC<Props> = ({
       .then(() => {
         const growlMsg = (
           <div>
-            Your item has been saved to Default List.{" "}
+            Your item has been saved to {listName}.{" "}
             {isLoggedIn ? "Click here" : "Sign In"} to&nbsp;
             <Link
               to="/wishlist"
@@ -294,19 +304,24 @@ const CreateWishlist: React.FC<Props> = ({
         );
         gtmPushAddToWishlist(true);
         showGrowlMessage(dispatch, growlMsg);
+        fetchWishlistName();
       })
       .finally(() => {
         dispatch(updateLoader(false));
       });
   };
 
-  const removeWishlistHandler = async (id: number) => {
-    try {
-      await WishlistService.removeWishlistName(dispatch, id);
+  const removeWishlistHandler = async (id: number, listName: string) => {
+    WishlistService.removeFromWishlist(
+      dispatch,
+      id,
+      undefined,
+      listName
+    ).finally(() => {
+      dispatch(updateLoader(false));
+      gtmPushAddToWishlist(false);
       fetchWishlistName();
-    } catch (error) {
-      console.log(error);
-    }
+    });
   };
 
   return (
@@ -324,65 +339,72 @@ const CreateWishlist: React.FC<Props> = ({
           ></span>
         </div>
         <div className={styles.wishlistItems}>
-          <li className={cs(styles.listItem, styles.defaultListItem)}>
-            <span className={styles.listName}>Default List</span>
-            <span className={styles.addRemoveCta}>REMOVE</span>
-          </li>
-          {wishlistData.data.length >= 2 && (
-            <div className={styles.otherListWrapper}>
-              {wishlistData.data
-                .filter((item: any) => item.name !== "Default")
-                .map((item: any, i: any) => {
-                  return (
-                    <li
-                      key={i}
-                      className={cs(styles.listItem, styles.otherListItem)}
+          {wishlistDataItem.data.map((item: any, i: any) => {
+            const hasProductId = item.products.some(
+              (product: any) => product.productId === id
+            );
+            return (
+              <>
+                <li key={i} className={cs(styles.listItem)}>
+                  <span
+                    className={cs(styles.listName, {
+                      [globalStyles.gold]: hasProductId
+                    })}
+                  >
+                    {item.name}
+                  </span>
+                  {hasProductId ? (
+                    <span
+                      className={cs(styles.addRemoveCta, globalStyles.gold)}
+                      onClick={() => removeWishlistHandler(id, item.name)}
                     >
-                      <span className={styles.listName}>{item.name}</span>
-                      <span
-                        className={styles.addRemoveCta}
-                        onClick={() => addWishlistHandler(item.name)}
-                      >
-                        {btnName}
-                      </span>
-                      <span
-                        className={styles.addRemoveCta}
-                        onClick={() => removeWishlistHandler(item.id)}
-                      >
-                        x
-                      </span>
-                    </li>
-                  );
-                })}
-            </div>
-          )}
+                      REMOVE
+                    </span>
+                  ) : (
+                    <span
+                      className={cs(styles.addRemoveCta)}
+                      onClick={() => addWishlistHandler(item.name)}
+                    >
+                      ADD
+                    </span>
+                  )}
+                </li>
+              </>
+            );
+          })}
         </div>
-        {wishlistData.data.length < 6 ? (
+        {wishlistDataItem.data.length < 6 ? (
           <Formsy onValidSubmit={handleSubmit}>
             <div className={styles.wishlistForm}>
               <FormInput
                 id=""
-                className={cs(styles.inputField, styles.regFormLabel)}
-                name="create_new_list"
+                className={cs(styles.inputField, styles.regFormLabel, {
+                  [styles.errorBorder]: errorMsg
+                })}
+                name="listName"
                 placeholder="Create New List"
                 label="Create New List"
                 validations={{
-                  maxLength: 50,
+                  maxLength: 30,
                   isExisty: true
                 }}
                 validationErrors={{
-                  maxLength: "You can not enter more than 50 characters"
+                  maxLength: "You can not enter more than 30 characters"
                 }}
                 value={listName || ""}
                 handleChange={onInputChange}
               />
               <Button
-                // onClick={onCtaClick}
-                variant="mediumLightGreyCta"
+                variant={
+                  !isenable ? "smallLightGreyCta" : "smallMedCharcoalCta"
+                }
                 type="submit"
                 label={"CREATE"}
+                disabled={!isenable}
+                stopHover={true}
                 className={cs(styles.createBtn)}
               />
+              {errorMsg && <p className={styles.errorMsg}>{errorMsg}</p>}
             </div>
           </Formsy>
         ) : (

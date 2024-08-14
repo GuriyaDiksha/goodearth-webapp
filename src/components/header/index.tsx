@@ -53,8 +53,8 @@ const mapStateToProps = (state: AppState) => {
     mobile: state.device.mobile,
     tablet: state.device.tablet,
     wishlistData: state.wishlist.items,
-    wishlistCountData: state.wishlist.count,
-    sortBy: state.wishlist.sortBy,
+    // wishlistCountData: state.wishlist.count,
+    // sortBy: state.wishlist.sortBy,
     cart: state.basket,
     message: state.message,
     location: state.router.location,
@@ -160,7 +160,7 @@ class Header extends React.Component<Props, State> {
         this.props?.cookies,
         this.props.bridalId,
         bridalKey,
-        this.props.sortBy,
+        // this.props.sortBy,
         this.props.history?.location?.pathname
       )
       .then(() => {
@@ -830,8 +830,8 @@ class Header extends React.Component<Props, State> {
             response.currency,
             this.props.customerGroup,
             history.location.pathname,
-            this.props.isLoggedIn,
-            this.props.sortBy
+            this.props.isLoggedIn
+            // this.props.sortBy
           );
         })
         .finally(() => {
@@ -1041,7 +1041,7 @@ class Header extends React.Component<Props, State> {
     const {
       wishlistData,
       bridalCount,
-      wishlistCountData,
+      // wishlistCountData,
       meta,
       goLogin,
       handleLogOut,

@@ -3,7 +3,7 @@ import { Dispatch } from "redux";
 import {
   WishlistResponse,
   WishlistCountResponse,
-  WishlistNameData
+  wishlistNameResponse
 } from "./typings";
 // actions
 import {
@@ -23,10 +23,10 @@ import { showGrowlMessage } from "../../utils/validate";
 import { createSharedLinkResponse } from "typings/wishlist";
 // import { countWishlist } from "actions/wishlist";
 
-export type SaveWishlistData = {
-  id: number;
-  listName: string;
-};
+// export type SaveWishlistData = {
+//   id: number;
+//   listName: string;
+// };
 
 export default {
   updateWishlist: async function(dispatch: Dispatch) {
@@ -36,37 +36,38 @@ export default {
     );
 
     dispatch(updateWishlist(res.data));
+    return res;
   },
 
   updateWishlistShared: async function(
     dispatch: Dispatch,
-    uid?: string,
-    sortBy = "added_on"
+    uid?: string
+    // sortBy = "added_on"
   ) {
     try {
       const res = await API.get<WishlistResponse>(
         dispatch,
-        `${__API_HOST__}/myapi/wishlist/get_sharable_wishlist_items/${uid}?sort_by=${sortBy}`
+        `${__API_HOST__}/myapi/wishlist/get_sharable_wishlist_items/${uid}`
       );
       dispatch(
         updateWishlistShared(
-          res.data || [],
-          sortBy,
-          res.sortedDiscount,
-          res?.owner_name,
-          res?.data?.length === 0
-            ? "Looks like there are no items in the list."
-            : ""
+          res.data || []
+          // sortBy,
+          // res.sortedDiscount,
+          // res?.owner_name,
+          // res?.data?.length === 0
+          //   ? "Looks like there are no items in the list."
+          //   : ""
         )
       );
     } catch (e) {
       dispatch(
         updateWishlistShared(
-          [],
-          sortBy,
-          undefined,
-          "",
-          "Looks like this link does not exist."
+          []
+          // sortBy,
+          // undefined,
+          // "",
+          // "Looks like this link does not exist."
         )
       );
     }
@@ -78,7 +79,7 @@ export default {
 
   addToWishlist: async function(
     dispatch: Dispatch,
-    productId: ProductID,
+    productId?: ProductID,
     listName?: string
     // size?: string
     // isShared?: boolean
@@ -149,8 +150,8 @@ export default {
     dispatch: Dispatch,
     basketLineId: ProductID,
     size: string,
-    source?: string,
-    sortBy?: string
+    source?: string
+    // sortBy?: string
     // isShared?: boolean
   ) {
     const res = await API.post<WishlistResponse & ApiResponse>(
@@ -158,8 +159,8 @@ export default {
       `${__API_HOST__}/myapi/wishlist/move_to_wishlist/`,
       {
         basketLineId,
-        size,
-        sortBy
+        size
+        // sortBy
       }
     );
 
@@ -216,8 +217,8 @@ export default {
     dispatch: Dispatch,
     id: number,
     size: string,
-    quantity?: number,
-    sortBy?: string
+    quantity?: number
+    // sortBy?: string
   ) {
     const res = await API.post<ApiResponse>(
       dispatch,
@@ -257,28 +258,14 @@ export default {
   //   dispatch(countWishlist(res.count));
   //   // return res;
   // }
-  fetchWishlistName: async (dispatch: Dispatch) => {
-    const res = await API.get<WishlistNameData>(
+  updateWishlistName: async function(
+    dispatch: Dispatch,
+    data: wishlistNameResponse
+  ) {
+    const res = await API.put<wishlistNameResponse & ApiResponse>(
       dispatch,
-      `${__API_HOST__}/myapi/wishlist/name/`
-    );
-    return res;
-  },
-  addWishlistName: async function(dispatch: Dispatch, data: SaveWishlistData) {
-    const res = await API.post<SaveWishlistData>(
-      dispatch,
-      `${__API_HOST__}/myapi/wishlist/name/`,
+      `${__API_HOST__}/myapi/wishlist/`,
       data
-    );
-    return res;
-  },
-  removeWishlistName: async function(dispatch: Dispatch, id: number) {
-    const res = await API.delete<SaveWishlistData>(
-      dispatch,
-      `${__API_HOST__}/myapi/wishlist/name/`,
-      {
-        id
-      }
     );
     return res;
   }

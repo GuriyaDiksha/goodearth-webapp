@@ -52,7 +52,7 @@ const WishlistButtonpdp: React.FC<Props> = ({
   const store = useStore();
   const {
     currency,
-    wishlist: { sortBy },
+    // wishlist: { sortBy },
     info: { isSale }
   } = useSelector((state: AppState) => state);
   const [addedToWishlist, setAddedToWishlist] = useState(
@@ -238,8 +238,8 @@ const WishlistButtonpdp: React.FC<Props> = ({
           store.dispatch,
           basketLineId,
           size || childAttributes?.[0].size || "",
-          source,
-          sortBy
+          source
+          // sortBy
         )
           .then(() => {
             onMoveToWishlist?.();

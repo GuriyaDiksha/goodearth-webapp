@@ -81,8 +81,8 @@ export default {
     password: string,
     currency: Currency,
     source?: string,
-    history?: any,
-    sortBy?: string
+    history?: any
+    // sortBy?: string
   ) {
     // const queryString = location.search;
     // const urlParams = new URLSearchParams(queryString);
@@ -261,7 +261,7 @@ export default {
     currency: Currency,
     source: string,
     history: any,
-    sortBy?: string,
+    // sortBy?: string,
     mobile?: boolean,
     popupStyle?: string
   ) {
@@ -548,8 +548,8 @@ export default {
   register: async function(
     dispatch: Dispatch,
     formData: FormData,
-    source?: string,
-    sortBy?: string
+    source?: string
+    // sortBy?: string
   ) {
     const olddata = { ...formData };
     const enc = encryptdata(olddata);
@@ -741,7 +741,7 @@ export default {
     otp: string,
     currency?: Currency,
     source?: string,
-    sortBy?: string,
+    // sortBy?: string,
     mobile?: boolean,
     popupStyle?: string
   ) => {

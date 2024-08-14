@@ -30,7 +30,7 @@ import SelectDropdown from "components/Formsy/SelectDropdown";
 
 const mapStateToProps = (state: AppState) => {
   return {
-    sortBy: state.wishlist.sortBy
+    // sortBy: state.wishlist.sortBy
   };
 };
 
@@ -123,7 +123,7 @@ class RegisterForm extends React.Component<Props, registerState> {
       disableButton: true
     });
     this.props
-      .register(formData, undefined, this.props.sortBy)
+      .register(formData, undefined /*, this.props.sortBy*/)
       .then(data => {
         this.setState({
           disableButton: false

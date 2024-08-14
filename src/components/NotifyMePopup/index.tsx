@@ -53,7 +53,7 @@ type Props = {
   category?: string;
   changeSize?: (size: string, quantity?: number) => void;
   onNotifyCart?: (basketLineId: ProductID) => void;
-  sortBy?: string;
+  // sortBy?: string;
   list?: string;
   sliderImages: { icon: boolean }[];
   collections: string[];
@@ -75,7 +75,7 @@ const NotifyMePopup: React.FC<Props> = ({
   isSale,
   discount,
   badgeType,
-  sortBy,
+  // sortBy,
   list,
   sliderImages,
   collections,

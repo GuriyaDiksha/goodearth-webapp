@@ -43,7 +43,7 @@ const mapStateToProps = (state: AppState) => {
     currency: state.currency,
     isdList: isdList,
     countryData: state.address.countryData,
-    sortBy: state.wishlist.sortBy,
+    // sortBy: state.wishlist.sortBy,
     mobile: state.device.mobile
   };
 };
@@ -197,7 +197,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       disableButton: true
     });
     this.props
-      .register(formData, "checkout", this.props.sortBy)
+      .register(formData, "checkout")
       .then(data => {
         const userConsent = CookieService.getCookie("consent").split(",");
 
@@ -1361,7 +1361,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             goLogin={this.props.goToLogin}
             isCheckout={this.props.isCheckout}
             currency={this.props.currency}
-            sortBy={this.props.sortBy}
+            // sortBy={this.props.sortBy}
             phoneNo={this.state.phoneNo}
             isRegistration={true}
           />
