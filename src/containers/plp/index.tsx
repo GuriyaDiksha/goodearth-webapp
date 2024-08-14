@@ -45,12 +45,13 @@ import inactiveList from "../../images/plpIcons/inactive_list.svg";
 import { CategoryMenu } from "containers/categoryLanding/typings";
 import { GA_CALLS } from "constants/cookieConsent";
 import ResetFilterModal from "./ResetFilterModal";
-// import PlpBubbles from "./components/PlpBubbles";
+import PlpBubbles from "./components/PlpBubbles";
 
 const mapStateToProps = (state: AppState) => {
   return {
     plpProductId: state.plplist.plpProductId,
     facetObject: state.plplist.facetObject,
+    facets: state.plplist.data.results.facets,
     data: state.plplist.data,
     plpMobileView: state.plplist.plpMobileView,
     scrollDown: state.info.scrollDown,
@@ -859,7 +860,12 @@ class PLP extends React.Component<
                 />
               ) : null}
             </div>
-            {/* <PlpBubbles /> */}
+
+            <PlpBubbles
+              bubbleTitle={this.props.facetObject}
+              facets={this.props.facets}
+              categoryShop={categoryShop}
+            />
             {!mobile ? (
               <div
                 className={cs(styles.productNumber, styles.imageContainer, {
