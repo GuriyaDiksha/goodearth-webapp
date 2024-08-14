@@ -486,7 +486,6 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 required
                 handleChange={() => setUpdateProfile()}
                 disable={data?.firstName ? true : false}
-                validations={{ maxLength: 15 }}
                 className={cs({ [styles.disabledInput]: data?.firstName })}
               />
             </div>
@@ -498,7 +497,6 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
                 keyPress={e => (e.key == " Enter" ? e.preventDefault() : "")}
                 handleChange={() => setUpdateProfile()}
                 disable={data?.lastName ? true : false}
-                validations={{ maxLength: 15 }}
                 className={cs({ [styles.disabledInput]: data?.lastName })}
               />
             </div>
