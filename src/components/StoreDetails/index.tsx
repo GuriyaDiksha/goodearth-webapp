@@ -161,7 +161,7 @@ class StoreDetails extends React.Component<Props, State> {
               globalStyles.gutterBetween
             )}
           >
-            <div className={styles.heading}></div>
+            {/* <div className={styles.heading}></div> */}
             <div className={styles.heading}>IN SHOP AVAILABILITY</div>
 
             <div
