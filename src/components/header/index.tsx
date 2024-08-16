@@ -391,7 +391,7 @@ class Header extends React.Component<Props, State> {
           //   headerHeight +
           //   5}px)`;
         } else {
-          menuOverlay.style.top = `${headerHeight + 5}px`;
+          menuOverlay.style.top = `${headerHeight + 4}px`;
           // menuOverlay.style.height = `calc(100vh - ${headerHeight + 5}px)`;
         }
       }
