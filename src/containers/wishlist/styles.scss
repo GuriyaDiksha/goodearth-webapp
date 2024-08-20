@@ -896,12 +896,19 @@ icon-cross {
     border-top: 0.5px solid #9F9F9F;
     margin: 60px 0;
     clear: both;
+    @media(max-width:992px){
+      margin: 30px 0;
+    }
   }
 }
 .list-block{
   clear: both;
   &:last-child hr{
     border: none;
+  }
+  .wishlist-head{
+    display: flex;
+    justify-content: space-between;
   }
   .wishlist-heading{
     display: flex;
@@ -913,7 +920,7 @@ icon-cross {
     @include h3_20px_lora_medCharcoal();
     line-height: 25px;
     letter-spacing: 0.4px;
-    padding-right: 30px;
+    padding-right: 25px;
   }
   .edit{
     text-decoration: underline;
@@ -926,9 +933,10 @@ icon-cross {
     .product-data{
       float:left;
       width: 280px;
-      height: 480px;
+      // height: 480px;
       padding: 0 5px;
-      &:last-child{
+      margin-bottom: 60px;
+      @media(max-width:992px){
         margin-bottom: 30px;
       }
       .product-image{
@@ -1052,5 +1060,41 @@ icon-cross {
       line-height: 16px;
       letter-spacing: 0.26px!important;
     }
+  }
+}
+.pencil-icon-container{
+  position: absolute;
+  right: 10px;
+  top: 11%;
+  z-index: 2;
+  background: #fff;
+  border-radius: 100%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  @media(max-width:992px){
+    top: 17%;
+  }
+  .icon-pencil{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+.create-wishlist-popup > div{
+  width: 350px;
+  right: 12px;
+  top: 11%;
+}
+.secondry-header-wrapper{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 150px;
+  @media(max-width:992px){
+    padding: 0 30px;
   }
 }

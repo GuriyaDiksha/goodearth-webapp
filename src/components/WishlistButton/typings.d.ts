@@ -28,4 +28,5 @@ export type Props = {
   tablet?: boolean;
   badgeType?: string;
   createWishlistPopup?: any;
+  isPdp?: boolean;
 };

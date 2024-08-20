@@ -45,7 +45,8 @@ const WishlistButtonpdp: React.FC<Props> = ({
   // inWishlist,
   onMoveToWishlist,
   badgeType,
-  createWishlistPopup
+  createWishlistPopup,
+  isPdp
 }) => {
   const { wishlistItems, wishlistChildItems } = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
@@ -334,7 +335,7 @@ const WishlistButtonpdp: React.FC<Props> = ({
                 [stylespdp.mobileWishlist]: mobile
               }
             )}
-            onClick={isLoggedIn ? openWishlistPopup : onClick}
+            onClick={isLoggedIn && isPdp ? openWishlistPopup : onClick}
           ></i>
         </div>
         {showText && (

@@ -1052,10 +1052,14 @@ class Header extends React.Component<Props, State> {
       // slab,
       // customerGroup
     } = this.props;
-    const wishlistCount = wishlistData.length;
-    // const wishlistCount = wishlistCountData;
+
+    const wishlistProductData = wishlistData.map(({ products }) => products);
+    const flattenedArray = wishlistProductData.flat();
+    const wishlistCount = flattenedArray.length;
+
     // const wishlistCount = wishlistData.length;
     // const wishlistCount = wishlistCountData;
+
     const bridalCountData = bridalCount;
     let bagCount = 0;
     const item = this.props.cart.lineItems;
@@ -1418,7 +1422,7 @@ class Header extends React.Component<Props, State> {
                     hideSearch={this.hideSearch}
                     toggleSearch={this.showSearch}
                     mobile={mobile}
-                    wishlistData={wishlistData}
+                    // wishlistData={wishlistData}
                     wishlistCountData={wishlistCount}
                     currency={this.props.currency}
                     sidebagData={this.props.cart}

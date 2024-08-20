@@ -5,10 +5,11 @@ import CloseButton from "components/Modal/components/CloseButton";
 import Formsy from "formsy-react";
 import FormInput from "components/Formsy/FormInput";
 import Button from "components/Button";
-import { useStore } from "react-redux";
+import { useStore, useDispatch } from "react-redux";
 import WishlistService from "services/wishlist";
 import { decriptdata } from "utils/validate";
 import { Context } from "components/Modal/context";
+import { showGrowlMessage } from "utils/validate";
 
 interface Props {
   dataLength: number;
@@ -23,6 +24,7 @@ const createWishlist: React.FC<Props> = ({
   const [errorMsg, setErrorMsg] = useState("");
   const [isenable, setIsenable] = useState(false);
   const store = useStore();
+  const dispatch = useDispatch();
   const { closeModal } = useContext(Context);
 
   const onInputChange = (e: any) => {
@@ -45,6 +47,7 @@ const createWishlist: React.FC<Props> = ({
         setIsenable(false);
         closeModal();
         updateWishlistData();
+        showGrowlMessage(dispatch, `New list ${listName} has been created.`);
       })
       .catch((error: any) => {
         const data = decriptdata(error.response?.data);

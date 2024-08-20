@@ -17,10 +17,21 @@ import { showGrowlMessage } from "utils/validate";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 
-const ShareWishlistLink = () => {
+export type Props = {
+  listName: string;
+  sharable_link: string;
+  updateWishlistData: any;
+};
+
+const ShareWishlistLink: React.FC<Props> = ({
+  listName,
+  sharable_link,
+  updateWishlistData
+}) => {
   const { mobile } = useSelector((state: AppState) => state.device);
   const { firstName, lastName } = useSelector((state: AppState) => state.user);
-  const { wishlist_link } = useSelector((state: AppState) => state.wishlist);
+  // const { wishlist_link } = useSelector((state: AppState) => state.wishlist);
+  const [wishlist_link, setWishlist_link] = useState(sharable_link);
   const dispatch = useDispatch();
 
   const gaCall = (click_type: string) => {
@@ -33,7 +44,7 @@ const ShareWishlistLink = () => {
         cta_name:
           `${firstName} ${lastName}`
             .toLowerCase()
-            .replace(/\b(\w)/g, x => x.toUpperCase()) + "'s Saved List"
+            .replace(/\b(\w)/g, x => x.toUpperCase()) + "&apos;s Saved List"
       });
     }
   };
@@ -70,8 +81,6 @@ const ShareWishlistLink = () => {
   const { closeModal } = useContext(Context);
 
   useEffect(() => {
-    console.log("Inside useEffect");
-
     const whatsappUrl =
       (mobile
         ? "whatsapp://send?text="
@@ -87,12 +96,21 @@ const ShareWishlistLink = () => {
 
   const createLink = async () => {
     gaCall("Create Share Link");
-    await WishlistService.createSharedWishlistLink(dispatch);
+    WishlistService.createSharedWishlistLink(dispatch, listName).then(
+      (res: any) => {
+        debugger;
+        updateWishlistData();
+      }
+    );
   };
 
   const deleteLink = async () => {
     gaCall("Delete Link");
-    await WishlistService.deleteSharedWishlistLink(dispatch);
+    WishlistService.deleteSharedWishlistLink(dispatch, listName).then(
+      (res: any) => {
+        updateWishlistData();
+      }
+    );
   };
 
   return (
@@ -122,14 +140,16 @@ const ShareWishlistLink = () => {
           <div className={styles.loginForm}>
             <div>
               <div className={globalStyles.voffset8}>
-                <h2 className={styles.h2Popup}>
+                {/* <h2 className={styles.h2Popup}>
                   Share{" "}
                   {`${firstName} ${lastName}`
                     .toLowerCase()
                     .replace(/\b(\w)/g, x => x.toUpperCase())}
                   &apos;s
+                </h2> */}
+                <h2 className={styles.h2Popup}>
+                  Share saved items <br /> &apos;{listName} List&apos;
                 </h2>
-                <h2 className={styles.h2Popup}>Saved List</h2>
               </div>
               {!wishlist_link && (
                 <div className={styles.linkWrp}>

@@ -191,7 +191,11 @@ const ProductDetails: React.FC<Props> = ({
     ele[0].style.zIndex = 6;
   }
 
+  const isPDP =
+    history.location.pathname.includes("/catalogue/") &&
+    !history.location.pathname.includes("/catalogue/category");
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+
   // Callback function to handle data from the child Component - WislistButtonPdp
   const createWishlistPopup = (data: any) => {
     setIsWishlistOpen(data);
@@ -409,8 +413,8 @@ const ProductDetails: React.FC<Props> = ({
                 mailSubject="Gifting Ideas"
                 mailText={`${
                   corporatePDP
-                    ? `Here's what I found, check it out on Good Earth's web boutique`
-                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                    ? `Here&apos;s what I found, check it out on Good Earth&apos;s web boutique`
+                    : `Here&apos;s what I found! It reminded me of you, check it out on Good Earth&apos;s web boutique`
                 } ${__DOMAIN__}${location.pathname}`}
               />
             )}
@@ -1463,6 +1467,7 @@ const ProductDetails: React.FC<Props> = ({
                   })}
                   badgeType={badgeType}
                   createWishlistPopup={createWishlistPopup}
+                  isPdp={isPDP}
                 />
               </div>
               <div className="createWishlistPopup">

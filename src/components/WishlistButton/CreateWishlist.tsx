@@ -16,6 +16,7 @@ import CookieService from "../../services/cookie";
 import { PriceRecord } from "typings/price";
 import { ProductID } from "typings/id";
 import { useStore, useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import { AppState } from "reducers/typings";
 import { GA_CALLS } from "constants/cookieConsent";
 import { showGrowlMessage } from "utils/validate";
@@ -47,6 +48,7 @@ type Props = {
   isPlpTile?: boolean;
   tablet?: boolean;
   badgeType?: string;
+  updateWishlistData?: any;
 };
 
 const CreateWishlist: React.FC<Props> = ({
@@ -67,9 +69,11 @@ const CreateWishlist: React.FC<Props> = ({
   // parentWidth,
   // source,
   // onMoveToWishlist,
-  badgeType
+  badgeType,
+  updateWishlistData
 }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const store = useStore();
   const { isLoggedIn } = useContext(UserContext);
   const {
@@ -305,6 +309,9 @@ const CreateWishlist: React.FC<Props> = ({
         gtmPushAddToWishlist(true);
         showGrowlMessage(dispatch, growlMsg);
         fetchWishlistName();
+        if (history.location.pathname.includes("wishlist")) {
+          updateWishlistData();
+        }
       })
       .finally(() => {
         dispatch(updateLoader(false));
@@ -321,6 +328,9 @@ const CreateWishlist: React.FC<Props> = ({
       dispatch(updateLoader(false));
       gtmPushAddToWishlist(false);
       fetchWishlistName();
+      if (history.location.pathname.includes("wishlist")) {
+        updateWishlistData();
+      }
     });
   };
 
@@ -414,9 +424,11 @@ const CreateWishlist: React.FC<Props> = ({
             </span>
           </div>
         )}
-        <div className={styles.manageLink}>
-          <Link to="/wishlist">Manage Your Lists</Link>
-        </div>
+        {!history.location.pathname.includes("wishlist") && (
+          <div className={styles.manageLink}>
+            <Link to="/wishlist">Manage Your Lists</Link>
+          </div>
+        )}
       </div>
     </>
   );

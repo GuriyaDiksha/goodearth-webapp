@@ -509,143 +509,175 @@ class CartPage extends React.Component<Props, State> {
                 : ""}
             </div>
 
-            {isLoggedIn && wishlistData.length > 0 && (
-              <>
-                <h6 className={styles.wishlistHead}>From your Saved List</h6>
-                <p className={styles.wishlistSubHead}>
-                  There’s more waiting for you in your{" "}
-                  <Link className={styles.viewAll} to="/wishlist">
-                    Default Saved List
-                  </Link>
-                </p>
+            {isLoggedIn &&
+              wishlistData.map(
+                item =>
+                  item.products.length > 0 && (
+                    <>
+                      <h6 className={styles.wishlistHead}>
+                        From your Saved List
+                      </h6>
+                      <p className={styles.wishlistSubHead}>
+                        There’s more waiting for you in your{" "}
+                        <Link className={styles.viewAll} to="/wishlist">
+                          Default Saved List
+                        </Link>
+                      </p>
 
-                <div
-                  className={cs(
-                    bootstrap.col12,
-                    globalStyles.marginT20,
-                    globalStyles.marginB20,
-                    {
-                      [globalStyles.marginB100]: mobile,
-                      [styles.mobileWrp]: mobile
-                    }
-                  )}
-                >
-                  <div
-                    className={cs(bootstrap.row, globalStyles.flexGutterStart, {
-                      [styles.mobileConatiner]: mobile
-                    })}
-                  >
-                    {wishlistData.length > 0 &&
-                      wishlistData?.slice(0, mobile ? 6 : 8)?.map((data, i) => {
-                        return (
-                          <div
-                            key={i}
-                            className={cs(bootstrap.colLg3, {
-                              [styles.px6]: !mobile,
-                              [styles.col6]: mobile
-                            })}
-                          >
-                            <div
-                              className={cs(styles.searchImageboxNew, {
-                                [styles.viewAllTile]:
-                                  (i === 7 && !mobile) || (i === 5 && mobile)
-                              })}
-                            >
-                              {data?.salesBadgeImage &&
-                                ((i < 7 && !mobile) || (i < 5 && mobile)) && (
-                                  <div
-                                    className={cs(
-                                      {
-                                        [styles.badgePositionPlpMobile]: mobile
-                                      },
-                                      {
-                                        [styles.badgePositionPlp]: !mobile
-                                      }
-                                    )}
-                                  >
-                                    <img src={data.salesBadgeImage} />
-                                  </div>
-                                )}
-                              {(i < 7 && !mobile) || (i < 5 && mobile) ? (
-                                <Link to={data.productUrl}>
-                                  <img
-                                    src={
-                                      data.productImage == ""
-                                        ? noImagePlp
-                                        : data.productImage
-                                    }
-                                    alt={data.productName}
-                                    className={styles.imageResultNew}
-                                  />
-                                </Link>
-                              ) : (
-                                <Link to={"/wishlist"}>VIEW ALL</Link>
-                              )}
-                            </div>
-                            {((i < 7 && !mobile) || (i < 5 && mobile)) && (
-                              <div className={styles.imageContent}>
-                                <p
-                                  className={cs(
-                                    styles.searchFeature,
-                                    styles.wishlistConetent
-                                  )}
-                                >
-                                  <Link to={data.productUrl}>
-                                    {data.productName}
-                                  </Link>
-                                </p>
-                                <p className={styles.searchFeature}>
-                                  <Link to={data.productUrl}>
-                                    {this.props?.isSale && data.discount ? (
-                                      <p className={styles.discountprice}>
-                                        {data.discountedPrice
-                                          ? displayPriceWithCommas(
-                                              data.discountedPrice[currency],
-                                              currency,
-                                              true,
-                                              false
-                                            )
-                                          : ""}
-                                      </p>
-                                    ) : (
-                                      ""
-                                    )}
-                                    {this.props?.isSale && data.discount ? (
-                                      <p className={styles.strikeprice}>
-                                        {displayPriceWithCommas(
-                                          data.price[currency],
-                                          currency,
-                                          true,
-                                          false
+                      <div
+                        className={cs(
+                          bootstrap.col12,
+                          globalStyles.marginT20,
+                          globalStyles.marginB20,
+                          {
+                            [globalStyles.marginB100]: mobile,
+                            [styles.mobileWrp]: mobile
+                          }
+                        )}
+                      >
+                        <div
+                          className={cs(
+                            bootstrap.row,
+                            globalStyles.flexGutterStart,
+                            {
+                              [styles.mobileConatiner]: mobile
+                            }
+                          )}
+                        >
+                          {wishlistData.map(
+                            item =>
+                              item.products.length > 0 &&
+                              item.products
+                                ?.slice(0, mobile ? 6 : 8)
+                                ?.map((data, i) => {
+                                  return (
+                                    <div
+                                      key={i}
+                                      className={cs(bootstrap.colLg3, {
+                                        [styles.px6]: !mobile,
+                                        [styles.col6]: mobile
+                                      })}
+                                    >
+                                      <div
+                                        className={cs(
+                                          styles.searchImageboxNew,
+                                          {
+                                            [styles.viewAllTile]:
+                                              (i === 7 && !mobile) ||
+                                              (i === 5 && mobile)
+                                          }
                                         )}
-                                      </p>
-                                    ) : (
-                                      <p
-                                        className={
-                                          data.badgeType == "B_flat"
-                                            ? styles.discountprice
-                                            : ""
-                                        }
                                       >
-                                        {displayPriceWithCommas(
-                                          data.price[currency],
-                                          currency,
-                                          true,
-                                          false
+                                        {data?.salesBadgeImage &&
+                                          ((i < 7 && !mobile) ||
+                                            (i < 5 && mobile)) && (
+                                            <div
+                                              className={cs(
+                                                {
+                                                  [styles.badgePositionPlpMobile]: mobile
+                                                },
+                                                {
+                                                  [styles.badgePositionPlp]: !mobile
+                                                }
+                                              )}
+                                            >
+                                              <img src={data.salesBadgeImage} />
+                                            </div>
+                                          )}
+                                        {(i < 7 && !mobile) ||
+                                        (i < 5 && mobile) ? (
+                                          <Link to={data.productUrl}>
+                                            <img
+                                              src={
+                                                data.productImage == ""
+                                                  ? noImagePlp
+                                                  : data.productImage
+                                              }
+                                              alt={data.productName}
+                                              className={styles.imageResultNew}
+                                            />
+                                          </Link>
+                                        ) : (
+                                          <Link to={"/wishlist"}>VIEW ALL</Link>
                                         )}
-                                      </p>
-                                    )}
-                                  </Link>
-                                </p>
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
-                  </div>
-                </div>
-              </>
-            )}
+                                      </div>
+                                      {((i < 7 && !mobile) ||
+                                        (i < 5 && mobile)) && (
+                                        <div className={styles.imageContent}>
+                                          <p
+                                            className={cs(
+                                              styles.searchFeature,
+                                              styles.wishlistConetent
+                                            )}
+                                          >
+                                            <Link to={data.productUrl}>
+                                              {data.productName}
+                                            </Link>
+                                          </p>
+                                          <p className={styles.searchFeature}>
+                                            <Link to={data.productUrl}>
+                                              {this.props?.isSale &&
+                                              data.discount ? (
+                                                <p
+                                                  className={
+                                                    styles.discountprice
+                                                  }
+                                                >
+                                                  {data.discountedPrice
+                                                    ? displayPriceWithCommas(
+                                                        data.discountedPrice[
+                                                          currency
+                                                        ],
+                                                        currency,
+                                                        true,
+                                                        false
+                                                      )
+                                                    : ""}
+                                                </p>
+                                              ) : (
+                                                ""
+                                              )}
+                                              {this.props?.isSale &&
+                                              data.discount ? (
+                                                <p
+                                                  className={styles.strikeprice}
+                                                >
+                                                  {displayPriceWithCommas(
+                                                    data.price[currency],
+                                                    currency,
+                                                    true,
+                                                    false
+                                                  )}
+                                                </p>
+                                              ) : (
+                                                <p
+                                                  className={
+                                                    data.badgeType == "B_flat"
+                                                      ? styles.discountprice
+                                                      : ""
+                                                  }
+                                                >
+                                                  {displayPriceWithCommas(
+                                                    data.price[currency],
+                                                    currency,
+                                                    true,
+                                                    false
+                                                  )}
+                                                </p>
+                                              )}
+                                            </Link>
+                                          </p>
+                                        </div>
+                                      )}
+                                    </div>
+                                  );
+                                })
+                          )}
+                        </div>
+                      </div>
+                    </>
+                  )
+              )}
 
             {/* {mobile || tablet ? (
               ""

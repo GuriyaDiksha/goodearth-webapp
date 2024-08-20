@@ -233,19 +233,40 @@ export default {
     return res;
   },
 
-  createSharedWishlistLink: async function(dispatch: Dispatch) {
-    const res = await API.get<createSharedLinkResponse>(
+  // createSharedWishlistLink: async function(dispatch: Dispatch, listName?: string) {
+  //   const res = await API.get<createSharedLinkResponse>(
+  //     dispatch,
+  //     `${__API_HOST__}/myapi/wishlist/create_wishlist_link/`
+  //   );
+
+  //   dispatch(createSharedLink(res));
+  // },
+
+  createSharedWishlistLink: async function(
+    dispatch: Dispatch,
+    listName?: string
+  ) {
+    const res = await API.post<createSharedLinkResponse>(
       dispatch,
-      `${__API_HOST__}/myapi/wishlist/create_wishlist_link/`
+      `${__API_HOST__ + "/myapi/wishlist/create_wishlist_link/"}`,
+      {
+        listName
+      }
     );
 
     dispatch(createSharedLink(res));
   },
-  deleteSharedWishlistLink: async function(dispatch: Dispatch) {
+
+  deleteSharedWishlistLink: async function(
+    dispatch: Dispatch,
+    listName?: string
+  ) {
     const res = await API.delete<createSharedLinkResponse>(
       dispatch,
       `${__API_HOST__}/myapi/wishlist/create_wishlist_link/`,
-      {}
+      {
+        listName
+      }
     );
 
     dispatch(createSharedLink({ ...res, wishlist_link: "" }));
