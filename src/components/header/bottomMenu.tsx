@@ -242,13 +242,22 @@ const BottomMenu: React.FC<Props> = ({
                   styles.wishlistIconStyle
                 )}
               />
-              <span
+              {/* <span
                 className={cs(styles.badge, {
                   [globalStyles.gold]: location.pathname.includes("/wishlist")
                 })}
               >
                 {wishlistCount > 0 ? wishlistCount : ""}
-              </span>
+              </span> */}
+              {wishlistCount > 0 && (
+                <span
+                  className={cs(styles.whislistDotMobile, {
+                    [styles.wishlistGoldDot]: location.pathname.includes(
+                      "/wishlist"
+                    )
+                  })}
+                ></span>
+              )}
             </Link>
           </div>
         </div>

@@ -42,7 +42,7 @@ const createWishlist: React.FC<Props> = ({
   const handleSubmit = () => {
     WishlistService.addToWishlist(store.dispatch, undefined, listName)
       .then(res => {
-        setListName(listName);
+        setListName("");
         setErrorMsg("");
         setIsenable(false);
         closeModal();
@@ -111,7 +111,8 @@ const createWishlist: React.FC<Props> = ({
           <div className={styles.maxLimitReached}>
             <h3>Maximum Lists Created</h3>
             <p className={styles.contentText}>
-              Only upto 5 lists can be created to save products. You may delete
+              Only upto 5 lists can be <br />
+              created to save products. You may delete <br />
               an older list to make a new one.
             </p>
           </div>

@@ -963,11 +963,13 @@ icon-cross {
 .wishlist-popup-container{
   max-width: 520px;
   min-height: 20vh;
-  min-width: 520px;
   width: 100%;
   background-color: #fff;
-  padding-bottom: 55px;
+  padding-bottom: 40px;
   position: relative;
+  @media(min-width:993px){
+    min-width: 520px;
+  }
   .header{
     height: 50px;
     margin-bottom: 30px;

@@ -85,6 +85,9 @@ const DeleteWishlist = loadable(() =>
 const CreateWishlist = loadable(() =>
   import("../containers/wishlist/createWishlist")
 );
+const AddRemoveWishlistNamePopup = loadable(() =>
+  import("../components/WishlistButton/CreateWishlist")
+);
 
 export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   currency: CurrencyPopup,
@@ -127,7 +130,8 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   countryPopup: CountryPopup,
   editWishlistName: EditWishlistName,
   deleteWishlist: DeleteWishlist,
-  createWishlist: CreateWishlist
+  createWishlist: CreateWishlist,
+  addRemoveWishlistNamePopup: AddRemoveWishlistNamePopup
 };
 
 export const enum POPUP {
@@ -171,5 +175,6 @@ export const enum POPUP {
   COUNTRYPOPUP = "countryPopup",
   EDITWISHLISTNAME = "editWishlistName",
   DELETEWISHLIST = "deleteWishlist",
-  CREATEWISHLIST = "createWishlist"
+  CREATEWISHLIST = "createWishlist",
+  ADDREMOVEWISHLISTNAMEPOPUP = "addRemoveWishlistNamePopup"
 }

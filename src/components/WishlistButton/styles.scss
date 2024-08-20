@@ -65,7 +65,7 @@
 .input-field{
     input{
         height: 40px;
-        min-width: 230px;
+        min-width: 70%;
         float: left;
         border: 1px solid #A6A6A6;
         padding: 0 10px;
@@ -76,7 +76,7 @@
     }
 }
 .create-btn{
-    max-width: 80px!important;
+    max-width: 30%!important;
     height: 40px!important;
     float: left;
 }
@@ -100,7 +100,7 @@
 }
 
 .heading{
-    margin-bottom: 15px;
+    padding-bottom: 15px;
     p{
         @include b4_12px_montserrat_charcoal();
         line-height: 19px;
@@ -156,4 +156,12 @@
 }
 .error-border input{
     border: 1px solid $cerise!important;
+}
+.wishlist-popup-container{
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+    top: unset;
+    background-color: #fff;
+    padding-bottom: 16%;
 }

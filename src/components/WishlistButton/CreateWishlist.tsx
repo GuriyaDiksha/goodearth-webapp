@@ -24,6 +24,7 @@ import UserContext from "contexts/user";
 import { updateLoader } from "actions/info";
 import { decriptdata } from "utils/validate";
 import globalStyles from "styles/global.scss";
+import { Context } from "components/Modal/context";
 
 type Props = {
   hideWishlistPopup?: any;
@@ -72,6 +73,8 @@ const CreateWishlist: React.FC<Props> = ({
   badgeType,
   updateWishlistData
 }) => {
+  const { mobile } = useSelector((state: AppState) => state.device);
+  const { closeModal } = useContext(Context);
   const dispatch = useDispatch();
   const history = useHistory();
   const store = useStore();
@@ -111,13 +114,16 @@ const CreateWishlist: React.FC<Props> = ({
     fetchWishlistName();
   }, []);
 
-  const handleSubmit = (listName: string) => {
+  const handleSubmit = () => {
     WishlistService.addToWishlist(store.dispatch, undefined, listName)
       .then(res => {
-        setListName(listName);
+        setListName("");
         fetchWishlistName();
         setErrorMsg("");
         setIsenable(false);
+        if (history.location.pathname.includes("wishlist")) {
+          updateWishlistData();
+        }
       })
       .catch((error: any) => {
         const data = decriptdata(error.response?.data);
@@ -336,7 +342,11 @@ const CreateWishlist: React.FC<Props> = ({
 
   return (
     <>
-      <div className={styles.createWishlistWrapper}>
+      <div
+        className={cs(styles.createWishlistWrapper, {
+          [styles.wishlistPopupContainer]: mobile
+        })}
+      >
         <div className={styles.heading}>
           <p>Save Product to List(s)</p>
           <span
@@ -345,10 +355,10 @@ const CreateWishlist: React.FC<Props> = ({
               fontStyles.icon,
               fontStyles.iconCross
             )}
-            onClick={hideWishlistPopup}
+            onClick={mobile ? closeModal : hideWishlistPopup}
           ></span>
         </div>
-        <div className={styles.wishlistItems}>
+        <div className={cs(styles.wishlistItems)}>
           {wishlistDataItem.data.map((item: any, i: any) => {
             const hasProductId = item.products.some(
               (product: any) => product.productId === id
@@ -426,7 +436,13 @@ const CreateWishlist: React.FC<Props> = ({
         )}
         {!history.location.pathname.includes("wishlist") && (
           <div className={styles.manageLink}>
-            <Link to="/wishlist">Manage Your Lists</Link>
+            <Link to="/wishlist">
+              {mobile ? (
+                <span onClick={closeModal}>Manage Your Lists</span>
+              ) : (
+                <span>Manage Your Lists</span>
+              )}
+            </Link>
           </div>
         )}
       </div>

@@ -1601,6 +1601,18 @@ visibility: visible !important;
   .logo-icon-style {
     font-size: 26px;
   }
+  a{
+    position: relative;
+  }
+  .whislist-dot-mobile{
+    width: 7px;
+    height: 7px;
+    position: absolute;
+    background: #4C4C4C;
+    border-radius: 100%;
+    right: -3px;
+    top: 10px;
+  }
 }
 
 .hamburger-bottom-menu {

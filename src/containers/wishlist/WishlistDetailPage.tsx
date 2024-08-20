@@ -312,7 +312,9 @@ const WishlistDetailPage = () => {
       updateComponent(
         POPUP.EDITWISHLISTNAME,
         { id, name, updateWishlistData, deleteWishlistName },
-        false
+        false,
+        mobile ? ModalStyles.bottomAlignSlideUp : "",
+        mobile ? "slide-up-bottom-align" : ""
       )
     );
     dispatch(updateModal(true));
@@ -323,7 +325,9 @@ const WishlistDetailPage = () => {
       updateComponent(
         POPUP.CREATEWISHLIST,
         { dataLength, updateWishlistData },
-        false
+        false,
+        mobile ? ModalStyles.bottomAlignSlideUp : "",
+        mobile ? "slide-up-bottom-align" : ""
       )
     );
     dispatch(updateModal(true));
@@ -336,6 +340,19 @@ const WishlistDetailPage = () => {
     if (url) {
       dispatch(updateNextUrl(url));
     }
+  };
+
+  const editWishlistItemPopupMobile = (id: number, updateWishlistData: any) => {
+    dispatch(
+      updateComponent(
+        POPUP.ADDREMOVEWISHLISTNAMEPOPUP,
+        { id, updateWishlistData },
+        false,
+        mobile ? ModalStyles.bottomAlignSlideUp : "",
+        mobile ? "slide-up-bottom-align" : ""
+      )
+    );
+    dispatch(updateModal(true));
   };
 
   const editWishlistItemPopup = (
@@ -598,11 +615,16 @@ const WishlistDetailPage = () => {
                                   alt="pencilIcon"
                                   className={cs(styles.iconPencil)}
                                   onClick={() =>
-                                    editWishlistItemPopup(
-                                      productData.productId,
-                                      listIndex,
-                                      productIndex
-                                    )
+                                    mobile
+                                      ? editWishlistItemPopupMobile(
+                                          productData.productId,
+                                          fetchWishlistName
+                                        )
+                                      : editWishlistItemPopup(
+                                          productData.productId,
+                                          listIndex,
+                                          productIndex
+                                        )
                                   }
                                 />
                               </div>

@@ -78,6 +78,7 @@ import { displayPriceWithCommas } from "utils/utility";
 import addReg from "../../../../images/registery/addReg.svg";
 import addedReg from "../../../../images/registery/addedReg.svg";
 import CreateWishlist from "components/WishlistButton/CreateWishlist";
+import { updateComponent, updateModal } from "actions/modal";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -139,7 +140,7 @@ const ProductDetails: React.FC<Props> = ({
     user: { bridalId, bridalCurrency }
   } = useSelector((state: AppState) => state);
   // const [img] = images;
-
+  const { dispatch } = useStore();
   const location = useLocation();
   const history = useHistory();
   const [gtmListType, setGtmListType] = useState("");
@@ -197,6 +198,19 @@ const ProductDetails: React.FC<Props> = ({
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
 
   // Callback function to handle data from the child Component - WislistButtonPdp
+  const createWishlistPopupMobile = () => {
+    dispatch(
+      updateComponent(
+        POPUP.ADDREMOVEWISHLISTNAMEPOPUP,
+        { id },
+        false,
+        mobile ? ModalStyles.bottomAlignSlideUp : "",
+        mobile ? "slide-up-bottom-align" : ""
+      )
+    );
+    dispatch(updateModal(true));
+  };
+
   const createWishlistPopup = (data: any) => {
     setIsWishlistOpen(data);
   };
@@ -209,7 +223,7 @@ const ProductDetails: React.FC<Props> = ({
     setGtmListType("PDP");
     setOnload(true);
   });
-  const { dispatch } = useStore();
+
   useEffect(() => {
     let count = 0;
     let tempSize: ChildProductAttributes | undefined;
@@ -1466,7 +1480,9 @@ const ProductDetails: React.FC<Props> = ({
                     [styles.mobileWishlistIcon]: mobile
                   })}
                   badgeType={badgeType}
-                  createWishlistPopup={createWishlistPopup}
+                  createWishlistPopup={
+                    mobile ? createWishlistPopupMobile : createWishlistPopup
+                  }
                   isPdp={isPDP}
                 />
               </div>
