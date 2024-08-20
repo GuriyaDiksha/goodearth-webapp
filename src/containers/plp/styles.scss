@@ -1249,3 +1249,85 @@ p.corporate-sub-heading {
     }
   }
 }
+.slider-container {
+  // background-color: rgb(36, 33, 33);
+  width: 100%;
+  max-height: 150px;
+  padding: 30px 0px;
+}
+
+.slick-slider {
+  background-color: #3C7979;
+  max-width: 800px;
+  max-height: 170px;
+
+  .slick-list {
+    max-height: 150px;
+    max-width: 823px;
+    background: red;
+    // margin: 0 auto;
+
+    .slick-track {
+
+      .slick-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        div {
+          max-width: 97px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+
+        }
+
+      }
+    }
+
+
+
+  }
+}
+
+.bubble-container {
+  max-height: 150px;
+  max-width: 109px;
+
+  div {
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 50%;
+  }
+
+  .bubbleText {
+    color: #f2f2f2;
+    font-size: 12px;
+    display: block;
+    text-align: center;
+  }
+}
+
+.bubbleImage {
+  width: 97px;
+  height: 97px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.slick-prev {
+  left: -0px !important;
+}
+.slick-next {
+  right: -0px !important;
+}
+.slick-next:before,
+.slick-prev:before {
+  content: "" !important;
+}
+.next-slick-arrow,
+.prev-slick-arrow {
+  color: #000000;
+  font-size: 15px;
+}
