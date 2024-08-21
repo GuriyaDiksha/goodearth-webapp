@@ -62,7 +62,8 @@ const mapStateToProps = (state: AppState) => {
     showTimer: state.info.showTimer,
     isLoggedIn: state.user.isLoggedIn,
     plpTemplates: state.plplist.plpTemplates,
-    mobile: state.device.mobile
+    mobile: state.device.mobile,
+    plpBubblesData: state.plplist.data.results.plpBubbles
   };
 };
 

@@ -16,7 +16,6 @@ const PlpBubbles: React.FC<Props> = ({ bubbleTitle, categoryShop }) => {
     slidesToScroll: 1,
 
     infinite: false,
-    centerPadding: "50px", // set center padding
     nextArrow: (
       <div>
         <div className="next-slick-arrow">&gt;</div>
