@@ -69,7 +69,7 @@
     //line-height: 30px;
     font-family: $font-Montserrat;
     text-align: right;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .align-price {
@@ -154,16 +154,18 @@
     @include gold_13px_lora_italic();
 }
 
-span{
+span {
     &.discountprice {
         color: $gold !important;
-        @include b3_14px_montserrat_charcoal();
-      }
-      &.strikeprice {
+        @include b3_14px_montserrat_light_charcoal();
+    }
+
+    &.strikeprice {
         text-decoration: line-through;
         display: block;
         @include b3_14px_montserrat_medcharcoal();
-      }
+        color: #9F9F9F !important;
+    }
 }
 
 
@@ -227,6 +229,6 @@ span{
 }
 
 .mrp{
-    font-size: 14px !important;
+    font-size: 12px !important;
     padding-right: 5px;
 }
