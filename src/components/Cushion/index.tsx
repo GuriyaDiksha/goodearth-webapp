@@ -207,6 +207,18 @@ class CushionBag extends React.Component<Props, State> {
                     { [globalStyles.textCenter]: !mobile }
                   )}
                 >
+                  {currency === "INR" && (
+                    <span
+                      className={cs(styles.mrp, {
+                        [globalStyles.gold]:
+                          badgeType == "b_flat" ||
+                          (isSale && discount && discountedPriceRecords)
+                      })}
+                    >
+                      MRP.
+                    </span>
+                  )}
+
                   {isSale && discount && discountedPriceRecords ? (
                     <span className={styles.discountedPrice}>
                       {displayPriceWithCommas(discountPrices, currency)}
@@ -227,6 +239,7 @@ class CushionBag extends React.Component<Props, State> {
                       {displayPriceWithCommas(price, currency)}
                     </span>
                   )}
+                  {currency === "INR" && <p>(Incl. of all taxes)</p>}
                 </div>
               )}
             </div>
@@ -629,8 +642,7 @@ class CushionBag extends React.Component<Props, State> {
               globalStyles.gutterBetween
             )}
           >
-            <div className={styles.heading}></div>
-            <div className={styles.heading}>PURCHASE INSERT</div>
+            <div className={styles.heading}>Buy Insert</div>
             <div
               className={globalStyles.pointer}
               onClick={() => {

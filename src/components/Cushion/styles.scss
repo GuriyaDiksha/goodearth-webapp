@@ -40,7 +40,7 @@
     right: 0;
     bottom: 0;
     z-index: 20;
-    width: 350px;
+    width: 414px;
     font-size: 16px;
     line-height: 16px;
     display: none;
@@ -79,7 +79,6 @@
       .heading {
         font-family: $font-Lato;
         font-size: 14px;
-        text-transform: uppercase;
         letter-spacing: 1px;
       }
   
@@ -369,22 +368,20 @@
 
 .title {
   @include pdp_prod_title();
-      line-height: 32px;
-       p {
-          // font-style: italic;
-          font-family: $font-Montserrat;
-          font-size: 14px;
-          font-style: normal;
-          font-weight:normal;
-         }
+  line-height: 32px;
+
+  p {
+    // font-style: italic;
+    font-family: $font-Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: normal;
+  }
 }
 
 .price-container {
-
-  @include pdp_prod_title();
-  font-family: $font-Montserrat;
-  font-size: 20px;
-  // font-weight: bold;
+  @include b3_14px_montserrat_charcoal();
+  font-weight: $medium;
   text-align: right !important;
   padding: 10px 0px;
 }
