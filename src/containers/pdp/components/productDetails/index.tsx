@@ -1484,6 +1484,7 @@ const ProductDetails: React.FC<Props> = ({
                     mobile ? createWishlistPopupMobile : createWishlistPopup
                   }
                   isPdp={isPDP}
+                  closeModal={closeModal}
                 />
               </div>
               <div className="createWishlistPopup">

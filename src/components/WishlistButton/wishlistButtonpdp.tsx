@@ -46,7 +46,8 @@ const WishlistButtonpdp: React.FC<Props> = ({
   onMoveToWishlist,
   badgeType,
   createWishlistPopup,
-  isPdp
+  isPdp,
+  closeModal
 }) => {
   const { wishlistItems, wishlistChildItems } = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
@@ -274,6 +275,9 @@ const WishlistButtonpdp: React.FC<Props> = ({
         WishlistService.addToWishlist(store.dispatch, id)
           .then(() => {
             gtmPushAddToWishlist(true);
+            setTimeout(() => {
+              closeModal ? closeModal() : null;
+            }, 3000);
             showGrowlMessage(dispatch, growlMsg);
             // WishlistService.countWishlist(dispatch);
           })

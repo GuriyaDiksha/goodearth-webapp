@@ -29,4 +29,5 @@ export type Props = {
   badgeType?: string;
   createWishlistPopup?: any;
   isPdp?: boolean;
+  closeModal?: any;
 };

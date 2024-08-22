@@ -8,9 +8,9 @@ const initialState: State = {
   message: "",
   // secret_key: "",
   // wishlist_link: "",
-  owner_name: ""
+  owner_name: "",
   // count: 0,
-  // sharedItems: []
+  sharedItems: []
 };
 
 export const wishlist = (
