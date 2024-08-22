@@ -16,3 +16,10 @@ export type wishlistNameResponse = {
   id: number;
   listName: string;
 };
+
+export type WishlistSharedResponse = {
+  data: WishlistItem[];
+  owner_name: string;
+  sortedDiscount?: boolean;
+  message?: string;
+};

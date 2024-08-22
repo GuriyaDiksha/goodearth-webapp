@@ -225,7 +225,7 @@ const WishlistButton: React.FC<Props> = ({
         WishlistService.moveToWishlist(
           store.dispatch,
           basketLineId,
-          size || childAttributes?.[0].size || "",
+          // size || childAttributes?.[0].size || "",
           source
           // sortBy
         )
@@ -269,7 +269,7 @@ const WishlistButton: React.FC<Props> = ({
             &nbsp;your lists.
           </div>
         );
-        WishlistService.addToWishlist(store.dispatch, id, size)
+        WishlistService.addToWishlist(store.dispatch, id)
           .then(() => {
             gtmPushAddToWishlist(true);
             showGrowlMessage(dispatch, growlMsg);

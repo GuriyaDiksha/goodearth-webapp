@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
 import WishlistService from "services/wishlist";
-import { WishlistResponse } from "services/wishlist/typings";
+import {
+  WishlistResponse,
+  WishlistSharedResponse
+} from "services/wishlist/typings";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./styles.scss";
 import cs from "classnames";
@@ -9,7 +12,10 @@ import SecondaryHeader from "components/SecondaryHeader";
 import bootstrapStyles from "../../styles/bootstrap/bootstrap-grid.scss";
 import UserContext from "contexts/user";
 import { AppState } from "reducers/typings";
-import { displayPriceWithCommas } from "utils/utility";
+import {
+  displayPriceWithCommas,
+  displayPriceWithCommasFloat
+} from "utils/utility";
 import iconStyles from "styles/iconFonts.scss";
 import { updateComponent, updateModal } from "../../actions/modal";
 import { POPUP } from "constants/components";
@@ -31,18 +37,33 @@ import { useHistory } from "react-router-dom";
 import { Dispatch } from "redux";
 
 const WishlistDetailPage = () => {
+  // let wishlistTotal:any;
+  // let wishlistSubtotal:any;
+  const dispatch = useDispatch();
   const [pId, setPId] = useState(0);
   const [activeWishlist, setActiveWishlist] = useState(null);
   const [activeWishlistItem, setActiveWishlistItem] = useState(null);
+  const [totalPrice, setTotalPrice] = useState(0);
+  // const [message, setMassage] = useState("");x
   const { isLoggedIn } = useContext(UserContext);
   const history = useHistory();
   const isShared = history.location.pathname.includes("shared-wishlist");
   const { firstName, lastName } = useSelector((state: AppState) => state.user);
   const { mobile } = useSelector((state: AppState) => state.device);
-  const { isSale } = useSelector((state: AppState) => state.info);
+  const { isSale, showTimer } = useSelector((state: AppState) => state.info);
+  const { owner_name, message } = useSelector(
+    (state: AppState) => state.wishlist
+  );
   const currency = useSelector((state: AppState) => state.currency);
-  const [wishlistDataItem, setWishListItemData] = useState<WishlistResponse>({
+  const [wishlistDataItem, setWishListDataItem] = useState<WishlistResponse>({
     data: []
+  });
+  const [wishlistSharedDataItem, setWishListSharedDataItem] = useState<
+    WishlistSharedResponse
+  >({
+    data: [],
+    owner_name: "",
+    sortedDiscount: false
   });
   const [featureData, setFeatureData] = useState<SearchFeaturedData>({
     name: "",
@@ -53,32 +74,6 @@ const WishlistDetailPage = () => {
     products: [],
     id: 0
   });
-  const dispatch = useDispatch();
-
-  const fetchWishlistName = async () => {
-    const data = await WishlistService.updateWishlist(dispatch);
-    if (data) {
-      setWishListItemData(data);
-    }
-  };
-  useEffect(() => {
-    fetchWishlistName();
-  }, []);
-
-  const fetchFeaturedContent = async () => {
-    HeaderService.fetchSearchFeaturedContent(dispatch)
-      .then(data => {
-        if (data) {
-          setFeatureData(data);
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  };
-  useEffect(() => {
-    fetchFeaturedContent();
-  }, []);
 
   const emptyWishlistContent = (
     <div>
@@ -195,20 +190,60 @@ const WishlistDetailPage = () => {
     </div>
   );
 
-  // const emptySharedWishlistContent = (
-  //   <div
-  //     className={cs(styles.emptySharedWishlistContent, {
-  //       [globalStyles.marginT100]: this.props.ownerName
-  //     })}
-  //   >
-  //     <p>{message}</p>
-  //     <Button
-  //       variant="mediumMedCharcoalCta366"
-  //       label={"PROCEED TO GOODEARTH.IN"}
-  //       onClick={() => history.push("/")}
-  //     />
-  //   </div>
-  // );
+  const emptySharedWishlistContent = (
+    <div
+      className={cs(styles.emptySharedWishlistContent, {
+        [globalStyles.marginT100]: owner_name
+      })}
+    >
+      <p>{message}</p>
+      <Button
+        variant="mediumMedCharcoalCta366"
+        label={"PROCEED TO GOODEARTH.IN"}
+        onClick={() => history.push("/")}
+      />
+    </div>
+  );
+
+  const fetchWishlistName = async () => {
+    const data = await WishlistService.updateWishlist(dispatch);
+    if (data) {
+      setWishListDataItem(data);
+    }
+  };
+
+  const wishlistSharedData = async (location: any) => {
+    const urlParam = new URLSearchParams(location.search);
+    const uid = urlParam.get("key") || "";
+    const data = await WishlistService.updateWishlistShared(dispatch, uid);
+    if (data) {
+      setWishListSharedDataItem(data);
+    }
+  };
+
+  useEffect(() => {
+    if (isShared) {
+      wishlistSharedData(location);
+      // setTotalPrice(wishlistSubtotal);
+    } else {
+      fetchWishlistName();
+    }
+  }, []);
+
+  const fetchFeaturedContent = async () => {
+    HeaderService.fetchSearchFeaturedContent(dispatch)
+      .then(data => {
+        if (data) {
+          setFeatureData(data);
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    fetchFeaturedContent();
+  }, []);
 
   const openPopup = (
     item: any,
@@ -424,111 +459,119 @@ const WishlistDetailPage = () => {
 
   return (
     <div
-      className={cs(
-        bootstrapStyles.containerFluid,
-        globalStyles.voffset5,
-        styles.wishlistPage
-      )}
+      className={cs(bootstrapStyles.containerFluid, {
+        [styles.pageBodyTimer]: showTimer && mobile,
+        [styles.sharedEmptyContainer]:
+          wishlistSharedDataItem.data.length == 0 && isShared && !owner_name
+      })}
     >
-      {!isLoggedIn && !isShared && (
-        <div className={styles.topBlockContainer}>
-          <div className={styles.innerContainer}>
-            <h3 className={styles.heading}>Your Saved List</h3>
-            <p className={styles.subheading}>
-              <>
-                Here are your saved items. Stay organized with your <br />
-                items, create multiple lists, and easily share your <br />
-                favorites with friends and family.
-              </>
-            </p>
-            <Button
-              label={"Login"}
-              variant="smallMedCharcoalCta"
-              onClick={() => openLogin("/wishlist", false)}
-            />
-          </div>
-        </div>
-      )}
-
-      {isShared && (
-        <div className={styles.sharedWrapper}>
-          <h2 className={styles.heading}>
-            {`${firstName} ${lastName}`
-              .toLowerCase()
-              .replace(/\b(\w)/g, x => x.toUpperCase())}
-            &apos;s Saved List
-          </h2>
-          <p className={styles.subheading}>
-            A wishlist has been shared with you.{mobile && <br />} Start
-            shopping!
-          </p>
-        </div>
-      )}
-
       {isLoggedIn && !isShared && (
-        <>
-          <SecondaryHeader>
-            <div className={styles.secondryHeaderWrapper}>
-              <div className={styles.heading}>SAVED ITEMS</div>
-              <div
-                className={cs(
-                  styles.heading,
-                  globalStyles.pointer,
-                  globalStyles.aquaHover
-                )}
-                onClick={() =>
-                  creatWishlistPopup(
-                    wishlistDataItem.data.length,
-                    fetchWishlistName
-                  )
-                }
-              >
-                + CREATE NEW LIST
-              </div>
+        <SecondaryHeader>
+          <div className={styles.secondryHeaderWrapper}>
+            <div className={styles.heading}>SAVED ITEMS</div>
+            <div
+              className={cs(
+                styles.heading,
+                globalStyles.pointer,
+                globalStyles.aquaHover
+              )}
+              onClick={() =>
+                creatWishlistPopup(
+                  wishlistDataItem.data.length,
+                  fetchWishlistName
+                )
+              }
+            >
+              + CREATE NEW LIST
             </div>
-          </SecondaryHeader>
-        </>
+          </div>
+        </SecondaryHeader>
       )}
 
-      <div className={cs(styles.wishlistBlock)}>
-        {wishlistDataItem.data.length > 0 ? (
-          wishlistDataItem.data.map((list, listIndex) => {
-            return (
+      {wishlistSharedDataItem.data.length == 0 &&
+        isShared &&
+        !owner_name &&
+        emptySharedWishlistContent}
+
+      <div
+        className={cs(bootstrapStyles.row, styles.wishlistBlockOuter, {
+          [styles.wishlistBlockOuterTimer]: showTimer
+        })}
+      >
+        {!isLoggedIn && !isShared && (
+          <div className={styles.topBlockContainer}>
+            <div className={styles.innerContainer}>
+              <h3 className={styles.heading}>Your Saved List</h3>
+              <p className={styles.subheading}>
+                <>
+                  Here are your saved items. Stay organized with your <br />
+                  items, create multiple lists, and easily share your <br />
+                  favorites with friends and family.
+                </>
+              </p>
+              <Button
+                label={"Login"}
+                variant="smallMedCharcoalCta"
+                onClick={() => openLogin("/wishlist", false)}
+              />
+            </div>
+          </div>
+        )}
+
+        {isShared && owner_name && (
+          <div className={styles.sharedWrapper}>
+            <h2 className={styles.heading}>
+              {owner_name
+                .toLowerCase()
+                .replace(/\b(\w)/g, x => x.toUpperCase())}
+              &apos;s Saved List
+            </h2>
+            <p className={styles.subheading}>
+              A wishlist has been shared with you.{mobile && <br />} Start
+              shopping!
+            </p>
+          </div>
+        )}
+
+        <div
+          className={cs({
+            [bootstrapStyles.col10]:
+              !mobile ||
+              (mobile && isShared && wishlistSharedDataItem.data.length == 0),
+            [bootstrapStyles.offset1]:
+              !mobile ||
+              (mobile && isShared && wishlistSharedDataItem.data.length == 0),
+            [globalStyles.marginT40]: !isShared,
+            [globalStyles.paddLeftRight5]: mobile
+          })}
+        >
+          {isShared ? (
+            wishlistSharedDataItem.data.length > 0 ? (
               <>
-                <div key={listIndex} className={styles.listBlock}>
-                  <div className={styles.wishlistHead}>
-                    <div className={styles.wishlistHeading}>
-                      <h3 className={styles.listName}>
-                        {list.name} ({list.products.length})
-                      </h3>
-                      <span
-                        className={cs(styles.edit, globalStyles.aquaHover)}
-                        onClick={() =>
-                          editPopup(list.id, list.name, fetchWishlistName)
-                        }
-                      >
-                        Edit
-                      </span>
-                    </div>
-                    {!isShared && (
-                      <div
-                        className={styles.shareList}
-                        onClick={() =>
-                          onSharlinkClick(
-                            list.name,
-                            list.sharable_link,
-                            fetchWishlistName
-                          )
-                        }
-                      >
-                        <img src={linkIcon} alt="link" />
-                        <span>SHARE LIST</span>
-                      </div>
-                    )}
-                  </div>
-                  {list.products.length > 0 ? (
-                    <div className={styles.productBlock}>
-                      {list.products.map((productData, productIndex) => {
+                <div
+                  className={cs(styles.wishlistTop, styles.wishlistSubtotal)}
+                >
+                  <span>
+                    {"(" +
+                      wishlistSharedDataItem.data.length +
+                      ` item${
+                        wishlistSharedDataItem.data.length === 1 ? "" : "s"
+                      }) Subtotal:`}
+                    &nbsp;
+                  </span>
+                  <span>
+                    {Number.isSafeInteger(+totalPrice)
+                      ? displayPriceWithCommas(totalPrice, currency)
+                      : displayPriceWithCommasFloat(totalPrice, currency)}
+                  </span>
+                </div>
+                <div className={styles.listBlock}>
+                  <div
+                    className={cs(styles.wishlistTop, styles.wishlistSubtotal)}
+                  ></div>
+                  <div className={cs(styles.productBlock, bootstrapStyles.row)}>
+                    {wishlistSharedDataItem.data.map(
+                      (productData, productIndex) => {
                         let showStockMessage = false;
                         if (productData.size) {
                           const selectedSize = productData.stockDetails.filter(
@@ -553,6 +596,38 @@ const WishlistDetailPage = () => {
                               )[0].stock
                             : productData.stockDetails[0].stock
                           : productData.stockDetails[0].stock;
+
+                        // if (!productData.size && productData.stockDetails.length > 1) {
+                        //   const itemTotal = productData.stockDetails.reduce((prev, curr) => {
+                        //     const prevprices = parseFloat(
+                        //       prev.discountedPrice[currency].toString()
+                        //     );
+                        //     const currprices = parseFloat(
+                        //       curr.discountedPrice[currency].toString()
+                        //     );
+                        //     return prevprices < currprices ? prev : curr;
+                        //   });
+                        //   return isSale
+                        //   ? +itemTotal.discountedPrice[currency]
+                        //   : +itemTotal.price[currency];
+                        // }else if (productData.size) {
+                        //   let vars = 0;
+                        //   productData.stockDetails.forEach(function(items, key) {
+                        //     if (productData.size == items.size) {
+                        //       vars = isSale
+                        //         ? +items.discountedPrice[currency]
+                        //         : +items.price[currency];
+                        //     }
+                        //   });
+                        //   return vars;
+                        // }else {
+                        //   return productData.stockDetails[0]
+                        //     ? isSale
+                        //       ? +productData.stockDetails[0].discountedPrice[currency]
+                        //       : +productData.stockDetails[0].price[currency]
+                        //     : 0;
+                        // }
+
                         return (
                           <div
                             key={productIndex}
@@ -596,38 +671,6 @@ const WishlistDetailPage = () => {
                                   </div>
                                 </div>
                               )}
-                              {!isShared && (
-                                <img
-                                  src={cross}
-                                  alt="remove"
-                                  className={cs(styles.iconCross)}
-                                  onClick={() => {
-                                    removeProduct(
-                                      productData.productId,
-                                      list.name
-                                    );
-                                  }}
-                                />
-                              )}
-                              <div className={cs(styles.pencilIconContainer)}>
-                                <img
-                                  src={pencilIcon}
-                                  alt="pencilIcon"
-                                  className={cs(styles.iconPencil)}
-                                  onClick={() =>
-                                    mobile
-                                      ? editWishlistItemPopupMobile(
-                                          productData.productId,
-                                          fetchWishlistName
-                                        )
-                                      : editWishlistItemPopup(
-                                          productData.productId,
-                                          listIndex,
-                                          productIndex
-                                        )
-                                  }
-                                />
-                              </div>
                               <a href={productData.productUrl}>
                                 <img
                                   src={
@@ -664,16 +707,6 @@ const WishlistDetailPage = () => {
                                     )
                                   }
                                 ></div>
-                              </div>
-                              <div className={styles.createWishlistPopup}>
-                                {activeWishlist == listIndex &&
-                                  activeWishlistItem == productIndex && (
-                                    <CreateWishlist
-                                      hideWishlistPopup={hideWishlistPopup}
-                                      id={pId}
-                                      updateWishlistData={fetchWishlistName}
-                                    />
-                                  )}
                               </div>
                             </div>
                             <div className={styles.imageContent}>
@@ -733,26 +766,291 @@ const WishlistDetailPage = () => {
                             </div>
                           </div>
                         );
-                      })}
-                    </div>
-                  ) : (
-                    <div className={styles.emptyProductBlock}>
-                      <span>There are no products saved in this list.</span>
-                    </div>
-                  )}
-                  <hr className={styles.deviderLine}></hr>
+                      }
+                    )}
+                  </div>
                 </div>
               </>
-            );
-          })
-        ) : (
-          <div
-            className={cs(styles.wishlistBlock, styles.awesome)}
-            id="emptyWishlist"
-          >
-            {wishlistDataItem.data.length == 0 && emptyWishlistContent}
-          </div>
-        )}
+            ) : (
+              <div className={cs(styles.awesome)} id="emptySharedWishlist">
+                {wishlistSharedDataItem.data.length == 0 &&
+                  isShared &&
+                  owner_name &&
+                  emptySharedWishlistContent}
+              </div>
+            )
+          ) : wishlistDataItem.data.length > 0 ? (
+            wishlistDataItem.data.map((list, listIndex) => {
+              return (
+                <>
+                  <div key={listIndex} className={styles.listBlock}>
+                    <div className={styles.wishlistHead}>
+                      <div className={styles.wishlistHeading}>
+                        <h3 className={styles.listName}>
+                          {list.name} ({list.products.length})
+                        </h3>
+                        {!list.name.includes("Default") && (
+                          <span
+                            className={cs(styles.edit, globalStyles.aquaHover)}
+                            onClick={() =>
+                              editPopup(list.id, list.name, fetchWishlistName)
+                            }
+                          >
+                            Edit
+                          </span>
+                        )}
+                      </div>
+                      {!isShared && (
+                        <div
+                          className={styles.shareList}
+                          onClick={() =>
+                            onSharlinkClick(
+                              list.name,
+                              list.sharable_link,
+                              fetchWishlistName
+                            )
+                          }
+                        >
+                          <img src={linkIcon} alt="link" />
+                          <span>SHARE LIST</span>
+                        </div>
+                      )}
+                    </div>
+                    {list.products.length > 0 ? (
+                      <div
+                        className={cs(styles.productBlock, bootstrapStyles.row)}
+                      >
+                        {list.products.map((productData, productIndex) => {
+                          let showStockMessage = false;
+                          if (productData.size) {
+                            const selectedSize = productData.stockDetails.filter(
+                              item => item.size == productData.size
+                            )[0];
+                            showStockMessage =
+                              selectedSize &&
+                              selectedSize.stock > 0 &&
+                              selectedSize.showStockThreshold;
+                          } else {
+                            showStockMessage =
+                              !productData.stockDetails[0].size &&
+                              productData.stockDetails[0].stock > 0 &&
+                              productData.stockDetails[0].showStockThreshold;
+                          }
+                          const stock = productData.size
+                            ? productData.stockDetails.filter(
+                                item => item.size == productData.size
+                              ).length > 0
+                              ? productData.stockDetails.filter(
+                                  item => item.size == productData.size
+                                )[0].stock
+                              : productData.stockDetails[0].stock
+                            : productData.stockDetails[0].stock;
+                          return (
+                            <div
+                              key={productIndex}
+                              className={cs(
+                                styles.productData,
+                                mobile
+                                  ? bootstrapStyles.col6
+                                  : bootstrapStyles.colMd3
+                              )}
+                            >
+                              <div className={styles.imagebox}>
+                                {productData.salesBadgeImage && (
+                                  <div
+                                    className={cs(
+                                      {
+                                        [styles.badgePositionPlpMobile]: mobile
+                                      },
+                                      {
+                                        [styles.badgePositionPlp]: !mobile
+                                      }
+                                    )}
+                                  >
+                                    <img src={productData.salesBadgeImage} />
+                                  </div>
+                                )}
+                                {productData?.badge_text && (
+                                  <div
+                                    className={cs(
+                                      globalStyles.textCenter,
+                                      globalStyles.badgePositionDesktop,
+                                      styles.badgePosition,
+                                      {
+                                        [globalStyles.badgePositionMobile]: mobile
+                                      }
+                                    )}
+                                  >
+                                    <div
+                                      className={cs(
+                                        globalStyles.badgeContainer
+                                      )}
+                                    >
+                                      {productData?.badge_text}
+                                    </div>
+                                  </div>
+                                )}
+                                {!isShared && (
+                                  <>
+                                    <img
+                                      src={cross}
+                                      alt="remove"
+                                      className={cs(styles.iconCross)}
+                                      onClick={() => {
+                                        removeProduct(
+                                          productData.productId,
+                                          list.name
+                                        );
+                                      }}
+                                    />
+                                    <div
+                                      className={cs(styles.pencilIconContainer)}
+                                    >
+                                      <img
+                                        src={pencilIcon}
+                                        alt="pencilIcon"
+                                        className={cs(styles.iconPencil)}
+                                        onClick={() =>
+                                          mobile
+                                            ? editWishlistItemPopupMobile(
+                                                productData.productId,
+                                                fetchWishlistName
+                                              )
+                                            : editWishlistItemPopup(
+                                                productData.productId,
+                                                listIndex,
+                                                productIndex
+                                              )
+                                        }
+                                      />
+                                    </div>
+                                  </>
+                                )}
+                                <a href={productData.productUrl}>
+                                  <img
+                                    src={
+                                      productData.productImage
+                                        ? productData.productImage
+                                        : "/static/img/noimageplp.png"
+                                    }
+                                    alt="Others"
+                                    className={styles.productImage}
+                                  />
+                                </a>
+                                <div
+                                  className={cs(
+                                    globalStyles.textCenter,
+                                    globalStyles.cartIconPositionDesktop,
+                                    {
+                                      [globalStyles.cartIconPositionMobile]: mobile
+                                    }
+                                  )}
+                                >
+                                  <div
+                                    className={cs(
+                                      iconStyles.icon,
+                                      globalStyles.iconContainer,
+                                      iconStyles.iconPlpCart
+                                    )}
+                                    onClick={() =>
+                                      openPopup(
+                                        productData,
+                                        currency,
+                                        isSale,
+                                        mobile,
+                                        isShared
+                                      )
+                                    }
+                                  ></div>
+                                </div>
+                                <div className={styles.createWishlistPopup}>
+                                  {activeWishlist == listIndex &&
+                                    activeWishlistItem == productIndex && (
+                                      <CreateWishlist
+                                        hideWishlistPopup={hideWishlistPopup}
+                                        id={pId}
+                                        updateWishlistData={fetchWishlistName}
+                                      />
+                                    )}
+                                </div>
+                              </div>
+                              <div className={styles.imageContent}>
+                                <p className={styles.productN}>
+                                  <a href={productData.productUrl}>
+                                    {productData.productName
+                                      ? productData.productName
+                                      : ""}{" "}
+                                  </a>
+                                </p>
+                                <p className={styles.productN}>
+                                  {isSale && productData.discount ? (
+                                    <span className={styles.discountprice}>
+                                      {productData.discountedPrice
+                                        ? displayPriceWithCommas(
+                                            productData.discountedPrice[
+                                              currency
+                                            ],
+                                            currency
+                                          )
+                                        : ""}{" "}
+                                    </span>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {isSale && productData.discount ? (
+                                    <span className={styles.strikeprice}>
+                                      {displayPriceWithCommas(
+                                        productData.price[currency],
+                                        currency
+                                      )}
+                                    </span>
+                                  ) : (
+                                    <span
+                                      className={
+                                        productData.badgeType == "B_flat"
+                                          ? styles.discountprice
+                                          : ""
+                                      }
+                                    >
+                                      {displayPriceWithCommas(
+                                        productData.price[currency],
+                                        currency
+                                      )}
+                                    </span>
+                                  )}
+                                </p>
+                                <span
+                                  className={cs(
+                                    globalStyles.errorMsg,
+                                    globalStyles.gold,
+                                    styles.errMsg
+                                  )}
+                                >
+                                  {isSale &&
+                                    showStockMessage &&
+                                    `Only ${stock} Left!`}
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <div className={styles.emptyProductBlock}>
+                        <span>There are no products saved in this list.</span>
+                      </div>
+                    )}
+                    <hr className={styles.deviderLine}></hr>
+                  </div>
+                </>
+              );
+            })
+          ) : (
+            <div className={cs(styles.awesome)} id="emptyWishlist">
+              {wishlistDataItem.data.length == 0 && emptyWishlistContent}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

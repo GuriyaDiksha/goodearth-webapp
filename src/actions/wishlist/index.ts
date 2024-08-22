@@ -19,19 +19,19 @@ export const updateWishlist = (
   });
 
 export const updateWishlistShared = (
-  items: WishlistData[]
+  items: WishlistItem[],
   // sortBy = "added_on",
-  // sortedDiscount = false,
-  // owner_name = "", //Added for shared wishlist
-  // message = "", //Added for shared wishlist
+  sortedDiscount = false,
+  owner_name = "", //Added for shared wishlist
+  message = "" //Added for shared wishlist
   // sharable_link = "" //Added for shared current user's wishlist
 ) =>
   actionCreator("UPDATE_WISHLIST_SHARED", {
-    sharedItems: items
+    sharedItems: items,
     // sortBy,
-    // sortedDiscount,
-    // owner_name,
-    // message,
+    sortedDiscount,
+    owner_name,
+    message
     // wishlist_link: sharable_link
   });
 

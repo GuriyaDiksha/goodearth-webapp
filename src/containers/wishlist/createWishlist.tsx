@@ -41,7 +41,7 @@ const createWishlist: React.FC<Props> = ({
 
   const handleSubmit = () => {
     WishlistService.addToWishlist(store.dispatch, undefined, listName)
-      .then(res => {
+      .then(() => {
         setListName("");
         setErrorMsg("");
         setIsenable(false);

@@ -411,7 +411,7 @@ class CartPage extends React.Component<Props, State> {
 
   onUndoWishlistClick = () => {
     // var self = this;
-    this.props.undoMoveToWishlist().then(data => {
+    this.props.undoMoveToWishlist().then((data: any) => {
       this.setState({
         showUndoWishlist: false
       });
@@ -705,7 +705,7 @@ class CartPage extends React.Component<Props, State> {
           id={item.id}
           currency={currency}
           saleStatus={this.props.isSale}
-          onMoveToWishlist={this.onMoveToWishlist}
+          // onMoveToWishlist={this.onMoveToWishlist}
         />
       );
     });

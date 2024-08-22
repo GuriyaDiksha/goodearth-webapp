@@ -3,7 +3,8 @@ import { Dispatch } from "redux";
 import {
   WishlistResponse,
   WishlistCountResponse,
-  wishlistNameResponse
+  wishlistNameResponse,
+  WishlistSharedResponse
 } from "./typings";
 // actions
 import {
@@ -23,11 +24,6 @@ import { showGrowlMessage } from "../../utils/validate";
 import { createSharedLinkResponse } from "typings/wishlist";
 // import { countWishlist } from "actions/wishlist";
 
-// export type SaveWishlistData = {
-//   id: number;
-//   listName: string;
-// };
-
 export default {
   updateWishlist: async function(dispatch: Dispatch) {
     const res = await API.get<WishlistResponse>(
@@ -45,29 +41,30 @@ export default {
     // sortBy = "added_on"
   ) {
     try {
-      const res = await API.get<WishlistResponse>(
+      const res = await API.get<WishlistSharedResponse>(
         dispatch,
         `${__API_HOST__}/myapi/wishlist/get_sharable_wishlist_items/${uid}`
       );
       dispatch(
         updateWishlistShared(
-          res.data || []
+          res.data || [],
           // sortBy,
-          // res.sortedDiscount,
-          // res?.owner_name,
-          // res?.data?.length === 0
-          //   ? "Looks like there are no items in the list."
-          //   : ""
+          res.sortedDiscount,
+          res?.owner_name,
+          res?.data?.length === 0
+            ? "Looks like there are no items in the list."
+            : ""
         )
       );
+      return res;
     } catch (e) {
       dispatch(
         updateWishlistShared(
-          []
+          [],
           // sortBy,
-          // undefined,
-          // "",
-          // "Looks like this link does not exist."
+          undefined,
+          "",
+          "Looks like this link does not exist."
         )
       );
     }
@@ -121,7 +118,6 @@ export default {
         // size
       }
     );
-
     // if (isShared) {
     //   WishlistService.countWishlist(dispatch);
     // } else {
@@ -149,7 +145,7 @@ export default {
   moveToWishlist: async function(
     dispatch: Dispatch,
     basketLineId: ProductID,
-    size: string,
+    // size: string,
     source?: string
     // sortBy?: string
     // isShared?: boolean
@@ -158,8 +154,8 @@ export default {
       dispatch,
       `${__API_HOST__}/myapi/wishlist/move_to_wishlist/`,
       {
-        basketLineId,
-        size
+        basketLineId
+        // size
         // sortBy
       }
     );
@@ -238,7 +234,6 @@ export default {
   //     dispatch,
   //     `${__API_HOST__}/myapi/wishlist/create_wishlist_link/`
   //   );
-
   //   dispatch(createSharedLink(res));
   // },
 
@@ -255,6 +250,7 @@ export default {
     );
 
     dispatch(createSharedLink(res));
+    return res;
   },
 
   deleteSharedWishlistLink: async function(
@@ -270,6 +266,7 @@ export default {
     );
 
     dispatch(createSharedLink({ ...res, wishlist_link: "" }));
+    return res;
   },
   // countWishlist: async function(dispatch: Dispatch) {
   //   const res = await API.get<WishlistCountResponse>(

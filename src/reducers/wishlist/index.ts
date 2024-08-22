@@ -1,14 +1,14 @@
 import { State, WishlistActions } from "./typings";
 
 const initialState: State = {
-  items: []
+  items: [],
   // sortBy: "added_on",
-  // sortedDiscount: false,
+  sortedDiscount: false,
   // is_success: false,
-  // message: "",
+  message: "",
   // secret_key: "",
   // wishlist_link: "",
-  // owner_name: "",
+  owner_name: ""
   // count: 0,
   // sharedItems: []
 };

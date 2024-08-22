@@ -625,7 +625,7 @@ const LineItems: React.FC<BasketItem> = memo(
                         id={product.id}
                         showText={true}
                         inWishlist={inWishlist}
-                        onMoveToWishlist={onMoveToWishlist}
+                        // onMoveToWishlist={onMoveToWishlist}
                         badgeType={badgeType}
                       />
                     )}

@@ -96,12 +96,19 @@ const ShareWishlistLink: React.FC<Props> = ({
 
   const createLink = async () => {
     gaCall("Create Share Link");
-    await WishlistService.createSharedWishlistLink(dispatch, listName);
+    const res = await WishlistService.createSharedWishlistLink(
+      dispatch,
+      listName
+    );
+    setWishlist_link(res.wishlist_link);
+    updateWishlistData();
   };
 
   const deleteLink = async () => {
     gaCall("Delete Link");
     await WishlistService.deleteSharedWishlistLink(dispatch, listName);
+    setWishlist_link("");
+    updateWishlistData();
   };
 
   return (

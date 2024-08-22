@@ -201,6 +201,9 @@ span{
   
 .wishlist-block-outer {
     margin: 40px 0 100px 0;
+    @media(max-width:992px){
+      margin: 40px 0;
+    }
 }
 .wishlist-block-outer-timer {
   margin: 80px 0 100px 0;
@@ -888,21 +891,17 @@ icon-cross {
     bottom: 60px;
   }
 }
-.wishlist-block{
-  max-width: 1100px;
-  margin: 0 auto;
-  margin-top: 50px;
-  hr.devider-line{
-    border-top: 0.5px solid #9F9F9F;
-    margin: 60px 0;
-    clear: both;
-    @media(max-width:992px){
-      margin: 30px 0;
-    }
-  }
-}
+
 .list-block{
   clear: both;
+  hr.devider-line{
+    border-top: 0.5px solid #9F9F9F;
+    margin: 0 0 60px;
+    clear: both;
+    @media(max-width:992px){
+      margin: 0 0 35px;
+    }
+  }
   &:last-child hr{
     border: none;
   }
