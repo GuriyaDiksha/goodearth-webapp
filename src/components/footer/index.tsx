@@ -484,7 +484,7 @@ class Footer extends React.Component<Props, FooterState> {
                           }
                         >
                           {mobileFooterList?.map((list, i: number) => {
-                            console.log("########### LIST:", list);
+                            // console.log("########### LIST:", list);
                             return (
                               <li key={i}>
                                 {list.value.length > 0 ? (

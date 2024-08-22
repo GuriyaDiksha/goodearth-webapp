@@ -861,12 +861,8 @@ class PLP extends React.Component<
                 />
               ) : null}
             </div>
+            <PlpBubbles data={this.props.plpBubblesData} />
 
-            <PlpBubbles
-              bubbleTitle={this.props.facetObject}
-              facets={this.props.facets}
-              categoryShop={categoryShop || ""}
-            />
             {!mobile ? (
               <div
                 className={cs(styles.productNumber, styles.imageContainer, {
