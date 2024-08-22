@@ -313,12 +313,6 @@ const ProductDetails: React.FC<Props> = ({
   const [sizeError, setSizeError] = useState("");
   const [quantity, setQuantity] = useState<number>(1);
 
-  // useEffect(() => {
-  //   if (window?.location?.pathname === "/cart") {
-  //     closeModal ? closeModal() : null;
-  //   }
-  // }, [window?.location?.pathname]);
-
   const showError = () => {
     setTimeout(() => {
       const firstErrorField = document.getElementsByClassName(

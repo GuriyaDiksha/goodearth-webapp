@@ -275,9 +275,6 @@ const WishlistButtonpdp: React.FC<Props> = ({
         WishlistService.addToWishlist(store.dispatch, id)
           .then(() => {
             gtmPushAddToWishlist(true);
-            setTimeout(() => {
-              closeModal ? closeModal() : null;
-            }, 3000);
             showGrowlMessage(dispatch, growlMsg);
             // WishlistService.countWishlist(dispatch);
           })
@@ -298,6 +295,14 @@ const WishlistButtonpdp: React.FC<Props> = ({
         (basketLineId && wishlistChildItems.indexOf(id) != -1)
     );
   }, [wishlistChildItems, wishlistItems]);
+
+  useEffect(() => {
+    if (window?.location?.pathname === "/wishlist") {
+      setTimeout(() => {
+        closeModal ? closeModal() : null;
+      }, 1000);
+    }
+  }, [window?.location?.pathname]);
 
   return (
     <>
