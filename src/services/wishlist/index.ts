@@ -145,7 +145,7 @@ export default {
   moveToWishlist: async function(
     dispatch: Dispatch,
     basketLineId: ProductID,
-    // size: string,
+    size: string,
     source?: string
     // sortBy?: string
     // isShared?: boolean
@@ -154,8 +154,8 @@ export default {
       dispatch,
       `${__API_HOST__}/myapi/wishlist/move_to_wishlist/`,
       {
-        basketLineId
-        // size
+        basketLineId,
+        size
         // sortBy
       }
     );

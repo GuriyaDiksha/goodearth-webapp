@@ -69,7 +69,7 @@ const CreateWishlist: React.FC<Props> = ({
   basketLineId,
   // parentWidth,
   // source,
-  // onMoveToWishlist,
+  onMoveToWishlist,
   badgeType,
   updateWishlistData
 }) => {

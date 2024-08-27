@@ -705,7 +705,7 @@ class CartPage extends React.Component<Props, State> {
           id={item.id}
           currency={currency}
           saleStatus={this.props.isSale}
-          // onMoveToWishlist={this.onMoveToWishlist}
+          onMoveToWishlist={this.onMoveToWishlist}
         />
       );
     });
