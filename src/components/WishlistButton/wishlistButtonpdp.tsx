@@ -239,7 +239,7 @@ const WishlistButtonpdp: React.FC<Props> = ({
         WishlistService.moveToWishlist(
           store.dispatch,
           basketLineId,
-          // size || childAttributes?.[0].size || "",
+          size || childAttributes?.[0].size || "",
           source
           // sortBy
         )
