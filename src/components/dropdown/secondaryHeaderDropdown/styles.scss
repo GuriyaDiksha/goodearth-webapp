@@ -54,7 +54,11 @@
                     font-weight: 500;
                 }
             }
+            .active{
+                font-weight: $medium;
+            }
         }
+       
         &.open{
             -webkit-box-shadow: 2px 2px 4px #00000021;
             -moz-box-shadow: 2px 2px 4px #00000021;

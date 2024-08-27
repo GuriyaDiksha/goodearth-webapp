@@ -71,8 +71,8 @@
                 max-height: 0;
             }
             li{
-                height: $secondary-header-height;
-                line-height: $secondary-header-height;
+                height: $filter-dropdown-ul-li; 
+                line-height: $filter-dropdown-ul-li;
                 background: $white;
                 padding: 0 20px;
                 @include b4_12px_montserrat_light_charcoal();
@@ -112,7 +112,7 @@
                 }
 
                 .active {
-                    font-weight: $regular;
+                    font-weight: $medium;
                 }
 
                 &.filter-wrp{
@@ -122,11 +122,12 @@
                     }
                     .filter-label{
                         @include b3_14px_montserrat_caps_charcoal();
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
                     }
                     img{
                         width: 15px;
-                        float: right;
-                        margin-top: 12px;
                     }
                 }
 
@@ -138,7 +139,7 @@
                     }
                     button{
                         width: 50% !important;
-                        // height: 50px;
+                        height:unset;
                     }
                     // .cnl-btn{
                     //     background-color: $white;
@@ -207,7 +208,7 @@
                 // } 
                 &:hover{
                     background: #f7f7f7;
-                    // color: $gold;
+                    color: $gold;
                     font-weight: 500;
                     &:nth-child(4){
                         background-color: $white;

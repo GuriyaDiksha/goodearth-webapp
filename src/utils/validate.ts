@@ -784,6 +784,7 @@ export const gaEventsForSearch = (
   const recentSearch = localStorage.getItem("recentSearchValue");
   const popularSearch = localStorage.getItem("popularSearch");
   const inputValue = localStorage.getItem("inputValue");
+  const searchTerm = recentSearch || popularSearch || inputValue || serachVal;
 
   if (
     userConsent.includes(GA_CALLS) &&
@@ -805,7 +806,7 @@ export const gaEventsForSearch = (
           : "Input",
         cta_name:
           ctaName || recentSearch || popularSearch || "View all results",
-        search_term: recentSearch || popularSearch || inputValue || serachVal
+        search_term: searchTerm?.toLocaleLowerCase()
       });
     } else {
       dataLayer.push({
@@ -819,7 +820,7 @@ export const gaEventsForSearch = (
           : "Input",
         cta_name:
           ctaName || recentSearch || popularSearch || "View all results",
-        search_term: recentSearch || popularSearch || inputValue || serachVal
+        search_term: searchTerm?.toLocaleLowerCase()
       });
     }
     localStorage.removeItem("recentSearchValue");

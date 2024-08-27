@@ -630,12 +630,7 @@ class Bag extends React.Component<Props, State> {
     return true;
   };
   render() {
-    const {
-      totalWithoutShipping,
-      freeShippingThreshold,
-      freeShippingApplicable,
-      lineItems
-    } = this.props.cart;
+    const { showProductWorth, productWorthValue } = this.props.cart;
     return (
       <div>
         <div
@@ -678,16 +673,7 @@ class Bag extends React.Component<Props, State> {
             </div>
           </div>
 
-          {this.state.shipping &&
-          parseInt(totalWithoutShipping?.toString() || "") &&
-          parseInt(totalWithoutShipping?.toString() || "") >=
-            parseInt(freeShippingThreshold?.toString()) &&
-          parseInt(totalWithoutShipping?.toString() || "") <
-            parseInt(freeShippingApplicable?.toString()) &&
-          this.props.cart.shippable &&
-          parseInt(freeShippingApplicable?.toString()) -
-            parseInt(totalWithoutShipping?.toString() || "") >
-            0 ? (
+          {showProductWorth ? (
             <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
               <div className={styles.freeShipImg}>
                 <img
@@ -700,8 +686,7 @@ class Bag extends React.Component<Props, State> {
               <div className={styles.text}>
                 Add products worth{" "}
                 {displayPriceWithCommas(
-                  parseInt(freeShippingApplicable?.toString()) -
-                    parseInt(totalWithoutShipping?.toString() || ""),
+                  parseFloat(productWorthValue?.toString() || ""),
                   this.props.currency,
                   true,
                   false

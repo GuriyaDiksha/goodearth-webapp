@@ -787,15 +787,15 @@ class CartPage extends React.Component<Props, State> {
             bootstrap.col12,
             bootstrap.colLg8,
             styles.bagContents,
-            styles.pUnset,
-            {
-              [globalStyles.marginT30]:
-                this.props.mobile &&
-                totalWithoutShipping &&
-                totalWithoutShipping >= freeShippingThreshold &&
-                totalWithoutShipping < freeShippingApplicable &&
-                shippable
-            }
+            styles.pUnset
+            // {
+            //   [globalStyles.marginT30]:
+            //     this.props.mobile &&
+            //     totalWithoutShipping &&
+            //     totalWithoutShipping >= freeShippingThreshold &&
+            //     totalWithoutShipping < freeShippingApplicable &&
+            //     shippable
+            // }
           )}
         >
           {this.getItemsCount() === 0 || this.props.mobile ? null : (
