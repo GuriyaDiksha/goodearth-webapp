@@ -128,22 +128,21 @@
     }
 }
 .logo-container {
-    line-height: 49px;
-    height: 50px;
-    text-align: center;
-  }
-
-  @media (max-width: 992px) {
-    .minimumWidth{
-      margin: 0px;
-    }
-  }
-
+  line-height: 49px;
+  height: 50px;
+  text-align: center;
+}
 
 @media (max-width: 992px) {
-    .logo-container {
-        text-align: center;
-    }
+  .minimumWidth {
+    margin: 0px;
+  }
+
+  .logo-container {
+    text-align: center;
+    flex: 0 0 auto;
+    max-width: 50%;
+  }
 }
 
 .icon-font{
@@ -2039,6 +2038,15 @@ div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
   display: none;
 }
 
+@media (min-width:992px) {
+
+  .side-menu-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+
+  }
+}
 @media(min-width:768px)and(max-width:992px){
   .menu-for-tablet{
     padding: 0 45px;
