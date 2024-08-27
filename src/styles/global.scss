@@ -885,6 +885,9 @@ font-weight: bold;
 
 .content-container {
   min-height: 100vh;
+  @media(max-width:767px){
+    min-height: auto;
+  }
 }
 .txt-cap {
   text-transform: capitalize;
