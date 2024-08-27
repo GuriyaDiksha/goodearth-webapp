@@ -480,65 +480,78 @@ span.checkout-forgot-pass{
 .tooltip {
   margin-left: 15px;
   position: relative;
+
   &.height-fix {
     height: 40px;
   }
+
   img {
-      height: 15px;
+    height: 15px;
+    position: absolute;
+    top: -14px;
+    left: 0px;
+    cursor: pointer;
+    z-index: 1
+  }
+
+  .tooltip-msg {
+    @include b5_10px_montserrat_charcoal();
+    letter-spacing: 0.24px;
+    line-height: 12px;
+    font-weight: $light;
+    font-size: 8px;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #fff;
+    height: 80px;
+    width: 145px;
+    color: #303030 !important;
+
+    @media screen and (max-width: 768px) {
+      height: 91px;
+      width: 114px;
+
+      &.show {
+        bottom: 16px !important;
+        left: 0 !important;
+      }
+    }
+
+    box-shadow: 0px 3px 6px #00000029;
+    display: none;
+
+    &.show {
+      display: block;
       position: absolute;
-      top: -10px;
-      left: 0px;
-      cursor: pointer;
+      bottom: 20px;
+      left: 0;
+    }
   }
-  .tooltip-msg{
-      @include b5_10px_montserrat_charcoal();
-      letter-spacing: 0.24px;
-      line-height: 12px;
-      font-weight: $light;
-      font-size: 8px;
-      border-radius: 5px;
-      padding: 5px;
-      background-color: #fff;
-      height: 80px;
-      width: 146px;
-      @media screen and (max-width: 768px){
-        height: 95px;
-        width: 117px;
-          &.show{
-            bottom: 16px !important;
-            left: 0 !important;
-          }
-      }
-      box-shadow: 0px 3px 6px #00000029;
-      display: none;
-      &.show{
-          display: block;
-          position: absolute;
-          bottom: 20px;
-          left: 0;
-      }
-  }
+
   .manage-line {
     position: absolute;
     top: 10px;
     left: 30px;
   }
-  .manage-line ~ .tooltip {
+
+  .manage-line~.tooltip {
     .tooltip-msg {
       &.show {
         bottom: 34px;
         left: 0;
-        @media screen and (max-width: 768px){
+
+        @media screen and (max-width: 768px) {
           bottom: 35px !important;
         }
       }
-    } 
+    }
+
     img {
       left: 0;
     }
   }
 
-  .reg-whats-app{
+  .reg-whats-app {
     width: auto;
   }
 }
