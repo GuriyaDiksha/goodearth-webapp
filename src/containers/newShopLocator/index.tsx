@@ -408,7 +408,7 @@ class ShopLocator extends Component<Props, State> {
                           );
                         })}
                         <h1>
-                          {data.storeEmail.map((item: any, i: number) => {
+                          {data.storeEmail?.map((item: any, i: number) => {
                             return (
                               <a key={i} href={`mailto:${item}`}>
                                 {item}
