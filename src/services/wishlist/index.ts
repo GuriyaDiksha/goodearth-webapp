@@ -77,8 +77,8 @@ export default {
   addToWishlist: async function(
     dispatch: Dispatch,
     productId?: ProductID,
-    listName?: string
-    // size?: string
+    listName?: string,
+    size?: string
     // isShared?: boolean
   ) {
     const res = await API.post<WishlistResponse & ApiResponse>(
@@ -86,8 +86,8 @@ export default {
       `${__API_HOST__ + "/myapi/wishlist/"}`,
       {
         productId,
-        listName
-        // size
+        listName,
+        size
       }
     );
     // if (isShared) {
@@ -102,9 +102,9 @@ export default {
     dispatch: Dispatch,
     productId?: ProductID,
     id?: number,
-    listName?: string
+    listName?: string,
+    size?: string
     // sortBy = "added_on",
-    // size?: string
     // isShared?: boolean
   ) {
     const res = await API.delete<WishlistResponse & ApiResponse>(
@@ -113,9 +113,9 @@ export default {
       {
         productId,
         id,
-        listName
+        listName,
+        size
         // sortBy: sortBy,
-        // size
       }
     );
     // if (isShared) {
@@ -213,7 +213,8 @@ export default {
     dispatch: Dispatch,
     id: number,
     size: string,
-    quantity?: number
+    quantity?: number,
+    listName?: string
     // sortBy?: string
   ) {
     const res = await API.post<ApiResponse>(
@@ -222,7 +223,8 @@ export default {
       {
         id,
         quantity,
-        size
+        size,
+        listName
       }
     );
     await this.updateWishlist(dispatch);

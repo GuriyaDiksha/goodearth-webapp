@@ -228,9 +228,9 @@ const WishlistButtonpdp: React.FC<Props> = ({
         WishlistService.removeFromWishlist(
           store.dispatch,
           id,
-          undefined
-          // sortBy,
-          // size
+          undefined,
+          undefined,
+          size ? size : undefined
         ).finally(() => {
           dispatch(updateLoader(false));
           // WishlistService.countWishlist(dispatch);
@@ -252,7 +252,13 @@ const WishlistButtonpdp: React.FC<Props> = ({
       }
     } else {
       if (addedToWishlist) {
-        WishlistService.removeFromWishlist(store.dispatch, id).finally(() => {
+        WishlistService.removeFromWishlist(
+          store.dispatch,
+          id,
+          undefined,
+          undefined,
+          size ? size : undefined
+        ).finally(() => {
           dispatch(updateLoader(false));
           gtmPushAddToWishlist(false);
           // WishlistService.countWishlist(dispatch);
@@ -272,7 +278,12 @@ const WishlistButtonpdp: React.FC<Props> = ({
             &nbsp;your lists.
           </div>
         );
-        WishlistService.addToWishlist(store.dispatch, id)
+        WishlistService.addToWishlist(
+          store.dispatch,
+          id,
+          undefined,
+          size ? size : undefined
+        )
           .then(() => {
             gtmPushAddToWishlist(true);
             showGrowlMessage(dispatch, growlMsg);

@@ -58,6 +58,8 @@ type Props = {
   sliderImages: { icon: boolean }[];
   collections: string[];
   badge_text?: string;
+  productDataId?: number;
+  listName?: string;
 };
 
 const NotifyMePopup: React.FC<Props> = ({
@@ -79,7 +81,9 @@ const NotifyMePopup: React.FC<Props> = ({
   list,
   sliderImages,
   collections,
-  badge_text
+  badge_text,
+  productDataId,
+  listName
 }) => {
   const { dispatch } = useStore();
   const history = useHistory();
@@ -320,8 +324,10 @@ const NotifyMePopup: React.FC<Props> = ({
           if (!history.location.pathname.includes("shared-wishlist")) {
             WishlistService.removeFromWishlist(
               dispatch,
-              selectedSize.id,
-              undefined
+              // selectedSize.id,
+              productDataId,
+              undefined,
+              listName
               // sortBy,
               // selectedSize.size
             );

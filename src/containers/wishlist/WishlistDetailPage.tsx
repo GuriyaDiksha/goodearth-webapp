@@ -268,7 +268,9 @@ const WishlistDetailPage = () => {
     currency: any,
     isSale?: boolean,
     mobile?: boolean,
-    isShared?: boolean
+    isShared?: boolean,
+    productDataId?: number,
+    listName?: string
   ) => {
     const childAttributes = item.stockDetails.map((item: any) => {
       return {
@@ -296,7 +298,8 @@ const WishlistDetailPage = () => {
           dispatch,
           item.id,
           size,
-          quantity
+          quantity,
+          listName
           // sortBy
         );
       }
@@ -328,7 +331,9 @@ const WishlistDetailPage = () => {
           sliderImages: [],
           collections: item?.collection,
           category: category,
-          badge_text: item?.badge_text
+          badge_text: item?.badge_text,
+          productDataId: productDataId ? productDataId : undefined,
+          listName: listName ? listName : undefined
         },
         false,
         mobile ? ModalStyles.bottomAlignSlideUp : "",
@@ -933,7 +938,9 @@ const WishlistDetailPage = () => {
                                         currency,
                                         isSale,
                                         mobile,
-                                        isShared
+                                        isShared,
+                                        productData.productId,
+                                        list.name
                                       )
                                     }
                                   ></div>

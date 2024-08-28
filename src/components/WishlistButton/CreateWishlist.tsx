@@ -56,7 +56,7 @@ const CreateWishlist: React.FC<Props> = ({
   hideWishlistPopup,
   gtmListType,
   id,
-  // size,
+  size,
   // showText,
   title,
   categories,
@@ -296,7 +296,12 @@ const CreateWishlist: React.FC<Props> = ({
   };
 
   const addWishlistHandler = (listName: string) => {
-    WishlistService.addToWishlist(store.dispatch, id, listName)
+    WishlistService.addToWishlist(
+      store.dispatch,
+      id,
+      listName,
+      size ? size : undefined
+    )
       .then(() => {
         const growlMsg = (
           <div>
@@ -329,7 +334,8 @@ const CreateWishlist: React.FC<Props> = ({
       dispatch,
       id,
       undefined,
-      listName
+      listName,
+      size ? size : undefined
     ).finally(() => {
       dispatch(updateLoader(false));
       gtmPushAddToWishlist(false);

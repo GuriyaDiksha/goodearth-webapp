@@ -212,7 +212,9 @@ const WishlistButton: React.FC<Props> = ({
         WishlistService.removeFromWishlist(
           store.dispatch,
           id,
-          undefined
+          undefined,
+          undefined,
+          size ? size : undefined
           // sortBy,
           // size
         ).finally(() => {
@@ -244,9 +246,9 @@ const WishlistButton: React.FC<Props> = ({
         WishlistService.removeFromWishlist(
           store.dispatch,
           id,
-          undefined
-          // undefined,
-          // undefined
+          undefined,
+          undefined,
+          size ? size : undefined
         ).finally(() => {
           dispatch(updateLoader(false));
           onComplete && onComplete();
@@ -269,7 +271,12 @@ const WishlistButton: React.FC<Props> = ({
             &nbsp;your lists.
           </div>
         );
-        WishlistService.addToWishlist(store.dispatch, id)
+        WishlistService.addToWishlist(
+          store.dispatch,
+          id,
+          undefined,
+          size ? size : undefined
+        )
           .then(() => {
             gtmPushAddToWishlist(true);
             showGrowlMessage(dispatch, growlMsg);
