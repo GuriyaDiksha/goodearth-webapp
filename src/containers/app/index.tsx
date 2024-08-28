@@ -23,13 +23,13 @@ const App: React.FC<Props> = memo(({ wishlist, user }) => {
   const flattenedArray = productsData.flat();
   const wishlistItems = flattenedArray.map(({ productId }) => productId);
   const wishlistChildItems: ProductID[] = [];
-  // wishlist.map(item => {
-  //   item.stockDetails.map(child => {
-  //     if (child.size == item.size) {
-  //       wishlistChildItems.push(child.productId);
-  //     }
-  //   });
-  // });
+  flattenedArray.map(item => {
+    item.stockDetails.map(child => {
+      if (child.size == item.size) {
+        wishlistChildItems.push(child.productId);
+      }
+    });
+  });
 
   return (
     <UserContext.Provider value={user}>
