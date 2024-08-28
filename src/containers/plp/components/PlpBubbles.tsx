@@ -72,15 +72,15 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
       {showBubble && (
         <div className={styles.sliderContainer}>
           <Slider {...settings}>
-            {data.map((item: any, index: number) => (
+            {data?.map((item: any, index: number) => (
               <div className={styles.bubbleContainer} key={index}>
-                <div>
+                <a href={item.url} rel="noopener noreferrer">
                   <img
                     className={styles.bubbleImage}
                     src={item.image}
                     alt="img"
                   />
-                </div>
+                </a>
                 <span className={styles.bubbleText}>{item.name}</span>
               </div>
             ))}
