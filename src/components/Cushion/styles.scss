@@ -78,7 +78,7 @@
 
     .heading {
       font-family: $font-Lato;
-      font-size: 14px;
+      font-size: 13px;
       letter-spacing: 1px;
     }
 
@@ -372,6 +372,7 @@
 .title {
   @include pdp_prod_title();
   line-height: 32px;
+  font-size: 20px;
 
   p {
     // font-style: italic;
@@ -434,9 +435,11 @@
   }
   &.size {
       line-height: 50px;
+      font-weight: $light;
   }
   &.quantity {
       line-height: 40px;
+      font-weight: $light;
   }
 }
 
