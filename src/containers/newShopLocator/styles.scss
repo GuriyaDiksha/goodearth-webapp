@@ -145,9 +145,11 @@ $banner-mobile-height:500px;
                         margin-bottom: 5px;
                     }
                     .time{
+                        font-size: 12px !important;
                         @include b5_10px_montserrat_charcoal();
                         letter-spacing: 0.3px;
                         margin-bottom: 20px;
+                        
                     }
                     .address-block{
                         @include b4_12px_montserrat_charcoal();
@@ -236,6 +238,9 @@ $banner-mobile-height:500px;
                                 rotate: 315deg;
                                 font-size: 20px;
                                 color: $charcoal19;
+                            }
+                            &.cafe-direction-reverse{
+                                margin-left: unset;
                             }
                         }
 
