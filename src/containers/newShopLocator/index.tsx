@@ -322,7 +322,12 @@ class ShopLocator extends Component<Props, State> {
                           href={data.cafeDirection}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={styles.cafeDirection}
+                          className={cs(styles.cafeDirection, {
+                            [styles.cafeDirectionReverse]:
+                              !data.cafeQrCodeImage &&
+                              !data.cafeQrCodeTitle &&
+                              !data.cafeQrCodeLabel
+                          })}
                         >
                           DIRECTIONS
                         </a>
