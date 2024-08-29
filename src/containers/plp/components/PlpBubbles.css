@@ -1,0 +1,17 @@
+
+
+.slick-prev::before,
+.slick-next::before {
+
+  width: 11px;
+  height: 19px;
+  color: #191919;
+  top: 5px;
+  /* right: 12px; */
+}
+.slick-next:before {
+  right: 14px;
+}
+.slick-prev:before {
+  left: -6px;
+}

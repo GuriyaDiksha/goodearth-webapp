@@ -1250,102 +1250,58 @@ p.corporate-sub-heading {
     }
   }
 }
-
-
 .bubble-wrap {
   margin-left: 20px;
 }
 
-// }
+
 .slider-container {
-  max-width: 800px;
+  max-width: 769px;
   padding: 30px 0px;
   margin: 0 auto;
-}
-
-.slick-slider {
-  // background-color: #3C7979;
-  // max-width: 800px;
-  // max-height: 170px;
-
-  .slick-list {
-    max-height: 150px;
-    max-width: 823px;
-    background: red;
-    // margin: 0 auto;
-
-    .slick-track {
-
-      .slick-slide {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-
-        div {
-          max-width: 97px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-
-        }
-
-      }
-    }
-  }
 }
 
 .bubble-container {
   max-height: 150px;
   max-width: 109px;
+  // margin-bottom: ;
 
-  div {
-    border: 1px solid black;
-    padding: 4px;
-    border-radius: 50%;
+  .img-wrap {
+    .bubble-image {
+      width: 97px;
+      height: 97px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto;
+      margin-bottom: 13px;
+    }
   }
 
-  .bubbleText {
-    color: black;
-    font-size: 12px;
+  .highlight-img-wrap {
+    .bubble-image {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto;
+      border: 1px solid #191919;
+      margin-bottom: 13px;
+      padding: 7px;
+
+    }
+  }
+
+  .bubble-text {
     display: block;
     text-align: center;
+    @include b4_12px_montserrat_charcoal
   }
-}
 
-.bubbleImage {
-  width: 97px;
-  height: 97px;
-  border-radius: 50%;
-  object-fit: cover;
-}
+  .highlight-bubble-text {
+    display: block;
+    text-align: center;
+    @include b4_12px_montserrat_charcoal;
+    font-weight: $medium;
 
-.slick-prev {
-  left: -0px !important;
-}
-
-.slick-next {
-  right: -0px !important;
-}
-
-.slick-next:before,
-.slick-prev:before {
-  content: "" !important;
-
-}
-
-.slick-track:before {
-  color: #000
-}
-
-.slick-track:after {
-  color: #000
-}
-
-.next-slick-arrow,
-.prev-slick-arrow {
-  color: #000000;
-  background-color: #000000;
-  font-size: 15px;
+  }
 }
