@@ -327,7 +327,7 @@ const NotifyMePopup: React.FC<Props> = ({
               // selectedSize.id,
               productDataId,
               undefined,
-              listName
+              isLoggedIn ? listName : undefined
               // sortBy,
               // selectedSize.size
             );

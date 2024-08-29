@@ -30,4 +30,5 @@ export type Props = {
   createWishlistPopup?: any;
   isPdp?: boolean;
   closeModal?: any;
+  toggleBag?: any;
 };

@@ -627,6 +627,7 @@ const LineItems: React.FC<BasketItem> = memo(
                         inWishlist={inWishlist}
                         onMoveToWishlist={onMoveToWishlist}
                         badgeType={badgeType}
+                        toggleBag={toggleBag}
                       />
                     )}
                   </div>

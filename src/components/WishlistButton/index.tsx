@@ -49,7 +49,8 @@ const WishlistButton: React.FC<Props> = ({
   onComplete,
   isPlpTile, //Use this for new icon
   tablet,
-  badgeType
+  badgeType,
+  toggleBag
 }) => {
   const { wishlistItems, wishlistChildItems } = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
@@ -205,24 +206,34 @@ const WishlistButton: React.FC<Props> = ({
 
   const onClick = useCallback(async () => {
     const isShared = history.location.pathname.includes("shared-wishlist");
+    const isWishlist = history.location.pathname.includes("/wishlist");
 
-    dispatch(updateLoader(true));
+    if (!isWishlist) {
+      dispatch(updateLoader(true));
+    }
     if (basketLineId) {
       if (addedToWishlist) {
-        WishlistService.removeFromWishlist(
-          store.dispatch,
-          id,
-          undefined,
-          undefined,
-          size ? size : undefined
-          // sortBy,
-          // size
-        ).finally(() => {
-          dispatch(updateLoader(false));
-          onComplete && onComplete();
+        if (isWishlist) {
+          if (toggleBag) {
+            toggleBag();
+          }
+        } else {
+          history.push("/wishlist");
+        }
+        // WishlistService.removeFromWishlist(
+        //   store.dispatch,
+        //   id,
+        //   undefined,
+        //   undefined,
+        //   size ? size : undefined
+        //   // sortBy,
+        //   // size
+        // ).finally(() => {
+        //   dispatch(updateLoader(false));
+        //   onComplete && onComplete();
 
-          // WishlistService.countWishlist(dispatch);
-        });
+        //   // WishlistService.countWishlist(dispatch);
+        // });
       } else {
         WishlistService.moveToWishlist(
           store.dispatch,

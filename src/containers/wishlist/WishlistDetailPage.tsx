@@ -348,7 +348,7 @@ const WishlistDetailPage = () => {
       dispatch,
       id,
       undefined,
-      listName
+      isLoggedIn ? listName : undefined
     ).finally(() => {
       dispatch(updateLoader(false));
       updateWishlist();
@@ -883,27 +883,31 @@ const WishlistDetailPage = () => {
                                         );
                                       }}
                                     />
-                                    <div
-                                      className={cs(styles.pencilIconContainer)}
-                                    >
-                                      <img
-                                        src={pencilIcon}
-                                        alt="pencilIcon"
-                                        className={cs(styles.iconPencil)}
-                                        onClick={() =>
-                                          mobile
-                                            ? editWishlistItemPopupMobile(
-                                                productData.productId,
-                                                updateWishlist
-                                              )
-                                            : editWishlistItemPopup(
-                                                productData.productId,
-                                                listIndex,
-                                                productIndex
-                                              )
-                                        }
-                                      />
-                                    </div>
+                                    {isLoggedIn && (
+                                      <div
+                                        className={cs(
+                                          styles.pencilIconContainer
+                                        )}
+                                      >
+                                        <img
+                                          src={pencilIcon}
+                                          alt="pencilIcon"
+                                          className={cs(styles.iconPencil)}
+                                          onClick={() =>
+                                            mobile
+                                              ? editWishlistItemPopupMobile(
+                                                  productData.productId,
+                                                  updateWishlist
+                                                )
+                                              : editWishlistItemPopup(
+                                                  productData.productId,
+                                                  listIndex,
+                                                  productIndex
+                                                )
+                                          }
+                                        />
+                                      </div>
+                                    )}
                                   </>
                                 )}
                                 <a href={productData.productUrl}>
