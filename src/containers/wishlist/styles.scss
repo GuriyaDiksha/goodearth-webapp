@@ -951,6 +951,7 @@ icon-cross {
   .empty-product-block{
     background: #FAFAFA;
     padding: 30px;
+    margin-bottom: 60px;
     span{
       @include b4_12px_montserrat_charcoal();
       line-height: 20px;
