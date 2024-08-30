@@ -1250,16 +1250,24 @@ p.corporate-sub-heading {
     }
   }
 }
+
+// #plp-bubble
+
 .bubble-wrap {
   margin-left: 20px;
 }
 
 
 .slider-container {
-  max-width: 769px;
+  width: 75%;
   padding: 30px 0px;
   margin: 0 auto;
+  @media (max-width:768px) {
+    width: 100%;
+    padding: 20px 0px 20px 20px;
+  }
 }
+
 
 .bubble-container {
   max-height: 150px;

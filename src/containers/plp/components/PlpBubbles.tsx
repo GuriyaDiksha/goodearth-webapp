@@ -4,17 +4,30 @@ import styles from "../styles.scss";
 import "./PlpBubbles.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+interface DataItem {
+  url: string;
+  image: string;
+  name: string;
+}
+
 type Props = {
-  data: any;
+  data: DataItem[];
 };
 const PlpBubbles: React.FC<Props> = ({ data }) => {
   const [showBubble, setShowbubble] = useState(false);
-
+  const [bubbleCount, setBubbleCount] = useState(0);
+  // const maxBubbleCount: number = 7;
+  useEffect(() => {
+    setTimeout(() => {
+      setShowbubble(true);
+      setBubbleCount(data.length || 0);
+    }, 1000);
+  }, [data]);
   const settings = {
     speed: 500,
     slidesToShow: 7,
-    slidesToScroll: 1,
-    // arrows: false,
+    slidesToScroll: 2,
+    arrows: bubbleCount >= 7,
     infinite: false,
     initialSlide: 0,
     // nextArrow: (
@@ -39,11 +52,19 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
     // ),
     responsive: [
       {
-        breakpoint: 1132,
+        breakpoint: 1318,
         settings: {
           slidesToShow: 6,
           slidesToScroll: 1,
           infinite: true
+        }
+      },
+      {
+        breakpoint: 1108,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 1
+          // arrows: false
         }
       },
 
@@ -64,7 +85,7 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
         }
       },
       {
-        breakpoint: 500,
+        breakpoint: 470,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
@@ -73,11 +94,6 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
       }
     ]
   };
-  useEffect(() => {
-    setTimeout(() => {
-      setShowbubble(true);
-    }, 1000);
-  }, []);
 
   return (
     <React.Fragment>
@@ -87,7 +103,7 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
             {data?.map((item: any, index: number) => (
               <div className={styles.bubbleContainer} key={index}>
                 <a
-                  href={item?.url}
+                  href={item.url}
                   rel="noopener noreferrer"
                   key={index}
                   className={
