@@ -322,7 +322,12 @@ class ShopLocator extends Component<Props, State> {
                           href={data.cafeDirection}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={styles.cafeDirection}
+                          className={cs(styles.cafeDirection, {
+                            [styles.cafeDirectionReverse]:
+                              !data.cafeQrCodeImage &&
+                              !data.cafeQrCodeTitle &&
+                              !data.cafeQrCodeLabel
+                          })}
                         >
                           DIRECTIONS
                         </a>
@@ -408,7 +413,7 @@ class ShopLocator extends Component<Props, State> {
                           );
                         })}
                         <h1>
-                          {data.storeEmail.map((item: any, i: number) => {
+                          {data.storeEmail?.map((item: any, i: number) => {
                             return (
                               <a key={i} href={`mailto:${item}`}>
                                 {item}
