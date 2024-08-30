@@ -633,7 +633,6 @@
 }
 
 //tootltip
-
 .tooltip-wrp {
   display: flex;
 }
@@ -672,35 +671,35 @@
       padding: 7px 12px;
 
       img {
-          position: absolute;
-          left: 2px;
-          bottom: 2px;
-        }
-      
-        a {
-          border-bottom: 1px solid $light-charcoal;
-          @include b5_10px_montserrat_charcoal();
-          font-size: 8px;
-          margin-left: 2px;
-        }
-      
-        @media screen and (max-width:992px) {
-          top: 26px;
-          left: 170px;
-        }
-      
-        &.tip-two {
-      
-          left: 185px;
-          top: 86px;
-          height: 87px;
-          padding: 8px 10px;
-        }
-      
-        @media screen and (max-width:992px) {
-          top: 76px;
-          left: 185px;
-        }
+        position: absolute;
+        left: -1px;
+        bottom: 2px;
+      }
+
+      a {
+        border-bottom: 1px solid $light-charcoal;
+        @include b5_10px_montserrat_charcoal();
+        font-size: 8px;
+        margin-left: 2px;
+      }
+
+      @media screen and (max-width:992px) {
+        top: 26px;
+        left: 170px;
+      }
+
+      &.tip-two {
+
+        left: 185px;
+        top: 86px;
+        height: 87px;
+        padding: 8px 10px;
+      }
+
+      @media screen and (max-width:992px) {
+        top: 76px;
+        left: 185px;
+      }
     }
 
   }
