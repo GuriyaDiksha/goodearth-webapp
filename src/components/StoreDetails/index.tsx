@@ -118,7 +118,7 @@ class StoreDetails extends React.Component<Props, State> {
                 {item.inStock ? (
                   <span className={styles.greenCircle}>In stock</span>
                 ) : (
-                  <span className={styles.redCircle}>Out of stock!</span>
+                  <span className={styles.redCircle}>Out of stock</span>
                 )}
               </div>
               <br />
