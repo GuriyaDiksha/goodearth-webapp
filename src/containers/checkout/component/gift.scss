@@ -673,7 +673,7 @@
       img {
         position: absolute;
         left: -1px;
-        bottom: 2px;
+        bottom: 0px;
       }
 
       a {
@@ -690,15 +690,15 @@
 
       &.tip-two {
 
-        left: 185px;
-        top: 86px;
-        height: 87px;
+        left: 188px;
+        top: 87px;
+        height: 89px;
         padding: 8px 10px;
       }
 
       @media screen and (max-width:992px) {
-        top: 76px;
-        left: 185px;
+        top: 26px;
+        left: 175px;
       }
     }
 
