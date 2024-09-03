@@ -940,7 +940,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
             <span className={styles.orderTotal}>
               {displayPriceWithCommasFloat(
                 basket.subTotalWithShipping,
-                currency,
+                props.currency,
                 true,
                 false
               )}
