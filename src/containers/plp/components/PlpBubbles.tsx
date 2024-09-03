@@ -28,8 +28,9 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
     slidesToShow: 7,
     slidesToScroll: 2,
     arrows: bubbleCount >= 7,
-    infinite: false,
-    initialSlide: 0,
+    infinite: true,
+    // centerMode: true
+    // initialSlide: 0,
     // nextArrow: (
     //   <div>
     //     <div
@@ -63,8 +64,8 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
         breakpoint: 1108,
         settings: {
           slidesToShow: 5,
-          slidesToScroll: 1
-          // arrows: false
+          slidesToScroll: 1,
+          arrows: false
         }
       },
 
@@ -89,7 +90,8 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
-          arrows: false
+          arrows: false,
+          infinite: false
         }
       }
     ]

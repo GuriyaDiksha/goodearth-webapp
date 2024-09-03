@@ -861,8 +861,11 @@ class PLP extends React.Component<
                 />
               ) : null}
             </div>
-            <PlpBubbles data={this.props.plpBubblesData} />
-
+            {this.props.plpBubblesData?.length > 1 ? (
+              <PlpBubbles data={this.props.plpBubblesData} />
+            ) : (
+              ""
+            )}
             {!mobile ? (
               <div
                 className={cs(styles.productNumber, styles.imageContainer, {
