@@ -145,9 +145,11 @@ $banner-mobile-height:500px;
                         margin-bottom: 5px;
                     }
                     .time{
+                        font-size: 12px !important;
                         @include b5_10px_montserrat_charcoal();
                         letter-spacing: 0.3px;
                         margin-bottom: 20px;
+                        
                     }
                     .address-block{
                         @include b4_12px_montserrat_charcoal();
@@ -200,6 +202,8 @@ $banner-mobile-height:500px;
                         }
                     }
                     .get-directions{
+                        display: flex;
+                        
                         a{
                             @include b4_12px_montserrat_charcoal_caps();
                             letter-spacing: 0.3px;
@@ -208,7 +212,63 @@ $banner-mobile-height:500px;
                             &:hover{
                                 color: #3C7979;
                             }
+                            
                         }
+                        .store-direction{
+                            &::after {
+                                content: "→"; 
+                                display: inline-block;
+                                margin-left: 5px;
+                                margin-top: 3px;
+                                rotate: 315deg;
+                                font-size: 20px;
+                                color: $charcoal19;
+  
+                            }
+                        }
+                        .cafe-direction{
+                            margin-top: auto;
+                            margin-left: auto;
+                            text-transform: none;
+                            &::after {
+                                content: "→"; 
+                                display: inline-block;
+                                margin-left: 5px;
+                                margin-top: 3px;
+                                rotate: 315deg;
+                                font-size: 20px;
+                                color: $charcoal19;
+                            }
+                            &.cafe-direction-reverse{
+                                margin-left: unset;
+                            }
+                        }
+
+                        .cafeMenuBlock{
+                            display: flex;
+                            gap: 10px;
+                            .qr-image{
+                                width: 60px;
+                                height: 60px;
+                            }
+                            div{
+                                display: flex;
+                                flex-direction: column;
+                                align-self: end;
+                                .cafe-title{
+                                    @include b4_12px_montserrat_charcoal();
+                                    letter-spacing: 0.3px;
+                                    text-transform:none;
+                                }
+                                .cafe-label{
+                                    text-transform: uppercase;
+                                    @include b5_10px_semibold_montserrat_charcoal();
+                                    letter-spacing: 0.3px;
+                                }
+                                
+                            }  
+                        }
+
                     }
                 } 
                 .slider {
