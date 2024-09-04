@@ -49,7 +49,6 @@ type Props = {
   isPlpTile?: boolean;
   tablet?: boolean;
   badgeType?: string;
-  updateWishlistData?: any;
 };
 
 const CreateWishlist: React.FC<Props> = ({
@@ -70,8 +69,7 @@ const CreateWishlist: React.FC<Props> = ({
   // parentWidth,
   // source,
   onMoveToWishlist,
-  badgeType,
-  updateWishlistData
+  badgeType
 }) => {
   const { mobile } = useSelector((state: AppState) => state.device);
   const { closeModal } = useContext(Context);
@@ -83,10 +81,7 @@ const CreateWishlist: React.FC<Props> = ({
     currency,
     info: { isSale }
   } = useSelector((state: AppState) => state);
-  const [wishlistDataItem, setWishListItemData] = useState<WishlistResponse>({
-    data: []
-  });
-
+  const { items } = useSelector((state: AppState) => state.wishlist);
   const [listName, setListName] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [isenable, setIsenable] = useState(false);
@@ -104,10 +99,7 @@ const CreateWishlist: React.FC<Props> = ({
   };
 
   const fetchWishlistName = async () => {
-    const data = await WishlistService.updateWishlist(dispatch);
-    if (data) {
-      setWishListItemData(data);
-    }
+    await WishlistService.updateWishlist(dispatch);
   };
 
   useEffect(() => {
@@ -118,12 +110,8 @@ const CreateWishlist: React.FC<Props> = ({
     WishlistService.addToWishlist(store.dispatch, undefined, listName)
       .then(() => {
         setListName("");
-        fetchWishlistName();
         setErrorMsg("");
         setIsenable(false);
-        if (history.location.pathname.includes("wishlist")) {
-          updateWishlistData();
-        }
       })
       .catch((error: any) => {
         const data = decriptdata(error.response?.data);
@@ -319,10 +307,6 @@ const CreateWishlist: React.FC<Props> = ({
         );
         gtmPushAddToWishlist(true);
         showGrowlMessage(dispatch, growlMsg);
-        fetchWishlistName();
-        if (history.location.pathname.includes("wishlist")) {
-          updateWishlistData();
-        }
       })
       .finally(() => {
         dispatch(updateLoader(false));
@@ -339,10 +323,6 @@ const CreateWishlist: React.FC<Props> = ({
     ).finally(() => {
       dispatch(updateLoader(false));
       gtmPushAddToWishlist(false);
-      fetchWishlistName();
-      if (history.location.pathname.includes("wishlist")) {
-        updateWishlistData();
-      }
     });
   };
 
@@ -365,7 +345,7 @@ const CreateWishlist: React.FC<Props> = ({
           ></span>
         </div>
         <div className={cs(styles.wishlistItems)}>
-          {wishlistDataItem.data.map((item: any, i: any) => {
+          {items.map((item: any, i: any) => {
             const hasProductId = item.products.some(
               (product: any) => product.productId === id
             );
@@ -399,7 +379,7 @@ const CreateWishlist: React.FC<Props> = ({
             );
           })}
         </div>
-        {wishlistDataItem.data.length < 6 ? (
+        {items.length < 6 ? (
           <Formsy onValidSubmit={handleSubmit}>
             <div className={styles.wishlistForm}>
               <FormInput

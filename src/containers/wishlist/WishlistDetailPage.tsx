@@ -351,7 +351,6 @@ const WishlistDetailPage = () => {
       isLoggedIn ? listName : undefined
     ).finally(() => {
       dispatch(updateLoader(false));
-      updateWishlist();
     });
   };
 
@@ -362,14 +361,13 @@ const WishlistDetailPage = () => {
       undefined,
       listName
     );
-    updateWishlist();
   };
 
-  const editPopup = (id: number, name: string, updateWishlistData: any) => {
+  const editPopup = (id: number, name: string) => {
     dispatch(
       updateComponent(
         POPUP.EDITWISHLISTNAME,
-        { id, name, updateWishlistData, deleteWishlistName },
+        { id, name, deleteWishlistName },
         false,
         mobile ? ModalStyles.bottomAlignSlideUp : "",
         mobile ? "slide-up-bottom-align" : ""
@@ -378,11 +376,11 @@ const WishlistDetailPage = () => {
     dispatch(updateModal(true));
   };
 
-  const creatWishlistPopup = (dataLength: number, updateWishlistData: any) => {
+  const creatWishlistPopup = (dataLength: number) => {
     dispatch(
       updateComponent(
         POPUP.CREATEWISHLIST,
-        { dataLength, updateWishlistData },
+        { dataLength },
         false,
         mobile ? ModalStyles.bottomAlignSlideUp : "",
         mobile ? "slide-up-bottom-align" : ""
@@ -400,11 +398,11 @@ const WishlistDetailPage = () => {
     }
   };
 
-  const editWishlistItemPopupMobile = (id: number, updateWishlistData: any) => {
+  const editWishlistItemPopupMobile = (id: number) => {
     dispatch(
       updateComponent(
         POPUP.ADDREMOVEWISHLISTNAMEPOPUP,
-        { id, updateWishlistData },
+        { id },
         false,
         mobile ? ModalStyles.bottomAlignSlideUp : "",
         mobile ? "slide-up-bottom-align" : ""
@@ -498,7 +496,7 @@ const WishlistDetailPage = () => {
                 globalStyles.pointer,
                 globalStyles.aquaHover
               )}
-              onClick={() => creatWishlistPopup(items.length, updateWishlist)}
+              onClick={() => creatWishlistPopup(items.length)}
             >
               + CREATE NEW LIST
             </div>
@@ -772,9 +770,7 @@ const WishlistDetailPage = () => {
                         {!list.name.includes("Default") && (
                           <span
                             className={cs(styles.edit, globalStyles.aquaHover)}
-                            onClick={() =>
-                              editPopup(list.id, list.name, updateWishlist)
-                            }
+                            onClick={() => editPopup(list.id, list.name)}
                           >
                             Edit
                           </span>
@@ -896,8 +892,7 @@ const WishlistDetailPage = () => {
                                           onClick={() =>
                                             mobile
                                               ? editWishlistItemPopupMobile(
-                                                  productData.productId,
-                                                  updateWishlist
+                                                  productData.productId
                                                 )
                                               : editWishlistItemPopup(
                                                   productData.productId,
@@ -955,7 +950,6 @@ const WishlistDetailPage = () => {
                                       <CreateWishlist
                                         hideWishlistPopup={hideWishlistPopup}
                                         id={pId}
-                                        updateWishlistData={updateWishlist}
                                       />
                                     )}
                                 </div>

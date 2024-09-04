@@ -13,13 +13,9 @@ import { showGrowlMessage } from "utils/validate";
 
 interface Props {
   dataLength: number;
-  updateWishlistData: any;
 }
 
-const createWishlist: React.FC<Props> = ({
-  dataLength,
-  updateWishlistData
-}) => {
+const createWishlist: React.FC<Props> = ({ dataLength }) => {
   const [listName, setListName] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [isenable, setIsenable] = useState(false);
@@ -46,7 +42,6 @@ const createWishlist: React.FC<Props> = ({
         setErrorMsg("");
         setIsenable(false);
         closeModal();
-        updateWishlistData();
         showGrowlMessage(dispatch, `New list ${listName} has been created.`);
       })
       .catch((error: any) => {

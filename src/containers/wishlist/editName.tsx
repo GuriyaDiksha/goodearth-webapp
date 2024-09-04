@@ -11,20 +11,13 @@ import { updateComponent, updateModal } from "../../actions/modal";
 import { POPUP } from "constants/components";
 import { Context } from "components/Modal/context";
 import { decriptdata } from "utils/validate";
-
 interface Props {
   id: number;
   name: string;
-  updateWishlistData: any;
   deleteWishlistName: (listName: string) => void;
 }
 
-const editName: React.FC<Props> = ({
-  id,
-  name,
-  updateWishlistData,
-  deleteWishlistName
-}) => {
+const editName: React.FC<Props> = ({ id, name, deleteWishlistName }) => {
   const [listName, setListName] = useState(name);
   const [errorMsg, setErrorMsg] = useState("");
   const [isenable, setIsenable] = useState(false);
@@ -47,7 +40,6 @@ const editName: React.FC<Props> = ({
     const data = { id, listName };
     WishlistService.updateWishlistName(dispatch, data)
       .then(res => {
-        updateWishlistData();
         setErrorMsg("");
         closeModal();
       })

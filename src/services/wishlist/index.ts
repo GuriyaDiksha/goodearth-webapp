@@ -282,11 +282,10 @@ export default {
     dispatch: Dispatch,
     data: wishlistNameResponse
   ) {
-    const res = await API.put<wishlistNameResponse & ApiResponse>(
-      dispatch,
-      `${__API_HOST__}/myapi/wishlist/`,
-      data
-    );
+    const res = await API.put<
+      wishlistNameResponse & WishlistResponse & ApiResponse
+    >(dispatch, `${__API_HOST__}/myapi/wishlist/`, data);
+    dispatch(updateWishlist(res.data));
     return res;
   }
 };
