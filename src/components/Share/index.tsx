@@ -43,20 +43,25 @@ const Share: React.FC<Props> = ({ link, mailText, mailSubject, mobile }) => {
           // show ? styles.show : styles.hide
         )}
       >
-        <div className={cs(styles.whatsapp)}>
-          <Whatsapp link={whatsappLink} className={styles.whatsappIcon} />{" "}
-        </div>
-        <div className={cs(styles.mail)}>
-          <Mail link={mailContent} className={styles.socialIcon} />{" "}
-        </div>
         <div className={cs(styles.link)}>
-          {" "}
           <CopyLink
             link={link}
             text={mailText}
             className={cs(styles.socialIcon, styles.copyLink)}
             onClick={copyText}
-          />{" "}
+          />
+        </div>
+        <div className={cs(styles.whatsapp)}>
+          <Whatsapp
+            link={whatsappLink}
+            className={cs(styles.socialIcon, styles.whatsappIcon)}
+          />
+        </div>
+        <div className={cs(styles.mail)}>
+          <Mail
+            link={mailContent}
+            className={cs(styles.socialIcon, styles.mailIcon)}
+          />
         </div>
       </div>
     </div>
