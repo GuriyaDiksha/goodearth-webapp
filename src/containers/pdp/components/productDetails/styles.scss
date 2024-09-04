@@ -214,7 +214,7 @@
 
 @media screen and (max-width: 992px) {
     .collection-header {
-        margin-top: 20px;
+        // margin-top: 20px;
         @include pdp_collection_header_mobile();
     }
 

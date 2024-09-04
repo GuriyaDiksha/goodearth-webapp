@@ -390,27 +390,27 @@ const ProductDetails: React.FC<Props> = ({
         header: "Queries or Assistance",
         body: <div> {!isQuickview && <PdpCustomerCareInfo />} </div>,
         id: "queries"
-      },
-      {
-        header: "Share",
-        body: (
-          <div>
-            {!isQuickview && (
-              <Share
-                mobile={mobile}
-                link={`${__DOMAIN__}${location.pathname}`}
-                mailSubject="Gifting Ideas"
-                mailText={`${
-                  corporatePDP
-                    ? `Here's what I found, check it out on Good Earth's web boutique`
-                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
-                } ${__DOMAIN__}${location.pathname}`}
-              />
-            )}
-          </div>
-        ),
-        id: "share"
       }
+      // {
+      //   header: "Share",
+      //   body: (
+      //     <div>
+      //       {!isQuickview && (
+      //         <Share
+      //           mobile={mobile}
+      //           link={`${__DOMAIN__}${location.pathname}`}
+      //           mailSubject="Gifting Ideas"
+      //           mailText={`${
+      //             corporatePDP
+      //               ? `Here's what I found, check it out on Good Earth's web boutique`
+      //               : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+      //           } ${__DOMAIN__}${location.pathname}`}
+      //         />
+      //       )}
+      //     </div>
+      //   ),
+      //   id: "share"
+      // }
     ];
     if (manufactureInfo) {
       sections.push({
@@ -964,6 +964,19 @@ const ProductDetails: React.FC<Props> = ({
     setIsShare(!isShare);
   };
 
+  const sharePopupToggleMobile = () => {
+    updateComponentModal(
+      POPUP.SHAREPDPPOPUP,
+      {
+        corporatePDP: corporatePDP
+      },
+      false,
+      mobile ? ModalStyles.bottomAlignSlideUp : "",
+      mobile ? "slide-up-bottom-align" : ""
+    );
+    changeModalState(true);
+  };
+
   return (
     <Fragment>
       {/* {!mobile && !isQuickview && showDock && (
@@ -989,7 +1002,10 @@ const ProductDetails: React.FC<Props> = ({
           >
             {(isLoading || loading) && <Loader />}
             <div className={cs(bootstrap.row)}>
-              <div className={styles.shareCta} onClick={sharePopupToggle}>
+              <div
+                className={styles.shareCta}
+                onClick={mobile ? sharePopupToggleMobile : sharePopupToggle}
+              >
                 <p>SHARE</p>
                 {!isShare ? (
                   <img src={share} alt="share" />
@@ -997,7 +1013,9 @@ const ProductDetails: React.FC<Props> = ({
                   <img src={close} alt="close" />
                 )}
               </div>
-              {isShare && <ShareProductPopup corporatePDP={corporatePDP} />}
+              {isShare && !mobile && (
+                <ShareProductPopup corporatePDP={corporatePDP} />
+              )}
               {images && images[0]?.badgeImagePdp && (
                 <div className={cs(bootstrap.col12, styles.badgePadding)}>
                   <img

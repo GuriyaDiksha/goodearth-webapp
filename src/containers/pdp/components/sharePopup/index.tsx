@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import styles from "./styles.scss";
 import cs from "classnames";
-import { useStore, useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import { Context } from "components/Modal/context";
 import Share from "components/Share";
+import CloseButton from "components/Modal/components/CloseButton";
 
 type Props = {
   corporatePDP: boolean;
@@ -13,18 +12,17 @@ type Props = {
 
 const ShareProductPopup: React.FC<Props> = ({ corporatePDP }) => {
   const { mobile } = useSelector((state: AppState) => state.device);
-  const { closeModal } = useContext(Context);
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const store = useStore();
-
   return (
     <>
-      <div
-        className={cs(styles.shareProductPopup, {
-          //   [styles.wishlistPopupContainer]: mobile
-        })}
-      >
+      <div className={styles.shareProductPopup}>
+        {mobile && (
+          <>
+            <div className={styles.header}>
+              <CloseButton className={styles.closeBtn} />
+            </div>
+            <h3 className={styles.heading}>Share via</h3>
+          </>
+        )}
         <Share
           mobile={mobile}
           link={`${__DOMAIN__}${location.pathname}`}

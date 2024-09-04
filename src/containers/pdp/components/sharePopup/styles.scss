@@ -1,9 +1,40 @@
+@import "../../../../styles/partials/variables";
+@import "../../../../styles/partials/mixins";
+
 .share-product-popup{
     background: #fff;
     border: 1px solid #E5E5E5;
-    padding: 10px 20px 18px;
+    padding: 10px 22px;
     position: absolute;
     z-index: 1;
     right: 0;
     top: 23px;
+    @media(max-width:992px){
+        position: relative;
+        width: 100%;
+        min-height: auto;
+        padding-bottom: 55px;
+    }
+}
+@media(max-width:992px){
+    .share-product-popup{
+        .header{
+            height: 50px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #00000033;
+            button{
+                top: 15px;
+                span{
+                    font-size:30px;
+                }
+            }
+        }
+        .heading{
+            @include h3_20px_lora_medCharcoal();
+            line-height: 25px;
+            letter-spacing: 0.4px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    }
 }
