@@ -17,6 +17,13 @@ import flower_right from "../../images/news_flower_right.png";
 import crossIcon from "../../images/cross.svg";
 import SelectDropdown from "../Formsy/SelectDropdown";
 import AccountService from "services/account";
+import leftTopImage from "../../images/newsLetterPoUp/b2.png";
+import leftMidImage from "../../images/newsLetterPoUp/palmmm@2x.png";
+import rightTopImage from "../../images/newsLetterPoUp/palmmm.png";
+import bottomLeftImage from "../../images/newsLetterPoUp/leafddw.png";
+import rightBottomImage from "../../images/newsLetterPoUp/yellow2.png.png";
+import FormSelect from "components/Formsy/FormSelect";
+import { Link } from "react-router-dom";
 
 type Props = {
   title: string;
@@ -55,6 +62,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const isExistyError = "This field is required";
   const countryRef: RefObject<HTMLInputElement> = useRef(null);
   const [usercountry, setUsercountry] = useState("");
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -248,6 +256,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
       .then(data => {
         if (data.status) {
           setSuccessMsg("You have subscribed successfully.");
+          setIsSubscribed(true);
           const subscribeCta = document?.getElementById("subscribe-cta");
           if (subscribeCta) {
             subscribeCta.hidden = true;
@@ -263,7 +272,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           }
           setTimeout(() => {
             onClose();
-          }, 3000);
+          }, 300000);
         } else {
           setSuccessMsg("You have already subscribed.");
         }
@@ -286,11 +295,16 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   };
 
   const prepareFormData = (model: any) => {
+    // const formData = new FormData();
+    // const { email, name, country } = model;
+    // formData.append("email", email ? email.toString().toLowerCase() : "");
+    // formData.append("name", name || "");
+    // formData.append("country", country || "");
+    // formData.append("status", "subscribed");
+    // formData.append("email", email ? email.toString().toLowerCase() : "");
     const formData = new FormData();
-    const { email, name, country } = model;
+    const { email } = model;
     formData.append("email", email ? email.toString().toLowerCase() : "");
-    formData.append("name", name || "");
-    formData.append("country", country || "");
     formData.append("status", "subscribed");
     return formData;
   };
@@ -320,7 +334,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           id="job-form"
         >
           <div className={cs(styles.formField)}>
-            <FormInput
+            {/* <FormInput
               id="first_input"
               required
               label="Name*"
@@ -339,7 +353,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
                 maxLength: "Max limit reached.",
                 isWords: isAlphaError
               }}
-            />
+            /> */}
           </div>
           <div className={cs(styles.formField)}>
             <FormInput
@@ -374,7 +388,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
                 }}
               />
               <span className="arrow"></span> */}
-              <SelectDropdown
+              {/* <SelectDropdown
                 required
                 label={"Country*"}
                 options={countryOptions}
@@ -391,7 +405,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
                 }}
                 allowFilter={true}
                 inputRef={countryRef}
-              />
+              /> */}
             </div>
           </div>
           <p
@@ -403,7 +417,13 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           >
             {successMsg}
           </p>
-          <div className={cs(styles.subscribeBtn)}>
+          <div className={styles.popupDescription}>
+            By submitting your email address, you consent to receiving marketing
+            communications from Good Earth, on inspiration, exclusive offers,
+            and new arrivals. View our <a href="/">Privacy Policy</a> and
+            <a href="/">Terms of Service.</a>
+          </div>
+          <div className={cs(styles.subscribeBtn, globalStyles.marginT10)}>
             <input
               id="subscribe-cta"
               type="submit"
@@ -415,7 +435,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
                 styles.jobApplicationSubmit,
                 { [globalStyles.disabledBtn]: !enableSubmit }
               )}
-              value="SUBSCRIBE"
+              value="JOIN THE COMMUNITY"
             />
           </div>
         </div>
@@ -425,32 +445,58 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
 
   return displayPopUp ? (
     <div id="newsletter-modal-container" className={cs(styles.container)}>
-      <div className={cs(styles.modalOverlay)}></div>
-      <div className={cs(styles.newsletterModal)}>
-        <div className={cs(styles.newsLeftImg)}>
-          <img src={flower_left} className={cs(styles.flowerLeft)} />
-        </div>
-        <div className={cs(styles.newsButterflyImg)}>
-          <img src={butterfly} className={cs(styles.butterfly)} />
-        </div>
-        <div className={cs(styles.newsRightImg)}>
-          <img src={flower_right} className={cs(styles.flowerRight)} />
-        </div>
-        <div className={cs(styles.modalBox)}>
-          <button
-            className={cs(styles.modalCloseBtn)}
-            onClick={onClose}
-            data-dismiss="modal"
-          >
-            <img src={crossIcon} width="18" height="18" />
-          </button>
-          <div className={cs(styles.modalContent)}>
-            <div className={cs(styles.modalHeader)}>
-              <div className={cs(styles.modalTitle)}>{title}</div>
-              <div className={cs(styles.modalSubTitle)}>{subTitle}</div>
+      <div className={styles.modalWrapper}>
+        <div className={cs(styles.modalOverlay)}></div>
+        <div className={cs(styles.newsletterModal)}>
+          <div className={cs(styles.modalBox)}>
+            <button
+              className={cs(styles.modalCloseBtn)}
+              onClick={onClose}
+              data-dismiss="modal"
+            >
+              <img src={crossIcon} width="12" height="12" />
+            </button>
+            <div className={cs(styles.modalContent)}>
+              <div className={cs(styles.modalHeader)}>
+                <div className={cs(styles.modalTitle)}>
+                  {!isSubscribed ? title : "Thank You For Subscribing!"}
+                </div>
+                <div className={cs(styles.modalSubTitle)}>
+                  {!isSubscribed
+                    ? subTitle
+                    : "Your unique discount code has been sent to your email ID and can be availed at checkout!"}
+                </div>
+              </div>
+              {!isSubscribed && (
+                <div className={cs(styles.modalBottom)}>{formContent}</div>
+              )}
             </div>
-            <div className={cs(styles.modalBottom)}>{formContent}</div>
           </div>
+          <div className={cs(styles.newsLeftImg)}>
+            <img src={leftTopImage} className={cs(styles.flowerTopLeft)} />
+          </div>
+          <div className={cs(styles.newsRightBottomImg)}>
+            <img
+              src={rightBottomImage}
+              className={cs(styles.flowerRightBottom)}
+            />
+          </div>
+          <div className={cs(styles.newsButterflyImg)}>
+            <img src={butterfly} className={cs(styles.butterfly)} />
+          </div>
+        </div>
+
+        <div className={cs(styles.newsRightTopImg)}>
+          <img src={rightTopImage} className={cs(styles.flowerTopRight)} />
+        </div>
+        <div className={cs(styles.newsBottomLeftImg)}>
+          <img src={bottomLeftImage} className={cs(styles.flowerBottomLeft)} />
+        </div>
+        <div className={cs(styles.newsLeftMidImg)}>
+          <img src={leftMidImage} className={cs(styles.flowerLeftMid)} />
+        </div>
+        <div className={cs(styles.exclusiveText, globalStyles.textCenter)}>
+          *Exclusive for 1st time subscribers.
         </div>
       </div>
     </div>
