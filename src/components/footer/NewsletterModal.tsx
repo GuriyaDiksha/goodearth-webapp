@@ -11,11 +11,9 @@ import { errorTracking, getErrorList } from "utils/validate";
 import HeaderService from "services/headerFooter";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
-import flower_left from "../../images/news_flower_left.png";
 import butterfly from "../../images/news_bf_img.png";
-import flower_right from "../../images/news_flower_right.png";
 import crossIcon from "../../images/cross.svg";
-import SelectDropdown from "../Formsy/SelectDropdown";
+// import SelectDropdown from "../Formsy/SelectDropdown";
 import AccountService from "services/account";
 import leftTopImage from "../../images/newsLetterPoUp/b2.png";
 import leftMidImage from "../../images/newsLetterPoUp/palmmm@2x.png";
@@ -35,6 +33,7 @@ type StateOptions = {
   label: string;
   id: number;
   nameAscii: string;
+  source: string;
 };
 
 type CountryOptions = {
@@ -272,9 +271,9 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           }
           setTimeout(() => {
             onClose();
-          }, 300000);
+          }, 400000);
         } else {
-          setSuccessMsg("You have already subscribed.");
+          setSuccessMsg("You are already subscribed.");
         }
       })
       .catch(err => {
@@ -305,7 +304,8 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
     const formData = new FormData();
     const { email } = model;
     formData.append("email", email ? email.toString().toLowerCase() : "");
-    formData.append("status", "subscribed");
+    // formData.append("status", "subscribed");
+    formData.append("source", "subscription_popup");
     return formData;
   };
 
@@ -371,9 +371,9 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
               }}
             />
           </div>
-          <div className={cs(styles.formField)}>
+          {/* <div className={cs(styles.formField)}>
             <div className="select-group text-left">
-              {/* <FormSelect
+              <FormSelect
                 required
                 label={"Country*"}
                 options={countryOptions}
@@ -387,8 +387,8 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
                   isExisty: "Please select your Country"
                 }}
               />
-              <span className="arrow"></span> */}
-              {/* <SelectDropdown
+              <span className="arrow"></span>
+              <SelectDropdown
                 required
                 label={"Country*"}
                 options={countryOptions}
@@ -405,9 +405,9 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
                 }}
                 allowFilter={true}
                 inputRef={countryRef}
-              /> */}
+              />
             </div>
-          </div>
+          </div> */}
           <p
             className={cs(
               successMsg == "You have subscribed successfully."
@@ -420,8 +420,20 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           <div className={styles.popupDescription}>
             By submitting your email address, you consent to receiving marketing
             communications from Good Earth, on inspiration, exclusive offers,
-            and new arrivals. View our <a href="/">Privacy Policy</a> and
-            <a href="/">Terms of Service.</a>
+            and new arrivals. View our{" "}
+            <Link
+              to={"/customer-assistance/privacy-policy"}
+              className={styles.popupLink}
+            >
+              Privacy Policy.
+            </Link>{" "}
+            and{" "}
+            <Link
+              to={"/customer-assistance/terms-conditions"}
+              className={styles.popupLink}
+            >
+              Terms of Service.
+            </Link>
           </div>
           <div className={cs(styles.subscribeBtn, globalStyles.marginT10)}>
             <input
@@ -445,9 +457,17 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
 
   return displayPopUp ? (
     <div id="newsletter-modal-container" className={cs(styles.container)}>
-      <div className={styles.modalWrapper}>
+      <div
+        className={cs(styles.modalWrapper, {
+          [styles.subscribedTop]: isSubscribed
+        })}
+      >
         <div className={cs(styles.modalOverlay)}></div>
-        <div className={cs(styles.newsletterModal)}>
+        <div
+          className={cs(styles.newsletterModal, {
+            [styles.subscribedTop]: isSubscribed
+          })}
+        >
           <div className={cs(styles.modalBox)}>
             <button
               className={cs(styles.modalCloseBtn)}
@@ -457,7 +477,11 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
               <img src={crossIcon} width="12" height="12" />
             </button>
             <div className={cs(styles.modalContent)}>
-              <div className={cs(styles.modalHeader)}>
+              <div
+                className={cs(styles.modalHeader, {
+                  [styles.subscribedHeader]: isSubscribed
+                })}
+              >
                 <div className={cs(styles.modalTitle)}>
                   {!isSubscribed ? title : "Thank You For Subscribing!"}
                 </div>
@@ -481,7 +505,11 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
               className={cs(styles.flowerRightBottom)}
             />
           </div>
-          <div className={cs(styles.newsButterflyImg)}>
+          <div
+            className={cs(styles.newsButterflyImg, {
+              [styles.topAlign]: isSubscribed
+            })}
+          >
             <img src={butterfly} className={cs(styles.butterfly)} />
           </div>
         </div>

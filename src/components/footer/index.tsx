@@ -1299,14 +1299,6 @@ class Footer extends React.Component<Props, FooterState> {
             }
           />
         )}
-        {/* {this.state?.showPopUp ? (
-          <NewsletterModal
-            title="Sign Up And Save 10%"
-            subTitle="Ideas on style, design, and entertaining await you, along with a sweet discount on your first purchase"
-          />
-        ) : (
-          <h1>uhefiuwfheuefh</h1>
-        )} */}
       </div>
     );
   }

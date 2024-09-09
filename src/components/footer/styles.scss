@@ -971,6 +971,12 @@
   font-weight: $regular;
   line-height: 16px;
   margin-bottom: 19px;
+  height: 64px;
+
+  .popup-link {
+    text-decoration: underline;
+    color: $charcoal19;
+  }
 }
 .subscribe-success{
   @include b5_10px_montserrat_white();
@@ -1022,26 +1028,32 @@ padding: 30px 20px;
     @media(max-width:992px){
       max-width: unset;
       width: 100%;
-      top: calc(100% - 174px);
-      // top: -89px;
+      top: calc(100% - 221px);
       right: -33px;
       bottom: unset;
+      &.subscribed-top{
+        top: calc(100% - 158px);
+      }
+
     }
+    
   }
 
 }
 /* newsletter Modal css by GD */
 .newsletter-modal {
-
-  
   position: relative;
   background-color: #fff;
   z-index: 10;
-  padding: 30px 28px;
+  padding: 53px 28px;
   font-family: "LatoFont", "Helvetica", "Arial";
   // margin: 20px;
   border: 1px solid #b3b3b3;
   display: flex;
+
+  &.subscribedHeader {
+    padding: 98px 28px;
+  }
 
   @media (max-width: 992px) {
     max-width: unset;
@@ -1052,6 +1064,7 @@ padding: 30px 20px;
 
   }
 }
+
 .job-form-fields input,
 .job-form-fields select{
   background-color: #fff;
@@ -1088,7 +1101,7 @@ padding: 30px 20px;
   border-radius: 0;
   text-align: start;
 }
-.job-form-fields .form-field{
+.job-form-fields .form-field {
   position: relative;
   margin: 20px 0;
 }
@@ -1139,6 +1152,13 @@ padding: 30px 20px;
   margin-bottom: 40px;
   text-align: center;
   padding: 0 20px;
+  @media(max-width:992px){
+    padding: 7px 30px;
+    margin-bottom: 25px;
+  }
+  &.subscribedHeader{
+    padding: 44px 20px;
+  }
 }
 .modal-title{
   font-family: $font-Lora;
@@ -1153,7 +1173,12 @@ padding: 30px 20px;
   font-family: $font-Montserrat;
   line-height: 20px;
   letter-spacing: 0.36px;
-  @include b4_12px_montserrat_charcoal
+  @include b4_12px_montserrat_charcoal;
+  @media(max-width:992px) {
+    max-width:620px;
+    margin: 0 auto;
+    height: 60px;
+  }
 }
 .modal-overlay{
   opacity: 0.5;
@@ -1196,8 +1221,15 @@ padding: 30px 20px;
 
 .news-butterfly-img {
   position: absolute;
-  top: 72px;
+  top: 22%;
   left: 3%;
+  &.top-align{
+    top: 34%;
+    @media(max-width:992px) {
+      top: 57%;
+    }
+
+  }
 
   .butterfly {
     width: 23px;
@@ -1253,11 +1285,6 @@ padding: 30px 20px;
   }
 }
 
-@media(min-width:767px) and(max-width:992px){
-  .news-butterfly-img{
-    right: 33%;
-  }
-}
 
 .extra-height {
   height: 330px;
