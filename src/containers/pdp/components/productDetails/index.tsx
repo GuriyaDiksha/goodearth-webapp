@@ -1124,14 +1124,15 @@ const ProductDetails: React.FC<Props> = ({
         .then(() => {
           const growlMsg = (
             <div>
-              Your item has been saved to Default List.{" "}
+              Your item has been saved to <b>Default List.</b>{" "}
               {isLoggedIn ? "Click here" : "Sign In"} to&nbsp;
               <Link
+                className={globalStyles.underlineOffset}
                 to="/wishlist"
                 key="wishlist"
                 style={{ textDecoration: "underline", pointerEvents: "all" }}
               >
-                view & mange
+                view & manage
               </Link>
               &nbsp;your lists.
             </div>

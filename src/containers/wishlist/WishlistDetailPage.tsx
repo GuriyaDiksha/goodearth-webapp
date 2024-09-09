@@ -43,10 +43,7 @@ const WishlistDetailPage = () => {
   const { firstName, lastName } = useSelector((state: AppState) => state.user);
   const { mobile } = useSelector((state: AppState) => state.device);
   const { isSale, showTimer } = useSelector((state: AppState) => state.info);
-  const { items, sharedItems } = useSelector(
-    (state: AppState) => state.wishlist
-  );
-  const { owner_name, message } = useSelector(
+  const { items, sharedItems, owner_name, message } = useSelector(
     (state: AppState) => state.wishlist
   );
   const currency = useSelector((state: AppState) => state.currency);
@@ -494,7 +491,8 @@ const WishlistDetailPage = () => {
               className={cs(
                 styles.heading,
                 globalStyles.pointer,
-                globalStyles.aquaHover
+                globalStyles.aquaHover,
+                styles.textUnderline
               )}
               onClick={() => creatWishlistPopup(items.length)}
             >
@@ -510,7 +508,7 @@ const WishlistDetailPage = () => {
         emptySharedWishlistContent}
 
       <div
-        className={cs(bootstrapStyles.row, styles.wishlistBlockOuter, {
+        className={cs(styles.wishlistBlockOuter, {
           [styles.wishlistBlockOuterTimer]: showTimer
         })}
       >
@@ -537,10 +535,8 @@ const WishlistDetailPage = () => {
         {isShared && owner_name && (
           <div className={styles.sharedWrapper}>
             <h2 className={styles.heading}>
-              {owner_name
-                .toLowerCase()
-                .replace(/\b(\w)/g, x => x.toUpperCase())}
-              &apos;s Saved List
+              {firstName.toLowerCase().replace(/\b(\w)/g, x => x.toUpperCase())}
+              &apos;s saved items
             </h2>
             <p className={styles.subheading}>
               A wishlist has been shared with you.{mobile && <br />} Start

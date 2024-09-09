@@ -17,6 +17,7 @@ import { Props } from "./typings.d";
 import WishlistService from "services/wishlist";
 // styles
 import iconStyles from "styles/iconFonts.scss";
+import globalStyles from "styles/global.scss";
 import stylespdp from "./stylespdp.scss";
 import { AppState } from "reducers/typings";
 import { ChildProductAttributes } from "typings/product";
@@ -266,14 +267,15 @@ const WishlistButtonpdp: React.FC<Props> = ({
       } else {
         const growlMsg = (
           <div>
-            Your item has been saved to Default List.{" "}
+            Your item has been saved to <b>Default List.</b>{" "}
             {isLoggedIn ? "Click here" : "Sign In"} to&nbsp;
             <Link
+              className={globalStyles.underlineOffset}
               to="/wishlist"
               key="wishlist"
               style={{ textDecoration: "underline", pointerEvents: "all" }}
             >
-              view & mange
+              view & manage
             </Link>
             &nbsp;your lists.
           </div>

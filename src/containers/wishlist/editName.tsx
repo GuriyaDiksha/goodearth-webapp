@@ -23,6 +23,7 @@ const editName: React.FC<Props> = ({ id, name, deleteWishlistName }) => {
   const [isenable, setIsenable] = useState(false);
   const { closeModal } = useContext(Context);
   const dispatch = useDispatch();
+  const isAlphaError = "Please enter only alphabetic characters";
 
   const onInputChange = (e: any) => {
     const value = e.currentTarget.value.trim();
@@ -33,6 +34,9 @@ const editName: React.FC<Props> = ({ id, name, deleteWishlistName }) => {
       setIsenable(false);
       setErrorMsg("");
       setIsenable(false);
+    }
+    if (value.length <= 30) {
+      setListName(value);
     }
   };
 
@@ -78,14 +82,17 @@ const editName: React.FC<Props> = ({ id, name, deleteWishlistName }) => {
             placeholder="List Name*"
             label="List Name*"
             validations={{
+              // isWords: true,
               maxLength: 30,
               isExisty: true
             }}
             validationErrors={{
-              maxLength: "You can not enter more than 30 characters"
+              // isWords: isAlphaError,
+              maxLength: "You cannot enter more than 30 characters"
             }}
-            value={listName || ""}
+            // value={listName || ""}
             handleChange={onInputChange}
+            maxlength={30}
           />
           <div className={styles.errMsgCharLimit}>
             <p className={styles.errorMsg}>{errorMsg}</p>

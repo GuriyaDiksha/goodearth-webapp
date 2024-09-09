@@ -205,35 +205,17 @@ const WishlistButton: React.FC<Props> = ({
   };
 
   const onClick = useCallback(async () => {
-    const isShared = history.location.pathname.includes("shared-wishlist");
-    const isWishlist = history.location.pathname.includes("/wishlist");
+    // const isShared = history.location.pathname.includes("shared-wishlist");
+    // const isWishlist = history.location.pathname.includes("/wishlist");
 
-    if (!isWishlist) {
-      dispatch(updateLoader(true));
-    }
+    dispatch(updateLoader(true));
     if (basketLineId) {
       if (addedToWishlist) {
-        if (isWishlist) {
-          if (toggleBag) {
-            toggleBag();
-          }
-        } else {
-          history.push("/wishlist");
+        window.open("/wishlist", "_blank");
+        dispatch(updateLoader(false));
+        if (toggleBag) {
+          toggleBag();
         }
-        // WishlistService.removeFromWishlist(
-        //   store.dispatch,
-        //   id,
-        //   undefined,
-        //   undefined,
-        //   size ? size : undefined
-        //   // sortBy,
-        //   // size
-        // ).finally(() => {
-        //   dispatch(updateLoader(false));
-        //   onComplete && onComplete();
-
-        //   // WishlistService.countWishlist(dispatch);
-        // });
       } else {
         WishlistService.moveToWishlist(
           store.dispatch,
@@ -270,14 +252,15 @@ const WishlistButton: React.FC<Props> = ({
       } else {
         const growlMsg = (
           <div>
-            Your item has been saved to Default List.{" "}
+            Your item has been saved to <b>Default List.</b>{" "}
             {isLoggedIn ? "Click here" : "Sign In"} to&nbsp;
             <Link
+              className={globalStyles.underlineOffset}
               to="/wishlist"
               key="wishlist"
               style={{ textDecoration: "underline", pointerEvents: "all" }}
             >
-              view & mange
+              view & manage
             </Link>
             &nbsp;your lists.
           </div>

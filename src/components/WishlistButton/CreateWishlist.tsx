@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import styles from "./styles.scss";
 import cs from "classnames";
 import Button from "components/Button";
@@ -85,6 +85,7 @@ const CreateWishlist: React.FC<Props> = ({
   const [listName, setListName] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [isenable, setIsenable] = useState(false);
+  const isAlphaError = "Please enter only alphabetic characters";
 
   const onInputChange = (e: any) => {
     const value = e.currentTarget.value.trim();
@@ -95,6 +96,9 @@ const CreateWishlist: React.FC<Props> = ({
       setIsenable(false);
       setErrorMsg("");
       setIsenable(false);
+    }
+    if (value.length <= 30) {
+      setListName(value);
     }
   };
 
@@ -292,18 +296,31 @@ const CreateWishlist: React.FC<Props> = ({
     )
       .then(() => {
         const growlMsg = (
-          <div>
-            Your item has been saved to {listName}.{" "}
-            {isLoggedIn ? "Click here" : "Sign In"} to&nbsp;
-            <Link
-              to="/wishlist"
-              key="wishlist"
-              style={{ textDecoration: "underline", pointerEvents: "all" }}
-            >
-              view & mange
-            </Link>
-            &nbsp;your lists.
-          </div>
+          <>
+            {history.location.pathname.includes("/wishlist") ? (
+              <div>
+                Your item has been saved to <b>{listName}.</b>
+              </div>
+            ) : (
+              <div>
+                Your item has been saved to <b>{listName}.</b>{" "}
+                {isLoggedIn ? "Click here" : "Sign In"} to&nbsp;
+                <Link
+                  className={globalStyles.underlineOffset}
+                  to="/wishlist"
+                  key="wishlist"
+                  style={{ textDecoration: "underline", pointerEvents: "all" }}
+                >
+                  {mobile ? (
+                    <span onClick={closeModal}>view & mange</span>
+                  ) : (
+                    <span>view & mange</span>
+                  )}
+                </Link>
+                &nbsp;your lists.
+              </div>
+            )}
+          </>
         );
         gtmPushAddToWishlist(true);
         showGrowlMessage(dispatch, growlMsg);
@@ -326,9 +343,26 @@ const CreateWishlist: React.FC<Props> = ({
     });
   };
 
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    // Function to handle click outside
+    function handleClickOutside(event: any) {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        hideWishlistPopup();
+      }
+    }
+    // Add event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    // Clean up event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [hideWishlistPopup]);
+
   return (
     <>
       <div
+        ref={modalRef}
         className={cs(styles.createWishlistWrapper, {
           [styles.wishlistPopupContainer]: mobile
         })}
@@ -391,14 +425,17 @@ const CreateWishlist: React.FC<Props> = ({
                 placeholder="Create New List"
                 label="Create New List"
                 validations={{
+                  // isWords: true,
                   maxLength: 30,
                   isExisty: true
                 }}
                 validationErrors={{
-                  maxLength: "You can not enter more than 30 characters"
+                  // isWords: isAlphaError,
+                  maxLength: "You cannot enter more than 30 characters"
                 }}
-                value={listName || ""}
+                // value={listName || ""}
                 handleChange={onInputChange}
+                maxlength={30}
               />
               <Button
                 variant={
@@ -415,13 +452,14 @@ const CreateWishlist: React.FC<Props> = ({
           </Formsy>
         ) : (
           <div className={styles.inputBoxHide}>
-            <span>
-              Only upto 5 lists can be created. To edit or make changes
-            </span>
+            <span>Only upto 5 lists can be created.</span>
+            {!history.location.pathname.includes("wishlist") && (
+              <span> To edit or make changes</span>
+            )}
           </div>
         )}
         {!history.location.pathname.includes("wishlist") && (
-          <div className={styles.manageLink}>
+          <div className={cs(styles.manageLink)}>
             <Link to="/wishlist">
               {mobile ? (
                 <span onClick={closeModal}>Manage Your Lists</span>
