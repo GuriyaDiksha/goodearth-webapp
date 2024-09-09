@@ -49,6 +49,7 @@ type Props = {
   isPlpTile?: boolean;
   tablet?: boolean;
   badgeType?: string;
+  wishlistName?: string;
 };
 
 const CreateWishlist: React.FC<Props> = ({
@@ -69,7 +70,8 @@ const CreateWishlist: React.FC<Props> = ({
   // parentWidth,
   // source,
   onMoveToWishlist,
-  badgeType
+  badgeType,
+  wishlistName
 }) => {
   const { mobile } = useSelector((state: AppState) => state.device);
   const { closeModal } = useContext(Context);
@@ -121,8 +123,8 @@ const CreateWishlist: React.FC<Props> = ({
         const data = decriptdata(error.response?.data);
         console.log(error);
         if (data.success == false) {
-          if (data.message == "Wishlist name already exist!") {
-            setErrorMsg("List with same name exists");
+          if (data.message) {
+            setErrorMsg(data.message);
           }
         }
       });
@@ -330,7 +332,12 @@ const CreateWishlist: React.FC<Props> = ({
       });
   };
 
-  const removeWishlistHandler = async (id: number, listName: string) => {
+  const removeWishlistHandler = async (
+    id: number,
+    listName: string,
+    wishlistName?: string
+  ) => {
+    debugger;
     WishlistService.removeFromWishlist(
       dispatch,
       id,
@@ -340,6 +347,12 @@ const CreateWishlist: React.FC<Props> = ({
     ).finally(() => {
       dispatch(updateLoader(false));
       gtmPushAddToWishlist(false);
+      if (
+        history.location.pathname.includes("/wishlist") &&
+        wishlistName == listName
+      ) {
+        mobile ? closeModal() : hideWishlistPopup();
+      }
     });
   };
 
@@ -396,7 +409,9 @@ const CreateWishlist: React.FC<Props> = ({
                   {hasProductId ? (
                     <span
                       className={cs(styles.addRemoveCta, globalStyles.gold)}
-                      onClick={() => removeWishlistHandler(id, item.name)}
+                      onClick={() =>
+                        removeWishlistHandler(id, item.name, wishlistName)
+                      }
                     >
                       REMOVE
                     </span>

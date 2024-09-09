@@ -51,8 +51,8 @@ const editName: React.FC<Props> = ({ id, name, deleteWishlistName }) => {
         const data = decriptdata(error.response?.data);
         console.log(error);
         if (data.success == false) {
-          if (data.message == "Wishlist name already taken!") {
-            setErrorMsg("List with same name exists");
+          if (data.message) {
+            setErrorMsg(data.message);
           }
         }
       });

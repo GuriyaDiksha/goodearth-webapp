@@ -10,7 +10,8 @@ const initialState: State = {
   // wishlist_link: "",
   owner_name: "",
   // count: 0,
-  sharedItems: []
+  sharedItems: [],
+  wishListName: ""
 };
 
 export const wishlist = (

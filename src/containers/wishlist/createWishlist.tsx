@@ -49,8 +49,8 @@ const createWishlist: React.FC<Props> = ({ dataLength }) => {
         const data = decriptdata(error.response?.data);
         console.log(error);
         if (data.success == false) {
-          if (data.message == "Wishlist name already exist!") {
-            setErrorMsg("List with same name exists");
+          if (data.message) {
+            setErrorMsg(data.message);
           }
         }
       });

@@ -1608,7 +1608,7 @@ visibility: visible !important;
     width: 7px;
     height: 7px;
     position: absolute;
-    background: #4C4C4C;
+    background: $gold;
     border-radius: 100%;
     right: -3px;
     top: 10px;
@@ -2211,11 +2211,8 @@ div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
   width: 7px;
   height: 7px;
   position: absolute;
-  background: $med-charcoal;
+  background: $gold;
   border-radius: 100%;
   right: 3px;
   top: 6px;
-}
-.wishlist-gold-dot{
-  background: $gold !important;
 }

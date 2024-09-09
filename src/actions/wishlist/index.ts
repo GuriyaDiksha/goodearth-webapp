@@ -23,7 +23,8 @@ export const updateWishlistShared = (
   // sortBy = "added_on",
   sortedDiscount = false,
   owner_name = "", //Added for shared wishlist
-  message = "" //Added for shared wishlist
+  message = "", //Added for shared wishlist
+  wishListName = ""
   // sharable_link = "" //Added for shared current user's wishlist
 ) =>
   actionCreator("UPDATE_WISHLIST_SHARED", {
@@ -31,7 +32,8 @@ export const updateWishlistShared = (
     // sortBy,
     sortedDiscount,
     owner_name,
-    message
+    message,
+    wishListName
     // wishlist_link: sharable_link
   });
 

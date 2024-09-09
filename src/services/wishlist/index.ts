@@ -45,6 +45,7 @@ export default {
         dispatch,
         `${__API_HOST__}/myapi/wishlist/get_sharable_wishlist_items/${uid}`
       );
+      // alert(res.wishListName);
       dispatch(
         updateWishlistShared(
           res.data || [],
@@ -53,7 +54,8 @@ export default {
           res?.owner_name,
           res?.data?.length === 0
             ? "Looks like there are no items in the list."
-            : ""
+            : "",
+          res.wishListName
         )
       );
       return res;

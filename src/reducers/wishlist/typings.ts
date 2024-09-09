@@ -13,6 +13,7 @@ export type State = {
   owner_name: string;
   // count: number;
   sharedItems: WishlistItem[];
+  wishListName: string;
 };
 
 export { Actions };

@@ -16,8 +16,8 @@ import iconStyles from "styles/iconFonts.scss";
 import { updateComponent, updateModal } from "../../actions/modal";
 import { POPUP } from "constants/components";
 import ModalStyles from "components/Modal/styles.scss";
-import cross from "./../../icons/wishlist_cross.svg";
-import pencilIcon from "./../../icons/pencil.svg";
+import cross from "./../../icons/wishlistClose.svg";
+import pencilIcon from "./../../icons/wishlistPencil.svg";
 import { updateLoader } from "actions/info";
 import Button from "components/Button";
 import LoginService from "services/login";
@@ -43,7 +43,7 @@ const WishlistDetailPage = () => {
   const { firstName, lastName } = useSelector((state: AppState) => state.user);
   const { mobile } = useSelector((state: AppState) => state.device);
   const { isSale, showTimer } = useSelector((state: AppState) => state.info);
-  const { items, sharedItems, owner_name, message } = useSelector(
+  const { items, sharedItems, owner_name, message, wishListName } = useSelector(
     (state: AppState) => state.wishlist
   );
   const currency = useSelector((state: AppState) => state.currency);
@@ -395,11 +395,11 @@ const WishlistDetailPage = () => {
     }
   };
 
-  const editWishlistItemPopupMobile = (id: number) => {
+  const editWishlistItemPopupMobile = (id: number, wishlistName?: string) => {
     dispatch(
       updateComponent(
         POPUP.ADDREMOVEWISHLISTNAMEPOPUP,
-        { id },
+        { id: id, wishlistName: wishlistName },
         false,
         mobile ? ModalStyles.bottomAlignSlideUp : "",
         mobile ? "slide-up-bottom-align" : ""
@@ -536,7 +536,7 @@ const WishlistDetailPage = () => {
           <div className={styles.sharedWrapper}>
             <h2 className={styles.heading}>
               {firstName.toLowerCase().replace(/\b(\w)/g, x => x.toUpperCase())}
-              &apos;s saved items
+              &apos;s saved items &apos;{wishListName}&apos;
             </h2>
             <p className={styles.subheading}>
               A wishlist has been shared with you.{mobile && <br />} Start
@@ -863,22 +863,26 @@ const WishlistDetailPage = () => {
                                   </div>
                                 )}
                                 {!isShared && (
-                                  <>
-                                    <img
-                                      src={cross}
-                                      alt="remove"
-                                      className={cs(styles.iconCross)}
-                                      onClick={() => {
-                                        removeProduct(
-                                          productData.productId,
-                                          list.name
-                                        );
-                                      }}
-                                    />
+                                  <div>
+                                    <div
+                                      className={cs(styles.iconCloseContainer)}
+                                    >
+                                      <img
+                                        src={cross}
+                                        alt="remove"
+                                        className={cs(styles.iconClose)}
+                                        onClick={() => {
+                                          removeProduct(
+                                            productData.productId,
+                                            list.name
+                                          );
+                                        }}
+                                      />
+                                    </div>
                                     {isLoggedIn && (
                                       <div
                                         className={cs(
-                                          styles.pencilIconContainer
+                                          styles.iconPencilContainer
                                         )}
                                       >
                                         <img
@@ -888,7 +892,8 @@ const WishlistDetailPage = () => {
                                           onClick={() =>
                                             mobile
                                               ? editWishlistItemPopupMobile(
-                                                  productData.productId
+                                                  productData.productId,
+                                                  list.name
                                                 )
                                               : editWishlistItemPopup(
                                                   productData.productId,
@@ -899,7 +904,7 @@ const WishlistDetailPage = () => {
                                         />
                                       </div>
                                     )}
-                                  </>
+                                  </div>
                                 )}
                                 <a href={productData.productUrl}>
                                   <img
@@ -945,6 +950,7 @@ const WishlistDetailPage = () => {
                                     activeWishlistItem == productIndex && (
                                       <CreateWishlist
                                         hideWishlistPopup={hideWishlistPopup}
+                                        wishlistName={list.name}
                                         id={pId}
                                       />
                                     )}

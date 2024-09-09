@@ -146,7 +146,7 @@ const ShareWishlistLink: React.FC<Props> = ({
                   &apos;s
                 </h2> */}
                 <h2 className={styles.h2Popup}>
-                  Share saved items <br /> &apos;{listName} List&apos;
+                  Share saved items <br /> &apos;{listName}&apos;
                 </h2>
               </div>
               {!wishlist_link && (

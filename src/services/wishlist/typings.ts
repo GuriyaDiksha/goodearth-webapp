@@ -22,4 +22,5 @@ export type WishlistSharedResponse = {
   owner_name: string;
   sortedDiscount?: boolean;
   message?: string;
+  wishListName?: string;
 };

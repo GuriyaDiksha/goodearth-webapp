@@ -250,13 +250,7 @@ const BottomMenu: React.FC<Props> = ({
                 {wishlistCount > 0 ? wishlistCount : ""}
               </span> */}
               {wishlistCount > 0 && (
-                <span
-                  className={cs(styles.whislistDotMobile, {
-                    [styles.wishlistGoldDot]: location.pathname.includes(
-                      "/wishlist"
-                    )
-                  })}
-                ></span>
+                <span className={cs(styles.whislistDotMobile)}></span>
               )}
             </Link>
           </div>
