@@ -912,8 +912,9 @@ icon-cross {
   }
   .wishlist-heading{
     display: flex;
-    align-items: center;
+    // align-items: center;
     margin-bottom: 30px;
+    max-width: 70%;
   }
   .list-name{
     padding: 0 5px;
@@ -926,7 +927,9 @@ icon-cross {
     @include b5_10px_montserrat_charcoal_caps();
     letter-spacing: 0.3px;
     cursor: pointer;
-    border-bottom: 1px solid #191919;
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
+    margin-top: 5px;
   }
   .product-block{
     .product-data{
