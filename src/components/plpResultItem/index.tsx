@@ -95,6 +95,13 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   const onClickQuickview = (): void => {
     onClickQuickView ? onClickQuickView(product.id) : "";
   };
+  const redirect360IconClick = (): void => {
+    if (product.url) {
+      history.push(product.url);
+    } else {
+      console.warn("Product URL is not defined.");
+    }
+  };
 
   const gtmProductClick = () => {
     CookieService.setCookie("listPath", page);
@@ -300,6 +307,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             )}
           >
             <div
+              onClick={redirect360IconClick}
               className={cs(
                 globalStyles.iconContainer,
                 globalStyles.threeSixtyContainer
