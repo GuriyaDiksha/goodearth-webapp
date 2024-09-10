@@ -106,7 +106,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
               // }
             }}
           >
-            Undo
+            UNDO
           </span>
         </div>
       );
@@ -734,7 +734,7 @@ class CartPage extends React.Component<Props, State> {
             className={cs(globalStyles.colorPrimary, globalStyles.pointer)}
             onClick={this.onUndoWishlistClick}
           >
-            Undo
+            UNDO
           </span>
         </div>
       );

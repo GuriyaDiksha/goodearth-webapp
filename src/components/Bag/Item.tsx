@@ -84,7 +84,7 @@ const LineItems: React.FC<BasketItem> = memo(
               dispatch(updateBasket(res.basket));
             }}
           >
-            Undo
+            UNDO
           </span>
         </div>
       );
