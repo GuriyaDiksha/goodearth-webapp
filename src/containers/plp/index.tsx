@@ -862,10 +862,20 @@ class PLP extends React.Component<
               ) : null}
             </div>
             {this.props.plpBubblesData?.length > 1 ? (
-              <PlpBubbles data={this.props.plpBubblesData} />
+              <div
+                className={cs({
+                  [globalStyles.marginT20]:
+                    !showTemplates.Banner?.[0] && !mobile,
+                  [styles.customTopPadding]:
+                    !showTemplates.Banner?.[0] && mobile
+                })}
+              >
+                <PlpBubbles data={this.props.plpBubblesData} />
+              </div>
             ) : (
               ""
             )}
+
             {!mobile ? (
               <div
                 className={cs(styles.productNumber, styles.imageContainer, {
@@ -887,7 +897,10 @@ class PLP extends React.Component<
                   styles.productNumber,
                   styles.imageContainer,
                   {
-                    [styles.prouctMobilePadding]: mobile
+                    [styles.prouctMobilePadding]:
+                      mobile &&
+                      !(this.props.plpBubblesData?.length > 1) &&
+                      !showTemplates.Banner?.length
                   }
                 )}
               >

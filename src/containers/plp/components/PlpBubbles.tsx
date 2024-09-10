@@ -4,6 +4,7 @@ import styles from "../styles.scss";
 import "./PlpBubbles.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import cs from "classnames";
 interface DataItem {
   url: string;
   image: string;
@@ -26,31 +27,11 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
   const settings = {
     speed: 500,
     slidesToShow: 7,
-    slidesToScroll: 2,
+    slidesToScroll: 1,
     arrows: bubbleCount >= 7,
     infinite: true,
-    // centerMode: true
-    // initialSlide: 0,
-    // nextArrow: (
-    //   <div>
-    //     <div
-    //       className="next-slick-arrow"
-    //       style={{ color: "red", marginTop: "12px",marginLeft:"12px" }}
-    //     >
-    //       &gt;
-    //     </div>
-    //   </div>
-    // ),
-    // prevArrow: (
-    //   <div>
-    //     <div
-    //       className="prev-slick-arrow"
-    //       style={{ color: "red", marginTop: "12px" }}
-    //     >
-    //       &lt;
-    //     </div>
-    //   </div>
-    // ),
+    rows: 1,
+
     responsive: [
       {
         breakpoint: 1318,
@@ -100,7 +81,7 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
   return (
     <React.Fragment>
       {showBubble && (
-        <div className={styles.sliderContainer}>
+        <div className={cs(styles.sliderContainer, "SliderContainer")}>
           <Slider {...settings}>
             {data?.map((item: any, index: number) => (
               <div className={styles.bubbleContainer} key={index}>
