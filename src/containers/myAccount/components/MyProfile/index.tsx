@@ -262,6 +262,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
         });
       })
       .catch(error => {
+        debugger;
         const errdata = error.response?.data;
         handleInvalidSubmit();
         Object.keys(errdata).map(data => {
