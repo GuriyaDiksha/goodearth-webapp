@@ -61,11 +61,8 @@ const editName: React.FC<Props> = ({ id, name, deleteWishlistName }) => {
       })
       .catch((error: any) => {
         const data = decriptdata(error.response?.data);
-        console.log(error);
-        if (!data.success) {
-          if (data.message) {
-            setErrorMsg(data.message);
-          }
+        if (data.message) {
+          setErrorMsg(data.message);
         }
       });
   };
