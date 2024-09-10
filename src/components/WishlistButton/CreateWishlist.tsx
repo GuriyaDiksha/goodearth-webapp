@@ -349,7 +349,6 @@ const CreateWishlist: React.FC<Props> = ({
     listName: string,
     wishlistName?: string
   ) => {
-    debugger;
     WishlistService.removeFromWishlist(
       dispatch,
       id,
