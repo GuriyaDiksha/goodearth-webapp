@@ -210,6 +210,8 @@ const WishlistDetailPage = () => {
   };
 
   useEffect(() => {
+    alert("debugging frontv2.....");
+    console.log("debugging frontv2.....");
     if (isShared) {
       updateWishlistShared(location);
     } else {
@@ -374,6 +376,7 @@ const WishlistDetailPage = () => {
   };
 
   const creatWishlistPopup = (dataLength: number) => {
+    console.log("click create wishlist event");
     dispatch(
       updateComponent(
         POPUP.CREATEWISHLIST,
