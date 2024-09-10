@@ -210,8 +210,6 @@ const WishlistDetailPage = () => {
   };
 
   useEffect(() => {
-    alert("debugging frontv2.....");
-    console.log("debugging frontv2.....");
     if (isShared) {
       updateWishlistShared(location);
     } else {

@@ -49,6 +49,7 @@ const createWishlist: React.FC<Props> = ({ dataLength }) => {
 
   const handleSubmit = () => {
     debugger;
+    console.log("clicked submit button");
     WishlistService.addToWishlist(store.dispatch, undefined, listName)
       .then(() => {
         setListName("");
