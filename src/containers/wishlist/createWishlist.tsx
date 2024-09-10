@@ -57,9 +57,10 @@ const createWishlist: React.FC<Props> = ({ dataLength }) => {
         showGrowlMessage(dispatch, `New list ${listName} has been created.`);
       })
       .catch((error: any) => {
+        debugger;
         const data = decriptdata(error.response?.data);
         console.log(error);
-        if (data.success == false) {
+        if (!data.success) {
           if (data.message) {
             setErrorMsg(data.message);
           }
