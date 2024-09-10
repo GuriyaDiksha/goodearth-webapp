@@ -24,8 +24,19 @@ const createWishlist: React.FC<Props> = ({ dataLength }) => {
   const { closeModal } = useContext(Context);
   const isAlphaError = "Please enter only alphabetic characters";
 
+  const capitalizeFirstLetter = (text: any) => {
+    return text
+      .split(/\s+/) // Split by whitespace
+      .map((word: any) => {
+        if (word.length > 0) {
+          return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+        }
+        return word;
+      })
+      .join(" ");
+  };
   const onInputChange = (e: any) => {
-    const value = e.currentTarget.value.trim();
+    const value = capitalizeFirstLetter(e.currentTarget.value.trim());
     setListName(value);
     if (value) {
       setIsenable(true);
@@ -37,6 +48,7 @@ const createWishlist: React.FC<Props> = ({ dataLength }) => {
   };
 
   const handleSubmit = () => {
+    debugger;
     WishlistService.addToWishlist(store.dispatch, undefined, listName)
       .then(() => {
         setListName("");
