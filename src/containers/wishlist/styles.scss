@@ -914,7 +914,7 @@ icon-cross {
     display: flex;
     // align-items: center;
     margin-bottom: 30px;
-    max-width: 70%;
+    width: 70%;
   }
   .list-name{
     padding: 0 5px;
@@ -922,6 +922,8 @@ icon-cross {
     line-height: 25px;
     letter-spacing: 0.4px;
     padding-right: 25px;
+    max-width: 90%;
+    overflow-wrap: break-word;
   }
   .edit{
     @include b5_10px_montserrat_charcoal_caps();
