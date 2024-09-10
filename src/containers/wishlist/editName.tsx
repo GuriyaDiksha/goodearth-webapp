@@ -92,13 +92,15 @@ const editName: React.FC<Props> = ({ id, name, deleteWishlistName }) => {
             label="List Name*"
             validations={{
               // isWords: true,
-              maxLength: 30,
+              // maxLength: 30,
               isExisty: true
             }}
-            validationErrors={{
-              // isWords: isAlphaError,
-              maxLength: "You cannot enter more than 30 characters"
-            }}
+            validationErrors={
+              {
+                // isWords: isAlphaError,
+                // maxLength: "You cannot enter more than 30 characters"
+              }
+            }
             value={name || ""}
             handleChange={onInputChange}
             maxlength={30}
