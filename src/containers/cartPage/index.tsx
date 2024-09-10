@@ -512,6 +512,7 @@ class CartPage extends React.Component<Props, State> {
             {isLoggedIn &&
               wishlistData.map(
                 item =>
+                  item.name.includes("Default") &&
                   item.products.length > 0 && (
                     <>
                       <h6 className={styles.wishlistHead}>
@@ -546,6 +547,7 @@ class CartPage extends React.Component<Props, State> {
                         >
                           {wishlistData.map(
                             item =>
+                              item.name.includes("Default") &&
                               item.products.length > 0 &&
                               item.products
                                 ?.slice(0, mobile ? 6 : 8)
@@ -678,6 +680,18 @@ class CartPage extends React.Component<Props, State> {
                     </>
                   )
               )}
+
+            {/* {isLoggedIn && wishlistData.length > 0 &&(
+              wishlistData.map((data:any)=>{
+                debugger
+                console.log(data);
+                return(
+                  <>
+                  <p>{data}</p>
+                  </>
+                )
+              })
+            )} */}
 
             {/* {mobile || tablet ? (
               ""
