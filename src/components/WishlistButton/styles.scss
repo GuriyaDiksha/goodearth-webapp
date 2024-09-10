@@ -176,5 +176,10 @@
     padding-bottom: 6%;
 }
 .padding-bottom{
-    padding-bottom: 18%!important;
+    @media(min-width:768px)and(max-width:993px){
+        padding-bottom: 10%!important;
+    }
+    @media(max-width:767px){
+        padding-bottom: 18%!important;
+    }
 }
