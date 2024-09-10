@@ -385,7 +385,8 @@ const CreateWishlist: React.FC<Props> = ({
       <div
         ref={modalRef}
         className={cs(styles.createWishlistWrapper, {
-          [styles.wishlistPopupContainer]: mobile
+          [styles.wishlistPopupContainer]: mobile,
+          [styles.paddingBottom]: items.length < 6
         })}
       >
         <div className={styles.heading}>
