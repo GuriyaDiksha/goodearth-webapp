@@ -69,8 +69,8 @@ const editName: React.FC<Props> = ({ id, name, deleteWishlistName }) => {
         closeModal();
         return response;
       }
-    } catch (error) {
-      const data = decriptdata(error.response?.data);
+    } catch (err) {
+      const data = decriptdata(err.response?.data);
       if (data.message) {
         setErrorMsg(data.message);
       }

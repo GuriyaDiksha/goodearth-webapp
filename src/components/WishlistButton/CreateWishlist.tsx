@@ -146,8 +146,8 @@ const CreateWishlist: React.FC<Props> = ({
         setIsenable(false);
         return response;
       }
-    } catch (error) {
-      const data = decriptdata(error.response?.data);
+    } catch (err) {
+      const data = decriptdata(err.response?.data);
       if (data.message) {
         setErrorMsg(data.message);
       }
