@@ -70,10 +70,8 @@ const editName: React.FC<Props> = ({ id, name, deleteWishlistName }) => {
         return response;
       }
     } catch (error) {
-      debugger;
-      console.log("catch block..");
-      console.error("Error caught:", error);
-      const data = decriptdata(error.response?.data);
+      // const data = decriptdata(error.response?.data);
+      const data = error.response?.data;
       if (data.message) {
         setErrorMsg(data.message);
         console.log("error msg testing...");
