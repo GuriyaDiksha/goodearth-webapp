@@ -180,8 +180,6 @@ class Bag extends React.Component<Props, State> {
       isLoggedIn
     } = this.props;
 
-    const DefaultWishlistData = wishlistData[0].products;
-
     const item = lineItems?.map(item => {
       return (
         <LineItems
@@ -265,7 +263,7 @@ class Bag extends React.Component<Props, State> {
               </Slider>
             </div>
 
-            {isLoggedIn && DefaultWishlistData.length > 0 && (
+            {isLoggedIn && wishlistData[0].products.length > 0 && (
               <>
                 <h6 className={styles.wishlistHead}>From your Saved List</h6>
                 <p className={styles.wishlistSubHead}>
@@ -296,8 +294,8 @@ class Bag extends React.Component<Props, State> {
                       styles.mobileConatinerBag
                     )}
                   >
-                    {DefaultWishlistData.length > 0 &&
-                      DefaultWishlistData?.slice(0, 8)?.map((data, i) => {
+                    {wishlistData[0].products.length > 0 &&
+                      wishlistData[0].products?.slice(0, 8)?.map((data, i) => {
                         return (
                           <div key={i} className={cs(bootstrap.col5)}>
                             <div

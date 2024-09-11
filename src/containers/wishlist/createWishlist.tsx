@@ -63,6 +63,7 @@ const createWishlist: React.FC<Props> = ({ dataLength }) => {
         const data = decriptdata(error.response?.data);
         if (data.message) {
           setErrorMsg(data.message);
+          console.log("error msg testing...");
         }
       });
   };

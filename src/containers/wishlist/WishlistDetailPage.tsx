@@ -374,7 +374,6 @@ const WishlistDetailPage = () => {
   };
 
   const creatWishlistPopup = (dataLength: number) => {
-    console.log("click create wishlist event");
     dispatch(
       updateComponent(
         POPUP.CREATEWISHLIST,
