@@ -325,7 +325,7 @@ const CreateWishlist: React.FC<Props> = ({
                   {mobile ? (
                     <span onClick={closeModal}>view & mange</span>
                   ) : (
-                    <span>view & mange</span>
+                    <span>view & manage</span>
                   )}
                 </Link>
                 &nbsp;your lists.
