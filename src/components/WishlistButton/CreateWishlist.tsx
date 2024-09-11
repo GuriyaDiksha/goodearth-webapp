@@ -111,9 +111,6 @@ const CreateWishlist: React.FC<Props> = ({
       setErrorMsg("");
       setIsenable(false);
     }
-    if (value.length <= 30) {
-      setListName(value);
-    }
   };
 
   const fetchWishlistName = async () => {
@@ -459,7 +456,7 @@ const CreateWishlist: React.FC<Props> = ({
           <Formsy onValidSubmit={handleSubmit}>
             <div className={styles.wishlistForm}>
               <FormInput
-                id=""
+                id="listNameInput"
                 className={cs(styles.inputField, styles.regFormLabel, {
                   [styles.errorBorder]: errorMsg
                 })}

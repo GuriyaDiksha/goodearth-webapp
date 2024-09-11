@@ -47,9 +47,6 @@ const editName: React.FC<Props> = ({ id, name, deleteWishlistName }) => {
       setErrorMsg("");
       setIsenable(false);
     }
-    if (value.length <= 30) {
-      setListName(value);
-    }
   };
 
   const handleSubmit = async () => {

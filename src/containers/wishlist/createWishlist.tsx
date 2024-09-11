@@ -48,14 +48,18 @@ const createWishlist: React.FC<Props> = ({ dataLength }) => {
   };
 
   const handleSubmit = async () => {
-    console.log("clicked submit button");
+    debugger;
+    console.log("handleSubmit fuction called....");
     try {
+      debugger;
+      console.log("try block..");
       const response = await WishlistService.addToWishlist(
         store.dispatch,
         undefined,
         listName
       );
       if (response) {
+        debugger;
         console.log("list is created...");
         setListName("");
         setErrorMsg("");
@@ -65,6 +69,9 @@ const createWishlist: React.FC<Props> = ({ dataLength }) => {
         return response;
       }
     } catch (error) {
+      debugger;
+      console.log("catch block..");
+      console.error("Error caught:", error);
       const data = decriptdata(error.response?.data);
       if (data.message) {
         setErrorMsg(data.message);
