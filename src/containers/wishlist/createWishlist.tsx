@@ -68,11 +68,12 @@ const createWishlist: React.FC<Props> = ({ dataLength }) => {
         showGrowlMessage(dispatch, `New list ${listName} has been created.`);
         return response;
       }
-    } catch (error:any) {
+    } catch (error) {
       debugger;
       console.log("catch block..");
-      console.error("Error caught:", error);
-      const data = decriptdata(error.response?.data);
+      console.log("Error caught:", error);
+      console.log("data===error.response?.data");
+      const data = error.response?.data;
       if (data.message) {
         setErrorMsg(data.message);
         console.log("error msg testing...");
