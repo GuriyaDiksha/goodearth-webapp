@@ -45,11 +45,13 @@ import inactiveList from "../../images/plpIcons/inactive_list.svg";
 import { CategoryMenu } from "containers/categoryLanding/typings";
 import { GA_CALLS } from "constants/cookieConsent";
 import ResetFilterModal from "./ResetFilterModal";
+import PlpBubbles from "./components/PlpBubbles";
 
 const mapStateToProps = (state: AppState) => {
   return {
     plpProductId: state.plplist.plpProductId,
     facetObject: state.plplist.facetObject,
+    facets: state.plplist.data.results.facets,
     data: state.plplist.data,
     plpMobileView: state.plplist.plpMobileView,
     scrollDown: state.info.scrollDown,
@@ -60,7 +62,8 @@ const mapStateToProps = (state: AppState) => {
     showTimer: state.info.showTimer,
     isLoggedIn: state.user.isLoggedIn,
     plpTemplates: state.plplist.plpTemplates,
-    mobile: state.device.mobile
+    mobile: state.device.mobile,
+    plpBubblesData: state.plplist.data.results.plpBubbles
   };
 };
 
@@ -858,6 +861,20 @@ class PLP extends React.Component<
                 />
               ) : null}
             </div>
+            {this.props.plpBubblesData?.length > 1 ? (
+              <div
+                className={cs({
+                  [globalStyles.marginT20]:
+                    !showTemplates.Banner?.[0] && !mobile,
+                  [styles.customTopPadding]:
+                    !showTemplates.Banner?.[0] && mobile
+                })}
+              >
+                <PlpBubbles data={this.props.plpBubblesData} />
+              </div>
+            ) : (
+              ""
+            )}
 
             {!mobile ? (
               <div
@@ -880,7 +897,10 @@ class PLP extends React.Component<
                   styles.productNumber,
                   styles.imageContainer,
                   {
-                    [styles.prouctMobilePadding]: mobile
+                    [styles.prouctMobilePadding]:
+                      mobile &&
+                      !(this.props.plpBubblesData?.length > 1) &&
+                      !showTemplates.Banner?.length
                   }
                 )}
               >

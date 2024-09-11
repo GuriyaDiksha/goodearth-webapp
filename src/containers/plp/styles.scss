@@ -47,6 +47,7 @@
 .page-body-timer {
   margin-top: $secondary-header-margin-top + $timer-height;
 }
+
 .page-body-tab {
   margin-top: $secondary-header-margin-top;
 }
@@ -1247,5 +1248,69 @@ p.corporate-sub-heading {
         }
       }
     }
+  }
+}
+
+// #plp-bubble
+
+.custom-top-padding{
+  padding-top: 65px;
+}
+.bubble-wrap {
+  margin-left: 20px;
+}
+
+
+.slider-container {
+  width: 75%;
+  margin: 0 auto; 
+  @media (max-width:768px) {
+    width: 100%;
+    padding-left:20px;
+  }
+}
+
+.bubble-container {
+  max-height: 150px;
+  max-width: 109px;
+  // margin-bottom: ;
+
+  .img-wrap {
+    .bubble-image {
+      width: 97px;
+      height: 97px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto;
+      margin-bottom: 13px;
+    }
+  }
+
+  .highlight-img-wrap {
+    .bubble-image {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto;
+      border: 1px solid #191919;
+      margin-bottom: 13px;
+      padding: 7px;
+
+    }
+  }
+
+  .bubble-text {
+    display: block;
+    text-align: center;
+    @include b4_12px_montserrat_charcoal
+  }
+
+  .highlight-bubble-text {
+    display: block;
+    text-align: center;
+    @include b4_12px_montserrat_charcoal;
+    font-weight: $medium;
+
   }
 }

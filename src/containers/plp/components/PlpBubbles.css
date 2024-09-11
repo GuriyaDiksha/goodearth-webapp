@@ -1,0 +1,29 @@
+.SliderContainer .slick-arrow.slick-prev::before,
+.SliderContainer .slick-arrow.slick-next::before {
+  width: 11px;
+  height: 19px;
+  color: #9F9F9F;
+  top: 5px;
+}
+
+
+.SliderContainer .slick-next:before {
+  right: 14px;
+  top: -1px;
+}
+
+.SliderContainer .slick-prev:before {
+  left: -6px;
+}
+
+.SliderContainer .slick-arrow {
+  z-index: 1;
+}
+
+.SliderContainer .slick-slider {
+  padding: 5px;
+}
+
+.SliderContainer .slick-list {
+  max-height: 126px;
+}
