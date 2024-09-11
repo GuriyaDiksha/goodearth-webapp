@@ -47,25 +47,30 @@ const createWishlist: React.FC<Props> = ({ dataLength }) => {
     }
   };
 
-  const handleSubmit = () => {
-    debugger;
+  const handleSubmit = async () => {
     console.log("clicked submit button");
-    WishlistService.addToWishlist(store.dispatch, undefined, listName)
-      .then(() => {
+    try {
+      const response = await WishlistService.addToWishlist(
+        store.dispatch,
+        undefined,
+        listName
+      );
+      if (response) {
+        console.log("list is created...");
         setListName("");
         setErrorMsg("");
         setIsenable(false);
         closeModal();
         showGrowlMessage(dispatch, `New list ${listName} has been created.`);
-      })
-      .catch((error: any) => {
-        debugger;
-        const data = decriptdata(error.response?.data);
-        if (data.message) {
-          setErrorMsg(data.message);
-          console.log("error msg testing...");
-        }
-      });
+        return response;
+      }
+    } catch (error) {
+      const data = decriptdata(error.response?.data);
+      if (data.message) {
+        setErrorMsg(data.message);
+        console.log("error msg testing...");
+      }
+    }
   };
 
   return (

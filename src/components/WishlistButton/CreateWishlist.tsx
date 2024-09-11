@@ -124,19 +124,37 @@ const CreateWishlist: React.FC<Props> = ({
     fetchWishlistName();
   }, []);
 
-  const handleSubmit = () => {
-    WishlistService.addToWishlist(store.dispatch, undefined, listName)
-      .then(() => {
+  const handleSubmit = async () => {
+    // WishlistService.addToWishlist(store.dispatch, undefined, listName)
+    //   .then(() => {
+    //     setListName("");
+    //     setErrorMsg("");
+    //     setIsenable(false);
+    //   })
+    //   .catch((error: any) => {
+    //     const data = decriptdata(error.response?.data);
+    //     if (data.message) {
+    //       setErrorMsg(data.message);
+    //     }
+    //   });
+    try {
+      const response = await WishlistService.addToWishlist(
+        store.dispatch,
+        undefined,
+        listName
+      );
+      if (response) {
         setListName("");
         setErrorMsg("");
         setIsenable(false);
-      })
-      .catch((error: any) => {
-        const data = decriptdata(error.response?.data);
-        if (data.message) {
-          setErrorMsg(data.message);
-        }
-      });
+        return response;
+      }
+    } catch (error) {
+      const data = decriptdata(error.response?.data);
+      if (data.message) {
+        setErrorMsg(data.message);
+      }
+    }
   };
 
   const gtmPushAddToWishlist = (addWishlist?: boolean) => {
@@ -323,7 +341,7 @@ const CreateWishlist: React.FC<Props> = ({
                   style={{ textDecoration: "underline", pointerEvents: "all" }}
                 >
                   {mobile ? (
-                    <span onClick={closeModal}>view & mange</span>
+                    <span onClick={closeModal}>view & manage</span>
                   ) : (
                     <span>view & manage</span>
                   )}

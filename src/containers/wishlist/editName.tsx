@@ -52,19 +52,32 @@ const editName: React.FC<Props> = ({ id, name, deleteWishlistName }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const data = { id, listName };
-    WishlistService.updateWishlistName(dispatch, data)
-      .then(res => {
+    // WishlistService.updateWishlistName(dispatch, data)
+    //   .then(res => {
+    //     setErrorMsg("");
+    //     closeModal();
+    //   })
+    //   .catch((error: any) => {
+    //     const data = decriptdata(error.response?.data);
+    //     if (data.message) {
+    //       setErrorMsg(data.message);
+    //     }
+    //   });
+    try {
+      const response = await WishlistService.updateWishlistName(dispatch, data);
+      if (response) {
         setErrorMsg("");
         closeModal();
-      })
-      .catch((error: any) => {
-        const data = decriptdata(error.response?.data);
-        if (data.message) {
-          setErrorMsg(data.message);
-        }
-      });
+        return response;
+      }
+    } catch (error) {
+      const data = decriptdata(error.response?.data);
+      if (data.message) {
+        setErrorMsg(data.message);
+      }
+    }
   };
 
   const deleteConfirmPopup = async () => {
