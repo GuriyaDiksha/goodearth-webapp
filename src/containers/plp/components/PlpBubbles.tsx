@@ -1,5 +1,5 @@
 import Slider from "react-slick";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "../styles.scss";
 import "./PlpBubbles.css";
 import "slick-carousel/slick/slick.css";
@@ -15,64 +15,108 @@ type Props = {
   data: DataItem[];
 };
 const PlpBubbles: React.FC<Props> = ({ data }) => {
-  const [showBubble, setShowbubble] = useState(false);
+  const [showBubble, setShowBubble] = useState(false);
   const [bubbleCount, setBubbleCount] = useState(0);
-  // const maxBubbleCount: number = 7;
-  useEffect(() => {
-    setTimeout(() => {
-      setShowbubble(true);
-      setBubbleCount(data.length || 0);
-    }, 1000);
+  const handleShowBubble = useCallback(() => {
+    setShowBubble(true);
+    setBubbleCount(data.length || 0);
   }, [data]);
+
+  useEffect(() => {
+    setTimeout(handleShowBubble, 1000);
+  }, [handleShowBubble, data]);
+
   const settings = {
+    dots: false,
     speed: 500,
     slidesToShow: 7,
-    slidesToScroll: 1,
-    arrows: bubbleCount >= 7,
-    infinite: true,
-    rows: 1,
+    slidesToScroll: 3,
+    arrows: bubbleCount > 7,
+    infinite: false,
+    swipeToSlide: true,
 
     responsive: [
       {
-        breakpoint: 1318,
+        breakpoint: 1617,
         settings: {
           slidesToShow: 6,
           slidesToScroll: 1,
-          infinite: true
+          arrows: bubbleCount > 7
         }
       },
       {
-        breakpoint: 1108,
+        breakpoint: 1500,
         settings: {
           slidesToShow: 5,
           slidesToScroll: 1,
-          arrows: false
+          arrows: bubbleCount >= 7
+        }
+      },
+      {
+        breakpoint: 1256,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          arrows: bubbleCount >= 7
         }
       },
 
       {
-        breakpoint: 717,
+        breakpoint: 992,
         settings: {
           slidesToShow: 5,
           slidesToScroll: 1,
-          arrows: false
+          arrows: bubbleCount >= 7
         }
       },
       {
-        breakpoint: 600,
+        breakpoint: 938,
         settings: {
           slidesToShow: 4,
           slidesToScroll: 1,
-          arrows: false
+          arrows: bubbleCount >= 7
         }
       },
       {
-        breakpoint: 470,
+        breakpoint: 767,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 6,
           slidesToScroll: 1,
           arrows: false,
-          infinite: false
+          swipeToSlide: true,
+          touchThreshold: 10
+        }
+      },
+
+      {
+        breakpoint: 680,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 1,
+          arrows: false,
+          swipeToSlide: true,
+          touchThreshold: 10
+        }
+      },
+      {
+        breakpoint: 580,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 3,
+          arrows: false,
+          swipeToSlide: true,
+          touchThreshold: 10
+        }
+      },
+      {
+        breakpoint: 465,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          arrows: false,
+          infinite: true,
+          swipeToSlide: true,
+          touchThreshold: 10
         }
       }
     ]
@@ -83,12 +127,11 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
       {showBubble && (
         <div className={cs(styles.sliderContainer, "SliderContainer")}>
           <Slider {...settings}>
-            {data?.map((item: any, index: number) => (
-              <div className={styles.bubbleContainer} key={index}>
+            {data?.map((item: any) => (
+              <div className={styles.bubbleContainer} key={item.url}>
                 <a
                   href={item.url}
                   rel="noopener noreferrer"
-                  key={index}
                   className={
                     item.name === "View All"
                       ? styles.highlightImgWrap
