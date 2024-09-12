@@ -794,6 +794,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                       false
                                     )}`}{" "}
                                   </span>
+                                ) : item?.is_free_product ? (
+                                  <p className={styles.freePrice}>FREE</p>
                                 ) : (
                                   <span
                                     className={cs(
