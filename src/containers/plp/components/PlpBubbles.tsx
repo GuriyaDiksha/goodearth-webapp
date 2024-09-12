@@ -5,6 +5,8 @@ import "./PlpBubbles.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import cs from "classnames";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 interface DataItem {
   url: string;
   image: string;
@@ -49,7 +51,7 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
         settings: {
           slidesToShow: 5,
           slidesToScroll: 1,
-          arrows: bubbleCount >= 7
+          arrows: bubbleCount > 7
         }
       },
       {
@@ -57,7 +59,7 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
         settings: {
           slidesToShow: 4,
           slidesToScroll: 1,
-          arrows: bubbleCount >= 7
+          arrows: bubbleCount > 7
         }
       },
 
@@ -66,7 +68,7 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
         settings: {
           slidesToShow: 5,
           slidesToScroll: 1,
-          arrows: bubbleCount >= 7
+          arrows: bubbleCount > 7
         }
       },
       {
@@ -74,7 +76,7 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
         settings: {
           slidesToShow: 4,
           slidesToScroll: 1,
-          arrows: bubbleCount >= 7
+          arrows: bubbleCount > 7
         }
       },
       {
@@ -121,7 +123,15 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
       }
     ]
   };
-
+  const plpBubbleGaCall = (categoryType: string) => {
+    const userConsent: string[] = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "bubble_click",
+        cta_name: categoryType
+      });
+    }
+  };
   return (
     <React.Fragment>
       {showBubble && (
@@ -137,21 +147,22 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
                       ? styles.highlightImgWrap
                       : styles.imgWrap
                   }
+                  onClick={() => plpBubbleGaCall(item?.name)}
                 >
                   <img
                     className={styles.bubbleImage}
-                    src={item.image}
+                    src={item?.image}
                     alt="img"
                   />
                 </a>
                 <span
                   className={
-                    item.name === "View All"
+                    item?.name === "View All"
                       ? styles.highlightBubbleText
                       : styles.bubbleText
                   }
                 >
-                  {item.name}
+                  {item?.name}
                 </span>
               </div>
             ))}
