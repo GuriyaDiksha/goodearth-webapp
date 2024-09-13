@@ -1262,17 +1262,18 @@ p.corporate-sub-heading {
 
 
 .slider-container {
-  width: 57%;
+  max-width: 57%;
   margin: 0 auto;
 
   @media (max-width:992px) {
-    
-    width: 59%;
+
+    max-width: 59%;
     // padding-left: 20px;
   }
+
   @media (max-width:767px) {
-    
-    width: 100%;
+
+    max-width: 100%;
     padding-left: 20px;
   }
 
@@ -1280,7 +1281,7 @@ p.corporate-sub-heading {
 
 .bubble-container {
   max-height: 150px;
-  max-width: 109px;
+  // max-width: 109px;
   // margin-bottom: ;
 
   .img-wrap {
@@ -1295,9 +1296,10 @@ p.corporate-sub-heading {
   }
 
   .highlight-img-wrap {
+
     .bubble-image {
-      width: 92px;
-      height: 92px;
+      width: 99px;
+      height: 99px;
       border-radius: 50%;
       object-fit: cover;
       margin: 0 auto;
