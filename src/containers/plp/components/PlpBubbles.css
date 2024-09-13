@@ -22,9 +22,9 @@
 
 .SliderContainer .slick-slider {
   padding: 5px;
-  
+
 }
-/* 
-.SliderContainer .slick-list {
-  max-height: 126px;
-} */
+
+.SliderContainer .slick-list .slick-track .slick-slide {
+  max-width: 123px;
+}
