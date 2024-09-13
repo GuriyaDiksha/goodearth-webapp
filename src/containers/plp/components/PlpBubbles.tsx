@@ -138,8 +138,6 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
   const handleClick = (url: string): void => {
     const baseUrl = url.split("Home")[0] + "Home";
     const queryString = url.split("Home")[1];
-    console.log(baseUrl);
-    console.log(queryString);
     const transformedQueryString = queryString.replaceAll(/&/g, "%26");
     const updatedUrl = baseUrl + transformedQueryString;
     history.push(updatedUrl);
