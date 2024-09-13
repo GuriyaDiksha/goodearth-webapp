@@ -535,7 +535,9 @@ const WishlistDetailPage = () => {
         {isShared && owner_name && (
           <div className={styles.sharedWrapper}>
             <h2 className={styles.heading}>
-              {firstName.toLowerCase().replace(/\b(\w)/g, x => x.toUpperCase())}
+              {owner_name
+                .toLowerCase()
+                .replace(/\b(\w)/g, x => x.toUpperCase())}
               &apos;s saved items &apos;{wishListName}&apos;
             </h2>
             <p className={styles.subheading}>
