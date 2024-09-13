@@ -633,74 +633,74 @@
 }
 
 //tootltip
-
-.tooltip-wrp{
-display: flex;
+.tooltip-wrp {
+  display: flex;
 }
 
 .tooltip {
   margin-left: 5px;
   line-height: 15px;
+
   img {
-      height: 15px;
-      cursor: pointer;
-      z-index: 1;
-      background:none !important;
+    height: 15px;
+    cursor: pointer;
+    z-index: 1;
+    background: none !important;
   }
-  .tooltip-msg{
-      @include b5_10px_montserrat_charcoal();
-      letter-spacing: 0.24px;
-      line-height: 12px;
-      font-weight: $light;
-      font-size: 8px;
-      border-radius: 5px;
-      padding: 5px;
-      background-color: #fff;
-      height: 80px;
-      width: 146px;
-     
-      box-shadow: 0px 3px 6px #00000029;
-      display: none;
-      &.show{
-          display: block;
-          position: absolute;
-          top: 23px;
-          left: 173px;
-          padding: 7px 12px;
 
-          img{
-            position: absolute;
-            left: 2px;
-            bottom: 2px;
-          }
+  .tooltip-msg {
+    @include b5_10px_montserrat_charcoal();
+    letter-spacing: 0.27px;
+    line-height: 12px;
+    font-weight: $light;
+    font-size: 9px;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #fff;
+    height: 80px;
+    width: 160px;
+    color: #303030 !important;
+    box-shadow: 0px 3px 6px #00000029;
+    display: none;
 
-          a{
-            border-bottom: 1px solid $light-charcoal;
-            @include b5_10px_montserrat_charcoal();
-            font-size: 8px;
-            margin-left: 2px;
-          }
+    &.show {
+      display: block;
+      position: absolute;
+      top: 23px;
+      left: 173px;
+      padding: 7px 12px;
 
-          @media screen and (max-width:992px) {
-            top: 26px;
-            left: 170px;            
-          }
-
-          &.tip-two{
-           top: 84px;
-           left: 184px;
-           top: 72px;
-           left: 184px;
-           height: 100px;
-           padding: 8px 17px;
-
-           @media screen and (max-width:992px) {
-            top: 76px;
-            left: 185px;            
-          }
-          }
-         
+      img {
+        position: absolute;
+        left: -1px;
+        bottom: 0px;
       }
-      
+
+      a {
+        border-bottom: 1px solid $light-charcoal;
+        @include b5_10px_montserrat_charcoal();
+        font-size: 8px;
+        margin-left: 2px;
+      }
+
+      @media screen and (max-width:992px) {
+        top: 26px;
+        left: 170px;
+      }
+
+      &.tip-two {
+
+        left: 188px;
+        top: 87px;
+        height: 89px;
+        padding: 8px 10px;
+      }
+
+      @media screen and (max-width:992px) {
+        top: 26px;
+        left: 175px;
+      }
+    }
+
   }
 }

@@ -10,4 +10,5 @@ export type Props = {
   sizeClassName?: string;
   isCorporatePDP?: boolean;
   containerClassName?: string;
+  presentIn?: boolean;
 };
