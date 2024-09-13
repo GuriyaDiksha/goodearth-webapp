@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import cs from "classnames";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import { useHistory } from "react-router";
 interface DataItem {
   url: string;
   image: string;
@@ -19,6 +20,8 @@ type Props = {
 const PlpBubbles: React.FC<Props> = ({ data }) => {
   const [showBubble, setShowBubble] = useState(false);
   const [bubbleCount, setBubbleCount] = useState(0);
+  const history = useHistory();
+
   const handleShowBubble = useCallback(() => {
     setShowBubble(true);
     setBubbleCount(data.length || 0);
@@ -123,7 +126,7 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
       }
     ]
   };
-  const plpBubbleGaCall = (categoryType: string) => {
+  const plpBubbleGaCall = (categoryType: string): void => {
     const userConsent: string[] = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
@@ -132,6 +135,15 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
       });
     }
   };
+  const handleClick = (url: string): void => {
+    const baseUrl = url.split("Home")[0] + "Home";
+    const queryString = url.split("Home")[1];
+    console.log(baseUrl);
+    console.log(queryString);
+    const transformedQueryString = queryString.replaceAll(/&/g, "%26");
+    const updatedUrl = baseUrl + transformedQueryString;
+    history.push(updatedUrl);
+  };
   return (
     <React.Fragment>
       {showBubble && (
@@ -139,22 +151,22 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
           <Slider {...settings}>
             {data?.map((item: any) => (
               <div className={styles.bubbleContainer} key={item.url}>
-                <a
-                  href={item.url}
-                  rel="noopener noreferrer"
+                <div
                   className={
                     item.name === "View All"
                       ? styles.highlightImgWrap
                       : styles.imgWrap
                   }
-                  onClick={() => plpBubbleGaCall(item?.name)}
+                  onClick={() => (
+                    plpBubbleGaCall(item?.name), handleClick(item?.url)
+                  )}
                 >
                   <img
                     className={styles.bubbleImage}
                     src={item?.image}
                     alt="img"
                   />
-                </a>
+                </div>
                 <span
                   className={
                     item?.name === "View All"
