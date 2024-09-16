@@ -482,6 +482,7 @@ const BaseLayout: React.FC = () => {
       </div>
       {value &&
         !minimalPage &&
+        !isCorporate &&
         (isCheckout ? <CheckoutFooter /> : !isCart && <Footer />)}
       <Modal />
     </Fragment>
