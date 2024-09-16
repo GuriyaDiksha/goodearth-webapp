@@ -18,7 +18,11 @@ const Catalouge: React.FC = () => {
 
   return (
     <div className={styles.catalogeLink}>
-      <object data="https://d3qn6cjsz7zlnp.cloudfront.net/media/GoodEarth_Corporate_Catalogue-2024.pdf"></object>
+      <object
+        className={styles.pdf}
+        data="https://d3qn6cjsz7zlnp.cloudfront.net/media/GoodEarth_Corporate_Catalogue-2024.pdf"
+        type="application/pdf"
+      />
     </div>
   );
 };
