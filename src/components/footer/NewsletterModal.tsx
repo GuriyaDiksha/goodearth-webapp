@@ -53,7 +53,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
 
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
   const [successMsg, setSuccessMsg] = useState("");
-  const [enableSubmit, setEnableSubmit] = useState(true);
+  const [enableSubmit, setEnableSubmit] = useState(false);
   const { countryData } = useSelector((state: AppState) => state.address);
   const [isLoading, setIsLoading] = useState(false);
   const [displayPopUp, setDisplayPopUp] = useState(false);
@@ -233,19 +233,19 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   //  end close modal on ESC keyword
 
   // start close modal on outsideClick
-  useEffect(() => {
-    const handleOutsideClick = (event: any) => {
-      if (displayPopUp && event.target.id == "newsletter-modal-container") {
-        onClose();
-      }
-    };
-    // Attach the event listener when the component mounts
-    document.addEventListener("click", handleOutsideClick);
-    // Remove the event listener when the component unmounts
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, [displayPopUp]);
+  // useEffect(() => {
+  //   const handleOutsideClick = (event: any) => {
+  //     if (displayPopUp && event.target.id == "newsletter-modal-container") {
+  //       onClose();
+  //     }
+  //   };
+  //   // Attach the event listener when the component mounts
+  //   document.addEventListener("click", handleOutsideClick);
+  //   // Remove the event listener when the component unmounts
+  //   return () => {
+  //     document.removeEventListener("click", handleOutsideClick);
+  //   };
+  // }, [displayPopUp]);
   // end close modal on outsideClick
   const saveData = (formData: any, updateInputsWithError: any) => {
     setIsLoading(false);
@@ -254,61 +254,73 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
     const email = formData.get("email");
     const isGEEmployee = email.toLowerCase().endsWith("@goodearth.in");
 
-    if (isGEEmployee) {
-      setSuccessMsg("This offer is not applicable for GE employees.");
-      // setIsSubscribed(true);
-      // const subscribeCta = document?.getElementById("subscribe-cta");
-      // if (subscribeCta) {
-      //   subscribeCta.hidden = true;
-      // }
-      const input = document?.querySelectorAll<HTMLElement>("#job-form input");
-      if (input) {
-        for (let i = 0; i < input.length; i++) {
-          input[i].style.color = "#9F9F9F";
-          input[i].style.backgroundColor = "#E5E5E526";
+    HeaderService.makeNewsletterSignupRequest(dispatch, formData)
+      .then(data => {
+        if (
+          data.message ===
+          "This offer is not applicable for GE employees. You are successfully subscribed to our newsletter"
+        ) {
+          setSuccessMsg(data.message);
+          // setIsSubscribed(true);
+
+          const input = document?.querySelectorAll<HTMLElement>(
+            "#job-form input"
+          );
+          if (input) {
+            for (let i = 0; i < input.length; i++) {
+              input[i].style.color = "#9F9F9F";
+              input[i].style.backgroundColor = "#E5E5E526";
+            }
+          }
         }
-      }
-      // setTimeout(() => {
-      //   onClose();
-      // }, 400000);
-    } else {
-      HeaderService.makeNewsletterSignupRequest(dispatch, formData)
-        .then(data => {
-          if (data.status) {
-            setSuccessMsg("You have subscribed successfully.");
-            setIsSubscribed(true);
-            const subscribeCta = document?.getElementById("subscribe-cta");
-            if (subscribeCta) {
-              subscribeCta.hidden = true;
+        if (data.message === "You are already subscribed.") {
+          setSuccessMsg(data.message);
+
+          const input = document?.querySelectorAll<HTMLElement>(
+            "#job-form input"
+          );
+          if (input) {
+            for (let i = 0; i < input.length; i++) {
+              input[i].style.color = "#9F9F9F";
+              input[i].style.backgroundColor = "#E5E5E526";
             }
-            const input = document?.querySelectorAll<HTMLElement>(
-              "#job-form input"
-            );
-            if (input) {
-              for (let i = 0; i < input.length; i++) {
-                input[i].style.color = "#9F9F9F";
-                input[i].style.backgroundColor = "#E5E5E526";
-              }
+          }
+        }
+        if (
+          data.message === "You are successfully subscribed to our Newsletter"
+        ) {
+          setSuccessMsg("You have subscribed successfully.");
+          setIsSubscribed(true);
+          const subscribeCta = document?.getElementById("subscribe-cta");
+          if (subscribeCta) {
+            subscribeCta.hidden = true;
+          }
+          const input = document?.querySelectorAll<HTMLElement>(
+            "#job-form input"
+          );
+          if (input) {
+            for (let i = 0; i < input.length; i++) {
+              input[i].style.color = "#9F9F9F";
+              input[i].style.backgroundColor = "#E5E5E526";
             }
-            setTimeout(() => {
-              onClose();
-            }, 400000);
-          } else {
-            setSuccessMsg("Please try again");
           }
-        })
-        .catch(err => {
-          const errors = err.response.data.errors;
-          if (errors && typeof errors[0] == "string") {
-            setSuccessMsg(errors[0]);
-          } else {
-            setSuccessMsg("You have already subscribed.");
-          }
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
+          setTimeout(() => {
+            onClose();
+          }, 400000);
+        }
+      })
+      .catch(err => {
+        const errors = err.response.data.errors;
+        if (errors && typeof errors[0] == "string") {
+          setSuccessMsg(errors[0]);
+        } else {
+          setSuccessMsg("Please try again.");
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+    // }
   };
 
   const handleChange = () => {
@@ -435,7 +447,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
             className={cs(
               successMsg == "You have subscribed successfully."
                 ? styles.successMessage
-                : styles.errorMsg
+                : styles.errorMsgPopUp
             )}
           >
             {successMsg}
@@ -446,6 +458,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
             and new arrivals. View our{" "}
             <Link
               to={"/customer-assistance/privacy-policy"}
+              target="_blank"
               className={styles.popupLink}
             >
               Privacy Policy.
@@ -453,6 +466,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
             and{" "}
             <Link
               to={"/customer-assistance/terms-conditions"}
+              target="_blank"
               className={styles.popupLink}
             >
               Terms of Service.

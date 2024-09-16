@@ -954,11 +954,6 @@
   font-family: $font-Lora;
   text-align: center;
   margin-bottom: 10px;
-  position:absolute;
-  top:53%;
-  @media (max-width:992px){
-    top:55%
-  }
 }
 .success-message{
   color: #548B8B;
@@ -975,8 +970,9 @@
   letter-spacing: 0.3px;
   font-weight: $regular;
   line-height: 16px;
-  margin-bottom: 19px;
-  height: 64px;
+  // margin-bottom: 19px;
+  height: 79px;
+  padding-top: 18px;
 
   .popup-link {
     text-decoration: underline;
@@ -1036,7 +1032,7 @@ padding: 30px 20px;
     @media(max-width:992px){
       max-width: unset;
       width: 100%;
-      top: calc(100% - 221px);
+      top: calc(100% - 212px);
       right: -33px;
       bottom: unset;
       &.subscribed-top{
@@ -1053,7 +1049,7 @@ padding: 30px 20px;
   position: relative;
   background-color: #fff;
   z-index: 10;
-  padding: 53px 28px;
+  padding: 45px 28px;
   font-family: "LatoFont", "Helvetica", "Arial";
   // margin: 20px;
   border: 1px solid #b3b3b3;
@@ -1165,7 +1161,7 @@ padding: 30px 20px;
     margin-bottom: 25px;
   }
   &.subscribedHeader{
-    padding: 44px 20px;
+    padding: 52px 20px;
   }
 }
 .modal-title{
@@ -1183,9 +1179,10 @@ padding: 30px 20px;
   letter-spacing: 0.36px;
   @include b4_12px_montserrat_charcoal;
   @media(max-width:992px) {
-    max-width:620px;
+    max-width: 283px;
     margin: 0 auto;
     height: 60px;
+    // padding: 0 79px;
   }
 }
 .modal-overlay{
@@ -1330,5 +1327,22 @@ padding: 30px 20px;
 
   @media screen and (max-width:991px) {
     margin: 0 0 30px 0;
+  }
+}
+.error-msg-pop-up{
+  // line-height: 16px;
+  font-family: $font-Lora;
+  margin-bottom: 10px;
+  // position:absolute;
+  // top:54%;
+  font-size: 13px !important;
+  color: #ab1e56 !important;
+  font-style: italic !important;
+  letter-spacing: 0px !important;
+  text-align: left;
+  margin-top: -18px;
+  line-height: 1;
+  @media (max-width:992px){
+    top:55%
   }
 }
