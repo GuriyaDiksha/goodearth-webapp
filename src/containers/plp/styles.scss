@@ -1287,6 +1287,7 @@ p.corporate-sub-heading {
   // margin-bottom: ;
 
   .img-wrap {
+    cursor: pointer;
     .bubble-image {
       width: 100px;
       height: 100px;
@@ -1298,6 +1299,7 @@ p.corporate-sub-heading {
   }
 
   .highlight-img-wrap {
+    cursor: pointer;
 
     .bubble-image {
       width: 99px;
@@ -1313,6 +1315,7 @@ p.corporate-sub-heading {
   }
 
   .bubble-text {
+    cursor: pointer;
     display: block;
     text-align: center;
     @include b4_12px_montserrat_charcoal
@@ -1321,6 +1324,7 @@ p.corporate-sub-heading {
   .highlight-bubble-text {
     display: block;
     text-align: center;
+    cursor: pointer;
     @include b4_12px_montserrat_charcoal;
     font-weight: $medium;
 
