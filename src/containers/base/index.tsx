@@ -435,6 +435,9 @@ const BaseLayout: React.FC = () => {
     pathname.indexOf("/gc_checkout") > -1 ||
     pathname.indexOf("order/orderconfirmation") > -1;
   const isCart = pathname == "/cart" || pathname == "/cart/";
+  const isCorporateCatalogue = location.pathname.includes(
+    "/goodearth-corporate-catalogue/"
+  );
   // || pathname == "/cart" || pathname == "/cart/";
   // const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
   const backOrder = pathname.indexOf("backend-order-error") > -1;
@@ -454,7 +457,12 @@ const BaseLayout: React.FC = () => {
       {/* <Whatsapp /> */}
       {!value
         ? ""
-        : !minimalPage && (isCheckout ? <CheckoutHeader /> : <Header />)}
+        : !minimalPage &&
+          (isCheckout ? (
+            <CheckoutHeader />
+          ) : (
+            !isCorporateCatalogue && <Header />
+          ))}
       {(isLoading || isCheckoutLoading) && <Loader />}
       <div
         className={
@@ -478,7 +486,11 @@ const BaseLayout: React.FC = () => {
       </div>
       {value &&
         !minimalPage &&
-        (isCheckout ? <CheckoutFooter /> : !isCart && <Footer />)}
+        (isCheckout ? (
+          <CheckoutFooter />
+        ) : (
+          !isCart || (!isCorporateCatalogue && <Footer />)
+        ))}
       <Modal />
     </Fragment>
   );
