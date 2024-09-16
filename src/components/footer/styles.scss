@@ -954,6 +954,11 @@
   font-family: $font-Lora;
   text-align: center;
   margin-bottom: 10px;
+  position:absolute;
+  top:53%;
+  @media (max-width:992px){
+    top:55%
+  }
 }
 .success-message{
   color: #548B8B;
@@ -995,6 +1000,9 @@
   transform: translate(-50%, -50%);
   // line-height: 16px;
   z-index: 10;
+  @media (max-width: 992px) {
+    bottom: 1%;
+  }
 }
 
 .mobile-find-us-on{

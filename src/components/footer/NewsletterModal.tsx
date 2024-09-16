@@ -247,46 +247,68 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
     };
   }, [displayPopUp]);
   // end close modal on outsideClick
-
   const saveData = (formData: any, updateInputsWithError: any) => {
     setIsLoading(false);
     setSuccessMsg("");
-    HeaderService.makeNewsletterSignupRequest(dispatch, formData)
-      .then(data => {
-        if (data.status) {
-          setSuccessMsg("You have subscribed successfully.");
-          setIsSubscribed(true);
-          const subscribeCta = document?.getElementById("subscribe-cta");
-          if (subscribeCta) {
-            subscribeCta.hidden = true;
-          }
-          const input = document?.querySelectorAll<HTMLElement>(
-            "#job-form input"
-          );
-          if (input) {
-            for (let i = 0; i < input.length; i++) {
-              input[i].style.color = "#9F9F9F";
-              input[i].style.backgroundColor = "#E5E5E526";
+
+    const email = formData.get("email");
+    const isGEEmployee = email.toLowerCase().endsWith("@goodearth.in");
+
+    if (isGEEmployee) {
+      setSuccessMsg("This offer is not applicable for GE employees.");
+      // setIsSubscribed(true);
+      // const subscribeCta = document?.getElementById("subscribe-cta");
+      // if (subscribeCta) {
+      //   subscribeCta.hidden = true;
+      // }
+      const input = document?.querySelectorAll<HTMLElement>("#job-form input");
+      if (input) {
+        for (let i = 0; i < input.length; i++) {
+          input[i].style.color = "#9F9F9F";
+          input[i].style.backgroundColor = "#E5E5E526";
+        }
+      }
+      // setTimeout(() => {
+      //   onClose();
+      // }, 400000);
+    } else {
+      HeaderService.makeNewsletterSignupRequest(dispatch, formData)
+        .then(data => {
+          if (data.status) {
+            setSuccessMsg("You have subscribed successfully.");
+            setIsSubscribed(true);
+            const subscribeCta = document?.getElementById("subscribe-cta");
+            if (subscribeCta) {
+              subscribeCta.hidden = true;
             }
+            const input = document?.querySelectorAll<HTMLElement>(
+              "#job-form input"
+            );
+            if (input) {
+              for (let i = 0; i < input.length; i++) {
+                input[i].style.color = "#9F9F9F";
+                input[i].style.backgroundColor = "#E5E5E526";
+              }
+            }
+            setTimeout(() => {
+              onClose();
+            }, 400000);
+          } else {
+            setSuccessMsg("Please try again");
           }
-          setTimeout(() => {
-            onClose();
-          }, 400000);
-        } else {
-          setSuccessMsg("You are already subscribed.");
-        }
-      })
-      .catch(err => {
-        const errors = err.response.data.errors;
-        if (errors && typeof errors[0] == "string") {
-          setSuccessMsg(errors[0]);
-        } else {
-          setSuccessMsg("You have already subscribed.");
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+        })
+        .catch(err => {
+          const errors = err.response.data.errors;
+          if (errors && typeof errors[0] == "string") {
+            setSuccessMsg(errors[0]);
+          } else {
+            setSuccessMsg("You have already subscribed.");
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
   };
 
   const handleChange = () => {
@@ -314,6 +336,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
       return;
     }
     const formData = prepareFormData(model);
+
     saveData(formData, updateInputsWithError);
   };
 
