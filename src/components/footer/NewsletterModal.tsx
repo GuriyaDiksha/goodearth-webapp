@@ -11,12 +11,17 @@ import { errorTracking, getErrorList } from "utils/validate";
 import HeaderService from "services/headerFooter";
 import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
-import flower_left from "../../images/news_flower_left.png";
 import butterfly from "../../images/news_bf_img.png";
-import flower_right from "../../images/news_flower_right.png";
 import crossIcon from "../../images/cross.svg";
-import SelectDropdown from "../Formsy/SelectDropdown";
+// import SelectDropdown from "../Formsy/SelectDropdown";
 import AccountService from "services/account";
+import leftTopImage from "../../images/newsLetterPoUp/b2.png";
+import leftMidImage from "../../images/newsLetterPoUp/palmmm@2x.png";
+import rightTopImage from "../../images/newsLetterPoUp/palmmm.png";
+import bottomLeftImage from "../../images/newsLetterPoUp/leafddw.png";
+import rightBottomImage from "../../images/newsLetterPoUp/yellow2.png.png";
+import FormSelect from "components/Formsy/FormSelect";
+import { Link } from "react-router-dom";
 
 type Props = {
   title: string;
@@ -28,6 +33,7 @@ type StateOptions = {
   label: string;
   id: number;
   nameAscii: string;
+  source: string;
 };
 
 type CountryOptions = {
@@ -55,6 +61,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const isExistyError = "This field is required";
   const countryRef: RefObject<HTMLInputElement> = useRef(null);
   const [usercountry, setUsercountry] = useState("");
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -240,45 +247,68 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
     };
   }, [displayPopUp]);
   // end close modal on outsideClick
-
   const saveData = (formData: any, updateInputsWithError: any) => {
     setIsLoading(false);
     setSuccessMsg("");
-    HeaderService.makeNewsletterSignupRequest(dispatch, formData)
-      .then(data => {
-        if (data.status) {
-          setSuccessMsg("You have subscribed successfully.");
-          const subscribeCta = document?.getElementById("subscribe-cta");
-          if (subscribeCta) {
-            subscribeCta.hidden = true;
-          }
-          const input = document?.querySelectorAll<HTMLElement>(
-            "#job-form input"
-          );
-          if (input) {
-            for (let i = 0; i < input.length; i++) {
-              input[i].style.color = "#9F9F9F";
-              input[i].style.backgroundColor = "#E5E5E526";
+
+    const email = formData.get("email");
+    const isGEEmployee = email.toLowerCase().endsWith("@goodearth.in");
+
+    if (isGEEmployee) {
+      setSuccessMsg("This offer is not applicable for GE employees.");
+      // setIsSubscribed(true);
+      // const subscribeCta = document?.getElementById("subscribe-cta");
+      // if (subscribeCta) {
+      //   subscribeCta.hidden = true;
+      // }
+      const input = document?.querySelectorAll<HTMLElement>("#job-form input");
+      if (input) {
+        for (let i = 0; i < input.length; i++) {
+          input[i].style.color = "#9F9F9F";
+          input[i].style.backgroundColor = "#E5E5E526";
+        }
+      }
+      // setTimeout(() => {
+      //   onClose();
+      // }, 400000);
+    } else {
+      HeaderService.makeNewsletterSignupRequest(dispatch, formData)
+        .then(data => {
+          if (data.status) {
+            setSuccessMsg("You have subscribed successfully.");
+            setIsSubscribed(true);
+            const subscribeCta = document?.getElementById("subscribe-cta");
+            if (subscribeCta) {
+              subscribeCta.hidden = true;
             }
+            const input = document?.querySelectorAll<HTMLElement>(
+              "#job-form input"
+            );
+            if (input) {
+              for (let i = 0; i < input.length; i++) {
+                input[i].style.color = "#9F9F9F";
+                input[i].style.backgroundColor = "#E5E5E526";
+              }
+            }
+            setTimeout(() => {
+              onClose();
+            }, 400000);
+          } else {
+            setSuccessMsg("Please try again");
           }
-          setTimeout(() => {
-            onClose();
-          }, 3000);
-        } else {
-          setSuccessMsg("You have already subscribed.");
-        }
-      })
-      .catch(err => {
-        const errors = err.response.data.errors;
-        if (errors && typeof errors[0] == "string") {
-          setSuccessMsg(errors[0]);
-        } else {
-          setSuccessMsg("You have already subscribed.");
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+        })
+        .catch(err => {
+          const errors = err.response.data.errors;
+          if (errors && typeof errors[0] == "string") {
+            setSuccessMsg(errors[0]);
+          } else {
+            setSuccessMsg("You have already subscribed.");
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
   };
 
   const handleChange = () => {
@@ -286,12 +316,18 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   };
 
   const prepareFormData = (model: any) => {
+    // const formData = new FormData();
+    // const { email, name, country } = model;
+    // formData.append("email", email ? email.toString().toLowerCase() : "");
+    // formData.append("name", name || "");
+    // formData.append("country", country || "");
+    // formData.append("status", "subscribed");
+    // formData.append("email", email ? email.toString().toLowerCase() : "");
     const formData = new FormData();
-    const { email, name, country } = model;
+    const { email } = model;
     formData.append("email", email ? email.toString().toLowerCase() : "");
-    formData.append("name", name || "");
-    formData.append("country", country || "");
-    formData.append("status", "subscribed");
+    // formData.append("status", "subscribed");
+    formData.append("source", "subscription_popup");
     return formData;
   };
 
@@ -300,6 +336,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
       return;
     }
     const formData = prepareFormData(model);
+
     saveData(formData, updateInputsWithError);
   };
 
@@ -320,7 +357,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           id="job-form"
         >
           <div className={cs(styles.formField)}>
-            <FormInput
+            {/* <FormInput
               id="first_input"
               required
               label="Name*"
@@ -339,7 +376,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
                 maxLength: "Max limit reached.",
                 isWords: isAlphaError
               }}
-            />
+            /> */}
           </div>
           <div className={cs(styles.formField)}>
             <FormInput
@@ -357,9 +394,9 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
               }}
             />
           </div>
-          <div className={cs(styles.formField)}>
+          {/* <div className={cs(styles.formField)}>
             <div className="select-group text-left">
-              {/* <FormSelect
+              <FormSelect
                 required
                 label={"Country*"}
                 options={countryOptions}
@@ -373,7 +410,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
                   isExisty: "Please select your Country"
                 }}
               />
-              <span className="arrow"></span> */}
+              <span className="arrow"></span>
               <SelectDropdown
                 required
                 label={"Country*"}
@@ -393,7 +430,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
                 inputRef={countryRef}
               />
             </div>
-          </div>
+          </div> */}
           <p
             className={cs(
               successMsg == "You have subscribed successfully."
@@ -403,7 +440,25 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           >
             {successMsg}
           </p>
-          <div className={cs(styles.subscribeBtn)}>
+          <div className={styles.popupDescription}>
+            By submitting your email address, you consent to receiving marketing
+            communications from Good Earth, on inspiration, exclusive offers,
+            and new arrivals. View our{" "}
+            <Link
+              to={"/customer-assistance/privacy-policy"}
+              className={styles.popupLink}
+            >
+              Privacy Policy.
+            </Link>{" "}
+            and{" "}
+            <Link
+              to={"/customer-assistance/terms-conditions"}
+              className={styles.popupLink}
+            >
+              Terms of Service.
+            </Link>
+          </div>
+          <div className={cs(styles.subscribeBtn, globalStyles.marginT10)}>
             <input
               id="subscribe-cta"
               type="submit"
@@ -415,7 +470,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
                 styles.jobApplicationSubmit,
                 { [globalStyles.disabledBtn]: !enableSubmit }
               )}
-              value="SUBSCRIBE"
+              value="JOIN THE COMMUNITY"
             />
           </div>
         </div>
@@ -425,32 +480,74 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
 
   return displayPopUp ? (
     <div id="newsletter-modal-container" className={cs(styles.container)}>
-      <div className={cs(styles.modalOverlay)}></div>
-      <div className={cs(styles.newsletterModal)}>
-        <div className={cs(styles.newsLeftImg)}>
-          <img src={flower_left} className={cs(styles.flowerLeft)} />
-        </div>
-        <div className={cs(styles.newsButterflyImg)}>
-          <img src={butterfly} className={cs(styles.butterfly)} />
-        </div>
-        <div className={cs(styles.newsRightImg)}>
-          <img src={flower_right} className={cs(styles.flowerRight)} />
-        </div>
-        <div className={cs(styles.modalBox)}>
-          <button
-            className={cs(styles.modalCloseBtn)}
-            onClick={onClose}
-            data-dismiss="modal"
-          >
-            <img src={crossIcon} width="18" height="18" />
-          </button>
-          <div className={cs(styles.modalContent)}>
-            <div className={cs(styles.modalHeader)}>
-              <div className={cs(styles.modalTitle)}>{title}</div>
-              <div className={cs(styles.modalSubTitle)}>{subTitle}</div>
+      <div
+        className={cs(styles.modalWrapper, {
+          [styles.subscribedTop]: isSubscribed
+        })}
+      >
+        <div className={cs(styles.modalOverlay)}></div>
+        <div
+          className={cs(styles.newsletterModal, {
+            [styles.subscribedTop]: isSubscribed
+          })}
+        >
+          <div className={cs(styles.modalBox)}>
+            <button
+              className={cs(styles.modalCloseBtn)}
+              onClick={onClose}
+              data-dismiss="modal"
+            >
+              <img src={crossIcon} width="12" height="12" />
+            </button>
+            <div className={cs(styles.modalContent)}>
+              <div
+                className={cs(styles.modalHeader, {
+                  [styles.subscribedHeader]: isSubscribed
+                })}
+              >
+                <div className={cs(styles.modalTitle)}>
+                  {!isSubscribed ? title : "Thank You For Subscribing!"}
+                </div>
+                <div className={cs(styles.modalSubTitle)}>
+                  {!isSubscribed
+                    ? subTitle
+                    : "Your unique discount code has been sent to your email ID and can be availed at checkout!"}
+                </div>
+              </div>
+              {!isSubscribed && (
+                <div className={cs(styles.modalBottom)}>{formContent}</div>
+              )}
             </div>
-            <div className={cs(styles.modalBottom)}>{formContent}</div>
           </div>
+          <div className={cs(styles.newsLeftImg)}>
+            <img src={leftTopImage} className={cs(styles.flowerTopLeft)} />
+          </div>
+          <div className={cs(styles.newsRightBottomImg)}>
+            <img
+              src={rightBottomImage}
+              className={cs(styles.flowerRightBottom)}
+            />
+          </div>
+          <div
+            className={cs(styles.newsButterflyImg, {
+              [styles.topAlign]: isSubscribed
+            })}
+          >
+            <img src={butterfly} className={cs(styles.butterfly)} />
+          </div>
+        </div>
+
+        <div className={cs(styles.newsRightTopImg)}>
+          <img src={rightTopImage} className={cs(styles.flowerTopRight)} />
+        </div>
+        <div className={cs(styles.newsBottomLeftImg)}>
+          <img src={bottomLeftImage} className={cs(styles.flowerBottomLeft)} />
+        </div>
+        <div className={cs(styles.newsLeftMidImg)}>
+          <img src={leftMidImage} className={cs(styles.flowerLeftMid)} />
+        </div>
+        <div className={cs(styles.exclusiveText, globalStyles.textCenter)}>
+          *Exclusive for 1st time subscribers.
         </div>
       </div>
     </div>

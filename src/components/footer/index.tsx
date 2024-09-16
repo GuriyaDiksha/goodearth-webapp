@@ -24,6 +24,7 @@ import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
 import EarthLogo from "./../../icons/earth.svg";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
+import NewsletterModal from "./NewsletterModal";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -94,7 +95,8 @@ class Footer extends React.Component<Props, FooterState> {
       headingHoverArray: [],
       subheadingHoverArray: [],
       smartNav: ["/", "/homepage"],
-      country: ""
+      country: "",
+      showPopUp: false
     };
   }
 
@@ -306,6 +308,10 @@ class Footer extends React.Component<Props, FooterState> {
             const msg = showErrors(data.message);
             // this.setState({newsletter_email: ""});
             this.setState({ newsletterError: false, newsletterMessage: msg });
+            console.log(data.status, msg);
+            this.setState(prevState => ({
+              showPopUp: !prevState.showPopUp
+            }));
           } else {
             const msg = showErrors(data.message);
             this.setState({ newsletterError: false, newsletterMessage: msg });
@@ -1282,17 +1288,17 @@ class Footer extends React.Component<Props, FooterState> {
         )}
 
         {/* DO NOT REMOVE THIS CODE : Commented this code as per product requirement */}
-        {/* {!(OLD_COOKIE_SETTINGS
+        {!(OLD_COOKIE_SETTINGS
           ? cookiCheck
           : (cookiCheck && !this.state.isConsentSave) ||
             this.props?.showCookiePref) && (
           <NewsletterModal
-            title={"Find Out First!"}
+            title={"Sign Up And Save 10%"}
             subTitle={
-              "Be the first to know about new launches and the latest updates from the brand, delivered straight to your inbox!"
+              "Ideas on style, design, and entertaining await you, along with a sweet discount on your first purchase"
             }
           />
-        )} */}
+        )}
       </div>
     );
   }
