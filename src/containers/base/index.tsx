@@ -435,7 +435,7 @@ const BaseLayout: React.FC = () => {
     pathname.indexOf("/gc_checkout") > -1 ||
     pathname.indexOf("order/orderconfirmation") > -1;
   const isCart = pathname == "/cart" || pathname == "/cart/";
-  const isCoporate =
+  const isCorporate =
     pathname == "/goodearth-corporate-catalogue" ||
     pathname == "/goodearth-corporate-catalogue/";
   // || pathname == "/cart" || pathname == "/cart/";
@@ -458,7 +458,7 @@ const BaseLayout: React.FC = () => {
       {!value
         ? ""
         : !minimalPage &&
-          (isCheckout ? <CheckoutHeader /> : !isCoporate && <Header />)}
+          (isCheckout ? <CheckoutHeader /> : !isCorporate && <Header />)}
       {(isLoading || isCheckoutLoading) && <Loader />}
       <div
         className={
@@ -482,11 +482,8 @@ const BaseLayout: React.FC = () => {
       </div>
       {value &&
         !minimalPage &&
-        (isCheckout ? (
-          <CheckoutFooter />
-        ) : (
-          !isCart || (!isCoporate && <Footer />)
-        ))}
+        !isCorporate &&
+        (isCheckout ? <CheckoutFooter /> : !isCart && <Footer />)}
       <Modal />
     </Fragment>
   );
