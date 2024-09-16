@@ -267,8 +267,8 @@ const routes: RouteConfig = [
     exact: true
   },
   {
-    path: ROUTES.CORPARATECATALOGUE,
-    component: loadable(() => import("containers/corparateCatalouge")),
+    path: ROUTES.CORPORATECATALOGUE,
+    component: loadable(() => import("containers/corporateCatalouge")),
     action: async () => null,
     exact: true
   }
