@@ -261,7 +261,21 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           "This offer is not applicable for GE employees. You are successfully subscribed to our newsletter"
         ) {
           setSuccessMsg(data.message);
-          // setIsSubscribed(true);
+          const input = document?.querySelectorAll<HTMLElement>(
+            "#job-form input"
+          );
+          if (input) {
+            for (let i = 0; i < input.length; i++) {
+              input[i].style.color = "#9F9F9F";
+              input[i].style.backgroundColor = "#E5E5E526";
+            }
+          }
+        }
+        if (
+          data.message ===
+          "You are not eligible for this offer. However, we have added you to our newsletter subscription."
+        ) {
+          setSuccessMsg(data.message);
 
           const input = document?.querySelectorAll<HTMLElement>(
             "#job-form input"
