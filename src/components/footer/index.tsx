@@ -1293,7 +1293,7 @@ class Footer extends React.Component<Props, FooterState> {
           : (cookiCheck && !this.state.isConsentSave) ||
             this.props?.showCookiePref) && (
           <NewsletterModal
-            title={"Sign Up And save 10%"}
+            title={"Sign up and save 10%"}
             subTitle={
               "Ideas on style, design, and entertaining await you, along with a sweet discount on your first purchase."
             }
