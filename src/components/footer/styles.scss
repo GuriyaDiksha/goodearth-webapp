@@ -972,7 +972,7 @@
   line-height: 16px;
   // margin-bottom: 19px;
   height: 79px;
-  padding-top: 18px;
+  padding-top: 6px;
 
   .popup-link {
     text-decoration: underline;
@@ -991,10 +991,9 @@
   font-family: $font-Montserrat;
   position: absolute;
   left: 50%;
-  bottom: 0%;
+  bottom: 6px;
   white-space: nowrap;
   transform: translate(-50%, -50%);
-  // line-height: 16px;
   z-index: 10;
   @media (max-width: 992px) {
     bottom: 1%;
@@ -1032,11 +1031,11 @@ padding: 30px 20px;
     @media(max-width:992px){
       max-width: unset;
       width: 100%;
-      top: calc(100% - 212px);
+      top: calc(100% - 221px);
       right: -33px;
       bottom: unset;
       &.subscribed-top{
-        top: calc(100% - 158px);
+        top: calc(100% - 164px);
       }
 
     }
@@ -1049,15 +1048,15 @@ padding: 30px 20px;
   position: relative;
   background-color: #fff;
   z-index: 10;
-  padding: 45px 28px;
+  padding: 52px 28px;
   font-family: "LatoFont", "Helvetica", "Arial";
   // margin: 20px;
   border: 1px solid #b3b3b3;
   display: flex;
 
-  &.subscribedHeader {
-    padding: 98px 28px;
-  }
+  // &.subscribedHeader {
+  //   padding: 98px 28px;
+  // }
 
   @media (max-width: 992px) {
     max-width: unset;
@@ -1065,6 +1064,7 @@ padding: 30px 20px;
     border: 0;
     width: 100% !important;
     display: block;
+    padding: 57px 53px;
 
   }
 }
@@ -1157,12 +1157,18 @@ padding: 30px 20px;
   text-align: center;
   padding: 0 20px;
   @media(max-width:992px){
-    padding: 7px 30px;
+    padding: 7px 0px;
     margin-bottom: 25px;
   }
   &.subscribedHeader{
-    padding: 52px 20px;
+    padding: 46px 56px;
   }
+  @media (max-width:992px){
+    &.subscribedHeader{
+      padding: 46px 7px;
+    }
+  }
+    
 }
 .modal-title{
   font-family: $font-Lora;
@@ -1332,7 +1338,7 @@ padding: 30px 20px;
 .error-msg-pop-up{
   // line-height: 16px;
   font-family: $font-Lora;
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
   // position:absolute;
   // top:54%;
   font-size: 13px !important;
@@ -1340,7 +1346,7 @@ padding: 30px 20px;
   font-style: italic !important;
   letter-spacing: 0px !important;
   text-align: left;
-  margin-top: -18px;
+  margin-top: -16px;
   line-height: 1;
   @media (max-width:992px){
     top:55%

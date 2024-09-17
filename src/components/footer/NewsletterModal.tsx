@@ -20,7 +20,7 @@ import leftMidImage from "../../images/newsLetterPoUp/palmmm@2x.png";
 import rightTopImage from "../../images/newsLetterPoUp/palmmm.png";
 import bottomLeftImage from "../../images/newsLetterPoUp/leafddw.png";
 import rightBottomImage from "../../images/newsLetterPoUp/yellow2.png.png";
-import FormSelect from "components/Formsy/FormSelect";
+// import FormSelect from "components/Formsy/FormSelect";
 import { Link } from "react-router-dom";
 
 type Props = {
@@ -73,72 +73,72 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   }, []);
 
   const EnquiryFormRef = useRef<Formsy>(null);
-  const onCountrySelect = (option: any, defaultCountry?: string) => {
-    if (countryOptions.length > 0) {
-      const form = EnquiryFormRef.current;
-      let selectedCountry = "";
-      if (option?.value) {
-        selectedCountry = option?.value;
-        form &&
-          form.updateInputsWithValue(
-            {
-              state: "",
-              country: selectedCountry
-            },
-            false
-          );
-      }
+  // const onCountrySelect = (option: any, defaultCountry?: string) => {
+  //   if (countryOptions.length > 0) {
+  //     const form = EnquiryFormRef.current;
+  //     let selectedCountry = "";
+  //     if (option?.value) {
+  //       selectedCountry = option?.value;
+  //       form &&
+  //         form.updateInputsWithValue(
+  //           {
+  //             state: "",
+  //             country: selectedCountry
+  //           },
+  //           false
+  //         );
+  //     }
 
-      if (defaultCountry) {
-        selectedCountry = defaultCountry;
-        // need to set defaultCountry explicitly
-        if (form && selectedCountry) {
-          form.updateInputsWithValue({
-            country: selectedCountry
-          });
-        }
-      }
+  //     if (defaultCountry) {
+  //       selectedCountry = defaultCountry;
+  //       // need to set defaultCountry explicitly
+  //       if (form && selectedCountry) {
+  //         form.updateInputsWithValue({
+  //           country: selectedCountry
+  //         });
+  //       }
+  //     }
 
-      const { isd } = countryOptions.filter(
-        country => country.value == selectedCountry
-      )[0];
+  //     const { isd } = countryOptions.filter(
+  //       country => country.value == selectedCountry
+  //     )[0];
 
-      if (form) {
-        // reset state
-        form.updateInputsWithValue({
-          countrycode: isd,
-          country: selectedCountry
-        });
-      }
-      setEnableSubmit(true);
-    }
-  };
+  //     if (form) {
+  //       // reset state
+  //       form.updateInputsWithValue({
+  //         countrycode: isd,
+  //         country: selectedCountry
+  //       });
+  //     }
+  //     setEnableSubmit(true);
+  //   }
+  // };
 
-  const changeCountryData = (countryData: Country[]) => {
-    const countryOptions = countryData.map(country => {
-      const states = country.regionSet.map(state => {
-        return Object.assign({}, state, {
-          value: state.nameAscii,
-          label: state.nameAscii
-        });
-      });
-      return Object.assign(
-        {},
-        {
-          value: country.nameAscii,
-          label: country.nameAscii,
-          code2: country.code2,
-          isd: country.isdCode,
-          states: states
-        }
-      );
-    });
-    setCountryOptions(countryOptions);
-  };
+  // const changeCountryData = (countryData: Country[]) => {
+  //   const countryOptions = countryData.map(country => {
+  //     const states = country.regionSet.map(state => {
+  //       return Object.assign({}, state, {
+  //         value: state.nameAscii,
+  //         label: state.nameAscii
+  //       });
+  //     });
+  //     return Object.assign(
+  //       {},
+  //       {
+  //         value: country.nameAscii,
+  //         label: country.nameAscii,
+  //         code2: country.code2,
+  //         isd: country.isdCode,
+  //         states: states
+  //       }
+  //     );
+  //   });
+  //   setCountryOptions(countryOptions);
+  // };
 
-  useEffect(() => {
-    changeCountryData(countryData);
-  }, [countryData]);
+  // useEffect(() => {
+  //   changeCountryData(countryData);
+  // }, [countryData]);
 
   const handleInvalidSubmit = () => {
     if (!enableSubmit) {
@@ -252,7 +252,6 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
     setSuccessMsg("");
 
     const email = formData.get("email");
-    const isGEEmployee = email.toLowerCase().endsWith("@goodearth.in");
 
     HeaderService.makeNewsletterSignupRequest(dispatch, formData)
       .then(data => {
@@ -261,52 +260,35 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           "This offer is not applicable for GE employees. You are successfully subscribed to our newsletter"
         ) {
           setSuccessMsg(data.message);
-          // setIsSubscribed(true);
-
-          const input = document?.querySelectorAll<HTMLElement>(
-            "#job-form input"
-          );
-          if (input) {
-            for (let i = 0; i < input.length; i++) {
-              input[i].style.color = "#9F9F9F";
-              input[i].style.backgroundColor = "#E5E5E526";
-            }
-          }
+        }
+        if (
+          data.message ===
+          "You are not eligible for this offer. However, we have added you to our newsletter subscription."
+        ) {
+          setSuccessMsg(data.message);
         }
         if (data.message === "You are already subscribed.") {
           setSuccessMsg(data.message);
 
-          const input = document?.querySelectorAll<HTMLElement>(
-            "#job-form input"
-          );
-          if (input) {
-            for (let i = 0; i < input.length; i++) {
-              input[i].style.color = "#9F9F9F";
-              input[i].style.backgroundColor = "#E5E5E526";
-            }
-          }
+          // const input = document?.querySelectorAll<HTMLElement>(
+          //   "#job-form input"
+          // );
+          // if (input) {
+          //   for (let i = 0; i < input.length; i++) {
+          //     input[i].style.color = "#9F9F9F";
+          //     input[i].style.backgroundColor = "#E5E5E526";
+          //   }
+          // }
         }
         if (
           data.message === "You are successfully subscribed to our Newsletter"
         ) {
-          setSuccessMsg("You have subscribed successfully.");
+          setSuccessMsg(data.message);
           setIsSubscribed(true);
           const subscribeCta = document?.getElementById("subscribe-cta");
           if (subscribeCta) {
             subscribeCta.hidden = true;
           }
-          const input = document?.querySelectorAll<HTMLElement>(
-            "#job-form input"
-          );
-          if (input) {
-            for (let i = 0; i < input.length; i++) {
-              input[i].style.color = "#9F9F9F";
-              input[i].style.backgroundColor = "#E5E5E526";
-            }
-          }
-          setTimeout(() => {
-            onClose();
-          }, 400000);
         }
       })
       .catch(err => {
@@ -320,7 +302,6 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
       .finally(() => {
         setIsLoading(false);
       });
-    // }
   };
 
   const handleChange = () => {
@@ -328,17 +309,9 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   };
 
   const prepareFormData = (model: any) => {
-    // const formData = new FormData();
-    // const { email, name, country } = model;
-    // formData.append("email", email ? email.toString().toLowerCase() : "");
-    // formData.append("name", name || "");
-    // formData.append("country", country || "");
-    // formData.append("status", "subscribed");
-    // formData.append("email", email ? email.toString().toLowerCase() : "");
     const formData = new FormData();
     const { email } = model;
     formData.append("email", email ? email.toString().toLowerCase() : "");
-    // formData.append("status", "subscribed");
     formData.append("source", "subscription_popup");
     return formData;
   };
@@ -401,6 +374,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
               validations={{
                 isEmail: true
               }}
+              handleChange={() => setSuccessMsg("")}
               validationErrors={{
                 isEmail: "Please enter a valid email"
               }}
