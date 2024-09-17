@@ -467,7 +467,15 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
               style={{
                 backgroundColor: !enableSubmit ? "#9F9F9F" : "#4C4C4C",
                 cursor: !enableSubmit ? "default" : "pointer",
-                fontWeight: 700
+                maxWidth: "226px",
+                textAlign: "center",
+                color: "white",
+                padding: "10px",
+                border: "1px solid #D8D8D8",
+                margin: "0 auto",
+                lineHeight: "20px",
+                letterSpacing: "0.36px",
+                fontWeight: 400
               }}
               value="JOIN THE COMMUNITY"
             />
