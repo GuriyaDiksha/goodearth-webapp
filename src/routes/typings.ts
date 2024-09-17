@@ -89,7 +89,7 @@ export const enum ROUTES {
   INNERSPACEKONKONASENSHARMA = "/inner-spaces-KonkonaSenSharma",
   INNERSPACEKONABHANARAINLAMBAH = "/inner-spaces-AbhaNarainLambah",
   INNERSPACESUNHILSIPPY = "/inner-spaces-SunhilSippy",
-  CORPARATECATALOGUE = "/goodearth-corparate-catalogue"
+  CORPORATECATALOGUE = "/goodearth-corporate-catalogue"
 }
 
 export type RouteConfig = RouteObject[];
