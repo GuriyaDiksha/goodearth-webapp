@@ -546,7 +546,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           <img src={leftMidImage} className={cs(styles.flowerLeftMid)} />
         </div>
         <div className={cs(styles.exclusiveText, globalStyles.textCenter)}>
-          *Exclusive for 1st time subscribers on your first purchase.
+          *Exclusive for 1st time subscribers on the first purchase.
         </div>
       </div>
     </div>
