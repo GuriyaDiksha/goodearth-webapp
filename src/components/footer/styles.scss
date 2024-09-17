@@ -995,6 +995,9 @@
   white-space: nowrap;
   transform: translate(-50%, -50%);
   z-index: 10;
+  font-weight: $regular;
+  letter-spacing: 0.24px;
+  line-height: 16px;
   @media (max-width: 992px) {
     bottom: 1%;
   }
@@ -1108,6 +1111,9 @@ padding: 30px 20px;
 .job-form-fields .form-field {
   position: relative;
   margin: 20px 0;
+  input{
+    font-weight: 500;
+  }
 }
 .job-form-fields label {
   position: absolute;
@@ -1124,6 +1130,20 @@ padding: 30px 20px;
 }
 .subscribe-btn{
   text-align: center;
+
+  
+}
+
+.community-btn{
+  color: #fff!important;
+  font-family: $font-Montserrat!important;
+  font-size: 14px!important;
+  line-height: 18px!important;
+  letter-spacing: 0.42px!important;
+  text-align: center!important;
+  max-width: 215px!important;
+  height: 50px!important;
+  margin: 0 auto!important;
 }
 .job-application-submit{
   background: #4C4C4C!important;
@@ -1173,17 +1193,20 @@ padding: 30px 20px;
 .modal-title{
   font-family: $font-Lora;
   font-size: 20px;
-  line-height: 25px;
+  line-height: 26px;
   letter-spacing: 0.4px;
   color: $charcoal19;
   margin-bottom: 10px;
   font-style: italic;
 }
-.modal-sub-title{
+.modal-sub-title {
+
   font-family: $font-Montserrat;
   line-height: 20px;
   letter-spacing: 0.36px;
-  @include b4_12px_montserrat_charcoal;
+  font-weight: $regular;
+  font-size: 12px;
+
   @media(max-width:992px) {
     max-width: 283px;
     margin: 0 auto;
@@ -1336,18 +1359,12 @@ padding: 30px 20px;
   }
 }
 .error-msg-pop-up{
-  // line-height: 16px;
   font-family: $font-Lora;
-  // margin-bottom: 10px;
-  // position:absolute;
-  // top:54%;
   font-size: 13px !important;
   color: #ab1e56 !important;
   font-style: italic !important;
-  letter-spacing: 0px !important;
   text-align: left;
   margin-top: -16px;
-  line-height: 1;
   @media (max-width:992px){
     top:55%
   }
