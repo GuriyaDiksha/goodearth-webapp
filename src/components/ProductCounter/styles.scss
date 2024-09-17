@@ -74,7 +74,7 @@ z-index: 2; //changed for sort by filter
     height: 24px;
     background-color: white;
     border-radius: 19px;
-    box-shadow: 3px 3px 10px #00000029;
+    box-shadow: 3px 3px 5px #00000029;
     opacity: 1;
     right: 25px;
     color: #D8D8D8;
@@ -99,6 +99,7 @@ z-index: 2; //changed for sort by filter
         .pdp-image-counter{
             font-family: $font-Montserrat;
             color: #987E56;
+            margin: 0 6px;
         }
     }
 }
