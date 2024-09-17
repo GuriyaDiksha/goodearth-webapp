@@ -21,7 +21,7 @@ import rightTopImage from "../../images/newsLetterPoUp/palmmm.png";
 import bottomLeftImage from "../../images/newsLetterPoUp/leafddw.png";
 import rightBottomImage from "../../images/newsLetterPoUp/yellow2.png.png";
 // import FormSelect from "components/Formsy/FormSelect";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 type Props = {
   title: string;
@@ -63,6 +63,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const [usercountry, setUsercountry] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     if (!countryData || countryData.length == 0) {
@@ -209,7 +210,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
       }
     }, 10000);
     return () => clearTimeout(timer);
-  }, [location.pathname, email ? email : ""]);
+  }, [history?.location.pathname, email ? email : ""]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -260,25 +261,30 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           "This offer is not applicable for GE employees. You are successfully subscribed to our newsletter"
         ) {
           setSuccessMsg(data.message);
+          const input = document?.querySelector<HTMLElement>("#job-form input");
+
+          if (input) {
+            (input as HTMLInputElement).style.border = "1px solid #ab1e56"; // Set border style
+          }
         }
         if (
           data.message ===
           "You are not eligible for this offer. However, we have added you to our newsletter subscription."
         ) {
           setSuccessMsg(data.message);
+          const input = document?.querySelector<HTMLElement>("#job-form input");
+
+          if (input) {
+            (input as HTMLInputElement).style.border = "1px solid #ab1e56"; // Set border style
+          }
         }
         if (data.message === "You are already subscribed.") {
           setSuccessMsg(data.message);
+          const input = document?.querySelector<HTMLElement>("#job-form input");
 
-          // const input = document?.querySelectorAll<HTMLElement>(
-          //   "#job-form input"
-          // );
-          // if (input) {
-          //   for (let i = 0; i < input.length; i++) {
-          //     input[i].style.color = "#9F9F9F";
-          //     input[i].style.backgroundColor = "#E5E5E526";
-          //   }
-          // }
+          if (input) {
+            (input as HTMLInputElement).style.border = "1px solid #ab1e56"; // Set border style
+          }
         }
         if (
           data.message === "You are successfully subscribed to our Newsletter"
@@ -297,6 +303,11 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           setSuccessMsg(errors[0]);
         } else {
           setSuccessMsg("Please try again.");
+          const input = document?.querySelector<HTMLElement>("#job-form input");
+
+          if (input) {
+            (input as HTMLInputElement).style.border = "1px solid #ab1e56"; // Set border style
+          }
         }
       })
       .finally(() => {
@@ -430,21 +441,21 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
             By submitting your email address, you consent to receiving marketing
             communications from Good Earth, on inspiration, exclusive offers,
             and new arrivals. View our{" "}
-            <Link
-              to={"/customer-assistance/privacy-policy"}
+            <a
+              href="/customer-assistance/privacy-policy"
               target="_blank"
               className={styles.popupLink}
             >
               Privacy Policy.
-            </Link>{" "}
+            </a>{" "}
             and{" "}
-            <Link
-              to={"/customer-assistance/terms-conditions"}
+            <a
+              href="/customer-assistance/terms-conditions"
               target="_blank"
               className={styles.popupLink}
             >
               Terms of Service.
-            </Link>
+            </a>
           </div>
           <div className={cs(styles.subscribeBtn, globalStyles.marginT10)}>
             <input
@@ -452,12 +463,12 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
               type="submit"
               formNoValidate={true}
               disabled={!enableSubmit}
-              className={cs(
-                globalStyles.aquaBtn,
-                globalStyles.marginT10,
-                styles.jobApplicationSubmit,
-                { [globalStyles.disabledBtn]: !enableSubmit }
-              )}
+              className={cs(globalStyles.marginT10, styles.communityBtn)}
+              style={{
+                backgroundColor: !enableSubmit ? "#9F9F9F" : "#4C4C4C",
+                cursor: !enableSubmit ? "default" : "pointer",
+                fontWeight: 700
+              }}
               value="JOIN THE COMMUNITY"
             />
           </div>
@@ -535,7 +546,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           <img src={leftMidImage} className={cs(styles.flowerLeftMid)} />
         </div>
         <div className={cs(styles.exclusiveText, globalStyles.textCenter)}>
-          *Exclusive for 1st time subscribers.
+          *Exclusive for 1st time subscribers on your first purchase.
         </div>
       </div>
     </div>

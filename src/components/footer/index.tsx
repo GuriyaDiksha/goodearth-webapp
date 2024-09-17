@@ -1295,7 +1295,7 @@ class Footer extends React.Component<Props, FooterState> {
           <NewsletterModal
             title={"Sign Up And Save 10%"}
             subTitle={
-              "Ideas on style, design, and entertaining await you, along with a sweet discount on your first purchase"
+              "Ideas on style, design, and entertaining await you, along with a sweet discount on your first purchase."
             }
           />
         )}
