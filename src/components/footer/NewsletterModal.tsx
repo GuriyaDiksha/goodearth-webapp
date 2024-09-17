@@ -157,7 +157,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
       // for error Tracking
       const errorList = getErrorList(globalStyles.errorMsg, "job-form");
       if (errorList && errorList.length) {
-        errorTracking(errorList, location.pathname);
+        errorTracking(errorList, location?.pathname);
       }
     }, 0);
   };
@@ -210,7 +210,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
       }
     }, 10000);
     return () => clearTimeout(timer);
-  }, [history?.location.pathname, email ? email : ""]);
+  }, [history?.location?.pathname, email ? email : ""]);
 
   useEffect(() => {
     setTimeout(() => {
