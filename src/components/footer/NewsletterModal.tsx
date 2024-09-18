@@ -257,36 +257,6 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
     HeaderService.makeNewsletterSignupRequest(dispatch, formData)
       .then(data => {
         if (
-          data.message ===
-          "This offer is not applicable for GE employees. You are successfully subscribed to our newsletter"
-        ) {
-          setSuccessMsg(data.message);
-          const input = document?.querySelector<HTMLElement>("#job-form input");
-
-          if (input) {
-            (input as HTMLInputElement).style.border = "1px solid #ab1e56"; // Set border style
-          }
-        }
-        if (
-          data.message ===
-          "You are not eligible for this offer. However, we have added you to our newsletter subscription."
-        ) {
-          setSuccessMsg(data.message);
-          const input = document?.querySelector<HTMLElement>("#job-form input");
-
-          if (input) {
-            (input as HTMLInputElement).style.border = "1px solid #ab1e56"; // Set border style
-          }
-        }
-        if (data.message === "You are already subscribed.") {
-          setSuccessMsg(data.message);
-          const input = document?.querySelector<HTMLElement>("#job-form input");
-
-          if (input) {
-            (input as HTMLInputElement).style.border = "1px solid #ab1e56"; // Set border style
-          }
-        }
-        if (
           data.message === "You are successfully subscribed to our Newsletter"
         ) {
           setSuccessMsg(data.message);
@@ -294,6 +264,13 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           const subscribeCta = document?.getElementById("subscribe-cta");
           if (subscribeCta) {
             subscribeCta.hidden = true;
+          }
+        } else {
+          setSuccessMsg(data.message);
+          const input = document?.querySelector<HTMLElement>("#job-form input");
+
+          if (input) {
+            (input as HTMLInputElement).style.border = "1px solid #ab1e56"; // Set border style
           }
         }
       })
