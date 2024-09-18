@@ -13,15 +13,13 @@ import LoginService from "services/login";
 import { updateCountryData } from "actions/address";
 import butterfly from "../../images/news_bf_img.png";
 import crossIcon from "../../images/cross.svg";
-// import SelectDropdown from "../Formsy/SelectDropdown";
 import AccountService from "services/account";
 import leftTopImage from "../../images/newsLetterPoUp/b2.png";
 import leftMidImage from "../../images/newsLetterPoUp/palmmm@2x.png";
 import rightTopImage from "../../images/newsLetterPoUp/palmmm.png";
 import bottomLeftImage from "../../images/newsLetterPoUp/leafddw.png";
 import rightBottomImage from "../../images/newsLetterPoUp/yellow2.png.png";
-// import FormSelect from "components/Formsy/FormSelect";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 type Props = {
   title: string;
@@ -63,84 +61,9 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const [usercountry, setUsercountry] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
   const dispatch = useDispatch();
-  const history = useHistory();
-
-  useEffect(() => {
-    if (!countryData || countryData.length == 0) {
-      LoginService.fetchCountryData(dispatch).then(countryData => {
-        dispatch(updateCountryData(countryData));
-      });
-    }
-  }, []);
+  const location = useLocation();
 
   const EnquiryFormRef = useRef<Formsy>(null);
-  // const onCountrySelect = (option: any, defaultCountry?: string) => {
-  //   if (countryOptions.length > 0) {
-  //     const form = EnquiryFormRef.current;
-  //     let selectedCountry = "";
-  //     if (option?.value) {
-  //       selectedCountry = option?.value;
-  //       form &&
-  //         form.updateInputsWithValue(
-  //           {
-  //             state: "",
-  //             country: selectedCountry
-  //           },
-  //           false
-  //         );
-  //     }
-
-  //     if (defaultCountry) {
-  //       selectedCountry = defaultCountry;
-  //       // need to set defaultCountry explicitly
-  //       if (form && selectedCountry) {
-  //         form.updateInputsWithValue({
-  //           country: selectedCountry
-  //         });
-  //       }
-  //     }
-
-  //     const { isd } = countryOptions.filter(
-  //       country => country.value == selectedCountry
-  //     )[0];
-
-  //     if (form) {
-  //       // reset state
-  //       form.updateInputsWithValue({
-  //         countrycode: isd,
-  //         country: selectedCountry
-  //       });
-  //     }
-  //     setEnableSubmit(true);
-  //   }
-  // };
-
-  // const changeCountryData = (countryData: Country[]) => {
-  //   const countryOptions = countryData.map(country => {
-  //     const states = country.regionSet.map(state => {
-  //       return Object.assign({}, state, {
-  //         value: state.nameAscii,
-  //         label: state.nameAscii
-  //       });
-  //     });
-  //     return Object.assign(
-  //       {},
-  //       {
-  //         value: country.nameAscii,
-  //         label: country.nameAscii,
-  //         code2: country.code2,
-  //         isd: country.isdCode,
-  //         states: states
-  //       }
-  //     );
-  //   });
-  //   setCountryOptions(countryOptions);
-  // };
-
-  // useEffect(() => {
-  //   changeCountryData(countryData);
-  // }, [countryData]);
-
   const handleInvalidSubmit = () => {
     if (!enableSubmit) {
       return;
@@ -163,44 +86,17 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   };
 
   const onClose = () => {
-    localStorage.setItem("seenPopUp", "true");
+    localStorage.setItem("seeNewLetter", "123@");
     setDisplayPopUp(false);
     document?.body.classList.remove(globalStyles.noScroll);
   };
 
-  // fetch country is user is already logged in
   useEffect(() => {
-    if (isLoggedIn) {
-      AccountService.fetchProfileData(dispatch)
-        .then(data => {
-          setUsercountry(data.country_name);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-  }, [isLoggedIn]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (email) {
-        HeaderService.checkSignup(dispatch, email).then((res: any) => {
-          if (res.already_signedup) {
-            setDisplayPopUp(false);
-          } else {
-            setDisplayPopUp(true);
-            const returningUser = localStorage.getItem("seenPopUp");
-            setDisplayPopUp(!returningUser);
-            if (!returningUser) {
-              document?.body.classList.add(globalStyles.noScroll);
-            } else {
-              document?.body.classList.remove(globalStyles.noScroll);
-            }
-          }
-        });
+    const handlePopUpDisplay = () => {
+      if (localStorage.getItem("seeNewLetter") === "123@") {
+        setDisplayPopUp(false);
       } else {
-        setDisplayPopUp(true);
-        const returningUser = localStorage.getItem("seenPopUp");
+        const returningUser = localStorage.getItem("123@");
         setDisplayPopUp(!returningUser);
         if (!returningUser) {
           document?.body.classList.add(globalStyles.noScroll);
@@ -208,9 +104,14 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           document?.body.classList.remove(globalStyles.noScroll);
         }
       }
+    };
+
+    const timer = setTimeout(() => {
+      handlePopUpDisplay();
     }, 10000);
+
     return () => clearTimeout(timer);
-  }, [history?.location?.pathname, email ? email : ""]);
+  }, [location.pathname]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -218,20 +119,6 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
       focus?.focus();
     }, 11000);
   }, []);
-
-  //  start close modal on ESC keyword
-  useEffect(() => {
-    const close = (e: any) => {
-      if (e.keyCode === 27) {
-        onClose();
-      }
-    };
-    if (typeof window != "undefined") {
-      window.addEventListener("keydown", close);
-      return () => window.removeEventListener("keydown", close);
-    }
-  }, []);
-  //  end close modal on ESC keyword
 
   // start close modal on outsideClick
   // useEffect(() => {
@@ -251,9 +138,6 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const saveData = (formData: any, updateInputsWithError: any) => {
     setIsLoading(false);
     setSuccessMsg("");
-
-    const email = formData.get("email");
-
     HeaderService.makeNewsletterSignupRequest(dispatch, formData)
       .then(data => {
         if (
@@ -283,7 +167,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           const input = document?.querySelector<HTMLElement>("#job-form input");
 
           if (input) {
-            (input as HTMLInputElement).style.border = "1px solid #ab1e56"; // Set border style
+            (input as HTMLInputElement).style.border = "1px solid #ab1e56";
           }
         }
       })
@@ -329,35 +213,14 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           )}
           id="job-form"
         >
-          <div className={cs(styles.formField)}>
-            {/* <FormInput
-              id="first_input"
-              required
-              label="Name*"
-              className="input-field"
-              value={isLoggedIn ? firstName : ""}
-              placeholder="Name*"
-              name="name"
-              validations={{
-                maxLength: 100,
-                isWords: true
-              }}
-              handleChange={event => {
-                event.target.value;
-              }}
-              validationErrors={{
-                maxLength: "Max limit reached.",
-                isWords: isAlphaError
-              }}
-            /> */}
-          </div>
+          <div className={cs(styles.formField)}></div>
           <div className={cs(styles.formField)}>
             <FormInput
               required
               name="email"
               label="Email Address*"
               className="input-field"
-              value={isLoggedIn ? email : ""}
+              value={email}
               placeholder="Email Address*"
               validations={{
                 isEmail: true
@@ -368,43 +231,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
               }}
             />
           </div>
-          {/* <div className={cs(styles.formField)}>
-            <div className="select-group text-left">
-              <FormSelect
-                required
-                label={"Country*"}
-                options={countryOptions}
-                placeholder={"Select Country*"}
-                value={isLoggedIn ? country : ""}
-                name="country"
-                validations={{
-                  isExisty: true
-                }}
-                validationErrors={{
-                  isExisty: "Please select your Country"
-                }}
-              />
-              <span className="arrow"></span>
-              <SelectDropdown
-                required
-                label={"Country*"}
-                options={countryOptions}
-                handleChange={onCountrySelect}
-                placeholder="Select Country*"
-                value={isLoggedIn ? usercountry : ""}
-                name="country"
-                validations={{
-                  isExisty: true
-                }}
-                validationErrors={{
-                  isExisty: "Please select your Country",
-                  isEmptyString: isExistyError
-                }}
-                allowFilter={true}
-                inputRef={countryRef}
-              />
-            </div>
-          </div> */}
+
           <p
             className={cs(
               successMsg == "You have subscribed successfully."
