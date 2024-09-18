@@ -391,7 +391,7 @@ class Header extends React.Component<Props, State> {
           //   headerHeight +
           //   5}px)`;
         } else {
-          menuOverlay.style.top = `${headerHeight + 5}px`;
+          menuOverlay.style.top = `${headerHeight + 4}px`;
           // menuOverlay.style.height = `calc(100vh - ${headerHeight + 5}px)`;
         }
       }
@@ -581,7 +581,7 @@ class Header extends React.Component<Props, State> {
           // menuOverlay.style.height = `calc(100vh - ${topPosWithTimer + 5}px)`;
         } else {
           const topPosition = (annBarHeight ? annBarHeight : 0) + headerHeight;
-          menuOverlay.style.top = `${topPosition + 5}px`;
+          menuOverlay.style.top = `${topPosition + 2}px`;
           // menuOverlay.style.height = `calc(100vh - ${topPosition + 5}px)`;
         }
       }
