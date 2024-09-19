@@ -77,6 +77,9 @@ import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
 import addReg from "../../../../images/registery/addReg.svg";
 import addedReg from "../../../../images/registery/addedReg.svg";
+import ShareProductPopup from "../sharePopup";
+import share from "../../../../images/sharePdp/share.svg";
+import close from "../../../../images/sharePdp/close.svg";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -132,6 +135,7 @@ const ProductDetails: React.FC<Props> = ({
   loading,
   setPDPButton
 }): JSX.Element => {
+  const [isShare, setIsShare] = useState(false);
   const [productTitle] = title.split("(");
   const {
     info,
@@ -386,27 +390,27 @@ const ProductDetails: React.FC<Props> = ({
         header: "Queries or Assistance",
         body: <div> {!isQuickview && <PdpCustomerCareInfo />} </div>,
         id: "queries"
-      },
-      {
-        header: "Share",
-        body: (
-          <div>
-            {!isQuickview && (
-              <Share
-                mobile={mobile}
-                link={`${__DOMAIN__}${location.pathname}`}
-                mailSubject="Gifting Ideas"
-                mailText={`${
-                  corporatePDP
-                    ? `Here's what I found, check it out on Good Earth's web boutique`
-                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
-                } ${__DOMAIN__}${location.pathname}`}
-              />
-            )}
-          </div>
-        ),
-        id: "share"
       }
+      // {
+      //   header: "Share",
+      //   body: (
+      //     <div>
+      //       {!isQuickview && (
+      //         <Share
+      //           mobile={mobile}
+      //           link={`${__DOMAIN__}${location.pathname}`}
+      //           mailSubject="Gifting Ideas"
+      //           mailText={`${
+      //             corporatePDP
+      //               ? `Here's what I found, check it out on Good Earth's web boutique`
+      //               : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+      //           } ${__DOMAIN__}${location.pathname}`}
+      //         />
+      //       )}
+      //     </div>
+      //   ),
+      //   id: "share"
+      // }
     ];
     if (manufactureInfo) {
       sections.push({
@@ -956,6 +960,23 @@ const ProductDetails: React.FC<Props> = ({
     currentProductColorObj
   ];
 
+  const sharePopupToggle = () => {
+    setIsShare(!isShare);
+  };
+
+  const sharePopupToggleMobile = () => {
+    updateComponentModal(
+      POPUP.SHAREPDPPOPUP,
+      {
+        corporatePDP: corporatePDP
+      },
+      false,
+      mobile ? ModalStyles.bottomAlignSlideUp : "",
+      mobile ? "slide-up-bottom-align" : ""
+    );
+    changeModalState(true);
+  };
+
   return (
     <Fragment>
       {/* {!mobile && !isQuickview && showDock && (
@@ -981,6 +1002,20 @@ const ProductDetails: React.FC<Props> = ({
           >
             {(isLoading || loading) && <Loader />}
             <div className={cs(bootstrap.row)}>
+              <div
+                className={styles.shareCta}
+                onClick={mobile ? sharePopupToggleMobile : sharePopupToggle}
+              >
+                <p>SHARE</p>
+                {!isShare ? (
+                  <img src={share} alt="share" />
+                ) : (
+                  <img src={close} alt="close" />
+                )}
+              </div>
+              {isShare && !mobile && (
+                <ShareProductPopup corporatePDP={corporatePDP} />
+              )}
               {images && images[0]?.badgeImagePdp && (
                 <div className={cs(bootstrap.col12, styles.badgePadding)}>
                   <img
@@ -991,21 +1026,20 @@ const ProductDetails: React.FC<Props> = ({
                   />
                 </div>
               )}
-
               {/* {mobile && (
-            <div className={cs(bootstrap.col12)}>
-              <Share
-                mobile={mobile}
-                link={`${__DOMAIN__}${location.pathname}`}
-                mailSubject="Gifting Ideas"
-                mailText={`${
-                  corporatePDP
-                    ? `Here's what I found, check it out on Good Earth's web boutique`
-                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
-                } ${__DOMAIN__}${location.pathname}`}
-              />
-            </div>
-          )} */}
+                <div className={cs(bootstrap.col12)}>
+                  <Share
+                    mobile={mobile}
+                    link={`${__DOMAIN__}${location.pathname}`}
+                    mailSubject="Gifting Ideas"
+                    mailText={`${
+                      corporatePDP
+                        ? `Here's what I found, check it out on Good Earth's web boutique`
+                        : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                    } ${__DOMAIN__}${location.pathname}`}
+                  />
+                </div>
+              )} */}
               {collection && (
                 <div
                   className={cs(bootstrap.col12, styles.collectionHeader, {})}
@@ -1023,13 +1057,13 @@ const ProductDetails: React.FC<Props> = ({
               )}
               <div
                 className={cs(
-                  isQuickview || mobile ? bootstrap.col7 : bootstrap.col7,
-                  isQuickview || mobile ? bootstrap.colMd7 : bootstrap.colMd7,
+                  // isQuickview || mobile ? bootstrap.col7 : bootstrap.col7,
+                  // isQuickview || mobile ? bootstrap.colMd7 : bootstrap.colMd7,
                   styles.title
                 )}
               >
                 {title}
-                <p>{shortDesc}</p>
+                {shortDesc && <p>{shortDesc}</p>}
                 {badge_text && (
                   <div
                     className={cs(
@@ -1042,55 +1076,56 @@ const ProductDetails: React.FC<Props> = ({
                   </div>
                 )}
               </div>
-              {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
-                <div
-                  className={cs(
-                    isQuickview || mobile ? bootstrap.col5 : bootstrap.col5,
-                    isQuickview || mobile ? bootstrap.colMd5 : bootstrap.colMd5,
-                    styles.priceContainer,
-                    { [globalStyles.textCenter]: !mobile }
-                  )}
-                >
-                  {currency === "INR" && (
-                    <span
-                      className={cs(styles.mrp, {
-                        [globalStyles.gold]:
-                          badgeType == "B_flat" ||
-                          (info.isSale && discount && discountedPriceRecords)
-                      })}
-                    >
-                      MRP.
-                    </span>
-                  )}
-                  {info.isSale && discount && discountedPriceRecords ? (
-                    <span className={styles.discountedPrice}>
-                      {displayPriceWithCommas(discountPrices, currency)}
-                      <br />
-                    </span>
-                  ) : (
-                    ""
-                  )}
-                  {info.isSale && discount ? (
-                    <span className={styles.oldPrice}>
-                      {displayPriceWithCommas(price, currency)}
-                    </span>
-                  ) : (
-                    <span
-                      className={cs(styles.normalPrice, {
-                        [globalStyles.gold]: badgeType == "B_flat",
-                        [globalStyles.fontSize16]: badgeType == "B_flat"
-                      })}
-                    >
-                      {" "}
-                      {displayPriceWithCommas(price, currency)}
-                    </span>
-                  )}
-                  {currency === "INR" && (
-                    <p className={styles.incTax}>(Incl. of all taxes)</p>
-                  )}
-                </div>
-              )}
             </div>
+
+            {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
+              <div
+                className={cs(
+                  isQuickview || mobile ? bootstrap.col5 : bootstrap.col5,
+                  isQuickview || mobile ? bootstrap.colMd5 : bootstrap.colMd5,
+                  styles.priceContainer
+                  // { [globalStyles.textCenter]: !mobile }
+                )}
+              >
+                {currency === "INR" && (
+                  <span
+                    className={cs(styles.mrp, {
+                      [globalStyles.gold]:
+                        badgeType == "B_flat" ||
+                        (info.isSale && discount && discountedPriceRecords)
+                    })}
+                  >
+                    MRP.
+                  </span>
+                )}
+                {info.isSale && discount && discountedPriceRecords ? (
+                  <span className={styles.discountedPrice}>
+                    {displayPriceWithCommas(discountPrices, currency)}
+                    <br />
+                  </span>
+                ) : (
+                  ""
+                )}
+                {info.isSale && discount ? (
+                  <span className={styles.oldPrice}>
+                    {displayPriceWithCommas(price, currency)}
+                  </span>
+                ) : (
+                  <span
+                    className={cs(styles.normalPrice, {
+                      [globalStyles.gold]: badgeType == "B_flat",
+                      [globalStyles.fontSize16]: badgeType == "B_flat"
+                    })}
+                  >
+                    {" "}
+                    {displayPriceWithCommas(price, currency)}
+                  </span>
+                )}
+                {currency === "INR" && (
+                  <p className={styles.incTax}>(Incl. of all taxes)</p>
+                )}
+              </div>
+            )}
 
             {groupedProducts?.length ? (
               <div
@@ -1603,17 +1638,17 @@ const ProductDetails: React.FC<Props> = ({
               )}
             >
               {/* {!mobile && !isQuickview && (
-            <Share
-              mobile={mobile}
-              link={`${__DOMAIN__}${location.pathname}`}
-              mailSubject="Gifting Ideas"
-              mailText={`${
-                corporatePDP
-                  ? `Here's what I found, check it out on Good Earth's web boutique`
-                  : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
-              } ${__DOMAIN__}${location.pathname}`}
-            />
-          )} */}
+                <Share
+                  mobile={mobile}
+                  link={`${__DOMAIN__}${location.pathname}`}
+                  mailSubject="Gifting Ideas"
+                  mailText={`${
+                    corporatePDP
+                      ? `Here's what I found, check it out on Good Earth's web boutique`
+                      : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                  } ${__DOMAIN__}${location.pathname}`}
+                />
+              )} */}
               <div>
                 {!isQuickview && (
                   <Accordion
@@ -1626,23 +1661,23 @@ const ProductDetails: React.FC<Props> = ({
                 )}
               </div>
               {/* {!isQuickview && (
-              <div className={cs(styles.sku, globalStyles.voffset4)}>
-                Vref. {setSelectedSKU()}
-              </div>
-            )} */}
+                <div className={cs(styles.sku, globalStyles.voffset4)}>
+                  Vref. {setSelectedSKU()}
+                </div>
+              )} */}
               {/* {!isQuickview && <CustomerCareInfo />} */}
               {/* {!isQuickview && (
-              <Share
-                mobile={mobile}
-                link={`${__DOMAIN__}${location.pathname}`}
-                mailSubject="Gifting Ideas"
-                mailText={`${
-                  corporatePDP
-                    ? `Here's what I found, check it out on Good Earth's web boutique`
-                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
-                } ${__DOMAIN__}${location.pathname}`}
-              />
-            )} */}
+                <Share
+                  mobile={mobile}
+                  link={`${__DOMAIN__}${location.pathname}`}
+                  mailSubject="Gifting Ideas"
+                  mailText={`${
+                    corporatePDP
+                      ? `Here's what I found, check it out on Good Earth's web boutique`
+                      : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                  } ${__DOMAIN__}${location.pathname}`}
+                />
+              )} */}
               {!isQuickview && (
                 <div className={cs(styles.sku, globalStyles.voffset4)}>
                   Vref. {setSelectedSKU()}
