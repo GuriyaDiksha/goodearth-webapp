@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./styles.scss";
+import cs from "classnames";
+import globalStyles from "styles/global.scss";
 
 const Catalouge: React.FC = () => {
   const catalogueGACall = () => {
@@ -18,19 +20,23 @@ const Catalouge: React.FC = () => {
 
   return (
     <div className={styles.catalogeLink}>
-      {/* <object
+      <object
         className={styles.pdf}
         data="https://d3qn6cjsz7zlnp.cloudfront.net/media/GoodEarth_Corporate_Catalogue-2024.pdf"
         type="application/pdf"
-      /> */}
-      <iframe
-        className={styles.pdf}
-        src="https://d3qn6cjsz7zlnp.cloudfront.net/media/GoodEarth_Corporate_Catalogue-2024.pdf&embedded=true"
+      />
+      <a
+        className={cs(
+          styles.mobilePdf,
+          globalStyles.textCenter,
+          globalStyles.aquaHover
+        )}
+        rel="noopener noreferrer"
+        href="https://d3qn6cjsz7zlnp.cloudfront.net/media/GoodEarth_Corporate_Catalogue-2024.pdf"
+        target="_blank"
       >
-        <a href="https://d3qn6cjsz7zlnp.cloudfront.net/media/GoodEarth_Corporate_Catalogue-2024.pdf">
-          Download PDF
-        </a>
-      </iframe>
+        Download PDF
+      </a>
     </div>
   );
 };
