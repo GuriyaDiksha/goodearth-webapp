@@ -62,6 +62,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const dispatch = useDispatch();
   const location = useLocation();
+  const history = useHistory();
 
   const EnquiryFormRef = useRef<Formsy>(null);
   const handleInvalidSubmit = () => {
@@ -86,17 +87,18 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
   };
 
   const onClose = () => {
-    localStorage.setItem("seeNewLetter", "123@");
+    localStorage.setItem("seeNewLetters", "123#");
     setDisplayPopUp(false);
     document?.body.classList.remove(globalStyles.noScroll);
   };
 
   useEffect(() => {
+    console.log("render");
     const handlePopUpDisplay = () => {
-      if (localStorage.getItem("seeNewLetter") === "123@") {
+      if (localStorage.getItem("seeNewLetters") === "123#") {
         setDisplayPopUp(false);
       } else {
-        const returningUser = localStorage.getItem("123@");
+        const returningUser = localStorage.getItem("123#");
         setDisplayPopUp(!returningUser);
         if (!returningUser) {
           document?.body.classList.add(globalStyles.noScroll);
@@ -111,7 +113,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
     }, 10000);
 
     return () => clearTimeout(timer);
-  }, [location.pathname]);
+  }, [history?.location?.pathname]);
 
   useEffect(() => {
     setTimeout(() => {
