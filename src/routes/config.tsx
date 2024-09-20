@@ -265,6 +265,12 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/iframepage")),
     action: async () => null,
     exact: true
+  },
+  {
+    path: ROUTES.CORPORATECATALOGUE,
+    component: loadable(() => import("containers/corporateCatalouge")),
+    action: async () => null,
+    exact: true
   }
 ];
 
