@@ -25,6 +25,7 @@ import EarthLogo from "./../../icons/earth.svg";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import NewsletterModal from "./NewsletterModal";
+import Newsletter from "./Newsletter";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -1286,13 +1287,24 @@ class Footer extends React.Component<Props, FooterState> {
             showCookiePrefs={this.props?.showCookiePrefs}
           />
         )}
-
-        {/* DO NOT REMOVE THIS CODE : Commented this code as per product requirement */}
-        {!(OLD_COOKIE_SETTINGS
+        {/* DO NOT REMOVE THIS CODE : Commented this code as per product requirement  css for both NewsletterModal and Newsletter are written separately depend upon requirement you can uncomment*/}
+        {/* {!(OLD_COOKIE_SETTINGS
           ? cookiCheck
           : (cookiCheck && !this.state.isConsentSave) ||
             this.props?.showCookiePref) && (
           <NewsletterModal
+            title={"Find Out First!"}
+            subTitle={
+              "Be the first to know about new launches and the latest updates from the brand, delivered straight to your inbox!"
+            }
+          />)} */}
+
+        {/* DO NOT REMOVE THIS CODE : Commented this code as per product requirement  */}
+        {!(OLD_COOKIE_SETTINGS
+          ? cookiCheck
+          : (cookiCheck && !this.state.isConsentSave) ||
+            this.props?.showCookiePref) && (
+          <Newsletter
             title={"Sign up and save 10%"}
             subTitle={
               "Ideas on style, design, and entertaining await you, along with a sweet discount on your first purchase."
