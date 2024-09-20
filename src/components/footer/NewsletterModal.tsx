@@ -247,26 +247,22 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
     setSuccessMsg("");
     HeaderService.makeNewsletterSignupRequest(dispatch, formData)
       .then(data => {
-        if (data.status) {
-          setSuccessMsg("You have subscribed successfully.");
+        if (
+          data.message === "You are successfully subscribed to our Newsletter"
+        ) {
+          setSuccessMsg(data.message);
+          setIsSubscribed(true);
           const subscribeCta = document?.getElementById("subscribe-cta");
           if (subscribeCta) {
             subscribeCta.hidden = true;
           }
-          const input = document?.querySelectorAll<HTMLElement>(
-            "#job-form input"
-          );
-          if (input) {
-            for (let i = 0; i < input.length; i++) {
-              input[i].style.color = "#9F9F9F";
-              input[i].style.backgroundColor = "#E5E5E526";
-            }
-          }
-          setTimeout(() => {
-            onClose();
-          }, 3000);
         } else {
-          setSuccessMsg("You have already subscribed.");
+          setSuccessMsg(data.message);
+          const input = document?.querySelector<HTMLElement>("#job-form input");
+
+          if (input) {
+            (input as HTMLInputElement).style.border = "1px solid #ab1e56"; // Set border style
+          }
         }
       })
       .catch(err => {
