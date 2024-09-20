@@ -25,6 +25,7 @@ import initActionCheckout from "containers/checkout/initAction";
 import initActionCart from "containers/cartPage/initAction";
 import initActionCareer from "containers/careerNew/initAction";
 import initActionRegistery from "containers/giftRegistery/initAction";
+// import initActionCatalogue from "containers/corparateCatalouge/initAction";
 
 const paths: string[] = [];
 const routeMap: RouteMap = {};
@@ -264,6 +265,12 @@ const routes: RouteConfig = [
     component: loadable(() => import("containers/iframepage")),
     action: async () => null,
     exact: true
+  },
+  {
+    path: ROUTES.CORPORATECATALOGUE,
+    component: loadable(() => import("containers/corporateCatalouge")),
+    action: async () => null,
+    exact: true
   }
 ];
 
@@ -314,6 +321,7 @@ const makerRoutes = [
   ROUTES.INNERSPACEKONKONASENSHARMA,
   ROUTES.INNERSPACEKONABHANARAINLAMBAH,
   ROUTES.INNERSPACESUNHILSIPPY
+  // ROUTES.CORPARATECATALOGUE,
 ];
 
 const makerSmartnav = [

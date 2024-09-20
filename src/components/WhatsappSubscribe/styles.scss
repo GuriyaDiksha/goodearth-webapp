@@ -18,19 +18,19 @@
         @include b5_10px_montserrat_charcoal();
         letter-spacing: 0.24px;
         line-height: 12px;
+        font-size: 9px;
         font-weight: $light;
-        font-size: 10px;
         border-radius: 5px;
-        padding: 5px;
+        padding: 9px;
         background-color: #fff;
-        height: 80px;
-        width: 146px;
+        height: 76px;
+        width: 157px;
+        color: #303030 !important;
         @media screen and (max-width: 768px){
-            height: 95px;
-            width: 120px;
+            height: 83px;
             &.show{
-                bottom: 36px !important;
-                left: -36px !important;
+                bottom: 24px !important;
+                left: -138px !important;
               }
         }
         box-shadow: 0px 3px 6px #00000029;
