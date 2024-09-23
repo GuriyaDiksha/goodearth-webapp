@@ -1081,8 +1081,8 @@ const ProductDetails: React.FC<Props> = ({
             {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
               <div
                 className={cs(
-                  isQuickview || mobile ? bootstrap.col5 : bootstrap.col5,
-                  isQuickview || mobile ? bootstrap.colMd5 : bootstrap.colMd5,
+                  // isQuickview || mobile ? bootstrap.col5 : bootstrap.col5,
+                  // isQuickview || mobile ? bootstrap.colMd5 : bootstrap.colMd5,
                   styles.priceContainer
                   // { [globalStyles.textCenter]: !mobile }
                 )}
