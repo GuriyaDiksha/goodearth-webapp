@@ -22,6 +22,7 @@ export type FooterState = {
   newsletterEmail: string;
   newsletterMessage: string;
   newsletterError: boolean;
+  showPopUp: boolean;
   isInViewport: boolean;
   isConsentSave: boolean;
   headingHoverArray: boolean[];
