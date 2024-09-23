@@ -333,6 +333,7 @@ export interface MobileState {
   activeindex3: number;
   showmenulevel3: boolean;
   showInnerMenu: boolean;
+  color?: string;
 }
 
 export type SearchFeaturedData = {

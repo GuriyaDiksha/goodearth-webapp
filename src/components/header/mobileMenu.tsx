@@ -57,7 +57,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       activeindex2: -1,
       activeindex3: -1,
       showmenulevel3: false,
-      showInnerMenu: false
+      showInnerMenu: false,
+      color: ""
     };
   }
 
@@ -166,6 +167,15 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         const parent = elem.parentElement as HTMLLIElement;
         parent.scrollTop += scrollY;
         // console.log(`scrolled by ${180 - elem.getBoundingClientRect().top}`);
+
+        //**** change viewAll L3 text color as its Parent L2 *****
+        const spanElement = document.querySelector(".parentl2 span");
+        if (spanElement) {
+          // Get the computed style of the span
+          const computedStyle = window.getComputedStyle(spanElement);
+          const spanColor = computedStyle.color;
+          this.setState({ color: spanColor });
+        }
       }
     }
   }
@@ -410,7 +420,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   data?.hideViewAllOnMobile
                 )}
               >
-                <span>{ReactHtmlParser(data.text)}</span>
+                <span className="parentl2">{ReactHtmlParser(data.text)}</span>
               </span>
             )}
 
@@ -441,6 +451,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                                 [styles.highlight]:
                                   currentUrl == data.viewAllLink
                               })}
+                              style={{ color: this.state.color }}
                               onClick={() => {
                                 this.props.onMobileMenuClick({
                                   l1: innerMenuData.text,
