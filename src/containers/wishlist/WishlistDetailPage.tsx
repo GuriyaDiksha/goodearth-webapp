@@ -46,6 +46,8 @@ const WishlistDetailPage = () => {
   const { items, sharedItems, owner_name, message, wishListName } = useSelector(
     (state: AppState) => state.wishlist
   );
+  // const data = useSelector((state: AppState) => state.products);
+  // const data = (id && state.products[id]) as Product;
   const currency = useSelector((state: AppState) => state.currency);
   const [featureData, setFeatureData] = useState<SearchFeaturedData>({
     name: "",
@@ -162,7 +164,7 @@ const WishlistDetailPage = () => {
                 className={cs(bootstrapStyles.colMd12, bootstrapStyles.col12)}
               >
                 <div className={cs(styles.searchBottomBlockSecond)}>
-                  <div className=" text-center"></div>
+                  <div className="text-center"></div>
                 </div>
               </div>
             </div>
@@ -340,7 +342,86 @@ const WishlistDetailPage = () => {
     dispatch(updateModal(true));
   };
 
-  const removeProduct = (id: number, listName: string) => {
+  const gtmPushRemoveFromWishlist = (productData?: any) => {
+    const index = productData.category ? productData.category.length - 1 : 0;
+    let category: any =
+      productData.category &&
+      productData.category.length > 0 &&
+      productData.category[index].replace(/\s/g, "");
+    category = category && category.replace(/>/g, "/");
+
+    const cat1 = productData.category?.[0]?.split(">");
+    const cat2 = productData.category?.[1]?.split(">");
+
+    const L1 = cat1?.[0]?.trim();
+    const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
+    const L3 = cat2?.[2]
+      ? cat2?.[2]?.trim()
+      : productData.category?.[2]?.split(">")?.[2]?.trim();
+
+    const clickType = localStorage.getItem("clickType");
+    const search = CookieService.getCookie("search") || "";
+
+    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+    dataLayer.push({
+      event: "remove_from_wishlist",
+      previous_page_url: CookieService.getCookie("prevUrl"),
+      list_name: productData.listName ? productData.listName : "NA",
+      ecommerce: {
+        currency: currency,
+        value: productData.childAttributes?.[0].discountedPriceRecords
+          ? productData.childAttributes?.[0].discountedPriceRecords[currency]
+          : productData.childAttributes?.[0].priceRecords
+          ? productData.childAttributes?.[0].priceRecords[currency]
+          : null,
+        items: [
+          {
+            item_id: productData.id,
+            item_name: productData.productName,
+            affiliation: productData.productName,
+            coupon: "NA", //Pass NA if not applicable at the moment
+            // currency: currency, // Pass the currency code
+            discount:
+              isSale && productData.childAttributes?.[0].discountedPriceRecords
+                ? productData.badgeType == "B_flat"
+                  ? productData.childAttributes?.[0].discountedPriceRecords[
+                      currency
+                    ]
+                  : productData.childAttributes?.[0].priceRecords[currency] -
+                    productData.childAttributes?.[0].discountedPriceRecords[
+                      currency
+                    ]
+                : "NA", // Pass the discount amount
+            index: 0,
+            item_brand: "Goodearth",
+            item_category: L1,
+            item_category2: L2,
+            item_category3: L3,
+            item_category4: "NA", //Pass NA if not applicable at the moment
+            item_category5: productData.is3dimage ? "3d" : "Non3d",
+            item_list_id: "NA", //Pass NA if not applicable at the moment
+            item_list_name: search ? `${clickType}-${search}` : "NA", //Pass NA if not applicable at the moment
+            item_variant:
+              productData.childAttributes && productData.childAttributes[0].size
+                ? productData.childAttributes[0].size
+                : "", //Pass NA if not applicable at the moment
+            price: productData.childAttributes?.[0].discountedPriceRecords
+              ? productData.childAttributes?.[0].discountedPriceRecords[
+                  currency
+                ]
+              : productData.childAttributes?.[0].priceRecords
+              ? productData.childAttributes?.[0].priceRecords[currency]
+              : null,
+            quantity: 1, //default 1
+            collection_category: category ? category : "NA", //Pass NA if not applicable at the moment
+            price_range: "NA"
+          }
+        ]
+      }
+    });
+  };
+
+  const removeProduct = (id: number, listName: string, productData?: any) => {
     WishlistService.removeFromWishlist(
       dispatch,
       id,
@@ -348,6 +429,7 @@ const WishlistDetailPage = () => {
       isLoggedIn ? listName : undefined
     ).finally(() => {
       dispatch(updateLoader(false));
+      gtmPushRemoveFromWishlist(productData);
     });
   };
 
@@ -384,6 +466,10 @@ const WishlistDetailPage = () => {
       )
     );
     dispatch(updateModal(true));
+    dataLayer.push({
+      event: "new_list_initiated",
+      list_name: "NA"
+    });
   };
 
   const openLogin = (url: string, isShareLinkClicked: boolean) => {
@@ -406,16 +492,25 @@ const WishlistDetailPage = () => {
       )
     );
     dispatch(updateModal(true));
+    dataLayer.push({
+      event: "edit_product_click",
+      list_name: wishlistName ? wishlistName : "NA"
+    });
   };
 
   const editWishlistItemPopup = (
     id: number,
     listIndex: any,
-    ProductIndex: any
+    ProductIndex: any,
+    wishlistName?: string
   ) => {
     setPId(id);
     setActiveWishlist(listIndex);
     setActiveWishlistItem(ProductIndex);
+    dataLayer.push({
+      event: "edit_product_click",
+      list_name: wishlistName ? wishlistName : "NA"
+    });
   };
 
   const hideWishlistPopup = () => {
@@ -483,6 +578,7 @@ const WishlistDetailPage = () => {
           sharedItems.length == 0 && isShared && !owner_name
       })}
     >
+      {/* {console.log("dataItem---",data)} */}
       {isLoggedIn && !isShared && (
         <SecondaryHeader>
           <div className={styles.secondryHeaderWrapper}>
@@ -876,7 +972,8 @@ const WishlistDetailPage = () => {
                                         onClick={() => {
                                           removeProduct(
                                             productData.productId,
-                                            list.name
+                                            list.name,
+                                            productData
                                           );
                                         }}
                                       />
@@ -900,7 +997,8 @@ const WishlistDetailPage = () => {
                                               : editWishlistItemPopup(
                                                   productData.productId,
                                                   listIndex,
-                                                  productIndex
+                                                  productIndex,
+                                                  list.name
                                                 )
                                           }
                                         />

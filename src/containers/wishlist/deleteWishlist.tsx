@@ -15,7 +15,20 @@ const deleteWishlist: React.FC<Props> = ({ name, deleteWishlistName }) => {
   const deleteWishlistNameHandler = () => {
     deleteWishlistName(name);
     closeModal();
+    dataLayer.push({
+      event: "delete_list_successful",
+      list_name: name
+    });
   };
+
+  const cancelDeleteHandler = () => {
+    closeModal();
+    dataLayer.push({
+      event: "delete_list_initiate",
+      list_name: name ? name : "NA"
+    });
+  };
+
   return (
     <div className={cs(styles.wishlistPopupContainer)}>
       <div className={styles.header}>
@@ -35,7 +48,7 @@ const deleteWishlist: React.FC<Props> = ({ name, deleteWishlistName }) => {
           className={cs(styles.createBtn)}
           onClick={deleteWishlistNameHandler}
         />
-        <div className={styles.deleteLink} onClick={closeModal}>
+        <div className={styles.deleteLink} onClick={cancelDeleteHandler}>
           NO, CANCEL
         </div>
       </div>

@@ -67,6 +67,10 @@ const editName: React.FC<Props> = ({ id, name, deleteWishlistName }) => {
       if (response) {
         setErrorMsg("");
         closeModal();
+        dataLayer.push({
+          event: "edit_list",
+          list_name: name
+        });
         return response;
       }
     } catch (error) {
@@ -84,6 +88,10 @@ const editName: React.FC<Props> = ({ id, name, deleteWishlistName }) => {
       updateComponent(POPUP.DELETEWISHLIST, { name, deleteWishlistName }, false)
     );
     dispatch(updateModal(true));
+    dataLayer.push({
+      event: "delete_list_initiate",
+      list_name: name ? name : "NA"
+    });
   };
 
   return (

@@ -109,6 +109,10 @@ const ShareWishlistLink: React.FC<Props> = ({
     await WishlistService.deleteSharedWishlistLink(dispatch, listName);
     setWishlist_link("");
     updateWishlistData();
+    dataLayer.push({
+      event: "delete_link",
+      list_name: listName ? listName : "NA"
+    });
   };
 
   return (

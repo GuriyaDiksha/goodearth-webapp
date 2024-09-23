@@ -47,6 +47,13 @@ const createWishlist: React.FC<Props> = ({ dataLength }) => {
     }
   };
 
+  const gtmPushCreateWishlist = (listName?: string) => {
+    dataLayer.push({
+      event: "new_list_created",
+      list_name: listName
+    });
+  };
+
   const handleSubmit = async () => {
     console.log("handleSubmit fuction called....");
     try {
@@ -62,6 +69,7 @@ const createWishlist: React.FC<Props> = ({ dataLength }) => {
         setIsenable(false);
         closeModal();
         showGrowlMessage(dispatch, `New list ${listName} has been created.`);
+        gtmPushCreateWishlist(listName);
         return response;
       }
     } catch (error) {
