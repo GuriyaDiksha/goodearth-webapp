@@ -44,11 +44,12 @@ type CountryOptions = {
 
 const Newsletter: React.FC<Props> = ({ title, subTitle }) => {
   const {
-    user: { email }
+    user: { email },
+    user: { isLoggedIn }
   } = useSelector((state: AppState) => state);
 
   const [successMsg, setSuccessMsg] = useState("");
-  const [enableSubmit, setEnableSubmit] = useState(false);
+  const [enableSubmit, setEnableSubmit] = useState(isLoggedIn);
   const [isLoading, setIsLoading] = useState(false);
   const [displayPopUp, setDisplayPopUp] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -213,7 +214,7 @@ const Newsletter: React.FC<Props> = ({ title, subTitle }) => {
               name="email"
               label="Email Address*"
               className="input-field"
-              value={email}
+              value={isLoggedIn ? email : ""}
               placeholder="Email Address*"
               validations={{
                 isEmail: true
