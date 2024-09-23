@@ -1101,7 +1101,7 @@ const ProductDetails: React.FC<Props> = ({
                 {info.isSale && discount && discountedPriceRecords ? (
                   <span className={styles.discountedPrice}>
                     {displayPriceWithCommas(discountPrices, currency)}
-                    <br />
+                    {/* <br /> */}
                   </span>
                 ) : (
                   ""
