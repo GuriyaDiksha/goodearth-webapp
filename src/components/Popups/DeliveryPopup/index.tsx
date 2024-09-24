@@ -53,20 +53,21 @@ const Delivery: React.FC<PopupProps> = props => {
           </div>
         </div>
         <div className={cs(globalStyles.paddT20, styles.gcTnc)}>
-          <div>
+          <div className={styles.marginLR35}>
             <div className={styles.deliverSubheading}>
               Please provide specific delivery instructions for this order.
             </div>
             <div
               className={cs(
-                globalStyles.voffset3,
-                globalStyles.marginLR24,
-                globalStyles.marginLR35
+                globalStyles.voffset3
+                // globalStyles.marginLR24,
+                // globalStyles.marginLR35
               )}
             >
               <div>
                 <Formsy>
                   <FormTextArea
+                    className={styles.textAreaBox}
                     rows={5}
                     name="deliveryMessage"
                     value={textarea}
@@ -90,7 +91,7 @@ const Delivery: React.FC<PopupProps> = props => {
             </div>
           </div>
         </div>
-        <div className={cs(styles.marginBottom)}>
+        <div className={cs({ [styles.marginBottom]: !mobile })}>
           <Button
             variant="mediumMedCharcoalCta366"
             onClick={e => {
@@ -99,7 +100,7 @@ const Delivery: React.FC<PopupProps> = props => {
               closeModal();
             }}
             label={"SAVE & PROCEED"}
-            className={cs({ [globalStyles.btnFullWidthForPopup]: mobile })}
+            className={cs({ [styles.btnFullWidthForPopup]: mobile })}
           />
         </div>
       </div>

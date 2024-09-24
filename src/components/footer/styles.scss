@@ -301,7 +301,8 @@
   .euWrapper{
     height: 100%;
     @media screen and (min-width: 700px) and (max-width: 992px) {
-      margin: 30px;
+      // margin: 30px;
+      width: 100%;
     }
 
     .euInnerWrapper{
@@ -613,6 +614,7 @@
 
       @media screen and (max-width:992px) {
         padding: 1px 10px;
+        max-width: 480px;
       }
     }
     .ok-btn{

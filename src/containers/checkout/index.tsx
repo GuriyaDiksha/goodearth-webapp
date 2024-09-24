@@ -60,6 +60,7 @@ import {
 } from "actions/info";
 import { useLocation } from "react-router";
 import Loader from "components/Loader";
+import ModalStyles from "components/Modal/styles.scss";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -233,12 +234,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     updateMode: () => {
       dispatch(updateAddressMode("list"));
     },
-    showExitPopup: (location: any, action: any) => {
+    showExitPopup: (location: any, action: any, mobile: any) => {
       dispatch(
         updateComponent(
           POPUP.GCCHECKOUT,
           { location: location, action: action, history: history },
-          true
+          mobile ? false : true,
+          mobile ? ModalStyles.bottomAlignSlideUp : "",
+          mobile ? "slide-up-bottom-align" : ""
         )
       );
       dispatch(updateModal(true));
@@ -378,7 +381,7 @@ class Checkout extends React.Component<Props, State> {
           // Do nothing
         } else {
           localStorage.setItem("openGCExitModal", "true");
-          this.props.showExitPopup(location, action);
+          this.props.showExitPopup(location, action, this.props.mobile);
           this.props?.history?.replace({ pathname: "/order/gc_checkout" });
           return false;
         }
