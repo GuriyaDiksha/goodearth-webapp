@@ -864,7 +864,7 @@ class PLP extends React.Component<
             {this.props.plpBubblesData?.length > 1 ? (
               <div
                 className={cs({
-                  [globalStyles.marginT20]:
+                  [globalStyles.marginT30]:
                     !showTemplates.Banner?.[0] && !mobile,
                   [styles.customTopPadding]:
                     !showTemplates.Banner?.[0] && mobile
