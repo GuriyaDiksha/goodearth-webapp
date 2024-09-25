@@ -251,6 +251,10 @@ const Giftcard: React.FC = () => {
               },
               true
             );
+          setGiftCardState({
+            ...giftCardState,
+            isProceedBtnDisabled: true
+          });
         }
       })
       .catch(err => {
@@ -271,6 +275,10 @@ const Giftcard: React.FC = () => {
               },
               true
             );
+          setGiftCardState({
+            ...giftCardState,
+            isProceedBtnDisabled: true
+          });
         }
       });
   };
