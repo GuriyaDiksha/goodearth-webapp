@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import cs from "classnames";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 interface DataItem {
   url: string;
   image: string;
@@ -21,6 +21,7 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
   const [showBubble, setShowBubble] = useState(false);
   const [bubbleCount, setBubbleCount] = useState(0);
   const history = useHistory();
+  const location = useLocation();
 
   const handleShowBubble = useCallback(() => {
     setShowBubble(true);
@@ -30,6 +31,14 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
   useEffect(() => {
     setTimeout(handleShowBubble, 1000);
   }, [handleShowBubble, data]);
+  useEffect(() => {
+    // Refresh the page when the user comes back
+    history.listen((location, action) => {
+      if (action === "POP") {
+        window.location.reload();
+      }
+    });
+  }, [history]);
 
   const settings = {
     dots: false,
@@ -58,7 +67,7 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
         }
       },
       {
-        breakpoint: 1256,
+        breakpoint: 1259,
         settings: {
           slidesToShow: 4,
           slidesToScroll: 1,
@@ -92,9 +101,8 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
           touchThreshold: 10
         }
       },
-
       {
-        breakpoint: 680,
+        breakpoint: 656,
         settings: {
           slidesToShow: 5,
           slidesToScroll: 1,
@@ -103,25 +111,31 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
           touchThreshold: 10
         }
       },
+
       {
-        breakpoint: 580,
+        breakpoint: 551,
         settings: {
           slidesToShow: 4,
-          slidesToScroll: 3,
+          slidesToScroll: 1,
           arrows: false,
           swipeToSlide: true,
-          touchThreshold: 10
+          touchThreshold: 10,
+          infinite: bubbleCount > 3
         }
       },
       {
-        breakpoint: 465,
+        breakpoint: 453,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
+          slidesToShow: 4,
+          slidesToScroll: 1,
           arrows: false,
-          infinite: true,
+          infinite: bubbleCount > 3,
           swipeToSlide: true,
-          touchThreshold: 10
+          // touchThreshold: 10 ,
+          cssEase: "linear",
+          // // variableWidth: true,
+          // autoplay: true,
+          autoplaySpeed: 5000
         }
       }
     ]
@@ -145,7 +159,13 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
   return (
     <React.Fragment>
       {showBubble && (
-        <div className={cs(styles.sliderContainer, "SliderContainer")}>
+        <div
+          className={cs(
+            styles.sliderContainer,
+            { [styles.marginLeft]: bubbleCount === 3 },
+            "SliderContainer"
+          )}
+        >
           <Slider {...settings}>
             {data?.map((item: any) => (
               <div className={styles.bubbleContainer} key={item.url}>
