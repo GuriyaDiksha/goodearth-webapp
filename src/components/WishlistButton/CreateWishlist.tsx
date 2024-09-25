@@ -7,7 +7,6 @@ import FormInput from "components/Formsy/FormInput";
 import fontStyles from "styles/iconFonts.scss";
 import { Link } from "react-router-dom";
 import WishlistService from "services/wishlist";
-import { WishlistResponse } from "services/wishlist/typings";
 import {
   ChildProductAttributes,
   PartialChildProductAttributes
@@ -27,7 +26,6 @@ import globalStyles from "styles/global.scss";
 import { Context } from "components/Modal/context";
 
 type Props = {
-  hideWishlistPopup?: any;
   gtmListType?: string;
   title?: string;
   childAttributes?: ChildProductAttributes[] | PartialChildProductAttributes[];
@@ -49,11 +47,12 @@ type Props = {
   isPlpTile?: boolean;
   tablet?: boolean;
   badgeType?: string;
+  hideWishlistPopup?: any;
   wishlistName?: string;
+  gtmPushWishlist: any;
 };
 
 const CreateWishlist: React.FC<Props> = ({
-  hideWishlistPopup,
   gtmListType,
   id,
   size,
@@ -71,7 +70,9 @@ const CreateWishlist: React.FC<Props> = ({
   // source,
   onMoveToWishlist,
   badgeType,
-  wishlistName
+  hideWishlistPopup,
+  wishlistName,
+  gtmPushWishlist
 }) => {
   const { mobile } = useSelector((state: AppState) => state.device);
   const { closeModal } = useContext(Context);
@@ -88,6 +89,7 @@ const CreateWishlist: React.FC<Props> = ({
   const [errorMsg, setErrorMsg] = useState("");
   const [isenable, setIsenable] = useState(false);
   const isAlphaError = "Please enter only alphabetic characters";
+  const isWishlistpage = history.location.pathname.includes("/wishlist");
 
   const capitalizeFirstLetter = (text: any) => {
     return text
@@ -189,30 +191,6 @@ const CreateWishlist: React.FC<Props> = ({
         const listPath = `${gtmListType}`;
         const child = childAttributes as ChildProductAttributes[];
         const search = CookieService.getCookie("search") || "";
-
-        // if (addWishlist) {
-        //   Moengage.track_event("add_to_wishlist", {
-        //     "Product id": id,
-        //     "Product name": title,
-        //     quantity: 1,
-        //     price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
-        //     Currency: currency,
-        //     // "Collection name": collection,
-        //     "Category name": category?.split("/")[0],
-        //     "Sub Category Name": category?.split("/")[1] || ""
-        //   });
-        // } else {
-        //   Moengage.track_event("remove_from_wishlist", {
-        //     "Product id": id,
-        //     "Product name": title,
-        //     quantity: 1,
-        //     price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
-        //     Currency: currency,
-        //     // "Collection name": collection,
-        //     "Category name": category?.split("/")[0],
-        //     "Sub Category Name": category?.split("/")[1] || ""
-        //   });
-        // }
 
         const userConsent = CookieService.getCookie("consent").split(",");
         if (userConsent.includes(GA_CALLS)) {
@@ -390,7 +368,7 @@ const CreateWishlist: React.FC<Props> = ({
       .then(() => {
         const growlMsg = (
           <>
-            {history.location.pathname.includes("/wishlist") ? (
+            {isWishlistpage ? (
               <div>
                 Your item has been saved to <b>{listName}.</b>
               </div>
@@ -415,7 +393,11 @@ const CreateWishlist: React.FC<Props> = ({
             )}
           </>
         );
-        gtmPushAddToWishlist(true, listName);
+        if (isWishlistpage) {
+          gtmPushWishlist(true, listName);
+        } else {
+          gtmPushAddToWishlist(true, listName);
+        }
         showGrowlMessage(dispatch, growlMsg);
       })
       .finally(() => {
@@ -436,7 +418,11 @@ const CreateWishlist: React.FC<Props> = ({
       size ? size : undefined
     ).finally(() => {
       dispatch(updateLoader(false));
-      gtmPushAddToWishlist(false, listName);
+      if (isWishlistpage) {
+        gtmPushWishlist(false, listName);
+      } else {
+        gtmPushAddToWishlist(false, listName);
+      }
       if (
         history.location.pathname.includes("/wishlist") &&
         wishlistName == listName

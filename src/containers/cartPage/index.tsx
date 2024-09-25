@@ -683,7 +683,6 @@ class CartPage extends React.Component<Props, State> {
 
             {/* {isLoggedIn && wishlistData.length > 0 &&(
               wishlistData.map((data:any)=>{
-                debugger
                 console.log(data);
                 return(
                   <>

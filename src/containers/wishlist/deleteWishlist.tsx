@@ -24,7 +24,7 @@ const deleteWishlist: React.FC<Props> = ({ name, deleteWishlistName }) => {
   const cancelDeleteHandler = () => {
     closeModal();
     dataLayer.push({
-      event: "delete_list_initiate",
+      event: "close_cancel_popup",
       list_name: name ? name : "NA"
     });
   };

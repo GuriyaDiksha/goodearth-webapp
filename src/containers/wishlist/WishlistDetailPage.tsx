@@ -342,7 +342,11 @@ const WishlistDetailPage = () => {
     dispatch(updateModal(true));
   };
 
-  const gtmPushRemoveFromWishlist = (productData?: any) => {
+  const gtmPushWishlist = (
+    addWishlist?: boolean,
+    listName?: string,
+    productData?: any
+  ) => {
     const index = productData.category ? productData.category.length - 1 : 0;
     let category: any =
       productData.category &&
@@ -362,63 +366,105 @@ const WishlistDetailPage = () => {
     const clickType = localStorage.getItem("clickType");
     const search = CookieService.getCookie("search") || "";
 
-    dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-    dataLayer.push({
-      event: "remove_from_wishlist",
-      previous_page_url: CookieService.getCookie("prevUrl"),
-      list_name: productData.listName ? productData.listName : "NA",
-      ecommerce: {
-        currency: currency,
-        value: productData.childAttributes?.[0].discountedPriceRecords
-          ? productData.childAttributes?.[0].discountedPriceRecords[currency]
-          : productData.childAttributes?.[0].priceRecords
-          ? productData.childAttributes?.[0].priceRecords[currency]
-          : null,
-        items: [
-          {
-            item_id: productData.id,
-            item_name: productData.productName,
-            affiliation: productData.productName,
-            coupon: "NA", //Pass NA if not applicable at the moment
-            // currency: currency, // Pass the currency code
-            discount:
-              isSale && productData.childAttributes?.[0].discountedPriceRecords
-                ? productData.badgeType == "B_flat"
-                  ? productData.childAttributes?.[0].discountedPriceRecords[
-                      currency
-                    ]
-                  : productData.childAttributes?.[0].priceRecords[currency] -
-                    productData.childAttributes?.[0].discountedPriceRecords[
-                      currency
-                    ]
-                : "NA", // Pass the discount amount
-            index: 0,
-            item_brand: "Goodearth",
-            item_category: L1,
-            item_category2: L2,
-            item_category3: L3,
-            item_category4: "NA", //Pass NA if not applicable at the moment
-            item_category5: productData.is3dimage ? "3d" : "Non3d",
-            item_list_id: "NA", //Pass NA if not applicable at the moment
-            item_list_name: search ? `${clickType}-${search}` : "NA", //Pass NA if not applicable at the moment
-            item_variant:
-              productData.childAttributes && productData.childAttributes[0].size
-                ? productData.childAttributes[0].size
-                : "", //Pass NA if not applicable at the moment
-            price: productData.childAttributes?.[0].discountedPriceRecords
-              ? productData.childAttributes?.[0].discountedPriceRecords[
-                  currency
-                ]
-              : productData.childAttributes?.[0].priceRecords
-              ? productData.childAttributes?.[0].priceRecords[currency]
-              : null,
-            quantity: 1, //default 1
-            collection_category: category ? category : "NA", //Pass NA if not applicable at the moment
-            price_range: "NA"
-          }
-        ]
-      }
-    });
+    if (addWishlist) {
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "add_to_wishlist",
+        previous_page_url: CookieService.getCookie("prevUrl"),
+        list_name: listName ? listName : "NA",
+        ecommerce: {
+          currency: currency,
+          value: productData.discountedPrice
+            ? productData.discountedPrice[currency]
+            : productData.price
+            ? productData.price[currency]
+            : null,
+          items: [
+            {
+              item_id: productData.id,
+              item_name: productData.productName,
+              affiliation: productData.productName,
+              coupon: "NA", //Pass NA if not applicable at the moment
+              // currency: currency, // Pass the currency code
+              discount:
+                isSale && productData.discountedPrice
+                  ? productData.badgeType == "B_flat"
+                    ? productData.discountedPrice[currency]
+                    : productData.price[currency] -
+                      productData.discountedPrice[currency]
+                  : "NA", // Pass the discount amount
+              index: 0,
+              item_brand: "Goodearth",
+              item_category: L1,
+              item_category2: L2,
+              item_category3: L3,
+              item_category4: "NA", //Pass NA if not applicable at the moment
+              item_category5: productData.is3dimage ? "3d" : "Non3d",
+              item_list_id: "NA", //Pass NA if not applicable at the moment
+              item_list_name: search ? `${clickType}-${search}` : "NA", //Pass NA if not applicable at the moment
+              item_variant: productData.size ? productData.size : "NA", //Pass NA if not applicable at the moment
+              price: productData.discountedPrice
+                ? productData.discountedPrice[currency]
+                : productData.price
+                ? productData.price[currency]
+                : null,
+              quantity: 1, //default 1
+              collection_category: category ? category : "NA", //Pass NA if not applicable at the moment
+              price_range: "NA"
+            }
+          ]
+        }
+      });
+    } else {
+      dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+      dataLayer.push({
+        event: "remove_from_wishlist",
+        previous_page_url: CookieService.getCookie("prevUrl"),
+        list_name: listName ? listName : "NA",
+        ecommerce: {
+          currency: currency,
+          value: productData.discountedPrice
+            ? productData.discountedPrice[currency]
+            : productData.price
+            ? productData.price[currency]
+            : null,
+          items: [
+            {
+              item_id: productData.id,
+              item_name: productData.productName,
+              affiliation: productData.productName,
+              coupon: "NA", //Pass NA if not applicable at the moment
+              // currency: currency, // Pass the currency code
+              discount:
+                isSale && productData.discountedPrice
+                  ? productData.badgeType == "B_flat"
+                    ? productData.discountedPrice[currency]
+                    : productData.price[currency] -
+                      productData.discountedPrice[currency]
+                  : "NA", // Pass the discount amount
+              index: 0,
+              item_brand: "Goodearth",
+              item_category: L1,
+              item_category2: L2,
+              item_category3: L3,
+              item_category4: "NA", //Pass NA if not applicable at the moment
+              item_category5: productData.is3dimage ? "3d" : "Non3d",
+              item_list_id: "NA", //Pass NA if not applicable at the moment
+              item_list_name: search ? `${clickType}-${search}` : "NA", //Pass NA if not applicable at the moment
+              item_variant: productData.size ? productData.size : "NA", //Pass NA if not applicable at the moment
+              price: productData.discountedPrice
+                ? productData.discountedPrice[currency]
+                : productData.price
+                ? productData.price[currency]
+                : null,
+              quantity: 1, //default 1
+              collection_category: category ? category : "NA", //Pass NA if not applicable at the moment
+              price_range: "NA"
+            }
+          ]
+        }
+      });
+    }
   };
 
   const removeProduct = (id: number, listName: string, productData?: any) => {
@@ -429,7 +475,7 @@ const WishlistDetailPage = () => {
       isLoggedIn ? listName : undefined
     ).finally(() => {
       dispatch(updateLoader(false));
-      gtmPushRemoveFromWishlist(productData);
+      gtmPushWishlist(false, listName, productData);
     });
   };
 
@@ -1052,6 +1098,16 @@ const WishlistDetailPage = () => {
                                         hideWishlistPopup={hideWishlistPopup}
                                         wishlistName={list.name}
                                         id={pId}
+                                        gtmPushWishlist={(
+                                          addWishlist: boolean,
+                                          listName: string
+                                        ) =>
+                                          gtmPushWishlist(
+                                            addWishlist,
+                                            listName,
+                                            productData
+                                          )
+                                        }
                                       />
                                     )}
                                 </div>
