@@ -20,17 +20,15 @@ type Props = {
 const PlpBubbles: React.FC<Props> = ({ data }) => {
   const [showBubble, setShowBubble] = useState(false);
   const [bubbleCount, setBubbleCount] = useState(0);
+  const [isThree, setIsThree] = useState(bubbleCount === 3);
   const history = useHistory();
   const location = useLocation();
 
-  const handleShowBubble = useCallback(() => {
-    setShowBubble(true);
+  useEffect(() => {
     setBubbleCount(data.length || 0);
+    setShowBubble(true);
   }, [data]);
 
-  useEffect(() => {
-    setTimeout(handleShowBubble, 1000);
-  }, [handleShowBubble, data]);
   useEffect(() => {
     // Refresh the page when the user comes back
     history.listen((location, action) => {
@@ -120,7 +118,7 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
           arrows: false,
           swipeToSlide: true,
           touchThreshold: 10,
-          infinite: bubbleCount > 3
+          infinite: isThree
         }
       },
       {
@@ -129,7 +127,7 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
           slidesToShow: 4,
           slidesToScroll: 1,
           arrows: false,
-          infinite: bubbleCount > 3,
+          infinite: isThree,
           swipeToSlide: true,
           // touchThreshold: 10 ,
           cssEase: "linear",
