@@ -1278,14 +1278,17 @@ p.corporate-sub-heading {
     width: 100%;
     // padding-left: 20px;
   }
-  @media (max-width:656px) {
-    max-width: 116%;
-    width: 116%;
-    // padding-left: 20px;
-    &.marginLeft{
-      margin-left: -28px !important;
+    @media (max-width:656px) {
+      max-width: 116%;
+      width: 116%;
+  
+      // padding-left: 20px;
+      &.marginLeft {
+        margin-left: -20px !important;
+        max-width: 110%;
+        width: 110%;
+      }
     }
-  }
 
 }
 
