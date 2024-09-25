@@ -972,7 +972,6 @@ input[type="text"]{
 .categorylabel{
   input[type="text"], input[type="number"]{
     font-size: 12px !important;
-    line-height: unset !important;
     &::placeholder{
       font-size: 12px;
     }
@@ -1617,6 +1616,12 @@ input[type="text"].country-code-search-input{
 }
 .gc-wrp{
   position: relative;
+  div{
+    p {
+      line-height: unset !important;
+    }
+  }
+  
 }
 
 .code-wrp{
