@@ -310,7 +310,8 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
               onClick={redirect360IconClick}
               className={cs(
                 globalStyles.iconContainer,
-                globalStyles.threeSixtyContainer
+                globalStyles.threeSixtyContainer,
+                globalStyles.pointer
               )}
             >
               <img src={plpThreeSixty} alt="360" />

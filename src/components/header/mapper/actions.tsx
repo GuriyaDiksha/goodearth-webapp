@@ -42,10 +42,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       cookies: Cookies,
       bridalId: number,
       bridalKey?: string,
-      sortBy = "added_on",
+      // sortBy = "added_on",
       page?: string
     ) => {
-      await WishlistService.updateWishlist(dispatch, sortBy);
+      await WishlistService.updateWishlist(dispatch);
       if (bridalId > 0) {
         await BridalService.countBridal(dispatch, bridalId);
       }
@@ -78,8 +78,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       currency: Currency,
       customerGroup: string,
       page?: string,
-      islogin?: boolean,
-      sortBy = "added_on"
+      islogin?: boolean
+      // sortBy = "added_on"
     ) => {
       // if (page == "/") {
       // }
@@ -103,7 +103,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       });
       // }
       // if (!page?.includes("/wishlist")) {
-      WishlistService.updateWishlist(dispatch, sortBy);
+      WishlistService.updateWishlist(dispatch);
       // }
       // WishlistService.countWishlist(dispatch);
       // HeaderService.fetchHomepageData(dispatch).catch(err => {

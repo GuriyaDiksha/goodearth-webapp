@@ -88,6 +88,7 @@ class PLP extends React.Component<
     showProductCounter: boolean;
     header: string;
     isPopup: boolean;
+    bubbleData: { url: string; image: string; name: string }[];
   }
 > {
   constructor(props: Props) {
@@ -112,7 +113,8 @@ class PLP extends React.Component<
       isThirdParty: props.location.search.includes("&src_type=cp"),
       showProductCounter: true,
       header: "",
-      isPopup: false
+      isPopup: false,
+      bubbleData: []
     };
   }
   private child: any = FilterList;
@@ -131,6 +133,9 @@ class PLP extends React.Component<
 
   componentDidMount() {
     const that = this;
+    this.setState({
+      bubbleData: this.props.plpBubblesData
+    });
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
@@ -221,6 +226,10 @@ class PLP extends React.Component<
       this.setState({
         plpMaker: true
       });
+    }
+    if (nextProps.plpBubblesData !== this.props.plpBubblesData) {
+      // this.setState({ bubbleData: [] });
+      this.setState({ bubbleData: this.props.plpBubblesData });
     }
   }
 
@@ -861,16 +870,16 @@ class PLP extends React.Component<
                 />
               ) : null}
             </div>
-            {this.props.plpBubblesData?.length > 1 ? (
+            {this.state.bubbleData?.length > 1 ? (
               <div
                 className={cs({
-                  [globalStyles.marginT20]:
+                  [globalStyles.marginT30]:
                     !showTemplates.Banner?.[0] && !mobile,
                   [styles.customTopPadding]:
                     !showTemplates.Banner?.[0] && mobile
                 })}
               >
-                <PlpBubbles data={this.props.plpBubblesData} />
+                <PlpBubbles data={this.state.bubbleData} />
               </div>
             ) : (
               ""
