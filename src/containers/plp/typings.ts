@@ -14,6 +14,7 @@ export type CollectionProps = {
 };
 
 export interface PlpResult {
+  plpBubbles: any;
   facets: any;
   breadcrumb: Breadcrumb[];
   data: PartialProductItem[];
