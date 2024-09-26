@@ -17,6 +17,7 @@ interface DataItem {
 type Props = {
   data: DataItem[];
 };
+
 const PlpBubbles: React.FC<Props> = ({ data }) => {
   const [showBubble, setShowBubble] = useState(false);
   const [bubbleCount, setBubbleCount] = useState(0);
@@ -26,7 +27,6 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
 
   useEffect(() => {
     setBubbleCount(data.length || 0);
-    console.log(isThree);
     setShowBubble(true);
   }, [data]);
 
