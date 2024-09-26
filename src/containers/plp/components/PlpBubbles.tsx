@@ -149,12 +149,13 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
     }
   };
   const handleClick = (url: string): void => {
-    const baseUrl = url.split("Home")[0] + "Home";
-    const queryString = url.split("Home")[1];
+    const baseUrl = url.split("category_shop")[0] + "category_shop";
+    const queryString = url.split("category_shop")[1];
     const transformedQueryString = queryString.replaceAll(/&/g, "%26");
     const updatedUrl = baseUrl + transformedQueryString;
     history.push(updatedUrl);
   };
+
   return (
     <React.Fragment>
       {showBubble && (
