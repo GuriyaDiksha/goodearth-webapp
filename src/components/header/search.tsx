@@ -133,6 +133,17 @@ class Search extends React.Component<Props, State> {
       this.props.closePopup(evt);
     }
   };
+  handleGaCall = (allWordsExceptLast: string, lastWord: string) => {
+    const userConsent: string[] = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "search_bar_results_found",
+        cta_name: `${allWordsExceptLast} ${lastWord}`,
+        click_type: "search bubble",
+        search_terms: lastWord
+      });
+    }
+  };
 
   componentDidMount() {
     this.searchBoxRef.current && this.searchBoxRef.current.focus();
@@ -779,6 +790,7 @@ class Search extends React.Component<Props, State> {
                             key={i}
                             onClick={e => {
                               this.props.hideSearch();
+                              // this.handleGaCall(allWordsExceptLast,lastWord);
                               e.preventDefault();
                               this.props.history.push(
                                 `/search/?q=${encodeURIComponent(data)}`
