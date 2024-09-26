@@ -790,7 +790,7 @@ class Search extends React.Component<Props, State> {
                             key={i}
                             onClick={e => {
                               this.props.hideSearch();
-                              // this.handleGaCall(allWordsExceptLast,lastWord);
+                              this.handleGaCall(allWordsExceptLast, lastWord);
                               e.preventDefault();
                               this.props.history.push(
                                 `/search/?q=${encodeURIComponent(data)}`
