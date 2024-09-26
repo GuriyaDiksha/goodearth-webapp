@@ -2,15 +2,16 @@ import { State, WishlistActions } from "./typings";
 
 const initialState: State = {
   items: [],
-  sortBy: "added_on",
+  // sortBy: "added_on",
   sortedDiscount: false,
-  is_success: false,
+  // is_success: false,
   message: "",
-  secret_key: "",
-  wishlist_link: "",
+  // secret_key: "",
+  // wishlist_link: "",
   owner_name: "",
-  count: 0,
-  sharedItems: []
+  // count: 0,
+  sharedItems: [],
+  wishListName: ""
 };
 
 export const wishlist = (
@@ -30,12 +31,12 @@ export const wishlist = (
         ...action.payload
       };
     }
-    case "WISHLIST_COUNT": {
-      return {
-        ...state,
-        count: action.payload.count
-      };
-    }
+    // case "WISHLIST_COUNT": {
+    //   return {
+    //     ...state,
+    //     count: action.payload.count
+    //   };
+    // }
     case "UPDATE_WISHLIST_SHARED": {
       return {
         ...state,

@@ -81,8 +81,8 @@ export default {
     password: string,
     currency: Currency,
     source?: string,
-    history?: any,
-    sortBy?: string
+    history?: any
+    // sortBy?: string
   ) {
     // const queryString = location.search;
     // const urlParams = new URLSearchParams(queryString);
@@ -159,7 +159,7 @@ export default {
       tkn: response.token
     });
     // if (location.pathname == "/wishlist") {
-    WishlistService.updateWishlist(dispatch, sortBy);
+    WishlistService.updateWishlist(dispatch);
     // }
     // WishlistService.countWishlist(dispatch);
     Api.getAnnouncement(dispatch).catch(err => {
@@ -257,7 +257,7 @@ export default {
     currency: Currency,
     source: string,
     history: any,
-    sortBy?: string,
+    // sortBy?: string,
     mobile?: boolean,
     popupStyle?: string
   ) {
@@ -328,7 +328,7 @@ export default {
     });
 
     // if (location.pathname == "/wishlist") {
-    WishlistService.updateWishlist(dispatch, sortBy).then(() => {
+    WishlistService.updateWishlist(dispatch).then(() => {
       //Code to open share link popup after login
 
       const isShareLinkClicked = JSON.parse(
@@ -540,8 +540,8 @@ export default {
   register: async function(
     dispatch: Dispatch,
     formData: FormData,
-    source?: string,
-    sortBy?: string
+    source?: string
+    // sortBy?: string
   ) {
     const olddata = { ...formData };
     const enc = encryptdata(olddata);
@@ -733,7 +733,7 @@ export default {
     otp: string,
     currency?: Currency,
     source?: string,
-    sortBy?: string,
+    // sortBy?: string,
     mobile?: boolean,
     popupStyle?: string
   ) => {
@@ -812,7 +812,7 @@ export default {
       });
 
       // if (location.pathname == "/wishlist") {
-      WishlistService.updateWishlist(dispatch, sortBy).then(() => {
+      WishlistService.updateWishlist(dispatch).then(() => {
         //Code to open share link popup after login
 
         const isShareLinkClicked = JSON.parse(

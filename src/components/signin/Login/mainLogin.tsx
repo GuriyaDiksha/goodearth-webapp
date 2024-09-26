@@ -27,7 +27,7 @@ const mapStateToProps = (state: AppState) => {
     location: state.router.location,
     basket: state.basket,
     currency: state.currency,
-    sortBy: state.wishlist.sortBy,
+    // sortBy: state.wishlist.sortBy,
     mobile: state.device.mobile
   };
 };
@@ -324,8 +324,8 @@ class MainLogin extends React.Component<Props, loginState> {
           this.state.password || "",
           this.props.currency,
           this.source,
-          undefined,
-          this.props.sortBy
+          undefined
+          // this.props.sortBy
         )
         .then(data => {
           this.gtmPushSignIn(data);
@@ -753,7 +753,7 @@ class MainLogin extends React.Component<Props, loginState> {
             products={this.props.basket.products}
             currency={this.props.currency}
             // nextStep={this.props.nextStep}
-            sortBy={this.props.sortBy}
+            // sortBy={this.props.sortBy}
             phoneNo={this.state.phoneNo}
             attempt_count={this.state.attempt_count}
           />

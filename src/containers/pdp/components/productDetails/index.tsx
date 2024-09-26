@@ -77,6 +77,10 @@ import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
 import addReg from "../../../../images/registery/addReg.svg";
 import addedReg from "../../../../images/registery/addedReg.svg";
+import CreateWishlist from "components/WishlistButton/CreateWishlist";
+import { updateComponent, updateModal } from "actions/modal";
+import WishlistService from "services/wishlist";
+import { updateLoader } from "actions/info";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -138,7 +142,8 @@ const ProductDetails: React.FC<Props> = ({
     user: { bridalId, bridalCurrency }
   } = useSelector((state: AppState) => state);
   // const [img] = images;
-
+  const store = useStore();
+  const { dispatch } = useStore();
   const location = useLocation();
   const history = useHistory();
   const [gtmListType, setGtmListType] = useState("");
@@ -150,6 +155,7 @@ const ProductDetails: React.FC<Props> = ({
   ] = useState<ChildProductAttributes | null>(
     childAttributes.length === 1 ? childAttributes[0] : null
   );
+  const { items } = useSelector((state: AppState) => state.wishlist);
 
   const [isRegistry, setIsRegistry] = useState<{ [x: string]: boolean }>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -190,11 +196,30 @@ const ProductDetails: React.FC<Props> = ({
     ele[0].style.zIndex = 6;
   }
 
+  const isPDP =
+    history.location.pathname.includes("/catalogue/") &&
+    !history.location.pathname.includes("/catalogue/category");
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+
+  // Callback function to handle data from the child Component - WislistButtonPdp
+  const createWishlistPopupMobile = () => {
+    dispatch(
+      updateComponent(
+        POPUP.ADDREMOVEWISHLISTNAMEPOPUP,
+        { id },
+        false,
+        mobile ? ModalStyles.bottomAlignSlideUp : "",
+        mobile ? "slide-up-bottom-align" : ""
+      )
+    );
+    dispatch(updateModal(true));
+  };
+
   useIsomorphicLayoutEffect(() => {
     setGtmListType("PDP");
     setOnload(true);
   });
-  const { dispatch } = useStore();
+
   useEffect(() => {
     let count = 0;
     let tempSize: ChildProductAttributes | undefined;
@@ -283,12 +308,6 @@ const ProductDetails: React.FC<Props> = ({
 
   const [sizeError, setSizeError] = useState("");
   const [quantity, setQuantity] = useState<number>(1);
-
-  // useEffect(() => {
-  //   if (window?.location?.pathname === "/cart") {
-  //     closeModal ? closeModal() : null;
-  //   }
-  // }, [window?.location?.pathname]);
 
   const showError = () => {
     setTimeout(() => {
@@ -398,8 +417,8 @@ const ProductDetails: React.FC<Props> = ({
                 mailSubject="Gifting Ideas"
                 mailText={`${
                   corporatePDP
-                    ? `Here's what I found, check it out on Good Earth's web boutique`
-                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                    ? `Here&apos;s what I found, check it out on Good Earth&apos;s web boutique`
+                    : `Here&apos;s what I found! It reminded me of you, check it out on Good Earth&apos;s web boutique`
                 } ${__DOMAIN__}${location.pathname}`}
               />
             )}
@@ -841,7 +860,7 @@ const ProductDetails: React.FC<Props> = ({
         label={buttonText}
         onClick={action}
         variant={
-          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta300"
+          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta366"
         }
       />
     );
@@ -854,7 +873,7 @@ const ProductDetails: React.FC<Props> = ({
             variant={
               buttonText == "Notify Me"
                 ? "mediumLightGreyCta"
-                : "mediumAquaCta300"
+                : "mediumAquaCta366"
             }
           />
         )
@@ -866,7 +885,7 @@ const ProductDetails: React.FC<Props> = ({
         label={buttonText}
         onClick={action}
         variant={
-          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta300"
+          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta366"
         }
       />
     );
@@ -955,6 +974,181 @@ const ProductDetails: React.FC<Props> = ({
   const currentProductColorObjArr: GroupedProductItem[] = [
     currentProductColorObj
   ];
+
+  // const gtmPushAddToWishlist = (addWishlist?: boolean) => {
+  //   try {
+  //     if (gtmListType) {
+  //       const index = categories ? categories.length - 1 : 0;
+  //       let category: any =
+  //         categories &&
+  //         categories.length > 0 &&
+  //         categories[index].replace(/\s/g, "");
+  //       category = category && category.replace(/>/g, "/");
+  //       const cat1 = categories?.[0]?.split(">");
+  //       const cat2 = categories?.[1]?.split(">");
+
+  //       const L1 = cat1?.[0]?.trim();
+
+  //       const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
+
+  //       const L3 = cat2?.[2]
+  //         ? cat2?.[2]?.trim()
+  //         : categories?.[2]?.split(">")?.[2]?.trim();
+
+  //       const clickType = localStorage.getItem("clickType");
+  //       const listPath = `${gtmListType}`;
+  //       const child = childAttributes as ChildProductAttributes[];
+  //       const search = CookieService.getCookie("search") || "";
+
+  //       console.log(category, id, title, priceRecords);
+  //       const userConsent = CookieService.getCookie("consent").split(",");
+  //       if (userConsent.includes(GA_CALLS)) {
+  //         if (addWishlist) {
+  //           Moengage.track_event("add_to_wishlist", {
+  //             "Product id": id,
+  //             "Product name": title,
+  //             quantity: 1,
+  //             price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
+  //             Currency: currency,
+  //             // "Collection name": collection,
+  //             "Category name": category?.split("/")[0],
+  //             "Sub Category Name": category?.split("/")[1] || ""
+  //           });
+  //         } else {
+  //           Moengage.track_event("remove_from_wishlist", {
+  //             "Product id": id,
+  //             "Product name": title,
+  //             quantity: 1,
+  //             price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
+  //             Currency: currency,
+  //             // "Collection name": collection,
+  //             "Category name": category?.split("/")[0],
+  //             "Sub Category Name": category?.split("/")[1] || ""
+  //           });
+  //         }
+  //       }
+
+  //       if (userConsent.includes(GA_CALLS)) {
+  //         dataLayer.push({
+  //           event: "AddtoWishlist",
+  //           ecommerce: {
+  //             currencyCode: currency,
+  //             add: {
+  //               products: [
+  //                 {
+  //                   name: title,
+  //                   id: child?.[0].sku,
+  //                   price: child?.[0].discountedPriceRecords
+  //                     ? child?.[0].discountedPriceRecords[currency]
+  //                     : child?.[0].priceRecords
+  //                     ? child?.[0].priceRecords[currency]
+  //                     : null,
+  //                   brand: "Goodearth",
+  //                   category: category,
+  //                   variant:
+  //                     childAttributes && childAttributes[0].size
+  //                       ? childAttributes[0].size
+  //                       : "",
+  //                   quantity: 1,
+  //                   list: listPath
+  //                 }
+  //               ]
+  //             }
+  //           }
+  //         });
+  //         dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+  //         dataLayer.push({
+  //           event: "add_to_wishlist",
+  //           previous_page_url: CookieService.getCookie("prevUrl"),
+  //           ecommerce: {
+  //             currency: currency,
+  //             value: child?.[0].discountedPriceRecords
+  //               ? child?.[0].discountedPriceRecords[currency]
+  //               : child?.[0].priceRecords
+  //               ? child?.[0].priceRecords[currency]
+  //               : null,
+  //             items: [
+  //               {
+  //                 item_id: id, //Pass the product id
+  //                 item_name: title, // Pass the product name
+  //                 affiliation: title, // Pass the product name
+  //                 coupon: "NA", // Pass the coupon if available
+  //                 currency: currency, // Pass the currency code
+  //                 discount:
+  //                   info.isSale && child?.[0].discountedPriceRecords
+  //                     ? badgeType == "B_flat"
+  //                       ? child?.[0].discountedPriceRecords[currency]
+  //                       : child?.[0].priceRecords[currency] -
+  //                         child?.[0].discountedPriceRecords[currency]
+  //                     : "NA", // Pass the discount amount
+  //                 index: 0,
+  //                 item_brand: "Goodearth",
+  //                 item_category: L1,
+  //                 item_category2: L2,
+  //                 item_category3: L3,
+  //                 item_category4: "NA",
+  //                 item_category5: "NA",
+  //                 item_list_id: "NA",
+  //                 item_list_name: search ? `${clickType}-${search}` : "NA",
+  //                 item_variant:
+  //                   childAttributes && childAttributes[0].size
+  //                     ? childAttributes[0].size
+  //                     : "NA",
+  //                 price: child?.[0].discountedPriceRecords
+  //                   ? child?.[0].discountedPriceRecords[currency]
+  //                   : child?.[0].priceRecords
+  //                   ? child?.[0].priceRecords[currency]
+  //                   : null,
+  //                 quantity: 1,
+  //                 price_range: "NA"
+  //               }
+  //             ]
+  //           }
+  //         });
+  //       }
+  //     }
+  //   } catch (err) {
+  //     console.log("Wishlist GTM error!");
+  //   }
+  // };
+
+  const createWishlistPopup = (data: any) => {
+    setIsWishlistOpen(data);
+    if (items.length == 0) {
+      WishlistService.addToWishlist(
+        store.dispatch,
+        id,
+        undefined,
+        size ? size : undefined
+      )
+        .then(() => {
+          const growlMsg = (
+            <div>
+              Your item has been saved to <b>Default List.</b>{" "}
+              {isLoggedIn ? "Click here" : "Sign In"} to&nbsp;
+              <Link
+                className={globalStyles.underlineOffset}
+                to="/wishlist"
+                key="wishlist"
+                style={{ textDecoration: "underline", pointerEvents: "all" }}
+              >
+                view & manage
+              </Link>
+              &nbsp;your lists.
+            </div>
+          );
+          // gtmPushAddToWishlist(true);
+          showGrowlMessage(dispatch, growlMsg);
+        })
+        .finally(() => {
+          dispatch(updateLoader(false));
+        });
+    }
+  };
+
+  const hideWishlistPopup = () => {
+    setIsWishlistOpen(false);
+  };
 
   return (
     <Fragment>
@@ -1403,10 +1597,10 @@ const ProductDetails: React.FC<Props> = ({
             >
               <div
                 id="yourElement"
-                className={cs(globalStyles.textCenter, globalStyles.voffset1, {
+                className={cs(globalStyles.voffset1, {
                   [bootstrap.col8]: !corporatePDP,
                   [styles.addToBagBtnContainer]: mobile,
-                  [bootstrap.colSm8]: !mobile,
+                  [bootstrap.colSm10]: !mobile,
                   [bootstrap.colSm12]: corporatePDP && mobile
                   // [globalStyles.hidden]: mobile && !showAddToBagMobile
                 })}
@@ -1429,6 +1623,7 @@ const ProductDetails: React.FC<Props> = ({
                   [styles.wishlistText]: !mobile,
                   [styles.wishlistBtnContainer]: mobile,
                   [globalStyles.voffset1]: mobile,
+                  [bootstrap.colSm2]: !mobile,
                   [globalStyles.hidden]:
                     partner == "Souk" || partner == "Object D Art"
                   // [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
@@ -1450,7 +1645,34 @@ const ProductDetails: React.FC<Props> = ({
                     [styles.mobileWishlistIcon]: mobile
                   })}
                   badgeType={badgeType}
+                  createWishlistPopup={
+                    mobile ? createWishlistPopupMobile : createWishlistPopup
+                  }
+                  isPdp={isPDP}
+                  closeModal={closeModal}
                 />
+              </div>
+              <div className="createWishlistPopup">
+                {isWishlistOpen && (
+                  <CreateWishlist
+                    hideWishlistPopup={hideWishlistPopup}
+                    gtmListType={gtmListType}
+                    title={title}
+                    parentWidth={true}
+                    childAttributes={childAttributes}
+                    priceRecords={priceRecords}
+                    discountedPriceRecords={discountedPriceRecords}
+                    categories={categories}
+                    id={id}
+                    showText={!mobile}
+                    mobile={mobile}
+                    size={selectedSize ? selectedSize.size : undefined}
+                    iconClassName={cs({
+                      [styles.mobileWishlistIcon]: mobile
+                    })}
+                    badgeType={badgeType}
+                  />
+                )}
               </div>
             </div>
             <div
