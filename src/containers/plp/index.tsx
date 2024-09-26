@@ -228,7 +228,7 @@ class PLP extends React.Component<
       });
     }
     if (nextProps.plpBubblesData !== this.props.plpBubblesData) {
-      this.setState({ bubbleData: [] });
+      // this.setState({ bubbleData: [] });
       this.setState({ bubbleData: this.props.plpBubblesData });
     }
   }
