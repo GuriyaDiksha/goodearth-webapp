@@ -25,6 +25,8 @@ import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { useHistory } from "react-router";
 import globalStyles from "styles/global.scss";
+import { showGrowlMessage } from "utils/validate";
+import { Link } from "react-router-dom";
 
 const WishlistButton: React.FC<Props> = ({
   gtmListType,
@@ -47,14 +49,15 @@ const WishlistButton: React.FC<Props> = ({
   onComplete,
   isPlpTile, //Use this for new icon
   tablet,
-  badgeType
+  badgeType,
+  toggleBag
 }) => {
   const { wishlistItems, wishlistChildItems } = useContext(WishlistContext);
   const { isLoggedIn } = useContext(UserContext);
   const store = useStore();
   const {
     currency,
-    wishlist: { sortBy },
+    // wishlist: { sortBy },
     info: { isSale }
   } = useSelector((state: AppState) => state);
   const [addedToWishlist, setAddedToWishlist] = useState(
@@ -145,55 +148,111 @@ const WishlistButton: React.FC<Props> = ({
               }
             }
           });
-          dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-          dataLayer.push({
-            event: "add_to_wishlist",
-            previous_page_url: CookieService.getCookie("prevUrl"),
-            ecommerce: {
-              currency: currency,
-              value: child?.[0].discountedPriceRecords
-                ? child?.[0].discountedPriceRecords[currency]
-                : child?.[0].priceRecords
-                ? child?.[0].priceRecords[currency]
-                : null,
-              items: [
-                {
-                  item_id: id, //Pass the product id
-                  item_name: title, // Pass the product name
-                  affiliation: title, // Pass the product name
-                  coupon: "NA", // Pass the coupon if available
-                  currency: currency, // Pass the currency code
-                  discount:
-                    isSale && child?.[0].discountedPriceRecords
-                      ? badgeType == "B_flat"
-                        ? child?.[0].discountedPriceRecords[currency]
-                        : child?.[0].priceRecords[currency] -
-                          child?.[0].discountedPriceRecords[currency]
-                      : "NA", // Pass the discount amount
-                  index: 0,
-                  item_brand: "Goodearth",
-                  item_category: L1,
-                  item_category2: L2,
-                  item_category3: L3,
-                  item_category4: "NA",
-                  item_category5: "NA",
-                  item_list_id: "NA",
-                  item_list_name: search ? `${clickType}-${search}` : "NA",
-                  item_variant:
-                    childAttributes && childAttributes[0].size
-                      ? childAttributes[0].size
-                      : "NA",
-                  price: child?.[0].discountedPriceRecords
-                    ? child?.[0].discountedPriceRecords[currency]
-                    : child?.[0].priceRecords
-                    ? child?.[0].priceRecords[currency]
-                    : null,
-                  quantity: 1,
-                  price_range: "NA"
-                }
-              ]
-            }
-          });
+          if (addWishlist) {
+            dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+            dataLayer.push({
+              event: "add_to_wishlist",
+              previous_page_url: CookieService.getCookie("prevUrl"),
+              list_name: "Default",
+              ecommerce: {
+                currency: currency,
+                value: child?.[0].discountedPriceRecords
+                  ? child?.[0].discountedPriceRecords[currency]
+                  : child?.[0].priceRecords
+                  ? child?.[0].priceRecords[currency]
+                  : null,
+                items: [
+                  {
+                    item_id: id, //Pass the product id
+                    item_name: title, // Pass the product name
+                    affiliation: title, // Pass the product name
+                    coupon: "", // Pass the coupon if available
+                    // currency: currency, // Pass the currency code
+                    discount:
+                      isSale && child?.[0].discountedPriceRecords
+                        ? badgeType == "B_flat"
+                          ? child?.[0].discountedPriceRecords[currency]
+                          : child?.[0].priceRecords[currency] -
+                            child?.[0].discountedPriceRecords[currency]
+                        : "NA", // Pass the discount amount
+                    index: 0,
+                    item_brand: "Goodearth",
+                    item_category: L1,
+                    item_category2: L2,
+                    item_category3: L3,
+                    item_category4: "NA",
+                    item_category5: "NA",
+                    item_list_id: "NA",
+                    item_list_name: search ? `${clickType}-${search}` : "NA",
+                    item_variant:
+                      childAttributes && childAttributes[0].size
+                        ? childAttributes[0].size
+                        : "",
+                    price: child?.[0].discountedPriceRecords
+                      ? child?.[0].discountedPriceRecords[currency]
+                      : child?.[0].priceRecords
+                      ? child?.[0].priceRecords[currency]
+                      : null,
+                    quantity: 1,
+                    collection_category: category ? category : "NA",
+                    price_range: "NA"
+                  }
+                ]
+              }
+            });
+          } else {
+            dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+            dataLayer.push({
+              event: "remove_from_wishlist",
+              previous_page_url: CookieService.getCookie("prevUrl"),
+              list_name: "Default",
+              ecommerce: {
+                currency: currency,
+                value: child?.[0].discountedPriceRecords
+                  ? child?.[0].discountedPriceRecords[currency]
+                  : child?.[0].priceRecords
+                  ? child?.[0].priceRecords[currency]
+                  : null,
+                items: [
+                  {
+                    item_id: id, //Pass the product id
+                    item_name: title, // Pass the product name
+                    affiliation: title, // Pass the product name
+                    coupon: "", // Pass the coupon if available
+                    // currency: currency, // Pass the currency code
+                    discount:
+                      isSale && child?.[0].discountedPriceRecords
+                        ? badgeType == "B_flat"
+                          ? child?.[0].discountedPriceRecords[currency]
+                          : child?.[0].priceRecords[currency] -
+                            child?.[0].discountedPriceRecords[currency]
+                        : "NA", // Pass the discount amount
+                    index: 0,
+                    item_brand: "Goodearth",
+                    item_category: L1,
+                    item_category2: L2,
+                    item_category3: L3,
+                    item_category4: "NA",
+                    item_category5: "NA",
+                    item_list_id: "NA",
+                    item_list_name: search ? `${clickType}-${search}` : "NA",
+                    item_variant:
+                      childAttributes && childAttributes[0].size
+                        ? childAttributes[0].size
+                        : "",
+                    price: child?.[0].discountedPriceRecords
+                      ? child?.[0].discountedPriceRecords[currency]
+                      : child?.[0].priceRecords
+                      ? child?.[0].priceRecords[currency]
+                      : null,
+                    quantity: 1,
+                    collection_category: category ? category : "NA",
+                    price_range: "NA"
+                  }
+                ]
+              }
+            });
+          }
         }
       }
     } catch (err) {
@@ -202,30 +261,24 @@ const WishlistButton: React.FC<Props> = ({
   };
 
   const onClick = useCallback(async () => {
-    const isShared = history.location.pathname.includes("shared-wishlist");
+    // const isShared = history.location.pathname.includes("shared-wishlist");
+    // const isWishlist = history.location.pathname.includes("/wishlist");
 
     dispatch(updateLoader(true));
     if (basketLineId) {
       if (addedToWishlist) {
-        WishlistService.removeFromWishlist(
-          store.dispatch,
-          id,
-          undefined,
-          sortBy,
-          size
-        ).finally(() => {
-          dispatch(updateLoader(false));
-          onComplete && onComplete();
-
-          // WishlistService.countWishlist(dispatch);
-        });
+        window.open("/wishlist", "_blank");
+        dispatch(updateLoader(false));
+        if (toggleBag) {
+          toggleBag();
+        }
       } else {
         WishlistService.moveToWishlist(
           store.dispatch,
           basketLineId,
           size || childAttributes?.[0].size || "",
-          source,
-          sortBy
+          source
+          // sortBy
         )
           .then(() => {
             onMoveToWishlist?.();
@@ -244,7 +297,7 @@ const WishlistButton: React.FC<Props> = ({
           id,
           undefined,
           undefined,
-          undefined
+          size ? size : undefined
         ).finally(() => {
           dispatch(updateLoader(false));
           onComplete && onComplete();
@@ -253,9 +306,30 @@ const WishlistButton: React.FC<Props> = ({
           // WishlistService.countWishlist(dispatch);
         });
       } else {
-        WishlistService.addToWishlist(store.dispatch, id, size)
+        const growlMsg = (
+          <div>
+            Your item has been saved to <b>Default List.</b>{" "}
+            {isLoggedIn ? "Click here" : "Sign In"} to&nbsp;
+            <Link
+              className={globalStyles.underlineOffset}
+              to="/wishlist"
+              key="wishlist"
+              style={{ textDecoration: "underline", pointerEvents: "all" }}
+            >
+              view & manage
+            </Link>
+            &nbsp;your lists.
+          </div>
+        );
+        WishlistService.addToWishlist(
+          store.dispatch,
+          id,
+          undefined,
+          size ? size : undefined
+        )
           .then(() => {
             gtmPushAddToWishlist(true);
+            showGrowlMessage(dispatch, growlMsg);
             // WishlistService.countWishlist(dispatch);
           })
           .finally(() => {
@@ -310,7 +384,7 @@ const WishlistButton: React.FC<Props> = ({
             })}
             onClick={onClick}
           >
-            {addedToWishlist ? "SAVED TO LATER" : "SAVE FOR LATER"}
+            {addedToWishlist ? "SAVED!" : "SAVE"}
           </div>
         )}
       </div>

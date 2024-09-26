@@ -80,6 +80,8 @@ import addedReg from "../../../../images/registery/addedReg.svg";
 import ShareProductPopup from "../sharePopup";
 import share from "../../../../images/sharePdp/share.svg";
 import close from "../../../../images/sharePdp/close.svg";
+import CreateWishlist from "components/WishlistButton/CreateWishlist";
+import { updateComponent, updateModal } from "actions/modal";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -142,7 +144,8 @@ const ProductDetails: React.FC<Props> = ({
     user: { bridalId, bridalCurrency }
   } = useSelector((state: AppState) => state);
   // const [img] = images;
-
+  const store = useStore();
+  const { dispatch } = useStore();
   const location = useLocation();
   const history = useHistory();
   const [gtmListType, setGtmListType] = useState("");
@@ -154,6 +157,7 @@ const ProductDetails: React.FC<Props> = ({
   ] = useState<ChildProductAttributes | null>(
     childAttributes.length === 1 ? childAttributes[0] : null
   );
+  const { items } = useSelector((state: AppState) => state.wishlist);
 
   const [isRegistry, setIsRegistry] = useState<{ [x: string]: boolean }>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -194,11 +198,30 @@ const ProductDetails: React.FC<Props> = ({
     ele[0].style.zIndex = 6;
   }
 
+  const isPDP =
+    history.location.pathname.includes("/catalogue/") &&
+    !history.location.pathname.includes("/catalogue/category");
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+
+  // Callback function to handle data from the child Component - WislistButtonPdp
+  const createWishlistPopupMobile = () => {
+    dispatch(
+      updateComponent(
+        POPUP.ADDREMOVEWISHLISTNAMEPOPUP,
+        { id },
+        false,
+        mobile ? ModalStyles.bottomAlignSlideUp : "",
+        mobile ? "slide-up-bottom-align" : ""
+      )
+    );
+    dispatch(updateModal(true));
+  };
+
   useIsomorphicLayoutEffect(() => {
     setGtmListType("PDP");
     setOnload(true);
   });
-  const { dispatch } = useStore();
+
   useEffect(() => {
     let count = 0;
     let tempSize: ChildProductAttributes | undefined;
@@ -287,12 +310,6 @@ const ProductDetails: React.FC<Props> = ({
 
   const [sizeError, setSizeError] = useState("");
   const [quantity, setQuantity] = useState<number>(1);
-
-  // useEffect(() => {
-  //   if (window?.location?.pathname === "/cart") {
-  //     closeModal ? closeModal() : null;
-  //   }
-  // }, [window?.location?.pathname]);
 
   const showError = () => {
     setTimeout(() => {
@@ -390,6 +407,26 @@ const ProductDetails: React.FC<Props> = ({
         header: "Queries or Assistance",
         body: <div> {!isQuickview && <PdpCustomerCareInfo />} </div>,
         id: "queries"
+      },
+      {
+        header: "Share",
+        body: (
+          <div>
+            {!isQuickview && (
+              <Share
+                mobile={mobile}
+                link={`${__DOMAIN__}${location.pathname}`}
+                mailSubject="Gifting Ideas"
+                mailText={`${
+                  corporatePDP
+                    ? `Here&apos;s what I found, check it out on Good Earth&apos;s web boutique`
+                    : `Here&apos;s what I found! It reminded me of you, check it out on Good Earth&apos;s web boutique`
+                } ${__DOMAIN__}${location.pathname}`}
+              />
+            )}
+          </div>
+        ),
+        id: "share"
       }
       // {
       //   header: "Share",
@@ -845,7 +882,7 @@ const ProductDetails: React.FC<Props> = ({
         label={buttonText}
         onClick={action}
         variant={
-          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta300"
+          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta366"
         }
       />
     );
@@ -858,7 +895,7 @@ const ProductDetails: React.FC<Props> = ({
             variant={
               buttonText == "Notify Me"
                 ? "mediumLightGreyCta"
-                : "mediumAquaCta300"
+                : "mediumAquaCta366"
             }
           />
         )
@@ -870,7 +907,7 @@ const ProductDetails: React.FC<Props> = ({
         label={buttonText}
         onClick={action}
         variant={
-          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta300"
+          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta366"
         }
       />
     );
@@ -1438,10 +1475,10 @@ const ProductDetails: React.FC<Props> = ({
             >
               <div
                 id="yourElement"
-                className={cs(globalStyles.textCenter, globalStyles.voffset1, {
+                className={cs(globalStyles.voffset1, {
                   [bootstrap.col8]: !corporatePDP,
                   [styles.addToBagBtnContainer]: mobile,
-                  [bootstrap.colSm8]: !mobile,
+                  [bootstrap.colSm10]: !mobile,
                   [bootstrap.colSm12]: corporatePDP && mobile
                   // [globalStyles.hidden]: mobile && !showAddToBagMobile
                 })}
@@ -1464,6 +1501,7 @@ const ProductDetails: React.FC<Props> = ({
                   [styles.wishlistText]: !mobile,
                   [styles.wishlistBtnContainer]: mobile,
                   [globalStyles.voffset1]: mobile,
+                  [bootstrap.colSm2]: !mobile,
                   [globalStyles.hidden]:
                     partner == "Souk" || partner == "Object D Art"
                   // [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
@@ -1485,7 +1523,34 @@ const ProductDetails: React.FC<Props> = ({
                     [styles.mobileWishlistIcon]: mobile
                   })}
                   badgeType={badgeType}
+                  createWishlistPopup={
+                    mobile ? createWishlistPopupMobile : createWishlistPopup
+                  }
+                  isPdp={isPDP}
+                  closeModal={closeModal}
                 />
+              </div>
+              <div className="createWishlistPopup">
+                {isWishlistOpen && (
+                  <CreateWishlist
+                    hideWishlistPopup={hideWishlistPopup}
+                    gtmListType={gtmListType}
+                    title={title}
+                    parentWidth={true}
+                    childAttributes={childAttributes}
+                    priceRecords={priceRecords}
+                    discountedPriceRecords={discountedPriceRecords}
+                    categories={categories}
+                    id={id}
+                    showText={!mobile}
+                    mobile={mobile}
+                    size={selectedSize ? selectedSize.size : undefined}
+                    iconClassName={cs({
+                      [styles.mobileWishlistIcon]: mobile
+                    })}
+                    badgeType={badgeType}
+                  />
+                )}
               </div>
             </div>
             <div

@@ -1162,6 +1162,16 @@ const AddressSection: React.FC<AddressProps & {
                   ) : (
                     ""
                   )}
+                  {error && (
+                    <div
+                      className={cs(
+                        globalStyles.errorMsg,
+                        globalStyles.marginT20
+                      )}
+                    >
+                      {error}
+                    </div>
+                  )}
                 </div>
                 {addressList.length > 1 &&
                   mode == "list" &&

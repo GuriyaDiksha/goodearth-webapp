@@ -1040,7 +1040,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
               /> */}
               {/* <span>
                 {" "} */}
-              saved items {wishlistCount ? `(${wishlistCount})` : ""}
+              saved items
+              {/* {wishlistCount ? `(${wishlistCount})` : ""} */}
               {/* </span> */}
             </Link>
           </li>

@@ -31,7 +31,14 @@ export type WishlistItem = {
   badge_text?: string;
 };
 
-export type WishListGridItem = WishlistItem & {
+export type WishlistData = {
+  id: number;
+  name: string;
+  products: WishlistItem[];
+  sharable_link: string;
+};
+
+export type WishListGridItem = WishlistData & {
   key: number;
   sort: number;
 };

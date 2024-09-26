@@ -1132,7 +1132,8 @@ class Checkout extends React.Component<Props, State> {
             } else {
               this.setState({
                 billingError:
-                  showErrors(err.response.data) || err.response.data.msg || ""
+                  // showErrors(err.response.data) || err.response.data.msg || ""
+                  showErrors(err.response.data.msg[0])
               });
             }
 
