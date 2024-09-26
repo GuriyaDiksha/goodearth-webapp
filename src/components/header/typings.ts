@@ -160,7 +160,7 @@ export type SideMenuProps = {
   onSideMenuClick: (clickType: string) => void;
   currency: Currency;
   mobile: boolean;
-  wishlistData: WishListType[];
+  wishlistData?: WishListType[];
   wishlistCountData: number;
   sidebagData: Basket;
   toggleSearch: () => void;

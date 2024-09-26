@@ -1131,19 +1131,11 @@ class Wishlist extends React.Component<Props, State> {
               <div className={styles.innerContainer}>
                 <h3 className={styles.heading}>Your Saved List</h3>
                 <p className={styles.subheading}>
-                  {/* {this.state.wishlistCount > 0 ? ( */}
                   <>
-                    Here are your saved items. Login to share the list and
-                    <br />
-                    continue where you left off.
+                    Here are your saved items. Stay organized with your <br />
+                    items, create multiple lists, and easily share your <br />
+                    favorites with friends and family.
                   </>
-                  {/* ) : (
-                    <>
-                      Looking for your saved items?
-                      <br />
-                      Login to pick up where you left off
-                    </>
-                  )} */}
                 </p>
                 <Button
                   label={"Login"}

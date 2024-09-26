@@ -45,11 +45,13 @@ import inactiveList from "../../images/plpIcons/inactive_list.svg";
 import { CategoryMenu } from "containers/categoryLanding/typings";
 import { GA_CALLS } from "constants/cookieConsent";
 import ResetFilterModal from "./ResetFilterModal";
+import PlpBubbles from "./components/PlpBubbles";
 
 const mapStateToProps = (state: AppState) => {
   return {
     plpProductId: state.plplist.plpProductId,
     facetObject: state.plplist.facetObject,
+    facets: state.plplist.data.results.facets,
     data: state.plplist.data,
     plpMobileView: state.plplist.plpMobileView,
     scrollDown: state.info.scrollDown,
@@ -60,7 +62,8 @@ const mapStateToProps = (state: AppState) => {
     showTimer: state.info.showTimer,
     isLoggedIn: state.user.isLoggedIn,
     plpTemplates: state.plplist.plpTemplates,
-    mobile: state.device.mobile
+    mobile: state.device.mobile,
+    plpBubblesData: state.plplist.data.results.plpBubbles
   };
 };
 
@@ -85,6 +88,7 @@ class PLP extends React.Component<
     showProductCounter: boolean;
     header: string;
     isPopup: boolean;
+    bubbleData: { url: string; image: string; name: string }[];
   }
 > {
   constructor(props: Props) {
@@ -109,7 +113,8 @@ class PLP extends React.Component<
       isThirdParty: props.location.search.includes("&src_type=cp"),
       showProductCounter: true,
       header: "",
-      isPopup: false
+      isPopup: false,
+      bubbleData: []
     };
   }
   private child: any = FilterList;
@@ -128,6 +133,9 @@ class PLP extends React.Component<
 
   componentDidMount() {
     const that = this;
+    this.setState({
+      bubbleData: this.props.plpBubblesData
+    });
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push(function(this: any) {
@@ -218,6 +226,10 @@ class PLP extends React.Component<
       this.setState({
         plpMaker: true
       });
+    }
+    if (nextProps.plpBubblesData !== this.props.plpBubblesData) {
+      // this.setState({ bubbleData: [] });
+      this.setState({ bubbleData: this.props.plpBubblesData });
     }
   }
 
@@ -858,6 +870,20 @@ class PLP extends React.Component<
                 />
               ) : null}
             </div>
+            {this.state.bubbleData?.length > 1 ? (
+              <div
+                className={cs({
+                  [globalStyles.marginT30]:
+                    !showTemplates.Banner?.[0] && !mobile,
+                  [styles.customTopPadding]:
+                    !showTemplates.Banner?.[0] && mobile
+                })}
+              >
+                <PlpBubbles data={this.state.bubbleData} />
+              </div>
+            ) : (
+              ""
+            )}
 
             {!mobile ? (
               <div
@@ -880,7 +906,10 @@ class PLP extends React.Component<
                   styles.productNumber,
                   styles.imageContainer,
                   {
-                    [styles.prouctMobilePadding]: mobile
+                    [styles.prouctMobilePadding]:
+                      mobile &&
+                      !(this.props.plpBubblesData?.length > 1) &&
+                      !showTemplates.Banner?.length
                   }
                 )}
               >

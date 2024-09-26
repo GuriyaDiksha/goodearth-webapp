@@ -19,7 +19,7 @@ import ModalStyles from "components/Modal/styles.scss";
 const SocialLogin: React.FC<props> = ({ closeModel }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { sortBy } = useSelector((state: AppState) => state.wishlist);
+  // const { sortBy } = useSelector((state: AppState) => state.wishlist);
   const currency = useSelector((state: AppState) => state.currency);
   const { mobile } = useSelector((state: AppState) => state.device);
   const source =
@@ -67,7 +67,7 @@ const SocialLogin: React.FC<props> = ({ closeModel }) => {
         currency,
         source,
         history,
-        sortBy,
+        // sortBy,
         mobile,
         mobile ? ModalStyles.bottomAlignSlideUp : ""
       )
