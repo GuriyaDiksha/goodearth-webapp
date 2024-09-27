@@ -82,6 +82,8 @@ import share from "../../../../images/sharePdp/share.svg";
 import close from "../../../../images/sharePdp/close.svg";
 import CreateWishlist from "components/WishlistButton/CreateWishlist";
 import { updateComponent, updateModal } from "actions/modal";
+import WishlistService from "services/wishlist";
+import { updateLoader } from "actions/info";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -202,20 +204,6 @@ const ProductDetails: React.FC<Props> = ({
     history.location.pathname.includes("/catalogue/") &&
     !history.location.pathname.includes("/catalogue/category");
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
-
-  // Callback function to handle data from the child Component - WislistButtonPdp
-  const createWishlistPopupMobile = () => {
-    dispatch(
-      updateComponent(
-        POPUP.ADDREMOVEWISHLISTNAMEPOPUP,
-        { id },
-        false,
-        mobile ? ModalStyles.bottomAlignSlideUp : "",
-        mobile ? "slide-up-bottom-align" : ""
-      )
-    );
-    dispatch(updateModal(true));
-  };
 
   useIsomorphicLayoutEffect(() => {
     setGtmListType("PDP");
@@ -407,26 +395,6 @@ const ProductDetails: React.FC<Props> = ({
         header: "Queries or Assistance",
         body: <div> {!isQuickview && <PdpCustomerCareInfo />} </div>,
         id: "queries"
-      },
-      {
-        header: "Share",
-        body: (
-          <div>
-            {!isQuickview && (
-              <Share
-                mobile={mobile}
-                link={`${__DOMAIN__}${location.pathname}`}
-                mailSubject="Gifting Ideas"
-                mailText={`${
-                  corporatePDP
-                    ? `Here&apos;s what I found, check it out on Good Earth&apos;s web boutique`
-                    : `Here&apos;s what I found! It reminded me of you, check it out on Good Earth&apos;s web boutique`
-                } ${__DOMAIN__}${location.pathname}`}
-              />
-            )}
-          </div>
-        ),
-        id: "share"
       }
       // {
       //   header: "Share",
@@ -1012,6 +980,58 @@ const ProductDetails: React.FC<Props> = ({
       mobile ? "slide-up-bottom-align" : ""
     );
     changeModalState(true);
+  };
+
+  // Callback function to handle data from the child Component - WislistButtonPdp
+  const createWishlistPopupMobile = () => {
+    dispatch(
+      updateComponent(
+        POPUP.ADDREMOVEWISHLISTNAMEPOPUP,
+        { id },
+        false,
+        mobile ? ModalStyles.bottomAlignSlideUp : "",
+        mobile ? "slide-up-bottom-align" : ""
+      )
+    );
+    dispatch(updateModal(true));
+  };
+
+  const createWishlistPopup = (data: any) => {
+    setIsWishlistOpen(data);
+    if (items.length == 0) {
+      WishlistService.addToWishlist(
+        store.dispatch,
+        id,
+        undefined,
+        size ? size : undefined
+      )
+        .then(() => {
+          const growlMsg = (
+            <div>
+              Your item has been saved to <b>Default List.</b>{" "}
+              {isLoggedIn ? "Click here" : "Sign In"} to&nbsp;
+              <Link
+                className={globalStyles.underlineOffset}
+                to="/wishlist"
+                key="wishlist"
+                style={{ textDecoration: "underline", pointerEvents: "all" }}
+              >
+                view & manage
+              </Link>
+              &nbsp;your lists.
+            </div>
+          );
+          // gtmPushAddToWishlist(true);
+          showGrowlMessage(dispatch, growlMsg);
+        })
+        .finally(() => {
+          dispatch(updateLoader(false));
+        });
+    }
+  };
+
+  const hideWishlistPopup = () => {
+    setIsWishlistOpen(false);
   };
 
   return (

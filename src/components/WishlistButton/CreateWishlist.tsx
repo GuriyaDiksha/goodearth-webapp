@@ -49,7 +49,7 @@ type Props = {
   badgeType?: string;
   hideWishlistPopup?: any;
   wishlistName?: string;
-  gtmPushWishlist: any;
+  gtmPushWishlist?: any;
 };
 
 const CreateWishlist: React.FC<Props> = ({
