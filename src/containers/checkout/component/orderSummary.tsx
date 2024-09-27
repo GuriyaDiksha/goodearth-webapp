@@ -995,7 +995,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
       )}
       ref={page === "checkoutMobileBottom" ? orderSummaryRefCheckout : null}
     >
-      {showProductWorth ? (
+      {showProductWorth && page != "checkout" ? (
         <div className={cs(styles.freeShippingInfo, globalStyles.flex)}>
           <img src={freeShippingInfoIcon} alt="free-shipping" />
           <div className={styles.text}>

@@ -8,6 +8,8 @@ import {
 } from "utils/utility";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 type Props = {
   creditNote: CreditNote;
@@ -68,9 +70,29 @@ const CreditNoteCard = forwardRef<Props, any>(
                 className={cs(styles.apply, {
                   [styles.active]: checkedIds.includes(entry_code)
                 })}
-                onClick={() =>
-                  onCheck(checkedIds.includes(entry_code), entry_code)
-                }
+                onClick={() => {
+                  onCheck(checkedIds.includes(entry_code), entry_code);
+                  const userConsent = CookieService.getCookie("consent").split(
+                    ","
+                  );
+                  if (checkedIds.includes(entry_code)) {
+                    // Hit Remove credit_note event on click of Apply CTA
+                    if (userConsent.includes(GA_CALLS)) {
+                      dataLayer.push({
+                        event: "remove_credit_note",
+                        CN_amount: amount
+                      });
+                    }
+                  } else {
+                    // Hit Apply credit_note event on click of Remove CTA
+                    if (userConsent.includes(GA_CALLS)) {
+                      dataLayer.push({
+                        event: "apply_credit_note",
+                        CN_amount: amount
+                      });
+                    }
+                  }
+                }}
               >
                 {checkedIds.includes(entry_code) ? "REMOVE" : "APPLY"}
               </p>

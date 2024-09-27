@@ -77,6 +77,9 @@ import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
 import addReg from "../../../../images/registery/addReg.svg";
 import addedReg from "../../../../images/registery/addedReg.svg";
+import ShareProductPopup from "../sharePopup";
+import share from "../../../../images/sharePdp/share.svg";
+import close from "../../../../images/sharePdp/close.svg";
 import CreateWishlist from "components/WishlistButton/CreateWishlist";
 import { updateComponent, updateModal } from "actions/modal";
 import WishlistService from "services/wishlist";
@@ -136,6 +139,7 @@ const ProductDetails: React.FC<Props> = ({
   loading,
   setPDPButton
 }): JSX.Element => {
+  const [isShare, setIsShare] = useState(false);
   const [productTitle] = title.split("(");
   const {
     info,
@@ -200,20 +204,6 @@ const ProductDetails: React.FC<Props> = ({
     history.location.pathname.includes("/catalogue/") &&
     !history.location.pathname.includes("/catalogue/category");
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
-
-  // Callback function to handle data from the child Component - WislistButtonPdp
-  const createWishlistPopupMobile = () => {
-    dispatch(
-      updateComponent(
-        POPUP.ADDREMOVEWISHLISTNAMEPOPUP,
-        { id },
-        false,
-        mobile ? ModalStyles.bottomAlignSlideUp : "",
-        mobile ? "slide-up-bottom-align" : ""
-      )
-    );
-    dispatch(updateModal(true));
-  };
 
   useIsomorphicLayoutEffect(() => {
     setGtmListType("PDP");
@@ -405,27 +395,27 @@ const ProductDetails: React.FC<Props> = ({
         header: "Queries or Assistance",
         body: <div> {!isQuickview && <PdpCustomerCareInfo />} </div>,
         id: "queries"
-      },
-      {
-        header: "Share",
-        body: (
-          <div>
-            {!isQuickview && (
-              <Share
-                mobile={mobile}
-                link={`${__DOMAIN__}${location.pathname}`}
-                mailSubject="Gifting Ideas"
-                mailText={`${
-                  corporatePDP
-                    ? `Here&apos;s what I found, check it out on Good Earth&apos;s web boutique`
-                    : `Here&apos;s what I found! It reminded me of you, check it out on Good Earth&apos;s web boutique`
-                } ${__DOMAIN__}${location.pathname}`}
-              />
-            )}
-          </div>
-        ),
-        id: "share"
       }
+      // {
+      //   header: "Share",
+      //   body: (
+      //     <div>
+      //       {!isQuickview && (
+      //         <Share
+      //           mobile={mobile}
+      //           link={`${__DOMAIN__}${location.pathname}`}
+      //           mailSubject="Gifting Ideas"
+      //           mailText={`${
+      //             corporatePDP
+      //               ? `Here's what I found, check it out on Good Earth's web boutique`
+      //               : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+      //           } ${__DOMAIN__}${location.pathname}`}
+      //         />
+      //       )}
+      //     </div>
+      //   ),
+      //   id: "share"
+      // }
     ];
     if (manufactureInfo) {
       sections.push({
@@ -975,142 +965,36 @@ const ProductDetails: React.FC<Props> = ({
     currentProductColorObj
   ];
 
-  // const gtmPushAddToWishlist = (addWishlist?: boolean) => {
-  //   try {
-  //     if (gtmListType) {
-  //       const index = categories ? categories.length - 1 : 0;
-  //       let category: any =
-  //         categories &&
-  //         categories.length > 0 &&
-  //         categories[index].replace(/\s/g, "");
-  //       category = category && category.replace(/>/g, "/");
-  //       const cat1 = categories?.[0]?.split(">");
-  //       const cat2 = categories?.[1]?.split(">");
+  const sharePopupToggle = () => {
+    setIsShare(!isShare);
+  };
 
-  //       const L1 = cat1?.[0]?.trim();
+  const sharePopupToggleMobile = () => {
+    updateComponentModal(
+      POPUP.SHAREPDPPOPUP,
+      {
+        corporatePDP: corporatePDP
+      },
+      false,
+      mobile ? ModalStyles.bottomAlignSlideUp : "",
+      mobile ? "slide-up-bottom-align" : ""
+    );
+    changeModalState(true);
+  };
 
-  //       const L2 = cat1?.[1] ? cat1?.[1]?.trim() : cat2?.[1]?.trim();
-
-  //       const L3 = cat2?.[2]
-  //         ? cat2?.[2]?.trim()
-  //         : categories?.[2]?.split(">")?.[2]?.trim();
-
-  //       const clickType = localStorage.getItem("clickType");
-  //       const listPath = `${gtmListType}`;
-  //       const child = childAttributes as ChildProductAttributes[];
-  //       const search = CookieService.getCookie("search") || "";
-
-  //       console.log(category, id, title, priceRecords);
-  //       const userConsent = CookieService.getCookie("consent").split(",");
-  //       if (userConsent.includes(GA_CALLS)) {
-  //         if (addWishlist) {
-  //           Moengage.track_event("add_to_wishlist", {
-  //             "Product id": id,
-  //             "Product name": title,
-  //             quantity: 1,
-  //             price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
-  //             Currency: currency,
-  //             // "Collection name": collection,
-  //             "Category name": category?.split("/")[0],
-  //             "Sub Category Name": category?.split("/")[1] || ""
-  //           });
-  //         } else {
-  //           Moengage.track_event("remove_from_wishlist", {
-  //             "Product id": id,
-  //             "Product name": title,
-  //             quantity: 1,
-  //             price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
-  //             Currency: currency,
-  //             // "Collection name": collection,
-  //             "Category name": category?.split("/")[0],
-  //             "Sub Category Name": category?.split("/")[1] || ""
-  //           });
-  //         }
-  //       }
-
-  //       if (userConsent.includes(GA_CALLS)) {
-  //         dataLayer.push({
-  //           event: "AddtoWishlist",
-  //           ecommerce: {
-  //             currencyCode: currency,
-  //             add: {
-  //               products: [
-  //                 {
-  //                   name: title,
-  //                   id: child?.[0].sku,
-  //                   price: child?.[0].discountedPriceRecords
-  //                     ? child?.[0].discountedPriceRecords[currency]
-  //                     : child?.[0].priceRecords
-  //                     ? child?.[0].priceRecords[currency]
-  //                     : null,
-  //                   brand: "Goodearth",
-  //                   category: category,
-  //                   variant:
-  //                     childAttributes && childAttributes[0].size
-  //                       ? childAttributes[0].size
-  //                       : "",
-  //                   quantity: 1,
-  //                   list: listPath
-  //                 }
-  //               ]
-  //             }
-  //           }
-  //         });
-  //         dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-  //         dataLayer.push({
-  //           event: "add_to_wishlist",
-  //           previous_page_url: CookieService.getCookie("prevUrl"),
-  //           ecommerce: {
-  //             currency: currency,
-  //             value: child?.[0].discountedPriceRecords
-  //               ? child?.[0].discountedPriceRecords[currency]
-  //               : child?.[0].priceRecords
-  //               ? child?.[0].priceRecords[currency]
-  //               : null,
-  //             items: [
-  //               {
-  //                 item_id: id, //Pass the product id
-  //                 item_name: title, // Pass the product name
-  //                 affiliation: title, // Pass the product name
-  //                 coupon: "NA", // Pass the coupon if available
-  //                 currency: currency, // Pass the currency code
-  //                 discount:
-  //                   info.isSale && child?.[0].discountedPriceRecords
-  //                     ? badgeType == "B_flat"
-  //                       ? child?.[0].discountedPriceRecords[currency]
-  //                       : child?.[0].priceRecords[currency] -
-  //                         child?.[0].discountedPriceRecords[currency]
-  //                     : "NA", // Pass the discount amount
-  //                 index: 0,
-  //                 item_brand: "Goodearth",
-  //                 item_category: L1,
-  //                 item_category2: L2,
-  //                 item_category3: L3,
-  //                 item_category4: "NA",
-  //                 item_category5: "NA",
-  //                 item_list_id: "NA",
-  //                 item_list_name: search ? `${clickType}-${search}` : "NA",
-  //                 item_variant:
-  //                   childAttributes && childAttributes[0].size
-  //                     ? childAttributes[0].size
-  //                     : "NA",
-  //                 price: child?.[0].discountedPriceRecords
-  //                   ? child?.[0].discountedPriceRecords[currency]
-  //                   : child?.[0].priceRecords
-  //                   ? child?.[0].priceRecords[currency]
-  //                   : null,
-  //                 quantity: 1,
-  //                 price_range: "NA"
-  //               }
-  //             ]
-  //           }
-  //         });
-  //       }
-  //     }
-  //   } catch (err) {
-  //     console.log("Wishlist GTM error!");
-  //   }
-  // };
+  // Callback function to handle data from the child Component - WislistButtonPdp
+  const createWishlistPopupMobile = () => {
+    dispatch(
+      updateComponent(
+        POPUP.ADDREMOVEWISHLISTNAMEPOPUP,
+        { id },
+        false,
+        mobile ? ModalStyles.bottomAlignSlideUp : "",
+        mobile ? "slide-up-bottom-align" : ""
+      )
+    );
+    dispatch(updateModal(true));
+  };
 
   const createWishlistPopup = (data: any) => {
     setIsWishlistOpen(data);
@@ -1175,6 +1059,20 @@ const ProductDetails: React.FC<Props> = ({
           >
             {(isLoading || loading) && <Loader />}
             <div className={cs(bootstrap.row)}>
+              <div
+                className={styles.shareCta}
+                onClick={mobile ? sharePopupToggleMobile : sharePopupToggle}
+              >
+                <p>SHARE</p>
+                {!isShare ? (
+                  <img src={share} alt="share" />
+                ) : (
+                  <img src={close} alt="close" />
+                )}
+              </div>
+              {isShare && !mobile && (
+                <ShareProductPopup corporatePDP={corporatePDP} />
+              )}
               {images && images[0]?.badgeImagePdp && (
                 <div className={cs(bootstrap.col12, styles.badgePadding)}>
                   <img
@@ -1185,21 +1083,20 @@ const ProductDetails: React.FC<Props> = ({
                   />
                 </div>
               )}
-
               {/* {mobile && (
-            <div className={cs(bootstrap.col12)}>
-              <Share
-                mobile={mobile}
-                link={`${__DOMAIN__}${location.pathname}`}
-                mailSubject="Gifting Ideas"
-                mailText={`${
-                  corporatePDP
-                    ? `Here's what I found, check it out on Good Earth's web boutique`
-                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
-                } ${__DOMAIN__}${location.pathname}`}
-              />
-            </div>
-          )} */}
+                <div className={cs(bootstrap.col12)}>
+                  <Share
+                    mobile={mobile}
+                    link={`${__DOMAIN__}${location.pathname}`}
+                    mailSubject="Gifting Ideas"
+                    mailText={`${
+                      corporatePDP
+                        ? `Here's what I found, check it out on Good Earth's web boutique`
+                        : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                    } ${__DOMAIN__}${location.pathname}`}
+                  />
+                </div>
+              )} */}
               {collection && (
                 <div
                   className={cs(bootstrap.col12, styles.collectionHeader, {})}
@@ -1217,13 +1114,13 @@ const ProductDetails: React.FC<Props> = ({
               )}
               <div
                 className={cs(
-                  isQuickview || mobile ? bootstrap.col7 : bootstrap.col7,
-                  isQuickview || mobile ? bootstrap.colMd7 : bootstrap.colMd7,
+                  // isQuickview || mobile ? bootstrap.col7 : bootstrap.col7,
+                  // isQuickview || mobile ? bootstrap.colMd7 : bootstrap.colMd7,
                   styles.title
                 )}
               >
                 {title}
-                <p>{shortDesc}</p>
+                {shortDesc && <p>{shortDesc}</p>}
                 {badge_text && (
                   <div
                     className={cs(
@@ -1236,55 +1133,56 @@ const ProductDetails: React.FC<Props> = ({
                   </div>
                 )}
               </div>
-              {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
-                <div
-                  className={cs(
-                    isQuickview || mobile ? bootstrap.col5 : bootstrap.col5,
-                    isQuickview || mobile ? bootstrap.colMd5 : bootstrap.colMd5,
-                    styles.priceContainer,
-                    { [globalStyles.textCenter]: !mobile }
-                  )}
-                >
-                  {currency === "INR" && (
-                    <span
-                      className={cs(styles.mrp, {
-                        [globalStyles.gold]:
-                          badgeType == "B_flat" ||
-                          (info.isSale && discount && discountedPriceRecords)
-                      })}
-                    >
-                      MRP.
-                    </span>
-                  )}
-                  {info.isSale && discount && discountedPriceRecords ? (
-                    <span className={styles.discountedPrice}>
-                      {displayPriceWithCommas(discountPrices, currency)}
-                      <br />
-                    </span>
-                  ) : (
-                    ""
-                  )}
-                  {info.isSale && discount ? (
-                    <span className={styles.oldPrice}>
-                      {displayPriceWithCommas(price, currency)}
-                    </span>
-                  ) : (
-                    <span
-                      className={cs(styles.normalPrice, {
-                        [globalStyles.gold]: badgeType == "B_flat",
-                        [globalStyles.fontSize16]: badgeType == "B_flat"
-                      })}
-                    >
-                      {" "}
-                      {displayPriceWithCommas(price, currency)}
-                    </span>
-                  )}
-                  {currency === "INR" && (
-                    <p className={styles.incTax}>(Incl. of all taxes)</p>
-                  )}
-                </div>
-              )}
             </div>
+
+            {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
+              <div
+                className={cs(
+                  // isQuickview || mobile ? bootstrap.col5 : bootstrap.col5,
+                  // isQuickview || mobile ? bootstrap.colMd5 : bootstrap.colMd5,
+                  styles.priceContainer
+                  // { [globalStyles.textCenter]: !mobile }
+                )}
+              >
+                {currency === "INR" && (
+                  <span
+                    className={cs(styles.mrp, {
+                      [globalStyles.gold]:
+                        badgeType == "B_flat" ||
+                        (info.isSale && discount && discountedPriceRecords)
+                    })}
+                  >
+                    MRP.
+                  </span>
+                )}
+                {info.isSale && discount && discountedPriceRecords ? (
+                  <span className={styles.discountedPrice}>
+                    {displayPriceWithCommas(discountPrices, currency)}
+                    {/* <br /> */}
+                  </span>
+                ) : (
+                  ""
+                )}
+                {info.isSale && discount ? (
+                  <span className={styles.oldPrice}>
+                    {displayPriceWithCommas(price, currency)}
+                  </span>
+                ) : (
+                  <span
+                    className={cs(styles.normalPrice, {
+                      [globalStyles.gold]: badgeType == "B_flat",
+                      [globalStyles.fontSize16]: badgeType == "B_flat"
+                    })}
+                  >
+                    {" "}
+                    {displayPriceWithCommas(price, currency)}
+                  </span>
+                )}
+                {currency === "INR" && (
+                  <p className={styles.incTax}>(Incl. of all taxes)</p>
+                )}
+              </div>
+            )}
 
             {groupedProducts?.length ? (
               <div
@@ -1825,17 +1723,17 @@ const ProductDetails: React.FC<Props> = ({
               )}
             >
               {/* {!mobile && !isQuickview && (
-            <Share
-              mobile={mobile}
-              link={`${__DOMAIN__}${location.pathname}`}
-              mailSubject="Gifting Ideas"
-              mailText={`${
-                corporatePDP
-                  ? `Here's what I found, check it out on Good Earth's web boutique`
-                  : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
-              } ${__DOMAIN__}${location.pathname}`}
-            />
-          )} */}
+                <Share
+                  mobile={mobile}
+                  link={`${__DOMAIN__}${location.pathname}`}
+                  mailSubject="Gifting Ideas"
+                  mailText={`${
+                    corporatePDP
+                      ? `Here's what I found, check it out on Good Earth's web boutique`
+                      : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                  } ${__DOMAIN__}${location.pathname}`}
+                />
+              )} */}
               <div>
                 {!isQuickview && (
                   <Accordion
@@ -1848,23 +1746,23 @@ const ProductDetails: React.FC<Props> = ({
                 )}
               </div>
               {/* {!isQuickview && (
-              <div className={cs(styles.sku, globalStyles.voffset4)}>
-                Vref. {setSelectedSKU()}
-              </div>
-            )} */}
+                <div className={cs(styles.sku, globalStyles.voffset4)}>
+                  Vref. {setSelectedSKU()}
+                </div>
+              )} */}
               {/* {!isQuickview && <CustomerCareInfo />} */}
               {/* {!isQuickview && (
-              <Share
-                mobile={mobile}
-                link={`${__DOMAIN__}${location.pathname}`}
-                mailSubject="Gifting Ideas"
-                mailText={`${
-                  corporatePDP
-                    ? `Here's what I found, check it out on Good Earth's web boutique`
-                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
-                } ${__DOMAIN__}${location.pathname}`}
-              />
-            )} */}
+                <Share
+                  mobile={mobile}
+                  link={`${__DOMAIN__}${location.pathname}`}
+                  mailSubject="Gifting Ideas"
+                  mailText={`${
+                    corporatePDP
+                      ? `Here's what I found, check it out on Good Earth's web boutique`
+                      : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                  } ${__DOMAIN__}${location.pathname}`}
+                />
+              )} */}
               {!isQuickview && (
                 <div className={cs(styles.sku, globalStyles.voffset4)}>
                   Vref. {setSelectedSKU()}
