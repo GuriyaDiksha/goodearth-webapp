@@ -577,7 +577,8 @@ const ProductDetails: React.FC<Props> = ({
               quantity: quantity,
               // dimension12: selectedSize?.color,
               collection_category: collections?.join("|"),
-              price_range: "NA"
+              price_range: "NA",
+              atc_location: source?.toLowerCase()
             }
           ]
         }
@@ -1755,8 +1756,8 @@ const ProductDetails: React.FC<Props> = ({
                       <dt className={styles.title}>
                         <span className={styles.dot}></span> {text?.heading}
                       </dt>
-                      {text?.free_products?.map(value => (
-                        <dd className={styles.text}>
+                      {text?.free_products?.map((value, index) => (
+                        <dd className={styles.text} key={index}>
                           <span>.</span> {value}
                         </dd>
                       ))}
