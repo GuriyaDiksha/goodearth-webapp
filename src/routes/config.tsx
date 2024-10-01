@@ -92,13 +92,13 @@ const routes: RouteConfig = [
   },
   {
     path: ROUTES.WISHLIST,
-    component: loadable(() => import("containers/wishlist")),
+    component: loadable(() => import("containers/wishlist/WishlistDetailPage")),
     action: async () => null,
     exact: true
   },
   {
     path: ROUTES.SHAREDWISHLIST,
-    component: loadable(() => import("containers/wishlist")),
+    component: loadable(() => import("containers/wishlist/WishlistDetailPage")),
     action: async () => null,
     exact: true
   },

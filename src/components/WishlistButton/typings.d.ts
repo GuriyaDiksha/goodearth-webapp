@@ -27,4 +27,8 @@ export type Props = {
   isPlpTile?: boolean;
   tablet?: boolean;
   badgeType?: string;
+  createWishlistPopup?: any;
+  isPdp?: boolean;
+  closeModal?: any;
+  toggleBag?: any;
 };

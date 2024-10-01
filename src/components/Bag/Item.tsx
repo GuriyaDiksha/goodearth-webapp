@@ -73,7 +73,7 @@ const LineItems: React.FC<BasketItem> = memo(
     const onMoveToWishlist = () => {
       const msg = (
         <div>
-          Your item has been moved to saved items.&nbsp;&nbsp;
+          Your item has been moved to Default List.&nbsp;&nbsp;
           <span
             className={cs(globalStyles.linkTextUnderline, globalStyles.pointer)}
             onClick={async () => {
@@ -84,7 +84,7 @@ const LineItems: React.FC<BasketItem> = memo(
               dispatch(updateBasket(res.basket));
             }}
           >
-            Undo
+            UNDO
           </span>
         </div>
       );
@@ -627,6 +627,7 @@ const LineItems: React.FC<BasketItem> = memo(
                         inWishlist={inWishlist}
                         onMoveToWishlist={onMoveToWishlist}
                         badgeType={badgeType}
+                        toggleBag={toggleBag}
                       />
                     )}
                   </div>

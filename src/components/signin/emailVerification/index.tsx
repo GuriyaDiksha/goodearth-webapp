@@ -32,10 +32,10 @@ type Props = {
   currency: Currency;
   // nextStep?: () => void;
   products?: any;
-  sortBy?: string;
+  // sortBy?: string;
   phoneNo?: string;
   isRegistration?: boolean;
-  attempt_count: number;
+  attempt_count?: number;
 };
 
 const EmailVerification: React.FC<Props> = ({
@@ -48,7 +48,7 @@ const EmailVerification: React.FC<Props> = ({
   currency,
   // nextStep,
   products,
-  sortBy,
+  // sortBy,
   phoneNo,
   isRegistration,
   attempt_count
@@ -109,7 +109,7 @@ const EmailVerification: React.FC<Props> = ({
         otp,
         currency,
         source,
-        sortBy,
+        // sortBy,
         mobile,
         mobile ? ModalStyles.bottomAlignSlideUp : ""
       );

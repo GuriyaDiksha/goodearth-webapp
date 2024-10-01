@@ -302,6 +302,10 @@ a {
 .aqua{
   color: $aqua-text !important;
 }
+.aqua-hover:hover{
+  color: $aqua-text !important;
+}
+
 .bold {
 font-weight: bold;
 }
@@ -368,6 +372,7 @@ font-weight: bold;
 .link-text-underline {
   text-decoration: underline !important;
   cursor: pointer;
+  text-underline-offset: 0.3rem;
 }
 .text-underline {
   text-decoration: underline !important;
@@ -813,6 +818,9 @@ font-weight: bold;
 .paddBottom-50 {
   padding-bottom: 50px;
 }
+.paddLeftRight-5 {
+  padding: 0 5px;
+}
 .paddLeft-10 {
   padding-left: 10px;
 }
@@ -1036,4 +1044,7 @@ input[type="radio"]:checked.radio-check{
   .desktop-hide{
     display: none!important;
   }
+}
+.underlineOffset{
+  text-underline-offset: 0.3rem;
 }
