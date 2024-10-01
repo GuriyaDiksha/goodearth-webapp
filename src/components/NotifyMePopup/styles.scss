@@ -188,6 +188,10 @@ span {
     flex-direction: column;
     padding-left: 20px;
     padding-right: 20px;
+    @media(max-width: 992px) {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
     .info-container {
         display: flex;
         justify-content: space-between;
