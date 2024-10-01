@@ -59,7 +59,7 @@ const LoyaltyLanding = () => {
             <div className={styles.loyaltyInfoCol}>
               <p className={styles.loyaltyInfoHeading}>Cerise Club</p>
               <p className={styles.loyaltyInfoSubHead}>
-                Seamless enrolment on crossing an annual purchase value of ₹ 1
+                Seamless enrolment on crossing an annual purchase value of ₹ 3
                 lakh.
               </p>
             </div>
