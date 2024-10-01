@@ -721,12 +721,13 @@ icon-cross {
     .login-form {
       .wrapper{
         display: flex;
-        padding: 0 13%;
         justify-content: space-between;
         margin-bottom: 20px;
-
         @media screen and (max-width:992px) {
           margin-bottom: 90px;
+        }
+        @media screen and (min-width:992){
+          padding: 0 13%;
         }
       }
       .wup-link{

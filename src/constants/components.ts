@@ -75,6 +75,9 @@ const RedeemPopup = loadable(() => import("components/Popups/RedeemPopup"));
 const EditProfile = loadable(() => import("components/Popups/EditProfile"));
 const CreditNotes = loadable(() => import("components/Popups/CreditNotes"));
 const CountryPopup = loadable(() => import("components/Popups/CountryPopup"));
+const SharePdpPopup = loadable(() =>
+  import("containers/pdp/components/sharePopup/index")
+);
 
 const EditWishlistName = loadable(() =>
   import("../containers/wishlist/editName")
@@ -128,6 +131,7 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   editProfile: EditProfile,
   creditNotes: CreditNotes,
   countryPopup: CountryPopup,
+  sharePdpPopup: SharePdpPopup,
   editWishlistName: EditWishlistName,
   deleteWishlist: DeleteWishlist,
   createWishlist: CreateWishlist,
@@ -173,6 +177,7 @@ export const enum POPUP {
   EditProfile = "editProfile",
   CREDITNOTES = "creditNotes",
   COUNTRYPOPUP = "countryPopup",
+  SHAREPDPPOPUP = "sharePdpPopup",
   EDITWISHLISTNAME = "editWishlistName",
   DELETEWISHLIST = "deleteWishlist",
   CREATEWISHLIST = "createWishlist",

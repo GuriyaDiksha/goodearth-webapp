@@ -24,6 +24,7 @@ export type otpState = {
   disable?: boolean;
   isDisabled?: boolean;
   attempt_count: number;
+  selectedOption: any;
 };
 
 export type otpProps = {

@@ -19,7 +19,6 @@ type Props = {
 };
 
 const PlpBubbles: React.FC<Props> = ({ data }) => {
-  const [showBubble, setShowBubble] = useState(false);
   const [bubbleCount, setBubbleCount] = useState(0);
   const isThree = useMemo(() => data.length === 3, [data]);
   const history = useHistory();
@@ -27,7 +26,6 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
 
   useEffect(() => {
     setBubbleCount(data.length || 0);
-    setShowBubble(true);
   }, [data]);
 
   useEffect(() => {
@@ -47,7 +45,7 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
       arrows: bubbleCount > 7,
       infinite: false,
       swipeToSlide: true,
-
+      touchThreshold: 10,
       responsive: [
         {
           breakpoint: 1617,
@@ -118,20 +116,9 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
             slidesToScroll: 1,
             arrows: false,
             swipeToSlide: true,
-            touchThreshold: 10,
-            infinite: data.length > 3
-          }
-        },
-        {
-          breakpoint: 453,
-          settings: {
-            slidesToShow: 4,
-            slidesToScroll: 1,
-            arrows: false,
+            touchThreshold: 20,
             infinite: data.length > 3,
-            swipeToSlide: true,
-            cssEase: "linear",
-            autoplaySpeed: 5000
+            speed: 500
           }
         }
       ]
@@ -158,47 +145,45 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
 
   return (
     <React.Fragment>
-      {showBubble && (
-        <div
-          className={cs(
-            styles.sliderContainer,
-            { [styles.marginLeft]: bubbleCount === 3 },
-            "SliderContainer"
-          )}
-        >
-          <Slider {...settings}>
-            {data?.map((item: any) => (
-              <div className={styles.bubbleContainer} key={item.url}>
-                <div
-                  className={
-                    item.name === "View All"
-                      ? styles.highlightImgWrap
-                      : styles.imgWrap
-                  }
-                  onClick={() => (
-                    plpBubbleGaCall(item?.name), handleClick(item?.url)
-                  )}
-                >
-                  <img
-                    className={styles.bubbleImage}
-                    src={item?.image}
-                    alt="img"
-                  />
-                </div>
-                <span
-                  className={
-                    item?.name === "View All"
-                      ? styles.highlightBubbleText
-                      : styles.bubbleText
-                  }
-                >
-                  {item?.name}
-                </span>
+      <div
+        className={cs(
+          styles.sliderContainer,
+          { [styles.marginLeft]: bubbleCount === 3 },
+          "SliderContainer"
+        )}
+      >
+        <Slider {...settings}>
+          {data?.map((item: any) => (
+            <div className={styles.bubbleContainer} key={item.url}>
+              <div
+                className={
+                  item.name === "View All"
+                    ? styles.highlightImgWrap
+                    : styles.imgWrap
+                }
+                onClick={() => (
+                  plpBubbleGaCall(item?.name), handleClick(item?.url)
+                )}
+              >
+                <img
+                  className={styles.bubbleImage}
+                  src={item?.image}
+                  alt="img"
+                />
               </div>
-            ))}
-          </Slider>
-        </div>
-      )}
+              <span
+                className={
+                  item?.name === "View All"
+                    ? styles.highlightBubbleText
+                    : styles.bubbleText
+                }
+              >
+                {item?.name}
+              </span>
+            </div>
+          ))}
+        </Slider>
+      </div>
     </React.Fragment>
   );
 };
