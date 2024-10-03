@@ -15,15 +15,9 @@
 
 .title {
     max-width: 320px;
-
-    @media screen and (max-width: 1176px) and (min-width: 992px) {
+    @media (max-width: 1281px) {
         max-width: 280px;
     }
-
-    @media (max-width:762px) {
-        max-width: 280px;
-    }
-
     @include pdp_prod_title();
 
     p {
@@ -32,7 +26,6 @@
         font-size: 12px;
         font-style: normal;
         font-weight: normal;
-
     }
 }
 
