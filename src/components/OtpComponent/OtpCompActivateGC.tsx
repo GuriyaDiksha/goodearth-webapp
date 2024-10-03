@@ -39,7 +39,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
       startTimer: true,
       isDisabled: false,
       attempt_count: 0,
-      selectedOption: "mobile number"
+      selectedOption: "email"
     };
   }
   // timerId: any = 0;
@@ -148,7 +148,6 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   };
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
-    debugger;
     this.setState({ showerrorOtp: "" });
     if (this.props.otpFor == "activateGC") {
       if (
@@ -884,10 +883,11 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               {/* {!this.props.isIndiaGC && ( */}
               <li
                 className={cs(styles.radiobtn1, styles.xradio, {
-                  [styles.emailInput]: this.props.isIndiaGC
+                  [styles.emailInput]:
+                    this.props.isLoggedIn && this.props.isIndiaGC
                 })}
               >
-                {this.props.isIndiaGC ? (
+                {this.props.isLoggedIn && this.props.isIndiaGC && (
                   <input
                     type="radio"
                     value="email"
@@ -896,11 +896,11 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                     checked={this.state.selectedOption === "email"}
                     onChange={this.radioChangeHandler}
                   />
-                ) : (
-                  <div className={styles.placeholderRadio}>
-                    <div className={styles.outer}></div>
-                    <div className={styles.inner}></div>
-                  </div>
+                  // ) : (
+                  // <div className={styles.placeholderRadio}>
+                  //   <div className={styles.outer}></div>
+                  //   <div className={styles.inner}></div>
+                  // </div>
                 )}
                 <FormInput
                   name="email"
@@ -910,8 +910,10 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                     styles.relative,
                     styles.smallInput,
                     styles.customRadioBtn
+                    // styles.disabledInp
                   )}
-                  disable={this.props.isCredit}
+                  // disable={this.props.isCredit}
+                  disable={this.props.email ? true : false}
                   inputRef={this.emailInput}
                   value={this.props.email ? this.props.email : ""}
                   handleChange={e =>
@@ -943,7 +945,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 />
               </li>
               {/* )} */}
-              {this.props.isIndiaGC && (
+              {this.props.isLoggedIn && this.props.isIndiaGC && (
                 <li
                   className={cs(
                     styles.countryCode,
@@ -958,8 +960,13 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                     name="radio-group"
                     checked={this.state.selectedOption === "mobile number"}
                     onChange={this.radioChangeHandler}
+                    disabled={!this.props.phoneNo ? true : false}
                   />
-                  <div className={cs(styles.flex, styles.customRadioBtn)}>
+                  <div
+                    className={cs(styles.flex, styles.customRadioBtn, {
+                      [styles.disabledRadio]: !this.props.phoneNo
+                    })}
+                  >
                     <div className={styles.contactCode}>
                       <input
                         type="text"
@@ -999,12 +1006,19 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                             ? e.preventDefault()
                             : null
                         }
+                        disable={true}
                       />
                     </div>
                     <p id="selectError" className={cs(styles.errorMsg)}>
                       {this.state.msgt}
                     </p>
                   </div>
+                  {!this.props.phoneNo && (
+                    <p className={cs(styles.errorMsg, styles.phErrMsg)}>
+                      Phone number is missing in your profile. Please update it
+                      in the profile section.
+                    </p>
+                  )}
                 </li>
               )}
               <hr />
