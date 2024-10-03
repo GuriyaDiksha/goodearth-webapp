@@ -236,3 +236,8 @@ span {
     font-size: 12px !important;
     padding-right: 5px;
 }
+.email-input input{
+    @media(min-width:768px)and(max-width:992px){
+        max-width: 50%;
+    }
+}
