@@ -1,5 +1,5 @@
 import React from "react";
-import whatsapp from "./../../images/whatsapp_new.svg";
+import whatsapp from "./../../images/sharePdp/whatsapp_new.svg";
 
 type Props = {
   link: string;

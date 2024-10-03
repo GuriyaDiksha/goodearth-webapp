@@ -237,45 +237,24 @@ const Giftcard: React.FC = () => {
           ...giftCardState,
           isLoading: false
         });
-        if (res.currStatus == "Active" || res.currStatus == "Applied") {
+        if (res.currStatus === "Not Activated") {
+          setGiftCardState({
+            ...giftCardState,
+            showSendOtp: true,
+            isIndiaGC: res.curr === "INR"
+          });
+        } else {
           ActivateGCForm.current &&
             ActivateGCForm.current.updateInputsWithError(
               {
-                giftCardCode: [
-                  <>
-                    The gift card has already been activated.{" "}
-                    <Link
-                      to="/account/check-balance"
-                      key="check-balance-click-here"
-                      style={{
-                        textDecoration: "underline",
-                        pointerEvents: "all"
-                      }}
-                    >
-                      Click here
-                    </Link>{" "}
-                    to check the balance.
-                  </>
-                ]
+                giftCardCode: [<>{res.message}</>]
               },
               true
             );
-        } else {
-          if (res.type == "GIFT") {
-            if (res.curr == "INR") {
-              setGiftCardState({
-                ...giftCardState,
-                isIndiaGC: true,
-                showSendOtp: true
-              });
-            } else {
-              setGiftCardState({
-                ...giftCardState,
-                isIndiaGC: false,
-                showSendOtp: true
-              });
-            }
-          }
+          setGiftCardState({
+            ...giftCardState,
+            isProceedBtnDisabled: true
+          });
         }
       })
       .catch(err => {
@@ -296,6 +275,10 @@ const Giftcard: React.FC = () => {
               },
               true
             );
+          setGiftCardState({
+            ...giftCardState,
+            isProceedBtnDisabled: true
+          });
         }
       });
   };
