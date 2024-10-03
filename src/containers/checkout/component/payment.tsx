@@ -1053,7 +1053,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             }
             id="payment-section"
           >
-            {isPaymentNeeded && (
+            {
               <div>
                 <div className={styles.title}>SELECT PAYMENT METHOD</div>
                 {getMethods.map(function(method, index) {
@@ -1246,8 +1246,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   </div>
                 </label> */}
               </div>
-            )}
-            {paymentError && !isPaymentNeeded && (
+            }
+            {paymentError && (
               <div
                 className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
                 data-name="error-msg"
