@@ -49,6 +49,7 @@ export type otpProps = {
   newGiftCard?: () => void;
   isFromCheckBalance?: boolean;
   mobile: boolean;
+  isLoggedIn?: boolean;
 };
 
 export type otpRedeemProps = {
