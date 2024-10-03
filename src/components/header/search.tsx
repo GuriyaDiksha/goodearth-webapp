@@ -140,7 +140,7 @@ class Search extends React.Component<Props, State> {
         event: "search_bar_results_found",
         cta_name: `${allWordsExceptLast} ${lastWord}`,
         click_type: "search bubble",
-        search_terms: lastWord
+        search_terms: lastWord.toLowerCase()
       });
     }
   };
