@@ -234,11 +234,16 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     updateMode: () => {
       dispatch(updateAddressMode("list"));
     },
-    showExitPopup: (location: any, action: any, mobile: any) => {
+    showExitPopup: (location: any, action: any, mobile: any, basket: any) => {
       dispatch(
         updateComponent(
           POPUP.GCCHECKOUT,
-          { location: location, action: action, history: history },
+          {
+            location: location,
+            action: action,
+            history: history,
+            basket: basket
+          },
           mobile ? false : true,
           mobile ? ModalStyles.bottomAlignSlideUp : "",
           mobile ? "slide-up-bottom-align" : ""
@@ -381,7 +386,12 @@ class Checkout extends React.Component<Props, State> {
           // Do nothing
         } else {
           localStorage.setItem("openGCExitModal", "true");
-          this.props.showExitPopup(location, action, this.props.mobile);
+          this.props.showExitPopup(
+            location,
+            action,
+            this.props.mobile,
+            this.props.basket
+          );
           this.props?.history?.replace({ pathname: "/order/gc_checkout" });
           return false;
         }
