@@ -1616,6 +1616,12 @@ input[type="text"].country-code-search-input{
 }
 .gc-wrp{
   position: relative;
+  div{
+    p {
+      line-height: unset !important;
+    }
+  }
+  
 }
 
 .code-wrp{
