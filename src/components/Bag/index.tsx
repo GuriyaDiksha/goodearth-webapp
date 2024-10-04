@@ -173,13 +173,14 @@ class Bag extends React.Component<Props, State> {
 
   getItems() {
     const {
-      cart: { lineItems, offerDiscounts },
+      cart: { lineItems },
       currency,
       mobile,
       wishlistData,
       isLoggedIn
     } = this.props;
-    const item = lineItems?.map((item, index) => {
+
+    const item = lineItems?.map(item => {
       return (
         <LineItems
           key={item.id}
@@ -187,8 +188,6 @@ class Bag extends React.Component<Props, State> {
           currency={currency}
           saleStatus={this.props.isSale}
           toggleBag={this.props.toggleBag}
-          offerDiscount={offerDiscounts}
-          productPosition={index + 1}
         />
       );
     });

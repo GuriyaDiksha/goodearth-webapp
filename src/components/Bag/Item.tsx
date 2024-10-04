@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useState } from "react";
 import cs from "classnames";
 import { Link, useHistory } from "react-router-dom";
 import styles from "./styles_new.scss";
@@ -30,9 +30,7 @@ const LineItems: React.FC<BasketItem> = memo(
     toggleBag,
     GCValue,
     GCMeta,
-    is_free_product,
-    offerDiscount,
-    productPosition
+    is_free_product
   }) => {
     const [value, setValue] = useState(quantity | 0);
     // const [qtyError, setQtyError] = useState(false);
@@ -186,7 +184,7 @@ const LineItems: React.FC<BasketItem> = memo(
         });
         dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
         dataLayer.push({
-          event: "remove_from_wishlist",
+          event: "remove_from_cart",
           previous_page_url: CookieService.getCookie("prevUrl"),
           ecommerce: {
             currency: currency,
@@ -199,30 +197,24 @@ const LineItems: React.FC<BasketItem> = memo(
               {
                 item_id: product.sku || product.childAttributes[0].sku,
                 item_name: product.title,
-                affiliation: is_free_product
-                  ? "Complimentary"
-                  : "Non-Complimentary",
-                coupon: isSale
-                  ? offerDiscount[0].name +
-                    "," +
-                    childAttributes[0]?.discountedPriceRecords[currency]
-                  : "NA",
-                // currency: currency, // Pass the currency code
-                // discount:
-                //   isSale && childAttributes[0]?.discountedPriceRecords[currency]
-                //     ? badgeType == "B_flat"
-                //       ? childAttributes[0]?.discountedPriceRecords[currency]
-                //       : price -
-                //         childAttributes[0]?.discountedPriceRecords[currency]
-                //     : "NA", // Pass the discount amount
-                index: productPosition || "NA",
+                affiliation: product.title,
+                coupon: "NA", // Pass the coupon if available
+                currency: currency, // Pass the currency code
+                discount:
+                  isSale && childAttributes[0]?.discountedPriceRecords[currency]
+                    ? badgeType == "B_flat"
+                      ? childAttributes[0]?.discountedPriceRecords[currency]
+                      : price -
+                        childAttributes[0]?.discountedPriceRecords[currency]
+                    : "NA", // Pass the discount amount
+                index: "NA",
                 item_brand: "goodearth",
                 item_category: L1,
                 item_category2: L2,
                 item_category3: L3,
-                item_category4: is_free_product ? "product.title" : "NA",
-                item_category5: product?.is3d ? "3d" : "Non3d",
-                item_list_id: id ? id : "NA",
+                item_category4: "NA",
+                item_category5: "NA",
+                item_list_id: "NA",
                 item_list_name: search ? `${clickType}-${search}` : "NA",
                 item_variant: size || "NA",
                 price: price,
