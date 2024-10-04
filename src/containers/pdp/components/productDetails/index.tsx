@@ -982,8 +982,42 @@ const ProductDetails: React.FC<Props> = ({
     changeModalState(true);
   };
 
+  const addToDefaultWishlist = () => {
+    WishlistService.addToWishlist(
+      store.dispatch,
+      id,
+      undefined,
+      size ? size : undefined
+    )
+      .then(() => {
+        const growlMsg = (
+          <div>
+            Your item has been saved to <b>Default List.</b>{" "}
+            {isLoggedIn ? "Click here" : "Sign In"} to&nbsp;
+            <Link
+              className={globalStyles.underlineOffset}
+              to="/wishlist"
+              key="wishlist"
+              style={{ textDecoration: "underline", pointerEvents: "all" }}
+            >
+              view & manage
+            </Link>
+            &nbsp;your lists.
+          </div>
+        );
+        // gtmPushAddToWishlist(true);
+        showGrowlMessage(dispatch, growlMsg);
+      })
+      .finally(() => {
+        dispatch(updateLoader(false));
+      });
+  };
+
   // Callback function to handle data from the child Component - WislistButtonPdp
   const createWishlistPopupMobile = () => {
+    if (items.length == 0) {
+      addToDefaultWishlist();
+    }
     dispatch(
       updateComponent(
         POPUP.ADDREMOVEWISHLISTNAMEPOPUP,
@@ -999,34 +1033,7 @@ const ProductDetails: React.FC<Props> = ({
   const createWishlistPopup = (data: any) => {
     setIsWishlistOpen(data);
     if (items.length == 0) {
-      WishlistService.addToWishlist(
-        store.dispatch,
-        id,
-        undefined,
-        size ? size : undefined
-      )
-        .then(() => {
-          const growlMsg = (
-            <div>
-              Your item has been saved to <b>Default List.</b>{" "}
-              {isLoggedIn ? "Click here" : "Sign In"} to&nbsp;
-              <Link
-                className={globalStyles.underlineOffset}
-                to="/wishlist"
-                key="wishlist"
-                style={{ textDecoration: "underline", pointerEvents: "all" }}
-              >
-                view & manage
-              </Link>
-              &nbsp;your lists.
-            </div>
-          );
-          // gtmPushAddToWishlist(true);
-          showGrowlMessage(dispatch, growlMsg);
-        })
-        .finally(() => {
-          dispatch(updateLoader(false));
-        });
+      addToDefaultWishlist();
     }
   };
 
