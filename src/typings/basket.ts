@@ -98,6 +98,4 @@ export interface BasketItem extends BasketLineItem {
   tablet?: boolean;
   GCMeta?: GCMetaType;
   is_free_product?: boolean;
-  offerDiscount: any[];
-  productPosition: number;
 }
