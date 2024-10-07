@@ -40,6 +40,7 @@ export type registerState = {
   selectedCountry?: string;
   phoneNo?: string;
   countryCodeErr?: string;
+  newsLetterChecked: boolean;
 };
 
 export type RegisterProps = {
