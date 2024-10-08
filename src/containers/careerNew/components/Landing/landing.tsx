@@ -19,6 +19,7 @@ const Landing: React.FC = () => {
     currency,
     user: { isLoggedIn }
   } = useSelector((state: AppState) => state);
+  const { mobile } = useSelector((state: AppState) => state.device);
   const { depts }: CareerData = useSelector((state: AppState) => state.career);
   const { showTimer } = useSelector((state: AppState) => state.info);
   const dispatch = useDispatch();
@@ -82,7 +83,7 @@ const Landing: React.FC = () => {
         </p>
         <Button
           label="Apply now"
-          variant="largeMedCharcoalCta"
+          variant={mobile ? "mediumMedCharcoalCta366" : "largeMedCharcoalCta"}
           className={landing.apply_section_btn}
           onClick={() => applyNow()}
         />
