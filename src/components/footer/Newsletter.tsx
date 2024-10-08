@@ -145,6 +145,7 @@ const Newsletter: React.FC<Props> = ({ title, subTitle }) => {
           }
         } else {
           setSuccessMsg(data.message);
+          setEnableSubmit(false);
           const input = document?.querySelector<HTMLElement>("#job-form input");
 
           if (input) {
