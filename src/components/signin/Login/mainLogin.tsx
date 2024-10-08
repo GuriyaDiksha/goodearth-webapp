@@ -521,6 +521,10 @@ class MainLogin extends React.Component<Props, loginState> {
       case "email": {
         this.disablePassword();
         const pasteTxt = event.clipboardData.getData("text");
+        if (pasteTxt.length !== pasteTxt.trim().length) {
+          event.preventDefault();
+          return false;
+        }
         if (!checkMail(pasteTxt)) {
           if (this.state.msg !== "Please enter a valid Email ID") {
             this.setState({
@@ -552,6 +556,13 @@ class MainLogin extends React.Component<Props, loginState> {
         highlightp: false,
         showerror: ""
       });
+    }
+  }
+
+  handleKeyPress(event: React.KeyboardEvent) {
+    if (event.which === 32) {
+      event.preventDefault();
+      return false;
     }
   }
 
@@ -589,12 +600,14 @@ class MainLogin extends React.Component<Props, loginState> {
             <InputField
               id="auto_focus"
               value={this.state.email || this.props.email}
+              type={"email"}
               placeholder={"Email ID*"}
               label={"Email ID*"}
               border={this.state.highlight}
               keyUp={e => this.handleKeyUp(e, "email")}
               handleChange={e => this.handleChange(e, "email")}
               handlePaste={e => this.handlePaste(e, "email")}
+              keyPress={e => this.handleKeyPress(e)}
               error={this.state.msg}
               inputRef={this.firstEmailInput}
               showLabel={true}
