@@ -275,7 +275,7 @@ const AddressSection: React.FC<AddressProps & {
         <div
           className={cs(
             {
-              [bootstrapStyles.col5]: !isBottom,
+              [bootstrapStyles.col6]: !isBottom,
               [bootstrapStyles.colMd6]: !isBottom,
               [bootstrapStyles.col12]: isBottom,
               [bootstrapStyles.colMd12]: isBottom,
@@ -1084,7 +1084,8 @@ const AddressSection: React.FC<AddressProps & {
                   bootstrapStyles.col6,
                   bootstrapStyles.colMd6,
                   globalStyles.flex,
-                  styles.title
+                  styles.title,
+                  styles.titleMobile
                 )}
               >
                 {STEP_ORDER[activeStep] < currentStep ? (
@@ -1235,15 +1236,15 @@ const AddressSection: React.FC<AddressProps & {
                       : "BILLING ADDRESS"}
                   </span>
                 </div>
-                {mobile &&
+                {/* {mobile &&
                   ctaText != "ADD A NEW ADDRESS" &&
                   renderActions(
                     false,
                     activeStep == STEP_BILLING && !isActive && !billingAddressId
-                  )}
+                  )} */}
               </div>
-              {!mobile &&
-                ctaText != "ADD A NEW ADDRESS" &&
+              {// !mobile &&
+              ctaText != "ADD A NEW ADDRESS" &&
                 renderActions(
                   false,
                   activeStep == STEP_BILLING && !isActive && !billingAddressId
