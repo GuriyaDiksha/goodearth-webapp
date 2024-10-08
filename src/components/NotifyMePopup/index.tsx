@@ -60,6 +60,7 @@ type Props = {
   badge_text?: string;
   productDataId?: number;
   listName?: string;
+  source?: string;
 };
 
 const NotifyMePopup: React.FC<Props> = ({
@@ -300,7 +301,8 @@ const NotifyMePopup: React.FC<Props> = ({
               collection_category: isArray(collections)
                 ? collections?.join("|")
                 : collections,
-              price_range: "NA"
+              price_range: "NA",
+              atc_location: list || "NA"
             }
           ]
         }
