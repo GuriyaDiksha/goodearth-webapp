@@ -62,6 +62,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     isGcCheckout
   } = props;
   const [paymentError, setPaymentError] = useState("");
+  const [lineItemError, setLineItemError] = useState("");
   const [policyError, setPolicyError] = useState("");
   const [whatsappNoErr, setWhatsappNoErr] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
@@ -379,7 +380,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             msg =
               "Some items in your cart have been modified or are no longer available. Kindly refresh before proceeding.";
           }
-          setPaymentError(msg);
+          setLineItemError(msg);
           errorTracking([msg], location.href);
           document.getElementById("payment-section")?.scrollIntoView();
           setIsLoading(false);
@@ -1091,12 +1092,17 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   );
                 })}
 
-                <div
-                  className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
-                  data-name="error-msg"
-                >
-                  {paymentError}
-                </div>
+                {paymentError && (
+                  <div
+                    className={cs(
+                      globalStyles.errorMsg,
+                      globalStyles.marginT20
+                    )}
+                    data-name="error-msg"
+                  >
+                    {paymentError}
+                  </div>
+                )}
                 <div>
                   <hr className={styles.hr} />
                   {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
@@ -1247,12 +1253,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 </label> */}
               </div>
             }
-            {paymentError && (
+            {lineItemError && (
               <div
                 className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
                 data-name="error-msg"
               >
-                {paymentError}
+                {lineItemError}
               </div>
             )}
             {policyError && (
