@@ -1,5 +1,5 @@
 import React from "react";
-import mail from "../../images/mail.svg";
+import mail from "../../images/sharePdp/mail.svg";
 import styles from "./styles.scss";
 
 type Props = {
@@ -12,14 +12,14 @@ const Mail: React.FC<Props> = ({ link, className }) => {
     <p>
       {/* <span className={globalStyles.gold}> */}
       <>
-        <img src={mail} className={styles.mailIcon} />
         <a
           target="_blank"
           href={link}
           className={className}
           rel="noopener noreferrer"
         >
-          Share via email
+          <img src={mail} className={styles.mailIcon} alt="mail" />
+          <p>Share via Email</p>
         </a>
       </>
       {/* </span> */}

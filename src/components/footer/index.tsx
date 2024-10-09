@@ -24,6 +24,8 @@ import { OLD_COOKIE_SETTINGS } from "constants/cookieConsent";
 import EarthLogo from "./../../icons/earth.svg";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
+import NewsletterModal from "./NewsletterModal";
+import Newsletter from "./Newsletter";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -94,7 +96,8 @@ class Footer extends React.Component<Props, FooterState> {
       headingHoverArray: [],
       subheadingHoverArray: [],
       smartNav: ["/", "/homepage"],
-      country: ""
+      country: "",
+      showPopUp: false
     };
   }
 
@@ -306,6 +309,10 @@ class Footer extends React.Component<Props, FooterState> {
             const msg = showErrors(data.message);
             // this.setState({newsletter_email: ""});
             this.setState({ newsletterError: false, newsletterMessage: msg });
+            console.log(data.status, msg);
+            this.setState(prevState => ({
+              showPopUp: !prevState.showPopUp
+            }));
           } else {
             const msg = showErrors(data.message);
             this.setState({ newsletterError: false, newsletterMessage: msg });
@@ -484,7 +491,7 @@ class Footer extends React.Component<Props, FooterState> {
                           }
                         >
                           {mobileFooterList?.map((list, i: number) => {
-                            console.log("########### LIST:", list);
+                            // console.log("########### LIST:", list);
                             return (
                               <li key={i}>
                                 {list.value.length > 0 ? (
@@ -1280,8 +1287,7 @@ class Footer extends React.Component<Props, FooterState> {
             showCookiePrefs={this.props?.showCookiePrefs}
           />
         )}
-
-        {/* DO NOT REMOVE THIS CODE : Commented this code as per product requirement */}
+        {/* DO NOT REMOVE THIS CODE : Commented this code as per product requirement  css for both NewsletterModal and Newsletter are written separately depend upon requirement you can uncomment*/}
         {/* {!(OLD_COOKIE_SETTINGS
           ? cookiCheck
           : (cookiCheck && !this.state.isConsentSave) ||
@@ -1291,8 +1297,20 @@ class Footer extends React.Component<Props, FooterState> {
             subTitle={
               "Be the first to know about new launches and the latest updates from the brand, delivered straight to your inbox!"
             }
+          />)} */}
+
+        {/* DO NOT REMOVE THIS CODE : Commented this code as per product requirement  */}
+        {!(OLD_COOKIE_SETTINGS
+          ? cookiCheck
+          : (cookiCheck && !this.state.isConsentSave) ||
+            this.props?.showCookiePref) && (
+          <Newsletter
+            title={"Sign up and save 10%"}
+            subTitle={
+              "Ideas on style, design, and entertaining await you, along with a sweet discount on your first purchase."
+            }
           />
-        )} */}
+        )}
       </div>
     );
   }

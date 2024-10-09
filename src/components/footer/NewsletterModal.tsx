@@ -17,6 +17,7 @@ import flower_right from "../../images/news_flower_right.png";
 import crossIcon from "../../images/cross.svg";
 import SelectDropdown from "../Formsy/SelectDropdown";
 import AccountService from "services/account";
+import FormSelect from "components/Formsy/FormSelect";
 
 type Props = {
   title: string;
@@ -246,26 +247,22 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
     setSuccessMsg("");
     HeaderService.makeNewsletterSignupRequest(dispatch, formData)
       .then(data => {
-        if (data.status) {
-          setSuccessMsg("You have subscribed successfully.");
+        if (
+          data.message === "You are successfully subscribed to our Newsletter"
+        ) {
+          setSuccessMsg(data.message);
+          setIsSubscribed(true);
           const subscribeCta = document?.getElementById("subscribe-cta");
           if (subscribeCta) {
             subscribeCta.hidden = true;
           }
-          const input = document?.querySelectorAll<HTMLElement>(
-            "#job-form input"
-          );
-          if (input) {
-            for (let i = 0; i < input.length; i++) {
-              input[i].style.color = "#9F9F9F";
-              input[i].style.backgroundColor = "#E5E5E526";
-            }
-          }
-          setTimeout(() => {
-            onClose();
-          }, 3000);
         } else {
-          setSuccessMsg("You have already subscribed.");
+          setSuccessMsg(data.message);
+          const input = document?.querySelector<HTMLElement>("#job-form input");
+
+          if (input) {
+            (input as HTMLInputElement).style.border = "1px solid #ab1e56"; // Set border style
+          }
         }
       })
       .catch(err => {
@@ -359,12 +356,12 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
           </div>
           <div className={cs(styles.formField)}>
             <div className="select-group text-left">
-              {/* <FormSelect
+              <FormSelect
                 required
                 label={"Country*"}
                 options={countryOptions}
                 placeholder={"Select Country*"}
-                value={isLoggedIn ? country : ""}
+                value={isLoggedIn ? usercountry : ""}
                 name="country"
                 validations={{
                   isExisty: true
@@ -373,8 +370,8 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
                   isExisty: "Please select your Country"
                 }}
               />
-              <span className="arrow"></span> */}
-              <SelectDropdown
+              <span className="arrow"></span>
+              {/* <SelectDropdown
                 required
                 label={"Country*"}
                 options={countryOptions}
@@ -391,7 +388,7 @@ const NewsletterModal: React.FC<Props> = ({ title, subTitle }) => {
                 }}
                 allowFilter={true}
                 inputRef={countryRef}
-              />
+              /> */}
             </div>
           </div>
           <p

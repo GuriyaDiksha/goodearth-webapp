@@ -75,6 +75,22 @@ const RedeemPopup = loadable(() => import("components/Popups/RedeemPopup"));
 const EditProfile = loadable(() => import("components/Popups/EditProfile"));
 const CreditNotes = loadable(() => import("components/Popups/CreditNotes"));
 const CountryPopup = loadable(() => import("components/Popups/CountryPopup"));
+const SharePdpPopup = loadable(() =>
+  import("containers/pdp/components/sharePopup/index")
+);
+
+const EditWishlistName = loadable(() =>
+  import("../containers/wishlist/editName")
+);
+const DeleteWishlist = loadable(() =>
+  import("../containers/wishlist/deleteWishlist")
+);
+const CreateWishlist = loadable(() =>
+  import("../containers/wishlist/createWishlist")
+);
+const AddRemoveWishlistNamePopup = loadable(() =>
+  import("../components/WishlistButton/CreateWishlist")
+);
 
 export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   currency: CurrencyPopup,
@@ -114,7 +130,12 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   whatsappPopup: WhatsappPopup,
   editProfile: EditProfile,
   creditNotes: CreditNotes,
-  countryPopup: CountryPopup
+  countryPopup: CountryPopup,
+  sharePdpPopup: SharePdpPopup,
+  editWishlistName: EditWishlistName,
+  deleteWishlist: DeleteWishlist,
+  createWishlist: CreateWishlist,
+  addRemoveWishlistNamePopup: AddRemoveWishlistNamePopup
 };
 
 export const enum POPUP {
@@ -155,5 +176,10 @@ export const enum POPUP {
   WHATSAPP = "whatsappPopup",
   EditProfile = "editProfile",
   CREDITNOTES = "creditNotes",
-  COUNTRYPOPUP = "countryPopup"
+  COUNTRYPOPUP = "countryPopup",
+  SHAREPDPPOPUP = "sharePdpPopup",
+  EDITWISHLISTNAME = "editWishlistName",
+  DELETEWISHLIST = "deleteWishlist",
+  CREATEWISHLIST = "createWishlist",
+  ADDREMOVEWISHLISTNAMEPOPUP = "addRemoveWishlistNamePopup"
 }

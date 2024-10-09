@@ -77,6 +77,13 @@ import { GA_CALLS } from "constants/cookieConsent";
 import { displayPriceWithCommas } from "utils/utility";
 import addReg from "../../../../images/registery/addReg.svg";
 import addedReg from "../../../../images/registery/addedReg.svg";
+import ShareProductPopup from "../sharePopup";
+import share from "../../../../images/sharePdp/share.svg";
+import close from "../../../../images/sharePdp/close.svg";
+import CreateWishlist from "components/WishlistButton/CreateWishlist";
+import { updateComponent, updateModal } from "actions/modal";
+import WishlistService from "services/wishlist";
+import { updateLoader } from "actions/info";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -132,13 +139,15 @@ const ProductDetails: React.FC<Props> = ({
   loading,
   setPDPButton
 }): JSX.Element => {
+  const [isShare, setIsShare] = useState(false);
   const [productTitle] = title.split("(");
   const {
     info,
     user: { bridalId, bridalCurrency }
   } = useSelector((state: AppState) => state);
   // const [img] = images;
-
+  const store = useStore();
+  const { dispatch } = useStore();
   const location = useLocation();
   const history = useHistory();
   const [gtmListType, setGtmListType] = useState("");
@@ -150,6 +159,7 @@ const ProductDetails: React.FC<Props> = ({
   ] = useState<ChildProductAttributes | null>(
     childAttributes.length === 1 ? childAttributes[0] : null
   );
+  const { items } = useSelector((state: AppState) => state.wishlist);
 
   const [isRegistry, setIsRegistry] = useState<{ [x: string]: boolean }>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -190,11 +200,16 @@ const ProductDetails: React.FC<Props> = ({
     ele[0].style.zIndex = 6;
   }
 
+  const isPDP =
+    history.location.pathname.includes("/catalogue/") &&
+    !history.location.pathname.includes("/catalogue/category");
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+
   useIsomorphicLayoutEffect(() => {
     setGtmListType("PDP");
     setOnload(true);
   });
-  const { dispatch } = useStore();
+
   useEffect(() => {
     let count = 0;
     let tempSize: ChildProductAttributes | undefined;
@@ -283,12 +298,6 @@ const ProductDetails: React.FC<Props> = ({
 
   const [sizeError, setSizeError] = useState("");
   const [quantity, setQuantity] = useState<number>(1);
-
-  // useEffect(() => {
-  //   if (window?.location?.pathname === "/cart") {
-  //     closeModal ? closeModal() : null;
-  //   }
-  // }, [window?.location?.pathname]);
 
   const showError = () => {
     setTimeout(() => {
@@ -386,27 +395,27 @@ const ProductDetails: React.FC<Props> = ({
         header: "Queries or Assistance",
         body: <div> {!isQuickview && <PdpCustomerCareInfo />} </div>,
         id: "queries"
-      },
-      {
-        header: "Share",
-        body: (
-          <div>
-            {!isQuickview && (
-              <Share
-                mobile={mobile}
-                link={`${__DOMAIN__}${location.pathname}`}
-                mailSubject="Gifting Ideas"
-                mailText={`${
-                  corporatePDP
-                    ? `Here's what I found, check it out on Good Earth's web boutique`
-                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
-                } ${__DOMAIN__}${location.pathname}`}
-              />
-            )}
-          </div>
-        ),
-        id: "share"
       }
+      // {
+      //   header: "Share",
+      //   body: (
+      //     <div>
+      //       {!isQuickview && (
+      //         <Share
+      //           mobile={mobile}
+      //           link={`${__DOMAIN__}${location.pathname}`}
+      //           mailSubject="Gifting Ideas"
+      //           mailText={`${
+      //             corporatePDP
+      //               ? `Here's what I found, check it out on Good Earth's web boutique`
+      //               : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+      //           } ${__DOMAIN__}${location.pathname}`}
+      //         />
+      //       )}
+      //     </div>
+      //   ),
+      //   id: "share"
+      // }
     ];
     if (manufactureInfo) {
       sections.push({
@@ -841,7 +850,7 @@ const ProductDetails: React.FC<Props> = ({
         label={buttonText}
         onClick={action}
         variant={
-          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta300"
+          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta366"
         }
       />
     );
@@ -854,7 +863,7 @@ const ProductDetails: React.FC<Props> = ({
             variant={
               buttonText == "Notify Me"
                 ? "mediumLightGreyCta"
-                : "mediumAquaCta300"
+                : "mediumAquaCta366"
             }
           />
         )
@@ -866,7 +875,7 @@ const ProductDetails: React.FC<Props> = ({
         label={buttonText}
         onClick={action}
         variant={
-          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta300"
+          buttonText == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta366"
         }
       />
     );
@@ -956,6 +965,82 @@ const ProductDetails: React.FC<Props> = ({
     currentProductColorObj
   ];
 
+  const sharePopupToggle = () => {
+    setIsShare(!isShare);
+  };
+
+  const sharePopupToggleMobile = () => {
+    updateComponentModal(
+      POPUP.SHAREPDPPOPUP,
+      {
+        corporatePDP: corporatePDP
+      },
+      false,
+      mobile ? ModalStyles.bottomAlignSlideUp : "",
+      mobile ? "slide-up-bottom-align" : ""
+    );
+    changeModalState(true);
+  };
+
+  const addToDefaultWishlist = () => {
+    WishlistService.addToWishlist(
+      store.dispatch,
+      id,
+      undefined,
+      size ? size : undefined
+    )
+      .then(() => {
+        const growlMsg = (
+          <div>
+            Your item has been saved to <b>Default List.</b>{" "}
+            {isLoggedIn ? "Click here" : "Sign In"} to&nbsp;
+            <Link
+              className={globalStyles.underlineOffset}
+              to="/wishlist"
+              key="wishlist"
+              style={{ textDecoration: "underline", pointerEvents: "all" }}
+            >
+              view & manage
+            </Link>
+            &nbsp;your lists.
+          </div>
+        );
+        // gtmPushAddToWishlist(true);
+        showGrowlMessage(dispatch, growlMsg);
+      })
+      .finally(() => {
+        dispatch(updateLoader(false));
+      });
+  };
+
+  // Callback function to handle data from the child Component - WislistButtonPdp
+  const createWishlistPopupMobile = () => {
+    if (items.length == 0) {
+      addToDefaultWishlist();
+    }
+    dispatch(
+      updateComponent(
+        POPUP.ADDREMOVEWISHLISTNAMEPOPUP,
+        { id },
+        false,
+        mobile ? ModalStyles.bottomAlignSlideUp : "",
+        mobile ? "slide-up-bottom-align" : ""
+      )
+    );
+    dispatch(updateModal(true));
+  };
+
+  const createWishlistPopup = (data: any) => {
+    setIsWishlistOpen(data);
+    if (items.length == 0) {
+      addToDefaultWishlist();
+    }
+  };
+
+  const hideWishlistPopup = () => {
+    setIsWishlistOpen(false);
+  };
+
   return (
     <Fragment>
       {/* {!mobile && !isQuickview && showDock && (
@@ -981,6 +1066,20 @@ const ProductDetails: React.FC<Props> = ({
           >
             {(isLoading || loading) && <Loader />}
             <div className={cs(bootstrap.row)}>
+              <div
+                className={styles.shareCta}
+                onClick={mobile ? sharePopupToggleMobile : sharePopupToggle}
+              >
+                <p>SHARE</p>
+                {!isShare ? (
+                  <img src={share} alt="share" />
+                ) : (
+                  <img src={close} alt="close" />
+                )}
+              </div>
+              {isShare && !mobile && (
+                <ShareProductPopup corporatePDP={corporatePDP} />
+              )}
               {images && images[0]?.badgeImagePdp && (
                 <div className={cs(bootstrap.col12, styles.badgePadding)}>
                   <img
@@ -991,21 +1090,20 @@ const ProductDetails: React.FC<Props> = ({
                   />
                 </div>
               )}
-
               {/* {mobile && (
-            <div className={cs(bootstrap.col12)}>
-              <Share
-                mobile={mobile}
-                link={`${__DOMAIN__}${location.pathname}`}
-                mailSubject="Gifting Ideas"
-                mailText={`${
-                  corporatePDP
-                    ? `Here's what I found, check it out on Good Earth's web boutique`
-                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
-                } ${__DOMAIN__}${location.pathname}`}
-              />
-            </div>
-          )} */}
+                <div className={cs(bootstrap.col12)}>
+                  <Share
+                    mobile={mobile}
+                    link={`${__DOMAIN__}${location.pathname}`}
+                    mailSubject="Gifting Ideas"
+                    mailText={`${
+                      corporatePDP
+                        ? `Here's what I found, check it out on Good Earth's web boutique`
+                        : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                    } ${__DOMAIN__}${location.pathname}`}
+                  />
+                </div>
+              )} */}
               {collection && (
                 <div
                   className={cs(bootstrap.col12, styles.collectionHeader, {})}
@@ -1023,13 +1121,13 @@ const ProductDetails: React.FC<Props> = ({
               )}
               <div
                 className={cs(
-                  isQuickview || mobile ? bootstrap.col7 : bootstrap.col7,
-                  isQuickview || mobile ? bootstrap.colMd7 : bootstrap.colMd7,
+                  // isQuickview || mobile ? bootstrap.col7 : bootstrap.col7,
+                  // isQuickview || mobile ? bootstrap.colMd7 : bootstrap.colMd7,
                   styles.title
                 )}
               >
                 {title}
-                <p>{shortDesc}</p>
+                {shortDesc && <p>{shortDesc}</p>}
                 {badge_text && (
                   <div
                     className={cs(
@@ -1042,55 +1140,56 @@ const ProductDetails: React.FC<Props> = ({
                   </div>
                 )}
               </div>
-              {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
-                <div
-                  className={cs(
-                    isQuickview || mobile ? bootstrap.col5 : bootstrap.col5,
-                    isQuickview || mobile ? bootstrap.colMd5 : bootstrap.colMd5,
-                    styles.priceContainer,
-                    { [globalStyles.textCenter]: !mobile }
-                  )}
-                >
-                  {currency === "INR" && (
-                    <span
-                      className={cs(styles.mrp, {
-                        [globalStyles.gold]:
-                          badgeType == "B_flat" ||
-                          (info.isSale && discount && discountedPriceRecords)
-                      })}
-                    >
-                      MRP.
-                    </span>
-                  )}
-                  {info.isSale && discount && discountedPriceRecords ? (
-                    <span className={styles.discountedPrice}>
-                      {displayPriceWithCommas(discountPrices, currency)}
-                      <br />
-                    </span>
-                  ) : (
-                    ""
-                  )}
-                  {info.isSale && discount ? (
-                    <span className={styles.oldPrice}>
-                      {displayPriceWithCommas(price, currency)}
-                    </span>
-                  ) : (
-                    <span
-                      className={cs(styles.normalPrice, {
-                        [globalStyles.gold]: badgeType == "B_flat",
-                        [globalStyles.fontSize16]: badgeType == "B_flat"
-                      })}
-                    >
-                      {" "}
-                      {displayPriceWithCommas(price, currency)}
-                    </span>
-                  )}
-                  {currency === "INR" && (
-                    <p className={styles.incTax}>(Incl. of all taxes)</p>
-                  )}
-                </div>
-              )}
             </div>
+
+            {!(invisibleFields && invisibleFields.indexOf("price") > -1) && (
+              <div
+                className={cs(
+                  // isQuickview || mobile ? bootstrap.col5 : bootstrap.col5,
+                  // isQuickview || mobile ? bootstrap.colMd5 : bootstrap.colMd5,
+                  styles.priceContainer
+                  // { [globalStyles.textCenter]: !mobile }
+                )}
+              >
+                {currency === "INR" && (
+                  <span
+                    className={cs(styles.mrp, {
+                      [globalStyles.gold]:
+                        badgeType == "B_flat" ||
+                        (info.isSale && discount && discountedPriceRecords)
+                    })}
+                  >
+                    MRP.
+                  </span>
+                )}
+                {info.isSale && discount && discountedPriceRecords ? (
+                  <span className={styles.discountedPrice}>
+                    {displayPriceWithCommas(discountPrices, currency)}
+                    {/* <br /> */}
+                  </span>
+                ) : (
+                  ""
+                )}
+                {info.isSale && discount ? (
+                  <span className={styles.oldPrice}>
+                    {displayPriceWithCommas(price, currency)}
+                  </span>
+                ) : (
+                  <span
+                    className={cs(styles.normalPrice, {
+                      [globalStyles.gold]: badgeType == "B_flat",
+                      [globalStyles.fontSize16]: badgeType == "B_flat"
+                    })}
+                  >
+                    {" "}
+                    {displayPriceWithCommas(price, currency)}
+                  </span>
+                )}
+                {currency === "INR" && (
+                  <p className={styles.incTax}>(Incl. of all taxes)</p>
+                )}
+              </div>
+            )}
 
             {groupedProducts?.length ? (
               <div
@@ -1403,10 +1502,10 @@ const ProductDetails: React.FC<Props> = ({
             >
               <div
                 id="yourElement"
-                className={cs(globalStyles.textCenter, globalStyles.voffset1, {
+                className={cs(globalStyles.voffset1, {
                   [bootstrap.col8]: !corporatePDP,
                   [styles.addToBagBtnContainer]: mobile,
-                  [bootstrap.colSm8]: !mobile,
+                  [bootstrap.colSm10]: !mobile,
                   [bootstrap.colSm12]: corporatePDP && mobile
                   // [globalStyles.hidden]: mobile && !showAddToBagMobile
                 })}
@@ -1429,6 +1528,7 @@ const ProductDetails: React.FC<Props> = ({
                   [styles.wishlistText]: !mobile,
                   [styles.wishlistBtnContainer]: mobile,
                   [globalStyles.voffset1]: mobile,
+                  [bootstrap.colSm2]: !mobile,
                   [globalStyles.hidden]:
                     partner == "Souk" || partner == "Object D Art"
                   // [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
@@ -1450,7 +1550,34 @@ const ProductDetails: React.FC<Props> = ({
                     [styles.mobileWishlistIcon]: mobile
                   })}
                   badgeType={badgeType}
+                  createWishlistPopup={
+                    mobile ? createWishlistPopupMobile : createWishlistPopup
+                  }
+                  isPdp={isPDP}
+                  closeModal={closeModal}
                 />
+              </div>
+              <div className="createWishlistPopup">
+                {isWishlistOpen && (
+                  <CreateWishlist
+                    hideWishlistPopup={hideWishlistPopup}
+                    gtmListType={gtmListType}
+                    title={title}
+                    parentWidth={true}
+                    childAttributes={childAttributes}
+                    priceRecords={priceRecords}
+                    discountedPriceRecords={discountedPriceRecords}
+                    categories={categories}
+                    id={id}
+                    showText={!mobile}
+                    mobile={mobile}
+                    size={selectedSize ? selectedSize.size : undefined}
+                    iconClassName={cs({
+                      [styles.mobileWishlistIcon]: mobile
+                    })}
+                    badgeType={badgeType}
+                  />
+                )}
               </div>
             </div>
             <div
@@ -1603,17 +1730,17 @@ const ProductDetails: React.FC<Props> = ({
               )}
             >
               {/* {!mobile && !isQuickview && (
-            <Share
-              mobile={mobile}
-              link={`${__DOMAIN__}${location.pathname}`}
-              mailSubject="Gifting Ideas"
-              mailText={`${
-                corporatePDP
-                  ? `Here's what I found, check it out on Good Earth's web boutique`
-                  : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
-              } ${__DOMAIN__}${location.pathname}`}
-            />
-          )} */}
+                <Share
+                  mobile={mobile}
+                  link={`${__DOMAIN__}${location.pathname}`}
+                  mailSubject="Gifting Ideas"
+                  mailText={`${
+                    corporatePDP
+                      ? `Here's what I found, check it out on Good Earth's web boutique`
+                      : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                  } ${__DOMAIN__}${location.pathname}`}
+                />
+              )} */}
               <div>
                 {!isQuickview && (
                   <Accordion
@@ -1626,23 +1753,23 @@ const ProductDetails: React.FC<Props> = ({
                 )}
               </div>
               {/* {!isQuickview && (
-              <div className={cs(styles.sku, globalStyles.voffset4)}>
-                Vref. {setSelectedSKU()}
-              </div>
-            )} */}
+                <div className={cs(styles.sku, globalStyles.voffset4)}>
+                  Vref. {setSelectedSKU()}
+                </div>
+              )} */}
               {/* {!isQuickview && <CustomerCareInfo />} */}
               {/* {!isQuickview && (
-              <Share
-                mobile={mobile}
-                link={`${__DOMAIN__}${location.pathname}`}
-                mailSubject="Gifting Ideas"
-                mailText={`${
-                  corporatePDP
-                    ? `Here's what I found, check it out on Good Earth's web boutique`
-                    : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
-                } ${__DOMAIN__}${location.pathname}`}
-              />
-            )} */}
+                <Share
+                  mobile={mobile}
+                  link={`${__DOMAIN__}${location.pathname}`}
+                  mailSubject="Gifting Ideas"
+                  mailText={`${
+                    corporatePDP
+                      ? `Here's what I found, check it out on Good Earth's web boutique`
+                      : `Here's what I found! It reminded me of you, check it out on Good Earth's web boutique`
+                  } ${__DOMAIN__}${location.pathname}`}
+                />
+              )} */}
               {!isQuickview && (
                 <div className={cs(styles.sku, globalStyles.voffset4)}>
                   Vref. {setSelectedSKU()}

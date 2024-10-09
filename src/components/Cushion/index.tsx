@@ -207,6 +207,18 @@ class CushionBag extends React.Component<Props, State> {
                     { [globalStyles.textCenter]: !mobile }
                   )}
                 >
+                  {currency === "INR" && (
+                    <span
+                      className={cs(styles.mrp, {
+                        [globalStyles.gold]:
+                          badgeType == "b_flat" ||
+                          (isSale && discount && discountedPriceRecords)
+                      })}
+                    >
+                      MRP.
+                    </span>
+                  )}
+
                   {isSale && discount && discountedPriceRecords ? (
                     <span className={styles.discountedPrice}>
                       {displayPriceWithCommas(discountPrices, currency)}
@@ -221,11 +233,17 @@ class CushionBag extends React.Component<Props, State> {
                     </span>
                   ) : (
                     <span
-                      className={badgeType == "B_flat" ? globalStyles.gold : ""}
+                      className={cs(styles.normalPrice, {
+                        [globalStyles.gold]: badgeType == "B_flat",
+                        [globalStyles.fontSize16]: badgeType == "B_flat"
+                      })}
                     >
                       {" "}
                       {displayPriceWithCommas(price, currency)}
                     </span>
+                  )}
+                  {currency === "INR" && (
+                    <p className={styles.incTax}>(Incl. of all taxes)</p>
                   )}
                 </div>
               )}
@@ -237,7 +255,7 @@ class CushionBag extends React.Component<Props, State> {
                     <div className={bootstrap.row}>
                       <div
                         className={cs(
-                          bootstrap.col4,
+                          bootstrap.col3,
                           styles.label,
                           styles.size,
                           { [styles.mobileMargin]: mobile }
@@ -245,12 +263,13 @@ class CushionBag extends React.Component<Props, State> {
                       >
                         Size
                       </div>
-                      <div className={cs(bootstrap.col8, styles.sizeContainer)}>
+                      <div className={cs(bootstrap.col9, styles.sizeContainer)}>
                         <SizeSelector
                           isCorporatePDP={false}
                           sizes={childAttributes ? childAttributes : []}
                           onChange={this.onSizeSelect}
                           selected={selectedSize ? selectedSize.id : undefined}
+                          presentIn={true}
                         />
                         <span
                           className={cs(styles.sizeErrorMessage, "show-error")}
@@ -301,7 +320,7 @@ class CushionBag extends React.Component<Props, State> {
                   <div className={cs(bootstrap.row, globalStyles.voffset4)}>
                     <div
                       className={cs(
-                        bootstrap.col4,
+                        bootstrap.col3,
                         styles.label,
                         styles.quantity,
                         { [styles.mobileMargin]: mobile }
@@ -309,7 +328,7 @@ class CushionBag extends React.Component<Props, State> {
                     >
                       Quantity
                     </div>
-                    <div className={cs(bootstrap.col8, styles.widgetQty)}>
+                    <div className={cs(bootstrap.col9, styles.widgetQty)}>
                       <PdpQuantity
                         source="pdp"
                         key={selectedSize?.sku}
@@ -629,8 +648,7 @@ class CushionBag extends React.Component<Props, State> {
               globalStyles.gutterBetween
             )}
           >
-            <div className={styles.heading}></div>
-            <div className={styles.heading}>PURCHASE INSERT</div>
+            <div className={styles.heading}>BUY INSERT</div>
             <div
               className={globalStyles.pointer}
               onClick={() => {

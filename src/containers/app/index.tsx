@@ -18,9 +18,12 @@ const mapStateToProps = (state: AppState) => {
 type Props = ReturnType<typeof mapStateToProps>;
 
 const App: React.FC<Props> = memo(({ wishlist, user }) => {
-  const wishlistItems = wishlist.map(({ productId }) => productId);
+  // const wishlistItems = wishlist.map(({ productId }) => productId);
+  const productsData = wishlist.map(({ products }) => products);
+  const flattenedArray = productsData.flat();
+  const wishlistItems = flattenedArray.map(({ productId }) => productId);
   const wishlistChildItems: ProductID[] = [];
-  wishlist.map(item => {
+  flattenedArray.map(item => {
     item.stockDetails.map(child => {
       if (child.size == item.size) {
         wishlistChildItems.push(child.productId);

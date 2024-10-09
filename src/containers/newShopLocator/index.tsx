@@ -254,6 +254,18 @@ class ShopLocator extends Component<Props, State> {
                                 </p>
                               );
                             })}
+                            <h1>
+                              {data.cafeEmail?.map((item: any, i: number) => {
+                                return (
+                                  <a
+                                    key={`cafeEmail1_${i}`}
+                                    href={`mailto:${item}`}
+                                  >
+                                    {item}
+                                  </a>
+                                );
+                              })}
+                            </h1>
                           </div>
                         </div>
                       ) : (
@@ -265,15 +277,59 @@ class ShopLocator extends Component<Props, State> {
                               </p>
                             );
                           })}
+
+                          <h1>
+                            {data?.cafeEmail?.map((item: string, i: number) => {
+                              return (
+                                <a
+                                  key={`cafeEmail1_${i}`}
+                                  href={`mailto:${item}`}
+                                >
+                                  {item}
+                                </a>
+                              );
+                            })}
+                          </h1>
                         </div>
                       )}
                       <div className={styles.getDirections}>
+                        <div className={styles.cafeMenuBlock}>
+                          {data.cafeQrCodeImage ? (
+                            <img
+                              src={data.cafeQrCodeImage}
+                              alt="qrCode"
+                              className={styles.qrImage}
+                            />
+                          ) : (
+                            ""
+                          )}
+
+                          <div>
+                            <p className={styles.cafeLabel}>
+                              {data.cafeQrCodeLabel}
+                            </p>
+                            <a
+                              href={data.cafeQrCodeLink}
+                              target="_blank"
+                              className={styles.cafeTitle}
+                              rel="noopener noreferrer"
+                            >
+                              {data.cafeQrCodeTitle}
+                            </a>
+                          </div>
+                        </div>
                         <a
                           href={data.cafeDirection}
                           target="_blank"
                           rel="noopener noreferrer"
+                          className={cs(styles.cafeDirection, {
+                            [styles.cafeDirectionReverse]:
+                              !data.cafeQrCodeImage &&
+                              !data.cafeQrCodeTitle &&
+                              !data.cafeQrCodeLabel
+                          })}
                         >
-                          GET DIRECTIONS
+                          DIRECTIONS
                         </a>
                       </div>
                     </div>
@@ -356,6 +412,15 @@ class ShopLocator extends Component<Props, State> {
                             </p>
                           );
                         })}
+                        <h1>
+                          {data.storeEmail?.map((item: any, i: number) => {
+                            return (
+                              <a key={i} href={`mailto:${item}`}>
+                                {item}
+                              </a>
+                            );
+                          })}
+                        </h1>
                       </div>
                     </div>
                     {data.shopper_details.length > 0 && (
@@ -393,8 +458,9 @@ class ShopLocator extends Component<Props, State> {
                         href={data.direction}
                         target="_blank"
                         rel="noopener noreferrer"
+                        className={styles.storeDirection}
                       >
-                        GET DIRECTIONS
+                        DIRECTIONS
                       </a>
                     </div>
                   </div>

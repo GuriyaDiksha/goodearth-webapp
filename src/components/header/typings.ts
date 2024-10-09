@@ -71,6 +71,7 @@ export interface MenuComponent {
     | MenuComponentTitleData
     | MenuComponentImageData;
   children?: MenuComponent[];
+  labelOnViewAll?: string;
 }
 export interface MenuTemplates {
   labelOnMobile?: string;
@@ -108,6 +109,7 @@ export interface L2MenuData {
   children?: L2MenuData[];
   templateType?: string;
   openInNewTab?: boolean;
+  labelOnViewAll?: string;
 }
 
 type Redirection = "OPEN_A_POP_UP" | "OPEN_A_NEW_PAGE" | null;
@@ -160,7 +162,7 @@ export type SideMenuProps = {
   onSideMenuClick: (clickType: string) => void;
   currency: Currency;
   mobile: boolean;
-  wishlistData: WishListType[];
+  wishlistData?: WishListType[];
   wishlistCountData: number;
   sidebagData: Basket;
   toggleSearch: () => void;
@@ -331,6 +333,7 @@ export interface MobileState {
   activeindex3: number;
   showmenulevel3: boolean;
   showInnerMenu: boolean;
+  color?: string;
 }
 
 export type SearchFeaturedData = {
