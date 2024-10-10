@@ -62,8 +62,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     isGcCheckout
   } = props;
   const [paymentError, setPaymentError] = useState("");
+  const [lineItemError, setLineItemError] = useState("");
+  const [policyError, setPolicyError] = useState("");
   const [whatsappNoErr, setWhatsappNoErr] = useState("");
   const [subscribevalue, setSubscribevalue] = useState(false);
+  const [usersubscribevalue, setUserSubscribevalue] = useState(false);
   const [isdList, setIsdList] = useState<any>([]);
   //  const [subscribegbp, setSubscribegbp] = useState(true);
   const [subscribegbp] = useState(true);
@@ -158,6 +161,13 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     setSubscribevalue(event.target.checked);
   };
 
+  const onClickUserSubscribe = (event: any) => {
+    setUserSubscribevalue(event.target.checked);
+    event.target.checked
+      ? setPolicyError("")
+      : setPolicyError("Please accept the Terms & Conditions");
+  };
+
   const gtmPushPaymentTracking = (
     paymentMode: string[],
     paymentMethod: string
@@ -198,7 +208,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         paymentMethod: isFree ? "FREE" : currentmethod.key,
         paymentMode: currentmethod.mode,
         whatsappSubscribe: whatsappSubscribe,
-        subscribe: subscribevalue
+        subscribe: subscribevalue,
+        usersubscribe: usersubscribevalue
       };
       if (whatsappSubscribe) {
         data.whatsappNo = whatsappNo;
@@ -220,6 +231,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             event: "gift_wrap"
           });
         }
+      }
+      if (!usersubscribevalue) {
+        setPolicyError("Please accept the Terms & Conditions");
+        return false;
       }
       if (currency == "GBP" && !subscribegbp) {
         //setGbpError("Please agree to shipping & payment terms.");
@@ -365,7 +380,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             msg =
               "Some items in your cart have been modified or are no longer available. Kindly refresh before proceeding.";
           }
-          setPaymentError(msg);
+          setLineItemError(msg);
           errorTracking([msg], location.href);
           document.getElementById("payment-section")?.scrollIntoView();
           setIsLoading(false);
@@ -1039,7 +1054,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             }
             id="payment-section"
           >
-            {isPaymentNeeded && (
+            {
               <div>
                 <div className={styles.title}>SELECT PAYMENT METHOD</div>
                 {getMethods.map(function(method, index) {
@@ -1077,12 +1092,17 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   );
                 })}
 
-                <div
-                  className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
-                  data-name="error-msg"
-                >
-                  {paymentError}
-                </div>
+                {paymentError && (
+                  <div
+                    className={cs(
+                      globalStyles.errorMsg,
+                      globalStyles.marginT20
+                    )}
+                    data-name="error-msg"
+                  >
+                    {paymentError}
+                  </div>
+                )}
                 <div>
                   <hr className={styles.hr} />
                   {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
@@ -1114,6 +1134,40 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       </div> */}
                     </div>
                   )}
+                </div>
+                <div>
+                  <div className={globalStyles.marginB20}>
+                    <CheckboxWithLabel
+                      id="user-subscribe"
+                      onChange={e => {
+                        onClickUserSubscribe(e);
+                      }}
+                      checked={usersubscribevalue}
+                      label={[
+                        <label
+                          key="user-subscribe"
+                          htmlFor="user-subscribe"
+                          className={cs(
+                            globalStyles.pointer,
+                            styles.linkCerise,
+                            styles.formSubheading,
+                            styles.checkBoxHeading,
+                            styles.agreeTermsAndCondition
+                          )}
+                        >
+                          I agree to the{" "}
+                          <Link
+                            key="user-subscribe"
+                            to="/customer-assistance/terms-conditions"
+                            target="_blank"
+                          >
+                            Terms and Conditions
+                          </Link>
+                          *
+                        </label>
+                      ]}
+                    />
+                  </div>
                 </div>
                 <div>
                   <div className={globalStyles.marginB20}>
@@ -1198,13 +1252,21 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   </div>
                 </label> */}
               </div>
-            )}
-            {paymentError && !isPaymentNeeded && (
+            }
+            {lineItemError && (
               <div
                 className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
                 data-name="error-msg"
               >
-                {paymentError}
+                {lineItemError}
+              </div>
+            )}
+            {policyError && (
+              <div
+                className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
+                data-name="error-msg"
+              >
+                {policyError}
               </div>
             )}
             {isLoading && <Loader />}

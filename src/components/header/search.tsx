@@ -27,7 +27,8 @@ import { updateModal } from "actions/modal";
 import Price from "components/Price";
 import ReactHtmlParser from "react-html-parser";
 import { GA_CALLS, SEARCH_HISTORY } from "constants/cookieConsent";
-import giftCardTile from "images/giftcard-tile.png";
+// import giftCardTile from "images/giftcard-tile.png";
+import newGiftCardTile from "images/giftCardImages/Group 1747.jpg";
 import { debounce } from "lodash";
 import WishlistButton from "components/WishlistButton";
 
@@ -131,6 +132,17 @@ class Search extends React.Component<Props, State> {
     ) {
       //Do what you want to handle in the callback
       this.props.closePopup(evt);
+    }
+  };
+  handleGaCall = (allWordsExceptLast: string, lastWord: string) => {
+    const userConsent: string[] = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "search_bar_results_found",
+        cta_name: `${allWordsExceptLast} ${lastWord}`,
+        click_type: "search bubble",
+        search_terms: lastWord.toLowerCase()
+      });
     }
   };
 
@@ -779,6 +791,7 @@ class Search extends React.Component<Props, State> {
                             key={i}
                             onClick={e => {
                               this.props.hideSearch();
+                              this.handleGaCall(allWordsExceptLast, lastWord);
                               e.preventDefault();
                               this.props.history.push(
                                 `/search/?q=${encodeURIComponent(data)}`
@@ -1403,7 +1416,7 @@ class Search extends React.Component<Props, State> {
                                       <img
                                         src={
                                           data.link == "/giftcard"
-                                            ? giftCardTile
+                                            ? newGiftCardTile
                                             : data.image
                                         }
                                         onError={this.addDefaultSrc}

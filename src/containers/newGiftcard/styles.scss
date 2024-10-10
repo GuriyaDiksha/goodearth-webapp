@@ -59,11 +59,23 @@ $banner-mobile-height:180px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    .gift-wrapper {
+                        position: relative;
+                        .ribbon-img {
+                            position: absolute;
+                            z-index: 2;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                        }
+                    }
                     img{
                         height: 190px;
                         border-radius: 20px;
                         margin: 25px auto;
                     }
+                    
+
                 }
                 .salutation{
                     @include b3_14px_montserrat_medium_charcoal();
