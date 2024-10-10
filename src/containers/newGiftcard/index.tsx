@@ -566,7 +566,7 @@ class NewGiftcard extends React.Component<Props, State> {
                 </div>
               </div>
               <div className={styles.salutation}>
-                Dear {recipientName ? recipientName : `[Reciever's Name]`}
+                Dear {recipientName ? recipientName : `[Receiver's Name]`}
               </div>
               <div className={styles.staticMsg}>
                 You have received a Good Earth eGift card worth
