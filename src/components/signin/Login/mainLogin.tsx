@@ -478,6 +478,15 @@ class MainLogin extends React.Component<Props, loginState> {
               showerror: ""
             });
           }
+        } else if (this.state.email?.trim() !== this.state.email) {
+          if (this.state.msg !== "Please enter a valid Email ID") {
+            this.setState({
+              msg: "Please enter a valid Email ID",
+              highlight: true,
+              showerror: "",
+              isLoginDisabled: true
+            });
+          }
         } else {
           if (this.state.msg !== "") {
             this.setState({
