@@ -121,12 +121,13 @@
 
 .pagination {
     display: flex;
-    min-width: 20%;
+    // min-width: 20%;
+    min-width: 280px;
     justify-content: space-around;
     align-items: center;
 
     @media screen and (max-width:767px) {
-        min-width: 30%;
+        // min-width: 30%;
     }
 
     p {
