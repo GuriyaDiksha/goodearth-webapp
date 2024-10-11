@@ -521,24 +521,23 @@ class MainLogin extends React.Component<Props, loginState> {
       case "email": {
         this.disablePassword();
         const pasteTxt = event.clipboardData.getData("text");
-        if (pasteTxt.length !== pasteTxt.trim().length) {
-          event.preventDefault();
-          return false;
-        }
         if (!checkMail(pasteTxt)) {
           if (this.state.msg !== "Please enter a valid Email ID") {
             this.setState({
               msg: "Please enter a valid Email ID",
               highlight: true,
-              showerror: ""
+              showerror: "",
+              email: pasteTxt.trim()
             });
           }
         } else {
           this.setState({
             showerror: "",
-            isLoginDisabled: false
+            isLoginDisabled: false,
+            email: pasteTxt.trim()
           });
         }
+        event.preventDefault();
         break;
       }
       case "password": {
