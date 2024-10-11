@@ -119,6 +119,10 @@ body:has(.mobile) {
     border: 1px solid #8cb8aa;
   }
   .address-item {
+      [type="radio"]:checked,
+      [type="radio"]:not(:checked) {
+        opacity: 1 !important;
+    }
     background-color: #fff;
     // height: 308px;
     font-weight: 400;
@@ -227,7 +231,7 @@ body:has(.mobile) {
           user-select: none;
           input {
             position: absolute;
-            opacity: 0;
+            // opacity: 0;
             cursor: pointer;
           }
           .checkmark {
@@ -283,10 +287,15 @@ body:has(.mobile) {
     }
     .default-address-checkbox {
       position: absolute;
-      left: -27px;
-      height: 19px;
-      width: 19px;
+      left: -27px !important;
+      height: 19px !important;
+      width: 19px !important;
       background-color: #fff;
+      bottom: -20px;
+      transform: unset !important;
+      // top: 10px !important;
+      // margin-top: 1% !important;
+      // margin-top: 11px;
       // border: 1px solid $light-charcoal;
       border-radius: 50%;
       // padding: 20px 0;
@@ -502,7 +511,7 @@ body:has(.mobile) {
     letter-spacing: 0.36px;
     word-wrap: break-word;
     .radio {
-      position: relative;
+      position: relative !important;
     }
     &.checkout-fix {
       font-family: $font-Montserrat;
@@ -1049,3 +1058,4 @@ div > .address-in-use {
     }
   }
 }
+
