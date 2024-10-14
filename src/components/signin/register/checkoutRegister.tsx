@@ -87,7 +87,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       showTip: false,
       whatsappChecked: false,
       selectedCountry: "",
-      phoneNo: ""
+      phoneNo: "",
+      inputType: "text"
     };
   }
   static contextType = Context;
@@ -797,12 +798,22 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           <div className={styles.calendarIconContainer}>
             <FormInput
               name="dateOfBirth"
-              type="date"
+              // type="date"
+              type={this.state.inputType}
               value={null}
               disable={!this.state.showFields}
               className={showFieldsClass}
               id="date_of_birth"
-              placeholder="YYYY/MM/DD"
+              // placeholder="YYYY/MM/DD"
+              placeholder="Date of Birth"
+              onFocus={() => {
+                this.setState({ inputType: "date" });
+              }}
+              blur={(e: any) => {
+                if (!e.target.value) {
+                  this.setState({ inputType: "text" });
+                }
+              }}
               label="Date of Birth"
               min={moment(
                 new Date().setFullYear(new Date().getFullYear() - 110)
