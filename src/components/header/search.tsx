@@ -27,7 +27,8 @@ import { updateModal } from "actions/modal";
 import Price from "components/Price";
 import ReactHtmlParser from "react-html-parser";
 import { GA_CALLS, SEARCH_HISTORY } from "constants/cookieConsent";
-import giftCardTile from "images/giftcard-tile.png";
+// import giftCardTile from "images/giftcard-tile.png";
+import newGiftCardTile from "images/giftCardImages/Group 1747.jpg";
 import { debounce } from "lodash";
 import WishlistButton from "components/WishlistButton";
 
@@ -1415,7 +1416,7 @@ class Search extends React.Component<Props, State> {
                                       <img
                                         src={
                                           data.link == "/giftcard"
-                                            ? giftCardTile
+                                            ? newGiftCardTile
                                             : data.image
                                         }
                                         onError={this.addDefaultSrc}
