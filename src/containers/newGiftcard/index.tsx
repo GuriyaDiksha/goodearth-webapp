@@ -60,6 +60,7 @@ type State = {
   previewOpen: boolean;
   formDisabled: boolean;
   key: string;
+  ribbonImgUrl: string;
 };
 
 class NewGiftcard extends React.Component<Props, State> {
@@ -73,12 +74,14 @@ class NewGiftcard extends React.Component<Props, State> {
     super(props);
     this.state = {
       giftImages: [
-        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.png",
-        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc2.png",
-        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc3.png"
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gcnew2.png",
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gcnew1.png",
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gcnew3.png"
       ],
       selectedImage:
-        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.png",
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gcnew2.png",
+      ribbonImgUrl:
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/Ribbon.png",
       productData: [],
       countryData: [],
       selectedCountry: "",
@@ -139,7 +142,7 @@ class NewGiftcard extends React.Component<Props, State> {
     // dont make maker false
     this.setState({
       selectedImage:
-        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.png",
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gcNew2.png",
       cardId: "",
       cardValue: "",
       recipientName: "",
@@ -553,13 +556,20 @@ class NewGiftcard extends React.Component<Props, State> {
             >
               <div className={styles.title}>Preview</div>
               <div className={styles.imageContainer}>
-                <img src={selectedImage} alt="giftcard preview" />
+                <div className={styles.giftWrapper}>
+                  <img src={selectedImage} alt="giftcard preview" />
+                  <img
+                    className={styles.ribbonImg}
+                    src={this.state.ribbonImgUrl}
+                    alt="ribbonImg"
+                  />
+                </div>
               </div>
               <div className={styles.salutation}>
-                Dear {recipientName ? recipientName : `[Reciever's Name]`}
+                Dear {recipientName ? recipientName : `[Receiver's Name]`}
               </div>
               <div className={styles.staticMsg}>
-                You have recieved a Good Earth eGift card worth
+                You have received a Good Earth eGift card worth
               </div>
               <div className={styles.gcAmount}>
                 &nbsp;

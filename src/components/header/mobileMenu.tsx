@@ -57,7 +57,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       activeindex2: -1,
       activeindex3: -1,
       showmenulevel3: false,
-      showInnerMenu: false
+      showInnerMenu: false,
+      color: ""
     };
   }
 
@@ -166,6 +167,15 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         const parent = elem.parentElement as HTMLLIElement;
         parent.scrollTop += scrollY;
         // console.log(`scrolled by ${180 - elem.getBoundingClientRect().top}`);
+
+        //**** change viewAll L3 text color as its Parent L2 *****
+        const spanElement = document.querySelector(".parentl2 span");
+        if (spanElement) {
+          // Get the computed style of the span
+          const computedStyle = window.getComputedStyle(spanElement);
+          const spanColor = computedStyle.color;
+          this.setState({ color: spanColor });
+        }
       }
     }
   }
@@ -203,7 +213,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             text: "",
             link: "",
             children: [],
-            templateType: template.templateType
+            templateType: template.templateType,
+            labelOnViewAll: template.templateData.labelOnViewAll
           };
           if (
             [
@@ -224,6 +235,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             l2MenuData.ctaName = ctaName || "";
             l2MenuData.openInNewTab = openInNewTab;
             l2MenuData.hideViewAllOnMobile = template.hideViewAllOnMobile;
+            l2MenuData.labelOnViewAll = template.templateData.labelOnViewAll;
             children &&
               children.length > 0 &&
               children.map((child, index) => {
@@ -254,6 +266,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             l2MenuData.viewAllLink = viewAllLink;
             l2MenuData.hideViewAllOnMobile = template.hideViewAllOnMobile;
             l2MenuData.openInNewTab = openInNewTab;
+            l2MenuData.labelOnViewAll = template.templateData.labelOnViewAll;
             children &&
               children.length > 1 &&
               children.map((child, index) => {
@@ -273,6 +286,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             const { title, link } = componentData;
             l2MenuData.text = title;
             l2MenuData.link = link;
+            l2MenuData.labelOnViewAll = template.templateData.labelOnViewAll;
             children &&
               children.length > 1 &&
               children.map((child, index) => {
@@ -406,7 +420,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   data?.hideViewAllOnMobile
                 )}
               >
-                <span>{ReactHtmlParser(data.text)}</span>
+                <span className="parentl2">{ReactHtmlParser(data.text)}</span>
               </span>
             )}
 
@@ -437,6 +451,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                                 [styles.highlight]:
                                   currentUrl == data.viewAllLink
                               })}
+                              style={{ color: this.state.color }}
                               onClick={() => {
                                 this.props.onMobileMenuClick({
                                   l1: innerMenuData.text,
@@ -445,7 +460,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                                 });
                               }}
                             >
-                              View All
+                              {data.labelOnViewAll
+                                ? data.labelOnViewAll
+                                : "View All"}
                             </Link>
                           </li>
                         )}
@@ -488,7 +505,10 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                           }}
                           target={data.openInNewTab ? "_blank" : ""}
                         >
-                          {ReactHtmlParser(data.ctaName || "View All")}
+                          {/* {ReactHtmlParser(data.ctaName || "View All")} */}
+                          {data.labelOnViewAll
+                            ? data.labelOnViewAll
+                            : "View All"}
                         </Link>
                       </li>
                     )
