@@ -194,50 +194,36 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
           </Slider>
         </div>
       ) : (
-        <div className={cs(bootstrap.col12)}>
-          <div
-            className={cs(
-              bootstrap.row,
-
-              styles.newSliderContainer
-              // { [styles.marginLeft]: bubbleCount === 3 }
-              // "SliderContainer"
-            )}
-          >
-            {data?.map((item: any) => (
+        <div className={cs(styles.newSliderContainer)}>
+          {data?.map((item: any) => (
+            <div className={styles.bubbleContainer} key={item.url}>
               <div
-                className={styles.bubbleContainer}
-                key={item.url}
-                style={{ position: "relative" }}
+                className={
+                  item.name === "View All"
+                    ? styles.highlightImgWrap
+                    : styles.imgWrap
+                }
+                onClick={() => (
+                  plpBubbleGaCall(item?.name), handleClick(item?.url)
+                )}
               >
-                <div
-                  className={
-                    item.name === "View All"
-                      ? styles.highlightImgWrap
-                      : styles.imgWrap
-                  }
-                  onClick={() => (
-                    plpBubbleGaCall(item?.name), handleClick(item?.url)
-                  )}
-                >
-                  <img
-                    className={styles.bubbleImage}
-                    src={item?.image}
-                    alt="img"
-                  />
-                </div>
-                <span
-                  className={
-                    item?.name === "View All"
-                      ? styles.highlightBubbleText
-                      : styles.bubbleText
-                  }
-                >
-                  {item?.name}
-                </span>
+                <img
+                  className={styles.bubbleImage}
+                  src={item?.image}
+                  alt="img"
+                />
               </div>
-            ))}
-          </div>
+              <span
+                className={
+                  item?.name === "View All"
+                    ? styles.highlightBubbleText
+                    : styles.bubbleText
+                }
+              >
+                {item?.name}
+              </span>
+            </div>
+          ))}
         </div>
       )}
     </React.Fragment>
