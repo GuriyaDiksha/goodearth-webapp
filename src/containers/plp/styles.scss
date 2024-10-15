@@ -1281,7 +1281,9 @@ p.corporate-sub-heading {
     @media (max-width:656px) {
       max-width: 116%;
       width: 116%;
-  
+      flex-wrap: nowrap;
+      
+      gap: 10px;
       // padding-left: 20px;
       &.marginLeft {
         margin-left: -29px !important;
@@ -1291,11 +1293,27 @@ p.corporate-sub-heading {
     }
 
 }
+.new-slider-container{
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none; 
+  gap:10px;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  padding-left: 4px;
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.new-slider-container::-webkit-scrollbar {
+  display: none;
+}
 
 .bubble-container {
   max-height: 150px;
   // max-width: 109px;
   // margin-bottom: ;
+  
 
   .img-wrap {
     cursor: pointer;
