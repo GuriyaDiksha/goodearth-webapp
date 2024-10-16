@@ -7,11 +7,14 @@ import { Context } from "components/Modal/context";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { useHistory } from "react-router";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 type PopupProps = {
   location: any;
   action: any;
   history: any;
+  basket: any;
   // closeModal: (data?: any) => any;
   // acceptCondition: (data?: any) => any;
 };
@@ -68,6 +71,13 @@ const exitGCCheckout: React.FC<PopupProps> = props => {
         <div className={cs(styles.link, styles.linkDecor, styles.gcCheckout)}>
           <p
             onClick={() => {
+              const userConsent = CookieService.getCookie("consent").split(",");
+              if (userConsent.includes(GA_CALLS)) {
+                dataLayer.push({
+                  event: "cancel_giftcard_checkout",
+                  value: props.basket.lineItems[0].GCValue
+                });
+              }
               closeModal();
               if (props.action == "PUSH") {
                 history.push(props.location.pathname);

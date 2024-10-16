@@ -927,6 +927,7 @@ class PDPContainer extends React.Component<Props, State> {
         loading={meta.templateType == "" ? true : false}
         setPDPButton={this.getPDPButton}
         tablet={tablet}
+        source="pdp"
       />
     );
   };

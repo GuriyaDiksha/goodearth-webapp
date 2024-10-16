@@ -5,8 +5,11 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import { LoginProps } from "./typings";
 import checkmarkCircle from "./../../../images/checkmarkCircle.svg";
+import { AppState } from "reducers/typings";
+import { useSelector } from "react-redux";
 
 const LoginSection: React.FC<LoginProps> = props => {
+  const { mobile } = useSelector((state: AppState) => state.device);
   const {
     isActive,
     user: { email }
@@ -26,6 +29,7 @@ const LoginSection: React.FC<LoginProps> = props => {
             bootstrapStyles.col12,
             bootstrapStyles.colMd6,
             styles.title,
+            styles.titleMobile,
             globalStyles.flex
           )}
           id="checkout-emailverification"
@@ -45,10 +49,12 @@ const LoginSection: React.FC<LoginProps> = props => {
             className={cs(
               styles.col12,
               bootstrapStyles.colMd6,
-              styles.selectedStvalue
+              styles.selectedStvalue,
+              styles.email,
+              { [styles.selectedStvalueMobileOnly]: mobile }
             )}
           >
-            <span className={styles.marginR10}>{email}</span>
+            <span className={styles.emailSpan}>{email}</span>
           </div>
         )}
       </div>

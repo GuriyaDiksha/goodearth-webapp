@@ -280,7 +280,7 @@ const AddressItem: React.FC<Props> = props => {
         currentCallBackComponent == "checkout-shipping"
           ? cs(
               bootstrapStyles.col12,
-              bootstrapStyles.colMd6,
+              // bootstrapStyles.colMd6,
               globalStyles.voffset3v1,
               styles.checkoutAddress,
               "address-container"

@@ -91,6 +91,10 @@ class MainLogin extends React.Component<Props, loginState> {
       }
 
       const data = await this.props.checkUserPassword(this.state.email);
+      if (data) {
+        localStorage.setItem("isNewsSubscribed", data.subscribe);
+      }
+
       if (data.otpSent) {
         this.setState({
           showEmailVerification: true,
@@ -522,15 +526,18 @@ class MainLogin extends React.Component<Props, loginState> {
             this.setState({
               msg: "Please enter a valid Email ID",
               highlight: true,
-              showerror: ""
+              showerror: "",
+              email: pasteTxt.trim()
             });
           }
         } else {
           this.setState({
             showerror: "",
-            isLoginDisabled: false
+            isLoginDisabled: false,
+            email: pasteTxt.trim()
           });
         }
+        event.preventDefault();
         break;
       }
       case "password": {
@@ -548,6 +555,13 @@ class MainLogin extends React.Component<Props, loginState> {
         highlightp: false,
         showerror: ""
       });
+    }
+  }
+
+  handleKeyPress(event: React.KeyboardEvent) {
+    if (event.which === 32) {
+      event.preventDefault();
+      return false;
     }
   }
 
@@ -585,12 +599,14 @@ class MainLogin extends React.Component<Props, loginState> {
             <InputField
               id="auto_focus"
               value={this.state.email || this.props.email}
+              type={"email"}
               placeholder={"Email ID*"}
               label={"Email ID*"}
               border={this.state.highlight}
               keyUp={e => this.handleKeyUp(e, "email")}
               handleChange={e => this.handleChange(e, "email")}
               handlePaste={e => this.handlePaste(e, "email")}
+              keyPress={e => this.handleKeyPress(e)}
               error={this.state.msg}
               inputRef={this.firstEmailInput}
               showLabel={true}

@@ -473,11 +473,12 @@ class CartPage extends React.Component<Props, State> {
                       <div
                         key={i}
                         className={cs(
-                          bootstrap.colLg3,
+                          // bootstrap.colLg3,
+                          bootstrap.colMd3,
                           styles.px6,
                           bootstrap.col5,
                           {
-                            [globalStyles.marginL40]: i === 0 && mobile,
+                            [styles.marginL40]: i === 0 && mobile,
                             [styles.lastDiv]:
                               i === this.state.featureData?.length - 1 && mobile
                           }
@@ -557,7 +558,8 @@ class CartPage extends React.Component<Props, State> {
                                       key={i}
                                       className={cs(bootstrap.colLg3, {
                                         [styles.px6]: !mobile,
-                                        [styles.col6]: mobile
+                                        [styles.col6]: mobile,
+                                        [bootstrap.colMd3]: mobile
                                       })}
                                     >
                                       <div
@@ -782,12 +784,6 @@ class CartPage extends React.Component<Props, State> {
   }
 
   render() {
-    const {
-      totalWithoutShipping,
-      freeShippingThreshold,
-      freeShippingApplicable,
-      shippable
-    } = this.props.cart;
     const { showTimer } = this.props;
     return (
       <div
@@ -800,15 +796,11 @@ class CartPage extends React.Component<Props, State> {
             bootstrap.col12,
             bootstrap.colLg8,
             styles.bagContents,
-            styles.pUnset
-            // {
-            //   [globalStyles.marginT30]:
-            //     this.props.mobile &&
-            //     totalWithoutShipping &&
-            //     totalWithoutShipping >= freeShippingThreshold &&
-            //     totalWithoutShipping < freeShippingApplicable &&
-            //     shippable
-            // }
+            styles.pUnset,
+            {
+              [globalStyles.marginT30]:
+                this.props.mobile && this.props.cart.showProductWorth
+            }
           )}
         >
           {this.getItemsCount() === 0 || this.props.mobile ? null : (

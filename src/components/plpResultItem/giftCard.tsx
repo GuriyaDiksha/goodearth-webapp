@@ -1,7 +1,8 @@
 import React, { memo } from "react";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
-import giftcardTile from "images/giftcard-tile.png";
+// import giftcardTile from "images/giftcard-tile.png";
+import giftcardTile from "images/giftCardImages/Group 1747.jpg";
 
 const GiftcardItem: React.FC<{
   isCorporateGifting: boolean;

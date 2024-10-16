@@ -18,9 +18,12 @@
     // justify-content: center;
     padding: 20px 100px;
     cursor: pointer;
-
     @media screen and (max-width: 992px) {
         padding: 0px 4px;
+    }
+    @media(min-width:768px) and (max-width: 992px) {
+        max-width: 568px;
+        margin: 0 auto;
     }
 
     .dept_card{        
