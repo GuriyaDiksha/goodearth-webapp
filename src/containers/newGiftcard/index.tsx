@@ -18,6 +18,9 @@ import { displayPriceWithCommas, makeid } from "utils/utility";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import Button from "components/Button";
 import globalStyles from "styles/global.scss";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
+
 // import { table } from "console";
 
 const mapStateToProps = (state: AppState) => {
@@ -336,6 +339,14 @@ class NewGiftcard extends React.Component<Props, State> {
       customValueErrorMsg
     } = this.state;
 
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "gift_card_buy",
+        value: cardValue ? cardValue : customValue,
+        shipping: selectedCountry
+      });
+    }
     if (formDisabled || selectedCountry == "") {
       return;
     }
