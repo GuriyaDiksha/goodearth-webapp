@@ -199,11 +199,12 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
             display: "flex",
             flexWrap: "nowrap",
             overflow: "scroll",
+            msOverflowStyle: "none",
             scrollbarWidth: "none",
-            gap: "10px",
+            gap: "11px",
+            WebkitOverflowScrolling: "touch",
             width: "100%",
-            paddingLeft: "4px",
-            justifyContent: bubbleCount === 3 ? "center" : "flex-start"
+            paddingLeft: "4px"
           }}
         >
           {data?.map((item: any) => (
