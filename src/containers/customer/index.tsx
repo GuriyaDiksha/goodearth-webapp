@@ -92,7 +92,7 @@ const StaticPage: React.FC<Props> = props => {
     });
   });
 
-  let bgClass = cs(globalStyles.colMd10, globalStyles.col12);
+  let bgClass = cs({ [globalStyles.colMd10]: !mobile }, globalStyles.col12);
   bgClass +=
     slab && path == "/account/cerise"
       ? slab.toLowerCase() == "cerise" ||
@@ -113,7 +113,7 @@ const StaticPage: React.FC<Props> = props => {
           <span className={styles.heading}>CUSTOMER ASSISTANCE</span>
         </div>
       </SecondaryHeader>
-      <div className={bootstrapStyles.row}>
+      <div className={cs({ [bootstrapStyles.row]: !mobile })}>
         {mobile ? (
           <div className={cs(styles.cSort, styles.subheaderAccount)}>
             <div className={cs(bootstrapStyles.col12, styles.productNumber)}>
@@ -259,11 +259,11 @@ const StaticPage: React.FC<Props> = props => {
           </div>
         )}
         <div className={bgClass}>
-          <div className={bootstrapStyles.row}>
+          <div className={cs({ [bootstrapStyles.row]: !mobile })}>
             <div
               className={cs(
-                bootstrapStyles.colMd10,
-                bootstrapStyles.offsetMd1,
+                { [bootstrapStyles.colMd10]: !mobile },
+                { [bootstrapStyles.offsetMd1]: !mobile },
                 bootstrapStyles.col10,
                 bootstrapStyles.offset1,
                 // { [styles.accountFormBg]: !mobile },
