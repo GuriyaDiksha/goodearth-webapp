@@ -8,6 +8,7 @@ import cs from "classnames";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { useHistory, useLocation } from "react-router";
+import bootstrap from "../../../styles/bootstrap/bootstrap-grid.scss";
 interface DataItem {
   url: string;
   image: string;
@@ -21,6 +22,7 @@ type Props = {
 const PlpBubbles: React.FC<Props> = ({ data }) => {
   const [bubbleCount, setBubbleCount] = useState(0);
   const isThree = useMemo(() => data.length === 3, [data]);
+  const [mobileView, setMobileView] = useState(false);
   const history = useHistory();
   const location = useLocation();
 
@@ -36,6 +38,12 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
       }
     });
   }, [history]);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const isMobile: boolean = window.innerWidth < 481;
+      setMobileView(isMobile);
+    }
+  }, [window.innerWidth]);
   const settings = useMemo(
     () => ({
       dots: false,
@@ -145,14 +153,48 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
 
   return (
     <React.Fragment>
-      <div
-        className={cs(
-          styles.sliderContainer,
-          { [styles.marginLeft]: bubbleCount === 3 },
-          "SliderContainer"
-        )}
-      >
-        <Slider {...settings}>
+      {!mobileView ? (
+        <div
+          className={cs(
+            styles.sliderContainer,
+            { [styles.marginLeft]: bubbleCount === 3 },
+            "SliderContainer"
+          )}
+        >
+          <Slider {...settings}>
+            {data?.map((item: any) => (
+              <div className={styles.bubbleContainer} key={item.url}>
+                <div
+                  className={
+                    item.name === "View All"
+                      ? styles.highlightImgWrap
+                      : styles.imgWrap
+                  }
+                  onClick={() => (
+                    plpBubbleGaCall(item?.name), handleClick(item?.url)
+                  )}
+                >
+                  <img
+                    className={styles.bubbleImage}
+                    src={item?.image}
+                    alt="img"
+                  />
+                </div>
+                <span
+                  className={
+                    item?.name === "View All"
+                      ? styles.highlightBubbleText
+                      : styles.bubbleText
+                  }
+                >
+                  {item?.name}
+                </span>
+              </div>
+            ))}
+          </Slider>
+        </div>
+      ) : (
+        <div className={cs(styles.newSliderContainer)}>
           {data?.map((item: any) => (
             <div className={styles.bubbleContainer} key={item.url}>
               <div
@@ -182,8 +224,8 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
               </span>
             </div>
           ))}
-        </Slider>
-      </div>
+        </div>
+      )}
     </React.Fragment>
   );
 };
