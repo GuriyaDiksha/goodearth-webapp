@@ -1344,8 +1344,8 @@ class Header extends React.Component<Props, State> {
               )}
               <div
                 className={cs(
-                  bootstrap.colLg3,
                   bootstrap.col6,
+                  bootstrap.colLg3,
                   styles.logoContainer
                 )}
               >
