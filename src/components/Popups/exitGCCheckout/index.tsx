@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
@@ -25,6 +25,13 @@ const exitGCCheckout: React.FC<PopupProps> = props => {
   const history = useHistory();
   //const currency = useSelector((state: AppState) => state.currency);
   const { mobile, tablet } = useSelector((state: AppState) => state.device);
+  const [giftCardCountrySelect, setGiftCardCountrySelect] = useState("");
+  useEffect(() => {
+    const selectedGiftCardCountry =
+      localStorage.getItem("giftCardCountry") ?? "India";
+    setGiftCardCountrySelect(selectedGiftCardCountry);
+    localStorage.removeItem("giftCardCountry");
+  }, []);
 
   return (
     <div>
@@ -75,7 +82,8 @@ const exitGCCheckout: React.FC<PopupProps> = props => {
               if (userConsent.includes(GA_CALLS)) {
                 dataLayer.push({
                   event: "cancel_giftcard_checkout",
-                  value: props.basket.lineItems[0].GCValue
+                  value: props?.basket?.lineItems[0]?.GCValue,
+                  shipping: giftCardCountrySelect
                 });
               }
               closeModal();
