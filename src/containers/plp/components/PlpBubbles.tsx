@@ -194,19 +194,7 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
           </Slider>
         </div>
       ) : (
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "nowrap",
-            overflow: "scroll",
-            msOverflowStyle: "none",
-            scrollbarWidth: "none",
-            gap: "11px",
-            WebkitOverflowScrolling: "touch",
-            width: "100%",
-            paddingLeft: "4px"
-          }}
-        >
+        <div className={cs(styles.newSliderContainer)}>
           {data?.map((item: any) => (
             <div className={styles.bubbleContainer} key={item.url}>
               <div
