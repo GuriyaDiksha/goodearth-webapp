@@ -75,7 +75,8 @@ const exitGCCheckout: React.FC<PopupProps> = props => {
               if (userConsent.includes(GA_CALLS)) {
                 dataLayer.push({
                   event: "cancel_giftcard_checkout",
-                  value: props.basket.lineItems[0].GCValue
+                  value: props.basket.lineItems[0].GCValue,
+                  shipping: sessionStorage.getItem("GCCountrySelected")
                 });
               }
               closeModal();
