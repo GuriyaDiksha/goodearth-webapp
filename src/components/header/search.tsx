@@ -1387,13 +1387,20 @@ class Search extends React.Component<Props, State> {
                                           }
                                         )}
                                       >
-                                        <div
+                                        <Link
+                                          to={data.link}
+                                          onClick={this.showProduct.bind(
+                                            this,
+                                            data,
+                                            i,
+                                            false
+                                          )}
                                           className={cs(
                                             globalStyles.badgeContainer
                                           )}
                                         >
                                           {data?.badge_text}
-                                        </div>
+                                        </Link>
                                       </div>
                                     )}
                                     <Link

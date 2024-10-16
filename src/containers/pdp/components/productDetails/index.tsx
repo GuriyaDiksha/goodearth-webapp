@@ -427,6 +427,22 @@ const ProductDetails: React.FC<Props> = ({
     return sections;
   }, [details, compAndCare, shipping, manufactureInfo]);
 
+  const handleScroll = () => {
+    const banner = document.getElementById(
+      "announcement_bar"
+    ) as HTMLDivElement | null;
+    const mainHeader = document.getElementById(
+      "myHeader"
+    ) as HTMLDivElement | null;
+
+    if (mainHeader && banner) {
+      const mainHeaderHeight = mainHeader.clientHeight;
+      const bannerHeight = banner.clientHeight;
+      const totalScroll = !mobile ? 430 : 840 + mainHeaderHeight + bannerHeight;
+      window.scrollTo({ top: totalScroll, left: 0, behavior: "smooth" });
+    }
+  };
+
   const setSelectedSKU = () => {
     let currentSKU = sku;
     if (selectedSize) {
@@ -1134,8 +1150,10 @@ const ProductDetails: React.FC<Props> = ({
                     className={cs(
                       globalStyles.badgeContainer,
                       globalStyles.grey,
-                      styles.badgeMargin
+                      styles.badgeMargin,
+                      globalStyles.pointer
                     )}
+                    onClick={() => handleScroll()}
                   >
                     {badge_text}
                   </div>
@@ -1657,7 +1675,7 @@ const ProductDetails: React.FC<Props> = ({
                 <hr />
                 <dl className={styles.list}>
                   {freeProductText.map((text, i) => (
-                    <div className={styles.item} key={i}>
+                    <div className={styles.item} key={i + text?.heading}>
                       <dt className={styles.title}>
                         <span className={styles.dot}></span> {text?.heading}
                       </dt>
