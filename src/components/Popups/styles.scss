@@ -147,11 +147,12 @@
     transform: translate(-50%, -50%);
     @media screen and (max-width: 480px) {
       bottom: -25% !important;
-      max-width: 400px;
+      // max-width: 400px;
     }
     @media screen and (min-width: 481px) {
-      top: 50%;
-      max-width: 450px;
+      // top: 50%;
+      // max-width: 450px;
+      bottom: -20%;
     }
   }
 
@@ -221,6 +222,10 @@
         border-bottom: 1px solid #f2f2f2;
         margin-bottom: 40px;
         @include b4_12px_montserrat_charcoal_caps();
+        @media(max-width:992px){
+          max-width: 366px;
+          margin: 0 auto 40px auto;
+        }
       }
       .dropdown-wrp{
         max-width: 366px;
@@ -301,10 +306,12 @@
         @include err_13px_lora_italic_cerise();
       }
       .char-limit{
-        text-align: right;
-        float: right;
         width: 35%;
         @include b5_10px_montserrat_charcoal();
+        @media(min-width:992px){
+          text-align: right;
+          float: right;
+        }
       }
       .send-req-btn{
         background-color: $med-charcoal;
@@ -356,13 +363,13 @@
       }
     }
     .free-instruction{
-      padding: 0 24px;
+      // padding: 0 24px;
       @include b6_9px_light_montserrat_charcoal();
       text-align: left;
       color: $montserrat-light;
-      @media screen and (min-width: 992px) {
-        padding: 0 35px;
-      }
+      // @media screen and (min-width: 992px) {
+      //   padding: 0 35px;
+      // }
       .cerise-btn {
         position: inherit;
         margin: 25px 0 20px 0;
@@ -996,11 +1003,11 @@
 .deliver-subheading {
   width: 100%;
   text-align: left;
-  margin: 0px 24px;
+  // margin: 0px 24px;
   @include b4_12px_montserrat_charcoal();
-  @media screen and (min-width: 992px) {
-    margin: 0px 35px;
-  }
+  // @media screen and (min-width: 992px) {
+  //   margin: 0px 35px;
+  // }
 }
 .free-delivery {
   @include b5_10px_montserrat_charcoal();
@@ -1644,12 +1651,9 @@
 .head-wrp{
   display: flex;
   justify-content: space-between;
-  margin: 0 24px 15px;
+  margin: 0 35px 15px;
   border-bottom: 1px solid #f2f2f2;
   padding: 25px 0 20px;
-  @media screen and (min-width: 992px) {
-    margin: 0 35px 15px;
-  }
   .delivery-head{
     @include b4_12px_medium_charcoal_caps();
   }
@@ -1665,7 +1669,7 @@
 
 .radio-list {
   text-align: left;
-  margin: 0 40px;
+  margin: 0 35px;
   .container {
     width: 80px;
     display: inline-block;
@@ -1813,8 +1817,12 @@
   }
 
   input[type="text"].input {
-    width: 80%;
+    // width: 80%;
+    width: 85%;
     text-align: left;
+    @media(max-width:992px){
+      width: 92%;
+    }
   }
   input[type="text"].input2 {
     width: 60%;
@@ -1901,4 +1909,15 @@
 
 .fixed-height {
   @include fixed-height(450px);
+}
+
+.textAreaBox{
+  max-width: unset!important;
+}
+.marginLR35{
+  margin: 0 35px;
+}
+.btn-full-width-for-popup{
+  width: 100% !important;
+  max-width: 100% !important;
 }

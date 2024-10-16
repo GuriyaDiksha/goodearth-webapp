@@ -38,7 +38,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
       },
       startTimer: true,
       isDisabled: false,
-      attempt_count: 0
+      attempt_count: 0,
+      selectedOption: "email"
     };
   }
   // timerId: any = 0;
@@ -224,11 +225,20 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
       return false;
     }
 
+    //**** alterantive option phone option for INR GC and email for other country
     // if (this.props.isIndiaGC) {
-    //   data["phoneNo"] = "+91" + phoneNo;
+    //   data["phoneNo"] = "+91" + this.props.phoneNo;
     // } else {
-    data["email"] = email;
+    // data["email"] = email;
     // }
+
+    //**** both email and phone option for INR GC
+    if (this.props.isIndiaGC && this.state.selectedOption == "mobile number") {
+      data["phoneNo"] = "+91" + this.props.phoneNo;
+    } else {
+      data["email"] = email;
+    }
+
     data["inputType"] = "GIFT";
     data["code"] = this.props.txtvalue;
     if (this.props.otpFor == "activateGC") {
@@ -236,8 +246,13 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
       data["lastName"] = this.props.lastName;
       // this.sendOtpApiCall(data);
     }
+    //**** alterantive option phone option for INR GC and email for other country
     // data["otpTo"] = this.props.isIndiaGC ? "phoneno" : "email";
-    data["otpTo"] = "email";
+
+    //**** both email and phone option for INR GC
+    data["otpTo"] =
+      this.props.isIndiaGC && this.state.selectedOption ? "phoneno" : "email";
+    // data["otpTo"] = "email";
     this.sendOtpApiCall(data, false);
   };
 
@@ -683,24 +698,29 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               : "GIFT CARD CODE"}
           </p>
           <p className={styles.line}>{this.props.txtvalue}</p>
-          {/* {!this.props.isIndiaGC ? ( */}
-          <p className={globalStyles.voffset2}>
-            <p
-              className={cs(
-                globalStyles.op2,
-                globalStyles.bold,
-                styles.lineHead
-              )}
-            >
-              {" "}
-              OTP SENT TO EMAIL ADDRESS:
-            </p>{" "}
-            <p className={cs(styles.overflowEmail, styles.line)}>
-              {otpData.email}
+
+          {!this.props.isIndiaGC && (
+            <p className={globalStyles.voffset2}>
+              <p
+                className={cs(
+                  globalStyles.op2,
+                  globalStyles.bold,
+                  styles.lineHead
+                )}
+              >
+                {" "}
+                OTP SENT TO EMAIL ADDRESS:
+              </p>{" "}
+              <p className={cs(styles.overflowEmail, styles.line)}>
+                {otpData.email}
+              </p>
             </p>
-          </p>
-          {/* ) : ( */}
-          {/* <p className={globalStyles.voffset2}>
+          )}
+
+          {this.props.isIndiaGC &&
+          this.state.selectedOption &&
+          this.state.selectedOption == "mobile number" ? (
+            <p className={globalStyles.voffset2}>
               <p
                 className={cs(
                   globalStyles.op2,
@@ -711,8 +731,24 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 OTP SMS SENT TO MOBILE NUMBER:
               </p>{" "}
               <p className={styles.line}>{otpData.phoneNo}</p>
-            </p> */}
-          {/* )} */}
+            </p>
+          ) : (
+            <p className={globalStyles.voffset2}>
+              <p
+                className={cs(
+                  globalStyles.op2,
+                  globalStyles.bold,
+                  styles.lineHead
+                )}
+              >
+                {" "}
+                OTP SENT TO EMAIL ADDRESS:
+              </p>{" "}
+              <p className={cs(styles.overflowEmail, styles.line)}>
+                {otpData.email}
+              </p>
+            </p>
+          )}
         </div>
         <hr />
         {(this.props.otpFor == "activateGC"
@@ -723,7 +759,10 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
           <>
             <NewOtpComponent
               // otpSentVia={this.props.isIndiaGC ? "mobile number" : "email"}
-              otpSentVia={"email"}
+              // otpSentVia={"email"}
+              otpSentVia={
+                this.props.isIndiaGC ? this.state.selectedOption : "email"
+              }
               resendOtp={this.resendOtp}
               verifyOtp={this.checkOtpValidation}
               errorMsg={this.state.showerror}
@@ -769,6 +808,12 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
         return false;
       }
     }
+  };
+
+  radioChangeHandler = (e: any) => {
+    this.setState({
+      selectedOption: e.target.value
+    });
   };
 
   render() {
@@ -836,17 +881,39 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               onInvalidSubmit={this.handleInvalidSubmit}
             >
               {/* {!this.props.isIndiaGC && ( */}
-              <li className={cs(styles.radiobtn1, styles.xradio)}>
-                <div className={styles.placeholderRadio}>
-                  <div className={styles.outer}></div>
-                  <div className={styles.inner}></div>
-                </div>
+              <li
+                className={cs(styles.radiobtn1, styles.xradio, {
+                  [styles.emailInput]:
+                    this.props.isLoggedIn && this.props.isIndiaGC
+                })}
+              >
+                {this.props.isLoggedIn && this.props.isIndiaGC && (
+                  <input
+                    type="radio"
+                    value="email"
+                    id="Email"
+                    name="radio-group"
+                    checked={this.state.selectedOption === "email"}
+                    onChange={this.radioChangeHandler}
+                  />
+                  // ) : (
+                  // <div className={styles.placeholderRadio}>
+                  //   <div className={styles.outer}></div>
+                  //   <div className={styles.inner}></div>
+                  // </div>
+                )}
                 <FormInput
                   name="email"
                   placeholder={"Email*"}
                   label={"Email*"}
-                  className={cs(styles.relative, styles.smallInput)}
-                  disable={this.props.isCredit}
+                  className={cs(
+                    styles.relative,
+                    styles.smallInput,
+                    styles.customRadioBtn
+                    // styles.disabledInp
+                  )}
+                  // disable={this.props.isCredit}
+                  disable={this.props.email ? true : false}
                   inputRef={this.emailInput}
                   value={this.props.email ? this.props.email : ""}
                   handleChange={e =>
@@ -878,7 +945,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 />
               </li>
               {/* )} */}
-              {/* {this.props.isIndiaGC && (
+              {this.props.isLoggedIn && this.props.isIndiaGC && (
                 <li
                   className={cs(
                     styles.countryCode,
@@ -886,7 +953,20 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                     styles.xradio
                   )}
                 >
-                  <div className={styles.flex}>
+                  <input
+                    type="radio"
+                    value="mobile number"
+                    id="Contact Number"
+                    name="radio-group"
+                    checked={this.state.selectedOption === "mobile number"}
+                    onChange={this.radioChangeHandler}
+                    disabled={!this.props.phoneNo ? true : false}
+                  />
+                  <div
+                    className={cs(styles.flex, styles.customRadioBtn, {
+                      [styles.disabledRadio]: !this.props.phoneNo
+                    })}
+                  >
                     <div className={styles.contactCode}>
                       <input
                         type="text"
@@ -926,14 +1006,21 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                             ? e.preventDefault()
                             : null
                         }
+                        disable={true}
                       />
                     </div>
                     <p id="selectError" className={cs(styles.errorMsg)}>
                       {this.state.msgt}
                     </p>
                   </div>
+                  {!this.props.phoneNo && (
+                    <p className={cs(styles.errorMsg, styles.phErrMsg)}>
+                      Phone number is missing in your profile. Please update it
+                      in the profile section.
+                    </p>
+                  )}
                 </li>
-              )} */}
+              )}
               <hr />
               <li className={styles.note}>
                 <div>Please Note:</div>
@@ -1015,6 +1102,13 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   )}
                 <Button
                   type="submit"
+                  onClick={() =>
+                    this.props.isLoggedIn &&
+                    this.props.isIndiaGC &&
+                    !this.props.phoneNo
+                      ? this.handleSubmit({ email: this.state.emailInput })
+                      : null
+                  }
                   disabled={
                     this.state.disable ||
                     !this.subscribeRef.current?.checked ||

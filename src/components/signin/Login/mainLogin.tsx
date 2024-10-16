@@ -91,6 +91,10 @@ class MainLogin extends React.Component<Props, loginState> {
       }
 
       const data = await this.props.checkUserPassword(this.state.email);
+      if (data) {
+        localStorage.setItem("isNewsSubscribed", data.subscribe);
+      }
+
       if (data.otpSent) {
         this.setState({
           showEmailVerification: true,

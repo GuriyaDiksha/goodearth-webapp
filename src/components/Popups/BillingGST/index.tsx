@@ -180,7 +180,7 @@ const BillingGST: React.FC<PopupProps> = ({
             <RadioButton key="UID" gstType="UID" />
           </div>
 
-          <div className={cs(globalStyles.textLeft, globalStyles.marginLR40)}>
+          <div className={cs(globalStyles.textLeft, styles.marginLR35)}>
             <div className={cs(styles.gstTitle)}>{title[gstType]}</div>
             <div className={cs(styles.gstDesc)}>{desc[gstType]}</div>
           </div>
@@ -233,14 +233,14 @@ const BillingGST: React.FC<PopupProps> = ({
         ) : (
           ""
         )}
-        <div className={cs(globalStyles.paddBottom20)}>
+        <div className={cs({ [globalStyles.paddBottom20]: !mobile })}>
           <Button
             variant="mediumMedCharcoalCta366"
             onClick={e => handleSubmit(e)}
             label={
               msg.includes(error) ? "EDIT BILLING ADDRESS" : "SAVE & PROCEED"
             }
-            className={cs({ [globalStyles.btnFullWidthForPopup]: mobile })}
+            className={cs({ [styles.btnFullWidthForPopup]: mobile })}
           />
         </div>
       </div>

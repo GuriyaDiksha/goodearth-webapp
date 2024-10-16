@@ -10,6 +10,8 @@ import { AppState } from "reducers/typings";
 import { errorTracking } from "utils/validate";
 import { RouteComponentProps, withRouter } from "react-router";
 import Button from "components/Button";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 const mapStateToProps = (state: AppState) => {
   return {
     currency: state.currency,
@@ -73,10 +75,18 @@ class ApplyPromo extends React.Component<Props, GiftState> {
     const data: any = {
       cardId: this.state.txtvalue
     };
+    const userConsent = CookieService.getCookie("consent").split(",");
+    console.log(userConsent);
     this.props
       .applyPromo(data, this.props.history, this.props.isLoggedIn)
       .then((response: any) => {
         if (response.status == false) {
+          if (userConsent.includes(GA_CALLS)) {
+            dataLayer.push({
+              event: "promo_code_added",
+              click_type: "invalid"
+            });
+          }
           this.setState(
             {
               error: response.message
@@ -87,6 +97,12 @@ class ApplyPromo extends React.Component<Props, GiftState> {
             }
           );
         } else {
+          if (userConsent.includes(GA_CALLS)) {
+            dataLayer.push({
+              event: "promo_code_added",
+              click_type: "valid"
+            });
+          }
           this.setState(
             {
               newCardBox: false
