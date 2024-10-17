@@ -347,6 +347,7 @@ class NewGiftcard extends React.Component<Props, State> {
         shipping: selectedCountry
       });
     }
+    sessionStorage.setItem("GCCountrySelected", selectedCountry);
     if (formDisabled || selectedCountry == "") {
       return;
     }
