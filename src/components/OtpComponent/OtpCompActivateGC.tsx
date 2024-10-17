@@ -1102,6 +1102,13 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   )}
                 <Button
                   type="submit"
+                  onClick={() =>
+                    this.props.isLoggedIn &&
+                    this.props.isIndiaGC &&
+                    !this.props.phoneNo
+                      ? this.handleSubmit({ email: this.state.emailInput })
+                      : null
+                  }
                   disabled={
                     this.state.disable ||
                     !this.subscribeRef.current?.checked ||

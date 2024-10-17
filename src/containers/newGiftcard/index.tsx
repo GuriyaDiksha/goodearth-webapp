@@ -338,7 +338,6 @@ class NewGiftcard extends React.Component<Props, State> {
       selectedCountry,
       customValueErrorMsg
     } = this.state;
-
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
@@ -347,6 +346,7 @@ class NewGiftcard extends React.Component<Props, State> {
         shipping: selectedCountry
       });
     }
+    sessionStorage.setItem("GCCountrySelected", selectedCountry);
     if (formDisabled || selectedCountry == "") {
       return;
     }

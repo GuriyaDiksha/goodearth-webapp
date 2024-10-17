@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
@@ -75,7 +75,8 @@ const exitGCCheckout: React.FC<PopupProps> = props => {
               if (userConsent.includes(GA_CALLS)) {
                 dataLayer.push({
                   event: "cancel_giftcard_checkout",
-                  value: props.basket.lineItems[0].GCValue
+                  value: props.basket.lineItems[0].GCValue,
+                  shipping: sessionStorage.getItem("GCCountrySelected")
                 });
               }
               closeModal();

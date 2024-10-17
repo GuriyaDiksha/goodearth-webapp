@@ -1056,41 +1056,49 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           >
             {
               <div>
-                <div className={styles.title}>SELECT PAYMENT METHOD</div>
-                {getMethods.map(function(method, index) {
-                  return (
-                    <div className={globalStyles.marginT20} key={index}>
-                      <label
-                        className={cs(
-                          globalStyles.flex,
-                          globalStyles.crossCenter
-                        )}
-                      >
-                        <div className={styles.marginR10}>
-                          <span className={styles.radio}>
-                            <input
-                              type="radio"
-                              value={method.mode}
-                              checked={
-                                method.mode == currentmethod.mode ? true : false
-                              }
-                              onChange={event => onMethodChange(event, method)}
-                            />
-                            <span className={styles.indicator}></span>
-                          </span>
+                {isPaymentNeeded && (
+                  <>
+                    <div className={styles.title}>SELECT PAYMENT METHOD</div>
+                    {getMethods.map(function(method, index) {
+                      return (
+                        <div className={globalStyles.marginT20} key={index}>
+                          <label
+                            className={cs(
+                              globalStyles.flex,
+                              globalStyles.crossCenter
+                            )}
+                          >
+                            <div className={styles.marginR10}>
+                              <span className={styles.radio}>
+                                <input
+                                  type="radio"
+                                  value={method.mode}
+                                  checked={
+                                    method.mode == currentmethod.mode
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={event =>
+                                    onMethodChange(event, method)
+                                  }
+                                />
+                                <span className={styles.indicator}></span>
+                              </span>
+                            </div>
+                            <div
+                              className={cs(styles.paymentTitle, {
+                                [styles.selectedValue]:
+                                  method.mode == currentmethod.mode
+                              })}
+                            >
+                              {method.value}
+                            </div>
+                          </label>
                         </div>
-                        <div
-                          className={cs(styles.paymentTitle, {
-                            [styles.selectedValue]:
-                              method.mode == currentmethod.mode
-                          })}
-                        >
-                          {method.value}
-                        </div>
-                      </label>
-                    </div>
-                  );
-                })}
+                      );
+                    })}
+                  </>
+                )}
 
                 {paymentError && (
                   <div
@@ -1104,7 +1112,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   </div>
                 )}
                 <div>
-                  <hr className={styles.hr} />
+                  {isPaymentNeeded && <hr className={styles.hr} />}
                   {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && (
                     <div
                       className={cs(styles.loginForm, styles.customCheckout)}
