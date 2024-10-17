@@ -218,8 +218,8 @@ const WishlistDetailPage = () => {
       updateWishlist();
       fetchFeaturedContent();
       setTimeout(() => {
-        window.scrollTo(0, 0);
-      }, 1000);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 700);
     }
   }, []);
 
