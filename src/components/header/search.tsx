@@ -1383,7 +1383,8 @@ class Search extends React.Component<Props, State> {
                                             false
                                           )}
                                           className={cs(
-                                            globalStyles.badgeContainer
+                                            globalStyles.badgeContainer,
+                                            styles.badgeText
                                           )}
                                         >
                                           {data?.badge_text}
