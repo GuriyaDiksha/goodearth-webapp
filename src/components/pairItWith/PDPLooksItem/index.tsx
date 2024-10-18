@@ -183,17 +183,19 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           </div>
         )}
         {!isCorporate && product?.badge_text && (
-          <div
+          <Link
+            to={product?.url}
             className={cs(
               globalStyles.textCenter,
               globalStyles.badgePositionDesktop,
+              globalStyles.pointer,
               { [globalStyles.badgePositionMobile]: mobile }
             )}
           >
-            <div className={cs(globalStyles.badgeContainer)}>
+            <div className={cs(globalStyles.badgeContainer, globalStyles.flex)}>
               {product?.badge_text}
             </div>
-          </div>
+          </Link>
         )}
         <Link to={product.url} onClick={gtmProductClick}>
           {/* <MobileSlider>{mobileSlides}</MobileSlider> */}
