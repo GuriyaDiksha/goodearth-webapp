@@ -58,7 +58,7 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                     ) : (
                       ""
                     )}
-                    {item?.badgeText && (
+                    {item?.badge_text && (
                       <Link
                         to={item.url}
                         className={cs(
@@ -75,7 +75,7 @@ const MoreCollectionImage: React.FC<MoreCollectionSliderProps> = (
                             globalStyles.flex
                           )}
                         >
-                          {item?.badgeText}
+                          {item?.badge_text}
                         </div>
                       </Link>
                     )}

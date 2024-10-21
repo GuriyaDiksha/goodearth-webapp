@@ -119,7 +119,7 @@ export type CollectionProductItem = {
   priceRecords: PriceRecord;
   gaVariant?: string;
   altText: string;
-  badgeText?: string;
+  badge_text?: string;
 };
 
 export interface BasketProduct extends PartialProductItem {

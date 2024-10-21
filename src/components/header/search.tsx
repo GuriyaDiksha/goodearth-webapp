@@ -1369,6 +1369,7 @@ class Search extends React.Component<Props, State> {
                                         className={cs(
                                           globalStyles.textCenter,
                                           globalStyles.badgePositionDesktop,
+                                          globalStyles.pointer,
                                           {
                                             [globalStyles.badgePositionMobile]: mobile
                                           }
@@ -1384,7 +1385,7 @@ class Search extends React.Component<Props, State> {
                                           )}
                                           className={cs(
                                             globalStyles.badgeContainer,
-                                            styles.badgeText
+                                            globalStyles.flex
                                           )}
                                         >
                                           {data?.badge_text}
