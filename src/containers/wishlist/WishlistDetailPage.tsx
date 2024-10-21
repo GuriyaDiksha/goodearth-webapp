@@ -992,11 +992,11 @@ const WishlistDetailPage = () => {
                                     className={cs(
                                       globalStyles.textCenter,
                                       globalStyles.badgePositionDesktop,
-                                      globalStyles.pointer,
-                                      styles.badgePosition,
-                                      {
-                                        [globalStyles.badgePositionMobile]: mobile
-                                      }
+                                      globalStyles.pointer
+                                      // styles.badgePosition,
+                                      // {
+                                      //   [globalStyles.badgePositionMobile]: mobile
+                                      // }
                                     )}
                                   >
                                     <div
