@@ -661,6 +661,14 @@
 }
 
 .materiallabel{
+  div{
+    display: flex;
+    justify-content: space-between;
+    label {
+      flex: 1;
+    }
+  }
+  
   label {
     @include plp_color_filter();
     text-transform: capitalize;
