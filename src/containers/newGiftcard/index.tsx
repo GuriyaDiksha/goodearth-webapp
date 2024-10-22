@@ -338,7 +338,6 @@ class NewGiftcard extends React.Component<Props, State> {
       selectedCountry,
       customValueErrorMsg
     } = this.state;
-
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
