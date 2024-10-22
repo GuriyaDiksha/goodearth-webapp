@@ -1653,3 +1653,16 @@ span.add-new-address {
     @include b5_10px_montserrat_charcoal();
   }
 }
+
+@media(min-width:768px) and (max-width:992px){
+  .promo-wrapper{
+      background-color: #F8F8F8;
+    .title{
+      border-bottom: 1px solid #D9D9D9;
+      padding-bottom: 20px;
+    }
+    .selected-stvalue{
+      padding-top: 20px;
+    }
+  }
+}

@@ -105,18 +105,21 @@ hr {
     justify-content: space-between;
   }
 
-  .section-mobile {
-    height: auto;
-    flex-direction: row;
-    margin-top: 10px;
-
-    .product-price {
-      display: none;
+  @media(max-width:767px) {
+    .section-mobile {
+      height: auto;
+      flex-direction: row;
+      margin-top: 10px;
+  
+      .product-price {
+        display: none;
+      }
     }
   }
+
   .product-price-mobile {
     padding-top: 15px;
-    @media screen and (min-width: 992px) {
+    @media screen and (min-width: 767px) {
       display: none;
     }
   }
@@ -403,12 +406,12 @@ hr {
   display: inline-table;
 
   &.enable-mobile {
-    @media screen and (min-width: 992px) {
+    @media screen and (min-width: 768px) {
       display: none;
     }
   }
   &.disableMobile {
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 767px) {
       display: none;
     }
   }
