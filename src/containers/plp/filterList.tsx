@@ -1402,6 +1402,7 @@ class FilterList extends React.Component<Props, State> {
                 (e: string[]) => e[0] === data[0]
               ).length === 0
             }
+            className={cs(globalStyles.flex, globalStyles.gutterBetween)}
             label={[
               <label
                 className={cs({
@@ -1868,7 +1869,12 @@ class FilterList extends React.Component<Props, State> {
       if (data[0].endsWith("Multi")) {
         html.push(
           <li
-            className={cs(styles.colorlabel, styles.multicolorlabel)}
+            className={cs(
+              styles.colorlabel,
+              styles.multicolorlabel,
+              globalStyles.flex,
+              globalStyles.guttereBetween
+            )}
             key={data[0]}
           >
             <input
@@ -1905,7 +1911,14 @@ class FilterList extends React.Component<Props, State> {
         );
       } else {
         html.push(
-          <li className={styles.colorlabel} key={data[0]}>
+          <li
+            className={cs(
+              styles.colorlabel,
+              globalStyles.flex,
+              globalStyles.guttereBetween
+            )}
+            key={data[0]}
+          >
             <input
               type="checkbox"
               id={data[0]}
@@ -2316,6 +2329,7 @@ class FilterList extends React.Component<Props, State> {
                     (e: string[]) => e[0] === data[0]
                   ).length === 0
                 }
+                className={cs(globalStyles.flex, globalStyles.gutterBetween)}
                 label={[
                   <label
                     className={cs({
@@ -2489,6 +2503,7 @@ class FilterList extends React.Component<Props, State> {
   };
 
   render() {
+    console.log(this.props.facets?.productType, "type", this.productData);
     const { mobile } = this.props;
     const { filter } = this.state;
     const productHtml = this.createProductType(
