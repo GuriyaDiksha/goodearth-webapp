@@ -95,6 +95,13 @@ const BottomMenu: React.FC<Props> = ({
     }
     return changeCurrency(data)
       .then((response: any) => {
+        const userConsent = CookieService.getCookie("consent").split(",");
+        if (userConsent.includes(GA_CALLS)) {
+          dataLayer.push({
+            event: "currency_change",
+            click_type: data.currency
+          });
+        }
         if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
           const path =
             history.location.pathname +
