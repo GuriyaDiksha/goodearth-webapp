@@ -93,9 +93,7 @@ body:has(.mobile) {
   &.checkout{
     width: 755px;
     max-width: 755px;
-    
-    @media screen and (max-width:767px) {
-
+    @media screen and (max-width:992px) {
       width: 100%;
       
     }
