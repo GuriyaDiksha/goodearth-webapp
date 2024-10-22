@@ -1153,7 +1153,7 @@ const ProductDetails: React.FC<Props> = ({
                       styles.badgeMargin,
                       globalStyles.pointer
                     )}
-                    onClick={() => handleScroll()}
+                    onClick={() => !isQuickview && handleScroll()}
                   >
                     {badge_text}
                   </div>
