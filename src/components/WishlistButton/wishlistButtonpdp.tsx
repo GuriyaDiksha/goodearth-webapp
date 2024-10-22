@@ -25,7 +25,7 @@ import { updateLoader } from "actions/info";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { showGrowlMessage } from "utils/validate";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const WishlistButtonpdp: React.FC<Props> = ({
   gtmListType,
@@ -369,9 +369,17 @@ const WishlistButtonpdp: React.FC<Props> = ({
     if (window?.location?.pathname === "/wishlist") {
       setTimeout(() => {
         closeModal ? closeModal() : null;
-      }, 1000);
+      }, 500);
     }
   }, [window?.location?.pathname]);
+
+  //wishlist page scroll to top when view & manage wishlist link clicked
+  const location = useLocation();
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 700);
+  }, [location]);
 
   return (
     <>
