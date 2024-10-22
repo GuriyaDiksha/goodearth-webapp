@@ -18,6 +18,9 @@ import { displayPriceWithCommas, makeid } from "utils/utility";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import Button from "components/Button";
 import globalStyles from "styles/global.scss";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
+
 // import { table } from "console";
 
 const mapStateToProps = (state: AppState) => {
@@ -60,6 +63,7 @@ type State = {
   previewOpen: boolean;
   formDisabled: boolean;
   key: string;
+  ribbonImgUrl: string;
 };
 
 class NewGiftcard extends React.Component<Props, State> {
@@ -73,12 +77,14 @@ class NewGiftcard extends React.Component<Props, State> {
     super(props);
     this.state = {
       giftImages: [
-        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.png",
-        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc2.png",
-        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc3.png"
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gcnew2.png",
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gcnew1.png",
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gcnew3.png"
       ],
       selectedImage:
-        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.png",
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gcnew2.png",
+      ribbonImgUrl:
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/Ribbon.png",
       productData: [],
       countryData: [],
       selectedCountry: "",
@@ -139,7 +145,7 @@ class NewGiftcard extends React.Component<Props, State> {
     // dont make maker false
     this.setState({
       selectedImage:
-        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gc1.png",
+        "https://d3qn6cjsz7zlnp.cloudfront.net/media/giftcard/gcNew2.png",
       cardId: "",
       cardValue: "",
       recipientName: "",
@@ -333,6 +339,14 @@ class NewGiftcard extends React.Component<Props, State> {
       customValueErrorMsg
     } = this.state;
 
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "gift_card_buy",
+        value: cardValue ? cardValue : customValue,
+        shipping: selectedCountry
+      });
+    }
     if (formDisabled || selectedCountry == "") {
       return;
     }
@@ -553,13 +567,20 @@ class NewGiftcard extends React.Component<Props, State> {
             >
               <div className={styles.title}>Preview</div>
               <div className={styles.imageContainer}>
-                <img src={selectedImage} alt="giftcard preview" />
+                <div className={styles.giftWrapper}>
+                  <img src={selectedImage} alt="giftcard preview" />
+                  <img
+                    className={styles.ribbonImg}
+                    src={this.state.ribbonImgUrl}
+                    alt="ribbonImg"
+                  />
+                </div>
               </div>
               <div className={styles.salutation}>
                 Dear {recipientName ? recipientName : `[Reciever's Name]`}
               </div>
               <div className={styles.staticMsg}>
-                You have recieved a Good Earth eGift card worth
+                You have received a Good Earth eGift card worth
               </div>
               <div className={styles.gcAmount}>
                 &nbsp;

@@ -24,6 +24,7 @@ export type otpState = {
   disable?: boolean;
   isDisabled?: boolean;
   attempt_count: number;
+  selectedOption: any;
 };
 
 export type otpProps = {
@@ -48,6 +49,7 @@ export type otpProps = {
   newGiftCard?: () => void;
   isFromCheckBalance?: boolean;
   mobile: boolean;
+  isLoggedIn?: boolean;
 };
 
 export type otpRedeemProps = {

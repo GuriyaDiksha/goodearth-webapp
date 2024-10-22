@@ -237,3 +237,8 @@
 .grey-row {
     background-color: $lightest-grey !important;
 }
+
+.disabled{
+    opacity: 0.2;
+    cursor: unset!important;
+}

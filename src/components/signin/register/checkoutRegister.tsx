@@ -88,7 +88,8 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       whatsappChecked: false,
       selectedCountry: "",
       phoneNo: "",
-      inputType: "text"
+      inputType: "text",
+      newsLetterChecked: false
     };
   }
   static contextType = Context;
@@ -105,6 +106,12 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
 
   componentDidMount() {
     const email = localStorage.getItem("tempEmail") || this.props.email;
+    const isSubscribed: boolean =
+      localStorage.getItem("isNewsSubscribed") === "true";
+    this.setState({
+      newsLetterChecked: isSubscribed
+    });
+    localStorage.removeItem("isNewsSubscribed");
     if (email && this.emailInput.current) {
       this.RegisterFormRef.current &&
         this.RegisterFormRef.current.updateInputsWithValue({
@@ -1272,7 +1279,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           </div>
           <div className={cs(styles.subscribe, styles.newsletters)}>
             <FormCheckbox
-              value={this.state.selectedCountry == "India" ? true : false}
+              value={
+                this.state.selectedCountry == "India" ||
+                this.state.newsLetterChecked
+              }
               id="subscrib"
               name="terms"
               disable={!this.state.showFields}

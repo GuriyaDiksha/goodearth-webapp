@@ -439,6 +439,7 @@ const Giftcard: React.FC = () => {
           newCardBox={newCardBox}
           newGiftCard={newGiftcard}
           mobile={mobile}
+          isLoggedIn={user?.isLoggedIn}
         />
       )}
       <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>

@@ -41,6 +41,7 @@ export type registerState = {
   phoneNo?: string;
   countryCodeErr?: string;
   inputType?: string;
+  newsLetterChecked: boolean;
 };
 
 export type RegisterProps = {
