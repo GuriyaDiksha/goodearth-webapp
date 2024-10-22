@@ -72,6 +72,12 @@ class ShopLocator extends Component<Props, State> {
     window.history.pushState("", "", data);
   };
 
+  scrollTop = () => {
+    const banner = document.getElementById("page-banner") as HTMLDivElement;
+    const h1 = banner.clientHeight;
+    window.scrollTo({ top: h1, left: 0 });
+  };
+
   componentDidMount(): void {
     this.props
       .fetchShopLocatorData()
@@ -122,6 +128,7 @@ class ShopLocator extends Component<Props, State> {
       .catch((err: any) => {
         console.log(err);
       });
+    this.scrollTop();
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -147,23 +154,24 @@ class ShopLocator extends Component<Props, State> {
         }
       );
     }
-    if (
-      prevState.currentCity != "" &&
-      prevState.currentCity !== this.state.currentCity
-    ) {
-      const banner = document.getElementById("page-banner") as HTMLDivElement;
-      const description = document.getElementById(
-        "page-description"
-      ) as HTMLDivElement;
-      const mainHeaderHeight = document.getElementById(
-        "myHeader"
-      ) as HTMLDivElement;
-      const h1 = banner.clientHeight;
-      const h2 = description.clientHeight;
-      const h3 = mainHeaderHeight.clientHeight;
-      const total = h1 + h2 + h3;
-      window.scrollTo({ top: total, left: 0 });
-    }
+    this.scrollTop();
+    // if (
+    //   prevState.currentCity != "" &&
+    //   prevState.currentCity !== this.state.currentCity
+    // ) {
+    //   const banner = document.getElementById("page-banner") as HTMLDivElement;
+    //   const description = document.getElementById(
+    //     "page-description"
+    //   ) as HTMLDivElement;
+    //   const mainHeaderHeight = document.getElementById(
+    //     "myHeader"
+    //   ) as HTMLDivElement;
+    //   const h1 = banner.clientHeight;
+    //   const h2 = description.clientHeight;
+    //   const h3 = mainHeaderHeight.clientHeight;
+    //   const total = h1 + h2 + h3;
+    //   window.scrollTo({ top: total, left: 0 });
+    // }
   }
   render() {
     const { shopData, currentCity } = this.state;
