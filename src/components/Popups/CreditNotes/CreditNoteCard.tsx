@@ -40,6 +40,11 @@ const CreditNoteCard = forwardRef<Props, any>(
     ref
   ) => {
     const { currency } = useSelector((state: AppState) => state);
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, "0");
+    const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    const yyyy = today.getFullYear();
+    const today_in_str = dd + "/" + mm + "/" + yyyy;
 
     return (
       <>
@@ -80,7 +85,10 @@ const CreditNoteCard = forwardRef<Props, any>(
                     if (userConsent.includes(GA_CALLS)) {
                       dataLayer.push({
                         event: "remove_credit_note",
-                        CN_amount: amount
+                        CN_amount: amount,
+                        date_of_issue: date_created,
+                        date_of_redemption: today_in_str,
+                        date_of_expiry: expiring_date
                       });
                     }
                   } else {
@@ -88,7 +96,10 @@ const CreditNoteCard = forwardRef<Props, any>(
                     if (userConsent.includes(GA_CALLS)) {
                       dataLayer.push({
                         event: "apply_credit_note",
-                        CN_amount: amount
+                        CN_amount: amount,
+                        date_of_issue: date_created,
+                        date_of_redemption: today_in_str,
+                        date_of_expiry: expiring_date
                       });
                     }
                   }

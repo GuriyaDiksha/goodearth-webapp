@@ -301,8 +301,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           const clickType = localStorage.getItem("clickType");
 
           return {
-            item_id: line.product.sku,
-            item_name: line.title,
+            item_id: line.stockRecords?.[0]?.partnerSku,
+            item_name: line.product?.title,
             affiliation: "NA",
             coupon:
               isSale && basket?.offerDiscounts?.[0]?.name
