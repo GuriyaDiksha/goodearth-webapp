@@ -59,8 +59,8 @@ const DropdownMenu = ({
               history.push(cleanedUrl);
             }
             //**** End *****
-            setCurrentValue(val);
-          }, 100);
+          }, 200);
+          setCurrentValue(val);
         })
         .catch(() => {
           setCurrentValue(value);
