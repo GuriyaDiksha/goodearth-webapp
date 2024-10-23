@@ -1190,9 +1190,14 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
           </div> */}
           {CONFIG.WHATSAPP_SUBSCRIBE_ENABLED && !this.props.isCheckout && (
             <div
-              className={cs(styles.subscribe, styles.tooltip, {
-                [styles.heightFix]: this.state.whatsappChecked
-              })}
+              className={cs(
+                styles.subscribe,
+                styles.tooltip,
+                styles.registerTooltip,
+                {
+                  [styles.heightFix]: this.state.whatsappChecked
+                }
+              )}
             >
               <FormCheckbox
                 value={false}
