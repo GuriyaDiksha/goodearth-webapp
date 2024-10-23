@@ -1151,7 +1151,7 @@ const ProductDetails: React.FC<Props> = ({
                       globalStyles.badgeContainer,
                       globalStyles.grey,
                       styles.badgeMargin,
-                      globalStyles.pointer
+                      { [globalStyles.pointer]: !isQuickview }
                     )}
                     onClick={() => !isQuickview && handleScroll()}
                   >
