@@ -1492,6 +1492,8 @@ hr {
   text-transform: uppercase;
   float: right;
   text-underline-offset: 3px;
+  font-size: 10px!important;
+  font-weight: 400!important;
 }
 .gst-invoise-no {
   @include b5_10px_montserrat_charcoal();
