@@ -6,6 +6,7 @@ import globalStyles from "styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import { displayPriceWithCommasFloat } from "utils/utility";
+import checkIcon from "../../../../images/GE- Icons 1.svg";
 
 const TrackDetails: React.FC<OrdersProps> = props => {
   const [data] = useState(props.orderData || []);
@@ -280,6 +281,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
     for (let i = 0; i < data.lines.length; i++) {
       totalItem += data.lines[i].quantity;
     }
+    const isDelivered: boolean = data?.status.toLowerCase() === "delivered";
 
     html.push(
       <div className={bootstrapStyles.col12}>
@@ -318,8 +320,28 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                 </span>
               </div>
             </div>
+
             <div className={cs(bootstrapStyles.row, styles.borderAdd)}>
-              {trackTrail()}
+              {isDelivered ? (
+                <div className={cs(bootstrapStyles.col12, globalStyles.flex)}>
+                  <div
+                    className={cs(
+                      styles.deliverStatus,
+                      globalStyles.flexGutterStart
+                    )}
+                  >
+                    <img
+                      src={checkIcon}
+                      width={17}
+                      height={17}
+                      alt="right tick icon"
+                    />
+                    Your order has already been delivered
+                  </div>
+                </div>
+              ) : (
+                trackTrail()
+              )}
             </div>
             <div className={styles.addressBlock}>
               {/* Shipping Address */}
