@@ -57,6 +57,7 @@ class SideMenu extends React.Component<Props, State> {
   // CODE FOR CURRENCY CHANGE IN DESKTOP
   changeCurrency = (cur: any) => {
     const { changeCurrency, reloadPage, history, currency } = this.props;
+    const userConsent = CookieService.getCookie("consent").split(",");
     const data: any = {
       currency: cur
     };
@@ -69,6 +70,12 @@ class SideMenu extends React.Component<Props, State> {
           // if (data.currency == "INR") {
           //   history.push("/maintenance");
           // }
+          if (userConsent.includes(GA_CALLS)) {
+            dataLayer.push({
+              event: "currency_change",
+              click_type: data.currency
+            });
+          }
           if (history.location.pathname.indexOf("/catalogue/category/") > -1) {
             const path =
               history.location.pathname +
