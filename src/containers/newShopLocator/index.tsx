@@ -182,12 +182,6 @@ class ShopLocator extends Component<Props, State> {
         window.scrollTo({ top: total, left: 0 });
       }
     }, 500);
-    //always load page from description
-    if (!this.props.mobile) {
-      setTimeout(() => {
-        this.scrollTop();
-      }, 100);
-    }
   }
   render() {
     const { shopData, currentCity } = this.state;
