@@ -75,7 +75,7 @@ class ShopLocator extends Component<Props, State> {
   scrollTop = () => {
     const banner = document.getElementById("page-banner") as HTMLDivElement;
     const h1 = banner.clientHeight;
-    window.scrollTo({ top: h1, left: 0 });
+    window.scrollTo({ top: h1, behavior: "smooth" });
   };
 
   componentDidMount(): void {
@@ -128,50 +128,66 @@ class ShopLocator extends Component<Props, State> {
       .catch((err: any) => {
         console.log(err);
       });
-    this.scrollTop();
+    //always load page from description
+    setTimeout(() => {
+      this.scrollTop();
+    }, 100);
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
-    const city = window.location.href
-      .split("/")
-      .pop()
-      ?.split("?")?.[0];
-    if (this.state.currentCity !== city) {
-      this.setState(
-        {
-          currentCity: city || ""
-        },
-        () => {
-          const ele = document.getElementById(city || "") as HTMLDivElement;
-          if (ele) {
-            ele?.focus();
-            if (document.getElementById("bottomSlide")) {
-              (document.getElementById(
-                "bottomSlide"
-              ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
+    setTimeout(() => {
+      const city = window.location.href
+        .split("/")
+        .pop()
+        ?.split("?")?.[0];
+      if (this.state.currentCity !== city) {
+        this.setState(
+          {
+            currentCity: city || ""
+          },
+          () => {
+            const ele = document.getElementById(city || "") as HTMLDivElement;
+            if (ele) {
+              ele?.focus();
+              if (document.getElementById("bottomSlide")) {
+                (document.getElementById(
+                  "bottomSlide"
+                ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
+                (document.getElementById(
+                  "bottomSlide"
+                ) as HTMLDivElement).scrollTo({
+                  left: ele.offsetLeft,
+                  behavior: "smooth"
+                });
+              }
             }
           }
-        }
-      );
+        );
+      }
+      if (
+        prevState.currentCity != "" &&
+        prevState.currentCity !== this.state.currentCity
+      ) {
+        const banner = document.getElementById("page-banner") as HTMLDivElement;
+        const description = document.getElementById(
+          "page-description"
+        ) as HTMLDivElement;
+        const mainHeaderHeight = document.getElementById(
+          "myHeader"
+        ) as HTMLDivElement;
+        const h1 = banner.clientHeight;
+        const h2 = description.clientHeight;
+        const h3 = mainHeaderHeight.clientHeight;
+        const total = h1 + h2 + h3;
+        window.scrollTo({ top: total, left: 0 });
+      }
+    }, 500);
+    //always load page from description
+    if (!this.props.mobile) {
+      setTimeout(() => {
+        this.scrollTop();
+      }, 100);
     }
-    this.scrollTop();
-    // if (
-    //   prevState.currentCity != "" &&
-    //   prevState.currentCity !== this.state.currentCity
-    // ) {
-    //   const banner = document.getElementById("page-banner") as HTMLDivElement;
-    //   const description = document.getElementById(
-    //     "page-description"
-    //   ) as HTMLDivElement;
-    //   const mainHeaderHeight = document.getElementById(
-    //     "myHeader"
-    //   ) as HTMLDivElement;
-    //   const h1 = banner.clientHeight;
-    //   const h2 = description.clientHeight;
-    //   const h3 = mainHeaderHeight.clientHeight;
-    //   const total = h1 + h2 + h3;
-    //   window.scrollTo({ top: total, left: 0 });
-    // }
   }
   render() {
     const { shopData, currentCity } = this.state;
