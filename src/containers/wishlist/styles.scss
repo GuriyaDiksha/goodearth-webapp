@@ -755,6 +755,7 @@ icon-cross {
         margin: 12px 8px;
         height: 25px;
         cursor: pointer;
+        z-index: 1;
       }
       .note{
         @include b5_10px_montserrat_light_charcoal();
