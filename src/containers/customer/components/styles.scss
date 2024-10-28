@@ -564,7 +564,7 @@ ol {
 
 .accordion-body{
   padding-bottom: 20px;
-  ol{
+  > ol{
     padding-left: 7px;
   }
 }
