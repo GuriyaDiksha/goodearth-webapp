@@ -1242,29 +1242,27 @@ class FilterList extends React.Component<Props, State> {
     Object.keys(categoryObj).map((data, i) => {
       categoryObj[data].map((nestedList: any, j: number) => {
         filter.categoryShop[data]
-          ? //   ? filter.categoryShop[data][nestedList[1]]
-            //     ?
-            categorydata.categoryProductTypeMapping[nestedList[1]]?.map(
-              (level4: any) => {
-                if (this.productData.indexOf(level4) == -1) {
-                  this.productData.push(level4);
+          ? filter.categoryShop[data][nestedList[1]]
+            ? categorydata.categoryProductTypeMapping[nestedList[1]]?.map(
+                (level4: any) => {
+                  if (this.productData.indexOf(level4) == -1) {
+                    this.productData.push(level4);
+                  }
                 }
-              }
-            )
+              )
+            : ""
           : "";
-        // : "";
         filter.categoryShop[data]
-          ? //   ? filter.categoryShop[data][nestedList[1]]
-            //     ?
-            filtered_facets.categoryProductTypeMapping[nestedList[1]]?.map(
-              (level4: any) => {
-                if (filteredProductType.indexOf(level4) == -1) {
-                  filteredProductType.push(level4);
+          ? filter.categoryShop[data][nestedList[1]]
+            ? filtered_facets.categoryProductTypeMapping[nestedList[1]]?.map(
+                (level4: any) => {
+                  if (filteredProductType.indexOf(level4) == -1) {
+                    filteredProductType.push(level4);
+                  }
                 }
-              }
-            )
+              )
+            : ""
           : "";
-        // : "";
       });
     });
 
@@ -1289,19 +1287,19 @@ class FilterList extends React.Component<Props, State> {
                         : false
                     }
                     value={"pb_" + level4}
-                    // disabled={
-                    //   filteredProductType?.filter((e: string[]) => e === level4)
-                    //     .length === 0
-                    // }
+                    disabled={
+                      filteredProductType?.filter((e: string[]) => e === level4)
+                        .length === 0
+                    }
                     label={[
                       <label
                         key={"pb_" + level4}
-                        // className={cs({
-                        //   [styles.disableType]:
-                        //     filteredProductType?.filter(
-                        //       (e: string[]) => e === level4
-                        //     ).length === 0
-                        // })}
+                        className={cs({
+                          [styles.disableType]:
+                            filteredProductType?.filter(
+                              (e: string[]) => e === level4
+                            ).length === 0
+                        })}
                         htmlFor={"pb_" + level4}
                       >
                         {level4}
