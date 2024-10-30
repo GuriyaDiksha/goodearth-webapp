@@ -1239,32 +1239,32 @@ class FilterList extends React.Component<Props, State> {
     const filteredProductType: any = [];
     if (!categoryObj) return false;
     const { filter } = this.state;
-
     Object.keys(categoryObj).map((data, i) => {
       categoryObj[data].map((nestedList: any, j: number) => {
         filter.categoryShop[data]
-          ? filter.categoryShop[data][nestedList[1]]
-            ? categorydata.categoryProductTypeMapping[nestedList[1]]?.map(
-                (level4: any) => {
-                  if (this.productData.indexOf(level4) == -1) {
-                    this.productData.push(level4);
-                  }
+          ? //   ? filter.categoryShop[data][nestedList[1]]
+            //     ?
+            categorydata.categoryProductTypeMapping[nestedList[1]]?.map(
+              (level4: any) => {
+                if (this.productData.indexOf(level4) == -1) {
+                  this.productData.push(level4);
                 }
-              )
-            : ""
+              }
+            )
           : "";
-
+        // : "";
         filter.categoryShop[data]
-          ? filter.categoryShop[data][nestedList[1]]
-            ? filtered_facets.categoryProductTypeMapping[nestedList[1]]?.map(
-                (level4: any) => {
-                  if (filteredProductType.indexOf(level4) == -1) {
-                    filteredProductType.push(level4);
-                  }
+          ? //   ? filter.categoryShop[data][nestedList[1]]
+            //     ?
+            filtered_facets.categoryProductTypeMapping[nestedList[1]]?.map(
+              (level4: any) => {
+                if (filteredProductType.indexOf(level4) == -1) {
+                  filteredProductType.push(level4);
                 }
-              )
-            : ""
+              }
+            )
           : "";
+        // : "";
       });
     });
 
@@ -1289,19 +1289,19 @@ class FilterList extends React.Component<Props, State> {
                         : false
                     }
                     value={"pb_" + level4}
-                    disabled={
-                      filteredProductType?.filter((e: string[]) => e === level4)
-                        .length === 0
-                    }
+                    // disabled={
+                    //   filteredProductType?.filter((e: string[]) => e === level4)
+                    //     .length === 0
+                    // }
                     label={[
                       <label
                         key={"pb_" + level4}
-                        className={cs({
-                          [styles.disableType]:
-                            filteredProductType?.filter(
-                              (e: string[]) => e === level4
-                            ).length === 0
-                        })}
+                        // className={cs({
+                        //   [styles.disableType]:
+                        //     filteredProductType?.filter(
+                        //       (e: string[]) => e === level4
+                        //     ).length === 0
+                        // })}
                         htmlFor={"pb_" + level4}
                       >
                         {level4}
@@ -2726,58 +2726,60 @@ class FilterList extends React.Component<Props, State> {
             </div>
           </li>
 
-          {this.productData.length > 0 &&
-            this.props.facets?.productType?.length > 0 && (
-              <li
-                className={cs(styles.L1, {
-                  [globalStyles.hidden]: this.productData.length == 0,
-                  [styles.open]: this.state.showProductFilter
-                })}
+          {this.productData.length > 0 && (
+            // this.props.facets?.productType?.length > 0 && (
+            <li
+              className={cs(styles.L1, {
+                [globalStyles.hidden]: this.productData.length == 0,
+                [styles.open]: this.state.showProductFilter
+              })}
+            >
+              <span
+                className={
+                  this.state.showProductFilter
+                    ? cs(styles.menulevel1, styles.menulevel1Open)
+                    : styles.menulevel1
+                }
+                onClick={() => {
+                  mobile
+                    ? this.mobileClickProductCategory()
+                    : this.ClickProductCategory();
+                  this.handleAnimation(
+                    "producttype",
+                    this.state.showProductFilter
+                  );
+                }}
               >
-                <span
-                  className={
-                    this.state.showProductFilter
-                      ? cs(styles.menulevel1, styles.menulevel1Open)
-                      : styles.menulevel1
-                  }
-                  onClick={() => {
-                    mobile
-                      ? this.mobileClickProductCategory()
-                      : this.ClickProductCategory();
-                    this.handleAnimation(
-                      "producttype",
-                      this.state.showProductFilter
-                    );
-                  }}
-                >
-                  {`PRODUCT TYPE ${
-                    mobile && prodTypeFilterCount > 0
-                      ? `(${prodTypeFilterCount})`
-                      : ""
-                  }`}
-                </span>
-                <div
-                  id="producttype"
-                  className={
-                    this.state.showProductFilter
-                      ? styles.showheader1
-                      : styles.hideDiv
-                  }
-                >
-                  {productHtml}
-                  {!mobile && (
-                    <div data-name="productType">
-                      <span
-                        onClick={e => this.clearFilter(e, "productType")}
-                        className={styles.plp_filter_sub}
-                      >
-                        Clear
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </li>
-            )}
+                {`PRODUCT TYPE ${
+                  mobile && prodTypeFilterCount > 0
+                    ? `(${prodTypeFilterCount})`
+                    : ""
+                }`}
+              </span>
+              <div
+                id="producttype"
+                className={
+                  this.state.showProductFilter
+                    ? styles.showheader1
+                    : styles.hideDiv
+                }
+              >
+                {productHtml}
+                {!mobile && (
+                  <div data-name="productType">
+                    <span
+                      onClick={e => this.clearFilter(e, "productType")}
+                      className={styles.plp_filter_sub}
+                    >
+                      Clear
+                    </span>
+                  </div>
+                )}
+              </div>
+            </li>
+          )
+          // )
+          }
 
           {this.props.facets?.currentColor?.length > 0 && (
             <li
