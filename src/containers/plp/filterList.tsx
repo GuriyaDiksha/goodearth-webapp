@@ -2424,7 +2424,7 @@ class FilterList extends React.Component<Props, State> {
   ClickProductCategory = () => {
     this.setState({
       showProductFilter: !this.state.showProductFilter,
-      categorylevel1: !this.state.categorylevel1,
+      categorylevel1: this.state.categorylevel1,
       showmenulevel1: !this.state.showmenulevel1
     });
   };
