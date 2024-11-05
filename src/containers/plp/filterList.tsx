@@ -1527,7 +1527,10 @@ class FilterList extends React.Component<Props, State> {
                           ? filter.categoryShop[data][nestedList[1]]
                           : false
                       }
-                      onChange={this.handleClickCategory}
+                      onChange={e => {
+                        this.handleClickCategory(e);
+                        this.clearFilter(e, "productType");
+                      }}
                       value={data}
                       name={nestedList[0]}
                       label={[
