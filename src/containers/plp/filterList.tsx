@@ -1239,7 +1239,6 @@ class FilterList extends React.Component<Props, State> {
     const filteredProductType: any = [];
     if (!categoryObj) return false;
     const { filter } = this.state;
-
     Object.keys(categoryObj).map((data, i) => {
       categoryObj[data].map((nestedList: any, j: number) => {
         filter.categoryShop[data]
@@ -1253,7 +1252,6 @@ class FilterList extends React.Component<Props, State> {
               )
             : ""
           : "";
-
         filter.categoryShop[data]
           ? filter.categoryShop[data][nestedList[1]]
             ? filtered_facets.categoryProductTypeMapping[nestedList[1]]?.map(
@@ -1530,7 +1528,10 @@ class FilterList extends React.Component<Props, State> {
                           ? filter.categoryShop[data][nestedList[1]]
                           : false
                       }
-                      onChange={this.handleClickCategory}
+                      onChange={e => {
+                        this.handleClickCategory(e);
+                        this.clearFilter(e, "productType");
+                      }}
                       value={data}
                       name={nestedList[0]}
                       label={[
@@ -2426,7 +2427,7 @@ class FilterList extends React.Component<Props, State> {
   ClickProductCategory = () => {
     this.setState({
       showProductFilter: !this.state.showProductFilter,
-      categorylevel1: !this.state.categorylevel1,
+      categorylevel1: this.state.categorylevel1,
       showmenulevel1: !this.state.showmenulevel1
     });
   };
@@ -2726,58 +2727,60 @@ class FilterList extends React.Component<Props, State> {
             </div>
           </li>
 
-          {this.productData.length > 0 &&
-            this.props.facets?.productType?.length > 0 && (
-              <li
-                className={cs(styles.L1, {
-                  [globalStyles.hidden]: this.productData.length == 0,
-                  [styles.open]: this.state.showProductFilter
-                })}
+          {this.productData.length > 0 && (
+            // this.props.facets?.productType?.length > 0 && (
+            <li
+              className={cs(styles.L1, {
+                [globalStyles.hidden]: this.productData.length == 0,
+                [styles.open]: this.state.showProductFilter
+              })}
+            >
+              <span
+                className={
+                  this.state.showProductFilter
+                    ? cs(styles.menulevel1, styles.menulevel1Open)
+                    : styles.menulevel1
+                }
+                onClick={() => {
+                  mobile
+                    ? this.mobileClickProductCategory()
+                    : this.ClickProductCategory();
+                  this.handleAnimation(
+                    "producttype",
+                    this.state.showProductFilter
+                  );
+                }}
               >
-                <span
-                  className={
-                    this.state.showProductFilter
-                      ? cs(styles.menulevel1, styles.menulevel1Open)
-                      : styles.menulevel1
-                  }
-                  onClick={() => {
-                    mobile
-                      ? this.mobileClickProductCategory()
-                      : this.ClickProductCategory();
-                    this.handleAnimation(
-                      "producttype",
-                      this.state.showProductFilter
-                    );
-                  }}
-                >
-                  {`PRODUCT TYPE ${
-                    mobile && prodTypeFilterCount > 0
-                      ? `(${prodTypeFilterCount})`
-                      : ""
-                  }`}
-                </span>
-                <div
-                  id="producttype"
-                  className={
-                    this.state.showProductFilter
-                      ? styles.showheader1
-                      : styles.hideDiv
-                  }
-                >
-                  {productHtml}
-                  {!mobile && (
-                    <div data-name="productType">
-                      <span
-                        onClick={e => this.clearFilter(e, "productType")}
-                        className={styles.plp_filter_sub}
-                      >
-                        Clear
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </li>
-            )}
+                {`PRODUCT TYPE ${
+                  mobile && prodTypeFilterCount > 0
+                    ? `(${prodTypeFilterCount})`
+                    : ""
+                }`}
+              </span>
+              <div
+                id="producttype"
+                className={
+                  this.state.showProductFilter
+                    ? styles.showheader1
+                    : styles.hideDiv
+                }
+              >
+                {productHtml}
+                {!mobile && (
+                  <div data-name="productType">
+                    <span
+                      onClick={e => this.clearFilter(e, "productType")}
+                      className={styles.plp_filter_sub}
+                    >
+                      Clear
+                    </span>
+                  </div>
+                )}
+              </div>
+            </li>
+          )
+          // )
+          }
 
           {this.props.facets?.currentColor?.length > 0 && (
             <li
