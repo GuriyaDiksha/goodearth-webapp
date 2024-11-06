@@ -367,12 +367,12 @@ class NewGiftcard extends React.Component<Props, State> {
       }
     );
 
-    this.props
-      .addToGiftcard(data)
-      .then((res: any) => {
-        if (!this.props.isLoggedIn) {
-          this.props.goLogin(undefined, "/giftcard");
-        } else {
+    if (!this.props.isLoggedIn) {
+      this.props.goLogin(undefined, "/giftcard");
+    } else {
+      this.props
+        .addToGiftcard(data)
+        .then((res: any) => {
           // Redirect to gc_checkout page
           this.setState({ formDisabled: true });
           this.props.history.push("/order/gc_checkout");
@@ -380,16 +380,16 @@ class NewGiftcard extends React.Component<Props, State> {
           const basket: Basket = res.data;
           this.props.updateBasket(basket);
           this.props.showGrowlMessage(MESSAGE.ADD_TO_BAG_GIFTCARD_SUCCESS);
-        }
-      })
-      .catch(error => {
-        this.props.showGrowlMessage(
-          "Internal Server Error. Please try again later."
-        );
-        if (error.response.status == 406) {
-          return false;
-        }
-      });
+        })
+        .catch(error => {
+          this.props.showGrowlMessage(
+            "Internal Server Error. Please try again later."
+          );
+          if (error.response.status == 406) {
+            return false;
+          }
+        });
+    }
   };
 
   onSeePreviewClick = () => {
@@ -473,7 +473,6 @@ class NewGiftcard extends React.Component<Props, State> {
 
   componentDidMount() {
     document.addEventListener("scroll", this.onScroll);
-
     const { fetchCountryList, fetchProductList } = this.props;
     fetchProductList().then((data: any) => {
       this.setState({
