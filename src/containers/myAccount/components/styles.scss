@@ -156,7 +156,16 @@ input[type="text"]{
 .font-bold {
   font-weight: bold;
 }
-
+.deliver-status{
+  border-top: 1px solid tint(#000, 90%);
+  padding: 32px 0;
+  display: flex;
+  align-items: center;
+  gap: 7.5px;
+  flex:1;
+  margin: 25px 30px 0 30px;
+  @include error_msg_charcoal();
+}
 .add {
   address {
     border: 1px solid tint(#000, 80%);
