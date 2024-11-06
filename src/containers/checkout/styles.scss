@@ -1453,6 +1453,20 @@ hr {
   margin-top: 5px;
 }
 
+.disabled-gift-wrap {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+}
+
+.gift-wrap-err {
+  font-family: $font-Montserrat;
+  font-size: 12px;
+  font-weight: $regular;
+  padding-top: 5px;
+  line-height: 1.5;
+  letter-spacing: 0.3px;
+  color: $cerise;
+}
 .payment-title {
   @include b4_12px_montserrat_light_charcoal();
   &.selected-value {
