@@ -622,7 +622,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         />
         {!showGiftWrap && (
           <div className={cs(styles.giftWrapErr)}>
-            {" "}
             Due to high order volumes, this service is temporarily unavailable
           </div>
         )}
