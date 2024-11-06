@@ -42,7 +42,7 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
             >
               <div className={styles.header}>
                 {/* Only login pop up on Giftcard page will have link in logo */}
-                {location.pathname == "/giftcard" ? (
+                {/* {location.pathname == "/giftcard" ? (
                   <Link
                     to=""
                     onClick={() => {
@@ -59,17 +59,19 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
                       }}
                     />
                   </Link>
-                ) : (
-                  <img
-                    alt="goodearth-logo"
-                    src={geLogo}
-                    className={cs(globalStyles.logo)}
-                    style={{
-                      height: "70px"
-                    }}
-                  />
-                )}
-                {disableClose || location.pathname == "/giftcard" ? null : (
+                ) : ( */}
+                <img
+                  alt="goodearth-logo"
+                  src={geLogo}
+                  className={cs(globalStyles.logo)}
+                  style={{
+                    height: "70px"
+                  }}
+                />
+                {/* )} */}
+
+                {/* {disableClose || location.pathname == "/giftcard1" ? null : ( */}
+                {!disableClose && (
                   <button
                     className={cs(
                       styles.closePopup,

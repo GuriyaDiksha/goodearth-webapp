@@ -229,6 +229,9 @@ body:has(.open-summary) {
     padding: 0 30px;
     letter-spacing: 0px;
     @include b5_10px_montserrat_charcoal();
+    @media(min-width:768px)and(max-width:992px){
+      padding: 0 60px;
+    }
     .delivery-date {
       @include b5_10px_montserrat_charcoal();
       padding-top: 5px;
@@ -686,6 +689,9 @@ body:has(.open-summary) {
 
       .margin-l-r-30{
         margin: 0 30px;
+        @media(min-width:768px)and(max-width:992px){
+          margin: 0 50px;
+        }
         h3{
           padding: 0px;
         }
@@ -745,6 +751,9 @@ body:has(.open-summary) {
       border: none;
       padding: 0 20px 20px;
       background-color: $white;
+      @media(min-width:768px)and(max-width:992px){
+        padding: 0 40px;
+      }
     }
     .deliveryfont {
       margin: 0 auto;

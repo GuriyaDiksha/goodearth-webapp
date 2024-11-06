@@ -122,7 +122,12 @@ const PromoSection: React.FC<PromoProps> = props => {
       id="promo-section"
       className={
         isActive || isEdit
-          ? cs(styles.card, styles.cardOpen, styles.marginT5)
+          ? cs(
+              styles.card,
+              styles.cardOpen,
+              styles.marginT5,
+              styles.promoWrapper
+            )
           : // : mobile
             // ? styles.hidden
             cs(styles.card, styles.cardClosed, styles.marginT5, {
@@ -134,7 +139,7 @@ const PromoSection: React.FC<PromoProps> = props => {
         <div
           className={cs(
             bootstrapStyles.col12,
-            bootstrapStyles.colMd6,
+            bootstrapStyles.colLg6,
             styles.title
           )}
         >
@@ -175,13 +180,14 @@ const PromoSection: React.FC<PromoProps> = props => {
               </span>
             )}
         </div>
+        {mobile && <hr />}
         {STEP_ORDER[activeStep] <= currentStep &&
           basket.voucherDiscounts.length > 0 &&
           !isEdit && (
             <div
               className={cs(
                 styles.col12,
-                bootstrapStyles.colMd6,
+                bootstrapStyles.colLg6,
                 styles.selectedStvalue
               )}
             >

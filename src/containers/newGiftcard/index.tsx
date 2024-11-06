@@ -353,7 +353,6 @@ class NewGiftcard extends React.Component<Props, State> {
     if (customValueErrorMsg.length > 0) {
       return;
     }
-    this.setState({ formDisabled: true });
     const data = Object.assign(
       {},
       {
@@ -368,28 +367,29 @@ class NewGiftcard extends React.Component<Props, State> {
       }
     );
 
-    this.props
-      .addToGiftcard(data)
-      .then((res: any) => {
-        this.resetStateOnSuccess();
-        const basket: Basket = res.data;
-        this.props.updateBasket(basket);
-        this.props.showGrowlMessage(MESSAGE.ADD_TO_BAG_GIFTCARD_SUCCESS);
-        if (!this.props.isLoggedIn) {
-          this.props.goLogin(undefined, "/order/gc_checkout");
-        } else {
+    if (!this.props.isLoggedIn) {
+      this.props.goLogin(undefined, "/giftcard");
+    } else {
+      this.props
+        .addToGiftcard(data)
+        .then((res: any) => {
           // Redirect to gc_checkout page
+          this.setState({ formDisabled: true });
           this.props.history.push("/order/gc_checkout");
-        }
-      })
-      .catch(error => {
-        this.props.showGrowlMessage(
-          "Internal Server Error. Please try again later."
-        );
-        if (error.response.status == 406) {
-          return false;
-        }
-      });
+          this.resetStateOnSuccess();
+          const basket: Basket = res.data;
+          this.props.updateBasket(basket);
+          this.props.showGrowlMessage(MESSAGE.ADD_TO_BAG_GIFTCARD_SUCCESS);
+        })
+        .catch(error => {
+          this.props.showGrowlMessage(
+            "Internal Server Error. Please try again later."
+          );
+          if (error.response.status == 406) {
+            return false;
+          }
+        });
+    }
   };
 
   onSeePreviewClick = () => {
@@ -473,7 +473,6 @@ class NewGiftcard extends React.Component<Props, State> {
 
   componentDidMount() {
     document.addEventListener("scroll", this.onScroll);
-
     const { fetchCountryList, fetchProductList } = this.props;
     fetchProductList().then((data: any) => {
       this.setState({
@@ -508,9 +507,9 @@ class NewGiftcard extends React.Component<Props, State> {
     });
     util.pageViewGTM("GiftCard");
     // Show login pop up if not logged in and redirect to giftcard page
-    if (!this.props.isLoggedIn) {
-      this.props.goLogin(undefined, "/giftcard");
-    }
+    // if (!this.props.isLoggedIn) {
+    //   this.props.goLogin(undefined, "/giftcard");
+    // }
   }
 
   render(): React.ReactNode {
@@ -900,7 +899,7 @@ class NewGiftcard extends React.Component<Props, State> {
                 <Button
                   variant="mediumAquaCta366"
                   onClick={this.onSubmit}
-                  label={"BUY NOW"}
+                  label={this.props.isLoggedIn ? "BUY NOW" : "LOGIN & BUY"}
                   disabled={
                     !(!formDisabled && selectedCountry != "" && cardId != "")
                   }

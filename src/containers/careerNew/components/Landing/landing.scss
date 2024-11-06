@@ -18,9 +18,12 @@
     // justify-content: center;
     padding: 20px 100px;
     cursor: pointer;
-
     @media screen and (max-width: 992px) {
         padding: 0px 4px;
+    }
+    @media(min-width:768px) and (max-width: 992px) {
+        max-width: 568px;
+        margin: 0 auto;
     }
 
     .dept_card{        
@@ -79,15 +82,21 @@
                 margin-top: 5%;
                 padding: 0% 10% 0% 10%;
 
-                @media screen and (max-width: 992px) {
+                @media screen and (max-width: 767px) {
                     display: none;
                 }
 
                 @media screen and (max-width: 1200px ) {
-                    font: normal normal 300 10px/20px $font-Montserrat;
+                    font: normal normal 300 12px/20px $font-Montserrat;
                     letter-spacing: 0.24px;
                     margin-top: 1%;
                     line-height: 1.5;
+                    @media(min-width:768px)and(max-width:992px){
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 5;
+                        overflow: hidden;
+                    }
                 }
             }
 

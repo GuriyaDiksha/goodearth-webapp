@@ -1382,18 +1382,27 @@ class Search extends React.Component<Props, State> {
                                         className={cs(
                                           globalStyles.textCenter,
                                           globalStyles.badgePositionDesktop,
+                                          globalStyles.pointer,
                                           {
                                             [globalStyles.badgePositionMobile]: mobile
                                           }
                                         )}
                                       >
-                                        <div
+                                        <Link
+                                          to={data.link}
+                                          onClick={this.showProduct.bind(
+                                            this,
+                                            data,
+                                            i,
+                                            false
+                                          )}
                                           className={cs(
-                                            globalStyles.badgeContainer
+                                            globalStyles.badgeContainer,
+                                            globalStyles.flex
                                           )}
                                         >
                                           {data?.badge_text}
-                                        </div>
+                                        </Link>
                                       </div>
                                     )}
                                     <Link

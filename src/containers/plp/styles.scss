@@ -631,6 +631,7 @@
 
 .colorlabel {
   label {
+    flex: 1;
     @include plp_color_filter();
     text-transform: capitalize;
     position: relative;
@@ -661,10 +662,12 @@
 }
 
 .materiallabel{
+  
   label {
     @include plp_color_filter();
     text-transform: capitalize;
     position: relative;
+    flex: 1;
 }
 // input[type="checkbox"]:checked + label{
 //   @include b4_12px_montserrat_charcoal();
@@ -780,6 +783,7 @@
     background-clip: content-box;
     background-image: var(--my-bg-image);
   }
+  
 }
 
 input[type="radio"]:not(:checked) + label:after, [type="checkbox"]:not(:checked) + label:after {

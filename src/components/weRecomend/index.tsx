@@ -135,18 +135,20 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
           </div>
         )}
         {item?.badgeText && (
-          <div
+          <Link
+            to={item?.productUrl}
             className={cs(
               globalStyles.textCenter,
               globalStyles.badgePositionDesktop,
               styles.badgePosition,
+              globalStyles.pointer,
               { [globalStyles.badgePositionMobile]: mobile }
             )}
           >
-            <div className={cs(globalStyles.badgeContainer)}>
+            <div className={cs(globalStyles.badgeContainer, globalStyles.flex)}>
               {item?.badgeText}
             </div>
-          </div>
+          </Link>
         )}
         <Link
           to={item.productUrl}

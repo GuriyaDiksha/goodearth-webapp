@@ -1273,8 +1273,8 @@ class Checkout extends React.Component<Props, State> {
             <div
               className={cs(
                 bootstrap.col12,
-                bootstrap.colLg4,
-                globalStyles.marginB20
+                bootstrap.colLg4
+                // globalStyles.marginB20
               )}
             >
               <OrderSummary
