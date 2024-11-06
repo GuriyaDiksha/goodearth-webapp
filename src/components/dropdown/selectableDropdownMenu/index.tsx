@@ -10,6 +10,7 @@ import {
 } from "../baseDropdownMenu/typings";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import { useHistory, useLocation } from "react-router-dom";
 
 const DropdownMenu = ({
   align,
@@ -27,6 +28,8 @@ const DropdownMenu = ({
   const { isLoading } = useSelector((state: AppState) => state.info);
   const [currentValue, setCurrentValue] = useState(value);
   const mounted = useRef(false);
+  const history = useHistory();
+  const location = useLocation();
 
   useEffect(() => {
     setCurrentValue(value);
@@ -43,6 +46,20 @@ const DropdownMenu = ({
     if (onChangeCurrency) {
       onChangeCurrency(val)
         ?.then(() => {
+          setTimeout(() => {
+            //**** on currency change remove filter querystring from search url ***
+            const currentPath = location?.pathname;
+            if (currentPath?.includes("/search")) {
+              // Split the query string by '&'
+              const searchParams = location.search.split("&");
+              // Get the first parameter (the search query)
+              const cleanedQuery = searchParams[0];
+              // Construct the cleaned URL
+              const cleanedUrl = `${currentPath}${cleanedQuery}`;
+              history.push(cleanedUrl);
+            }
+            //**** End *****
+          }, 200);
           setCurrentValue(val);
         })
         .catch(() => {
