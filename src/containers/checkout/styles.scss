@@ -294,12 +294,22 @@ hr {
     opacity: 1;
     @include b4_12px_montserrat_charcoal_caps();
   }
-
-  @media screen and (max-width: 991px) {
+}
+@media screen and (max-width: 767px) {
+  .title-mobile{
     padding-bottom: 10px;
     border-bottom: 1px solid #eaeaea;
     flex-basis: 100%;
     max-width: 100%;
+  }
+  .selected-stvalue-mobile-only{
+    padding-top: 10px;
+    text-align: left;
+  }
+}
+@media(min-width:768px){
+  .email{
+    text-align: right;
   }
 }
 
@@ -690,6 +700,10 @@ hr {
       margin-right: 5px;
       padding-left: 20px;
       padding-right: 20px;
+      @media(min-width:768px) and (max-width:992px){
+        padding-left: 60px;
+        padding-right: 60px;
+      }
     }
 
     .card-sm {
@@ -702,7 +716,6 @@ hr {
       // color: #808080;
       padding-top: 10px
     }
-
     .payment {
       input[type="text"].input {
         width: 100%;
@@ -1479,6 +1492,8 @@ hr {
   text-transform: uppercase;
   float: right;
   text-underline-offset: 3px;
+  font-size: 10px!important;
+  font-weight: 400!important;
 }
 .gst-invoise-no {
   @include b5_10px_montserrat_charcoal();
@@ -1638,5 +1653,18 @@ span.add-new-address {
     cursor: pointer;
     border-bottom: 1px solid $charcoal19;
     @include b5_10px_montserrat_charcoal();
+  }
+}
+
+@media(min-width:768px) and (max-width:992px){
+  .promo-wrapper{
+      background-color: #F8F8F8;
+    .title{
+      border-bottom: 1px solid #D9D9D9;
+      padding-bottom: 20px;
+    }
+    .selected-stvalue{
+      padding-top: 20px;
+    }
   }
 }

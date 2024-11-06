@@ -434,7 +434,13 @@ const CartItems: React.FC<BasketItem> = memo(
             )}
           >
             <div className={cs(styles.rowMain, globalStyles.gutterBetween)}>
-              <div className={cs(bootstrap.colLg8, bootstrap.col12)}>
+              <div
+                className={cs(
+                  bootstrap.colLg8,
+                  bootstrap.colMd8,
+                  bootstrap.col12
+                )}
+              >
                 <div className={cs("sectionInfo", styles.sectionInfo)}>
                   <div>
                     {collection && (
@@ -684,6 +690,7 @@ const CartItems: React.FC<BasketItem> = memo(
               <div
                 className={cs(
                   bootstrap.colLg4,
+                  bootstrap.colMd4,
                   bootstrap.col12,
                   globalStyles.textRight
                 )}

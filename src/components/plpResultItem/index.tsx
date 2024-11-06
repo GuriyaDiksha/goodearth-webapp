@@ -320,17 +320,19 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         )}
 
         {!isCorporate && product?.badge_text && (
-          <div
+          <Link
+            to={product?.url}
             className={cs(
               globalStyles.textCenter,
               globalStyles.badgePositionDesktop,
+              globalStyles.pointer,
               { [globalStyles.badgePositionMobile]: mobile }
             )}
           >
-            <div className={cs(globalStyles.badgeContainer)}>
+            <div className={cs(globalStyles.badgeContainer, globalStyles.flex)}>
               {product?.badge_text}
             </div>
-          </div>
+          </Link>
         )}
 
         {button}

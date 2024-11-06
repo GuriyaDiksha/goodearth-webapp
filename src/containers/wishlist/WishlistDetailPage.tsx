@@ -987,24 +987,27 @@ const WishlistDetailPage = () => {
                                   </div>
                                 )}
                                 {productData?.badge_text && (
-                                  <div
+                                  <Link
+                                    to={productData?.productUrl}
                                     className={cs(
                                       globalStyles.textCenter,
                                       globalStyles.badgePositionDesktop,
-                                      styles.badgePosition,
-                                      {
-                                        [globalStyles.badgePositionMobile]: mobile
-                                      }
+                                      globalStyles.pointer
+                                      // styles.badgePosition,
+                                      // {
+                                      //   [globalStyles.badgePositionMobile]: mobile
+                                      // }
                                     )}
                                   >
                                     <div
                                       className={cs(
-                                        globalStyles.badgeContainer
+                                        globalStyles.badgeContainer,
+                                        globalStyles.flex
                                       )}
                                     >
                                       {productData?.badge_text}
                                     </div>
-                                  </div>
+                                  </Link>
                                 )}
                                 {!isShared && (
                                   <div>
