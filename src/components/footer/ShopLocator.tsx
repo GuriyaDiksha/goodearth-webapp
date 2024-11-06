@@ -66,6 +66,14 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
       //   'Location Selected': data?.value,
       //   url: `${location.pathname}${location.search}`
       // });
+
+      //load page from description
+      setTimeout(() => {
+        // scroll to desc always
+        const banner = document.getElementById("page-banner") as HTMLDivElement;
+        const h1 = banner.clientHeight;
+        window.scrollTo({ top: h1, behavior: "smooth" });
+      }, 100);
     }
   };
 
@@ -159,7 +167,11 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
               {locations?.map(
                 (data: { label: string; value: string }, index: number) => {
                   return (
-                    <li key={index} onClick={e => redirectToShop(e, data)}>
+                    <li
+                      id={data.label}
+                      key={index}
+                      onClick={e => redirectToShop(e, data)}
+                    >
                       <a>{data.label}</a>
                     </li>
                   );
