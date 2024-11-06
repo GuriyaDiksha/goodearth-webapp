@@ -601,6 +601,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             setGiftwrap(!giftwrap);
             setGiftwrapprice(!giftwrap);
           }}
+          disabled={!showGiftWrap}
           label={[
             <label
               key="giftWrp"
@@ -608,7 +609,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               className={cs(
                 styles.formSubheading,
                 styles.lineHeightLable,
-                styles.giftWrpPos
+                styles.giftWrpPos,
+                { [styles.disabledGiftWrap]: !showGiftWrap }
               )}
             >
               {"Gift wrap this order"}{" "}
@@ -618,6 +620,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             </label>
           ]}
         />
+        {!showGiftWrap && (
+          <div className={cs(styles.giftWrapErr)}>
+            Due to high order volumes, this service is temporarily unavailable
+          </div>
+        )}
         {/* <label className={cs(globalStyles.flex, globalStyles.crossCenter)}>
           <div
             className={cs(
