@@ -80,13 +80,14 @@ const exitGCCheckout: React.FC<PopupProps> = props => {
                 });
               }
               closeModal();
-              if (props.action == "PUSH") {
-                history.push(props.location.pathname);
-              } else if (props.action == "REPLACE") {
-                history.replace(props.location.pathname);
-              } else if (props.action == "POP") {
-                history.replace(props.location.pathname);
-              }
+              // if (props.action == "PUSH") {
+              //   history.push(props.location.pathname);
+              // } else if (props.action == "REPLACE") {
+              //   history.replace(props.location.pathname);
+              // } else if (props.action == "POP") {
+              //   history.replace(props.location.pathname);
+              // }
+              history.push("/");
               localStorage.setItem("openGCExitModal", "false");
             }}
           >
