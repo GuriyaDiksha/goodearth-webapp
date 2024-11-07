@@ -508,6 +508,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   }, [currency]);
 
   useEffect(() => {
+    if (giftwrap) {
+      setGiftwrap(false);
+    }
+  }, [currency]);
+
+  useEffect(() => {
     if (isActive) {
       if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
         AccountServices.fetchAccountPreferences(dispatch).then((data: any) => {
