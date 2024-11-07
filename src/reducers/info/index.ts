@@ -31,7 +31,7 @@ export const info = (state: State = initialState, action: InfoActions) => {
     }
     case "UPDATE_GIFT_WRAP": {
       const newState = { ...state };
-      newState.showGiftWrap = action.payload;
+      newState.showGiftWrap = action.payload ?? false;
       return newState;
     }
     case "UPDATE_PROMO": {

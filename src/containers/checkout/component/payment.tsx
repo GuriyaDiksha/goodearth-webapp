@@ -656,7 +656,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         </label> */}
       </div>
     );
-  }, [giftwrap]);
+  }, [giftwrap, showGiftWrap, currency]);
 
   const giftShowPrice = useMemo(() => {
     return (
@@ -827,7 +827,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           </div>
           {isActive && (
             <Fragment>
-              {showGiftWrap && !isGcCheckout && (
+              {!isGcCheckout && (
                 <>
                   {!basket.isOnlyGiftCart && giftWrapRender}
                   {giftwrap && !basket.isOnlyGiftCart && (
