@@ -508,6 +508,12 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   }, [currency]);
 
   useEffect(() => {
+    if (giftwrap) {
+      setGiftwrap(false);
+    }
+  }, [currency]);
+
+  useEffect(() => {
     if (isActive) {
       if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
         AccountServices.fetchAccountPreferences(dispatch).then((data: any) => {
@@ -601,6 +607,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             setGiftwrap(!giftwrap);
             setGiftwrapprice(!giftwrap);
           }}
+          disabled={!showGiftWrap}
           label={[
             <label
               key="giftWrp"
@@ -608,7 +615,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               className={cs(
                 styles.formSubheading,
                 styles.lineHeightLable,
-                styles.giftWrpPos
+                styles.giftWrpPos,
+                { [styles.disabledGiftWrap]: !showGiftWrap }
               )}
             >
               {"Gift wrap this order"}{" "}
@@ -618,6 +626,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             </label>
           ]}
         />
+        {!showGiftWrap && (
+          <div className={cs(styles.giftWrapErr)}>
+            Due to high order volumes, this service is temporarily unavailable
+          </div>
+        )}
         {/* <label className={cs(globalStyles.flex, globalStyles.crossCenter)}>
           <div
             className={cs(
@@ -649,7 +662,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         </label> */}
       </div>
     );
-  }, [giftwrap]);
+  }, [giftwrap, showGiftWrap, currency]);
 
   const giftShowPrice = useMemo(() => {
     return (
@@ -820,10 +833,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           </div>
           {isActive && (
             <Fragment>
-              {showGiftWrap && !isGcCheckout && (
+              {!isGcCheckout && (
                 <>
                   {!basket.isOnlyGiftCart && giftWrapRender}
-                  {giftwrap && !basket.isOnlyGiftCart && (
+                  {showGiftWrap && giftwrap && !basket.isOnlyGiftCart && (
                     <div className={styles.giftWrapMessage}>
                       <Formsy>
                         <FormTextArea
@@ -842,7 +855,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       </Formsy>
                     </div>
                   )}
-                  {giftwrap && !basket.isOnlyGiftCart && giftShowPrice}
+                  {showGiftWrap &&
+                    giftwrap &&
+                    !basket.isOnlyGiftCart &&
+                    giftShowPrice}
                   {!basket.isOnlyGiftCart && <hr className={styles.hr} />}
                 </>
               )}
