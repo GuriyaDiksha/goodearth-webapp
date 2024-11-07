@@ -46,20 +46,20 @@ const DropdownMenu = ({
     if (onChangeCurrency) {
       onChangeCurrency(val)
         ?.then(() => {
-          setTimeout(() => {
-            //**** on currency change remove filter querystring from search url ***
-            const currentPath = location?.pathname;
-            if (currentPath?.includes("/search")) {
-              // Split the query string by '&'
-              const searchParams = location.search.split("&");
-              // Get the first parameter (the search query)
-              const cleanedQuery = searchParams[0];
-              // Construct the cleaned URL
-              const cleanedUrl = `${currentPath}${cleanedQuery}`;
-              history.push(cleanedUrl);
-            }
-            //**** End *****
-          }, 200);
+          // setTimeout(() => {
+          //   //**** on currency change remove filter querystring from search url ***
+          //   const currentPath = location?.pathname;
+          //   if (currentPath?.includes("/search")) {
+          //     // Split the query string by '&'
+          //     const searchParams = location.search.split("&");
+          //     // Get the first parameter (the search query)
+          //     const cleanedQuery = searchParams[0];
+          //     // Construct the cleaned URL
+          //     const cleanedUrl = `${currentPath}${cleanedQuery}`;
+          //     history.push(cleanedUrl);
+          //   }
+          //   //**** End *****
+          // }, 200);
           setCurrentValue(val);
         })
         .catch(() => {
