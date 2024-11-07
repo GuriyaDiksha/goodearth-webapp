@@ -830,7 +830,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               {!isGcCheckout && (
                 <>
                   {!basket.isOnlyGiftCart && giftWrapRender}
-                  {giftwrap && !basket.isOnlyGiftCart && (
+                  {showGiftWrap && giftwrap && !basket.isOnlyGiftCart && (
                     <div className={styles.giftWrapMessage}>
                       <Formsy>
                         <FormTextArea
@@ -849,7 +849,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       </Formsy>
                     </div>
                   )}
-                  {giftwrap && !basket.isOnlyGiftCart && giftShowPrice}
+                  {showGiftWrap &&
+                    giftwrap &&
+                    !basket.isOnlyGiftCart &&
+                    giftShowPrice}
                   {!basket.isOnlyGiftCart && <hr className={styles.hr} />}
                 </>
               )}
