@@ -165,6 +165,14 @@ const EditRegistryDetails: React.FC<Props> = props => {
                     placeholder="Occasion*"
                     label={"Occasion*"}
                     value={props.bridalProfile?.occasion}
+                    validationErrors={{
+                      maxLength: "You can not enter more than 50 characters"
+                    }}
+                    validations={{
+                      maxLength: 50,
+                      isExisty: true
+                    }}
+                    required
                     disable={false}
                   />
                 </div>
