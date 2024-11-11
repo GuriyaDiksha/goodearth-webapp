@@ -10,6 +10,8 @@ import { AppState } from "reducers/typings";
 import { updateStoreState } from "actions/header";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import ReactHtmlParser from "react-html-parser";
+import { GA_CALLS } from "constants/cookieConsent";
+import CookieService from "services/cookie";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -133,6 +135,14 @@ class StoreDetails extends React.Component<Props, State> {
     this.setState({
       searchText: event.target.value
     });
+    // trigger event on click of search
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "search_shop_availability",
+        "city or state": event.target.value
+      });
+    }
   };
 
   render() {

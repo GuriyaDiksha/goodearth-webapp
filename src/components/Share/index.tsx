@@ -12,8 +12,16 @@ import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { showGrowlMessage } from "../../utils/validate";
 import Whatsapp from "./whatsapp";
+import { GA_CALLS } from "constants/cookieConsent";
+import CookieService from "services/cookie";
 
-const Share: React.FC<Props> = ({ link, mailText, mailSubject, mobile }) => {
+const Share: React.FC<Props> = ({
+  link,
+  mailText,
+  mailSubject,
+  mobile,
+  productName
+}) => {
   const whatsappLink = `${
     mobile ? "whatsapp://send?text=" : "https://web.whatsapp.com/send?text="
   }${link}%3Futm_source=Website-Shared%26utm_medium=Whatsapp`;
@@ -27,6 +35,39 @@ const Share: React.FC<Props> = ({ link, mailText, mailSubject, mobile }) => {
       3000,
       "LINK_COPIED_MESSAGE"
     );
+    // trigger event on click of copyText
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "link_copied",
+        click_type: productName,
+        link_url: link
+      });
+    }
+  };
+
+  const whatsappGaEvent = () => {
+    // trigger event on click of whatsapp
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "share_product",
+        click_type: productName,
+        cta_name: "whatsapp"
+      });
+    }
+  };
+
+  const emailGaEvent = () => {
+    // trigger event on click of email
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "share_product",
+        click_type: productName,
+        cta_name: "email"
+      });
+    }
   };
 
   //const [show, setShow] = useState(false);
@@ -55,12 +96,14 @@ const Share: React.FC<Props> = ({ link, mailText, mailSubject, mobile }) => {
           <Whatsapp
             link={whatsappLink}
             className={cs(styles.socialIcon, styles.whatsappIcon)}
+            onClick={whatsappGaEvent}
           />
         </div>
         <div className={cs(styles.shareItem, styles.mail)}>
           <Mail
             link={mailContent}
             className={cs(styles.socialIcon, styles.mailIcon)}
+            onClick={emailGaEvent}
           />
         </div>
       </div>
