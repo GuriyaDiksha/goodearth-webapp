@@ -1004,7 +1004,7 @@ const ProductDetails: React.FC<Props> = ({
       store.dispatch,
       id,
       undefined,
-      size ? size : undefined
+      selectedSize ? selectedSize.size : undefined
     )
       .then(() => {
         const growlMsg = (
