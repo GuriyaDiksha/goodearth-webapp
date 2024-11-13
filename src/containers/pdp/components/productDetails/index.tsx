@@ -1035,16 +1035,15 @@ const ProductDetails: React.FC<Props> = ({
     if (items.length == 0) {
       addToDefaultWishlist();
     }
-    dispatch(
-      updateComponent(
-        POPUP.ADDREMOVEWISHLISTNAMEPOPUP,
-        { id },
-        false,
-        mobile ? ModalStyles.bottomAlignSlideUp : "",
-        mobile ? "slide-up-bottom-align" : ""
-      )
+    closeZoomModal();
+    updateComponentModal(
+      POPUP.ADDREMOVEWISHLISTNAMEPOPUP,
+      { id },
+      false,
+      mobile ? ModalStyles.bottomAlignSlideUp : "",
+      mobile ? "slide-up-bottom-align" : ""
     );
-    dispatch(updateModal(true));
+    changeModalState(true);
   };
 
   const createWishlistPopup = (data: any) => {
