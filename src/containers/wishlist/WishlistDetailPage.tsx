@@ -24,7 +24,7 @@ import LoginService from "services/login";
 import { updateNextUrl } from "actions/info";
 import HeaderService from "services/headerFooter";
 import { SearchFeaturedData } from "components/header/typings";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import CreateWishlist from "components/WishlistButton/CreateWishlist";
 import linkIcon from "./../../images/linkIcon.svg";
 import CookieService from "../../services/cookie";
@@ -199,6 +199,14 @@ const WishlistDetailPage = () => {
     await WishlistService.updateWishlistShared(dispatch, uid);
   };
 
+  //wishlist page scroll to top when view & manage wishlist link clicked
+  const location = useLocation();
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 700);
+  }, [location]);
+
   const fetchFeaturedContent = async () => {
     HeaderService.fetchSearchFeaturedContent(dispatch)
       .then(data => {
@@ -218,8 +226,8 @@ const WishlistDetailPage = () => {
       updateWishlist();
       fetchFeaturedContent();
       setTimeout(() => {
-        window.scrollTo(0, 0);
-      }, 1000);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 700);
     }
   }, []);
 
