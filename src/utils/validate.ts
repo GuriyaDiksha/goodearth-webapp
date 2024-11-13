@@ -2003,12 +2003,13 @@ export const footerGTM = (
   try {
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
-      dataLayer.push({
-        event: "Footer Navigation",
-        clickType,
-        url: `${location.pathname}${location.search}`
-      });
-
+      setTimeout(() => {
+        dataLayer.push({
+          event: "Footer Navigation",
+          clickType,
+          url: `${__DOMAIN__}${location.pathname}`
+        });
+      }, 1000);
       if (clickType?.toLowerCase() == "good earth registry") {
         dataLayer.push({
           event: "ge_create_my_registry_click",
