@@ -342,7 +342,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           onClick={gtmProductClick}
         >
           {/* {mobile ? ( */}
-          <PlpResultImageSlider mobile={mobile}>
+          <PlpResultImageSlider mobile={mobile} productName={product.title}>
             {mobileSlides}
           </PlpResultImageSlider>
           {/* ) : (

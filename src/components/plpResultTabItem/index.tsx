@@ -294,7 +294,7 @@ const PlpResultTabItem: React.FC<PLPResultItemProps> = (
 
         {button}
         <Link to={product.url} onClick={gtmProductClick}>
-          <PlpResultImageSlider mobile={true}>
+          <PlpResultImageSlider mobile={true} productName={product.title}>
             {mobileSlides}
           </PlpResultImageSlider>
           {/* 

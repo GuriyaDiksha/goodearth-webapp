@@ -785,6 +785,16 @@ const ProductDetails: React.FC<Props> = ({
   };
 
   const notifyMeClick = () => {
+    // add GA event on click of Notify Me CTA
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "notify_me",
+        click_type: title,
+        click_url: `${location.pathname}${location.search}`
+      });
+    }
+
     let selectedIndex = undefined;
 
     childAttributes.map((v, i) => {

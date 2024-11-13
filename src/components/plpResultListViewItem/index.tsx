@@ -278,7 +278,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
         {button}
 
         <Link to={product.url} onClick={gtmProductClick}>
-          <PlpResultImageSlider mobile={mobile}>
+          <PlpResultImageSlider mobile={mobile} productName={product.title}>
             {mobileSlides}
           </PlpResultImageSlider>
         </Link>
