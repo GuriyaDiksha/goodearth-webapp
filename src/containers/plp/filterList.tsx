@@ -1685,11 +1685,19 @@ class FilterList extends React.Component<Props, State> {
         ? ` -${event.target.id.split(">")?.[2]}`
         : "";
     if (userConsent.includes(GA_CALLS)) {
-      dataLayer.push({
-        event: "Filter used",
-        "Filter type": "Category",
-        "Filter value": event.target.value + val
-      });
+      if (event.target.checked) {
+        dataLayer.push({
+          event: "Filter used",
+          "Filter type": "Category",
+          "Filter value": event.target.value + val
+        });
+      } else {
+        dataLayer.push({
+          event: "filter_remove",
+          "Filter type": "Category",
+          "Filter value": event.target.value + val
+        });
+      }
     }
     this.createUrlfromFilterForCategory();
     event.stopPropagation();
