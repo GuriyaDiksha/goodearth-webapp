@@ -91,6 +91,23 @@ const CreateWishlist: React.FC<Props> = ({
   const isAlphaError = "Please enter only alphabetic characters";
   const isWishlistpage = history.location.pathname.includes("/wishlist");
 
+  useEffect(() => {
+    if (
+      typeof document == "object" &&
+      (document?.getElementById("modal-fullscreen") as HTMLElement) &&
+      mobile
+    ) {
+      (document.getElementById(
+        "modal-fullscreen"
+      ) as HTMLElement).style.height = "auto";
+    }
+    // if (document?.getElementById("modal-fullscreen-container") && mobile) {
+    //   (document.getElementById(
+    //     "modal-fullscreen-container"
+    //   ) as HTMLElement).style.height = "auto";
+    // }
+  }, []);
+
   const capitalizeFirstLetter = (text: any) => {
     return text
       .split(/\s+/) // Split by whitespace

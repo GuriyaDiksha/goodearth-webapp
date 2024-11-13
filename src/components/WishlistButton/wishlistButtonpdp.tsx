@@ -369,7 +369,7 @@ const WishlistButtonpdp: React.FC<Props> = ({
     if (window?.location?.pathname === "/wishlist") {
       setTimeout(() => {
         closeModal ? closeModal() : null;
-      }, 1000);
+      }, 500);
     }
   }, [window?.location?.pathname]);
 
