@@ -238,6 +238,7 @@ class Search extends React.Component<Props, State> {
   };
 
   handleFeaturedProductClick(data: WidgetImage, index: number) {
+    this.props.hideSearch();
     this.props.history.push(data.ctaUrl);
     this.props.changeModalState(false);
   }
