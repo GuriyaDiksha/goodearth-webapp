@@ -5,9 +5,10 @@ import styles from "./styles.scss";
 type Props = {
   link: string;
   className?: string;
+  onClick?: any;
 };
 
-const Mail: React.FC<Props> = ({ link, className }) => {
+const Mail: React.FC<Props> = ({ link, className, onClick }) => {
   return (
     <p>
       {/* <span className={globalStyles.gold}> */}
@@ -17,6 +18,7 @@ const Mail: React.FC<Props> = ({ link, className }) => {
           href={link}
           className={className}
           rel="noopener noreferrer"
+          onClick={onClick}
         >
           <img src={mail} className={styles.mailIcon} alt="mail" />
           <p>Share via Email</p>

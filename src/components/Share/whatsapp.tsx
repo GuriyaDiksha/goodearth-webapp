@@ -4,15 +4,17 @@ import whatsapp from "./../../images/sharePdp/whatsapp_new.svg";
 type Props = {
   link: string;
   className?: string;
+  onClick?: any;
 };
 
-const Whatsapp: React.FC<Props> = ({ link, className }) => {
+const Whatsapp: React.FC<Props> = ({ link, className, onClick }) => {
   return (
     <a
       target="_blank"
       href={link}
       className={className}
       rel="noopener noreferrer"
+      onClick={onClick}
     >
       {/* <svg
         id="Layer_1"
