@@ -376,6 +376,15 @@ const NotifyMePopup: React.FC<Props> = ({
         // setSizeErrorMsg("Please select a Size to proceed");
         errorTracking(["Please select a size to continue"], location.href);
       }
+      // trigger event on click of Notify Me CTA
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "notify_me",
+          click_type: productTitle,
+          cta_name: selectedSize ? selectedSize.size : "NA"
+        });
+      }
     }
   };
 

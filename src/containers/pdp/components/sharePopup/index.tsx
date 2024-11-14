@@ -8,9 +8,10 @@ import CloseButton from "components/Modal/components/CloseButton";
 
 type Props = {
   corporatePDP: boolean;
+  productName: string;
 };
 
-const ShareProductPopup: React.FC<Props> = ({ corporatePDP }) => {
+const ShareProductPopup: React.FC<Props> = ({ corporatePDP, productName }) => {
   const { mobile } = useSelector((state: AppState) => state.device);
   return (
     <>
@@ -26,6 +27,7 @@ const ShareProductPopup: React.FC<Props> = ({ corporatePDP }) => {
         <Share
           mobile={mobile}
           link={`${__DOMAIN__}${location.pathname}`}
+          productName={productName}
           mailSubject="Gifting Ideas"
           mailText={`${
             corporatePDP
