@@ -786,7 +786,7 @@
 
 @media screen and (max-width: 992px){
   .shopDropdown {
-    height: 100vh;
+    // height: 100vh;
     top: 0;
     left: 0;
     right: 0;
@@ -800,23 +800,28 @@
       font-size: 12px;
     }
     ul{
-      border: 1px solid tint(#000, 70%);
-      border-top: 0;
+      // border: 1px solid tint(#000, 70%);
+      // border-top: 0;
       width: 100%;
       position: absolute;
       right: 0;
-      bottom: 0;
+      bottom: 1px;
       background-color: #fff;
       font-size: 12px;
       text-transform: capitalize;
       font-weight: normal;
       overflow-y: scroll;
       z-index: 8;
+      max-height: 411px;
+      scrollbar-width : thin;
       margin-bottom: 0;
       .header{
         display: flex;
         align-items: center;
         justify-content: space-between;
+        position: sticky;
+        top: 0;
+        background: white;
         @include b4_12px_montserrat_charcoal();
         text-transform: uppercase;
         .locator-label{
