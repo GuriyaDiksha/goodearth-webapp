@@ -826,6 +826,7 @@ class PDPContainer extends React.Component<Props, State> {
         currency={this.props.currency}
         handleLooksClick={this.handleLooksClick}
         buttoncall={this.returnPDPButton()}
+        productName={this.props.data?.title}
       />
       // <div
       //   className={styles.productImageContainer}

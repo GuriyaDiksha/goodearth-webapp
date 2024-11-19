@@ -23,6 +23,7 @@ type Props = {
   corporatePDP?: boolean;
   buttoncall?: JSX.Element | null | undefined;
   handleLooksClick: (e: any) => void;
+  productName?: string;
 };
 
 const PDPImagesContainer: React.FC<Props> = ({
@@ -34,7 +35,8 @@ const PDPImagesContainer: React.FC<Props> = ({
   productImages,
   onClick,
   is3d,
-  handleLooksClick
+  handleLooksClick,
+  productName
 }) => {
   const dispatch = useDispatch();
 
@@ -91,7 +93,7 @@ const PDPImagesContainer: React.FC<Props> = ({
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "view_in_3d",
-        cta_name: "VIEW IN 3D"
+        cta_name: productName
       });
     }
   };
