@@ -135,15 +135,18 @@ class StoreDetails extends React.Component<Props, State> {
     this.setState({
       searchText: event.target.value
     });
-    // trigger event on click of search
-    const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
-      dataLayer.push({
-        event: "search_shop_availability",
-        "city or state": event.target.value
-      });
-    }
   };
+
+  // onSearchClick = () =>{
+  //   // trigger event on click of search
+  //   const userConsent = CookieService.getCookie("consent").split(",");
+  //   if (userConsent.includes(GA_CALLS)) {
+  //     dataLayer.push({
+  //       event: "search_shop_availability",
+  //       "city or state": this.state.searchText
+  //     });
+  //   }
+  // }
 
   render() {
     return (
@@ -205,6 +208,7 @@ class StoreDetails extends React.Component<Props, State> {
                   placeholder="Search by City or State"
                   onChange={this.onEnterSearch}
                   autoComplete="new-password"
+                  // onClick={this.onSearchClick}
                 />
               </div>
             </div>

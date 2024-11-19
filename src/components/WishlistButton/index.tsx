@@ -328,13 +328,13 @@ const WishlistButton: React.FC<Props> = ({
           size ? size : undefined
         )
           .then(() => {
-            gtmPushAddToWishlist(true);
             showGrowlMessage(dispatch, growlMsg);
             // WishlistService.countWishlist(dispatch);
           })
           .finally(() => {
             dispatch(updateLoader(false));
             onComplete && onComplete();
+            gtmPushAddToWishlist(true);
           });
       }
     }
