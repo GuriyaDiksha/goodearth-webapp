@@ -1585,7 +1585,8 @@ const ProductDetails: React.FC<Props> = ({
                 })}
               >
                 <WishlistButtonpdp
-                  gtmListType={gtmListType}
+                  // gtmListType={gtmListType}
+                  gtmListType={"pdp"}
                   title={title}
                   parentWidth={true}
                   childAttributes={childAttributes}

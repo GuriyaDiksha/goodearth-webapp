@@ -89,29 +89,6 @@ const WishlistButtonpdp: React.FC<Props> = ({
         const child = childAttributes as ChildProductAttributes[];
         const search = CookieService.getCookie("search") || "";
 
-        // if (addWishlist) {
-        //   Moengage.track_event("add_to_wishlist", {
-        //     "Product id": id,
-        //     "Product name": title,
-        //     quantity: 1,
-        //     price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
-        //     Currency: currency,
-        //     // "Collection name": collection,
-        //     "Category name": category?.split("/")[0],
-        //     "Sub Category Name": category?.split("/")[1] || ""
-        //   });
-        // } else {
-        //   Moengage.track_event("remove_from_wishlist", {
-        //     "Product id": id,
-        //     "Product name": title,
-        //     quantity: 1,
-        //     price: priceRecords?.[currency] ? +priceRecords?.[currency] : "",
-        //     Currency: currency,
-        //     // "Collection name": collection,
-        //     "Category name": category?.split("/")[0],
-        //     "Sub Category Name": category?.split("/")[1] || ""
-        //   });
-        // }
         const userConsent = CookieService.getCookie("consent").split(",");
         if (userConsent.includes(GA_CALLS)) {
           if (addWishlist) {
@@ -139,33 +116,6 @@ const WishlistButtonpdp: React.FC<Props> = ({
           }
         }
         if (userConsent.includes(GA_CALLS)) {
-          dataLayer.push({
-            event: "AddtoWishlist",
-            ecommerce: {
-              currencyCode: currency,
-              add: {
-                products: [
-                  {
-                    name: title,
-                    id: child?.[0].sku,
-                    price: child?.[0].discountedPriceRecords
-                      ? child?.[0].discountedPriceRecords[currency]
-                      : child?.[0].priceRecords
-                      ? child?.[0].priceRecords[currency]
-                      : null,
-                    brand: "Goodearth",
-                    category: category,
-                    variant:
-                      childAttributes && childAttributes[0].size
-                        ? childAttributes[0].size
-                        : "",
-                    quantity: 1,
-                    list: listPath
-                  }
-                ]
-              }
-            }
-          });
           if (addWishlist) {
             dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
             dataLayer.push({
@@ -343,8 +293,8 @@ const WishlistButtonpdp: React.FC<Props> = ({
           size ? size : undefined
         )
           .then(() => {
-            gtmPushAddToWishlist(true);
             showGrowlMessage(dispatch, growlMsg);
+            gtmPushAddToWishlist(true);
             // WishlistService.countWishlist(dispatch);
           })
           .finally(() => {
