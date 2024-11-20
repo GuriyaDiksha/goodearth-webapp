@@ -49,7 +49,7 @@ const ShareWishlistLink: React.FC<Props> = ({
     }
   };
 
-  const copyLink = (event: React.MouseEvent) => {
+  const copyLink = async (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
 
