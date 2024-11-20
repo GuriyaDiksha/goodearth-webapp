@@ -84,6 +84,7 @@
         // letter-spacing: 1px;
         cursor: pointer;
         text-underline-offset: 2px;
+        white-space: nowrap;
         &:hover {
             color: #3c7979;
         }
