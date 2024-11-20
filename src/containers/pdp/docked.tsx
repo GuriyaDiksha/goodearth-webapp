@@ -1,13 +1,15 @@
 import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
-import React from "react";
+import React, { useContext } from "react";
 import SelectedPrice from "components/SelectedPrice";
 import { Product } from "typings/product";
 import { currencyCodes } from "constants/currency";
 import cs from "classnames";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import CookieService from "services/cookie";
+import { Context } from "components/Modal/context";
 
 type Props = {
   data: Product;
@@ -28,10 +30,18 @@ const DockedPanel: React.FC<Props> = ({
   mobile
 }) => {
   const { showTimer, isSale } = useSelector((state: AppState) => state.info);
+  const { closeModal } = useContext(Context);
   const {
     currency,
     filler: { button }
   } = useSelector((state: AppState) => state);
+  if (
+    typeof window !== "undefined" &&
+    location.pathname === "/cart" &&
+    location?.href !== CookieService.getCookie("prevUrl")
+  ) {
+    closeModal();
+  }
 
   return (
     <div
