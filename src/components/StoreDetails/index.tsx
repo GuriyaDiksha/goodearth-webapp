@@ -10,6 +10,8 @@ import { AppState } from "reducers/typings";
 import { updateStoreState } from "actions/header";
 import bootstrap from "../../styles/bootstrap/bootstrap-grid.scss";
 import ReactHtmlParser from "react-html-parser";
+import { GA_CALLS } from "constants/cookieConsent";
+import CookieService from "services/cookie";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -135,6 +137,17 @@ class StoreDetails extends React.Component<Props, State> {
     });
   };
 
+  // onSearchClick = () =>{
+  //   // trigger event on click of search
+  //   const userConsent = CookieService.getCookie("consent").split(",");
+  //   if (userConsent.includes(GA_CALLS)) {
+  //     dataLayer.push({
+  //       event: "search_shop_availability",
+  //       "city or state": this.state.searchText
+  //     });
+  //   }
+  // }
+
   render() {
     return (
       <div>
@@ -195,6 +208,7 @@ class StoreDetails extends React.Component<Props, State> {
                   placeholder="Search by City or State"
                   onChange={this.onEnterSearch}
                   autoComplete="new-password"
+                  // onClick={this.onSearchClick}
                 />
               </div>
             </div>

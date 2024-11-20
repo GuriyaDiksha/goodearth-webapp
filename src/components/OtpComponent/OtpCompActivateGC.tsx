@@ -718,37 +718,37 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
           )}
 
           {this.props.isIndiaGC &&
-          this.state.selectedOption &&
-          this.state.selectedOption == "mobile number" ? (
-            <p className={globalStyles.voffset2}>
-              <p
-                className={cs(
-                  globalStyles.op2,
-                  globalStyles.bold,
-                  styles.lineHead
-                )}
-              >
-                OTP SMS SENT TO MOBILE NUMBER:
-              </p>{" "}
-              <p className={styles.line}>{otpData.phoneNo}</p>
-            </p>
-          ) : (
-            <p className={globalStyles.voffset2}>
-              <p
-                className={cs(
-                  globalStyles.op2,
-                  globalStyles.bold,
-                  styles.lineHead
-                )}
-              >
-                {" "}
-                OTP SENT TO EMAIL ADDRESS:
-              </p>{" "}
-              <p className={cs(styles.overflowEmail, styles.line)}>
-                {otpData.email}
+            (this.state.selectedOption &&
+            this.state.selectedOption == "mobile number" ? (
+              <p className={globalStyles.voffset2}>
+                <p
+                  className={cs(
+                    globalStyles.op2,
+                    globalStyles.bold,
+                    styles.lineHead
+                  )}
+                >
+                  OTP SMS SENT TO MOBILE NUMBER:
+                </p>{" "}
+                <p className={styles.line}>{otpData.phoneNo}</p>
               </p>
-            </p>
-          )}
+            ) : (
+              <p className={globalStyles.voffset2}>
+                <p
+                  className={cs(
+                    globalStyles.op2,
+                    globalStyles.bold,
+                    styles.lineHead
+                  )}
+                >
+                  {" "}
+                  OTP SENT TO EMAIL ADDRESS:
+                </p>{" "}
+                <p className={cs(styles.overflowEmail, styles.line)}>
+                  {otpData.email}
+                </p>
+              </p>
+            ))}
         </div>
         <hr />
         {(this.props.otpFor == "activateGC"

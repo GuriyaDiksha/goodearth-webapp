@@ -3,4 +3,5 @@ export type Props = {
   mailSubject: string;
   mailText: string;
   mobile: boolean;
+  productName?: string;
 };

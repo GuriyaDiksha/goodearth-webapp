@@ -5,6 +5,8 @@ import styles from "./styles.scss";
 import arrow from "../../images/arrow-counter-02.svg";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const ProductCounter: React.FC<ProductCounterProps> = ({
   current,
@@ -21,6 +23,13 @@ const ProductCounter: React.FC<ProductCounterProps> = ({
       top: 0,
       behavior: "smooth"
     });
+    // add GA Event on product counter click
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "product_counter"
+      });
+    }
   };
   return (
     <>
