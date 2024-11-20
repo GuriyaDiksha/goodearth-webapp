@@ -666,6 +666,13 @@ const ProductDetails: React.FC<Props> = ({
           }
         });
     }
+    // trigger event on click of check-in shop availability
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "shop_availability_click"
+      });
+    }
   };
 
   const addToRegistry = (event: React.MouseEvent) => {
@@ -785,6 +792,16 @@ const ProductDetails: React.FC<Props> = ({
   };
 
   const notifyMeClick = () => {
+    // // add GA event on click of Notify Me CTA
+    // const userConsent = CookieService.getCookie("consent").split(",");
+    // if (userConsent.includes(GA_CALLS)) {
+    //   dataLayer.push({
+    //     event: "notify_me",
+    //     click_type: title,
+    //     click_url: `${location.pathname}${location.search}`
+    //   });
+    // }
+
     let selectedIndex = undefined;
 
     childAttributes.map((v, i) => {
@@ -1057,6 +1074,18 @@ const ProductDetails: React.FC<Props> = ({
     setIsWishlistOpen(false);
   };
 
+  const collectionClick = (collectionName: string) => {
+    closeModal ? closeModal : () => null;
+    // trigger event on click of collection title
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "collection_click",
+        click_type: collectionName
+      });
+    }
+  };
+
   return (
     <Fragment>
       {/* {!mobile && !isQuickview && showDock && (
@@ -1094,7 +1123,10 @@ const ProductDetails: React.FC<Props> = ({
                 )}
               </div>
               {isShare && !mobile && (
-                <ShareProductPopup corporatePDP={corporatePDP} />
+                <ShareProductPopup
+                  corporatePDP={corporatePDP}
+                  productName={title}
+                />
               )}
               {images && images[0]?.badgeImagePdp && (
                 <div className={cs(bootstrap.col12, styles.badgePadding)}>
@@ -1127,7 +1159,7 @@ const ProductDetails: React.FC<Props> = ({
                   {collection && (
                     <Link
                       to={collectionUrl || "#"}
-                      onClick={closeModal ? closeModal : () => null}
+                      onClick={() => collectionClick(collection)}
                     >
                       {" "}
                       {collection}{" "}
@@ -1553,7 +1585,8 @@ const ProductDetails: React.FC<Props> = ({
                 })}
               >
                 <WishlistButtonpdp
-                  gtmListType={gtmListType}
+                  // gtmListType={gtmListType}
+                  gtmListType={"pdp"}
                   title={title}
                   parentWidth={true}
                   childAttributes={childAttributes}

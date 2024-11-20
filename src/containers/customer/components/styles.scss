@@ -563,7 +563,11 @@ ol {
 }
 
 .accordion-body{
+  padding-left: 4px;
   padding-bottom: 20px;
+  > ol{
+    padding-left: 7px;
+  }
 }
 
 .content-heading {

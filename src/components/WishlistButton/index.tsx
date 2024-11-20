@@ -121,33 +121,6 @@ const WishlistButton: React.FC<Props> = ({
         }
 
         if (userConsent.includes(GA_CALLS)) {
-          dataLayer.push({
-            event: "AddtoWishlist",
-            ecommerce: {
-              currencyCode: currency,
-              add: {
-                products: [
-                  {
-                    name: title,
-                    id: child?.[0].sku,
-                    price: child?.[0].discountedPriceRecords
-                      ? child?.[0].discountedPriceRecords[currency]
-                      : child?.[0].priceRecords
-                      ? child?.[0].priceRecords[currency]
-                      : null,
-                    brand: "Goodearth",
-                    category: category,
-                    variant:
-                      childAttributes && childAttributes[0].size
-                        ? childAttributes[0].size
-                        : "",
-                    quantity: 1,
-                    list: listPath
-                  }
-                ]
-              }
-            }
-          });
           if (addWishlist) {
             dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
             dataLayer.push({
@@ -282,7 +255,6 @@ const WishlistButton: React.FC<Props> = ({
         )
           .then(() => {
             onMoveToWishlist?.();
-            gtmPushAddToWishlist(true);
             // WishlistService.countWishlist(dispatch);
           })
           .finally(() => {
@@ -328,8 +300,8 @@ const WishlistButton: React.FC<Props> = ({
           size ? size : undefined
         )
           .then(() => {
-            gtmPushAddToWishlist(true);
             showGrowlMessage(dispatch, growlMsg);
+            gtmPushAddToWishlist(true);
             // WishlistService.countWishlist(dispatch);
           })
           .finally(() => {

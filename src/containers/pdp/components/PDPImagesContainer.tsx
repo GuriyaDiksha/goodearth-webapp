@@ -10,6 +10,8 @@ import { POPUP } from "constants/components";
 import { Product } from "typings/product";
 import { Currency } from "typings/currency";
 // import ReactPlayer from "react-player";
+import { GA_CALLS } from "constants/cookieConsent";
+import CookieService from "services/cookie";
 
 type Props = {
   productImages: any;
@@ -21,6 +23,7 @@ type Props = {
   corporatePDP?: boolean;
   buttoncall?: JSX.Element | null | undefined;
   handleLooksClick: (e: any) => void;
+  productName?: string;
 };
 
 const PDPImagesContainer: React.FC<Props> = ({
@@ -32,7 +35,8 @@ const PDPImagesContainer: React.FC<Props> = ({
   productImages,
   onClick,
   is3d,
-  handleLooksClick
+  handleLooksClick,
+  productName
 }) => {
   const dispatch = useDispatch();
 
@@ -83,6 +87,15 @@ const PDPImagesContainer: React.FC<Props> = ({
 
     dispatch(updateModal(true));
     e.stopPropagation();
+
+    // trigger event on click of VIEW IN 3D Cta
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "view_in_3d",
+        cta_name: productName
+      });
+    }
   };
 
   const viewIn3dBtn = (code: string) => {

@@ -826,6 +826,7 @@ class PDPContainer extends React.Component<Props, State> {
         currency={this.props.currency}
         handleLooksClick={this.handleLooksClick}
         buttoncall={this.returnPDPButton()}
+        productName={this.props.data?.title}
       />
       // <div
       //   className={styles.productImageContainer}
@@ -1408,6 +1409,14 @@ class PDPContainer extends React.Component<Props, State> {
       window.scroll({ top: offsetPos, behavior: "smooth" });
     }
     e.stopPropagation();
+    // trigger event on click of Shop the Look CTA
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "shop_the_look",
+        click_type: this.props.data?.title
+      });
+    }
   };
 
   getMobileZoomListener = (index: number) => {
