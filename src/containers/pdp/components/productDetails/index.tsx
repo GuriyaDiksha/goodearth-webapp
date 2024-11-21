@@ -1287,7 +1287,7 @@ const ProductDetails: React.FC<Props> = ({
                     [styles.spacerQuickview]: isQuickview && withBadge
                   })}
                 >
-                  <div className={mobile ? bootstrap.col12 : bootstrap.col8}>
+                  <div className={mobile ? bootstrap.col12 : bootstrap.col10}>
                     <div className={bootstrap.row}>
                       <div
                         className={cs(
@@ -1340,7 +1340,7 @@ const ProductDetails: React.FC<Props> = ({
                   </div>
                   {sizeChart && !isQuickview && (
                     <div
-                      className={cs(bootstrap.colSm4, styles.label, {
+                      className={cs(bootstrap.colSm2, styles.label, {
                         [globalStyles.textRight]: !mobile
                       })}
                     >
