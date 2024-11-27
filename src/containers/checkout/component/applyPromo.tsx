@@ -84,6 +84,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
           if (userConsent.includes(GA_CALLS)) {
             dataLayer.push({
               event: "promo_code_added",
+              promo_code_name: this.props.promoVal,
               click_type: "invalid"
             });
           }
@@ -100,6 +101,7 @@ class ApplyPromo extends React.Component<Props, GiftState> {
           if (userConsent.includes(GA_CALLS)) {
             dataLayer.push({
               event: "promo_code_added",
+              promo_code_name: this.props.promoVal,
               click_type: "valid"
             });
           }
