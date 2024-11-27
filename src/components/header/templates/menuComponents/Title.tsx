@@ -46,6 +46,7 @@ const Title: React.FC<Props> = ({
                 className={styles.title}
                 href={componentData.link}
                 target={componentData.openInNewTab ? "_blank" : ""}
+                rel={componentData.openInNewTab ? "noopener noreferrer" : ""}
                 onClick={() =>
                   onHeaderMegaMenuClick({
                     l1,
@@ -80,6 +81,7 @@ const Title: React.FC<Props> = ({
                 <a
                   href={componentData.link}
                   target={componentData.openInNewTab ? "_blank" : ""}
+                  rel={componentData.openInNewTab ? "noopener noreferrer" : ""}
                   onClick={() =>
                     onHeaderMegaMenuClick({
                       l1,
@@ -117,6 +119,13 @@ const Title: React.FC<Props> = ({
                   />
                 </Link>
               ))}
+            {componentData?.videoSrc && (
+              <div className={styles.videoWrapper}>
+                <video controls>
+                  <source src={componentData.videoSrc} type="video/mp4" />
+                </video>
+              </div>
+            )}
           </>
         ) : (
           <>
@@ -170,6 +179,7 @@ const Title: React.FC<Props> = ({
               className={styles.cta}
               href={componentData.link}
               target={componentData.openInNewTab ? "_blank" : ""}
+              rel={componentData.openInNewTab ? "noopener noreferrer" : ""}
               onClick={() =>
                 onHeaderMegaMenuClick({
                   l1,
