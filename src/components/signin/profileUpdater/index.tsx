@@ -24,6 +24,7 @@ import Button from "components/Button";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import ModalStyles from "components/Modal/styles.scss";
+import SelectDropdown from "components/Formsy/SelectDropdown";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -273,7 +274,16 @@ class ProfileUpdater extends React.Component<Props, State> {
 
   handleSubmit = (model: any, resetForm: any, updateIwithError: any) => {
     if (!this.state.updateProfile) return false;
-    const { firstName, lastName, gender, subscribe, country, state } = model;
+    const {
+      firstName,
+      lastName,
+      gender,
+      subscribe,
+      country,
+      state,
+      phoneCountryCode,
+      phoneNumber
+    } = model;
     const formData: any = {};
     formData["gender"] = gender || "";
     formData["firstName"] = firstName;
@@ -284,6 +294,11 @@ class ProfileUpdater extends React.Component<Props, State> {
     formData["country"] = countryCode;
     if (countryCode == "IN") {
       formData["state"] = state || "";
+    }
+
+    if (phoneCountryCode && phoneNumber) {
+      formData["phoneNumber"] = phoneNumber;
+      formData["phoneCountryCode"] = phoneCountryCode;
     }
 
     formData["subscribe"] = subscribe;
@@ -368,6 +383,27 @@ class ProfileUpdater extends React.Component<Props, State> {
     }, 0);
   };
 
+  // ******* code for country code *******
+  // countryCodeRef: RefObject<HTMLInputElement> = React.createRef();
+  // getCountryCodeObject = () => {
+  //   const { countryOptions } = this.state;
+  //   const arr: any[] = [];
+  //   countryOptions.map(({ label, isd }: any) => {
+  //     arr.push({ label: `${label}(${isd})`, value: isd });
+  //   });
+  //   return arr;
+  // };
+
+  // onCountryCodeSelect = (option: any) => {
+  //   const form = this.ProfileUpdateFormRef.current;
+  //   const selectedCountryCode = option?.value;
+
+  //   form &&
+  //     form.updateInputsWithValue({
+  //       phoneCountryCode: selectedCountryCode
+  //     });
+  // };
+
   render() {
     const {
       firstName,
@@ -375,8 +411,23 @@ class ProfileUpdater extends React.Component<Props, State> {
       subscribe,
       gender,
       country,
-      state
+      state,
+      phoneCountryCode,
+      phoneNumber
     } = this.state.data;
+
+    const form = this.ProfileUpdateFormRef.current;
+    let isd = "";
+    this.state.countryOptions.filter((countryOption: any) => {
+      if (countryOption.value == this.state.data.country) {
+        return (isd = countryOption.isd);
+      }
+    })[0];
+    form &&
+      form.updateInputsWithValue({
+        phoneCountryCode: isd
+      });
+
     const isExistyError = "This field is required";
     const formContent = (
       <Formsy
@@ -483,6 +534,71 @@ class ProfileUpdater extends React.Component<Props, State> {
               </div>
             </div>
           )}
+          <div className={styles.countryCode}>
+            <SelectDropdown
+              name="phoneCountryCode"
+              // required
+              placeholder="Code"
+              label="Country Code"
+              value={phoneCountryCode || undefined}
+              disable={isd ? true : false}
+              validations={{
+                isCodeValid: (values, value) => {
+                  return !(values.phone && value == "");
+                }
+              }}
+              validationErrors={{
+                isCodeValid: "Required"
+              }}
+              allowFilter={true}
+              showLabel={true}
+              optionsClass={styles.isdCode}
+              aquaClass={styles.aquaText}
+              searchIconClass={styles.countryCodeSearchIcon}
+              searchInputClass={styles.countryCodeSearchInput}
+              className={cs(styles.countryCodeWrp, {
+                [styles.disabledInput]: isd
+              })}
+              // inputRef={this.countryCodeRef}
+              // handleChange={this.onCountryCodeSelect}
+              // options={this.getCountryCodeObject()}
+            />
+            <FormInput
+              name="phoneNumber"
+              required
+              value={phoneNumber || undefined}
+              placeholder={"Contact Number*"}
+              label={"Contact Number*"}
+              type="number"
+              validations={{
+                isPhoneValid: (values, value) => {
+                  return !(values.code && value == "");
+                },
+                isINRPhone: (values, value) => {
+                  const { country } = values;
+                  return country == "India" ? value?.length == 10 : true;
+                },
+                isExisty: true
+              }}
+              validationErrors={{
+                isPhoneValid: "Please enter your Contact Number",
+                isINRPhone: "Please enter a valid Contact Number",
+                isExisty: "Please enter a valid Contact Number"
+              }}
+              keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+              keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+              onPaste={e =>
+                e?.clipboardData.getData("Text").match(/([e|E])/)
+                  ? e.preventDefault()
+                  : null
+              }
+              showLabel={true}
+              disable={phoneNumber ? true : false}
+              className={cs(styles.contactNum, {
+                [styles.disabledInput]: phoneNumber
+              })}
+            />
+          </div>
           <div className={styles.subscribe}>
             <FormCheckbox
               value={false}

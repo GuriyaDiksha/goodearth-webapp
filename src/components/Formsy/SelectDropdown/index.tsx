@@ -77,6 +77,8 @@ const SelectDropdown: React.FC<Props &
         return "Please choose preferred mode of contact";
       case "code":
         return "Please select code";
+      case "phoneCountryCode":
+        return "Please select code";
       case "whatsappNoCountryCode":
         return "Required";
       default:
@@ -145,7 +147,7 @@ const SelectDropdown: React.FC<Props &
           </div>
         )}
         <div className={cs(styles.options, { [styles.active]: active })}>
-          {options.map((option, i) => {
+          {options?.map((option, i) => {
             return (
               <div
                 className={cs(props.optionsClass || styles.option, {
