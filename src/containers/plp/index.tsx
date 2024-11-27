@@ -170,7 +170,14 @@ class PLP extends React.Component<
       }, 50)
     );
     if (this.props.device.mobile) {
-      this.updateMobileView("grid");
+      const view: string = CookieService.getCookie("plpMobileView") || "grid";
+      if (!CookieService.getCookie("plpMobileView")) {
+        CookieService.setCookie("plpMobileView", view, 365);
+      }
+      if (this.props.plpMobileView !== view) {
+        this.props.updateMobileView(view);
+      }
+      this.updateMobileView(view);
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
       const chatButtonElem = document.getElementById("chat-button");
