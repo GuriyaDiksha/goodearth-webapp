@@ -272,7 +272,7 @@ class ProfileUpdater extends React.Component<Props, State> {
     }
   };
 
-  handleSubmit = (model: any, resetForm: any, updateIwithError: any) => {
+  handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     if (!this.state.updateProfile) return false;
     const {
       firstName,
@@ -339,16 +339,70 @@ class ProfileUpdater extends React.Component<Props, State> {
               errorTracking([this.state.showerror], location.href);
             }
           );
-        } else if (error) {
-          this.setState(
-            {
-              showerror: "Something went Wrong"
-            },
-            () => {
-              errorTracking([this.state.showerror], location.href);
-            }
-          );
         }
+        // else if (error) {
+        //   this.setState(
+        //     {
+        //       showerror: "Something went Wrong"
+        //     },
+        //     () => {
+        //       errorTracking([this.state.showerror], location.href);
+        //     }
+        //   );
+        // }
+        Object.keys(data).map(key => {
+          switch (key) {
+            case "firstName":
+            case "lastName":
+            case "gender":
+              updateInputsWithError(
+                {
+                  [key]: data[key][0]
+                },
+                true
+              );
+              break;
+            case "phoneNumber":
+              updateInputsWithError(
+                {
+                  [key]: data[key][0]
+                },
+                true
+              );
+              break;
+            case "email":
+              if (data[key].length == 2) {
+                this.setState({
+                  showerror:
+                    "This account already exists <a class='error' href=" +
+                    data[key][0] +
+                    "> please set a new password</a>"
+                });
+              } else {
+                this.setState({
+                  showerror: ""
+                });
+                updateInputsWithError(
+                  {
+                    [key]: data[key][0]
+                  },
+                  true
+                );
+              }
+              break;
+            default:
+              if (typeof data == "object") {
+                let errorMsg: string = data[key][0];
+                if (errorMsg == "MaxRetries") {
+                  errorMsg =
+                    "You have exceeded max registration attempts, please try after some time";
+                }
+                this.setState({
+                  showerror: errorMsg
+                });
+              }
+          }
+        });
       });
   };
 
@@ -574,16 +628,19 @@ class ProfileUpdater extends React.Component<Props, State> {
                 isPhoneValid: (values, value) => {
                   return !(values.code && value == "");
                 },
-                isINRPhone: (values, value) => {
-                  const { country } = values;
-                  return country == "India" ? value?.length == 10 : true;
-                },
-                isExisty: true
+                isExisty: true,
+                compulsory: (values, value) => {
+                  if (values?.whatsappSubscribe && value == "") {
+                    return false;
+                  } else {
+                    return true;
+                  }
+                }
               }}
               validationErrors={{
                 isPhoneValid: "Please enter your Contact Number",
-                isINRPhone: "Please enter a valid Contact Number",
-                isExisty: "Please enter a valid Contact Number"
+                isExisty: "Please enter a valid Contact Number",
+                compulsory: "Please enter your Contact Number"
               }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
