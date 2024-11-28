@@ -298,7 +298,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
             value: result.totalInclTax,
             tax: 0,
             shipping: result.shippingInclTax,
-            coupon: result.offerDisounts?.[0]?.name, //Pass NA if Not applicable at the moment
+            coupon: result?.voucherDiscounts?.[0]?.voucher?.name || "NA", //Pass NA if Not applicable at the moment
             payment_type: Object.keys(result.paymentMethodForGA)?.join("|"),
             items: productsData
           }
@@ -358,8 +358,6 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           tax: 0,
           shipping: result.shippingInclTax,
           coupon: result?.voucherDiscounts?.[0]?.voucher?.name || "NA", //Pass NA if Not applicable at the moment
-          campaign_name:
-            result?.voucherDiscounts?.[0]?.voucher?.campaign_name || "NA",
           payment_type: Object.keys(result.paymentMethodForGA)?.join("|"),
           items: productsData
         }
