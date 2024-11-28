@@ -1089,7 +1089,8 @@ class FilterList extends React.Component<Props, State> {
       setTimeout(() => {
         const element = document.getElementById(pdpProductScrollId);
         element ? element.scrollIntoView(true) : "";
-        window.scrollBy(0, -150);
+        // window.scrollBy(0, -150);
+        window.scrollBy(0, -200);
         localStorage.removeItem("pdpProductScroll");
       }, 1000);
       this.setState({
