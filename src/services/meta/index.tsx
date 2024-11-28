@@ -65,7 +65,11 @@ export default {
       if (
         typeof document != "undefined" &&
         user.email &&
-        (!user.gender || !user.country || !user.lastName || !user.firstName)
+        (!user.gender ||
+          !user.country ||
+          !user.lastName ||
+          !user.firstName ||
+          !user.phoneNumber)
       ) {
         dispatch(updateComponent(POPUP.PROFILEUPDATER, null, true));
         dispatch(updateModal(true));

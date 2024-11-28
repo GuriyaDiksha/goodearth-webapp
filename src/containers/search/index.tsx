@@ -296,8 +296,9 @@ class Search extends React.Component<
     });
     const config = { subtree: true, childList: true };
     observer.observe(document, config);
-    if (this.props.device.mobile) {
-      this.updateMobileView("grid");
+    if (this.props.device?.mobile) {
+      const view: string = CookieService.getCookie("plpMobileView");
+      this.updateMobileView(view);
     }
   }
 
@@ -397,7 +398,7 @@ class Search extends React.Component<
             });
             if (leftMostPos != Infinity) {
               const productID = leftMostElement.children[0].children[0]?.id;
-              console.log(this.props.scrollDown);
+              // console.log(this.props.scrollDown);
               this.child.appendData(plpMobileView);
               this.props.updateMobileView(plpMobileView);
               const top: number =

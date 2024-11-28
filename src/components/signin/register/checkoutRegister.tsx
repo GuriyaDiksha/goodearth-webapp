@@ -967,14 +967,14 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               className={styles.countryCodeWrp}
             />
             <FormInput
-              // required
+              required
               name="phone"
               value=""
-              placeholder={"Contact Number"}
+              placeholder={"Contact Number*"}
               type="number"
               disable={!this.state.showFields}
               className={cs(showFieldsClass, styles.contactNum)}
-              label={"Contact Number"}
+              label={"Contact Number*"}
               validations={{
                 isExisty: true,
                 compulsory: (values, value) => {
