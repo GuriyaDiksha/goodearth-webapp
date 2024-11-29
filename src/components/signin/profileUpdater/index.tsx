@@ -438,25 +438,25 @@ class ProfileUpdater extends React.Component<Props, State> {
   };
 
   // ******* code for country code *******
-  // countryCodeRef: RefObject<HTMLInputElement> = React.createRef();
-  // getCountryCodeObject = () => {
-  //   const { countryOptions } = this.state;
-  //   const arr: any[] = [];
-  //   countryOptions.map(({ label, isd }: any) => {
-  //     arr.push({ label: `${label}(${isd})`, value: isd });
-  //   });
-  //   return arr;
-  // };
+  countryCodeRef: RefObject<HTMLInputElement> = React.createRef();
+  getCountryCodeObject = () => {
+    const { countryOptions } = this.state;
+    const arr: any[] = [];
+    countryOptions.map(({ label, isd }: any) => {
+      arr.push({ label: `${label}(${isd})`, value: isd });
+    });
+    return arr;
+  };
 
-  // onCountryCodeSelect = (option: any) => {
-  //   const form = this.ProfileUpdateFormRef.current;
-  //   const selectedCountryCode = option?.value;
+  onCountryCodeSelect = (option: any) => {
+    const form = this.ProfileUpdateFormRef.current;
+    const selectedCountryCode = option?.value;
 
-  //   form &&
-  //     form.updateInputsWithValue({
-  //       phoneCountryCode: selectedCountryCode
-  //     });
-  // };
+    form &&
+      form.updateInputsWithValue({
+        phoneCountryCode: selectedCountryCode
+      });
+  };
 
   render() {
     const {
@@ -470,17 +470,17 @@ class ProfileUpdater extends React.Component<Props, State> {
       phoneNumber
     } = this.state.data;
 
-    const form = this.ProfileUpdateFormRef.current;
-    let isd = "";
-    this.state.countryOptions.filter((countryOption: any) => {
-      if (countryOption.value == this.state.data.country) {
-        return (isd = countryOption.isd);
-      }
-    })[0];
-    form &&
-      form.updateInputsWithValue({
-        phoneCountryCode: isd
-      });
+    // const form = this.ProfileUpdateFormRef.current;
+    // let isd = "";
+    // this.state.countryOptions.filter((countryOption: any) => {
+    //   if (countryOption.value == this.state.data.country) {
+    //     return (isd = countryOption.isd);
+    //   }
+    // })[0];
+    // form &&
+    //   form.updateInputsWithValue({
+    //     phoneCountryCode: isd
+    //   });
 
     const isExistyError = "This field is required";
     const formContent = (
@@ -591,11 +591,11 @@ class ProfileUpdater extends React.Component<Props, State> {
           <div className={styles.countryCode}>
             <SelectDropdown
               name="phoneCountryCode"
-              // required
-              placeholder="Code"
-              label="Country Code"
+              required
+              placeholder="Code*"
+              label="Country Code*"
               value={phoneCountryCode || undefined}
-              disable={isd ? true : false}
+              disable={phoneCountryCode ? true : false}
               validations={{
                 isCodeValid: (values, value) => {
                   return !(values.phone && value == "");
@@ -611,11 +611,11 @@ class ProfileUpdater extends React.Component<Props, State> {
               searchIconClass={styles.countryCodeSearchIcon}
               searchInputClass={styles.countryCodeSearchInput}
               className={cs(styles.countryCodeWrp, {
-                [styles.disabledInput]: isd
+                [styles.disabledInput]: phoneCountryCode
               })}
-              // inputRef={this.countryCodeRef}
-              // handleChange={this.onCountryCodeSelect}
-              // options={this.getCountryCodeObject()}
+              inputRef={this.countryCodeRef}
+              handleChange={this.onCountryCodeSelect}
+              options={this.getCountryCodeObject()}
             />
             <FormInput
               name="phoneNumber"
@@ -625,9 +625,6 @@ class ProfileUpdater extends React.Component<Props, State> {
               label={"Contact Number*"}
               type="number"
               validations={{
-                isPhoneValid: (values, value) => {
-                  return !(values.code && value == "");
-                },
                 isExisty: true,
                 compulsory: (values, value) => {
                   if (values?.whatsappSubscribe && value == "") {
@@ -638,7 +635,6 @@ class ProfileUpdater extends React.Component<Props, State> {
                 }
               }}
               validationErrors={{
-                isPhoneValid: "Please enter your Contact Number",
                 isExisty: "Please enter a valid Contact Number",
                 compulsory: "Please enter your Contact Number"
               }}
