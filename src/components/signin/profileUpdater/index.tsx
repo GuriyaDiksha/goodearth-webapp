@@ -324,7 +324,7 @@ class ProfileUpdater extends React.Component<Props, State> {
         window.scrollTo(0, 0);
       })
       .catch(error => {
-        const data = decriptdata(error.response?.data);
+        const data = error.response?.data;
         if (data.error_message) {
           let errorMsg = data.error_message[0];
           if (errorMsg == "MaxRetries") {
@@ -384,7 +384,7 @@ class ProfileUpdater extends React.Component<Props, State> {
                 });
                 updateInputsWithError(
                   {
-                    email: data[key][0]
+                    [key]: data[key][0]
                   },
                   true
                 );
