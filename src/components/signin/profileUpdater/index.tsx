@@ -384,7 +384,7 @@ class ProfileUpdater extends React.Component<Props, State> {
                 });
                 updateInputsWithError(
                   {
-                    [key]: data[key][0]
+                    email: data[key][0]
                   },
                   true
                 );
