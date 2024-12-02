@@ -625,18 +625,18 @@ class ProfileUpdater extends React.Component<Props, State> {
               label={"Contact Number*"}
               type="number"
               validations={{
-                isExisty: true,
-                compulsory: (values, value) => {
-                  if (values?.whatsappSubscribe && value == "") {
-                    return false;
-                  } else {
-                    return true;
-                  }
-                }
+                isExisty: true
+                // compulsory: (values, value) => {
+                //   if (values?.whatsappSubscribe && value == "") {
+                //     return false;
+                //   } else {
+                //     return true;
+                //   }
+                // }
               }}
               validationErrors={{
-                isExisty: "Please enter a valid Contact Number",
-                compulsory: "Please enter your Contact Number"
+                isExisty: "Please enter a valid Contact Number"
+                // compulsory: "Please enter your Contact Number"
               }}
               keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
               keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
