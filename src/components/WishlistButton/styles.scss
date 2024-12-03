@@ -64,7 +64,7 @@
 }
 .input-field{
     input{
-        height: 40px;
+        height: 40px !important;
         width:100%;
         max-width: 70%;
         float: left;
@@ -79,6 +79,7 @@
 .create-btn{
     max-width: 30%!important;
     float: left;
+    height: 40px !important;
 }
 .disableCta{
     cursor: unset;

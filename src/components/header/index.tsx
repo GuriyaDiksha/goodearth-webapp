@@ -175,11 +175,8 @@ class Header extends React.Component<Props, State> {
     if (
       typeof document != "undefined" &&
       user.email &&
-      (!user.gender ||
-        !user.country ||
-        !user.lastName ||
-        !user.firstName ||
-        !user.phoneNumber)
+      (!user.gender || !user.country || !user.lastName || !user.firstName)
+      // || !user.phoneNumber
     ) {
       this.props.updateProfile();
     }
