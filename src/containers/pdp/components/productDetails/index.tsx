@@ -1126,6 +1126,7 @@ const ProductDetails: React.FC<Props> = ({
                 <ShareProductPopup
                   corporatePDP={corporatePDP}
                   productName={title}
+                  productUrl={url}
                 />
               )}
               {images && images[0]?.badgeImagePdp && (
