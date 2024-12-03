@@ -591,9 +591,9 @@ class ProfileUpdater extends React.Component<Props, State> {
           <div className={styles.countryCode}>
             <SelectDropdown
               name="phoneCountryCode"
-              required
-              placeholder="Code*"
-              label="Country Code*"
+              // required
+              placeholder="Code"
+              label="Country Code"
               value={phoneCountryCode || undefined}
               disable={phoneCountryCode ? true : false}
               validations={{
@@ -619,10 +619,10 @@ class ProfileUpdater extends React.Component<Props, State> {
             />
             <FormInput
               name="phoneNumber"
-              required
+              // required
               value={phoneNumber || undefined}
-              placeholder={"Contact Number*"}
-              label={"Contact Number*"}
+              placeholder={"Contact Number"}
+              label={"Contact Number"}
               type="number"
               validations={{
                 isExisty: true
