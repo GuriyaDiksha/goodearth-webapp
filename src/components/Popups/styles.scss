@@ -1821,7 +1821,6 @@
     width: 85%;
     text-align: left;
     @media(max-width:992px){
-      width: 92%;
     }
   }
   input[type="text"].input2 {
@@ -1832,11 +1831,10 @@
 
 .error-gst{
   width: 80%;
-  margin: 10px auto;
+  margin: 10px 35px;
   font-size: 13px !important;
   font-weight: normal !important;
   @media screen and (max-width: 992px){
-    margin-left: 25px;
   }
 }
 
@@ -1846,6 +1844,7 @@
 .gst-input{
   font-family: $font-Montserrat;
 }
+
 .desc{
   p{
     word-wrap: break-word;

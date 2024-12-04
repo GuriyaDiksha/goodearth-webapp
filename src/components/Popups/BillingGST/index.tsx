@@ -203,25 +203,25 @@ const BillingGST: React.FC<PopupProps> = ({
                 value={gstText}
                 aria-label="billing-gst"
               />
+              {error ? (
+                <span
+                  className={cs(
+                    globalStyles.errorMsg,
+                    globalStyles.wordCap,
+                    globalStyles.textLeft,
+                    globalStyles.flex,
+                    styles?.errorGst
+                  )}
+                >
+                  {error}
+                </span>
+              ) : (
+                ""
+              )}
             </div>
             <label className={styles.formLabel}>
               {gstType == "GSTIN" ? "GST No.*" : "UIN No.*"}
             </label>
-            {error ? (
-              <span
-                className={cs(
-                  globalStyles.errorMsg,
-                  globalStyles.wordCap,
-                  globalStyles.textLeft,
-                  globalStyles.flex,
-                  styles?.errorGst
-                )}
-              >
-                {error}
-              </span>
-            ) : (
-              ""
-            )}
           </div>
         </div>
         {user.customerGroup == "loyalty_cerise_club" ||
