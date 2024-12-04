@@ -43,6 +43,7 @@ export type otpProps = {
   lastName?: string;
   newCardBox?: boolean;
   email?: string;
+  code?: string;
   phoneNo?: string;
   disableSendOtpButton: boolean;
   isIndiaGC?: boolean;
