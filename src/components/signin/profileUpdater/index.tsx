@@ -24,6 +24,7 @@ import Button from "components/Button";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import ModalStyles from "components/Modal/styles.scss";
+import SelectDropdown from "components/Formsy/SelectDropdown";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -271,9 +272,18 @@ class ProfileUpdater extends React.Component<Props, State> {
     }
   };
 
-  handleSubmit = (model: any, resetForm: any, updateIwithError: any) => {
+  handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     if (!this.state.updateProfile) return false;
-    const { firstName, lastName, gender, subscribe, country, state } = model;
+    const {
+      firstName,
+      lastName,
+      gender,
+      subscribe,
+      country,
+      state,
+      phoneCountryCode,
+      phoneNumber
+    } = model;
     const formData: any = {};
     formData["gender"] = gender || "";
     formData["firstName"] = firstName;
@@ -284,6 +294,11 @@ class ProfileUpdater extends React.Component<Props, State> {
     formData["country"] = countryCode;
     if (countryCode == "IN") {
       formData["state"] = state || "";
+    }
+
+    if (phoneCountryCode && phoneNumber) {
+      formData["phoneNumber"] = phoneNumber;
+      formData["phoneCountryCode"] = phoneCountryCode;
     }
 
     formData["subscribe"] = subscribe;
@@ -309,7 +324,7 @@ class ProfileUpdater extends React.Component<Props, State> {
         window.scrollTo(0, 0);
       })
       .catch(error => {
-        const data = decriptdata(error.response?.data);
+        const data = error.response?.data;
         if (data.error_message) {
           let errorMsg = data.error_message[0];
           if (errorMsg == "MaxRetries") {
@@ -324,16 +339,70 @@ class ProfileUpdater extends React.Component<Props, State> {
               errorTracking([this.state.showerror], location.href);
             }
           );
-        } else if (error) {
-          this.setState(
-            {
-              showerror: "Something went Wrong"
-            },
-            () => {
-              errorTracking([this.state.showerror], location.href);
-            }
-          );
         }
+        // else if (error) {
+        //   this.setState(
+        //     {
+        //       showerror: "Something went Wrong"
+        //     },
+        //     () => {
+        //       errorTracking([this.state.showerror], location.href);
+        //     }
+        //   );
+        // }
+        Object.keys(data).map(key => {
+          switch (key) {
+            case "firstName":
+            case "lastName":
+            case "gender":
+              updateInputsWithError(
+                {
+                  [key]: data[key][0]
+                },
+                true
+              );
+              break;
+            case "phoneNumber":
+              updateInputsWithError(
+                {
+                  [key]: data[key][0]
+                },
+                true
+              );
+              break;
+            case "email":
+              if (data[key].length == 2) {
+                this.setState({
+                  showerror:
+                    "This account already exists <a class='error' href=" +
+                    data[key][0] +
+                    "> please set a new password</a>"
+                });
+              } else {
+                this.setState({
+                  showerror: ""
+                });
+                updateInputsWithError(
+                  {
+                    [key]: data[key][0]
+                  },
+                  true
+                );
+              }
+              break;
+            default:
+              if (typeof data == "object") {
+                let errorMsg: string = data[key][0];
+                if (errorMsg == "MaxRetries") {
+                  errorMsg =
+                    "You have exceeded max registration attempts, please try after some time";
+                }
+                this.setState({
+                  showerror: errorMsg
+                });
+              }
+          }
+        });
       });
   };
 
@@ -368,6 +437,27 @@ class ProfileUpdater extends React.Component<Props, State> {
     }, 0);
   };
 
+  // ******* code for country code *******
+  countryCodeRef: RefObject<HTMLInputElement> = React.createRef();
+  getCountryCodeObject = () => {
+    const { countryOptions } = this.state;
+    const arr: any[] = [];
+    countryOptions.map(({ label, isd }: any) => {
+      arr.push({ label: `${label}(${isd})`, value: isd });
+    });
+    return arr;
+  };
+
+  onCountryCodeSelect = (option: any) => {
+    const form = this.ProfileUpdateFormRef.current;
+    const selectedCountryCode = option?.value;
+
+    form &&
+      form.updateInputsWithValue({
+        phoneCountryCode: selectedCountryCode
+      });
+  };
+
   render() {
     const {
       firstName,
@@ -375,8 +465,23 @@ class ProfileUpdater extends React.Component<Props, State> {
       subscribe,
       gender,
       country,
-      state
+      state,
+      phoneCountryCode,
+      phoneNumber
     } = this.state.data;
+
+    // const form = this.ProfileUpdateFormRef.current;
+    // let isd = "";
+    // this.state.countryOptions.filter((countryOption: any) => {
+    //   if (countryOption.value == this.state.data.country) {
+    //     return (isd = countryOption.isd);
+    //   }
+    // })[0];
+    // form &&
+    //   form.updateInputsWithValue({
+    //     phoneCountryCode: isd
+    //   });
+
     const isExistyError = "This field is required";
     const formContent = (
       <Formsy
@@ -483,6 +588,70 @@ class ProfileUpdater extends React.Component<Props, State> {
               </div>
             </div>
           )}
+          <div className={styles.countryCode}>
+            <SelectDropdown
+              name="phoneCountryCode"
+              // required
+              placeholder="Code"
+              label="Country Code"
+              value={phoneCountryCode || undefined}
+              disable={phoneCountryCode ? true : false}
+              validations={{
+                isCodeValid: (values, value) => {
+                  return !(values.phone && value == "");
+                }
+              }}
+              validationErrors={{
+                isCodeValid: "Required"
+              }}
+              allowFilter={true}
+              showLabel={true}
+              optionsClass={styles.isdCode}
+              aquaClass={styles.aquaText}
+              searchIconClass={styles.countryCodeSearchIcon}
+              searchInputClass={styles.countryCodeSearchInput}
+              className={cs(styles.countryCodeWrp, {
+                [styles.disabledInput]: phoneCountryCode
+              })}
+              inputRef={this.countryCodeRef}
+              handleChange={this.onCountryCodeSelect}
+              options={this.getCountryCodeObject()}
+            />
+            <FormInput
+              name="phoneNumber"
+              // required
+              value={phoneNumber || undefined}
+              placeholder={"Contact Number"}
+              label={"Contact Number"}
+              type="number"
+              validations={{
+                isExisty: true
+                // compulsory: (values, value) => {
+                //   if (values?.whatsappSubscribe && value == "") {
+                //     return false;
+                //   } else {
+                //     return true;
+                //   }
+                // }
+              }}
+              validationErrors={{
+                isExisty: "Please enter a valid Contact Number"
+                // compulsory: "Please enter your Contact Number"
+              }}
+              keyPress={e => (e.key == "Enter" ? e.preventDefault() : "")}
+              keyDown={e => (e.which === 69 ? e.preventDefault() : null)}
+              onPaste={e =>
+                e?.clipboardData.getData("Text").match(/([e|E])/)
+                  ? e.preventDefault()
+                  : null
+              }
+              showLabel={true}
+              disable={phoneNumber ? true : false}
+              className={cs(styles.contactNum, {
+                [styles.disabledInput]: phoneNumber
+              })}
+            />
+          </div>
           <div className={styles.subscribe}>
             <FormCheckbox
               value={false}

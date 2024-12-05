@@ -87,6 +87,7 @@
     &:disabled{
       color: $light-charcoal;
       background-color: $lightest-grey;
+      cursor: unset;
     }
 
     @media screen and (max-width:767px) {

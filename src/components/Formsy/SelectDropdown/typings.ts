@@ -3,7 +3,7 @@ import { Dispatch, RefObject, SetStateAction } from "react";
 export type Props = {
   name: string;
   value?: string;
-  options: {
+  options?: {
     value: string;
     label: string;
     isdCode?: string | undefined;
@@ -12,7 +12,7 @@ export type Props = {
   allowFilter: boolean;
   handleChange?: (event: any) => void;
   className?: string;
-  inputRef: RefObject<HTMLInputElement>;
+  inputRef?: RefObject<HTMLInputElement>;
   label?: string;
   placeholder?: string;
   disable?: boolean;

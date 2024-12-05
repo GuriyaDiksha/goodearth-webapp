@@ -49,34 +49,48 @@ const ShareWishlistLink: React.FC<Props> = ({
     }
   };
 
-  const copyLink = (event: React.MouseEvent) => {
+  const copyLink = async (event: React.MouseEvent) => {
     event.preventDefault();
+    event.stopPropagation();
 
     gaCall("Copy to Clipboard");
 
-    const isIOSDevice = navigator.userAgent.match(/ipad|iphone/i);
+    try {
+      // Use modern clipboard API when available
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(wishlist_link);
+      } else {
+        // Fallback for older browsers and non-HTTPS contexts
+        // Create the input element hidden and fixed position to prevent layout shifts
+        const dummyInput = document.createElement("input");
+        dummyInput.style.position = "fixed";
+        dummyInput.style.opacity = "0";
+        dummyInput.style.pointerEvents = "none";
+        dummyInput.style.zIndex = "-1";
+        dummyInput.value = wishlist_link;
+        document.body.appendChild(dummyInput);
 
-    const dummyInput = document.createElement("input");
-    dummyInput.value = wishlist_link;
-    document.body.appendChild(dummyInput);
-    dummyInput.select();
+        // Special handling for iOS
+        if (navigator.userAgent.match(/ipad|iphone/i)) {
+          dummyInput.setSelectionRange(0, wishlist_link.length);
+        } else {
+          dummyInput.select();
+        }
 
-    if (isIOSDevice) {
-      dummyInput.setSelectionRange(0, wishlist_link.length);
-    } else {
-      dummyInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummyInput);
+      }
+
+      showGrowlMessage(
+        dispatch,
+        "The link of this Saved List has been copied to your clipboard!"
+      );
+    } catch (err) {
+      showGrowlMessage(
+        dispatch,
+        "Failed to copy link. Please try selecting and copying manually."
+      );
     }
-
-    // Execute the "copy" command
-    document.execCommand("copy");
-    document.body.removeChild(dummyInput);
-
-    event.stopPropagation();
-
-    showGrowlMessage(
-      dispatch,
-      "The link of this Saved List has been copied to your clipboard!"
-    );
   };
   const { closeModal } = useContext(Context);
 
