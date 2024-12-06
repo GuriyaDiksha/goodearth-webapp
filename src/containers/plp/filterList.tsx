@@ -853,6 +853,24 @@ class FilterList extends React.Component<Props, State> {
     }
   };
 
+  componentDidUpdate(prevProps: Readonly<Props>): void {
+    if (prevProps.data !== this.props.data) {
+      this.sendDataToParent();
+    }
+  }
+
+  sendDataToParent = (): void => {
+    const uniqueData: any = Array.from(
+      new Map(this.productData.map((item: any) => [item[0], item])).values()
+    ).map((item: any) => ({
+      name: item[0],
+      image: item[1],
+      url: null,
+      checked: this.state.filter.productType["pb_" + item[0]] ?? false
+    }));
+    this.props.onSendData?.(uniqueData);
+  };
+
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll, { passive: true });
     this.props.updateScrollDown(false);
@@ -1128,8 +1146,8 @@ class FilterList extends React.Component<Props, State> {
     if (facets.categoryProductTypeMapping) {
       Object.keys(facets.categoryProductTypeMapping).map((level4: any) => {
         facets.categoryProductTypeMapping[level4].map((productBy: any) => {
-          if (!("pb_" + productBy in filter.productType)) {
-            filter.productType["pb_" + productBy] = false;
+          if (!("pb_" + productBy[0] in filter.productType)) {
+            filter.productType["pb_" + productBy[0]] = false;
           }
         });
       });
@@ -1180,6 +1198,21 @@ class FilterList extends React.Component<Props, State> {
       filter: filter
     });
     return { categoryObj: categoryObj, facets: facets };
+  };
+
+  onClickPlpBubbleL4 = (
+    title: string,
+    e: React.MouseEvent,
+    isChecked: boolean
+  ): void => {
+    const key = `pb_${title}`;
+    const { filter } = this.state;
+    filter.productType[key] = isChecked;
+    this.setState({
+      filter: filter
+    });
+    this.createUrlfromFilter();
+    e.stopPropagation();
   };
 
   onClickLevel4 = (event: any) => {
@@ -1256,8 +1289,8 @@ class FilterList extends React.Component<Props, State> {
           ? filter.categoryShop[data][nestedList[1]]
             ? filtered_facets.categoryProductTypeMapping[nestedList[1]]?.map(
                 (level4: any) => {
-                  if (filteredProductType.indexOf(level4) == -1) {
-                    filteredProductType.push(level4);
+                  if (filteredProductType.indexOf(level4[0]) == -1) {
+                    filteredProductType.push(level4[0]);
                   }
                 }
               )
@@ -1267,7 +1300,11 @@ class FilterList extends React.Component<Props, State> {
     });
 
     for (const prop in filter.productType) {
-      if (this.productData.indexOf(prop.replace("pb_", "")) == -1) {
+      if (
+        !this.productData.some(
+          ([name]: [string, string]) => name === prop.replace("pb_", "")
+        )
+      ) {
         filter.productType[prop] = false;
       }
     }
@@ -1277,32 +1314,33 @@ class FilterList extends React.Component<Props, State> {
           <ul className={styles.categorylabel}>
             {this.productData.map((level4: any) => {
               return (
-                <li key={"pb_" + level4}>
+                <li key={"pb_" + level4[0]}>
                   <CheckboxWithLabel
                     onChange={this.onClickLevel4}
-                    id={"pb_" + level4}
+                    id={"pb_" + level4[0]}
                     checked={
-                      filter.productType["pb_" + level4]
-                        ? filter.productType["pb_" + level4]
+                      filter.productType["pb_" + level4[0]]
+                        ? filter.productType["pb_" + level4[0]]
                         : false
                     }
-                    value={"pb_" + level4}
+                    value={"pb_" + level4[0]}
                     disabled={
-                      filteredProductType?.filter((e: string[]) => e === level4)
-                        .length === 0
+                      filteredProductType?.filter(
+                        (e: string[]) => e === level4[0]
+                      ).length === 0
                     }
                     label={[
                       <label
-                        key={"pb_" + level4}
+                        key={"pb_" + level4[0]}
                         className={cs({
                           [styles.disableType]:
                             filteredProductType?.filter(
-                              (e: string[]) => e === level4
+                              (e: string[]) => e === level4[0]
                             ).length === 0
                         })}
-                        htmlFor={"pb_" + level4}
+                        htmlFor={"pb_" + level4[0]}
                       >
-                        {level4}
+                        {level4[0]}
                       </label>
                     ]}
                   />
@@ -2512,7 +2550,6 @@ class FilterList extends React.Component<Props, State> {
   };
 
   render() {
-    console.log(this.props.facets?.productType, "type", this.productData);
     const { mobile } = this.props;
     const { filter } = this.state;
     const productHtml = this.createProductType(

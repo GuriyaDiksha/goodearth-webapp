@@ -89,6 +89,7 @@ class PLP extends React.Component<
     header: string;
     isPopup: boolean;
     bubbleData: { url: string; image: string; name: string }[];
+    childProductTypeData: any[];
   }
 > {
   constructor(props: Props) {
@@ -114,7 +115,8 @@ class PLP extends React.Component<
       showProductCounter: true,
       header: "",
       isPopup: false,
-      bubbleData: []
+      bubbleData: [],
+      childProductTypeData: []
     };
   }
   private child: any = FilterList;
@@ -228,7 +230,6 @@ class PLP extends React.Component<
       });
     }
     if (nextProps.plpBubblesData !== this.props.plpBubblesData) {
-      // this.setState({ bubbleData: [] });
       this.setState({ bubbleData: this.props.plpBubblesData });
     }
   }
@@ -574,6 +575,12 @@ class PLP extends React.Component<
   //   this.setState({ showProductCounter: state });
   // };
 
+  handleChildData = (data: any) => {
+    this.setState(prevState => ({
+      childProductTypeData: [...data]
+    }));
+  };
+
   render() {
     const {
       device: { mobile, tablet },
@@ -790,6 +797,8 @@ class PLP extends React.Component<
                 filterCount={this.state.filterCount}
                 open={this.state.mobileFilter}
                 openResetPopup={this.onResetFilterClick}
+                onSendData={this.handleChildData}
+                childProductTypeData={this.state.childProductTypeData}
               />
             )}
           </div>
@@ -879,7 +888,26 @@ class PLP extends React.Component<
                     !showTemplates.Banner?.[0] && mobile
                 })}
               >
-                <PlpBubbles data={this.state.bubbleData} />
+                <PlpBubbles data={this.state.bubbleData} source="plpbubbleL3" />
+              </div>
+            ) : (
+              ""
+            )}
+            {this.state.childProductTypeData &&
+            this.state.childProductTypeData.length > 2 ? (
+              <div
+                className={cs({
+                  [globalStyles.marginT30]:
+                    !showTemplates.Banner?.[0] && !mobile,
+                  [styles.customTopPadding]:
+                    !showTemplates.Banner?.[0] && mobile
+                })}
+              >
+                <PlpBubbles
+                  data={this.state.childProductTypeData}
+                  source="plpBubbleL4"
+                  handlePlpBubbleL4Click={this.child.onClickPlpBubbleL4}
+                />
               </div>
             ) : (
               ""

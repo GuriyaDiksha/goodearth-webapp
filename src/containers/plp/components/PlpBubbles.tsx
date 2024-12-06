@@ -13,13 +13,24 @@ interface DataItem {
   url: string;
   image: string;
   name: string;
+  checked?: boolean;
 }
 
 type Props = {
   data: DataItem[];
+  source?: string;
+  handlePlpBubbleL4Click?: (
+    title: string,
+    e: React.MouseEvent,
+    isChecked: boolean
+  ) => any;
 };
 
-const PlpBubbles: React.FC<Props> = ({ data }) => {
+const PlpBubbles: React.FC<Props> = ({
+  data,
+  source,
+  handlePlpBubbleL4Click
+}) => {
   const [bubbleCount, setBubbleCount] = useState(0);
   const isThree = useMemo(() => data.length === 3, [data]);
   const [mobileView, setMobileView] = useState(false);
@@ -150,6 +161,13 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
     const updatedUrl = baseUrl + transformedQueryString;
     history.push(updatedUrl);
   };
+  const handleBubbleClick = (
+    title: string,
+    e: React.MouseEvent,
+    isChecked: boolean
+  ): void => {
+    handlePlpBubbleL4Click?.(title, e, isChecked);
+  };
 
   return (
     <React.Fragment>
@@ -166,13 +184,18 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
               <div className={styles.bubbleContainer} key={item.url}>
                 <div
                   className={
-                    item.name === "View All"
+                    item.name === "View All" || item.checked
                       ? styles.highlightImgWrap
                       : styles.imgWrap
                   }
-                  onClick={() => (
-                    plpBubbleGaCall(item?.name), handleClick(item?.url)
-                  )}
+                  onClick={e => {
+                    if (source === "plpBubbleL3") {
+                      plpBubbleGaCall(item?.name);
+                      handleClick(item?.url);
+                    } else if (source === "plpBubbleL4") {
+                      handleBubbleClick(item?.name, e, !item?.checked);
+                    }
+                  }}
                 >
                   <img
                     className={styles.bubbleImage}
@@ -199,13 +222,18 @@ const PlpBubbles: React.FC<Props> = ({ data }) => {
             <div className={styles.bubbleContainer} key={item.url}>
               <div
                 className={
-                  item.name === "View All"
+                  item.name === "View All" || item.checked
                     ? styles.highlightImgWrap
                     : styles.imgWrap
                 }
-                onClick={() => (
-                  plpBubbleGaCall(item?.name), handleClick(item?.url)
-                )}
+                onClick={e => {
+                  if (source === "plpBubbleL3") {
+                    plpBubbleGaCall(item?.name);
+                    handleClick(item?.url);
+                  } else if (source === "plpBubbleL4") {
+                    handleBubbleClick(item?.name, e, !item?.checked);
+                  }
+                }}
               >
                 <img
                   className={styles.bubbleImage}
