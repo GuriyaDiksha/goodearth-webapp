@@ -27,7 +27,7 @@ const SampleDisplay: React.FC<Props> = props => {
   const atbOrNotify = (item: WishListGridItem) => {
     let flag = false;
     let innerString = "";
-    item.stockDetails.map(stockData => {
+    item?.stockDetails?.map(stockData => {
       if (item.size) {
         if (stockData.stock > 0 && item.size == stockData.size) {
           flag = true;
@@ -59,7 +59,7 @@ const SampleDisplay: React.FC<Props> = props => {
     if (item.size) {
       return "Size: " + item.size;
     } else {
-      item.stockDetails.map(stockData => {
+      item?.stockDetails?.map(stockData => {
         if (!stockData.size) {
           flag = false;
         }
@@ -234,7 +234,8 @@ const SampleDisplay: React.FC<Props> = props => {
             className={cs(
               globalStyles.errorMsg,
               globalStyles.gold,
-              styles.errMsg
+              styles.errMsg,
+              styles.errMsg1
             )}
           >
             {isSale && showStockMessage && `Only ${stock} Left!`}

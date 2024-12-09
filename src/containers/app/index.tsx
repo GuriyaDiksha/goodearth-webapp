@@ -24,7 +24,7 @@ const App: React.FC<Props> = memo(({ wishlist, user }) => {
   const wishlistItems = flattenedArray.map(({ productId }) => productId);
   const wishlistChildItems: ProductID[] = [];
   flattenedArray.map(item => {
-    item.stockDetails.map(child => {
+    item?.stockDetails?.map(child => {
       if (child.size == item.size) {
         wishlistChildItems.push(child.productId);
       }

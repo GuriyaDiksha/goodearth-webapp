@@ -279,7 +279,7 @@ const WishlistDetailPage = () => {
     productDataId?: number,
     listName?: string
   ) => {
-    const childAttributes = item.stockDetails.map((item: any) => {
+    const childAttributes = item?.stockDetails?.map((item: any) => {
       return {
         discountedPriceRecords: item.discountedPrice,
         id: item.productId,
@@ -883,7 +883,8 @@ const WishlistDetailPage = () => {
                               className={cs(
                                 globalStyles.errorMsg,
                                 globalStyles.gold,
-                                styles.errMsg
+                                styles.errMsg,
+                                styles.errMsg1
                               )}
                             >
                               {isSale &&
@@ -1172,7 +1173,8 @@ const WishlistDetailPage = () => {
                                   className={cs(
                                     globalStyles.errorMsg,
                                     globalStyles.gold,
-                                    styles.errMsg
+                                    styles.errMsg,
+                                    styles.errMsg1
                                   )}
                                 >
                                   {isSale &&
