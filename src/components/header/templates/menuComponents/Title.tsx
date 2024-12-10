@@ -119,13 +119,6 @@ const Title: React.FC<Props> = ({
                   />
                 </Link>
               ))}
-            {componentData?.videoSrc && (
-              <div className={styles.videoWrapper}>
-                <video controls>
-                  <source src={componentData.videoSrc} type="video/mp4" />
-                </video>
-              </div>
-            )}
           </>
         ) : (
           <>

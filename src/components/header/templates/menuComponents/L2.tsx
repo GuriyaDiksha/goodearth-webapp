@@ -128,9 +128,14 @@ const L2: React.FC<Props> = ({
               ))}
             {componentData?.videoSrc && (
               <div className={styles.videoWrapper}>
-                <video autoPlay muted loop controls>
-                  <source src={componentData.videoSrc} type="video/mp4" />
-                </video>
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  controls={false}
+                  controlsList="nodownload noplaybackrate nofullscreen"
+                  src={componentData?.videoSrc}
+                ></video>
               </div>
             )}
           </>
@@ -168,6 +173,18 @@ const L2: React.FC<Props> = ({
                   containerClassName={styles.img}
                   src={componentData.src}
                 />
+              </div>
+            )}
+            {componentData?.videoSrc && (
+              <div className={styles.videoWrapper}>
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  controls={false}
+                  controlsList="nodownload noplaybackrate nofullscreen"
+                  src={componentData?.videoSrc}
+                ></video>
               </div>
             )}
           </>
