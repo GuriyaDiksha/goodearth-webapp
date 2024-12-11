@@ -178,11 +178,11 @@ class PLP extends React.Component<
         this.props.updateMobileView(view);
       }
       //show gridview and listview on basis of query string found in url
-      const currentUrl = window.location.href;
-      if (currentUrl.includes("list")) {
-        this.updateMobileView("list");
-      } else if (currentUrl.includes("grid")) {
+      const searchParam = this.props.location.search;
+      if (searchParam.includes("vw=gv")) {
         this.updateMobileView("grid");
+      } else if (searchParam.includes("vw=lv")) {
+        this.updateMobileView("list");
       } else {
         this.updateMobileView(view);
       }
