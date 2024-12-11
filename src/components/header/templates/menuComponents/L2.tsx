@@ -126,7 +126,7 @@ const L2: React.FC<Props> = ({
                   />
                 </Link>
               ))}
-            {componentData?.videoSrc && (
+            {componentData?.videoSrc && componentData.videoSrc !== "undefined" && (
               <div className={styles.videoWrapper}>
                 <video
                   autoPlay
@@ -175,7 +175,7 @@ const L2: React.FC<Props> = ({
                 />
               </div>
             )}
-            {componentData?.videoSrc && (
+            {componentData?.videoSrc && componentData.videoSrc !== "undefined" && (
               <div className={styles.videoWrapper}>
                 <video
                   autoPlay
