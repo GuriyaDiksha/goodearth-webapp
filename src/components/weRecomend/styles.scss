@@ -71,6 +71,14 @@
         font-family: $font-Lato;
     }
 }
+.product-price{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    span{
+        line-height: 21px;
+    }
+}
 .img-responsive{
     display: block;
     max-width: 100%;

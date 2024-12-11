@@ -474,6 +474,9 @@ hr {
   font-family: $font-Montserrat;
   font-size: 14px;
   font-weight: 400 !important;
+  @media(max-width:991px){
+    font-size:12px;
+  }
 }
 
 .strikeprice {
@@ -485,6 +488,9 @@ hr {
   line-height: 1.4;
   vertical-align: text-top;
   font-weight: 400 !important;
+  @media(max-width:991px){
+    font-size:12px!important;
+  }
 }
 
 .delivery-date {
@@ -663,6 +669,9 @@ hr {
   }
   a {
     @include b4_12px_montserrat_charcoal_caps();
+    @media(min-width:992px){
+      font-size:14px!important;
+    }
   }
 }
 
