@@ -177,7 +177,16 @@ class PLP extends React.Component<
       if (this.props.plpMobileView !== view) {
         this.props.updateMobileView(view);
       }
-      this.updateMobileView(view);
+      //show gridview and listview on basis of query string found in url
+      const searchParam = this.props.location.search;
+      if (searchParam.includes("vw=gv")) {
+        this.updateMobileView("grid");
+      } else if (searchParam.includes("vw=lv")) {
+        this.updateMobileView("list");
+      } else {
+        this.updateMobileView(view);
+      }
+      // end grid & list view
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
       const chatButtonElem = document.getElementById("chat-button");
