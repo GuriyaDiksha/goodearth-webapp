@@ -412,6 +412,8 @@
   @include bottom-shadow();
 }
 .inner-menu-active {
+  max-width: 80rem;
+  margin: auto;
   opacity: 1;
   transition: opacity 0.2s ease-in;
   transition-delay: 0.2s;

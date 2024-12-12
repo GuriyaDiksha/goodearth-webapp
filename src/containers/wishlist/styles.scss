@@ -161,6 +161,14 @@
        font-weight: 500;
     }
 }
+.product-price{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  span{
+    line-height: 21px;
+  }
+}
 .product-size {
     font-family: $font-Lato;
     font-size: 9px;
@@ -192,6 +200,7 @@
 span{
   &.discountprice {
       color: $gold;
+      padding-right: 5px;
     }
     &.strikeprice {
       text-decoration: line-through;

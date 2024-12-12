@@ -172,7 +172,7 @@ const WishlistItem: React.FC<Props> = props => {
               {data.productName ? data.productName : ""}{" "}
             </a>
           </p>
-          <p className={styles.productN}>
+          <p className={cs(styles.productN, styles.productPrice)}>
             {// this.state.salestatus
             true && data.discount ? (
               <span className={styles.discountprice}>

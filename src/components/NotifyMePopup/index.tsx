@@ -466,10 +466,13 @@ const NotifyMePopup: React.FC<Props> = ({
                 <>
                   {currency === "INR" && (
                     <span
-                      className={cs(styles.mrp, {
-                        [globalStyles.gold]:
-                          badgeType == "B_flat" || (isSale && discount)
-                      })}
+                      className={cs(
+                        styles.mrp
+                        // {
+                        //   [globalStyles.gold]:
+                        //     badgeType == "B_flat" || (isSale && discount)
+                        // }
+                      )}
                     >
                       MRP.
                     </span>
@@ -502,10 +505,13 @@ const NotifyMePopup: React.FC<Props> = ({
                 <>
                   {currency === "INR" && (
                     <span
-                      className={cs(styles.mrp, {
-                        [globalStyles.gold]:
-                          badgeType == "B_flat" || (isSale && discount)
-                      })}
+                      className={cs(
+                        styles.mrp
+                        // {
+                        //   [globalStyles.gold]:
+                        //     badgeType == "B_flat" || (isSale && discount)
+                        // }
+                      )}
                     >
                       MRP.
                     </span>
