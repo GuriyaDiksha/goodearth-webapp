@@ -233,7 +233,11 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     // }
 
     //**** both email and phone option for INR GC
-    if (this.props.isIndiaGC && this.state.selectedOption == "mobile number") {
+    // if (this.props.isIndiaGC && this.state.selectedOption == "mobile number") {
+    if (
+      this.props.code == "91" &&
+      this.state.selectedOption == "mobile number"
+    ) {
       data["phoneNo"] = "+91" + this.props.phoneNo;
     } else {
       data["email"] = email;
@@ -251,7 +255,10 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
 
     //**** both email and phone option for INR GC
     data["otpTo"] =
-      this.props.isIndiaGC && this.state.selectedOption ? "phoneno" : "email";
+      // this.props.isIndiaGC && this.state.selectedOption ? "phoneno" : "email";
+      this.props.code == "91" && this.state.selectedOption
+        ? "phoneno"
+        : "email";
     // data["otpTo"] = "email";
     this.sendOtpApiCall(data, false);
   };
@@ -699,7 +706,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
           </p>
           <p className={styles.line}>{this.props.txtvalue}</p>
 
-          {!this.props.isIndiaGC && (
+          {/* {!this.props.isIndiaGC && ( */}
+          {this.props.code != "91" && (
             <p className={globalStyles.voffset2}>
               <p
                 className={cs(
@@ -717,7 +725,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             </p>
           )}
 
-          {this.props.isIndiaGC &&
+          {/* {this.props.isIndiaGC && */}
+          {this.props.code == "91" &&
             (this.state.selectedOption &&
             this.state.selectedOption == "mobile number" ? (
               <p className={globalStyles.voffset2}>
@@ -761,7 +770,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               // otpSentVia={this.props.isIndiaGC ? "mobile number" : "email"}
               // otpSentVia={"email"}
               otpSentVia={
-                this.props.isIndiaGC ? this.state.selectedOption : "email"
+                this.props.code == "91" ? this.state.selectedOption : "email"
+                // this.props.isIndiaGC ? this.state.selectedOption : "email"
               }
               resendOtp={this.resendOtp}
               verifyOtp={this.checkOtpValidation}
@@ -884,10 +894,12 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               <li
                 className={cs(styles.radiobtn1, styles.xradio, {
                   [styles.emailInput]:
-                    this.props.isLoggedIn && this.props.isIndiaGC
+                    this.props.isLoggedIn && this.props.code == "91"
+                  // this.props.isLoggedIn && this.props.isIndiaGC
                 })}
               >
-                {this.props.isLoggedIn && this.props.isIndiaGC && (
+                {/* {this.props.isLoggedIn && this.props.isIndiaGC && ( */}
+                {this.props.isLoggedIn && this.props.code == "91" && (
                   <input
                     type="radio"
                     value="email"
@@ -945,7 +957,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 />
               </li>
               {/* )} */}
-              {this.props.isLoggedIn && this.props.isIndiaGC && (
+              {/* {this.props.isLoggedIn && this.props.isIndiaGC && (  */}
+              {this.props.isLoggedIn && this.props.code == "91" && (
                 <li
                   className={cs(
                     styles.countryCode,
@@ -970,7 +983,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                     <div className={styles.contactCode}>
                       <input
                         type="text"
-                        value="+91"
+                        value={this.props.code ? `+${this.props.code}` : ""}
                         placeholder="Code"
                         disabled={true}
                         className={styles.codeInput}
@@ -988,7 +1001,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                           this.setState({ phoneInput: e.target.value })
                         }
                         validations={
-                          this.props.isIndiaGC
+                          // this.props.isIndiaGC
+                          this.props.code == "91"
                             ? {
                                 isLength: 10
                               }
@@ -997,7 +1011,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                         validationErrors={{
                           isLength: "Phone number should be 10 digit"
                         }}
-                        required={!this.props.isIndiaGC ? "isFalse" : true}
+                        // required={!this.props.isIndiaGC ? "isFalse" : true}
+                        required={this.props.code == "91" ? true : false}
                         keyDown={e =>
                           e.which === 69 ? e.preventDefault() : null
                         }
@@ -1104,7 +1119,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   type="submit"
                   onClick={() =>
                     this.props.isLoggedIn &&
-                    this.props.isIndiaGC &&
+                    // this.props.isIndiaGC &&
                     !this.props.phoneNo
                       ? this.handleSubmit({ email: this.state.emailInput })
                       : null
