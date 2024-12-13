@@ -49,6 +49,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 class FilterList extends React.Component<Props, State> {
   public productData: any = [];
   public unlisten: any = "";
+  timeout: any;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -875,6 +876,9 @@ class FilterList extends React.Component<Props, State> {
     window.addEventListener("scroll", this.handleScroll, { passive: true });
     this.props.updateScrollDown(false);
     this.unlisten = this.props.history.listen(this.stateChange);
+    this.timeout = setTimeout(() => {
+      this.sendDataToParent();
+    }, 2000);
 
     const header = document.getElementById("myHeader");
     const sticky = (header as HTMLElement)?.offsetTop;
@@ -1036,6 +1040,9 @@ class FilterList extends React.Component<Props, State> {
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
     this.unlisten();
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
   }
 
   getSortedFacets = (facets: any): any => {

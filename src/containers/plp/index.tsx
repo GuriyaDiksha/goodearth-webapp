@@ -936,7 +936,10 @@ class PLP extends React.Component<
                   {
                     [styles.prouctMobilePadding]:
                       mobile &&
-                      !(this.props.plpBubblesData?.length > 1) &&
+                      !(
+                        this.props.plpBubblesData?.length > 1 ||
+                        this.state.childProductTypeData?.length > 2
+                      ) &&
                       !showTemplates.Banner?.length
                   }
                 )}
