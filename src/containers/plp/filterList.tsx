@@ -862,7 +862,11 @@ class FilterList extends React.Component<Props, State> {
 
   sendDataToParent = (): void => {
     const uniqueData: any = Array.from(
-      new Map(this.productData.map((item: any) => [item[0], item])).values()
+      new Map(
+        this.productData
+          .filter((item: any) => item[1]) // Filter out items with empty image
+          .map((item: any) => [item[0], item])
+      ).values()
     ).map((item: any) => ({
       name: item[0],
       image: item[1],
