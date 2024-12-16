@@ -8,7 +8,7 @@ import cs from "classnames";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { useHistory, useLocation } from "react-router";
-import bootstrap from "../../../styles/bootstrap/bootstrap-grid.scss";
+import globalStyles from "styles/global.scss";
 interface DataItem {
   url: string;
   image: string;
@@ -217,7 +217,11 @@ const PlpBubbles: React.FC<Props> = ({
           </Slider>
         </div>
       ) : (
-        <div className={cs(styles.newSliderContainer)}>
+        <div
+          className={cs(styles.newSliderContainer, {
+            [globalStyles.flexGutterCenter]: data.length
+          })}
+        >
           {data?.map((item: any) => (
             <div className={styles.bubbleContainer} key={item.url}>
               <div
