@@ -1,132 +1,405 @@
-import React from "react";
+import React, { useEffect, useState, useRef, RefObject } from "react";
+import styles from "./styles.scss";
+import globalStyles from "../../styles/global.scss";
+import cs from "classnames";
+import Formsy from "formsy-react";
+import FormInput from "components/Formsy/FormInput";
+import Loader from "components/Loader";
+import { errorTracking, getErrorList } from "utils/validate";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "reducers/typings";
+import secondaryHeaderStyles from "components/SecondaryHeader/styles.scss";
+import { Link, useHistory } from "react-router-dom";
+import HeaderService from "services/headerFooter";
+import LoginService from "services/login";
+import MakerEnhance from "components/maker";
+import { updateCountryData } from "actions/address";
+import { Country } from "components/Formsy/CountryCode/typings";
+import Button from "components/Button";
+import SelectDropdown from "components/Formsy/SelectDropdown";
+import FormSelect from "components/Formsy/FormSelect";
+
+type StateOptions = {
+  value: string;
+  label: string;
+  id: number;
+  nameAscii: string;
+};
+
+type CountryOptions = {
+  value: string;
+  label: string;
+  code2: string;
+  isd: string | undefined;
+  states: StateOptions[];
+};
 
 const AnnualSale: React.FC = () => {
+  const { mobile } = useSelector((state: AppState) => state.device);
+  const { showTimer } = useSelector((state: AppState) => state.info);
+  const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
+  const [stateOptions, setStateOptions] = useState<StateOptions[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [enableSubmit, setEnableSubmit] = useState(false);
+  const [maker, setMaker] = useState(false);
+  const history = useHistory();
+  const location = history.location;
+  const { countryData } = useSelector((state: AppState) => state.address);
+  const countryRef: RefObject<HTMLInputElement> = useRef(null);
+  const isAlphaError = "Only alphabets are allowed";
+  const isExistyError = "This field is required";
+  const { currency } = useSelector((state: AppState) => state);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!countryData || countryData.length == 0) {
+      LoginService.fetchCountryData(dispatch).then(countryData => {
+        dispatch(updateCountryData(countryData));
+      });
+    }
+    setMaker(true);
+    const firstField = document.getElementById("first-field") as HTMLDivElement;
+    firstField && firstField.focus();
+    setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    if (currency === "INR") history.push("/");
+  }, [currency]);
+
+  // *************** Open State option **************
+  const EnquiryFormRef = useRef<Formsy>(null);
+  const onCountrySelect = (option: any, defaultCountry?: string) => {
+    if (countryOptions.length > 0) {
+      const form = EnquiryFormRef.current;
+      let selectedCountry = "";
+      if (option?.value) {
+        selectedCountry = option?.value;
+        form &&
+          form.updateInputsWithValue(
+            {
+              state: "",
+              country: selectedCountry
+            },
+            false
+          );
+      }
+
+      if (defaultCountry) {
+        selectedCountry = defaultCountry;
+        // need to set defaultCountry explicitly
+        if (form && selectedCountry) {
+          form.updateInputsWithValue({
+            country: selectedCountry
+          });
+        }
+      }
+
+      const { states, isd } = countryOptions.filter(
+        country => country.value == selectedCountry
+      )[0];
+
+      if (form) {
+        // reset state
+        const { state } = form.getModel();
+        if (state) {
+          form.updateInputsWithValue({
+            state: ""
+          });
+        }
+        form.updateInputsWithValue({
+          countrycode: isd,
+          country: selectedCountry
+        });
+      }
+      setStateOptions(states);
+      setEnableSubmit(true);
+    }
+  };
+  // *************** Closed State option **************
+
+  const changeCountryData = (countryData: Country[]) => {
+    const countryOptions = countryData.map(country => {
+      const states = country.regionSet.map(state => {
+        return Object.assign({}, state, {
+          value: state.nameAscii,
+          label: state.nameAscii
+        });
+      });
+      return Object.assign(
+        {},
+        {
+          value: country.nameAscii,
+          label: country.nameAscii,
+          code2: country.code2,
+          isd: country.isdCode,
+          states: states
+        }
+      );
+    });
+    setCountryOptions(
+      countryOptions.filter(
+        country => country?.value?.toLocaleLowerCase() !== "india"
+      )
+    );
+  };
+
+  useEffect(() => {
+    changeCountryData(countryData);
+  }, [countryData]);
+
+  const handleInvalidSubmit = () => {
+    if (!enableSubmit) {
+      return;
+    }
+    setSuccessMsg("");
+    setTimeout(() => {
+      const firstErrorField = document.getElementsByClassName(
+        globalStyles.errorBorder
+      )[0] as HTMLInputElement | HTMLSelectElement;
+      if (firstErrorField) {
+        firstErrorField.focus();
+        firstErrorField.scrollIntoView({ block: "center", behavior: "smooth" });
+      }
+      // for error Tracking
+      const errorList = getErrorList(globalStyles.errorMsg, "job-form");
+      if (errorList && errorList.length) {
+        errorTracking(errorList, location.pathname);
+      }
+    }, 0);
+  };
+
+  const saveData = (
+    formData: any,
+    resetForm: any,
+    updateInputsWithError: any
+  ) => {
+    setIsLoading(true);
+    setSuccessMsg("");
+    HeaderService.makeNewsletterSignupRequest(dispatch, formData)
+      .then(data => {
+        if (data.status) {
+          setSuccessMsg(
+            "Thank  you for signing up! You will receive a reminder when our sale is live!"
+          );
+        } else {
+          setSuccessMsg(
+            "You have already signed up for reminder notifications for our upcoming Sale."
+          );
+        }
+        // resetForm();
+        setEnableSubmit(false);
+      })
+      .catch(err => {
+        const errors = err.response.data.errors;
+        if (errors && typeof errors[0] == "string") {
+          setSuccessMsg(errors[0]);
+        } else {
+          setSuccessMsg(
+            "You have already signed up for reminder notifications for our upcoming Sale."
+          );
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const handleChange = () => {
+    setEnableSubmit(true);
+  };
+  const prepareFormData = (model: any) => {
+    const formData = new FormData();
+    const { email, name, country, city, state } = model;
+    formData.append("email", email ? email.toString().toLowerCase() : "");
+    formData.append("name", name || "");
+    formData.append("country", country || "");
+    formData.append("city", city || "");
+    formData.append("state", state || "");
+    formData.append("source", "HFH24 Reminder");
+
+    return formData;
+  };
+
+  const handleSubmit = (
+    model: any,
+    resetForm: any,
+    updateInputsWithError: any
+  ) => {
+    if (!enableSubmit) {
+      return;
+    }
+    const formData = prepareFormData(model);
+    saveData(formData, resetForm, updateInputsWithError);
+  };
+
+  const formContent = (
+    <div
+      className={cs(
+        styles.jobApplication,
+        { [styles.jobApplicationMobile]: mobile },
+        styles.loginForm
+      )}
+    >
+      <h4>
+        Unlock everlasting joy with your favourite home and apparel designs at
+        upto 60% off. Sign up to get a reminder for the Good Earth Sale.
+      </h4>
+      <Formsy
+        onValidSubmit={handleSubmit}
+        onInvalidSubmit={handleInvalidSubmit}
+        ref={EnquiryFormRef}
+        onChange={handleChange}
+      >
+        <div
+          className={cs(
+            styles.form,
+            styles.jobFormFields,
+            styles.categorylabel
+          )}
+          id="job-form"
+        >
+          <div>
+            <FormInput
+              required
+              label="Name*"
+              placeholder="Name*"
+              name="name"
+              validations={{
+                maxLength: 100,
+                isWords: true
+              }}
+              handleChange={event => {
+                event.target.value
+                  ? setEnableSubmit(true)
+                  : setEnableSubmit(false);
+              }}
+              validationErrors={{
+                maxLength: "Max limit reached.",
+                isWords: isAlphaError
+              }}
+            />
+          </div>
+          <div>
+            <FormInput
+              required
+              name="email"
+              label="Email Address*"
+              className="input-field"
+              placeholder="Email Address*"
+              validations={{
+                isEmail: true
+              }}
+              validationErrors={{
+                isEmail: "Please enter a valid email"
+              }}
+            />
+          </div>
+          <div className="select-group text-left">
+            <SelectDropdown
+              required
+              label={"Country*"}
+              options={countryOptions}
+              handleChange={onCountrySelect}
+              placeholder="Select Country*"
+              name="country"
+              validations={{
+                isExisty: true
+              }}
+              validationErrors={{
+                isExisty: "Please select your Country",
+                isEmptyString: isExistyError
+              }}
+              allowFilter={true}
+              inputRef={countryRef}
+            />
+          </div>
+          <div className="select-group text-left">
+            <FormSelect
+              name="state"
+              label={"State"}
+              placeholder={"Select State"}
+              options={stateOptions}
+              value=""
+            />
+          </div>
+          <div>
+            <FormInput
+              label="City"
+              placeholder="City"
+              name="city"
+              validations={{
+                maxLength: 40,
+                isWords: true
+              }}
+              handleChange={event => {
+                event.target.value
+                  ? setEnableSubmit(true)
+                  : setEnableSubmit(false);
+              }}
+              validationErrors={{
+                maxLength: "Max limit reached.",
+                isWords: isAlphaError
+              }}
+            />
+          </div>
+          <div className={styles.label}>
+            {[
+              "By signing up for alerts, you agree to receive e-mails, calls and text messages from Goodearth. To know more how we keep your data safe, refer to our ",
+              <Link
+                key="terms"
+                to="/customer-assistance/privacy-policy"
+                target="_blank"
+              >
+                Privacy Policy.
+              </Link>
+            ]}
+          </div>
+          <p
+            className={cs(
+              successMsg ==
+                "Thank you. You have successfully signed-up to our newsletter."
+                ? styles.successMessage
+                : styles.errorMsg
+            )}
+          >
+            {successMsg}
+          </p>
+          <Button
+            type="submit"
+            disabled={!enableSubmit}
+            className={cs(globalStyles.btnFullWidth, globalStyles.marginT10)}
+            label="Sign up for a reminder"
+            variant="largeAquaCta"
+          />
+        </div>
+      </Formsy>
+    </div>
+  );
+
   return (
-    <>
-      {" "}
-      sd Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis
-      dolor soluta harum doloremque, deleniti facere quos molestias impedit
-      eligendi dolorum, sit officia aut suscipit nam voluptate totam! Earum
-      molestiae, ad, atque qui cum illo aspernatur distinctio dolores quo totam
-      illum ipsum placeat, commodi quibusdam eos! Excepturi, inventore iste.
-      Blanditiis, quod error voluptatem ipsam rem, quas ipsum consequuntur
-      doloremque, repudiandae cupiditate suscipit quidem adipisci sit labore.
-      Delectus doloribus ipsam nulla libero maiores, praesentium blanditiis
-      cumque ipsum consequuntur aliquid obcaecati beatae veritatis, aut modi
-      consequatur est minima aspernatur porro eius. Quis vitae officia at a
-      accusantium, minima amet, eveniet dolore rem quia quaerat labore
-      necessitatibus sequi magnam eaque, neque impedit saepe. Blanditiis
-      distinctio omnis cumque, vel magni tempora, rem quae maxime adipisci quas
-      ducimus. Asperiores dolorem sit consequuntur veniam nulla maiores possimus
-      natus architecto ducimus, dicta mollitia. Voluptate excepturi ratione
-      voluptatum fugiat incidunt asperiores reiciendis, aut at repudiandae
-      corrupti temporibus. Nesciunt excepturi itaque soluta beatae, inventore
-      omnis voluptas quaerat expedita saepe aliquid reprehenderit dolore
-      asperiores nihil quibusdam placeat nemo natus iusto sit voluptatibus.
-      Consequuntur quaerat accusamus, culpa aliquid voluptatibus numquam, sed
-      magni ullam deleniti iure, aliquam a! Nihil quam voluptate dolores enim
-      quibusdam. Alias, porro! Aliquid nobis quas delectus quasi sapiente vel
-      porro deserunt distinctio nulla voluptatem in fugiat tenetur ad, sint ab
-      accusantium aperiam, deleniti repellendus fuga! Facilis beatae eos
-      reprehenderit doloremque fugit dolorem repellendus at temporibus facere
-      aperiam asperiores, enim quos quaerat fugiat? Lorem ipsum, dolor sit amet
-      consectetur adipisicing elit. Molestias architecto, neque id ipsa voluptas
-      ducimus quos, porro dolore ut dolorem aspernatur pariatur debitis eveniet
-      expedita voluptate. Temporibus aut et recusandae, obcaecati maiores
-      voluptates architecto. Doloribus suscipit labore neque odio et, earum sunt
-      sint non quaerat reiciendis iusto repudiandae voluptas similique aut
-      explicabo iure assumenda culpa tenetur perferendis harum iste doloremque?
-      Assumenda eos dicta aspernatur quia impedit quam, vitae nulla delectus
-      corrupti nihil quisquam laudantium illum deleniti excepturi fugiat velit
-      nisi sit ipsam pariatur aliquam est, et dolor explicabo repellendus?
-      Repudiandae velit harum quam earum quo molestiae minus, possimus quos
-      inventore temporibus enim quisquam voluptas nesciunt quae? Sed perferendis
-      suscipit doloribus facilis illum repellendus? Porro nostrum, ab commodi
-      voluptate quae inventore praesentium placeat illum labore quasi ad
-      consectetur assumenda provident quod a quam illo sequi enim eius explicabo
-      soluta fuga? Tenetur, error veniam! Architecto placeat quae error deleniti
-      tenetur sint iusto quaerat, porro cum id veniam corrupti aspernatur ullam
-      iste! Vero fugiat quo a assumenda quasi necessitatibus, quos eligendi odio
-      inventore consectetur et quod nihil facilis, quisquam itaque ex reiciendis
-      recusandae sequi! Doloremque modi cumque, quam quidem alias ducimus cum
-      quaerat numquam, odit, expedita optio veniam? Corporis ex earum enim
-      neque. Laboriosam nisi quae natus eveniet ad possimus hic iusto quidem
-      tempora consectetur dolor consequatur incidunt, libero perspiciatis iure,
-      tempore officiis rerum qui? Tenetur voluptates unde atque delectus
-      ratione, odit ullam asperiores aut, aliquid sunt impedit nobis. Omnis
-      repellendus quam cum nemo perspiciatis! Ducimus quo, consectetur quia
-      ipsam adipisci possimus quos tempora nostrum, optio expedita repellat
-      laborum cum. Necessitatibus quod magni, mollitia sint atque temporibus.
-      Doloremque reiciendis illo repellat nemo explicabo asperiores aliquid eum
-      libero pariatur aspernatur, itaque dignissimos nam obcaecati sapiente,
-      earum magnam facilis iure. Odit quos perspiciatis cumque aperiam at
-      voluptatum aliquid reiciendis ratione consectetur voluptatibus! Error,
-      maxime nobis eveniet ipsa quos eaque excepturi quae obcaecati doloribus
-      alias doloremque, minima reprehenderit suscipit sint quo quasi! Ipsam
-      accusantium nulla doloribus exercitationem quasi eius facilis omnis magnam
-      quos? Mollitia corrupti accusamus obcaecati voluptatum porro id eligendi
-      suscipit, voluptatibus minima doloribus. Maiores odio aliquam veniam ipsa
-      et sapiente cum, sit quo esse minus quia! Sapiente quidem consectetur
-      optio obcaecati quaerat totam unde ducimus voluptatum quae, similique illo
-      quod iure at harum labore illum corporis libero modi aut voluptates
-      minima. Quae facere, voluptatem beatae ipsam atque animi aliquid suscipit
-      magni dolor. Sint itaque asperiores iusto cumque dolorum porro quis, sunt
-      autem recusandae quia voluptatum numquam placeat quae magni nam neque cum
-      temporibus vitae eius enim aliquid magnam voluptate nulla cupiditate.
-      Expedita veritatis, ducimus necessitatibus impedit id eaque fugit, nam
-      magnam temporibus neque debitis officiis autem asperiores voluptatum
-      recusandae ipsa pariatur harum, possimus totam provident amet maxime!
-      Tempore deserunt animi laudantium quaerat tempora exercitationem officiis
-      laborum amet recusandae aspernatur quos temporibus, iure, beatae alias
-      rerum hic et libero labore dolore deleniti mollitia. Nulla similique omnis
-      id atque architecto quibusdam quas quis deserunt dolorem, consequuntur
-      magni distinctio mollitia, corrupti possimus ducimus aperiam delectus quo
-      reiciendis vitae voluptatum, fugit modi vero aspernatur. Ipsa, libero
-      fuga. Provident architecto, dolorem fugiat ipsa magni quisquam earum eum
-      expedita amet sint commodi voluptatum. Rem asperiores ad sed fugiat culpa
-      architecto quibusdam ea quos recusandae similique optio debitis pariatur
-      vel libero quaerat soluta odit deserunt, tenetur voluptatum, velit
-      impedit. Delectus eaque nostrum quaerat tempore doloremque quia ab
-      inventore voluptatum ad, at minus illum sapiente quae tempora deserunt
-      repudiandae, blanditiis placeat numquam id facilis earum. Atque saepe
-      corporis voluptas! Nesciunt laborum quisquam quia pariatur, mollitia
-      laboriosam minima deleniti expedita eius nihil alias ex voluptas odit
-      voluptates deserunt molestiae dicta suscipit ullam excepturi. Nam
-      excepturi unde consequuntur similique sint perferendis doloribus dolorem
-      blanditiis aperiam rerum adipisci officia, asperiores nulla omnis porro
-      itaque cumque saepe dicta inventore accusantium optio? Dolorum dolores
-      iste ipsam nam dolorem obcaecati voluptatem eum ullam eos sapiente non
-      expedita reprehenderit exercitationem veniam, totam cumque harum culpa
-      nemo! Neque quos perferendis ad sunt quam, corporis perspiciatis
-      obcaecati! Veritatis quae tempore molestiae ut pariatur at. Perspiciatis,
-      consequatur deleniti neque, doloribus tenetur dicta modi enim, dolor
-      ratione cupiditate repellendus fuga in vero voluptates officiis! Amet
-      temporibus consequatur officiis molestias corporis. Iste odio, excepturi
-      cumque pariatur quo dolorum omnis libero est sit repellendus quidem ab
-      officia, dolorem tempora officiis. Commodi impedit delectus illo mollitia
-      nam. Vero, aperiam! Ex impedit quis cumque eaque consequuntur fugit vitae,
-      at itaque aliquam praesentium, illo quo optio alias aspernatur eius.
-      Blanditiis eum dolorem nam. Eligendi a laborum, maiores facere harum
-      perspiciatis accusantium, illum corporis excepturi maxime quo quidem neque
-      reprehenderit corrupti alias accusamus eveniet porro modi ullam
-      praesentium aspernatur voluptatibus? Obcaecati libero ut velit error natus
-      dolor fuga, voluptate, laudantium quam porro ab blanditiis molestiae, non
-      nisi. Ipsa totam eum, ab magnam iste ipsum nam porro. Repellat, voluptate
-      cum, ipsum at eos dignissimos voluptates, vel cupiditate expedita odit
-      corporis ipsa recusandae. Qui quis aperiam nobis eius adipisci sit iure
-      officia aliquam, iusto laborum molestias itaque amet harum libero dicta
-      repellat, et quisquam? Repellat accusamus, quod ea quo porro, earum dolor
-      ratione natus consequatur dolorum totam quis, ullam placeat animi labore
-      tempora dicta ipsa! Consequatur delectus ipsam exercitationem deleniti
-      laudantium tenetur odio blanditiis, consequuntur, beatae qui quisquam
-      facere praesentium atque veniam numquam laboriosam dicta earum iusto quia,
-      accusamus eveniet sunt quidem illum. Vel et placeat, beatae minima soluta
-      architecto iure maiores esse, recusandae amet ducimus sapiente inventore
-      debitis doloribus aperiam, omnis nesciunt quidem sed odio ab in corporis
-      veniam. Soluta totam perspiciatis debitis in dolor harum at inventore
-      repellendus quibusdam. --------------------------------------
-      ---------------------------
-    </>
+    <div className={secondaryHeaderStyles.careers}>
+      <div className={styles.jobForm}>
+        {
+          <div
+            className={cs(styles.careersContent, {
+              [styles.careersContentTimer]: showTimer
+            })}
+          >
+            {maker && (
+              <MakerEnhance
+                user="goodearth"
+                index="1"
+                href={`${window.location.origin}${location.pathname}`}
+              />
+            )}
+          </div>
+        }
+        {formContent}
+        {isLoading && <Loader />}
+      </div>
+    </div>
   );
 };
 
