@@ -133,6 +133,7 @@ const L2: React.FC<Props> = ({
                   muted
                   loop
                   controls={false}
+                  preload="metadata"
                   controlsList="nodownload noplaybackrate nofullscreen"
                   src={componentData?.videoSrc}
                 ></video>
@@ -182,6 +183,7 @@ const L2: React.FC<Props> = ({
                   muted
                   loop
                   controls={false}
+                  preload="metadata"
                   controlsList="nodownload noplaybackrate nofullscreen"
                   src={componentData?.videoSrc}
                 ></video>
