@@ -14,10 +14,10 @@ import HeaderService from "services/headerFooter";
 import LoginService from "services/login";
 import MakerEnhance from "components/maker";
 import { updateCountryData } from "actions/address";
+import FormSelect from "components/Formsy/FormSelect";
 import { Country } from "components/Formsy/CountryCode/typings";
 import Button from "components/Button";
 import SelectDropdown from "components/Formsy/SelectDropdown";
-import FormSelect from "components/Formsy/FormSelect";
 
 type StateOptions = {
   value: string;
@@ -47,9 +47,8 @@ const AnnualSale: React.FC = () => {
   const location = history.location;
   const { countryData } = useSelector((state: AppState) => state.address);
   const countryRef: RefObject<HTMLInputElement> = useRef(null);
-  const isAlphaError = "Only alphabets are allowed";
+  const isAlphaError = "Please enter only alphabetic characters";
   const isExistyError = "This field is required";
-  const { currency } = useSelector((state: AppState) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -63,10 +62,6 @@ const AnnualSale: React.FC = () => {
     firstField && firstField.focus();
     setIsLoading(false);
   }, []);
-
-  useEffect(() => {
-    if (currency === "INR") history.push("/");
-  }, [currency]);
 
   // *************** Open State option **************
   const EnquiryFormRef = useRef<Formsy>(null);
@@ -138,11 +133,7 @@ const AnnualSale: React.FC = () => {
         }
       );
     });
-    setCountryOptions(
-      countryOptions.filter(
-        country => country?.value?.toLocaleLowerCase() !== "india"
-      )
-    );
+    setCountryOptions(countryOptions);
   };
 
   useEffect(() => {
@@ -181,12 +172,10 @@ const AnnualSale: React.FC = () => {
       .then(data => {
         if (data.status) {
           setSuccessMsg(
-            "Thank  you for signing up! You will receive a reminder when our sale is live!"
+            "Thank you. You have successfully signed-up to our newsletter."
           );
         } else {
-          setSuccessMsg(
-            "You have already signed up for reminder notifications for our upcoming Sale."
-          );
+          setSuccessMsg("You have already signed up for our newsletters.");
         }
         // resetForm();
         setEnableSubmit(false);
@@ -196,9 +185,7 @@ const AnnualSale: React.FC = () => {
         if (errors && typeof errors[0] == "string") {
           setSuccessMsg(errors[0]);
         } else {
-          setSuccessMsg(
-            "You have already signed up for reminder notifications for our upcoming Sale."
-          );
+          setSuccessMsg("You have already signed up for our newsletters.");
         }
       })
       .finally(() => {
@@ -211,13 +198,12 @@ const AnnualSale: React.FC = () => {
   };
   const prepareFormData = (model: any) => {
     const formData = new FormData();
-    const { email, name, country, city, state } = model;
+    const { email, name, country, state } = model;
     formData.append("email", email ? email.toString().toLowerCase() : "");
     formData.append("name", name || "");
     formData.append("country", country || "");
-    formData.append("city", city || "");
     formData.append("state", state || "");
-    formData.append("source", "HFH24 Reminder");
+    formData.append("source", "Newsletter Signup");
 
     return formData;
   };
@@ -243,8 +229,8 @@ const AnnualSale: React.FC = () => {
       )}
     >
       <h4>
-        Unlock everlasting joy with your favourite home and apparel designs at
-        upto 60% off. Sign up to get a reminder for the Good Earth Sale.
+        Make the most out of your Good Earth favourites. Sign up to discover our
+        latest collections, insider stories and expert tips.
       </h4>
       <Formsy
         onValidSubmit={handleSubmit}
@@ -324,26 +310,6 @@ const AnnualSale: React.FC = () => {
               value=""
             />
           </div>
-          <div>
-            <FormInput
-              label="City"
-              placeholder="City"
-              name="city"
-              validations={{
-                maxLength: 40,
-                isWords: true
-              }}
-              handleChange={event => {
-                event.target.value
-                  ? setEnableSubmit(true)
-                  : setEnableSubmit(false);
-              }}
-              validationErrors={{
-                maxLength: "Max limit reached.",
-                isWords: isAlphaError
-              }}
-            />
-          </div>
           <div className={styles.label}>
             {[
               "By signing up for alerts, you agree to receive e-mails, calls and text messages from Goodearth. To know more how we keep your data safe, refer to our ",
@@ -370,7 +336,7 @@ const AnnualSale: React.FC = () => {
             type="submit"
             disabled={!enableSubmit}
             className={cs(globalStyles.btnFullWidth, globalStyles.marginT10)}
-            label="Sign up for a reminder"
+            label="Sign Up"
             variant="largeAquaCta"
           />
         </div>

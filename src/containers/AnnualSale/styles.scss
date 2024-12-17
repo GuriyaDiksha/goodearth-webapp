@@ -32,7 +32,7 @@
             letter-spacing: 1px;
         }
         h4.job-designation {
-            font-family: $font-Montserrat;
+            font-family: $font-Serif;
             font-size: 20px;
         }
     }
@@ -68,9 +68,7 @@
         h4 {
             font-size: 16px;
             text-align: center;
-            padding: 35px 40px 0 40px;
-            font-family: $font-Montserrat !important;
-            line-height: 24px;
+            padding: 35px 60px 0 60px;
         }
         &.job-application-mobile {
             width: 90%;
@@ -179,7 +177,7 @@
         width: 50%;
          h4 {
             font-size: 28px;
-            font-family: $font-Montserrat;
+            font-family: $font-Serif;
             line-height: 60px;
         }
         h3 {
@@ -188,7 +186,7 @@
             text-transform: none;
             color: #333;
             margin-bottom: 20px;
-            font-family:$font-Montserrat;
+            font-family: $font-Serif;
         }
         h5 {
             color: black;
@@ -197,20 +195,16 @@
     }
     .image-caption {
         font-size: 12px;
-        font-family: $font-Montserrat;
+        font-family: $font-Lato;
         letter-spacing: 1px;
     }
     position: relative;
-    margin-top: 40px;
-
-    &.careers-content-timer{
-        margin-top: 80px;
-    }
+    margin-top: 80px;
 }
 
 .label {
     font-size: 12px;
-    font-family: $font-Montserrat;
+    font-family: "LatoFont", "Helvetica", "Arial";
     color: #666666;
     letter-spacing: 1px;
     text-transform: none;
