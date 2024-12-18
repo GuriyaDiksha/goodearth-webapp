@@ -47,6 +47,7 @@ const L2: React.FC<Props> = ({
                 className={styles.l2}
                 href={componentData.link}
                 target={componentData.openInNewTab ? "_blank" : ""}
+                rel={componentData.openInNewTab ? "noopener noreferrer" : ""}
                 onClick={() =>
                   onHeaderMegaMenuClick({
                     l1,
@@ -81,6 +82,7 @@ const L2: React.FC<Props> = ({
                 <a
                   href={componentData.link}
                   target={componentData.openInNewTab ? "_blank" : ""}
+                  rel={componentData.openInNewTab ? "noopener noreferrer" : ""}
                   onClick={() =>
                     onHeaderMegaMenuClick({
                       l1,
@@ -124,6 +126,19 @@ const L2: React.FC<Props> = ({
                   />
                 </Link>
               ))}
+            {componentData?.videoSrc && componentData.videoSrc !== "undefined" && (
+              <div className={styles.videoWrapper}>
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  controls={false}
+                  preload="metadata"
+                  controlsList="nodownload noplaybackrate nofullscreen"
+                  src={componentData?.videoSrc}
+                ></video>
+              </div>
+            )}
           </>
         ) : (
           <>
@@ -161,6 +176,19 @@ const L2: React.FC<Props> = ({
                 />
               </div>
             )}
+            {componentData?.videoSrc && componentData.videoSrc !== "undefined" && (
+              <div className={styles.videoWrapper}>
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  controls={false}
+                  preload="metadata"
+                  controlsList="nodownload noplaybackrate nofullscreen"
+                  src={componentData?.videoSrc}
+                ></video>
+              </div>
+            )}
           </>
         )}
       </div>
@@ -181,6 +209,7 @@ const L2: React.FC<Props> = ({
               className={styles.cta}
               href={componentData.link}
               target={componentData.openInNewTab ? "_blank" : ""}
+              rel={componentData.openInNewTab ? "noopener noreferrer" : ""}
               onClick={() =>
                 onHeaderMegaMenuClick({
                   l1,

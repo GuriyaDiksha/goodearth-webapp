@@ -38,7 +38,7 @@ const Title: React.FC<Props> = ({
   const componentData = data.componentData as MenuComponentTitleData;
   return (
     <>
-      <div className={styles.blockTitle}>
+      <div className={styles.blockTitle} style={{ lineHeight: "14px" }}>
         {componentData.link ? (
           <>
             {validURL(componentData.link) ? (
@@ -46,6 +46,7 @@ const Title: React.FC<Props> = ({
                 className={styles.title}
                 href={componentData.link}
                 target={componentData.openInNewTab ? "_blank" : ""}
+                rel={componentData.openInNewTab ? "noopener noreferrer" : ""}
                 onClick={() =>
                   onHeaderMegaMenuClick({
                     l1,
@@ -80,6 +81,7 @@ const Title: React.FC<Props> = ({
                 <a
                   href={componentData.link}
                   target={componentData.openInNewTab ? "_blank" : ""}
+                  rel={componentData.openInNewTab ? "noopener noreferrer" : ""}
                   onClick={() =>
                     onHeaderMegaMenuClick({
                       l1,
@@ -170,6 +172,7 @@ const Title: React.FC<Props> = ({
               className={styles.cta}
               href={componentData.link}
               target={componentData.openInNewTab ? "_blank" : ""}
+              rel={componentData.openInNewTab ? "noopener noreferrer" : ""}
               onClick={() =>
                 onHeaderMegaMenuClick({
                   l1,
