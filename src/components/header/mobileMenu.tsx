@@ -577,6 +577,14 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         } else {
           html.push(
             <div onClick={() => this.props.clickToggle()}>
+              <hr
+                style={{
+                  height: "1px",
+                  background: "#D8D8D8",
+                  border: "none",
+                  marginTop: "30px"
+                }}
+              ></hr>
               {!!template?.labelOnMobile && (
                 <div className={styles.featuredTitle}>
                   {ReactHtmlParser(template?.labelOnMobile)}
