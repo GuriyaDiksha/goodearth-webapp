@@ -34,6 +34,7 @@ import AccountService from "services/account";
 import { CreditNote } from "./components/MyCreditNotes/typings";
 import { GA_CALLS } from "constants/cookieConsent";
 import CookieService from "services/cookie";
+import GiftCardCreditNotes from "./components/MyGiftCardCreditNotes";
 
 type Props = {
   isBridal: boolean;
@@ -162,15 +163,23 @@ const MyAccount: React.FC<Props> = props => {
     }
   );
 
-  currency === "INR" &&
-    creditnoteList?.length &&
-    accountMenuItems.push({
-      label: "My Credit Notes",
-      href: "/account/credit-notes",
-      component: MyCreditNotes,
-      title: "My Credit Notes",
-      loggedInOnly: true
-    });
+  // currency === "INR" &&
+  //   creditnoteList?.length &&
+  //   accountMenuItems.push({
+  //     label: "My Credit Notes",
+  //     href: "/account/credit-notes",
+  //     component: MyCreditNotes,
+  //     title: "My Credit Notes",
+  //     loggedInOnly: true
+  //   });
+
+  accountMenuItems.push({
+    label: "Gift Card & Credit Note",
+    href: "/account/gift-card-credit-notes",
+    component: GiftCardCreditNotes,
+    title: "Gift Card & Credit Note",
+    loggedInOnly: true
+  });
 
   accountMenuItems.push({
     label: "Check Balance",
@@ -209,9 +218,10 @@ const MyAccount: React.FC<Props> = props => {
 
   useEffect(() => {
     if (
-      currency !== "INR" &&
-      isLoggedIn &&
-      pathname === "/account/credit-notes"
+      (currency !== "INR" &&
+        isLoggedIn &&
+        pathname === "/account/credit-notes") ||
+      pathname === "/account/gift-card-credit-notes"
     ) {
       history.push("/");
     }
@@ -495,13 +505,19 @@ const MyAccount: React.FC<Props> = props => {
                               {
                                 [styles.accountFormBgMobile]: mobile,
                                 [bootstrapStyles.colLg8]:
-                                  href === "/account/credit-notes",
+                                  href === "/account/credit-notes" ||
+                                  href === "/account/gift-card-credit-notes",
                                 [bootstrapStyles.offsetLg2]:
-                                  href === "/account/credit-notes",
+                                  href === "/account/credit-notes" ||
+                                  href === "/account/gift-card-credit-notes",
                                 [bootstrapStyles.colLg6]:
                                   href !== "/account/credit-notes",
+                                [bootstrapStyles.colLg6]:
+                                  href !== "/account/gift-card-credit-notes",
                                 [bootstrapStyles.offsetLg3]:
-                                  href !== "/account/credit-notes"
+                                  href !== "/account/credit-notes",
+                                [bootstrapStyles.offsetLg3]:
+                                  href !== "/account/gift-card-credit-notes"
                               }
                             )}
                           >
