@@ -65,11 +65,12 @@
 }
 
 .price {
-    font-size: 14px;
+    font-size: 16px;
     //line-height: 30px;
     font-family: $font-Montserrat;
-    text-align: right;
+    // text-align: right;
     font-weight: 400;
+    margin-top:30px;
 }
 
 .align-price {
@@ -158,13 +159,16 @@ span {
     &.discountprice {
         color: $gold !important;
         @include b3_14px_montserrat_light_charcoal();
+        font-weight:400!important;
+        font-size: 16px!important;
     }
 
     &.strikeprice {
         text-decoration: line-through;
-        display: block;
+        // display: block;
         @include b3_14px_montserrat_medcharcoal();
         color: #9F9F9F !important;
+        padding-left: 8px;
     }
 }
 
@@ -192,13 +196,13 @@ span {
         padding-left: 30px;
         padding-right: 30px;
     }
-    .info-container {
-        display: flex;
-        justify-content: space-between;
-        .details-container{
-            width: 58%
-        }
-    }
+    // .info-container {
+    //     display: flex;
+    //     justify-content: space-between;
+    //     .details-container{
+    //         width: 58%
+    //     }
+    // }
     .size-container {
         display: flex;
         padding: 30px 0px 20px 0px;
@@ -227,13 +231,13 @@ span {
     font-size: 8px;
     line-height: 5px;
     color: $charcoal19;
-    text-align: right;
+    // text-align: right;
     text-transform: initial;
-    margin-top: 5%;
+    margin-top: 5px;
 }
 
 .mrp{
-    font-size: 12px !important;
+    font-size: 10px !important;
     padding-right: 5px;
 }
 .email-input input{

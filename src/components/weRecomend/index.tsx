@@ -171,7 +171,7 @@ const WeRecommend: React.FC<RecommenedSliderProps> = (
             <Link to={item.productUrl}> {item.productName} </Link>
           </p>
           {!corporatePDP && (
-            <p className={styles.productN}>
+            <p className={cs(styles.productN, styles.productPrice)}>
               {isSale && item.discount ? (
                 <span className={styles.discountprice}>
                   {displayPriceWithCommas(
