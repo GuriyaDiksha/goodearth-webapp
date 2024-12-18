@@ -13,13 +13,14 @@
     .l2 {
         border-bottom: none;
         // padding-left: 20px;
-        line-height: 30px;
+        line-height: 18px;
         @include b4_12px_montserrat_semibold_charcoal();
         text-transform: uppercase;
     }
     .l3 {
         text-transform: capitalize;
-        line-height: 24px;
+        line-height: 18px;
+        // line-height: 30px;
         @include b4_12px_montserrat_charcoal();
             &:hover{
                 font-weight: $medium;
@@ -288,6 +289,8 @@
 }
 .block {
     display: block;
+    margin-top: 8px;
+    
 }
 
 .title {
