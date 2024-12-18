@@ -38,7 +38,7 @@ const Title: React.FC<Props> = ({
   const componentData = data.componentData as MenuComponentTitleData;
   return (
     <>
-      <div className={styles.blockTitle}>
+      <div className={styles.blockTitle} style={{ lineHeight: "14px" }}>
         {componentData.link ? (
           <>
             {validURL(componentData.link) ? (
