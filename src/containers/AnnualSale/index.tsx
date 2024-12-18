@@ -172,10 +172,12 @@ const AnnualSale: React.FC = () => {
       .then(data => {
         if (data.status) {
           setSuccessMsg(
-            "Thank you. You have successfully signed-up to our newsletter."
+            "Thank you for signing up! You will receive a reminder when our sale is live!"
           );
         } else {
-          setSuccessMsg("You have already signed up for our newsletters.");
+          setSuccessMsg(
+            "You have already signed up for reminder notifications for our upcoming Sale."
+          );
         }
         // resetForm();
         setEnableSubmit(false);
@@ -185,7 +187,9 @@ const AnnualSale: React.FC = () => {
         if (errors && typeof errors[0] == "string") {
           setSuccessMsg(errors[0]);
         } else {
-          setSuccessMsg("You have already signed up for our newsletters.");
+          setSuccessMsg(
+            "You have already signed up for reminder notifications for our upcoming Sale."
+          );
         }
       })
       .finally(() => {
@@ -198,12 +202,13 @@ const AnnualSale: React.FC = () => {
   };
   const prepareFormData = (model: any) => {
     const formData = new FormData();
-    const { email, name, country, state } = model;
+    const { email, name, country, state, city } = model;
     formData.append("email", email ? email.toString().toLowerCase() : "");
     formData.append("name", name || "");
     formData.append("country", country || "");
     formData.append("state", state || "");
-    formData.append("source", "Newsletter Signup");
+    formData.append("city", city || "");
+    formData.append("source", "AS25 Reminder");
 
     return formData;
   };
@@ -229,8 +234,8 @@ const AnnualSale: React.FC = () => {
       )}
     >
       <h4>
-        Make the most out of your Good Earth favourites. Sign up to discover our
-        latest collections, insider stories and expert tips.
+        Unlock everlasting joy with your favourite home and apparel designs at
+        upto 60% off. Sign up to get a reminder for the Good Earth Sale.
       </h4>
       <Formsy
         onValidSubmit={handleSubmit}
@@ -310,6 +315,26 @@ const AnnualSale: React.FC = () => {
               value=""
             />
           </div>
+          <div>
+            <FormInput
+              label="City"
+              placeholder="City"
+              name="city"
+              validations={{
+                maxLength: 40,
+                isWords: true
+              }}
+              handleChange={event => {
+                event.target.value
+                  ? setEnableSubmit(true)
+                  : setEnableSubmit(false);
+              }}
+              validationErrors={{
+                maxLength: "Max limit reached.",
+                isWords: isAlphaError
+              }}
+            />
+          </div>
           <div className={styles.label}>
             {[
               "By signing up for alerts, you agree to receive e-mails, calls and text messages from Goodearth. To know more how we keep your data safe, refer to our ",
@@ -325,7 +350,7 @@ const AnnualSale: React.FC = () => {
           <p
             className={cs(
               successMsg ==
-                "Thank you. You have successfully signed-up to our newsletter."
+                "Thank you for signing up! You will receive a reminder when our sale is live!"
                 ? styles.successMessage
                 : styles.errorMsg
             )}
