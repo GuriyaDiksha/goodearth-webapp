@@ -181,13 +181,14 @@ const MyAccount: React.FC<Props> = props => {
     loggedInOnly: true
   });
 
-  accountMenuItems.push({
-    label: "Check Balance",
-    href: "/account/check-balance",
-    component: CheckBalance,
-    title: "Check Balance",
-    loggedInOnly: false
-  });
+  !isLoggedIn &&
+    accountMenuItems.push({
+      label: "Check Balance",
+      href: "/account/check-balance",
+      component: CheckBalance,
+      title: "Check Balance",
+      loggedInOnly: false
+    });
 
   if (CONFIG.WHATSAPP_SUBSCRIBE_ENABLED) {
     accountMenuItems.push({

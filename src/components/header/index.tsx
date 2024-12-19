@@ -1094,10 +1094,12 @@ class Header extends React.Component<Props, State> {
         value: "Activate Gift Card"
       },
       {
-        label: "Check Balance",
-        href: "/account/check-balance",
+        label: isLoggedIn ? "Gift Card & Credit Note" : "Check Balance",
+        href: isLoggedIn
+          ? "/account/gift-card-credit-notes"
+          : "/account/check-balance",
         type: "link",
-        value: "Check Balance"
+        value: isLoggedIn ? "Gift Card & Credit Note" : "Check Balance"
       },
       {
         label: `Good Earth Registry ${
@@ -1271,6 +1273,7 @@ class Header extends React.Component<Props, State> {
               })();
             `}
           </script>
+
           {/* end some external & internal script and styles */}
         </Helmet>
         <div data-currency="USD">

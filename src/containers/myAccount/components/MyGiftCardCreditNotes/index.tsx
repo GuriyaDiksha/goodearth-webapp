@@ -10,6 +10,7 @@ import bootstrapStyles from "./../../../../styles/bootstrap/bootstrap-grid.scss"
 import globalStyles from "./../../../../styles/global.scss";
 import { AppState } from "reducers/typings";
 import { updateLoader } from "actions/info";
+import { Link } from "react-router-dom";
 
 type Props = {
   setCurrentSection: () => void;
@@ -126,7 +127,10 @@ const GiftCardCreditNotes: React.FC<Props> = ({ setCurrentSection }) => {
             </div>
           </>
         ) : (
-          <></>
+          <div className={styles.noCreditNotes}>
+            No active Gift Cards linked with account.
+            <Link to={"/account/giftcard-activation"}>Activate Gift Card</Link>
+          </div>
         )}
       </div>
 
@@ -178,7 +182,9 @@ const GiftCardCreditNotes: React.FC<Props> = ({ setCurrentSection }) => {
             </div>
           </>
         ) : (
-          <></>
+          <div className={styles.noCreditNotes}>
+            No active Credit Note(s) available
+          </div>
         )}
       </div>
     </div>
