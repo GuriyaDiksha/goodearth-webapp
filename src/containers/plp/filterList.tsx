@@ -878,12 +878,6 @@ class FilterList extends React.Component<Props, State> {
     }
   };
 
-  componentDidUpdate(prevProps: Readonly<Props>): void {
-    if (prevProps.data !== this.props.data) {
-      this.sendDataToParent();
-    }
-  }
-
   sendDataToParent = (): void => {
     const uniqueData: any = Array.from(
       new Map(
@@ -956,6 +950,9 @@ class FilterList extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
+    if (prevProps.data !== this.props.data) {
+      this.sendDataToParent();
+    }
     if (!this.props.mobile) {
       const annBar = document.getElementById("announcement_bar");
       const annHeight = (annBar as HTMLElement)?.clientHeight || 0;

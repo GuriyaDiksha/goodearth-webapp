@@ -219,7 +219,7 @@ const PlpBubbles: React.FC<Props> = ({
       ) : (
         <div
           className={cs(styles.newSliderContainer, {
-            [globalStyles.flexGutterCenter]: data.length
+            [globalStyles.flexGutterCenter]: data.length === 3
           })}
         >
           {data?.map((item: any) => (
