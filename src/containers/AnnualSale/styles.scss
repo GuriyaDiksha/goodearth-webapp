@@ -163,6 +163,19 @@
         font-size: 20px;
         cursor: pointer;
     }
+    button{
+        max-width: 366px !important;
+        margin-left: auto;
+        margin-right: auto;
+        display: inherit;
+    }
+    p{
+        max-width: 366px !important;
+        margin-left: auto;
+        margin-right: auto;
+        display: inherit;
+        text-align: left;
+    }
 
 }
 
@@ -209,6 +222,7 @@
     letter-spacing: 1px;
     text-transform: none;
     line-height: 18px;
+    max-width: 366px !important;
     a {
         color: $aqua !important;
     }

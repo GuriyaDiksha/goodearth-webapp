@@ -337,7 +337,7 @@ const AnnualSale: React.FC = () => {
           </div>
           <div className={styles.label}>
             {[
-              "By signing up for alerts, you agree to receive e-mails, calls and text messages from Goodearth. To know more how we keep your data safe, refer to our ",
+              "By signing up for alerts, you agree to receive e-mails, newsletters, calls and text messages for service related information. To know more how we keep your data safe, refer to our ",
               <Link
                 key="terms"
                 to="/customer-assistance/privacy-policy"
