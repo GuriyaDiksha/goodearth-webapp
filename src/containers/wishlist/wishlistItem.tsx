@@ -25,7 +25,7 @@ const WishlistItem: React.FC<Props> = props => {
   const atbOrNotify = (item: ItemType) => {
     let flag = false;
     let innerString = "";
-    item.stockDetails.map(stockData => {
+    item?.stockDetails?.map(stockData => {
       if (item.size) {
         if (stockData.stock > 0 && item.size == stockData.size) {
           flag = true;
@@ -68,7 +68,7 @@ const WishlistItem: React.FC<Props> = props => {
 
   const atbOrNotifyHandler = (item: ItemType) => {
     let flag = false;
-    item.stockDetails.map(stockData => {
+    item?.stockDetails?.map(stockData => {
       if (item.size) {
         if (stockData.stock > 0 && item.size == stockData.size) {
           flag = true;

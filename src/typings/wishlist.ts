@@ -31,7 +31,7 @@ export type WishlistItem = {
   badge_text?: string;
 };
 
-export type WishlistData = {
+export type WishlistData = WishlistItem & {
   id: number;
   name: string;
   products: WishlistItem[];

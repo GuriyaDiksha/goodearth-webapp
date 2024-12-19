@@ -1972,9 +1972,10 @@ margin-bottom: 50px !important;
 //   letter-spacing: 0.5px !important;
 // }
 .other-input p{
-  position: absolute!important;
-  top: 38px;
+  position: relative;
+  top: 46px;
   left: 25px;
+  padding-right: 5px;
 }
 @media(max-width:425px){
   .other-input p{

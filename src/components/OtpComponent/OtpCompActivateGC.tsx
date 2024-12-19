@@ -233,7 +233,11 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     // }
 
     //**** both email and phone option for INR GC
-    if (this.props.isIndiaGC && this.state.selectedOption == "mobile number") {
+    // if (this.props.isIndiaGC && this.state.selectedOption == "mobile number") {
+    if (
+      this.props.code == "91" &&
+      this.state.selectedOption == "mobile number"
+    ) {
       data["phoneNo"] = "+91" + this.props.phoneNo;
     } else {
       data["email"] = email;
@@ -251,7 +255,10 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
 
     //**** both email and phone option for INR GC
     data["otpTo"] =
-      this.props.isIndiaGC && this.state.selectedOption ? "phoneno" : "email";
+      // this.props.isIndiaGC && this.state.selectedOption ? "phoneno" : "email";
+      this.props.code == "91" && this.state.selectedOption
+        ? "phoneno"
+        : "email";
     // data["otpTo"] = "email";
     this.sendOtpApiCall(data, false);
   };
@@ -699,7 +706,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
           </p>
           <p className={styles.line}>{this.props.txtvalue}</p>
 
-          {!this.props.isIndiaGC && (
+          {/* {!this.props.isIndiaGC && ( */}
+          {this.props.code != "91" && (
             <p className={globalStyles.voffset2}>
               <p
                 className={cs(
@@ -717,7 +725,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
             </p>
           )}
 
-          {this.props.isIndiaGC &&
+          {/* {this.props.isIndiaGC && */}
+          {this.props.code == "91" &&
             (this.state.selectedOption &&
             this.state.selectedOption == "mobile number" ? (
               <p className={globalStyles.voffset2}>
@@ -761,7 +770,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               // otpSentVia={this.props.isIndiaGC ? "mobile number" : "email"}
               // otpSentVia={"email"}
               otpSentVia={
-                this.props.isIndiaGC ? this.state.selectedOption : "email"
+                this.props.code == "91" ? this.state.selectedOption : "email"
+                // this.props.isIndiaGC ? this.state.selectedOption : "email"
               }
               resendOtp={this.resendOtp}
               verifyOtp={this.checkOtpValidation}
@@ -884,24 +894,28 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               <li
                 className={cs(styles.radiobtn1, styles.xradio, {
                   [styles.emailInput]:
-                    this.props.isLoggedIn && this.props.isIndiaGC
+                    this.props.isLoggedIn &&
+                    (this.props.code == "" || this.props.code == "91")
+                  // this.props.isLoggedIn && this.props.isIndiaGC
                 })}
               >
-                {this.props.isLoggedIn && this.props.isIndiaGC && (
-                  <input
-                    type="radio"
-                    value="email"
-                    id="Email"
-                    name="radio-group"
-                    checked={this.state.selectedOption === "email"}
-                    onChange={this.radioChangeHandler}
-                  />
-                  // ) : (
-                  // <div className={styles.placeholderRadio}>
-                  //   <div className={styles.outer}></div>
-                  //   <div className={styles.inner}></div>
-                  // </div>
-                )}
+                {/* {this.props.isLoggedIn && this.props.isIndiaGC && ( */}
+                {this.props.isLoggedIn &&
+                  (this.props.code == "" || this.props.code == "91") && (
+                    <input
+                      type="radio"
+                      value="email"
+                      id="Email"
+                      name="radio-group"
+                      checked={this.state.selectedOption === "email"}
+                      onChange={this.radioChangeHandler}
+                    />
+                    // ) : (
+                    // <div className={styles.placeholderRadio}>
+                    //   <div className={styles.outer}></div>
+                    //   <div className={styles.inner}></div>
+                    // </div>
+                  )}
                 <FormInput
                   name="email"
                   placeholder={"Email*"}
@@ -945,82 +959,90 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 />
               </li>
               {/* )} */}
-              {this.props.isLoggedIn && this.props.isIndiaGC && (
-                <li
-                  className={cs(
-                    styles.countryCode,
-                    styles.countryCodeGc,
-                    styles.xradio
-                  )}
-                >
-                  <input
-                    type="radio"
-                    value="mobile number"
-                    id="Contact Number"
-                    name="radio-group"
-                    checked={this.state.selectedOption === "mobile number"}
-                    onChange={this.radioChangeHandler}
-                    disabled={!this.props.phoneNo ? true : false}
-                  />
-                  <div
-                    className={cs(styles.flex, styles.customRadioBtn, {
-                      [styles.disabledRadio]: !this.props.phoneNo
-                    })}
+              {/* {this.props.isLoggedIn && this.props.isIndiaGC && (  */}
+              {this.props.isLoggedIn &&
+                (this.props.code == "" || this.props.code == "91") && (
+                  <li
+                    className={cs(
+                      styles.countryCode,
+                      styles.countryCodeGc,
+                      styles.xradio
+                    )}
                   >
-                    <div className={styles.contactCode}>
-                      <input
-                        type="text"
-                        value="+91"
-                        placeholder="Code"
-                        disabled={true}
-                        className={styles.codeInput}
-                      />
+                    <input
+                      type="radio"
+                      value="mobile number"
+                      id="Contact Number"
+                      name="radio-group"
+                      checked={this.state.selectedOption === "mobile number"}
+                      onChange={this.radioChangeHandler}
+                      disabled={!this.props.phoneNo ? true : false}
+                    />
+                    <div
+                      className={cs(styles.flex, styles.customRadioBtn, {
+                        [styles.disabledRadio]: !this.props.phoneNo
+                      })}
+                    >
+                      <div className={styles.contactCode}>
+                        <input
+                          type="text"
+                          value={this.props.code ? `+${this.props.code}` : ""}
+                          placeholder="Code"
+                          disabled={true}
+                          className={styles.codeInput}
+                        />
+                      </div>
+                      <div className={styles.contactNumber}>
+                        <FormInput
+                          name="phoneNo"
+                          value={this.props.phoneNo ? this.props.phoneNo : ""}
+                          inputRef={this.phoneInput}
+                          placeholder={"Contact Number"}
+                          type="number"
+                          label={"Contact Number"}
+                          handleChange={e =>
+                            this.setState({ phoneInput: e.target.value })
+                          }
+                          validations={
+                            // this.props.isIndiaGC
+                            this.props.code && this.props.code == "91"
+                              ? {
+                                  isLength: 10
+                                }
+                              : {}
+                          }
+                          validationErrors={{
+                            isLength: "Phone number should be 10 digit"
+                          }}
+                          // required={!this.props.isIndiaGC ? "isFalse" : true}
+                          required={
+                            this.props.code && this.props.code == "91"
+                              ? true
+                              : false
+                          }
+                          keyDown={e =>
+                            e.which === 69 ? e.preventDefault() : null
+                          }
+                          onPaste={e =>
+                            e?.clipboardData.getData("Text").match(/([e|E])/)
+                              ? e.preventDefault()
+                              : null
+                          }
+                          disable={true}
+                        />
+                      </div>
+                      <p id="selectError" className={cs(styles.errorMsg)}>
+                        {this.state.msgt}
+                      </p>
                     </div>
-                    <div className={styles.contactNumber}>
-                      <FormInput
-                        name="phoneNo"
-                        value={this.props.phoneNo ? this.props.phoneNo : ""}
-                        inputRef={this.phoneInput}
-                        placeholder={"Contact Number"}
-                        type="number"
-                        label={"Contact Number"}
-                        handleChange={e =>
-                          this.setState({ phoneInput: e.target.value })
-                        }
-                        validations={
-                          this.props.isIndiaGC
-                            ? {
-                                isLength: 10
-                              }
-                            : {}
-                        }
-                        validationErrors={{
-                          isLength: "Phone number should be 10 digit"
-                        }}
-                        required={!this.props.isIndiaGC ? "isFalse" : true}
-                        keyDown={e =>
-                          e.which === 69 ? e.preventDefault() : null
-                        }
-                        onPaste={e =>
-                          e?.clipboardData.getData("Text").match(/([e|E])/)
-                            ? e.preventDefault()
-                            : null
-                        }
-                        disable={true}
-                      />
-                    </div>
-                    <p id="selectError" className={cs(styles.errorMsg)}>
-                      {this.state.msgt}
-                    </p>
-                  </div>
-                  {!this.props.phoneNo && (
-                    <p className={cs(styles.errorMsg, styles.phErrMsg)}>
-                      Phone number is missing in your profile. Please update it
-                      in the profile section.
-                    </p>
-                  )}
-                </li>
-              )}
+                    {this.props.code == "" && (
+                      <p className={cs(styles.errorMsg, styles.phErrMsg)}>
+                        Phone number is missing in your profile. Please update
+                        it in the profile section.
+                      </p>
+                    )}
+                  </li>
+                )}
               <hr />
               <li className={styles.note}>
                 <div>Please Note:</div>
@@ -1104,7 +1126,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                   type="submit"
                   onClick={() =>
                     this.props.isLoggedIn &&
-                    this.props.isIndiaGC &&
+                    // this.props.isIndiaGC &&
                     !this.props.phoneNo
                       ? this.handleSubmit({ email: this.state.emailInput })
                       : null
