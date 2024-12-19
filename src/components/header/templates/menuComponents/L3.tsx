@@ -43,58 +43,60 @@ const L3: React.FC<Props> = ({
         const text = componentData.ctaName || componentData.text;
         return (
           <div key={index} className={styles.block}>
-            {" "}
-            {componentData.link ? (
-              validURL(componentData.link) ? (
-                <a
-                  className={styles.l3}
-                  href={componentData.link}
-                  target={componentData.openInNewTab ? "_blank" : ""}
-                  onClick={() =>
-                    onHeaderMegaMenuClick({
-                      l1,
-                      l2,
-                      l3: text,
-                      clickUrl3: componentData.link,
-                      template: templateType
-                    })
-                  }
-                >
-                  {ReactHtmlParser(text)}
-                </a>
+            <div style={{ lineHeight: "18px" }}>
+              {" "}
+              {componentData.link ? (
+                validURL(componentData.link) ? (
+                  <a
+                    className={styles.l3}
+                    href={componentData.link}
+                    target={componentData.openInNewTab ? "_blank" : ""}
+                    onClick={() =>
+                      onHeaderMegaMenuClick({
+                        l1,
+                        l2,
+                        l3: text,
+                        clickUrl3: componentData.link,
+                        template: templateType
+                      })
+                    }
+                  >
+                    {ReactHtmlParser(text)}
+                  </a>
+                ) : (
+                  <Link
+                    className={styles.l3}
+                    to={componentData.link}
+                    target={componentData.openInNewTab ? "_blank" : ""}
+                    onClick={() =>
+                      onHeaderMegaMenuClick({
+                        l1,
+                        l2,
+                        l3: text,
+                        clickUrl3: componentData.link,
+                        template: templateType
+                      })
+                    }
+                  >
+                    {ReactHtmlParser(text)}
+                  </Link>
+                )
               ) : (
-                <Link
+                <div
                   className={styles.l3}
-                  to={componentData.link}
-                  target={componentData.openInNewTab ? "_blank" : ""}
                   onClick={() =>
                     onHeaderMegaMenuClick({
                       l1,
                       l2,
                       l3: text,
-                      clickUrl3: componentData.link,
                       template: templateType
                     })
                   }
                 >
                   {ReactHtmlParser(text)}
-                </Link>
-              )
-            ) : (
-              <div
-                className={styles.l3}
-                onClick={() =>
-                  onHeaderMegaMenuClick({
-                    l1,
-                    l2,
-                    l3: text,
-                    template: templateType
-                  })
-                }
-              >
-                {ReactHtmlParser(text)}
-              </div>
-            )}
+                </div>
+              )}
+            </div>
           </div>
         );
       })}

@@ -81,4 +81,5 @@ export type State = {
   shouldScroll: boolean;
   isViewAll: boolean;
   isPopupOpen: boolean;
+  totalHeight: number;
 };

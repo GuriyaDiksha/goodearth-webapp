@@ -1021,7 +1021,7 @@ const ProductDetails: React.FC<Props> = ({
       store.dispatch,
       id,
       undefined,
-      size ? size : undefined
+      selectedSize ? selectedSize.size : undefined
     )
       .then(() => {
         const growlMsg = (
@@ -1203,11 +1203,12 @@ const ProductDetails: React.FC<Props> = ({
               >
                 {currency === "INR" && (
                   <span
-                    className={cs(styles.mrp, {
-                      [globalStyles.gold]:
-                        badgeType == "B_flat" ||
-                        (info.isSale && discount && discountedPriceRecords)
-                    })}
+                    className={cs(
+                      styles.mrp
+                      // {
+                      //   [globalStyles.gold]: badgeType == "B_flat" || (info.isSale && discount && discountedPriceRecords)
+                      // }
+                    )}
                   >
                     MRP.
                   </span>

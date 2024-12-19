@@ -44,6 +44,7 @@ export type MenuComponentL2L3Data = {
   ctaMobile?: string;
   viewAllLink?: string;
   openInNewTab?: boolean;
+  videoSrc?: string;
 };
 
 export type MenuComponentTitleData = {
@@ -53,6 +54,7 @@ export type MenuComponentTitleData = {
   src?: string;
   openInNewTab?: boolean;
   thumbnailSrc: string;
+  videoSrc: string;
 };
 
 export type MenuComponentImageData = {

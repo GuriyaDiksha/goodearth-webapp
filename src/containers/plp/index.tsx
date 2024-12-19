@@ -172,7 +172,23 @@ class PLP extends React.Component<
       }, 50)
     );
     if (this.props.device.mobile) {
-      this.updateMobileView("grid");
+      const view: string = CookieService.getCookie("plpMobileView") || "grid";
+      if (!CookieService.getCookie("plpMobileView")) {
+        CookieService.setCookie("plpMobileView", view, 365);
+      }
+      if (this.props.plpMobileView !== view) {
+        this.props.updateMobileView(view);
+      }
+      //show gridview and listview on basis of query string found in url
+      const searchParam = this.props.location.search;
+      if (searchParam.includes("vw=gv")) {
+        this.updateMobileView("grid");
+      } else if (searchParam.includes("vw=lv")) {
+        this.updateMobileView("list");
+      } else {
+        this.updateMobileView(view);
+      }
+      // end grid & list view
       const elem = document.getElementById("pincode-bar");
       elem && elem.classList.add(globalStyles.hiddenEye);
       const chatButtonElem = document.getElementById("chat-button");

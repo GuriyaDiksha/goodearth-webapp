@@ -99,7 +99,8 @@ class FilterList extends React.Component<Props, State> {
       activeindex: -1,
       activeindex2: 1,
       isViewAll: false,
-      isPopupOpen: false
+      isPopupOpen: false,
+      totalHeight: 0
     };
     this.props.onRef(this);
   }
@@ -580,6 +581,7 @@ class FilterList extends React.Component<Props, State> {
       }
       this.prevScroll = scroll;
     }
+    !this.props.mobile && this.updateTotalHeight();
   };
   createList = (plpList: any, openCat: boolean) => {
     if (!plpList.results.facets.categoryShop) return false;
@@ -853,6 +855,28 @@ class FilterList extends React.Component<Props, State> {
       );
     }
   };
+  updateTotalHeight = (): void => {
+    // function to maintain filter bottom space
+    const windowScroll = window?.scrollY || 0;
+    const annBar = document?.getElementById("announcement_bar");
+    const annHeight = (annBar as HTMLElement)?.clientHeight || 0;
+    const myHeader = document.getElementById("myHeader");
+    const headerHeight = (myHeader as HTMLElement)?.clientHeight || 0;
+    const secondaryHeader = document.getElementById("secondaryHeader");
+    const secondaryHeaderHeight =
+      (secondaryHeader as HTMLElement)?.clientHeight || 0;
+
+    const adjustedAnnHeight =
+      windowScroll > annHeight ? -8 : annHeight - windowScroll;
+    const totalHeight =
+      adjustedAnnHeight + headerHeight + secondaryHeaderHeight;
+
+    if (this.state.totalHeight !== totalHeight) {
+      this.setState({
+        totalHeight
+      });
+    }
+  };
 
   componentDidUpdate(prevProps: Readonly<Props>): void {
     if (prevProps.data !== this.props.data) {
@@ -878,6 +902,7 @@ class FilterList extends React.Component<Props, State> {
 
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll, { passive: true });
+    !this.props.mobile && this.updateTotalHeight();
     this.props.updateScrollDown(false);
     this.unlisten = this.props.history.listen(this.stateChange);
     this.timeout = setTimeout(() => {
@@ -926,6 +951,16 @@ class FilterList extends React.Component<Props, State> {
         } else {
           (filterMenuHeader as HTMLElement).style.top = "90px";
         }
+      }
+    }
+  }
+
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    if (!this.props.mobile) {
+      const annBar = document.getElementById("announcement_bar");
+      const annHeight = (annBar as HTMLElement)?.clientHeight || 0;
+      if (annHeight !== prevState.totalHeight) {
+        this.updateTotalHeight();
       }
     }
   }
@@ -2660,7 +2695,13 @@ class FilterList extends React.Component<Props, State> {
     const avlDisFilterCount = avlDisTrueValues.length;
     return (
       <Fragment>
-        <ul id="inner_filter" className={styles.filterSideMenu}>
+        <ul
+          id="inner_filter"
+          className={styles.filterSideMenu}
+          style={{
+            height: `calc(100vh - 24px - ${this.state.totalHeight ?? 0}px)`
+          }}
+        >
           <li
             className={cs(styles.L1, styles.filterElements, {
               [styles.noBorder]:
