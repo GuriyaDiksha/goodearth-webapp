@@ -249,6 +249,12 @@ const routes: RouteConfig = [
     exact: true
   },
   {
+    path: ROUTES.ANNUALSALE,
+    component: loadable(() => import("containers/AnnualSale")),
+    action: async () => null,
+    exact: true
+  },
+  {
     path: ROUTES.INTERNATIONALSALE,
     component: loadable(() => import("containers/InternationalSale")),
     action: async () => null,
