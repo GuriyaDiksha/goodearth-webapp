@@ -239,8 +239,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                       })}
                     >
                       Redemption of points is applicable on select
-                      non-discounted products. You can check redemption
-                      eligibility on the product page.
+                      non-discounted products.
                       <a
                         href={"/customer-assistance/terms"}
                         target="_blank"
@@ -264,8 +263,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                         [styles.tipTwo]: showTooltipTwo
                       })}
                     >
-                      Redemption of points is applicable on select products. You
-                      can check redemption eligibility on the product page.
+                      Redemption of points is applicable on select products.
                       <a
                         href={"/customer-assistance/terms"}
                         target="_blank"
