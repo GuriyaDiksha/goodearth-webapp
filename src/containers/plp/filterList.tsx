@@ -901,7 +901,7 @@ class FilterList extends React.Component<Props, State> {
     this.unlisten = this.props.history.listen(this.stateChange);
     this.timeout = setTimeout(() => {
       this.sendDataToParent();
-    }, 2000);
+    }, 3000);
 
     const header = document.getElementById("myHeader");
     const sticky = (header as HTMLElement)?.offsetTop;
