@@ -904,7 +904,7 @@ class PLP extends React.Component<
                     !showTemplates.Banner?.[0] && mobile
                 })}
               >
-                <PlpBubbles data={this.state.bubbleData} source="plpbubbleL3" />
+                <PlpBubbles data={this.state.bubbleData} source="plpBubbleL3" />
               </div>
             ) : (
               ""
