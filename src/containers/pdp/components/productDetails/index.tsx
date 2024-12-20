@@ -1203,11 +1203,12 @@ const ProductDetails: React.FC<Props> = ({
               >
                 {currency === "INR" && (
                   <span
-                    className={cs(styles.mrp, {
-                      [globalStyles.gold]:
-                        badgeType == "B_flat" ||
-                        (info.isSale && discount && discountedPriceRecords)
-                    })}
+                    className={cs(
+                      styles.mrp
+                      // {
+                      //   [globalStyles.gold]: badgeType == "B_flat" || (info.isSale && discount && discountedPriceRecords)
+                      // }
+                    )}
                   >
                     MRP.
                   </span>

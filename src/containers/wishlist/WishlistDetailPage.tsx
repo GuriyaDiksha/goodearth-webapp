@@ -844,7 +844,12 @@ const WishlistDetailPage = () => {
                                   : ""}{" "}
                               </a>
                             </p>
-                            <p className={styles.productN}>
+                            <p
+                              className={cs(
+                                styles.productN,
+                                styles.productPrice
+                              )}
+                            >
                               {isSale && productData.discount ? (
                                 <span className={styles.discountprice}>
                                   {productData.discountedPrice
@@ -1131,7 +1136,12 @@ const WishlistDetailPage = () => {
                                       : ""}{" "}
                                   </a>
                                 </p>
-                                <p className={styles.productN}>
+                                <p
+                                  className={cs(
+                                    styles.productN,
+                                    styles.productPrice
+                                  )}
+                                >
                                   {isSale && productData.discount ? (
                                     <span className={styles.discountprice}>
                                       {productData.discountedPrice
