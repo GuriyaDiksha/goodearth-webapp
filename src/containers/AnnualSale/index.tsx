@@ -175,9 +175,7 @@ const AnnualSale: React.FC = () => {
             "Thank you for signing up! You will receive a reminder when our sale is live!"
           );
         } else {
-          setSuccessMsg(
-            "You have already signed up for reminder notifications for our upcoming Sale."
-          );
+          setSuccessMsg(data.message);
         }
         // resetForm();
         setEnableSubmit(false);
