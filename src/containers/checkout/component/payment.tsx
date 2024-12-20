@@ -36,6 +36,7 @@ import Button from "components/Button";
 import { STEP_ORDER } from "../constants";
 import FormTextArea from "components/Formsy/FormTextArea";
 import ApplyCreditNote from "./ApplyCreditNote";
+import ApplyGiftCards from "./ApplyGiftCards";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -48,7 +49,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     address: { countryData, shippingAddressId, billingAddressId },
     info: { isSale }
   } = useSelector((state: AppState) => state);
-  let PaymentChild: any = useRef<typeof ApplyGiftcard>(null);
+  const PaymentChild: any = useRef<typeof ApplyGiftcard>(null);
   const history = useHistory();
   const {
     isActive,
@@ -862,7 +863,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   {!basket.isOnlyGiftCart && <hr className={styles.hr} />}
                 </>
               )}
-              <div className={globalStyles.marginT20}>
+              {/* <div className={globalStyles.marginT20}>
                 {!basket.isOnlyGiftCart && !isGcCheckout && (
                   <div className={globalStyles.flex}>
                     <hr className={styles.hr} />
@@ -898,7 +899,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                     </div>
                   </div>
                 )}
-              </div>
+              </div> */}
+
+              {!basket.isOnlyGiftCart && !isGcCheckout && <ApplyGiftCards />}
 
               {!basket.isOnlyGiftCart &&
                 !isGcCheckout &&

@@ -74,6 +74,7 @@ const ShippingTerms = loadable(() => import("components/Popups/ShippingTerms"));
 const RedeemPopup = loadable(() => import("components/Popups/RedeemPopup"));
 const EditProfile = loadable(() => import("components/Popups/EditProfile"));
 const CreditNotes = loadable(() => import("components/Popups/CreditNotes"));
+const GiftCards = loadable(() => import("components/Popups/GiftCards"));
 const CountryPopup = loadable(() => import("components/Popups/CountryPopup"));
 const SharePdpPopup = loadable(() =>
   import("containers/pdp/components/sharePopup/index")
@@ -130,6 +131,7 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   whatsappPopup: WhatsappPopup,
   editProfile: EditProfile,
   creditNotes: CreditNotes,
+  giftcards: GiftCards,
   countryPopup: CountryPopup,
   sharePdpPopup: SharePdpPopup,
   editWishlistName: EditWishlistName,
@@ -176,6 +178,7 @@ export const enum POPUP {
   WHATSAPP = "whatsappPopup",
   EditProfile = "editProfile",
   CREDITNOTES = "creditNotes",
+  GIFTCARDS = "giftcards",
   COUNTRYPOPUP = "countryPopup",
   SHAREPDPPOPUP = "sharePdpPopup",
   EDITWISHLISTNAME = "editWishlistName",

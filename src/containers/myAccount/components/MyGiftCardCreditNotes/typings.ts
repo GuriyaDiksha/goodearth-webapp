@@ -17,6 +17,25 @@ export type CreditNote = {
   message?: string;
 };
 
+export type GiftCardResponse = {
+  count: number;
+  next: null;
+  previous: null;
+  results: GiftCard[];
+};
+
+export type GiftCard = {
+  date_created: string;
+  entry_code: string;
+  remaining_amount: number;
+  amount: number;
+  applied_amount: number;
+  expiring_date: string;
+  is_expired: boolean;
+  type?: string;
+  message?: string;
+};
+
 export type HeaderData = Array<{
   key: string;
   title: string;

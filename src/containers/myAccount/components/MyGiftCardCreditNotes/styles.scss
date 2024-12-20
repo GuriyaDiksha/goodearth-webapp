@@ -254,37 +254,50 @@
         margin-top: 16px;
     }
 }
-
 .tabs {
     display: flex;
     border-bottom: 1px solid #ddd;
 }
-
 .tab-btn {
     background-color: #E5E5E5;
     padding: 15px 30px;
     cursor: pointer;
 }
-
 .tab-btn:hover {
     background-color: #e0e0e0;
 }
-
 .tab-btn.active {
     background-color: #fff;
     color: $aqua;
     border-bottom: 2px solid $aqua;;
 }
-
 .tab-content {
     display: none;
     margin-top: 50px;
 }
-
 .tab-content.show {
     display: block;
 }
-
 .tab-content h2 {
     margin-top: 0;
+}
+.no-data-container{
+    min-height: 300px;
+    position: relative;
+    .no-data-content{
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        @include b4_12px_montserrat_charcoal();
+        line-height: 20px;
+        letter-spacing: 0.36px;
+        a {
+            cursor: pointer;
+            text-decoration: underline;
+            @include b4_12px_montserrat_charcoal();
+            line-height: 20px;
+            letter-spacing: 0.36px;
+        }
+    }
 }

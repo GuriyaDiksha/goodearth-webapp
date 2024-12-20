@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AccountService from "services/account";
-import { CreditNote, SortBy, SortType } from "./typings";
+import { CreditNote, SortBy, SortType, GiftCard } from "./typings";
 import styles from "./styles.scss";
 import GiftCardTable from "./GiftCardTable";
 import CreditNotesTable from "./CreditNotesTable";
@@ -20,6 +20,12 @@ const GiftCardCreditNotes: React.FC<Props> = ({ setCurrentSection }) => {
   const [activeTab, setActiveTab] = useState("giftCard");
   const [data, setData] = useState<CreditNote[]>([]);
   const [pagination, setPagination] = useState({
+    count: 0,
+    previous: null,
+    next: null
+  });
+  const [dataGiftCard, setDataGiftCard] = useState<GiftCard[]>([]);
+  const [paginationGiftCard, setPaginationGiftCard] = useState({
     count: 0,
     previous: null,
     next: null
@@ -49,9 +55,29 @@ const GiftCardCreditNotes: React.FC<Props> = ({ setCurrentSection }) => {
       });
   };
 
+  const fetchGiftCards = (
+    sortBy?: SortBy,
+    sortType?: SortType,
+    page?: number
+  ) => {
+    dispatch(updateLoader(true));
+    AccountService.fetchGiftCards(dispatch, sortBy, sortType, page, false)
+      .then(response => {
+        const { count, previous, next, results } = response;
+        setDataGiftCard(results.filter(ele => ele?.type !== "GC"));
+        setPaginationGiftCard({ count, previous, next });
+        dispatch(updateLoader(false));
+      })
+      .catch(e => {
+        console.log("fetch gift cards API failed =====", e);
+        dispatch(updateLoader(false));
+      });
+  };
+
   useEffect(() => {
     setCurrentSection();
     fetchCreditNotes();
+    fetchGiftCards();
   }, []);
 
   const showTab = (tabName: any) => {
@@ -85,53 +111,58 @@ const GiftCardCreditNotes: React.FC<Props> = ({ setCurrentSection }) => {
           activeTab === "giftCard" ? styles.show : ""
         )}
       >
-        {data?.length ? (
+        {dataGiftCard?.length ? (
           <>
             <GiftCardTable
-              data={data}
-              fetchCreditNotes={fetchCreditNotes}
-              pagination={pagination}
+              data={dataGiftCard}
+              fetchCreditNotes={fetchGiftCards}
+              pagination={paginationGiftCard}
             />
-
-            <div
-              className={cs(
-                bootstrapStyles.row,
-                globalStyles.flexGutterCenter,
-                {
-                  [styles.mobileMargin]: mobile
-                }
-              )}
-            >
-              <div
-                className={cs(
-                  bootstrapStyles.colLg10,
-                  bootstrapStyles.col12,
-                  styles.footer
-                )}
-              >
-                <div className={cs(styles.labelWrp)}>
-                  <div className={styles.pending}>
-                    <div className={styles.circle}></div>
-                    <p>Balance Pending</p>
-                  </div>
-                  <div className={cs(styles.expired)}>
-                    <div className={cs(styles.circle, styles.greyCircle)}></div>
-                    <p>Balance Exhausted / Expired</p>
-                  </div>
-                </div>
-                <p className={styles.enquiry}>
-                  For queries, contact{" "}
-                  <a href="mailto:customercare@goodearth.in">Customer Care.</a>
-                </p>
+          </>
+        ) : (
+          <>
+            <div className={styles.noDataContainer}>
+              <div className={styles.noDataContent}>
+                <p>No active Gift Cards linked with account.</p>
+                <Link to={"/account/giftcard-activation"}>
+                  Activate Gift Card
+                </Link>
               </div>
             </div>
           </>
-        ) : (
-          <div className={styles.noCreditNotes}>
-            No active Gift Cards linked with account.
-            <Link to={"/account/giftcard-activation"}>Activate Gift Card</Link>
-          </div>
         )}
+        <div
+          className={cs(bootstrapStyles.row, globalStyles.flexGutterCenter, {
+            [styles.mobileMargin]: mobile
+          })}
+        >
+          <div
+            className={cs(
+              bootstrapStyles.colLg10,
+              bootstrapStyles.col12,
+              styles.footer
+            )}
+          >
+            {dataGiftCard?.length ? (
+              <div className={cs(styles.labelWrp)}>
+                <div className={styles.pending}>
+                  <div className={styles.circle}></div>
+                  <p>Balance Pending</p>
+                </div>
+                <div className={cs(styles.expired)}>
+                  <div className={cs(styles.circle, styles.greyCircle)}></div>
+                  <p>Balance Exhausted / Expired</p>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+            <p className={styles.enquiry}>
+              For queries, contact{" "}
+              <a href="mailto:customercare@goodearth.in">Customer Care.</a>
+            </p>
+          </div>
+        </div>
       </div>
 
       <div
@@ -156,36 +187,49 @@ const GiftCardCreditNotes: React.FC<Props> = ({ setCurrentSection }) => {
                   [styles.mobileMargin]: mobile
                 }
               )}
-            >
-              <div
-                className={cs(
-                  bootstrapStyles.colLg10,
-                  bootstrapStyles.col12,
-                  styles.footer
-                )}
-              >
-                <div className={cs(styles.labelWrp)}>
-                  <div className={styles.pending}>
-                    <div className={styles.circle}></div>
-                    <p>Balance Pending</p>
-                  </div>
-                  <div className={cs(styles.expired)}>
-                    <div className={cs(styles.circle, styles.greyCircle)}></div>
-                    <p>Balance Exhausted / Expired</p>
-                  </div>
-                </div>
-                <p className={styles.enquiry}>
-                  For queries, contact{" "}
-                  <a href="mailto:customercare@goodearth.in">Customer Care.</a>
-                </p>
+            ></div>
+          </>
+        ) : (
+          <>
+            <div className={styles.noDataContainer}>
+              <div className={styles.noDataContent}>
+                <p>No active Credit Note(s) available.</p>
               </div>
             </div>
           </>
-        ) : (
-          <div className={styles.noCreditNotes}>
-            No active Credit Note(s) available
-          </div>
         )}
+        <div
+          className={cs(bootstrapStyles.row, globalStyles.flexGutterCenter, {
+            [styles.mobileMargin]: mobile
+          })}
+        >
+          <div
+            className={cs(
+              bootstrapStyles.colLg10,
+              bootstrapStyles.col12,
+              styles.footer
+            )}
+          >
+            {data?.length ? (
+              <div className={cs(styles.labelWrp)}>
+                <div className={styles.pending}>
+                  <div className={styles.circle}></div>
+                  <p>Balance Pending</p>
+                </div>
+                <div className={cs(styles.expired)}>
+                  <div className={cs(styles.circle, styles.greyCircle)}></div>
+                  <p>Balance Exhausted / Expired</p>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+            <p className={styles.enquiry}>
+              For queries, contact{" "}
+              <a href="mailto:customercare@goodearth.in">Customer Care.</a>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

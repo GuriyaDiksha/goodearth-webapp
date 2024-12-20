@@ -29,9 +29,8 @@ import CeriseDashboard from "./components/CeriseDashboard";
 import TransactionDashboard from "./components/TransactionDashboard";
 import profileIcon from "../../images/dock_profile.svg";
 import { CONFIG } from "constants/util";
-import MyCreditNotes from "./components/MyCreditNotes";
+// import MyCreditNotes from "./components/MyCreditNotes";
 import AccountService from "services/account";
-import { CreditNote } from "./components/MyCreditNotes/typings";
 import { GA_CALLS } from "constants/cookieConsent";
 import CookieService from "services/cookie";
 import GiftCardCreditNotes from "./components/MyGiftCardCreditNotes";
@@ -50,7 +49,12 @@ const MyAccount: React.FC<Props> = props => {
   const { showTimer } = useSelector((state: AppState) => state.info);
   const { currency } = useSelector((state: AppState) => state);
   const [currentSection, setCurrentSection] = useState("Profile");
-  const [creditnoteList, setCreditnoteList] = useState<CreditNote[]>([]);
+  // const [creditnoteList, setCreditnoteList] = useState<CreditNote[]>([]);
+
+  // const [isGc, setIsGc] = useState(false);
+  // const [gcAmount, setGcAmount] = useState("");
+  // const [cnAmount, setCnAmount] = useState("");
+
   const location = useLocation();
   const [showRegistry, setShowRegistry] = useState(
     location.pathname.includes("registry") ? true : false
@@ -60,21 +64,34 @@ const MyAccount: React.FC<Props> = props => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const fetchCreditNotes = () => {
-    AccountService.fetchCreditNotes(dispatch, "expiring_date", "asc", 1, false)
-      .then(response => {
-        const { results } = response;
-        setCreditnoteList(results.filter(ele => ele?.type !== "GC"));
-      })
-      .catch(e => {
-        console.log("fetch credit notes API failed =====", e);
-      });
-  };
+  // const fetchCreditNotes = () => {
+  //   AccountService.fetchCreditNotes(dispatch, "expiring_date", "asc", 1, false)
+  //     .then(response => {
+  //       const { results } = response;
+  //       setCreditnoteList(results.filter(ele => ele?.type !== "GC"));
+  //     })
+  //     .catch(e => {
+  //       console.log("fetch credit notes API failed =====", e);
+  //     });
+  // };
+
+  // const fetchGC_CN_Ammount = () =>{
+  //   AccountService.fetchGC_CN_Ammount(dispatch)
+  //     .then(response=>{
+  //       setIsGc(response.hasGC);
+  //       setGcAmount(response.availableGCamount);
+  //       setCnAmount(response.availableGCamount);
+  //    })
+  //    .catch(e => {
+  //       console.log("fetch credit notes API failed =====", e);
+  //     });
+  // }
 
   useEffect(() => {
     if (isLoggedIn) {
       window.scrollTo(0, 0);
-      fetchCreditNotes();
+      // fetchCreditNotes();
+      // fetchGC_CN_Ammount();
     }
   }, [isLoggedIn]);
 
@@ -219,10 +236,9 @@ const MyAccount: React.FC<Props> = props => {
 
   useEffect(() => {
     if (
-      (currency !== "INR" &&
-        isLoggedIn &&
-        pathname === "/account/credit-notes") ||
-      pathname === "/account/gift-card-credit-notes"
+      currency !== "INR" &&
+      isLoggedIn &&
+      pathname === "/account/credit-notes"
     ) {
       history.push("/");
     }
@@ -505,18 +521,20 @@ const MyAccount: React.FC<Props> = props => {
                               { [styles.accountFormBg]: !mobile },
                               {
                                 [styles.accountFormBgMobile]: mobile,
+                                // [bootstrapStyles.colLg8]:
+                                //   href === "/account/credit-notes"
+                                // [bootstrapStyles.offsetLg2]:
+                                //   href === "/account/credit-notes"
+                                // [bootstrapStyles.colLg6]:
+                                //   href !== "/account/credit-notes",
+                                // [bootstrapStyles.offsetLg3]:
+                                //   href !== "/account/credit-notes",
                                 [bootstrapStyles.colLg8]:
-                                  href === "/account/credit-notes" ||
                                   href === "/account/gift-card-credit-notes",
                                 [bootstrapStyles.offsetLg2]:
-                                  href === "/account/credit-notes" ||
                                   href === "/account/gift-card-credit-notes",
                                 [bootstrapStyles.colLg6]:
-                                  href !== "/account/credit-notes",
-                                [bootstrapStyles.colLg6]:
                                   href !== "/account/gift-card-credit-notes",
-                                [bootstrapStyles.offsetLg3]:
-                                  href !== "/account/credit-notes",
                                 [bootstrapStyles.offsetLg3]:
                                   href !== "/account/gift-card-credit-notes"
                               }
