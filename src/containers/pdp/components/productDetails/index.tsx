@@ -1641,6 +1641,7 @@ const ProductDetails: React.FC<Props> = ({
             >
               {onload &&
               loyaltyDisabled &&
+              !info.isSale &&
               !isQuickview &&
               isCeriseUser &&
               currency === "INR" ? (
