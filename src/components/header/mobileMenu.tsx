@@ -561,7 +561,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
     if (isPublishOnMobile) {
       html.push(<div className={styles.hr} />);
     }
-    templates.map(template => {
+    templates.map((template, index) => {
       if (template.publishOnMobile) {
         if (template.templateType == "TITLEHEADING") {
           html.push(
@@ -572,19 +572,12 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                 l1={megaMenuData.text}
                 onHeaderMegaMenuClick={this.props.onHeaderMegaMenuClick}
               />
+              <hr className={styles.divider} />
             </div>
           );
         } else {
           html.push(
             <div onClick={() => this.props.clickToggle()}>
-              <hr
-                style={{
-                  height: "1px",
-                  background: "#D8D8D8",
-                  border: "none",
-                  marginTop: "30px"
-                }}
-              ></hr>
               {!!template?.labelOnMobile && (
                 <div className={styles.featuredTitle}>
                   {ReactHtmlParser(template?.labelOnMobile)}
@@ -615,6 +608,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   )}
                 </Link>
               </div>
+              {templates.length !== index + 1 && (
+                <hr className={styles.divider} />
+              )}
             </div>
           );
         }

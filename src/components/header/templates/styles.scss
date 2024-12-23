@@ -232,6 +232,7 @@
     display: grid;
         grid-template-columns: 1fr 1fr;
         column-gap: 26px;
+        row-gap: 5px;
     
         @media (min-width: 768px) {
             grid-template-columns: 1fr 1fr 1fr;
