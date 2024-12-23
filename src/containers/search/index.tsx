@@ -296,8 +296,8 @@ class Search extends React.Component<
     });
     const config = { subtree: true, childList: true };
     observer.observe(document, config);
-    if (this.props.device?.mobile) {
-      const view: string = CookieService.getCookie("plpMobileView");
+    if (this.props.device.mobile) {
+      const view: string = CookieService.getCookie("plpMobileView") || "grid";
       this.updateMobileView(view);
     }
   }
