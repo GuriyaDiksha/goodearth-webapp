@@ -4,15 +4,15 @@ import bootstrapStyles from "./../../../../styles/bootstrap/bootstrap-grid.scss"
 import iconStyles from "styles/iconFonts.scss";
 import globalStyles from "./../../../../styles/global.scss";
 import styles from "./styles.scss";
-import { CreditNote, HeaderData, SortBy, SortType } from "./typings";
+import { GiftCard, HeaderData, SortBy, SortType } from "./typings";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import { displayPriceWithSeparation } from "utils/utility";
 import Pagination from "./Pagination";
 
 type Props = {
-  data: CreditNote[];
-  fetchCreditNotes: (x: SortBy, y: SortType, z?: number) => void;
+  data: GiftCard[];
+  fetchGiftCrads: (x: SortBy, y: SortType, z?: number) => void;
   pagination: {
     count: number;
     previous: string | null;
@@ -40,7 +40,7 @@ const TableHeader: HeaderData = [
 
 const GiftCardTable: React.FC<Props> = ({
   data,
-  fetchCreditNotes,
+  fetchGiftCrads,
   pagination
 }) => {
   const [activeIndex, setActiveIndex] = useState("");
@@ -74,13 +74,13 @@ const GiftCardTable: React.FC<Props> = ({
   const fetchSortedData = (key: SortBy) => {
     const value: SortType =
       sortBy !== key ? "desc" : sortType === "asc" ? "desc" : "asc";
-    fetchCreditNotes(key, value, page);
+    fetchGiftCrads(key, value, page);
     setSortBy(key);
     setSortType(value);
   };
 
   const fetchPaginatedData = (page: number) => {
-    fetchCreditNotes(sortBy as SortBy, sortType as SortType, page);
+    fetchGiftCrads(sortBy as SortBy, sortType as SortType, page);
     setPage(page);
   };
 
@@ -140,10 +140,10 @@ const GiftCardTable: React.FC<Props> = ({
         </div>
       </div>
       {/* Table content start */}
-      {data?.map(creditNote => (
+      {data?.map(giftCard => (
         //=========Row start==========//
         <div
-          key={creditNote?.entry_code}
+          key={giftCard?.entry_code}
           className={cs(bootstrapStyles.row, globalStyles.flexGutterCenter, {
             [styles.mobileMargin]: mobile
           })}
@@ -154,7 +154,7 @@ const GiftCardTable: React.FC<Props> = ({
               bootstrapStyles.colLg10,
               bootstrapStyles.colSm12,
               styles.tableRow,
-              { [styles.greyRow]: creditNote?.message }
+              { [styles.greyRow]: giftCard?.message }
             )}
           >
             {/* Columns */}
@@ -169,7 +169,7 @@ const GiftCardTable: React.FC<Props> = ({
               >
                 <div
                   className={cs(styles.circle, {
-                    [styles.greyCircle]: creditNote?.message
+                    [styles.greyCircle]: giftCard?.message
                   })}
                 ></div>
               </div>
@@ -187,16 +187,16 @@ const GiftCardTable: React.FC<Props> = ({
                   {!mobile && index === 0 && (
                     <div
                       className={cs(styles.circle, {
-                        [styles.greyCircle]: creditNote?.message
+                        [styles.greyCircle]: giftCard?.message
                       })}
                     ></div>
                   )}
                   {header?.isPrice
                     ? displayPriceWithSeparation(
-                        creditNote?.[header?.key],
-                        currency
+                        giftCard?.[header?.key],
+                        giftCard?.currency
                       )
-                    : creditNote?.[header?.key]}
+                    : giftCard?.[header?.key]}
                 </div>
               )
             )}
@@ -204,23 +204,23 @@ const GiftCardTable: React.FC<Props> = ({
               <div className={cs(bootstrapStyles.col1, styles.iconCarrot)}>
                 <span
                   className={cs({
-                    [styles.active]: activeIndex === creditNote?.entry_code
+                    [styles.active]: activeIndex === giftCard?.entry_code
                   })}
-                  onClick={() => handleHeaderClick(creditNote?.entry_code)}
+                  onClick={() => handleHeaderClick(giftCard?.entry_code)}
                 ></span>
               </div>
             )}
           </div>
 
           {/* Secondary(Inner) Row */}
-          {mobile && creditNote?.entry_code === activeIndex && (
+          {mobile && giftCard?.entry_code === activeIndex && (
             <hr className={styles.mobileBorder} />
           )}
           {mobile && (
             <div
-              ref={el => (bodyRef.current[creditNote?.entry_code] = el)}
+              ref={el => (bodyRef.current[giftCard?.entry_code] = el)}
               className={cs(bootstrapStyles.col12, styles.tableSecondaryRow, {
-                [styles.greyRow]: creditNote?.message
+                [styles.greyRow]: giftCard?.message
               })}
             >
               <div className={cs(bootstrapStyles.col1)}></div>
@@ -232,7 +232,7 @@ const GiftCardTable: React.FC<Props> = ({
                 )}
               >
                 <p className={styles.subHeading}>Date Of Issue</p>
-                <p>{creditNote?.[TableHeader?.[0]?.key]}</p>
+                <p>{giftCard?.[TableHeader?.[0]?.key]}</p>
               </div>
               <div
                 className={cs(
@@ -242,7 +242,7 @@ const GiftCardTable: React.FC<Props> = ({
                 )}
               >
                 <p className={styles.subHeading}>Date Of Expiry</p>
-                <p>{creditNote?.[TableHeader?.[4]?.key]}</p>
+                <p>{giftCard?.[TableHeader?.[4]?.key]}</p>
               </div>
               <div className={cs(bootstrapStyles.col3, styles.colDate)}></div>
               <div className={cs(bootstrapStyles.col1)}></div>

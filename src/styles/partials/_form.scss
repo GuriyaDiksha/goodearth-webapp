@@ -46,6 +46,13 @@
   }
 }
 
+.disabled-label{
+  label{
+    cursor: unset!important;
+    color: #9F9F9F !important;
+  }
+}
+
 .login-form {
   input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="date"], select, textarea {
     background-color: $white;

@@ -1,10 +1,7 @@
 import React, { forwardRef } from "react";
 import cs from "classnames";
 import styles from "./index.scss";
-import {
-  CreditNote,
-  GiftCard
-} from "containers/myAccount/components/MyCreditNotes/typings";
+import { GiftCard } from "containers/myAccount/components/MyCreditNotes/typings";
 import {
   displayPriceWithCommasFloat,
   displayPriceWithSeparation
@@ -15,7 +12,7 @@ import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 
 type Props = {
-  creditNote: GiftCard;
+  giftCardData: GiftCard;
   onCheck: (e: React.ChangeEvent<HTMLInputElement>, v: string) => void;
   checkedIds: string[];
   activeKey: string;
@@ -26,13 +23,14 @@ type Props = {
 const GiftCardCard = forwardRef<Props, any>(
   (
     {
-      creditNote: {
+      giftCardData: {
         entry_code,
         remaining_amount,
         date_created,
         expiring_date,
         amount,
-        message
+        message,
+        currency
       },
       checkedIds,
       onCheck,
@@ -42,7 +40,6 @@ const GiftCardCard = forwardRef<Props, any>(
     },
     ref
   ) => {
-    const { currency } = useSelector((state: AppState) => state);
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, "0");
     const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!

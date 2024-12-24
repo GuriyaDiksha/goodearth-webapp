@@ -194,7 +194,7 @@ const CreditNotesTable: React.FC<Props> = ({
                   {header?.isPrice
                     ? displayPriceWithSeparation(
                         creditNote?.[header?.key],
-                        currency
+                        creditNote?.currency
                       )
                     : creditNote?.[header?.key]}
                 </div>

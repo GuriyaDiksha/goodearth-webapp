@@ -14,8 +14,13 @@ import BasketService from "services/basket";
 import { useHistory } from "react-router";
 import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
 import { CreditNote } from "containers/myAccount/components/MyCreditNotes/typings";
+import { displayPriceWithSeparation } from "utils/utility";
 
-const ApplyCreditNote = () => {
+type Props = {
+  amountCN: any;
+};
+
+const ApplyCreditNote: React.FC<Props> = ({ amountCN }) => {
   const [isactivecreditnote, setIsactivecreditnote] = useState(false);
   const [creditnoteList, setCreditnoteList] = useState<CreditNote[]>([]);
   const {
@@ -43,7 +48,7 @@ const ApplyCreditNote = () => {
 
   useEffect(() => {
     fetchCreditNotes();
-  }, []);
+  }, [isactivecreditnote]);
 
   useEffect(() => {
     setIsactivecreditnote(!!creditNotes?.length);
@@ -113,7 +118,11 @@ const ApplyCreditNote = () => {
   }
 
   return (
-    <div className={globalStyles.marginT20}>
+    <div
+      className={cs(globalStyles.marginT20, {
+        [styles.disableSate]: amountCN <= 0
+      })}
+    >
       <div
         className={cs(
           bootstrapStyles.colMd6,
@@ -124,7 +133,8 @@ const ApplyCreditNote = () => {
         <CheckboxWithLabel
           id="applyCN"
           checked={isactivecreditnote}
-          onChange={onCreditNoteToggle}
+          className={amountCN <= 0 ? styles.disabledLabel : ""}
+          onChange={amountCN > 0 ? onCreditNoteToggle : () => null}
           label={[
             <label
               key="applyCN"
@@ -145,6 +155,21 @@ const ApplyCreditNote = () => {
           </div>
         )}
       </div>
+
+      {!isactivecreditnote && (
+        <div className={styles.gcMsg}>
+          {amountCN > 0 ? (
+            <p
+              className={styles.aquaText}
+            >{`Credit Note(s) worth ${displayPriceWithSeparation(
+              amountCN,
+              currency
+            )} available`}</p>
+          ) : (
+            <p className={styles.greyText}>No Credit Note balance available</p>
+          )}
+        </div>
+      )}
 
       <div>
         {isactivecreditnote &&

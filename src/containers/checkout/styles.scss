@@ -1529,6 +1529,9 @@ div.form-subheading{
   font-size: 12px;
   line-height: 1.8;
 }
+.disable-state .line-height-lable {
+  color: #9F9F9F!important;
+}
 span.add-new-address {
   @include b5_10px_montserrat_charcoal_caps();
   border-bottom: 1px solid $charcoal19;
@@ -1682,4 +1685,25 @@ span.add-new-address {
       padding-top: 20px;
     }
   }
+}
+
+.gc_msg{
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  padding-left: 30px;
+  p.aqua-text{
+    @include b5_10px_montserrat_aqua();
+  }
+  p.grey-text{
+    @include b5_10px_montserrat_light_charcoal();
+    color: $light-charcoal;
+  }
+  .activate-link{
+    text-decoration: underline;
+    text-underline-offset: 0.2rem;
+    cursor: pointer;
+  }
+}
+.disable-sate .gc_msg{
+  color: #9F9F9F!important;
 }

@@ -31,6 +31,7 @@ const GiftCardCreditNotes: React.FC<Props> = ({ setCurrentSection }) => {
     next: null
   });
   const {
+    currency,
     device: { mobile }
   } = useSelector((state: AppState) => state);
 
@@ -115,7 +116,7 @@ const GiftCardCreditNotes: React.FC<Props> = ({ setCurrentSection }) => {
           <>
             <GiftCardTable
               data={dataGiftCard}
-              fetchCreditNotes={fetchGiftCards}
+              fetchGiftCrads={fetchGiftCards}
               pagination={paginationGiftCard}
             />
           </>
@@ -171,7 +172,7 @@ const GiftCardCreditNotes: React.FC<Props> = ({ setCurrentSection }) => {
           activeTab === "creditNote" ? styles.show : ""
         )}
       >
-        {data?.length ? (
+        {data?.length && currency == "INR" ? (
           <>
             <CreditNotesTable
               data={data}

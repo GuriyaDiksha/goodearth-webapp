@@ -18,10 +18,16 @@ import {
   SortBy,
   SortType
 } from "containers/myAccount/components/MyCreditNotes/typings";
+import { displayPriceWithSeparation } from "utils/utility";
 
-const ApplyCreditNote = () => {
-  const [isactivecreditnote, setIsactivecreditnote] = useState(false);
-  const [creditnoteList, setCreditnoteList] = useState<GiftCard[]>([]);
+type Props = {
+  amountGC: any;
+  hasGC: boolean;
+};
+
+const ApplyCreditNote: React.FC<Props> = ({ hasGC, amountGC }) => {
+  const [isactivegiftcard, setIsactivegiftcard] = useState(false);
+  const [giftcardList, setGiftcardList] = useState<GiftCard[]>([]);
   const {
     basket: { giftCards },
     currency,
@@ -30,11 +36,11 @@ const ApplyCreditNote = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const creditNotes = useMemo(() => {
+  const giftCard = useMemo(() => {
     return giftCards?.filter(ele => ele.cardType === "GIFTCARD");
   }, [giftCards]);
 
-  const fetchCreditNotes = (
+  const fetchGiftCards = (
     sortBy?: SortBy,
     sortType?: SortType,
     page?: number
@@ -42,7 +48,7 @@ const ApplyCreditNote = () => {
     AccountService.fetchGiftCards(dispatch, sortBy, sortType, page)
       .then(response => {
         const { results } = response;
-        setCreditnoteList(results.filter(ele => ele?.type !== "GC"));
+        setGiftcardList(results.filter(ele => ele?.type !== "GC"));
       })
       .catch(e => {
         console.log("fetch credit notes API failed =====", e);
@@ -50,27 +56,27 @@ const ApplyCreditNote = () => {
   };
 
   useEffect(() => {
-    fetchCreditNotes();
+    fetchGiftCards();
   }, []);
 
   useEffect(() => {
-    setIsactivecreditnote(!!creditNotes?.length);
-  }, [creditNotes?.length]);
+    setIsactivegiftcard(!!giftCard?.length);
+  }, [giftCard?.length]);
 
-  const onCreditNoteToggle = async (
+  const onGiftCardToggle = async (
     event:
       | React.ChangeEvent<HTMLInputElement>
       | React.MouseEvent<HTMLDivElement, MouseEvent>,
     isEdit?: boolean
   ) => {
     //Open popup and fetch data : On checked true
-    if (!isactivecreditnote || isEdit) {
+    if (!isactivegiftcard || isEdit) {
       dispatch(
         updateComponent(
           POPUP.GIFTCARDS,
           {
-            data: creditnoteList,
-            setIsactivecreditnote
+            data: giftcardList,
+            setIsactivegiftcard
           },
           false
         )
@@ -78,7 +84,7 @@ const ApplyCreditNote = () => {
       dispatch(updateModal(true));
     } else {
       //Close popupand remove all CN : On checked false
-      for await (const giftcard of creditNotes) {
+      for await (const giftcard of giftCard) {
         const data: any = {
           cardId: giftcard?.cardId,
           type: giftcard?.cardType
@@ -95,7 +101,7 @@ const ApplyCreditNote = () => {
       );
     }
     //Set true or false for checkbox
-    setIsactivecreditnote(isEdit || !isactivecreditnote);
+    setIsactivegiftcard(isEdit || !isactivegiftcard);
   };
 
   //Onclose of individual CN
@@ -116,9 +122,14 @@ const ApplyCreditNote = () => {
     }
   };
 
-  if (creditnoteList?.length === 0) {
-    return null;
-  }
+  // if (giftcardList?.length === 0) {
+  //   return null;
+  // }
+
+  const activatePopup = () => {
+    dispatch(updateComponent(POPUP.ACTIVATEGIFTCARD, false));
+    dispatch(updateModal(true));
+  };
 
   return (
     <div className={globalStyles.marginT20}>
@@ -131,8 +142,8 @@ const ApplyCreditNote = () => {
       >
         <CheckboxWithLabel
           id="applyGC"
-          checked={isactivecreditnote}
-          onChange={onCreditNoteToggle}
+          checked={isactivegiftcard}
+          onChange={hasGC && amountGC > 0 ? onGiftCardToggle : activatePopup}
           label={[
             <label
               key="applyGC"
@@ -144,20 +155,47 @@ const ApplyCreditNote = () => {
           ]}
         />
 
-        {isactivecreditnote && !!creditNotes.length && (
-          <div
-            className={styles.edit}
-            onClick={e => onCreditNoteToggle(e, true)}
-          >
+        {isactivegiftcard && !!giftCard.length && (
+          <div className={styles.edit} onClick={e => onGiftCardToggle(e, true)}>
             EDIT
           </div>
         )}
       </div>
 
+      {!isactivegiftcard && (
+        <div className={styles.gcMsg}>
+          {hasGC ? (
+            amountGC > 0 ? (
+              <p
+                className={styles.aquaText}
+              >{`Gift Card(s) worth ${displayPriceWithSeparation(
+                amountGC,
+                currency
+              )} available`}</p>
+            ) : (
+              <p className={styles.greyText}>
+                {`No <${currency}> balance available for linked Gift Cards.`}
+                <br />
+                <span className={styles.activateLink} onClick={activatePopup}>
+                  Activate Gift Card
+                </span>
+              </p>
+            )
+          ) : (
+            <p className={styles.greyText}>
+              No active Gift Cards linked with your account. <br />
+              <span className={styles.activateLink} onClick={activatePopup}>
+                Activate Gift Card
+              </span>
+            </p>
+          )}
+        </div>
+      )}
+
       <div>
-        {isactivecreditnote &&
-          !!creditNotes.length &&
-          creditNotes?.map(ele => (
+        {isactivegiftcard &&
+          !!giftCard.length &&
+          giftCard?.map(ele => (
             <GiftCardItem
               isLoggedIn={isLoggedIn}
               {...ele}

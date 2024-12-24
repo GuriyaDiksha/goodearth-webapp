@@ -15,6 +15,7 @@ export type CreditNote = {
   is_expired: boolean;
   type?: string;
   message?: string;
+  currency: string;
 };
 
 export type GiftCardResponse = {
@@ -34,6 +35,7 @@ export type GiftCard = {
   is_expired: boolean;
   type?: string;
   message?: string;
+  currency: string;
 };
 
 export type GC_CN_AmountResponse = {
