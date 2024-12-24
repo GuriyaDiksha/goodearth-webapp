@@ -46,12 +46,13 @@ input[type="date"] {
   @include err_13px_lora_italic_cerise();
   text-align: left;
   margin-top: 5px;
-  line-height: 1;
+  line-height: 1.2;
   // margin-top: 8px;
 }
 @media(max-width:425px){
   .error-msg {
     font-size: 12px!important;
+    letter-spacing: 0px !important;
   }
 }
 .dropdown{
