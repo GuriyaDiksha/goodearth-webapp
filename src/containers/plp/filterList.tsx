@@ -899,9 +899,7 @@ class FilterList extends React.Component<Props, State> {
     !this.props.mobile && this.updateTotalHeight();
     this.props.updateScrollDown(false);
     this.unlisten = this.props.history.listen(this.stateChange);
-    this.timeout = setTimeout(() => {
-      this.sendDataToParent();
-    }, 3000);
+    this.sendDataToParent();
 
     const header = document.getElementById("myHeader");
     const sticky = (header as HTMLElement)?.offsetTop;
@@ -951,6 +949,7 @@ class FilterList extends React.Component<Props, State> {
 
   componentDidUpdate(prevProps: Props, prevState: State) {
     if (prevProps.data !== this.props.data) {
+      this.timeout = setTimeout(() => this.sendDataToParent(), 1000);
       this.sendDataToParent();
     }
     if (!this.props.mobile) {
