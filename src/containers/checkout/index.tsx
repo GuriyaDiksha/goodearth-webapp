@@ -392,7 +392,10 @@ class Checkout extends React.Component<Props, State> {
             this.props.mobile,
             this.props.basket
           );
-          this.props?.history?.replace({ pathname: "/order/gc_checkout" });
+
+          if (this.props.location.pathname !== "/order/gc_checkout") {
+            this.props?.history?.replace({ pathname: "/order/gc_checkout" });
+          }
           return false;
         }
       }

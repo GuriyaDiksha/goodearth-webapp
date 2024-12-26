@@ -27,6 +27,7 @@ import SelectDropdown from "components/Formsy/SelectDropdown";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import ModalStyles from "components/Modal/styles.scss";
+import MetaService from "services/meta";
 
 const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
   const {
@@ -34,6 +35,8 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     user: { isLoggedIn },
     device: { mobile }
   } = useSelector((state: AppState) => state);
+
+  const cookies = useSelector((state: AppState) => state.cookies);
 
   const {
     user: { preferenceData }
@@ -260,6 +263,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
           ...profileState,
           updateProfile: false
         });
+        MetaService.updateMeta(dispatch, cookies);
       })
       .catch(error => {
         const errdata = error.response?.data;

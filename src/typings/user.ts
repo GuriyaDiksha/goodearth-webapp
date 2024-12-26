@@ -8,6 +8,7 @@ export type User = {
   id: string;
   panPassport?: string;
   phoneNumber?: string;
+  phoneCountryCode?: string;
   loyalityEligible: boolean;
   bridal: boolean;
   bridalId: number;
