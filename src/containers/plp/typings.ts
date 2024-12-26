@@ -41,6 +41,8 @@ export type FilterProps = {
   filterCount?: number;
   open?: boolean;
   openResetPopup?: (data: boolean) => void;
+  onSendData?: (productData: any) => void;
+  childProductTypeData?: any[];
 };
 
 export type State = {

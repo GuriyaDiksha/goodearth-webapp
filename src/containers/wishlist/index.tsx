@@ -117,7 +117,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       mobile?: boolean,
       isShared?: boolean
     ) => {
-      const childAttributes = item.stockDetails.map(
+      const childAttributes = item?.stockDetails?.map(
         ({
           discountedPrice,
           productId,
