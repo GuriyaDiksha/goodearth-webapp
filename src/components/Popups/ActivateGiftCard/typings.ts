@@ -19,6 +19,16 @@ export type BalanceProps = {
   code: string;
 };
 
+// export type BalanceProps = {
+//   cardId: string;
+//   cardType: string;
+//   appliedAmount: string;
+//   cardValue: string;
+//   remainingAmount: string;
+//   code: string;
+//   expiryDate: string;
+// };
+
 export interface GiftListProps extends BalanceProps {
   onClose: (data: string) => void;
 }

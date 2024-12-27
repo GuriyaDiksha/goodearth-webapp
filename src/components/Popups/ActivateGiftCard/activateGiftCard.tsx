@@ -6,6 +6,7 @@ import styles from "../styles.scss";
 import style from "./index.scss";
 import { GiftState } from "./typings";
 import GiftCardItem from "containers/myAccount/components/Balance/giftDetail";
+// import GiftCardItem from "containers/checkout/component/giftDetails";
 import { AppState } from "reducers/typings";
 import FormInput from "components/Formsy/FormInput";
 import Formsy from "formsy-react";
@@ -20,6 +21,7 @@ import Button from "components/Button";
 const Giftcard: React.FC = () => {
   const {
     user,
+    currency,
     device: { mobile }
   } = useSelector((state: AppState) => state);
   const [giftCardState, setGiftCardState] = useState<GiftState>({
@@ -115,7 +117,12 @@ const Giftcard: React.FC = () => {
         // txtvalue: ""
       });
       //Show  Growl Messsage
-      const msg = "Success. Gift Card Activated!";
+      let msg;
+      if (location.pathname == "/order/checkout") {
+        msg = "Success. Gift Card Code Activated & Applied!";
+      } else {
+        msg = "Success. Gift Card Activated!";
+      }
       showGrowlMessage(dispatch, msg, 7000);
       window.scrollTo(0, 0);
     }
@@ -442,7 +449,7 @@ const Giftcard: React.FC = () => {
           isLoggedIn={user?.isLoggedIn}
         />
       )}
-      {/* <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
+      <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
         {giftList.map((data, i) => {
           return (
             <GiftCardItem
@@ -453,9 +460,18 @@ const Giftcard: React.FC = () => {
               key={i}
               conditionalRefresh={conditionalRefresh}
             />
+            // <GiftCardItem
+            //   isLoggedIn={isLoggedIn}
+            //   {...data}
+            //   onClose={onClose}
+            //   currency={currency}
+            //   type="crd"
+            //   currStatus={"success"}
+            //   key={data?.code}
+            // />
           );
         })}
-        <div className={cs(styles.loginForm, bootstrapStyles.col12)}>
+        {/* <div className={cs(styles.loginForm, bootstrapStyles.col12)}>
           {!newCardBox && (
             <div
               className={cs(
@@ -468,8 +484,8 @@ const Giftcard: React.FC = () => {
               ACTIVATE ANOTHER GIFT CARD
             </div>
           )}
-        </div>
-      </div> */}
+        </div> */}
+      </div>
     </Fragment>
   );
 };

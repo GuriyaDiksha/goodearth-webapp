@@ -113,9 +113,9 @@ const ApplyCreditNote: React.FC<Props> = ({ amountCN }) => {
     }
   };
 
-  if (creditnoteList?.length === 0) {
-    return null;
-  }
+  // if (creditnoteList?.length === 0) {
+  //   return null;
+  // }
 
   return (
     <div
@@ -134,7 +134,8 @@ const ApplyCreditNote: React.FC<Props> = ({ amountCN }) => {
           id="applyCN"
           checked={isactivecreditnote}
           className={amountCN <= 0 ? styles.disabledLabel : ""}
-          onChange={amountCN > 0 ? onCreditNoteToggle : () => null}
+          // onChange={amountCN > 0 ? onCreditNoteToggle : () => null}
+          onChange={onCreditNoteToggle}
           label={[
             <label
               key="applyCN"

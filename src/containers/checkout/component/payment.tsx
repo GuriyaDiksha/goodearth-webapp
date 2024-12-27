@@ -929,7 +929,33 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
               {!basket.isOnlyGiftCart &&
                 !isGcCheckout &&
-                currency === "INR" && <ApplyCreditNote amountCN={amountCN} />}
+                (currency === "INR" ? (
+                  <ApplyCreditNote amountCN={amountCN} />
+                ) : (
+                  <div className={globalStyles.marginT20}>
+                    <CheckboxWithLabel
+                      id="applyCN"
+                      className={styles.disabledLabel}
+                      onChange={() => null}
+                      label={[
+                        <label
+                          key="applyCN"
+                          htmlFor="applyCN"
+                          className={cs(
+                            styles.formSubheading,
+                            styles.lineHeightLable
+                          )}
+                        >
+                          Apply Credit Note
+                        </label>
+                      ]}
+                    />
+                    <div className={styles.gcMsg}></div>
+                    <p className={styles.greyText}>
+                      There are no credit notes linked to international users
+                    </p>
+                  </div>
+                ))}
 
               {/* <div
             className={cs(globalStyles.errorMsg, globalStyles.marginT20)}

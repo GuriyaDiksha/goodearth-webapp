@@ -157,12 +157,12 @@ const ApplyCreditNote: React.FC<Props> = ({ hasGC, amountGC }) => {
 
         {isactivegiftcard && !!giftCard.length && (
           <div className={styles.edit} onClick={e => onGiftCardToggle(e, true)}>
-            EDIT
+            Apply more
           </div>
         )}
       </div>
 
-      {!isactivegiftcard && (
+      {giftCard.length <= 0 && (
         <div className={styles.gcMsg}>
           {hasGC ? (
             amountGC > 0 ? (
