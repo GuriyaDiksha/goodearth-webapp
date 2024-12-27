@@ -231,7 +231,7 @@ const AnnualSale: React.FC = () => {
         styles.loginForm
       )}
     >
-      <h4>
+      <h4 className={styles.saleTitle}>
         Unlock everlasting joy with your favourite home and apparel designs at
         upto 60% off. Sign up to get a reminder for the Good Earth Sale.
       </h4>

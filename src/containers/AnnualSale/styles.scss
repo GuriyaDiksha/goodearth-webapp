@@ -65,6 +65,9 @@
     .job-application {            
         width: 55%;
         margin: 60px auto;
+        .sale-title{
+            font-family: $font-Montserrat;
+        }
         h4 {
             font-size: 16px;
             text-align: center;
@@ -221,7 +224,7 @@
     color: #666666;
     letter-spacing: 1px;
     text-transform: none;
-    line-height: 18px;
+    // line-height: 18px;
     max-width: 366px !important;
     a {
         color: $aqua !important;
