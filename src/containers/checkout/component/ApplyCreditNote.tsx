@@ -134,8 +134,7 @@ const ApplyCreditNote: React.FC<Props> = ({ amountCN }) => {
           id="applyCN"
           checked={isactivecreditnote}
           className={amountCN <= 0 ? styles.disabledLabel : ""}
-          // onChange={amountCN > 0 ? onCreditNoteToggle : () => null}
-          onChange={onCreditNoteToggle}
+          onChange={amountCN > 0 ? onCreditNoteToggle : () => null}
           label={[
             <label
               key="applyCN"
