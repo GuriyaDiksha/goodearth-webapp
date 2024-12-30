@@ -243,13 +243,13 @@
 
 .image-with-side-subheading-mobile {
     display: grid;
-        grid-template-columns: 1fr 1fr;
-        column-gap: 26px;
-        row-gap: 5px;
+    grid-template-columns: repeat(2, minmax(90px, 1fr));
+    column-gap: 26px;
+    row-gap: 5px;
     
-        @media (min-width: 768px) {
-            grid-template-columns: 1fr 1fr 1fr;
-        }
+    @media (min-width: 768px) {
+        grid-template-columns: repeat(3, minmax(90px, 1fr));
+    }
     .featured-mobile-container {
         display: block;
         display: flex;
