@@ -162,7 +162,6 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     const elem = this.subscribeRef.current;
     const { email, phoneNo } = model;
     const data: any = {};
-    console.log(this.props.txtvalue);
     if (!this.props.txtvalue) {
       this.props.updateError(
         `Please enter a valid ${
@@ -571,6 +570,11 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             }
             this.props.updateError(errorMessage);
             errorTracking([errorMessage], location.href);
+          } else if (currStatus === "Invalid-GC") {
+            if (message) {
+              this.props.updateError(message);
+              errorTracking([message], location.href);
+            }
           } else if (currStatus == "Active" || currStatus == "Expired") {
             if (message.includes("Maximum attempts reached")) {
               this.setState({ showerrorOtp: message });
