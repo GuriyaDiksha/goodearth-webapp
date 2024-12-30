@@ -1,23 +1,17 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
-import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
 import style from "./index.scss";
 import iconStyles from "styles/iconFonts.scss";
 import Giftcard from "./activateGiftCard";
 import { Link } from "react-router-dom";
-// import { PasswordProps } from "../ChangePassword/typings";
 import { PasswordProps } from "./typings";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { Context } from "components/Modal/context";
 
 const ActivateGiftCard: React.FC<PasswordProps> = () => {
-  // useEffect(() => {
-  //   setCurrentSection();
-  // }, []);
-
   const {
     device: { mobile }
   } = useSelector((state: AppState) => state);

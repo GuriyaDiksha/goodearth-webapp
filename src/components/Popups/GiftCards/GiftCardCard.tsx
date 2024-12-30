@@ -1,13 +1,8 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect } from "react";
 import cs from "classnames";
 import styles from "./index.scss";
 import { GiftCard } from "containers/myAccount/components/MyCreditNotes/typings";
-import {
-  displayPriceWithCommasFloat,
-  displayPriceWithSeparation
-} from "utils/utility";
-import { AppState } from "reducers/typings";
-import { useSelector } from "react-redux";
+import { displayPriceWithSeparation } from "utils/utility";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 
@@ -45,6 +40,17 @@ const GiftCardCard = forwardRef<Props, any>(
     const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     const yyyy = today.getFullYear();
     const today_in_str = dd + "/" + mm + "/" + yyyy;
+
+    // useEffect(() => {
+    //   // Scroll to the first element whose has darkBorder class
+    //   const activeElement = document.getElementsByClassName(
+    //     styles.darkBorder
+    //   )[0] as HTMLDivElement;
+
+    //   if (activeElement && activeElement.scrollIntoView) {
+    //     activeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    //   }
+    // }, []);
 
     return (
       <>

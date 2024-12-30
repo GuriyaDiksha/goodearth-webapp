@@ -7,7 +7,6 @@ import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-// import CreditNoteCard from "./CreditNoteCard";
 import GiftCardCard from "./GiftCardCard";
 import BasketService from "services/basket";
 import {
@@ -22,13 +21,15 @@ import { GA_CALLS } from "constants/cookieConsent";
 import AccountService from "services/account";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
+import { showGrowlMessage } from "utils/validate";
 
 type Props = {
   data: GiftCard[];
   setIsactivegiftcard: (x: boolean) => void;
+  gc_code?: string;
 };
 
-const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard }) => {
+const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard, gc_code }) => {
   const { closeModal } = useContext(Context);
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
   const [activeKey, setActiveKey] = useState("");
@@ -45,12 +46,8 @@ const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard }) => {
   const history = useHistory();
   const bodyRef = useRef<any>([]);
 
-  const fetchGiftCards = (
-    sortBy?: SortBy,
-    sortType?: SortType,
-    page?: number
-  ) => {
-    AccountService.fetchGiftCards(dispatch, sortBy, sortType, page)
+  const fetchGiftCards = () => {
+    AccountService.fetchGiftCards(dispatch, "expiring_date", "asc", 1, true)
       .then(response => {
         const { results } = response;
         setgiftcardList(results.filter(ele => ele?.type !== "GC"));
@@ -70,17 +67,17 @@ const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard }) => {
     setCheckedIds([...cns]);
   }, []);
 
-  const applyGC = async (cn: string) => {
+  const applyGC = async (gc: string, isGCApplied?: boolean) => {
     const data: any = {
-      cardId: cn,
+      cardId: gc,
       type: "GIFTCARD"
     };
 
     const gift: any = await CheckoutService.applyGiftCard(dispatch, data);
     if (gift.status) {
-      setError({ ...error, [cn]: "" });
+      setError({ ...error, [gc]: "" });
 
-      setCheckedIds([...checkedIds, cn]);
+      setCheckedIds([...checkedIds, gc]);
 
       fetchGiftCards();
 
@@ -105,20 +102,36 @@ const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard }) => {
         history,
         isLoggedIn
       );
+      //Show  Growl Messsage
+      if (isGCApplied) {
+        const msg = "Success. Gift Card Code Activated & Applied!";
+        showGrowlMessage(dispatch, msg, 7000);
+      }
     } else {
-      setError({ ...error, [cn]: gift?.message });
+      setError({ ...error, [gc]: gift?.message });
+      //Show  Growl Messsage
+      if (isGCApplied) {
+        const msg = "Success. Gift Card Code Activated!";
+        showGrowlMessage(dispatch, msg, 7000);
+      }
     }
   };
 
-  const removeGC = async (cn: string) => {
+  useEffect(() => {
+    if (gc_code) {
+      applyGC(gc_code, true);
+    }
+  }, [gc_code && gc_code]);
+
+  const removeGC = async (gc: string) => {
     const data: any = {
-      cardId: cn,
+      cardId: gc,
       type: "GIFTCARD"
     };
     const res = await CheckoutService.removeGiftCard(dispatch, data);
     if (res) {
       fetchGiftCards();
-      setCheckedIds([...checkedIds.filter(ele => ele !== cn)]);
+      setCheckedIds([...checkedIds.filter(ele => ele !== gc)]);
       await BasketService.fetchBasket(
         dispatch,
         "checkout",

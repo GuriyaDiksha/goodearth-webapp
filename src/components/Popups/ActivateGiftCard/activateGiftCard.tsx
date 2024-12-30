@@ -117,13 +117,8 @@ const Giftcard: React.FC = () => {
         // txtvalue: ""
       });
       //Show  Growl Messsage
-      let msg;
-      if (location.pathname == "/order/checkout") {
-        msg = "Success. Gift Card Code Activated & Applied!";
-      } else {
-        msg = "Success. Gift Card Activated!";
-      }
-      showGrowlMessage(dispatch, msg, 7000);
+      //   const msg = "Success. Gift Card Activated!";
+      //   showGrowlMessage(dispatch, msg, 7000);
       window.scrollTo(0, 0);
     }
   };
@@ -459,6 +454,7 @@ const Giftcard: React.FC = () => {
               onClose={onClose}
               key={i}
               conditionalRefresh={conditionalRefresh}
+              gc_code={txtvalue}
             />
             // <GiftCardItem
             //   isLoggedIn={isLoggedIn}
@@ -471,20 +467,6 @@ const Giftcard: React.FC = () => {
             // />
           );
         })}
-        {/* <div className={cs(styles.loginForm, bootstrapStyles.col12)}>
-          {!newCardBox && (
-            <div
-              className={cs(
-                styles.rtcinfo,
-                globalStyles.pointer,
-                styles.charcoalBtn
-              )}
-              onClick={newGiftcard}
-            >
-              ACTIVATE ANOTHER GIFT CARD
-            </div>
-          )}
-        </div> */}
       </div>
     </Fragment>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import cl from "classnames";
 import styles from "../styles.scss";
 import { GiftListProps } from "./typings";
@@ -10,6 +10,7 @@ import { displayPriceWithSeparation } from "utils/utility";
 import { useSelector, useDispatch } from "react-redux";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
+// import { GiftCard } from "containers/myAccount/components/MyCreditNotes/typings";
 
 const GiftCardItem = ({
   currStatus,
@@ -27,7 +28,8 @@ const GiftCardItem = ({
   onClose,
   viewOnly,
   // showInactive,
-  isLoggedIn
+  isLoggedIn,
+  gc_code
 }: GiftListProps): JSX.Element => {
   // const [showLocked, set = false;
   // let showExpired = false;
@@ -37,6 +39,7 @@ const GiftCardItem = ({
   // setOpenState(!menuOpen);
   // console.log(showLocked);
   // };
+  // const [giftcardList, setGiftcardList] = useState<GiftCard[]>([]);
 
   const closeResult = (code: string) => {
     onClose(code);
@@ -54,8 +57,7 @@ const GiftCardItem = ({
       updateComponent(
         POPUP.GIFTCARDS,
         {
-          // data: giftList,
-          // setIsactivegiftcard
+          gc_code: gc_code
         },
         false
       )

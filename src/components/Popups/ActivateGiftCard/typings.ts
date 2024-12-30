@@ -1,3 +1,5 @@
+import { Currency } from "typings/currency";
+
 export type PasswordProps = {
   setCurrentSection: () => void;
 };
@@ -32,6 +34,14 @@ export type BalanceProps = {
 export interface GiftListProps extends BalanceProps {
   onClose: (data: string) => void;
 }
+
+// export interface GiftListProps extends BalanceProps {
+//   onClose: (data: string, type: string) => void;
+//   currStatus: string;
+//   currency: Currency;
+//   type?: string;
+//   isLoggedIn: boolean;
+// }
 
 export type GiftState = {
   toggleResetOtpComponent: boolean;

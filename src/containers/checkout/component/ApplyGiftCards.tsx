@@ -13,11 +13,7 @@ import CheckoutService from "services/checkout";
 import BasketService from "services/basket";
 import { useHistory } from "react-router";
 import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
-import {
-  GiftCard,
-  SortBy,
-  SortType
-} from "containers/myAccount/components/MyCreditNotes/typings";
+import { GiftCard } from "containers/myAccount/components/MyCreditNotes/typings";
 import { displayPriceWithSeparation } from "utils/utility";
 
 type Props = {
@@ -40,24 +36,20 @@ const ApplyCreditNote: React.FC<Props> = ({ hasGC, amountGC }) => {
     return giftCards?.filter(ele => ele.cardType === "GIFTCARD");
   }, [giftCards]);
 
-  const fetchGiftCards = (
-    sortBy?: SortBy,
-    sortType?: SortType,
-    page?: number
-  ) => {
-    AccountService.fetchGiftCards(dispatch, sortBy, sortType, page)
-      .then(response => {
-        const { results } = response;
-        setGiftcardList(results.filter(ele => ele?.type !== "GC"));
-      })
-      .catch(e => {
-        console.log("fetch credit notes API failed =====", e);
-      });
-  };
+  // const fetchGiftCards = () => {
+  //     AccountService.fetchGiftCards(dispatch, "expiring_date", "asc", 1, true)
+  //     .then(response => {
+  //       const { results } = response;
+  //       setGiftcardList(results.filter(ele => ele?.type !== "GC"));
+  //     })
+  //     .catch(e => {
+  //       console.log("fetch credit notes API failed =====", e);
+  //     });
+  // };
 
-  useEffect(() => {
-    fetchGiftCards();
-  }, []);
+  // useEffect(() => {
+  //   fetchGiftCards();
+  // }, []);
 
   useEffect(() => {
     setIsactivegiftcard(!!giftCard?.length);

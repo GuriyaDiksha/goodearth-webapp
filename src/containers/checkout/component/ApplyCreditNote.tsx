@@ -35,20 +35,20 @@ const ApplyCreditNote: React.FC<Props> = ({ amountCN }) => {
     return giftCards?.filter(ele => ele.cardType === "CREDITNOTE");
   }, [giftCards]);
 
-  const fetchCreditNotes = () => {
-    AccountService.fetchCreditNotes(dispatch, "expiring_date", "asc", 1, true)
-      .then(response => {
-        const { results } = response;
-        setCreditnoteList(results.filter(ele => ele?.type !== "GC"));
-      })
-      .catch(e => {
-        console.log("fetch credit notes API failed =====", e);
-      });
-  };
+  // const fetchCreditNotes = () => {
+  //   AccountService.fetchCreditNotes(dispatch, "expiring_date", "asc", 1, true)
+  //     .then(response => {
+  //       const { results } = response;
+  //       setCreditnoteList(results.filter(ele => ele?.type !== "GC"));
+  //     })
+  //     .catch(e => {
+  //       console.log("fetch credit notes API failed =====", e);
+  //     });
+  // };
 
-  useEffect(() => {
-    fetchCreditNotes();
-  }, [isactivecreditnote]);
+  // useEffect(() => {
+  //   fetchCreditNotes();
+  // }, []);
 
   useEffect(() => {
     setIsactivecreditnote(!!creditNotes?.length);

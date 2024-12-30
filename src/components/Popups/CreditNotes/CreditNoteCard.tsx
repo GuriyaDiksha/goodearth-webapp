@@ -2,10 +2,7 @@ import React, { forwardRef } from "react";
 import cs from "classnames";
 import styles from "./index.scss";
 import { CreditNote } from "containers/myAccount/components/MyCreditNotes/typings";
-import {
-  displayPriceWithCommasFloat,
-  displayPriceWithSeparation
-} from "utils/utility";
+import { displayPriceWithSeparation } from "utils/utility";
 import { AppState } from "reducers/typings";
 import { useSelector } from "react-redux";
 import CookieService from "services/cookie";
