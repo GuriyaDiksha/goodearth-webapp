@@ -821,6 +821,23 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       )}
                     </div>
                   </div>
+
+                  {/* this message only show in Sale */}
+                  {isSale && currency == "INR" ? (
+                    <div
+                      style={{
+                        color: "#548B8B",
+                        fontSize: "10px",
+                        fontFamily: "Montserrat, sans-serif",
+                        fontWeight: 500
+                      }}
+                    >
+                      Redemption of points is applicable on select
+                      non-discounted products.
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </>
               )}
             </Fragment>

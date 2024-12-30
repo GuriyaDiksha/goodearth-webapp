@@ -15,6 +15,7 @@ import tooltipOpenIcon from "images/tooltip-open.svg";
 
 const mapStateToProps = (state: AppState) => {
   return {
+    isSale: state.info.isSale,
     user: state.user,
     currency: state.currency,
     loyalty: state.basket.loyalty,
@@ -229,7 +230,59 @@ class Reedem extends React.Component<Props, RedeemState> {
                       this.setShowTipTwo(!showTooltipTwo);
                     }}
                   />
-                  <div
+
+                  {this.props.isSale && this.props.currency == "INR" ? (
+                    <div
+                      className={cs(styles.tooltipMsg, {
+                        [styles.show]: showTooltipTwo,
+                        [styles.tipTwo]: showTooltipTwo
+                      })}
+                    >
+                      Redemption of points is applicable on select
+                      non-discounted products.
+                      <a
+                        href={"/customer-assistance/terms"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Read More
+                      </a>
+                      .
+                      <br />
+                      <img
+                        src={showTooltipTwo ? tooltipOpenIcon : tooltipIcon}
+                        onClick={() => {
+                          this.setShowTipTwo(!showTooltipTwo);
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      className={cs(styles.tooltipMsg, {
+                        [styles.show]: showTooltipTwo,
+                        [styles.tipTwo]: showTooltipTwo
+                      })}
+                    >
+                      Redemption of points is applicable on select products.
+                      <a
+                        href={"/customer-assistance/terms"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Read More
+                      </a>
+                      .
+                      <br />
+                      <img
+                        src={showTooltipTwo ? tooltipOpenIcon : tooltipIcon}
+                        onClick={() => {
+                          this.setShowTipTwo(!showTooltipTwo);
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {/* <div
                     className={cs(styles.tooltipMsg, {
                       [styles.show]: showTooltipTwo,
                       [styles.tipTwo]: showTooltipTwo
@@ -252,7 +305,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                         this.setShowTipTwo(!showTooltipTwo);
                       }}
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <p
