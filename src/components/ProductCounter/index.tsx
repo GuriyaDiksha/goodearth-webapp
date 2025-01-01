@@ -23,7 +23,7 @@ const ProductCounter: React.FC<ProductCounterProps> = ({
       top: 0,
       behavior: "smooth"
     });
-    // add GA Event on product counter click
+
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
