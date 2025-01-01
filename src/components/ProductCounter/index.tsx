@@ -51,7 +51,7 @@ const ProductCounter: React.FC<ProductCounterProps> = ({
               <div>/</div>
               <div className={cs(styles.total)}>{total}</div>
             </div>
-            <div className={cs(styles.arrowContainer)} onClick={scrollToTop}>
+            <div className={cs(styles.arrowContainer)}>
               <img
                 alt="arrow-up"
                 src={arrow}
