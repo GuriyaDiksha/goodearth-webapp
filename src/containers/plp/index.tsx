@@ -508,7 +508,7 @@ class PLP extends React.Component<
             this.props.updateMobileView(plpMobileView);
             const top: number =
               leftMostElement.getBoundingClientRect().top - 135;
-            window.scrollBy({ top: top, behavior: "smooth" });
+            // window.scrollBy({ top: top, behavior: "smooth" });
             if (productID == cardIDs[0]) this.setState({ count: -1 });
           } else {
             this.child.appendData(plpMobileView);

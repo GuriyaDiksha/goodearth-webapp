@@ -296,8 +296,8 @@ class Search extends React.Component<
     });
     const config = { subtree: true, childList: true };
     observer.observe(document, config);
-    if (this.props.device?.mobile) {
-      const view: string = CookieService.getCookie("plpMobileView");
+    if (this.props.device.mobile) {
+      const view: string = CookieService.getCookie("plpMobileView") || "grid";
       this.updateMobileView(view);
     }
   }
@@ -403,7 +403,7 @@ class Search extends React.Component<
               this.props.updateMobileView(plpMobileView);
               const top: number =
                 leftMostElement.getBoundingClientRect().top - 135;
-              window.scrollBy({ top: top, behavior: "smooth" });
+              // window.scrollBy({ top: top, behavior: "smooth" });
               if (productID == cardIDs[0]) this.setState({ count: -1 });
             } else {
               this.child.appendData(plpMobileView);

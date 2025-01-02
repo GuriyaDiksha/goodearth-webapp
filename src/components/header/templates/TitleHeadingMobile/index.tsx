@@ -40,140 +40,145 @@ const TitleHeadingMobile: React.FC<Props> = ({
   const { mobile } = useSelector((state: AppState) => state.device);
   return (
     <>
-      {data?.children?.map((child: any, ind: number) => (
-        <div className={styles.titleHeadingMobile} key={ind}>
-          <div className={styles.featuredMobileCosntainer}>
-            {(componentData.thumbnailSrc || componentData?.src) &&
-              (validURL(child.componentData?.link) ? (
+      <div className={styles.headingContainer}>
+        <div className={styles.blockHeading}>
+          {validURL(componentData.link) ? (
+            <a
+              className={styles.mobileTitle}
+              href={componentData.link}
+              target={componentData.openInNewTab ? "_blank" : ""}
+              rel={
+                componentData.openInNewTab ? "noopener noreferrer" : undefined
+              }
+              onClick={() =>
+                onHeaderMegaMenuClick({
+                  l1,
+                  l2: componentData.title,
+                  clickUrl2: componentData.link,
+                  template: templateType
+                })
+              }
+            >
+              {ReactHtmlParser(componentData.title)}
+            </a>
+          ) : (
+            <Link
+              className={styles.mobileTitle}
+              to={componentData.link}
+              target={componentData.openInNewTab ? "_blank" : ""}
+              onClick={() =>
+                onHeaderMegaMenuClick({
+                  l1,
+                  l2: componentData.title,
+                  clickUrl2: componentData.link,
+                  template: templateType
+                })
+              }
+            >
+              {ReactHtmlParser(componentData.title)}
+            </Link>
+          )}
+        </div>
+        <div className={styles.container}>
+          {(componentData.thumbnailSrc || componentData?.src) &&
+            (validURL(componentData?.link) ? (
+              <a
+                href={componentData?.link}
+                target={componentData.openInNewTab ? "_blank" : ""}
+                rel={
+                  componentData.openInNewTab ? "noopener noreferrer" : undefined
+                }
+                onClick={() =>
+                  onHeaderMegaMenuClick({
+                    l1,
+                    l2: componentData.title,
+                    // l3: componentData.title,
+                    clickUrl2: componentData.link,
+                    template: templateType,
+                    img2: mobile
+                      ? componentData.thumbnailSrc || componentData.src || ""
+                      : componentData.src || ""
+                  })
+                }
+              >
+                <img
+                  className={styles.img}
+                  src={mobile ? componentData.thumbnailSrc : componentData.src}
+                  alt={getInnerText(componentData.title)}
+                />
+              </a>
+            ) : (
+              <Link
+                to={componentData?.link}
+                target={componentData.openInNewTab ? "_blank" : ""}
+                onClick={() =>
+                  onHeaderMegaMenuClick({
+                    l1,
+                    l2: componentData.title,
+                    // l3: componentData.title,
+                    clickUrl2: componentData.link,
+                    template: templateType,
+                    img2: mobile
+                      ? componentData.thumbnailSrc || componentData.src || ""
+                      : componentData.src || ""
+                  })
+                }
+              >
+                <img
+                  className={styles.img}
+                  src={mobile ? componentData.thumbnailSrc : componentData.src}
+                  alt={getInnerText(componentData.title)}
+                />
+              </Link>
+            ))}
+          {data?.children?.map((child: any, ind: number) => (
+            <div className={styles.titleHeadingMobile} key={ind}>
+              {validURL(child.componentData.link) ? (
                 <a
-                  href={child.componentData?.link}
+                  className={styles.mobileHeading}
+                  href={child.componentData.link}
                   target={child.componentData.openInNewTab ? "_blank" : ""}
+                  rel={
+                    componentData.openInNewTab
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
                   onClick={() =>
                     onHeaderMegaMenuClick({
                       l1,
-                      l2: child.componentData.title,
-                      // l3: componentData.title,
+                      l2: child.componentData.heading,
                       clickUrl2: child.componentData.link,
-                      template: templateType,
-                      img2: mobile
-                        ? componentData.thumbnailSrc || componentData.src || ""
-                        : componentData.src || ""
+                      template: templateType
                     })
                   }
                 >
-                  <img
-                    className={styles.img}
-                    src={
-                      mobile ? componentData.thumbnailSrc : componentData.src
-                    }
-                    alt={getInnerText(child.componentData.title)}
-                  />
+                  {ReactHtmlParser(
+                    child.componentData.heading || child.componentData.title
+                  )}
                 </a>
               ) : (
                 <Link
-                  to={child.componentData?.link}
+                  className={styles.mobileHeading}
+                  to={child.componentData.link}
                   target={child.componentData.openInNewTab ? "_blank" : ""}
                   onClick={() =>
                     onHeaderMegaMenuClick({
                       l1,
-                      l2: child.componentData.title,
-                      // l3: componentData.title,
+                      l2: child.componentData.heading,
                       clickUrl2: child.componentData.link,
-                      template: templateType,
-                      img2: mobile
-                        ? componentData.thumbnailSrc || componentData.src || ""
-                        : componentData.src || ""
+                      template: templateType
                     })
                   }
                 >
-                  <img
-                    className={styles.img}
-                    src={
-                      mobile ? componentData.thumbnailSrc : componentData.src
-                    }
-                    alt={getInnerText(child.componentData.title)}
-                  />
+                  {ReactHtmlParser(
+                    child.componentData.heading || child.componentData.title
+                  )}
                 </Link>
-              ))}
-            <div className={styles.container}>
-              <div className={styles.blockHeading}>
-                {validURL(componentData.link) ? (
-                  <a
-                    className={styles.mobileTitle}
-                    href={componentData.link}
-                    target={componentData.openInNewTab ? "_blank" : ""}
-                    onClick={() =>
-                      onHeaderMegaMenuClick({
-                        l1,
-                        l2: componentData.title,
-                        clickUrl2: componentData.link,
-                        template: templateType
-                      })
-                    }
-                  >
-                    {ReactHtmlParser(componentData.title)}
-                  </a>
-                ) : (
-                  <Link
-                    className={styles.mobileTitle}
-                    to={componentData.link}
-                    target={componentData.openInNewTab ? "_blank" : ""}
-                    onClick={() =>
-                      onHeaderMegaMenuClick({
-                        l1,
-                        l2: componentData.title,
-                        clickUrl2: componentData.link,
-                        template: templateType
-                      })
-                    }
-                  >
-                    {ReactHtmlParser(componentData.title)}
-                  </Link>
-                )}
-              </div>
-              <div className={styles.blockHeading}>
-                {validURL(child.componentData.link) ? (
-                  <a
-                    className={styles.mobileHeading}
-                    href={child.componentData.link}
-                    target={child.componentData.openInNewTab ? "_blank" : ""}
-                    onClick={() =>
-                      onHeaderMegaMenuClick({
-                        l1,
-                        l2: child.componentData.heading,
-                        clickUrl2: child.componentData.link,
-                        template: templateType
-                      })
-                    }
-                  >
-                    {ReactHtmlParser(
-                      child.componentData.heading || child.componentData.title
-                    )}
-                  </a>
-                ) : (
-                  <Link
-                    className={styles.mobileHeading}
-                    to={child.componentData.link}
-                    target={child.componentData.openInNewTab ? "_blank" : ""}
-                    onClick={() =>
-                      onHeaderMegaMenuClick({
-                        l1,
-                        l2: child.componentData.heading,
-                        clickUrl2: child.componentData.link,
-                        template: templateType
-                      })
-                    }
-                  >
-                    {ReactHtmlParser(
-                      child.componentData.heading || child.componentData.title
-                    )}
-                  </Link>
-                )}
-              </div>
+              )}
             </div>
-          </div>
+          ))}
         </div>
-      ))}
+      </div>
     </>
   );
 };

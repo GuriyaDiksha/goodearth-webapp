@@ -1689,7 +1689,7 @@ ul.inner-menu-mobile {
 }
 
 .hr {
-  margin: 20px 0 10px 0;
+  margin: 20px 0 20px 0;
   height: 1px;
   border: none;
   background: #D8D8D8;
@@ -2225,4 +2225,11 @@ div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
   border-radius: 100%;
   right: 3px;
   top: 6px;
+}
+
+.divider {
+  height: 1px;
+  background: #D8D8D8;
+  border: none;
+  margin-top: 30px;
 }
