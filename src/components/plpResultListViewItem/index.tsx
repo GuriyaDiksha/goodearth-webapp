@@ -240,23 +240,25 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           </div>
         )}
         {!isCorporate && product?.is3dimage && (
-          <div
-            className={cs(
-              globalStyles.textCenter,
-              globalStyles.listRightBottomPosition,
-              globalStyles.threeSixtyIconPositionDesktop,
-              { [globalStyles.threeSixtyIconPositionMobile]: mobile }
-            )}
-          >
+          <Link to={product?.url}>
             <div
               className={cs(
-                globalStyles.iconContainer,
-                globalStyles.threeSixtyContainer
+                globalStyles.textCenter,
+                globalStyles.listRightBottomPosition,
+                globalStyles.threeSixtyIconPositionDesktop,
+                { [globalStyles.threeSixtyIconPositionMobile]: mobile }
               )}
             >
-              <img src={plpThreeSixty} alt="360" />
+              <div
+                className={cs(
+                  globalStyles.iconContainer,
+                  globalStyles.threeSixtyContainer
+                )}
+              >
+                <img src={plpThreeSixty} alt="360" />
+              </div>
             </div>
-          </div>
+          </Link>
         )}
 
         {!isCorporate && product?.badge_text && (

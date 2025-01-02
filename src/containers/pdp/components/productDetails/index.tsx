@@ -1567,7 +1567,8 @@ const ProductDetails: React.FC<Props> = ({
                 !info.isSale &&
                 loyaltyDisabled &&
                 isQuickview &&
-                isCeriseUser ? (
+                isCeriseUser &&
+                currency === "INR" ? (
                   <p className={cs(styles.errorMsg, styles.notEligible)}>
                     This product is not eligible for cerise points.
                   </p>
@@ -1640,7 +1641,12 @@ const ProductDetails: React.FC<Props> = ({
                 [globalStyles.voffset3]: mobile
               })}
             >
-              {onload && loyaltyDisabled && !isQuickview && isCeriseUser ? (
+              {onload &&
+              loyaltyDisabled &&
+              !info.isSale &&
+              !isQuickview &&
+              isCeriseUser &&
+              currency === "INR" ? (
                 <p className={styles.errorMsg}>
                   This product is not eligible for cerise points.
                 </p>
