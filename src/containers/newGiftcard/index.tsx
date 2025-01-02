@@ -172,8 +172,8 @@ class NewGiftcard extends React.Component<Props, State> {
   onCountrySelect = (e: any) => {
     const { countryData, currency } = this.state;
     const country = e.target.value;
-    const newCurrency = countryData[country];
-    const newCurrencyCode = currencyCode[newCurrency];
+    const newCurrency = countryData?.[country];
+    const newCurrencyCode = currencyCode?.[newCurrency];
     this.setState(
       {
         selectedCountry: country
@@ -199,6 +199,8 @@ class NewGiftcard extends React.Component<Props, State> {
             customValueErrorMsg: ""
           });
         }
+        CookieService.setCookie("country", country, 365);
+        CookieService.setCookie("countryCode", newCurrency, 365);
         this.props.updateRegion({ country });
       }
     );
