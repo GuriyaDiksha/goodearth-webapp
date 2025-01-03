@@ -63,7 +63,11 @@ const HelloarPopup: React.FC<Props> = ({
             Spin & Drag to rotate the product
           </div>
         </div>
-        <div className={styles.helloArClose} onClick={closeModal}>
+        <div
+          id="hello_ar_close"
+          className={styles.helloArClose}
+          onClick={closeModal}
+        >
           <i
             className={cs(
               iconStyles.icon,
