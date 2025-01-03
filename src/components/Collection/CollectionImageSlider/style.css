@@ -65,16 +65,33 @@
     color: transparent;
   }
   
+
   .collectionImageContainer .slick-slider:hover .slick-arrow {
     position: absolute;
     height: 70px;
     width: 50px;
     border-radius: 0px;
     top:50%;
-    display: block;
+    display: block ;
     /* margin-top: -20px; */
     z-index: 8;
   }
+
+
+  @media screen and (max-width: 992px) {
+    .collectionImageContainer .slick-slider:hover .slick-arrow {
+      position: absolute;
+      height: 70px;
+      width: 50px;
+      border-radius: 0px;
+      top:50%;
+      display: none !important;
+      /* margin-top: -20px; */
+      z-index: 8;
+    }
+   
+  }
+  
   
   .collectionImageContainer .slick-arrow.slick-prev {
     left: 0px;
