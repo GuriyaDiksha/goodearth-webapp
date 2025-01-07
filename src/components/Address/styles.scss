@@ -145,6 +145,7 @@ body:has(.mobile) {
     .address-edit {
       opacity: 0.25;
       cursor: default;
+      pointer-events: none;
       &:hover{
         cursor: default !important;
       }
