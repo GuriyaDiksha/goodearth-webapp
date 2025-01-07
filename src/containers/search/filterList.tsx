@@ -408,7 +408,7 @@ class FilterList extends React.Component<Props, State> {
     return mainUrl;
   };
 
-  createUrlfromFilter = (load?: any) => {
+  createUrlfromFilter = (load?: any, isCategoryClicked?: boolean) => {
     const array = this.state.filter;
     const { isViewAll, urltempData, filter } = this.state;
     const { history } = this.props;
@@ -423,21 +423,25 @@ class FilterList extends React.Component<Props, State> {
       searchValue = "",
       categoryKey: any;
 
-    if (isViewAll) {
-      let qparam = "";
-      Object.keys(urltempData?.categoryObj).map(ele => {
-        if (ele.trim() == urltempData?.id.split(">")[0].trim()) {
-          urltempData?.categoryObj[ele].map((val: any, index: number) => {
-            qparam += index === 0 ? "" : qparam ? "|" + val[1] : val[1];
-          });
-        }
-      });
+    if (!isCategoryClicked) {
+      if (isViewAll) {
+        let qparam = "";
+        Object.keys(urltempData?.categoryObj).map(ele => {
+          if (ele.trim() == urltempData?.id.split(">")[0].trim()) {
+            urltempData?.categoryObj[ele].map((val: any, index: number) => {
+              qparam += index === 0 ? "" : qparam ? "|" + val[1] : val[1];
+            });
+          }
+        });
 
-      filter.categoryShop["selectedCatShop"] = qparam;
-    } else if (urltempData?.id !== "all") {
-      filter.categoryShop["selectedCatShop"] = urltempData?.id;
-    } else if (filter.categoryShop["selectedCatShop"]?.startsWith("View All")) {
-      filter.categoryShop["selectedCatShop"] = "";
+        filter.categoryShop["selectedCatShop"] = qparam;
+      } else if (urltempData?.id !== "all") {
+        filter.categoryShop["selectedCatShop"] = urltempData?.id;
+      } else if (
+        filter.categoryShop["selectedCatShop"]?.startsWith("View All")
+      ) {
+        filter.categoryShop["selectedCatShop"] = "";
+      }
     }
 
     Object.keys(array).map((filterType, i) => {
@@ -1085,7 +1089,10 @@ class FilterList extends React.Component<Props, State> {
 
   handleProductSearch() {
     const pdpProductScrollId = this.getPdpProduct().pdpProductDetails.id;
-    if (document.getElementById(pdpProductScrollId)) {
+    if (
+      document.getElementById(pdpProductScrollId) &&
+      this.props.history.action === "POP"
+    ) {
       setTimeout(() => {
         const element = document.getElementById(pdpProductScrollId);
         element ? element.scrollIntoView(true) : "";
@@ -2455,7 +2462,12 @@ class FilterList extends React.Component<Props, State> {
         filter: newFilter
       },
       () => {
-        // this.createUrlfromFilter();
+        if (
+          this.props.location.pathname == "/search/" &&
+          this.props.history.action === "POP"
+        ) {
+          this.createUrlfromFilter(undefined, true);
+        }
       }
     );
   };
