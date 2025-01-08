@@ -1346,12 +1346,19 @@ class PDPContainer extends React.Component<Props, State> {
   getPairItWithSection = () => {
     const {
       data: { pairItWithProducts = [] },
-      device: { mobile }
+      device: { mobile },
+      currency
     } = this.props;
 
+    // Filter out products where the price is equal to 0
+    const filteredPairItWithProducts = pairItWithProducts?.filter(
+      item => item.priceRecords[currency] != 0
+    );
+
+    // Check if we have enough products to display
     if (
-      pairItWithProducts.length < (mobile ? 2 : 4) ||
-      typeof document == "undefined"
+      filteredPairItWithProducts.length < (mobile ? 2 : 4) ||
+      typeof document === "undefined"
     ) {
       return null;
     }
@@ -1398,10 +1405,10 @@ class PDPContainer extends React.Component<Props, State> {
 
     return (
       <PairItWithSlider
-        data={pairItWithProducts}
+        data={filteredPairItWithProducts} // Use filtered products here
         setting={config as Settings}
         mobile={mobile}
-        currency={this.props.currency}
+        currency={currency}
       />
     );
   };
