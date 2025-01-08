@@ -10,6 +10,7 @@ import GiftCardItem from "./giftDetail";
 import { AppState } from "reducers/typings";
 import OtpComponent from "components/OtpComponent";
 import { errorTracking } from "utils/validate";
+import { Link } from "react-router-dom";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -309,7 +310,7 @@ class Giftcard extends React.Component<Props, GiftState> {
           >
             {newCardBox ? (
               <>
-                <div className={cs(styles.codeWrp)}>
+                <div className={cs(styles.codeWrp, styles.rtcinfo)}>
                   {toggleOtp ? (
                     ""
                   ) : (
@@ -347,11 +348,22 @@ class Giftcard extends React.Component<Props, GiftState> {
                       <label className={styles.gcLabel}>Gift Card Code</label>
                     </Fragment>
                   )}
-                  {this.state.error && (
-                    <p className={cs(globalStyles.errorMsg)}>
-                      {this.state.error}
-                    </p>
-                  )}
+                  {this.state.error &&
+                    (this.state.error.includes("Inactive") ? (
+                      <p className={styles.balanceTxt}>
+                        {this.state.error}{" "}
+                        <Link
+                          className={cs(globalStyles.linkTextUnderline)}
+                          to="/account/giftcard-activation"
+                        >
+                          Click here to activate.
+                        </Link>
+                      </p>
+                    ) : (
+                      <p className={cs(globalStyles.errorMsg)}>
+                        {this.state.error}
+                      </p>
+                    ))}
                 </div>
               </>
             ) : (
