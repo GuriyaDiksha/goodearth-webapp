@@ -237,19 +237,14 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
         html.push(
           <div className={cs(styles.product)} key={item.product.id}>
             <div className={cs(styles.imageContainer)}>
-              {item.product.images[0].badgeImage && (
+              {item.badge && (
                 <img
                   className={cs(styles.badgeImage)}
-                  src={item.product.images[0].badgeImage}
+                  src={item.badge}
+                  alt="Badge"
                 />
               )}
-              <img
-                src={
-                  item.product.images[0]
-                    ? item.product.images[0].productImage
-                    : ""
-                }
-              />
+              {item.badgePdp && <img src={item.badgePdp} alt="Badge PDP" />}
             </div>
             <div className={cs(styles.productInfo)}>
               {item.product.collection && (
