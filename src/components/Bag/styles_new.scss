@@ -148,11 +148,13 @@
           @include b3_14px_montserrat_charcoal();
           text-transform: uppercase;
           padding-top: 10px;
-
+          display: flex;
+          align-items: center;
+          column-gap: 4px;
           .discountprice {
             color: $gold;
             font-family: $font-Montserrat;
-            font-size: 14px;
+            font-size: 14px !important;
           }
 
           .strikeprice {
