@@ -359,7 +359,8 @@ class Footer extends React.Component<Props, FooterState> {
     const now = new Date();
 
     const startDate = new Date("2025-01-08T16:55:00"); // 14th Jan, 9 AM
-    const endDate = new Date("2025-01-19T22:00:00"); // 19th Jan, 10 PM
+    // const endDate = new Date("2025-01-19T22:00:00"); // 19th Jan, 10 PM
+    const endDate = new Date("2025-01-08T17:08:00");
 
     // Check if the current date and time is between 14th Jan, 9 AM and 19th Jan, 10 PM
     if (now >= startDate && now <= endDate) {
