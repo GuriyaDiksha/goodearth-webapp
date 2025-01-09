@@ -20,6 +20,7 @@ import {
 import DockedPanel from "containers/pdp/docked";
 import VerticalImageSlider from "components/VerticalImageSlider";
 import { indexOf } from "lodash";
+import { useLocation } from "react-router-dom";
 
 type Props = {
   images: ProductImage[];
@@ -92,6 +93,14 @@ const Zoom: React.FC<Props> = ({
 
     document.body.classList.remove(globalStyles.fixed);
   };
+
+  // close zoom modal once wishlist page is reloaded
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname == "/wishlist") {
+      closeModal();
+    }
+  }, [location]);
 
   const setZoomcall = (value: any) => {
     if (mobile) {
