@@ -598,7 +598,7 @@ class ProfileUpdater extends React.Component<Props, State> {
               disable={phoneCountryCode ? true : false}
               validations={{
                 isCodeValid: (values, value) => {
-                  return !(values.phone && value == "");
+                  return !(values.phoneNumber && value == "");
                 }
               }}
               validationErrors={{

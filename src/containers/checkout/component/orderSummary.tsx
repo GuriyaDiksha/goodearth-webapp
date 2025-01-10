@@ -317,7 +317,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                               false
                             )}
                       </span>
-                      &nbsp; &nbsp;
+                      &nbsp;
                       <span className={styles.strikeprice}>
                         {item.product.structure == "GiftCard"
                           ? displayPriceWithCommasFloat(

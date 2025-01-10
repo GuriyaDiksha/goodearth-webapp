@@ -235,21 +235,21 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
           +parseFloat(item.priceExclTaxExclDiscounts).toFixed(2) /
           +item.quantity;
         html.push(
-          <div className={cs(styles.product)} key={item.product.id}>
+          <div className={cs(styles.product)} key={item?.product?.id}>
             <div className={cs(styles.imageContainer)}>
-              {item.product.images[0].badgeImage && (
+              {item?.badge && (
                 <img
                   className={cs(styles.badgeImage)}
-                  src={item.product.images[0].badgeImage}
+                  src={item.badge}
+                  alt="Badge"
                 />
               )}
-              <img
-                src={
-                  item.product.images[0]
-                    ? item.product.images[0].productImage
-                    : ""
-                }
-              />
+              {item?.product?.images[0]?.productImage && (
+                <img
+                  src={item.product.images[0].productImage}
+                  alt="product image"
+                />
+              )}
             </div>
             <div className={cs(styles.productInfo)}>
               {item.product.collection && (
