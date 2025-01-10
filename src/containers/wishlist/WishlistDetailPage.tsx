@@ -659,7 +659,7 @@ const WishlistDetailPage = () => {
 
       <div
         className={cs(styles.wishlistBlockOuter, {
-          [styles.wishlistBlockOuterTimer]: showTimer
+          [styles.wishlistBlockOuterTimer]: showTimer && isLoggedIn
         })}
       >
         {!isLoggedIn && !isShared && (
