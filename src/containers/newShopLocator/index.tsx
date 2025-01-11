@@ -149,17 +149,26 @@ class ShopLocator extends Component<Props, State> {
             const ele = document.getElementById(city || "") as HTMLDivElement;
             if (ele) {
               ele?.focus();
-              if (document.getElementById("bottomSlide")) {
-                (document.getElementById(
-                  "bottomSlide"
-                ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
-                (document.getElementById(
-                  "bottomSlide"
-                ) as HTMLDivElement).scrollTo({
-                  left: ele.offsetLeft,
-                  behavior: "smooth"
-                });
-              }
+              requestAnimationFrame(() => {
+                const rect = ele.getBoundingClientRect(); // Get the position relative to the viewport
+                const left = rect.left + window.scrollX;
+                if (document.getElementById("bottomSlide")) {
+                  (document.getElementById(
+                    "bottomSlide"
+                  ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
+                  // (document.getElementById(
+                  //   "bottomSlide"
+                  // ) as HTMLDivElement).scrollTo({
+                  //   left: ele.offsetLeft,
+                  //   behavior: "smooth"
+                  // });
+                  setTimeout(() => {
+                    (document.getElementById(
+                      "bottomSlide"
+                    ) as HTMLDivElement).scrollLeft = left;
+                  }, 100);
+                }
+              });
             }
           }
         );
