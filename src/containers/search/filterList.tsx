@@ -926,13 +926,6 @@ class FilterList extends React.Component<Props, State> {
     const filterMenu = document.getElementById("filter_by");
     const filterMenuHeader = document.getElementById("filter-menu-header");
     const timer = this.props.showTimer;
-    // const { filter , urltempData } = this.state;
-    // const { search } = this.props.history.location;
-    // if (!search || !search.includes("&")) {
-    //   urltempData.id = "";
-    //   filter.categoryShop["selectedCatShop"]=""
-
-    // }
 
     if (window?.pageYOffset > sticky) {
       if (filterMenu) {
