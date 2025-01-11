@@ -918,6 +918,7 @@ class FilterList extends React.Component<Props, State> {
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
     this.props.updateScrollDown(false);
+
     this.unlisten = this.props.history.listen(this.stateChange);
 
     const header = document.getElementById("myHeader");
@@ -925,6 +926,14 @@ class FilterList extends React.Component<Props, State> {
     const filterMenu = document.getElementById("filter_by");
     const filterMenuHeader = document.getElementById("filter-menu-header");
     const timer = this.props.showTimer;
+    // const { filter , urltempData } = this.state;
+    // const { search } = this.props.history.location;
+    // if (!search || !search.includes("&")) {
+    //   urltempData.id = "";
+    //   filter.categoryShop["selectedCatShop"]=""
+
+    // }
+
     if (window?.pageYOffset > sticky) {
       if (filterMenu) {
         const tim = timer !== undefined ? timer : this.props.showTimer;
@@ -1029,20 +1038,33 @@ class FilterList extends React.Component<Props, State> {
       //   )
       // }
     }
+    const { filter, urltempData } = this.state;
+    const { search } = this.props.history.location;
+    if (this.props.location != nextProps.location) {
+      // reset previous property when you reagain visit the search-page
+      if (!search || !search.includes("&")) {
+        filter.categoryShop["selectedCatShop"] = "";
+        urltempData.id = "";
+      }
+    }
 
     if (
       this.props.currency != nextProps.currency ||
       this.props.customerGroup != nextProps.customerGroup
     ) {
-      const { filter } = this.state;
-
       if (filter.sortBy && filter.sortBy["sortBy"] == "discount") {
         filter.sortBy = {};
       }
       filter.price = {};
+      if (!search || !search.includes("&")) {
+        // reset previous property when you reagain visit the search-page
+        filter.categoryShop["selectedCatShop"] = "";
+        urltempData.id = "";
+      }
       this.setState(
         {
-          filter
+          filter,
+          urltempData
         },
         () => {
           this.createUrlfromFilter();
