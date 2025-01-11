@@ -1186,6 +1186,12 @@ class PDPContainer extends React.Component<Props, State> {
       device: { mobile },
       data
     } = this.props;
+
+    // Filter out products where the price is equal to 0
+    const filteredLooksProducts = this.props.data.looksProducts?.filter(
+      item => item.priceRecords[currency] != 0
+    );
+
     return data ? (
       <>
         {/* {mobile && (
@@ -1266,8 +1272,8 @@ class PDPContainer extends React.Component<Props, State> {
               </div>
             )}
             {mobile ? (
-              this.props.data.looksProducts &&
-              this.props.data.looksProducts.map((item, index) => {
+              filteredLooksProducts &&
+              filteredLooksProducts.map((item, index) => {
                 return (
                   <div
                     className={cs(
@@ -1301,8 +1307,8 @@ class PDPContainer extends React.Component<Props, State> {
                 })}
               >
                 <div className={bootstrap.row}>
-                  {this.props.data?.looksProducts &&
-                    this.props.data?.looksProducts?.map((item, i) => {
+                  {filteredLooksProducts &&
+                    filteredLooksProducts.map((item, i) => {
                       return (
                         <div
                           key={i}
@@ -1340,12 +1346,19 @@ class PDPContainer extends React.Component<Props, State> {
   getPairItWithSection = () => {
     const {
       data: { pairItWithProducts = [] },
-      device: { mobile }
+      device: { mobile },
+      currency
     } = this.props;
 
+    // Filter out products where the price is equal to 0
+    const filteredPairItWithProducts = pairItWithProducts?.filter(
+      item => item.priceRecords[currency] != 0
+    );
+
+    // Check if we have enough products to display
     if (
-      pairItWithProducts.length < (mobile ? 2 : 4) ||
-      typeof document == "undefined"
+      filteredPairItWithProducts.length < (mobile ? 2 : 4) ||
+      typeof document === "undefined"
     ) {
       return null;
     }
@@ -1392,10 +1405,10 @@ class PDPContainer extends React.Component<Props, State> {
 
     return (
       <PairItWithSlider
-        data={pairItWithProducts}
+        data={filteredPairItWithProducts} // Use filtered products here
         setting={config as Settings}
         mobile={mobile}
-        currency={this.props.currency}
+        currency={currency}
       />
     );
   };

@@ -29,6 +29,7 @@ export type FooterState = {
   subheadingHoverArray: boolean[];
   smartNav: string[];
   country?: string;
+  isPromoPopupVisible?: boolean;
 };
 
 export type ShopLocations = { label: string; value: string }[];

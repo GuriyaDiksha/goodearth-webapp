@@ -8,14 +8,10 @@ import React, {
 } from "react";
 import cs from "classnames";
 import { useStore, useSelector, useDispatch } from "react-redux";
-// contexts
 import WishlistContext from "contexts/wishlist";
 import UserContext from "contexts/user";
-// typings
 import { Props } from "./typings.d";
-// services
 import WishlistService from "services/wishlist";
-// styles
 import iconStyles from "styles/iconFonts.scss";
 import globalStyles from "styles/global.scss";
 import stylespdp from "./stylespdp.scss";
@@ -229,6 +225,7 @@ const WishlistButtonpdp: React.FC<Props> = ({
   };
 
   const onClick = useCallback(async () => {
+    const btnIcon = document.getElementById("hello_ar_close");
     dispatch(updateLoader(true));
     if (basketLineId) {
       if (addedToWishlist) {
@@ -299,6 +296,8 @@ const WishlistButtonpdp: React.FC<Props> = ({
           })
           .finally(() => {
             dispatch(updateLoader(false));
+            // Trigger a click on the button icon to close the 3D view popup
+            btnIcon?.click();
           });
       }
     }
