@@ -150,8 +150,6 @@ class ShopLocator extends Component<Props, State> {
             if (ele) {
               ele?.focus();
               requestAnimationFrame(() => {
-                const rect = ele.getBoundingClientRect(); // Get the position relative to the viewport
-                const left = rect.left + window.scrollX;
                 if (document.getElementById("bottomSlide")) {
                   (document.getElementById(
                     "bottomSlide"
@@ -165,7 +163,7 @@ class ShopLocator extends Component<Props, State> {
                   setTimeout(() => {
                     (document.getElementById(
                       "bottomSlide"
-                    ) as HTMLDivElement).scrollLeft = left;
+                    ) as HTMLDivElement).scrollLeft = ele.offsetLeft;
                   }, 100);
                 }
               });
