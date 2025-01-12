@@ -233,6 +233,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         }
       }
       if (!usersubscribevalue) {
+        document.getElementById("policy-error")?.scrollIntoView();
         setPolicyError("Please accept the Terms & Conditions");
         return false;
       }
@@ -1304,6 +1305,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             )}
             {policyError && (
               <div
+                id="policy-error"
                 className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
                 data-name="error-msg"
               >
