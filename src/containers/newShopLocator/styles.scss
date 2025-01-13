@@ -78,8 +78,23 @@ $banner-mobile-height:500px;
                 color: #9f9f9f;
                 line-height: 70px;
                 cursor: pointer;
+                position: relative;
                 &.active{
                     color: $aqua-bold;
+                    &::after{
+                        content:'';
+                        display:inline-block;
+                        width:100px;
+                        height:4px;
+                        border-radius:3px;
+                        background-color:$aqua;
+                        position:absolute;
+                        z-index:1200;
+                        bottom:0;
+                        transition:all .3s linear;
+                        left: 50%;
+                        transform: translateX(-50%);
+                    }
                 }
             }
         }
@@ -327,9 +342,19 @@ $banner-mobile-height:500px;
             overflow-y: hidden;
             white-space: nowrap;
             .header{
-                column-gap: 8px;
-                width: fit-content;
-                margin:auto;
+                // column-gap: 8px;
+                // width: fit-content;
+                // margin:auto;
+                display: flex;
+                gap: 35px;
+                align-items: center;
+                justify-content: start;
+                padding: 0 20px;
+                margin-bottom: 0;
+                overflow-x: auto;
+                .item {
+                   width:auto;
+                }
             }
             &::-webkit-scrollbar{
                 display: none;
