@@ -233,10 +233,19 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         }
       }
       if (!usersubscribevalue) {
-        document.getElementById("policy-error")?.scrollIntoView();
+        // Check if the element exists
+        const policyErrorElement = document.getElementById("policy-error");
+        if (policyErrorElement) {
+          // Scroll to the element smoothly
+          policyErrorElement.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+        }
         setPolicyError("Please accept the Terms & Conditions");
         return false;
       }
+
       if (currency == "GBP" && !subscribegbp) {
         //setGbpError("Please agree to shipping & payment terms.");
         errorTracking(
