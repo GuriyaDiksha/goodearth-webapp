@@ -48,6 +48,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   );
 
   const { mode } = useSelector((state: AppState) => state.address);
+  const { isSale } = useSelector((state: AppState) => state.info);
 
   const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
 
@@ -1306,7 +1307,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       globalStyles.marginB10,
                       globalStyles.textCenter,
                       styles.summaryPadding,
-                      globalStyles.cerise
+                      { [globalStyles.cerise]: isSale }
                     )}
                   >
                     Custom Duties & Taxes are extra, can be upto 30% or more of
