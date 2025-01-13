@@ -58,14 +58,13 @@ class ShopLocator extends Component<Props, State> {
   }
 
   onHeaderItemClick = (data: any) => {
-    if (
-      document.getElementById("bottomSlide") &&
-      document.getElementById(data)
-    ) {
-      (document.getElementById("bottomSlide") as HTMLDivElement).style.left =
-        (document.getElementById(data) as HTMLDivElement).offsetLeft + "px";
-    }
-
+    // if (
+    //   document.getElementById("bottomSlide") &&
+    //   document.getElementById(data)
+    // ) {
+    //   (document.getElementById("bottomSlide") as HTMLDivElement).style.left =
+    //     (document.getElementById(data) as HTMLDivElement).offsetLeft + "px";
+    // }
     this.setState({
       currentCity: data
     });
@@ -94,11 +93,18 @@ class ShopLocator extends Component<Props, State> {
                 ) as HTMLDivElement;
                 if (ele) {
                   ele?.focus();
-                  if (document.getElementById("bottomSlide")) {
-                    (document.getElementById(
-                      "bottomSlide"
-                    ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
-                  }
+                  // if (document.getElementById("bottomSlide")) {
+                  //   (document.getElementById(
+                  //     "bottomSlide"
+                  //   ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
+                  // }
+                  setTimeout(() => {
+                    ele.scrollIntoView({
+                      behavior: "smooth",
+                      block: "nearest",
+                      inline: "center"
+                    });
+                  }, 100);
                 }
               });
             } else {
@@ -113,11 +119,18 @@ class ShopLocator extends Component<Props, State> {
                   ) as HTMLDivElement;
                   if (ele) {
                     ele?.focus();
-                    if (document.getElementById("bottomSlide")) {
-                      (document.getElementById(
-                        "bottomSlide"
-                      ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
-                    }
+                    // if (document.getElementById("bottomSlide")) {
+                    //   (document.getElementById(
+                    //     "bottomSlide"
+                    //   ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
+                    // }
+                    setTimeout(() => {
+                      ele.scrollIntoView({
+                        behavior: "smooth",
+                        block: "nearest",
+                        inline: "center"
+                      });
+                    }, 100);
                   }
                 }
               );
@@ -146,27 +159,28 @@ class ShopLocator extends Component<Props, State> {
             currentCity: city || ""
           },
           () => {
+            // debugger
             const ele = document.getElementById(city || "") as HTMLDivElement;
             if (ele) {
               ele?.focus();
-              requestAnimationFrame(() => {
-                if (document.getElementById("bottomSlide")) {
-                  (document.getElementById(
-                    "bottomSlide"
-                  ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
-                  // (document.getElementById(
-                  //   "bottomSlide"
-                  // ) as HTMLDivElement).scrollTo({
-                  //   left: ele.offsetLeft,
-                  //   behavior: "smooth"
-                  // });
-                  setTimeout(() => {
-                    (document.getElementById(
-                      "bottomSlide"
-                    ) as HTMLDivElement).scrollLeft = ele.offsetLeft;
-                  }, 100);
-                }
-              });
+              // if (document.getElementById("bottomSlide")) {
+              //   (document.getElementById(
+              //     "bottomSlide"
+              //   ) as HTMLDivElement).style.left = ele.offsetLeft + "px";
+              //   (document.getElementById(
+              //     "bottomSlide"
+              //   ) as HTMLDivElement).scrollTo({
+              //     left: ele.offsetLeft,
+              //     behavior: "smooth"
+              //   });
+              // }
+              setTimeout(() => {
+                ele.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                  inline: "center"
+                });
+              }, 100);
             }
           }
         );
@@ -219,7 +233,7 @@ class ShopLocator extends Component<Props, State> {
           id="header-box"
         >
           <div className={styles.header}>
-            <div id="bottomSlide" className={styles.slider}></div>
+            {/* <div id="bottomSlide" className={styles.slider}></div> */}
             {Object.keys(shopData).map((data: any, i: number) => {
               return (
                 <div
