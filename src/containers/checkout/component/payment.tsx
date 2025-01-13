@@ -233,16 +233,20 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         }
       }
       if (!usersubscribevalue) {
-        // Check if the element exists
-        const policyErrorElement = document.getElementById("policy-error");
-        if (policyErrorElement) {
-          // Scroll to the element smoothly
-          policyErrorElement.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-          });
-        }
+        // Set the error message
         setPolicyError("Please accept the Terms & Conditions");
+
+        // Delay scroll action until the next frame
+        window?.requestAnimationFrame(() => {
+          const policyErrorElement = document.getElementById("policy-error");
+          if (policyErrorElement) {
+            policyErrorElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center"
+            });
+          }
+        });
+
         return false;
       }
 
