@@ -1305,7 +1305,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       globalStyles.voffset3v1,
                       globalStyles.marginB10,
                       globalStyles.textCenter,
-                      styles.summaryPadding
+                      styles.summaryPadding,
+                      globalStyles.cerise
                     )}
                   >
                     Custom Duties & Taxes are extra, can be upto 30% or more of
