@@ -237,7 +237,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         setPolicyError("Please accept the Terms & Conditions");
 
         // Delay scroll action until the next frame
-        window.requestAnimationFrame(() => {
+        window?.requestAnimationFrame(() => {
           const policyErrorElement = document.getElementById("policy-error");
           if (policyErrorElement) {
             policyErrorElement.scrollIntoView({
