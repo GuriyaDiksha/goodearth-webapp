@@ -48,6 +48,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
   );
 
   const { mode } = useSelector((state: AppState) => state.address);
+  const { isSale } = useSelector((state: AppState) => state.info);
 
   const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect;
 
@@ -1305,7 +1306,8 @@ const OrderSummary: React.FC<OrderProps> = props => {
                       globalStyles.voffset3v1,
                       globalStyles.marginB10,
                       globalStyles.textCenter,
-                      styles.summaryPadding
+                      styles.summaryPadding,
+                      { [globalStyles.cerise]: isSale }
                     )}
                   >
                     Custom Duties & Taxes are extra, can be upto 30% or more of
@@ -1389,8 +1391,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     { [globalStyles.marginB50]: mobile }
                   )}
                 >
-                  Promo Codes (if applicable), Gift Cards & Credit Notes can be
-                  applied at Checkout
+                  {salestatus
+                    ? "Gift Cards & Credit Notes can be applied at Checkout. Promo Codes cannot be applied during Sale."
+                    : "Promo Codes (if applicable), Gift Cards & Credit Notes can be applied at Checkout"}
                 </div>
                 {/* <div className={styles.wishlist}>
                   <Link to="/wishlist" onClick={goToWishlist}>

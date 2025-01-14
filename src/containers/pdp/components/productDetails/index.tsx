@@ -1007,7 +1007,9 @@ const ProductDetails: React.FC<Props> = ({
     updateComponentModal(
       POPUP.SHAREPDPPOPUP,
       {
-        corporatePDP: corporatePDP
+        corporatePDP: corporatePDP,
+        productName: title,
+        productUrl: url
       },
       false,
       mobile ? ModalStyles.bottomAlignSlideUp : "",
