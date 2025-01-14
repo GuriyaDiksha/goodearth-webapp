@@ -1391,8 +1391,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
                     { [globalStyles.marginB50]: mobile }
                   )}
                 >
-                  Promo Codes (if applicable), Gift Cards & Credit Notes can be
-                  applied at Checkout
+                  {salestatus
+                    ? "Gift Cards & Credit Notes can be applied at Checkout. Promo Codes cannot be applied during Sale."
+                    : "Promo Codes (if applicable), Gift Cards & Credit Notes can be applied at Checkout"}
                 </div>
                 {/* <div className={styles.wishlist}>
                   <Link to="/wishlist" onClick={goToWishlist}>
