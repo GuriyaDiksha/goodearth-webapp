@@ -36,6 +36,8 @@ import Button from "components/Button";
 import { STEP_ORDER } from "../constants";
 import FormTextArea from "components/Formsy/FormTextArea";
 import ApplyCreditNote from "./ApplyCreditNote";
+import ApplyGiftCards from "./ApplyGiftCards";
+import AccountService from "services/account";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -48,7 +50,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     address: { countryData, shippingAddressId, billingAddressId },
     info: { isSale }
   } = useSelector((state: AppState) => state);
-  let PaymentChild: any = useRef<typeof ApplyGiftcard>(null);
+  const PaymentChild: any = useRef<typeof ApplyGiftcard>(null);
   const history = useHistory();
   const {
     isActive,
@@ -698,6 +700,26 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     );
   }, [giftwrapprice]);
 
+  const [hasGC, setHasGC] = useState(false);
+  const [amountGC, setAmountGC] = useState("");
+  const [amountCN, setAmountCN] = useState("");
+
+  const fetchGC_CN_Ammount = () => {
+    AccountService.fetchGC_CN_Ammount(dispatch)
+      .then(response => {
+        setHasGC(response.hasGC);
+        setAmountGC(response.availableGCamount);
+        setAmountCN(response.availableCNamount);
+      })
+      .catch(e => {
+        console.log("fetch available_gc_cn API failed =====", e);
+      });
+  };
+
+  useEffect(() => {
+    fetchGC_CN_Ammount();
+  }, [isLoggedIn]);
+
   return (
     <>
       {(slab.toLowerCase() === "cerise club" ||
@@ -879,7 +901,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   {!basket.isOnlyGiftCart && <hr className={styles.hr} />}
                 </>
               )}
-              <div className={globalStyles.marginT20}>
+              {/* <div className={globalStyles.marginT20}>
                 {!basket.isOnlyGiftCart && !isGcCheckout && (
                   <div className={globalStyles.flex}>
                     <hr className={styles.hr} />
@@ -916,10 +938,41 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   </div>
                 )}
               </div>
+                */}
+
+              {!basket.isOnlyGiftCart && !isGcCheckout && (
+                <ApplyGiftCards hasGC={hasGC} amountGC={amountGC} />
+              )}
 
               {!basket.isOnlyGiftCart &&
                 !isGcCheckout &&
-                currency === "INR" && <ApplyCreditNote />}
+                (currency === "INR" ? (
+                  <ApplyCreditNote amountCN={amountCN} />
+                ) : (
+                  <div className={globalStyles.marginT20}>
+                    <CheckboxWithLabel
+                      id="applyCN"
+                      className={styles.disabledLabel}
+                      onChange={() => null}
+                      label={[
+                        <label
+                          key="applyCN"
+                          htmlFor="applyCN"
+                          className={cs(
+                            styles.formSubheading,
+                            styles.lineHeightLable
+                          )}
+                        >
+                          Apply Credit Note
+                        </label>
+                      ]}
+                    />
+                    <div className={styles.gcMsg}></div>
+                    <p className={styles.greyText}>
+                      There are no credit notes linked to international users
+                    </p>
+                  </div>
+                ))}
 
               {/* <div
             className={cs(globalStyles.errorMsg, globalStyles.marginT20)}

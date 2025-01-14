@@ -1665,6 +1665,32 @@
   }
 }
 
+.activategchead-wrp{
+  // display: flex;
+  // justify-content: space-between;
+  margin: 0 35px;
+  padding: 25px 0 5px;
+  .delivery-head{
+    @include b4_12px_medium_charcoal_caps();
+  }
+  .delivery-icon{
+    width: unset;
+    position: relative;
+    padding: 0;
+    border-bottom: unset;
+  }
+}
+
+.footer-wrp{
+  @include b3_14px_montserrat_white();
+  background: $med-charcoal;
+  line-height: 18px;
+  letter-spacing: 0.42px;
+  padding: 16px;
+  position: relative;
+  cursor: pointer;
+}
+
 //====BillingGST popup======//
 
 .radio-list {
