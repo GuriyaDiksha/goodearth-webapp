@@ -486,10 +486,12 @@ hr {
   font-family: $font-Montserrat;
   vertical-align: middle;
   line-height: 1.4;
-  vertical-align: text-top;
+  // vertical-align: text-top;
+  white-space: nowrap;
   font-weight: 400 !important;
-  @media(max-width:991px){
-    font-size:12px!important;
+
+  @media(max-width:991px) {
+    font-size: 12px !important;
   }
 }
 

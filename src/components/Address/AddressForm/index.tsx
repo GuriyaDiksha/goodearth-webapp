@@ -105,7 +105,7 @@ const AddressForm: React.FC<Props> = props => {
     BridalContext
   );
   const { email, isLoggedIn } = useSelector((state: AppState) => state.user);
-  const { mobile } = useSelector((state: AppState) => state.device);
+  const { mobile, tablet } = useSelector((state: AppState) => state.device);
   const countryRef: RefObject<HTMLInputElement> = useRef(null);
   const countryCodeRef: RefObject<HTMLInputElement> = React.createRef();
 
@@ -408,6 +408,13 @@ const AddressForm: React.FC<Props> = props => {
           const form = AddressFormRef.current;
           if (typeof errData == "string") {
             setErrorMessage(errData);
+            const addressElement = document.getElementById("address-form");
+            if (addressElement) {
+              addressElement.scrollTo({
+                top: addressElement.scrollHeight,
+                behavior: "smooth"
+              });
+            }
           } else if (typeof errData == "object") {
             if (err.response.data.error_message) {
               let errorMsg = err.response.data.error_message[0];
@@ -646,6 +653,7 @@ const AddressForm: React.FC<Props> = props => {
                   globalStyles.flex,
                   globalStyles.gutterBetween
                 )}
+                style={{ maxWidth: "100%" }}
               >
                 <div className={styles.formTitle}>
                   {mode == "edit" ? "Edit ADDRESS" : "ADD NEW ADDRESS"}
@@ -1132,6 +1140,19 @@ const AddressForm: React.FC<Props> = props => {
               {30 - nickname?.length >= 0 ? 30 - nickname?.length : 0}/30
             </p>
           </div>
+
+          {errorMessage && (
+            <p
+              className={cs(globalStyles.errorMsg, {
+                [globalStyles.marginAuto]: mobile || tablet
+              })}
+              style={{
+                maxWidth: "366px"
+              }}
+            >
+              {errorMessage}
+            </p>
+          )}
           {/* <div className={styles.addressFormCheckbox}>
             <FormCheckbox
               name="isDefaultForShipping"
@@ -1154,6 +1175,7 @@ const AddressForm: React.FC<Props> = props => {
                 currentCallBackComponent == "checkout-shipping" ||
                 currentCallBackComponent == "checkout-billing"
             })}
+            style={{ maxWidth: tablet || mobile ? "100%" : undefined }}
           >
             <div
               className={cs(globalStyles.flex, styles.btnWrp, {
@@ -1222,11 +1244,6 @@ const AddressForm: React.FC<Props> = props => {
                   </div>
                 )} */}
             </div>
-            {errorMessage ? (
-              <p className={globalStyles.errorMsg}>{errorMessage}</p>
-            ) : (
-              <p className={globalStyles.errorMsg}></p>
-            )}
           </div>
         </div>
       </Formsy>

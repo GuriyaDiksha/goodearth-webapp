@@ -877,15 +877,18 @@ body:has(.mobile) {
 
       .ship-bill-checkout{
         margin: 20px 0;
+        margin-left: unset;
 
-        @media screen and (max-width:767px) {
-          max-width: 100%;
-          width: 100%;
-        }
+        @media screen and (max-width:992px) {
+            width: 100%;
+            max-width: 366px;
+            margin-left: auto;
+            margin-right: auto;
+          }
 
         .max-width{
-          max-width: 100%;
-          width: 100%;
+          max-width: 100% !important;
+          width: 100% !important;
         }
       }
   }
