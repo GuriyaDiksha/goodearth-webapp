@@ -408,6 +408,13 @@ const AddressForm: React.FC<Props> = props => {
           const form = AddressFormRef.current;
           if (typeof errData == "string") {
             setErrorMessage(errData);
+            const addressElement = document.getElementById("address-form");
+            if (addressElement) {
+              addressElement.scrollTo({
+                top: addressElement.scrollHeight,
+                behavior: "smooth"
+              });
+            }
           } else if (typeof errData == "object") {
             if (err.response.data.error_message) {
               let errorMsg = err.response.data.error_message[0];
