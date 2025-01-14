@@ -1827,33 +1827,28 @@ class FilterList extends React.Component<Props, State> {
           });
     }
   };
-
-  handleAnimation = (id: string, isShow: boolean, isSubCat = false) => {
+  handleAnimation = (id: string, isShow: boolean, isSubCat = false): void => {
     if (window.innerWidth >= 993) {
-      if (typeof document == "object" && document.getElementById(id)) {
+      const element = document.getElementById(id) as HTMLElement | null;
+      const categoryElement = document.getElementById(
+        "category"
+      ) as HTMLElement | null;
+
+      if (element) {
         if (!isShow) {
-          if (
-            isSubCat &&
-            typeof document == "object" &&
-            document.getElementById("category")
-          ) {
-            (document.getElementById(
-              "category"
-            ) as HTMLElement).style.maxHeight = document.getElementById(
-              "category"
-            )?.scrollHeight
-              ? `${Number(
-                  (document.getElementById("category")?.scrollHeight || 0) +
-                    (document.getElementById(id)?.scrollHeight || 0)
-                )}px`
-              : "max-content";
+          if (isSubCat && categoryElement) {
+            const categoryScrollHeight = categoryElement.scrollHeight || 0;
+            const elementScrollHeight = element.scrollHeight || 0;
+            categoryElement.style.maxHeight = `${categoryScrollHeight +
+              elementScrollHeight}px`;
           }
-          (document.getElementById(id) as HTMLElement).style.maxHeight =
-            document.getElementById(id)?.scrollHeight && id !== "category"
-              ? `${document.getElementById(id)?.scrollHeight}px`
+
+          element.style.maxHeight =
+            id !== "category" && element.scrollHeight
+              ? `${element.scrollHeight}px`
               : "max-content";
         } else {
-          (document.getElementById(id) as HTMLElement).style.maxHeight = "0px";
+          element.style.maxHeight = "0px";
         }
       }
     }
@@ -2890,10 +2885,10 @@ class FilterList extends React.Component<Props, State> {
                 }
                 onClick={() => {
                   this.Clickmenulevel1(1);
-                  this.handleAnimation(
-                    "color",
-                    this.state.activeindex == 1 && this.state.showmenulevel1
-                  );
+                  // this.handleAnimation(
+                  //   "color",
+                  //   this.state.activeindex == 1 && this.state.showmenulevel1
+                  // );
                 }}
               >
                 {`COLOUR FAMILY ${

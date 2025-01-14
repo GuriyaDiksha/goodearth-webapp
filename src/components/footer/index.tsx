@@ -81,6 +81,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 class Footer extends React.Component<Props, FooterState> {
   observer?: IntersectionObserver;
   container: HTMLDivElement | null = null;
+  private interval: number | undefined;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -97,7 +98,8 @@ class Footer extends React.Component<Props, FooterState> {
       subheadingHoverArray: [],
       smartNav: ["/", "/homepage"],
       country: "",
-      showPopUp: false
+      showPopUp: false,
+      isPromoPopupVisible: false
     };
   }
 
@@ -111,6 +113,8 @@ class Footer extends React.Component<Props, FooterState> {
 
   componentWillUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
+    // Cleanup the interval when component unmounts
+    clearInterval(this.interval);
   }
 
   onFooterInViewport: IntersectionObserverCallback = entries => {
@@ -190,6 +194,9 @@ class Footer extends React.Component<Props, FooterState> {
       isConsentSave: CookieService.getCookie("consent") !== "",
       country: CookieService.getCookie("country")
     });
+    this.checkPopupVisibility();
+    // Optional: Check visibility every minute
+    this.interval = window.setInterval(this.checkPopupVisibility, 60000);
   }
 
   componentDidUpdate(
@@ -345,6 +352,20 @@ class Footer extends React.Component<Props, FooterState> {
 
   openCountryPopup = () => {
     this.props.openPoup(this.props.mobile);
+  };
+
+  checkPopupVisibility = () => {
+    const now = new Date();
+
+    const startDate = new Date("2025-01-14T09:00:00"); // 14th Jan, 9 AM
+    const endDate = new Date("2025-01-19T22:00:00"); // 19th Jan, 10 PM
+
+    // Check if the current date and time is between 14th Jan, 9 AM and 19th Jan, 10 PM
+    if (now >= startDate && now <= endDate) {
+      this.setState({ isPromoPopupVisible: false }); // Hide popup during the specified date range
+    } else {
+      this.setState({ isPromoPopupVisible: true }); // Show popup outside the specified date range
+    }
   };
 
   render() {
@@ -1300,17 +1321,18 @@ class Footer extends React.Component<Props, FooterState> {
           />)} */}
 
         {/* DO NOT REMOVE THIS CODE : Commented this code as per product requirement  */}
-        {!(OLD_COOKIE_SETTINGS
-          ? cookiCheck
-          : (cookiCheck && !this.state.isConsentSave) ||
-            this.props?.showCookiePref) && (
-          <Newsletter
-            title={"Sign up and save 10%"}
-            subTitle={
-              "Ideas on style, design, and entertaining await you, along with a sweet discount on your first purchase."
-            }
-          />
-        )}
+        {this.state.isPromoPopupVisible &&
+          !(OLD_COOKIE_SETTINGS
+            ? cookiCheck
+            : (cookiCheck && !this.state.isConsentSave) ||
+              this.props?.showCookiePref) && (
+            <Newsletter
+              title={"Sign up and save 10%"}
+              subTitle={
+                "Ideas on style, design, and entertaining await you, along with a sweet discount on your first purchase."
+              }
+            />
+          )}
       </div>
     );
   }
