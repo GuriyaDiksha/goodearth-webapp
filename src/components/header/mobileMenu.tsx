@@ -169,13 +169,32 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         // console.log(`scrolled by ${180 - elem.getBoundingClientRect().top}`);
 
         //**** change viewAll L3 text color as its Parent L2 *****
-        const spanElement = document.querySelector(".parentl2 span");
-        if (spanElement) {
-          // Get the computed style of the span
-          const computedStyle = window.getComputedStyle(spanElement);
-          const spanColor = computedStyle.color;
-          this.setState({ color: spanColor });
-        }
+        setTimeout(() => {
+          const spanElement = document.querySelector(
+            ".src-components-header-_styles_menulevel2-open"
+          );
+          if (spanElement) {
+            const childElement = spanElement.querySelector("p, span");
+            if (childElement) {
+              const targetElement =
+                childElement.tagName.toLowerCase() === "p"
+                  ? childElement.querySelector("span") || childElement // If <p> contains a <span>, prioritize the <span>, else the <p>
+                  : childElement; // If it's a <span> itself
+              const computedStyle = window.getComputedStyle(targetElement);
+              const spanColor = computedStyle.color;
+              const parentLi = spanElement.closest("li"); // This will find the closest `li` element that contains this `span`
+              if (parentLi) {
+                const viewAllLink = parentLi.querySelector("div > ul > li a");
+                if (
+                  viewAllLink &&
+                  viewAllLink?.textContent?.trim() === "View All"
+                ) {
+                  (viewAllLink as HTMLElement).style.color = spanColor; // Apply the color to the link
+                }
+              }
+            }
+          }
+        }, 100);
       }
     }
   }
