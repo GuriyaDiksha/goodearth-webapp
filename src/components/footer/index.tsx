@@ -362,7 +362,7 @@ class Footer extends React.Component<Props, FooterState> {
 
     // Convert start and end dates to UTC (avoid local timezone issues)
     const startDate = new Date(Date.UTC(2025, 0, 14, 9, 0, 0)); // 14th Jan, 2025, 09:00 UTC
-    const endDate = new Date(Date.UTC(2025, 0, 21, 10, 0, 0)); // 21st Jan, 2025, 10:00 UTC
+    const endDate = new Date(Date.UTC(2025, 0, 15, 11, 30, 0)); // 21st Jan, 2025, 10:00 UTC
 
     // Convert current date (now) to UTC
     const nowUtc = new Date(
