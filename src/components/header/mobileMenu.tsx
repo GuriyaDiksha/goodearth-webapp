@@ -158,7 +158,6 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       `menulevel2-${index}`
     ) as HTMLParagraphElement;
     if (elem) {
-      this.setState({ color: "" });
       if (elem.style.maxHeight) {
         elem.style.removeProperty("max-height");
       } else {
@@ -173,14 +172,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         const spanElement = document.querySelector(".parentl2 span");
         if (spanElement) {
           // Get the computed style of the span
-          const closestLi = spanElement.closest("li");
-          if (closestLi) {
-            const computedStyle = window.getComputedStyle(spanElement);
-            const spanColor = computedStyle.color;
-            this.setState({ color: spanColor });
-          } else {
-            this.setState({ color: "" });
-          }
+          const computedStyle = window.getComputedStyle(spanElement);
+          const spanColor = computedStyle.color;
+          this.setState({ color: spanColor });
         }
       }
     }
