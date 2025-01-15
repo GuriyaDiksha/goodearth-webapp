@@ -863,13 +863,15 @@ class FilterList extends React.Component<Props, State> {
     const myHeader = document.getElementById("myHeader");
     const headerHeight = (myHeader as HTMLElement)?.clientHeight || 0;
     const secondaryHeader = document.getElementById("secondaryHeader");
+    const timeDiv = document.getElementById("ge-timer");
+    const timeDivHeight = (timeDiv as HTMLElement)?.clientHeight || 0;
     const secondaryHeaderHeight =
       (secondaryHeader as HTMLElement)?.clientHeight || 0;
 
     const adjustedAnnHeight =
       windowScroll > annHeight ? -8 : annHeight - windowScroll;
     const totalHeight =
-      adjustedAnnHeight + headerHeight + secondaryHeaderHeight;
+      adjustedAnnHeight + headerHeight + secondaryHeaderHeight + timeDivHeight;
 
     if (this.state.totalHeight !== totalHeight) {
       this.setState({
@@ -2690,7 +2692,7 @@ class FilterList extends React.Component<Props, State> {
           id="inner_filter"
           className={styles.filterSideMenu}
           style={{
-            height: `calc(100vh - 113px - ${this.state.totalHeight ?? 0}px)`
+            height: `calc(100vh - 24px - ${this.state.totalHeight ?? 0}px)`
           }}
         >
           <li
