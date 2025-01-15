@@ -357,12 +357,35 @@ class Footer extends React.Component<Props, FooterState> {
   checkPopupVisibility = () => {
     const now = new Date();
 
-    // const startDate = new Date("2025-01-14T09:00:00"); // 14th Jan, 9 AM
+    const startDate = new Date("2025-01-14T09:00:00"); // 14th Jan, 9 AM
     // const endDate = new Date("2025-01-21T10:00:00"); // 21th Jan, 10 Am
+    const endDate = new Date("2025-01-15T12:05:00"); //testing
 
     // Convert start and end dates to UTC (avoid local timezone issues)
-    const startDate = new Date(Date.UTC(2025, 0, 14, 9, 0, 0)); // 14th Jan, 2025, 09:00 UTC
-    const endDate = new Date(Date.UTC(2025, 0, 15, 11, 30, 0)); // 21st Jan, 2025, 10:00 UTC
+    // const startDate = new Date(Date.UTC(2025, 0, 14, 9, 0, 0)); // 14th Jan, 2025, 09:00 UTC
+    // const endDate = new Date(Date.UTC(2025, 0, 21, 10, 0, 0)); // 21st Jan, 2025, 10:00 UTC
+
+    const startDateUtc = new Date(
+      Date.UTC(
+        startDate.getUTCFullYear(),
+        startDate.getUTCMonth(),
+        startDate.getUTCDate(),
+        startDate.getUTCHours(),
+        startDate.getUTCMinutes(),
+        startDate.getUTCSeconds()
+      )
+    );
+
+    const endDateUtc = new Date(
+      Date.UTC(
+        endDate.getUTCFullYear(),
+        endDate.getUTCMonth(),
+        endDate.getUTCDate(),
+        endDate.getUTCHours(),
+        endDate.getUTCMinutes(),
+        endDate.getUTCSeconds()
+      )
+    );
 
     // Convert current date (now) to UTC
     const nowUtc = new Date(
@@ -377,7 +400,7 @@ class Footer extends React.Component<Props, FooterState> {
     );
 
     // Check if the current date and time is between 14th Jan, 9 AM and 19th Jan, 10 PM
-    if (nowUtc >= startDate && nowUtc <= endDate) {
+    if (nowUtc >= startDateUtc && nowUtc <= endDateUtc) {
       this.setState({ isPromoPopupVisible: false }); // Hide popup during the specified date range
     } else {
       this.setState({ isPromoPopupVisible: true }); // Show popup outside the specified date range
