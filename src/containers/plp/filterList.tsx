@@ -2690,7 +2690,7 @@ class FilterList extends React.Component<Props, State> {
           id="inner_filter"
           className={styles.filterSideMenu}
           style={{
-            height: `calc(100vh - 24px - ${this.state.totalHeight ?? 0}px)`
+            height: `calc(100vh - 113px - ${this.state.totalHeight ?? 0}px)`
           }}
         >
           <li
