@@ -57,8 +57,8 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       activeindex2: -1,
       activeindex3: -1,
       showmenulevel3: false,
-      showInnerMenu: false,
-      color: ""
+      showInnerMenu: false
+      // color: ""
     };
   }
 
@@ -439,7 +439,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                   data?.hideViewAllOnMobile
                 )}
               >
-                <span className="parentl2">{ReactHtmlParser(data.text)}</span>
+                {ReactHtmlParser(data.text)}
               </span>
             )}
 
@@ -470,7 +470,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                                 [styles.highlight]:
                                   currentUrl == data.viewAllLink
                               })}
-                              style={{ color: this.state.color }}
+                              // style={{ color: this.state.color }}
                               onClick={() => {
                                 this.props.onMobileMenuClick({
                                   l1: innerMenuData.text,
