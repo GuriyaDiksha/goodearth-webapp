@@ -39,8 +39,9 @@ const Share: React.FC<Props> = ({
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
-        event: "link_copied",
+        event: "share_product",
         click_type: productName,
+        cta_name: "copy link",
         link_url: link
       });
     }
