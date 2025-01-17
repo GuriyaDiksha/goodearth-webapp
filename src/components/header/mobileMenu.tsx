@@ -402,12 +402,12 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       data.text.toLowerCase() == "winter velvets"
         ? (spanClass += ` ${styles.subheadingImg}`)
         : "";
-      spanClass +=
-        data.text.toLowerCase().indexOf("sale") > -1
-          ? ` ${styles.menucolor}`
-          : "";
+      // spanClass +=
+      //   data.text.toLowerCase().indexOf("sale") > -1
+      //     ? ` ${styles.menucolor}`
+      //     : "";
       html.push(
-        data.link && data.children && data.children.length == 0 ? (
+        data.link && data.children && data.children.length === 0 ? (
           <li key={j + "leftData"} onClick={this.props.clickToggle}>
             <Link
               to={data.link}
@@ -556,9 +556,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                             });
                           }}
                           className={cs(
-                            innerdata.text.toLowerCase().indexOf("sale") > -1
-                              ? styles.menucolor
-                              : "",
+                            // innerdata.text.toLowerCase().indexOf("sale") > -1
+                            //   ? styles.menucolor
+                            //   : "",
                             { [styles.highlight]: currentUrl == innerdata.link }
                           )}
                         >
@@ -699,10 +699,10 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       data.name.toLowerCase() == "winter velvets"
         ? (spanClass += ` ${styles.subheadingImg}`)
         : "";
-      spanClass +=
-        data.name.toLowerCase().indexOf("sale") > -1
-          ? ` ${styles.menucolor}`
-          : "";
+      // spanClass +=
+      //   data.name.toLowerCase().indexOf("sale") > -1
+      //     ? ` ${styles.menucolor}`
+      //     : "";
       html.push(
         data.url && data.children.length == 0 ? (
           <li key={j + "leftData"} onClick={this.props.clickToggle}>
@@ -741,7 +741,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             >
               {data.children ? (
                 <ul key={data.url}>
-                  {data.url && data.children.length > 1 ? (
+                  {data.url && data.children.length > 0 ? (
                     <li onClick={this.props.clickToggle}>
                       <Link
                         to={data.url}
@@ -774,11 +774,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                             //   innerdata.name
                             // );
                           }}
-                          className={
-                            innerdata.name.toLowerCase().indexOf("sale") > -1
-                              ? styles.menucolor
-                              : ""
-                          }
+                          // className={
+                          //   innerdata.name.toLowerCase().indexOf("sale") > -1
+                          //     ? styles.menucolor
+                          //     : ""
+                          // }
                         >
                           <p>
                             {ReactHtmlParser(
@@ -811,10 +811,10 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         data.name.toLowerCase() == "winter velvets"
           ? (spanClass += ` ${styles.subheadingImg}`)
           : "";
-        spanClass +=
-          data.name.toLowerCase().indexOf("sale") > -1
-            ? ` ${styles.menucolor}`
-            : "";
+        // spanClass +=
+        //   data.name.toLowerCase().indexOf("sale") > -1
+        //     ? ` ${styles.menucolor}`
+        //     : "";
         html.push(
           data.url && data.children.length == 0 ? (
             <li key={data.id} onClick={this.props.clickToggle}>
@@ -886,11 +886,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                               //   innerdata.name
                               // );
                             }}
-                            className={
-                              innerdata.name.toLowerCase().indexOf("sale") > -1
-                                ? styles.menucolor
-                                : ""
-                            }
+                            // className={
+                            //   innerdata.name.toLowerCase().indexOf("sale") > -1
+                            //     ? styles.menucolor
+                            //     : ""
+                            // }
                           >
                             <p>
                               {ReactHtmlParser(
