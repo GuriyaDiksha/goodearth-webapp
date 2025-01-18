@@ -653,6 +653,7 @@ icon-cross {
   float: right;
   // font-size: 12px;
   cursor: pointer;
+  padding-right: 35px;
   @include b5_10px_montserrat_charcoal_caps();
   margin-top: 5px;
 
@@ -910,7 +911,7 @@ icon-cross {
   clear: both;
   hr.devider-line{
     border-top: 0.5px solid #9F9F9F;
-    margin: 0 0 60px;
+    margin: 0 0 40px;
     clear: both;
     @media(max-width:992px){
       margin: 0 0 35px;
@@ -922,11 +923,12 @@ icon-cross {
   .wishlist-head{
     display: flex;
     justify-content: space-between;
+    position: relative;
   }
   .wishlist-heading{
     display: flex;
     // align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     width: 70%;
   }
   .list-name{
@@ -1149,4 +1151,24 @@ icon-cross {
 .text-underline{
   text-decoration: underline;
   text-underline-offset: 0.3rem;
+}
+
+.arrow{
+  height: 8px;
+  width: 8px;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  transition: transform 0.2s ease-in;
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.open-icon{
+  transform: rotate(45deg);
+}
+.closed-icon{
+  transform: rotate(-135deg);
+  top: 6px;
 }
