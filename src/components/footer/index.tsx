@@ -357,7 +357,7 @@ class Footer extends React.Component<Props, FooterState> {
   checkPopupVisibility = () => {
     const now = new Date();
     const startDate = new Date("2025-01-14T09:00:00"); // 14th Jan, 9 AM
-    const endDate = new Date("2025-01-21T10:00:00"); // 21th Jan, 10 Am
+    const endDate = new Date("2025-01-23T10:00:00"); // 23th Jan, 10 Am
 
     // Convert current date (now) to UTC
     const nowUtc = new Date(
