@@ -156,6 +156,41 @@
         text-decoration: none;
     }
 }
+
+.product-n1{
+    margin: 5px 0;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    text-overflow: ellipsis;
+    height: 35px;
+    a {
+        @include b3_14px_montserrat_charcoal();
+        text-transform: capitalize;
+    }
+    span {
+        @include b3_14px_montserrat_charcoal();
+        text-transform: capitalize;
+    }
+    .discountprice {
+        color: $gold;
+        font-family: $font-Montserrat;
+        font-size: 14px;
+    }
+    .strikeprice {
+        font-size: 14px;
+        text-decoration: line-through;
+        color: gray;
+        font-family: $font-Montserrat;
+    }
+    a:hover {
+        text-decoration: none;
+    }
+
+}
+
 .product-size {
     @include b5_10px_montserrat_charcoal();
     line-height: 25px;
