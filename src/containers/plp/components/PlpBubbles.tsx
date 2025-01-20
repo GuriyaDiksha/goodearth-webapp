@@ -194,6 +194,7 @@ const PlpBubbles: React.FC<Props> = ({
                       handleClick(item?.url);
                     } else if (source === "plpBubbleL4") {
                       handleBubbleClick(item?.name, e, !item?.checked);
+                      plpBubbleGaCall(item?.name);
                     }
                   }}
                 >
@@ -236,6 +237,7 @@ const PlpBubbles: React.FC<Props> = ({
                     handleClick(item?.url);
                   } else if (source === "plpBubbleL4") {
                     handleBubbleClick(item?.name, e, !item?.checked);
+                    plpBubbleGaCall(item?.name);
                   }
                 }}
               >
