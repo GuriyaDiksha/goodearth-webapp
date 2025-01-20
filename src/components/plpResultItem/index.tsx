@@ -95,7 +95,14 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
   const onClickQuickview = (): void => {
     onClickQuickView ? onClickQuickView(product.id) : "";
   };
-  const redirect360IconClick = (): void => {
+  const redirect360IconClick = (productTitle: string): void => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "3d_icon_click",
+        cta_name: productTitle
+      });
+    }
     if (product.url) {
       history.push(product.url);
     } else {
@@ -307,7 +314,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
             )}
           >
             <div
-              onClick={redirect360IconClick}
+              onClick={() => redirect360IconClick(product?.title)}
               className={cs(
                 globalStyles.iconContainer,
                 globalStyles.threeSixtyContainer,
