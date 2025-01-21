@@ -380,6 +380,7 @@ const WishlistDetailPage = () => {
         event: "add_to_wishlist",
         previous_page_url: CookieService.getCookie("prevUrl"),
         list_name: listName ? listName : "NA",
+        page_category: "Wishlist",
         ecommerce: {
           currency: currency,
           value: productData.discountedPrice
@@ -429,6 +430,7 @@ const WishlistDetailPage = () => {
         event: "remove_from_wishlist",
         previous_page_url: CookieService.getCookie("prevUrl"),
         list_name: listName ? listName : "NA",
+        page_category: "Wishlist",
         ecommerce: {
           currency: currency,
           value: productData.discountedPrice
