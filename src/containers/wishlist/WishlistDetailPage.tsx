@@ -938,33 +938,41 @@ const WishlistDetailPage = () => {
                     className={cs("accordion-item", styles.listBlock)}
                   >
                     <div
-                      className={cs("accordion-header", styles.wishlistHead)}
+                      className={cs("accordion-header", styles.wishlistHead, {
+                        [globalStyles.marginB40]: openIndex != listIndex
+                      })}
                     >
                       <div className={styles.wishlistHeading}>
                         <h3 className={styles.listName}>
                           {list.name} ({list.products.length})
                         </h3>
-                        {list.name != "Default" && (
-                          <span
-                            className={cs(styles.edit, globalStyles.aquaHover)}
-                            onClick={() => editPopup(list.id, list.name)}
-                          >
-                            Edit
-                          </span>
-                        )}
-                        {list.name != "Default" && (
-                          <span
-                            className={cs(styles.edit, globalStyles.aquaHover)}
-                            onClick={() => deletePopup(list.name)}
-                          >
-                            Delete
-                          </span>
+                        {!mobile && list.name != "Default" && (
+                          <>
+                            <span
+                              className={cs(
+                                styles.edit,
+                                globalStyles.aquaHover
+                              )}
+                              onClick={() => editPopup(list.id, list.name)}
+                            >
+                              Edit
+                            </span>
+                            <span
+                              className={cs(
+                                styles.edit,
+                                globalStyles.aquaHover
+                              )}
+                              onClick={() => deletePopup(list.name)}
+                            >
+                              Delete
+                            </span>
+                          </>
                         )}
                       </div>
                       {!isShared && (
-                        <>
+                        <div className={cs(styles.shareList)}>
                           <div
-                            className={cs(styles.shareList)}
+                            className={styles.sharelink}
                             onClick={() =>
                               onSharlinkClick(
                                 list.name,
@@ -976,20 +984,46 @@ const WishlistDetailPage = () => {
                             <img src={linkIcon} alt="link" />
                             <span>SHARE LIST</span>
                           </div>
-                          <span
-                            className={cs(
-                              styles.arrow,
-                              openIndex === listIndex
-                                ? styles.openIcon
-                                : styles.closedIcon
-                            )}
+                          <div
+                            className={styles.arrowRound}
                             onClick={() => handleToggle(listIndex)}
-                          ></span>
-                        </>
+                          >
+                            <span
+                              className={cs(
+                                styles.arrow,
+                                openIndex === listIndex
+                                  ? styles.openIcon
+                                  : styles.closedIcon
+                              )}
+                            ></span>
+                          </div>
+                        </div>
                       )}
                     </div>
                     {openIndex === listIndex && (
-                      <div className="accordion-body">
+                      <div className={styles.accordionBody}>
+                        {mobile && list.name != "Default" && (
+                          <div className={styles.editDelete}>
+                            <span
+                              className={cs(
+                                styles.edit,
+                                globalStyles.aquaHover
+                              )}
+                              onClick={() => editPopup(list.id, list.name)}
+                            >
+                              Edit
+                            </span>
+                            <span
+                              className={cs(
+                                styles.edit,
+                                globalStyles.aquaHover
+                              )}
+                              onClick={() => deletePopup(list.name)}
+                            >
+                              Delete
+                            </span>
+                          </div>
+                        )}
                         {list.products.length > 0 ? (
                           <div
                             className={cs(

@@ -649,32 +649,53 @@ icon-cross {
 }
 
 .share-list {
-  // color: #666;
-  float: right;
-  // font-size: 12px;
-  cursor: pointer;
-  padding-right: 35px;
   @include b5_10px_montserrat_charcoal_caps();
+  float: right;
   margin-top: 5px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 
-  span{
-    border-bottom: 1px solid $charcoal19;
-  }
-
-  img{
-    width: 12px;
-    margin-right: 3px;
-  }
-
-  &:hover{
-    color: $aqua-text;
-
-    span{
-      border-bottom: 1px solid $aqua;
-
+  .sharelink{
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
+    padding-right: 20px;
+    img{
+      width: 12px;
+      margin-right: 3px;
     }
-    img {
-      filter: invert(54%) sepia(44%) saturate(331%) hue-rotate(131deg) brightness(84%) contrast(85%);
+    &:hover{
+      color: $aqua-text;
+      img {
+        filter: invert(54%) sepia(44%) saturate(331%) hue-rotate(131deg) brightness(84%) contrast(85%);
+      }
+    }
+  }
+
+  .arrow-round{
+    position: relative;
+    width: 30px;
+    height: 30px;
+    background: #F9F8F5;
+    border-radius: 100%;
+    cursor: pointer;
+  
+    .arrow{
+      height: 8px;
+      width: 8px;
+      border-top: 1px solid black;
+      border-left: 1px solid black;
+      transition: transform 0.2s ease-in;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+    }
+    
+    .open-icon{
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+    .closed-icon{
+      transform: translate(-50%, -50%) rotate(-135deg);
     }
   }
 }
@@ -927,9 +948,8 @@ icon-cross {
   }
   .wishlist-heading{
     display: flex;
-    // align-items: center;
-    margin-bottom: 40px;
-    width: 70%;
+    align-items: center;
+    width: 60%;
   }
   .list-name{
     padding: 0 5px;
@@ -939,6 +959,9 @@ icon-cross {
     padding-right: 25px;
     max-width: 90%;
     overflow-wrap: break-word;
+    @media(max-width:767px){
+      font-size: 18px;
+    }
   }
   .edit{
     @include b5_10px_montserrat_charcoal_caps();
@@ -947,7 +970,7 @@ icon-cross {
     text-decoration: underline;
     text-underline-offset: 0.3rem;
     margin-top: 5px;
-    padding-right: 15px;
+    padding-right: 20px;
   }
   .product-block{
     .product-data{
@@ -982,6 +1005,17 @@ icon-cross {
       @include b4_12px_montserrat_charcoal();
       line-height: 20px;
       letter-spacing: 0.36px;
+    }
+  }
+}
+
+.accordion-body{
+  margin-top: 20px;
+  .edit-delete{
+    margin-bottom: 30px;
+    padding-left: 5px;
+    .edit{
+      padding-right: 30px;
     }
   }
 }
@@ -1151,24 +1185,4 @@ icon-cross {
 .text-underline{
   text-decoration: underline;
   text-underline-offset: 0.3rem;
-}
-
-.arrow{
-  height: 8px;
-  width: 8px;
-  border-top: 1px solid black;
-  border-left: 1px solid black;
-  transition: transform 0.2s ease-in;
-  position: absolute;
-  right: 12px;
-  top: 10px;
-  cursor: pointer;
-}
-
-.open-icon{
-  transform: rotate(45deg);
-}
-.closed-icon{
-  transform: rotate(-135deg);
-  top: 6px;
 }
