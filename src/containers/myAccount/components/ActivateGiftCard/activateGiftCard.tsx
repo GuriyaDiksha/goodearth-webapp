@@ -137,6 +137,12 @@ const Giftcard: React.FC = () => {
       showSendOtp: false
     });
     // this.props.history.push(this.props.history.location.pathname, {});
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "activate_another_giftcard"
+      });
+    }
   };
   const onClose = (code: string) => {
     let { giftList } = giftCardState;
