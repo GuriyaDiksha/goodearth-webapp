@@ -295,6 +295,16 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     }
   };
 
+  activateGiftCardGTM = (): void => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "gift_card_activated",
+        gift_card_code: this.props.txtvalue
+      });
+    }
+  };
+
   checkOtpValidation = (value: any) => {
     const { otpData } = this.state;
     const newData = otpData;
@@ -323,6 +333,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               );
             } else {
               this.props.updateList(data);
+              // Add an event handler for when the user clicks on the 'Activate Gift Card' button. This handler should ensure the gift card is activated successfully.
+              this.activateGiftCardGTM();
               this.setState({
                 toggleOtp: true,
                 // radioType: "",
@@ -798,6 +810,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               uniqueId="activategcid"
               containerClassName={styles.otpWrapperGc}
               disabled={this.state.isDisabled}
+              txtvalue={this.props.txtvalue}
             />
             <hr />
           </>
