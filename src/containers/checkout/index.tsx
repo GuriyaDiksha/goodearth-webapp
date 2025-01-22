@@ -1247,16 +1247,18 @@ class Checkout extends React.Component<Props, State> {
                 currentStep={this.state.currentStep}
                 isGcCheckout={isGcCheckout}
               />
-              {this.props.showPromo && this.props.basket.showCouponSection && (
-                <PromoSection
-                  isActive={this.isActiveStep(STEP_PROMO)}
-                  user={this.props.user}
-                  next={this.nextStep}
-                  selectedAddress={this.state.billingAddress}
-                  activeStep={STEP_PROMO}
-                  currentStep={this.state.currentStep}
-                />
-              )}
+              {!this.props.isSale &&
+                this.props.showPromo &&
+                this.props.basket.showCouponSection && (
+                  <PromoSection
+                    isActive={this.isActiveStep(STEP_PROMO)}
+                    user={this.props.user}
+                    next={this.nextStep}
+                    selectedAddress={this.state.billingAddress}
+                    activeStep={STEP_PROMO}
+                    currentStep={this.state.currentStep}
+                  />
+                )}
               <PaymentSection
                 isActive={
                   this.isActiveStep(STEP_PAYMENT) ||
