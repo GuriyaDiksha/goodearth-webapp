@@ -336,7 +336,7 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                       height={17}
                       alt="right tick icon"
                     />
-                    Your order has already been delivered
+                    {`Your order has already been delivered on ${data.deliveryDate}`}
                   </div>
                 </div>
               ) : (
