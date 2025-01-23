@@ -428,8 +428,9 @@ const Giftcard: React.FC = () => {
           isIndiaGC={isIndiaGC}
           toggleOtp={toggleOtp}
           otpFor="activateGC"
-          email={isLoggedIn ? user.email : ""}
-          phoneNo={isLoggedIn ? user.phoneNumber : ""}
+          email={isLoggedIn ? user?.email : ""}
+          phoneNo={isLoggedIn ? user?.phoneNumber : ""}
+          code={isLoggedIn ? user?.phoneCountryCode : ""}
           // validateInputs={this.ActivateGCForm.current ? this.ActivateGCForm.current.submit : () => null}
           // validateInputs={this.scrollToErrors}
           validateEmptyInputs={validateEmptyInputs}

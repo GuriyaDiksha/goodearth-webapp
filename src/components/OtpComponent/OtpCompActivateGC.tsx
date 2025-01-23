@@ -256,7 +256,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     //**** both email and phone option for INR GC
     data["otpTo"] =
       // this.props.isIndiaGC && this.state.selectedOption ? "phoneno" : "email";
-      this.props.code == "91" && this.state.selectedOption
+      this.props.code == "91" && this.state.selectedOption == "mobile number"
         ? "phoneno"
         : "email";
     // data["otpTo"] = "email";
@@ -758,6 +758,10 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 </p>
               </p>
             ))}
+
+          {this.props.activatedGcMsg && (
+            <p className={styles.activatedGcMsg}>{this.props.activatedGcMsg}</p>
+          )}
         </div>
         <hr />
         {(this.props.otpFor == "activateGC"

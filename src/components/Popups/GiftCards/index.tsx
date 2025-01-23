@@ -106,6 +106,7 @@ const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard, gc_code }) => {
       if (isGCApplied) {
         const msg = "Success. Gift Card Code Activated & Applied!";
         showGrowlMessage(dispatch, msg, 7000);
+        AccountService.fetchGC_CN_Ammount(dispatch);
       }
     } else {
       setError({ ...error, [gc]: gift?.message });
@@ -131,6 +132,7 @@ const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard, gc_code }) => {
     const res = await CheckoutService.removeGiftCard(dispatch, data);
     if (res) {
       fetchGiftCards();
+      setError({ ...error, [gc]: "" });
       setCheckedIds([...checkedIds.filter(ele => ele !== gc)]);
       await BasketService.fetchBasket(
         dispatch,
@@ -185,8 +187,10 @@ const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard, gc_code }) => {
     }
   };
 
+  //filtered giftcard list by currency and without over balance
   const filteredgiftcardList = giftcardList?.filter(
-    giftcardList => giftcardList.currency == currency
+    giftcardList =>
+      giftcardList.currency == currency && giftcardList.message == ""
   );
 
   return (
