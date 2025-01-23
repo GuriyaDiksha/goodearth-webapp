@@ -37,8 +37,7 @@ const Share: React.FC<Props> = ({
       dataLayer.push({
         event: "share_product",
         click_type: productName,
-        cta_name: "copy link",
-        link_url: link
+        cta_name: "copy link"
       });
     }
   };
