@@ -40,7 +40,8 @@ const Giftcard: React.FC = () => {
     showSendOtp: false,
     isIndiaGC: false,
     isProceedBtnDisabled: true,
-    isLoading: false
+    isLoading: false,
+    activatedGcMsg: ""
   });
   const [isGCVerificationDisabled, setIsGCVerificationDisabled] = useState(
     false
@@ -111,7 +112,9 @@ const Giftcard: React.FC = () => {
         ...giftCardState,
         giftList: giftList,
         newCardBox: false,
-        isSuccess: true
+        isSuccess: true,
+        activatedGcMsg:
+          "This Gift Card has been successfully activated and is now linked to the email address / phone number provided. Gift cards are not transferable."
         // txtvalue: ""
       });
       //Show  Growl Messsage
@@ -320,7 +323,8 @@ const Giftcard: React.FC = () => {
     giftList,
     disable,
     toggleResetOtpComponent,
-    isIndiaGC
+    isIndiaGC,
+    activatedGcMsg
   } = giftCardState;
 
   return (
@@ -441,6 +445,7 @@ const Giftcard: React.FC = () => {
           newGiftCard={newGiftcard}
           mobile={mobile}
           isLoggedIn={user?.isLoggedIn}
+          activatedGcMsg={activatedGcMsg}
         />
       )}
       <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>

@@ -55,19 +55,21 @@ const ActivateGiftCard: React.FC<PasswordProps> = () => {
           </div>
         </div>
         <div className={cs(style.cnBody)}>
-          <div className={cs(styles.loginForm)}>
-            <div className={style.giftcardContent}>
-              <Giftcard />
-            </div>
-            <div className={style.tcLink}>
-              <Link
-                to="/customer-assistance/terms-conditions?id=howtoactivategiftcard"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.viewTnc}
-              >
-                View Terms & Conditions
-              </Link>
+          <div className={style.boxWrp}>
+            <div className={cs(styles.loginForm)}>
+              <div className={style.giftcardContent}>
+                <Giftcard />
+              </div>
+              <div className={style.tcLink}>
+                <Link
+                  to="/customer-assistance/terms-conditions?id=howtoactivategiftcard"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.viewTnc}
+                >
+                  View Terms & Conditions
+                </Link>
+              </div>
             </div>
           </div>
         </div>

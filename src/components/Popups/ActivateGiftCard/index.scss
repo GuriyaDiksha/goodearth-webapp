@@ -8,16 +8,12 @@
 }
   
 .cn-body{
-padding: 0px 0px 20px 0px !important;
+padding: 0px 0px 50px 0px !important;
 
     .boxWrp{
-        height: 450px;
+        max-height: 450px;
         overflow: auto;
         padding: 0 35px;
-
-        @media screen and (max-width:991px) {
-            height: calc(100vh - 150px);
-        }
 
         &::-webkit-scrollbar {
             // background-color:#fff;
@@ -179,11 +175,11 @@ padding: 0px 0px 20px 0px !important;
    }
 }
 .giftcard-content{
-    padding: 0 30px;
+    // padding: 0 30px;
 }
 
 .gc-wrp{
-    position: relative
+    position: relative;
 }  
 .login-change{
     @include b5_10px_montserrat_charcoal();

@@ -527,7 +527,8 @@
     background-color: #fff;
     border: 1px solid #eee;
     width: 100%;
-    padding: 10px;
+    // padding: 10px;
+    padding: 15px 20px;
     font-size: 14px;
     line-height: 25px;
     -webkit-appearance: none;
@@ -585,6 +586,10 @@
 }
 .popUpHeight{
   max-height: 700px !important;
+  @media(max-width:767px){
+    max-height: 580px !important;
+    position: relative;
+  }
 }
 
 .pincodePopup {
@@ -1687,8 +1692,10 @@
   line-height: 18px;
   letter-spacing: 0.42px;
   padding: 16px;
-  position: relative;
+  position: absolute;
+  bottom: 0;
   cursor: pointer;
+  width: 100%;
 }
 
 //====BillingGST popup======//

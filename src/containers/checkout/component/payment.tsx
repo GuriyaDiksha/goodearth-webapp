@@ -951,7 +951,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 ) : (
                   <div className={globalStyles.marginT20}>
                     <CheckboxWithLabel
-                      id="applyCN"
+                      id="applyCN_international"
                       className={styles.disabledLabel}
                       onChange={() => null}
                       label={[
@@ -967,10 +967,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                         </label>
                       ]}
                     />
-                    <div className={styles.gcMsg}></div>
-                    <p className={styles.greyText}>
-                      There are no credit notes linked to international users
-                    </p>
                   </div>
                 ))}
 
