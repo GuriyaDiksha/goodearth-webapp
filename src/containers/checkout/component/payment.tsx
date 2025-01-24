@@ -48,7 +48,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     basket: { loyalty },
     user: { loyaltyData, isLoggedIn, preferenceData, slab },
     address: { countryData, shippingAddressId, billingAddressId },
-    info: { isSale }
+    info: { isSale },
+    checkout: { GCCNData }
   } = useSelector((state: AppState) => state);
   const PaymentChild: any = useRef<typeof ApplyGiftcard>(null);
   const history = useHistory();
@@ -700,24 +701,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     );
   }, [giftwrapprice]);
 
-  const [hasGC, setHasGC] = useState(false);
-  const [amountGC, setAmountGC] = useState("");
-  const [amountCN, setAmountCN] = useState("");
-
-  const fetchGC_CN_Ammount = () => {
-    AccountService.fetchGC_CN_Ammount(dispatch)
-      .then(response => {
-        setHasGC(response.hasGC);
-        setAmountGC(response.availableGCamount);
-        setAmountCN(response.availableCNamount);
-      })
-      .catch(e => {
-        console.log("fetch available_gc_cn API failed =====", e);
-      });
-  };
-
   useEffect(() => {
-    fetchGC_CN_Ammount();
+    AccountService.fetchGC_CN_Ammount(dispatch);
   }, [isLoggedIn]);
 
   return (
@@ -941,13 +926,16 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 */}
 
               {!basket.isOnlyGiftCart && !isGcCheckout && (
-                <ApplyGiftCards hasGC={hasGC} amountGC={amountGC} />
+                <ApplyGiftCards
+                  hasGC={GCCNData.hasGC}
+                  amountGC={GCCNData.availableGCamount}
+                />
               )}
 
               {!basket.isOnlyGiftCart &&
                 !isGcCheckout &&
                 (currency === "INR" ? (
-                  <ApplyCreditNote amountCN={amountCN} />
+                  <ApplyCreditNote amountCN={GCCNData.availableCNamount} />
                 ) : (
                   <div className={globalStyles.marginT20}>
                     <CheckboxWithLabel

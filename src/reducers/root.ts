@@ -30,6 +30,7 @@ import { filler } from "./Filler";
 import { widget } from "./widget";
 import { loyalty } from "./loyalty";
 import { bridal } from "./bridal";
+import { checkout } from "./checkout";
 
 const createRootReducer = (history: History) => {
   return combineReducers({
@@ -61,7 +62,8 @@ const createRootReducer = (history: History) => {
     career,
     filler,
     widget,
-    loyalty
+    loyalty,
+    checkout
   });
 };
 
