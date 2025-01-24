@@ -20,6 +20,7 @@ import {
   GiftCardResponse,
   GC_CN_AmountResponse
 } from "containers/myAccount/components/MyCreditNotes/typings";
+import { update_GC_CN_Amount } from "actions/checkout";
 
 export default {
   fetchProfileData: async (dispatch: Dispatch) => {
@@ -359,6 +360,7 @@ export default {
       dispatch,
       `${__API_HOST__ + `/myapi/giftcard/available_gc_cn_amount`}`
     );
+    dispatch(update_GC_CN_Amount(data));
     return data;
   }
 };

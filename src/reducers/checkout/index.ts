@@ -1,7 +1,12 @@
 import { State, GiftActions } from "./typings";
 
 const initialState: State = {
-  giftcardData: []
+  giftcardData: [],
+  GCCNData: {
+    hasGC: false,
+    availableGCamount: "",
+    availableCNamount: ""
+  }
 };
 
 export const checkout = (state = initialState, action: GiftActions): State => {
@@ -12,5 +17,13 @@ export const checkout = (state = initialState, action: GiftActions): State => {
         ...action.payload
       };
     }
+    case "UPDATE_GCCNAMOUNT": {
+      return {
+        ...state,
+        GCCNData: action.payload
+      };
+    }
+    default:
+      return state;
   }
 };
