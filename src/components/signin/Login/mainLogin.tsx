@@ -616,15 +616,13 @@ class MainLogin extends React.Component<Props, loginState> {
             {this.state.showerror ? (
               <p className={cs(styles.errorMsg, styles.mainLoginError)}>
                 {this.state.showerror}
-                {!this.state.isUserActive && (
-                  <a
-                    className={cs(styles.underlineText)}
-                    href="mailto:customercare@goodearth.in"
-                    key="email"
-                  >
-                    customercare@goodearth.in
-                  </a>
-                )}
+                <a
+                  className={cs(styles.underlineText)}
+                  href="mailto:customercare@goodearth.in"
+                  key="email"
+                >
+                  customercare@goodearth.in
+                </a>
               </p>
             ) : (
               ""
