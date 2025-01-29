@@ -151,8 +151,9 @@ export default {
       `${__API_HOST__ + "/myapi/giftcard/send_otp_for_anonymous_user/"}`,
       enc
     );
-    const response = decriptdata(data);
-    return response;
+    // const response = decriptdata(data);
+    // return response;
+    return data;
   },
   sendOtpRedeem: async (dispatch: Dispatch, formData: FormData) => {
     const data = await API.post<BalanceProps>(
