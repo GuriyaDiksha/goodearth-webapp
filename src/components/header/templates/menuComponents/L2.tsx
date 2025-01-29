@@ -136,7 +136,12 @@ const L2: React.FC<Props> = ({
                   preload="metadata"
                   controlsList="nodownload noplaybackrate nofullscreen"
                   src={componentData?.videoSrc}
-                ></video>
+                  poster={
+                    componentData?.videoThumbnailSrc?.trim() !== ""
+                      ? componentData.videoThumbnailSrc
+                      : undefined
+                  }
+                />
               </div>
             )}
           </>
@@ -186,7 +191,12 @@ const L2: React.FC<Props> = ({
                   preload="metadata"
                   controlsList="nodownload noplaybackrate nofullscreen"
                   src={componentData?.videoSrc}
-                ></video>
+                  poster={
+                    componentData?.videoThumbnailSrc?.trim() !== ""
+                      ? componentData.videoThumbnailSrc
+                      : undefined
+                  }
+                />
               </div>
             )}
           </>
