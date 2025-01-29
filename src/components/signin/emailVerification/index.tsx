@@ -167,7 +167,7 @@ const EmailVerification: React.FC<Props> = ({
         setError("Invalid OTP");
       }
     } catch (error) {
-      const data = decriptdata(error?.response?.data);
+      const data = error?.response?.data;
       setAttempts({
         attempts: data?.attempts || 0,
         maxAttemptsAllow: data?.maxAttemptsAllow || 5

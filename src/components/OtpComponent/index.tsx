@@ -309,7 +309,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             // }
           })
           .catch(error => {
-            const data = decriptdata(error.response?.data);
+            const data = error.response?.data;
             this.setState({
               attempts: {
                 attempts: data?.attempts || 0,
@@ -366,7 +366,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           this.props.toggleOtp(false);
         })
         .catch((error: any) => {
-          const data = decriptdata(error.response?.data);
+          const data = error.response?.data;
           this.setState({
             attempts: {
               attempts: data?.attempts || 0,
@@ -568,9 +568,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         }
       })
       .catch((error: any) => {
-        const { status, currStatus, message, email } = decriptdata(
-          error.response.data
-        );
+        const { status, currStatus, message, email } = error.response.data;
         if (!status) {
           if (
             currStatus == "Invalid-CN" ||
