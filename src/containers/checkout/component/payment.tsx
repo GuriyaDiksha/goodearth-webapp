@@ -236,9 +236,23 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         }
       }
       if (!usersubscribevalue) {
+        // Set the error message
         setPolicyError("Please accept the Terms & Conditions");
+
+        // Delay scroll action until the next frame
+        window?.requestAnimationFrame(() => {
+          const policyErrorElement = document.getElementById("policy-error");
+          if (policyErrorElement) {
+            policyErrorElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center"
+            });
+          }
+        });
+
         return false;
       }
+
       if (currency == "GBP" && !subscribegbp) {
         //setGbpError("Please agree to shipping & payment terms.");
         errorTracking(
@@ -1341,6 +1355,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             )}
             {policyError && (
               <div
+                id="policy-error"
                 className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
                 data-name="error-msg"
               >
