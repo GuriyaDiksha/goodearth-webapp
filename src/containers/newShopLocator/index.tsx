@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, LegacyRef } from "react";
 import { AppState } from "reducers/typings";
 import { connect, DispatchProp } from "react-redux";
 import mapActionsToProps from "./actions";
@@ -12,6 +12,9 @@ import "./shoplocator-slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import Slider from "react-slick";
+import prevIcon from "../../images/shopLocator_LeftArrow.svg";
+import nextIcon from "../../images/shopLocator_RightArrow.svg";
+import globalStyles from "styles/global.scss";
 
 import Accordion from "components/Accordion";
 
@@ -45,16 +48,22 @@ type State = {
   shopData: any;
   currentCity: string;
   currentCityData: any;
+  canScrollLeft: boolean;
+  canScrollRight: boolean;
 };
 
 class ShopLocator extends Component<Props, State> {
+  containerRef: LegacyRef<HTMLDivElement> | undefined;
   constructor(props: any) {
     super(props);
     this.state = {
       shopData: {},
       currentCity: "",
-      currentCityData: {}
+      currentCityData: {},
+      canScrollLeft: false,
+      canScrollRight: true
     };
+    this.containerRef = React.createRef<HTMLDivElement>();
   }
 
   onHeaderItemClick = (data: any) => {
@@ -75,6 +84,31 @@ class ShopLocator extends Component<Props, State> {
     const banner = document.getElementById("page-banner") as HTMLDivElement;
     const h1 = banner.clientHeight;
     window.scrollTo({ top: h1, behavior: "smooth" });
+  };
+  horizontalScroll = (direction: string) => {
+    if (direction === "left" && !this.state.canScrollLeft) return;
+    if (direction === "right" && !this.state.canScrollRight) return;
+    const scrollAmount = 300;
+    const container = (this.containerRef as React.RefObject<HTMLDivElement>)
+      .current;
+    if (container) {
+      container.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth"
+      });
+    }
+  };
+
+  checkScrollPosition = () => {
+    const container = (this.containerRef as React.RefObject<HTMLDivElement>)
+      .current;
+    if (container) {
+      const { scrollLeft, scrollWidth, clientWidth } = container;
+      this.setState({
+        canScrollLeft: scrollLeft > 0,
+        canScrollRight: scrollLeft < scrollWidth - clientWidth - 1
+      });
+    }
   };
 
   componentDidMount(): void {
@@ -145,6 +179,14 @@ class ShopLocator extends Component<Props, State> {
     setTimeout(() => {
       this.scrollTop();
     }, 100);
+
+    const container = (this.containerRef as React.RefObject<HTMLDivElement>)
+      .current;
+    if (container) {
+      window.addEventListener("resize", this.checkScrollPosition);
+      container.addEventListener("scroll", this.checkScrollPosition);
+      this.checkScrollPosition();
+    }
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -202,8 +244,21 @@ class ShopLocator extends Component<Props, State> {
         const total = h1 + h2 + h3;
         window.scrollTo({ top: total, left: 0 });
       }
+      if (prevState.shopData !== this.state.shopData) {
+        this.checkScrollPosition();
+      }
     }, 500);
   }
+
+  componentWillUnmount(): void {
+    const container = (this.containerRef as React.RefObject<HTMLDivElement>)
+      .current;
+    if (container) {
+      window.removeEventListener("resize", this.checkScrollPosition);
+      container.removeEventListener("scroll", this.checkScrollPosition);
+    }
+  }
+
   render() {
     const { shopData, currentCity } = this.state;
     const { saleTimer, mobile, tablet } = this.props;
@@ -229,27 +284,66 @@ class ShopLocator extends Component<Props, State> {
           </div>
         </div>
         <div
-          className={cs(styles.headerBox, { [styles.withTimer]: saleTimer })}
+          className={cs(styles.headerBox, {
+            [styles.withTimer]: saleTimer,
+            [globalStyles.flexGutterCenter]: !mobile && !tablet
+          })}
           id="header-box"
         >
-          <div className={styles.header}>
-            {/* <div id="bottomSlide" className={styles.slider}></div> */}
-            {Object.keys(shopData).map((data: any, i: number) => {
-              return (
-                <div
-                  className={cs(styles.item, {
-                    [styles.active]: data == currentCity
-                  })}
-                  key={i}
-                  onClick={() => this.onHeaderItemClick(data)}
-                  id={data}
-                  tabIndex={i}
-                >
-                  {data}
-                </div>
-              );
-            })}
+          {!mobile && !tablet && (
+            <img
+              src={prevIcon}
+              onClick={() =>
+                this.state.canScrollLeft && this.horizontalScroll("left")
+              }
+              className={cs(styles.prevIcon, {
+                [globalStyles.cursorNotAllowed]: !this.state.canScrollLeft,
+                [globalStyles.opacity50]: !this.state.canScrollLeft
+              })}
+              alt="prevIcon"
+            />
+          )}
+
+          <div
+            className={styles.header}
+            ref={this.containerRef}
+            style={{
+              display: "flex",
+              overflowX: "auto",
+              scrollBehavior: "smooth",
+              scrollbarWidth: "none",
+              width: "1106px",
+              columnGap: "53px",
+              justifyContent: "start"
+            }}
+          >
+            {Object.keys(shopData).map((data, i) => (
+              <div
+                className={cs(styles.item, {
+                  [styles.active]: data === currentCity
+                })}
+                key={i}
+                onClick={() => this.onHeaderItemClick(data)}
+                id={data}
+                tabIndex={i}
+              >
+                {data}
+              </div>
+            ))}
           </div>
+          {!mobile && !tablet && (
+            <img
+              src={nextIcon}
+              onClick={() =>
+                this.state.canScrollRight && this.horizontalScroll("right")
+              }
+              className={cs(styles.nextIcon, {
+                [globalStyles.cursorNotAllowed]: !this.state.canScrollRight,
+                [globalStyles.opacity50]: !this.state.canScrollRight
+              })}
+              alt="nextIcon"
+            />
+          )}
         </div>
         <div className={styles.pageBody}>
           {shopData[currentCity]?.map((data: any, i: number) => {
