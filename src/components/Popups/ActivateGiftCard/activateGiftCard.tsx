@@ -17,6 +17,8 @@ import { useSelector, useDispatch } from "react-redux";
 import AccountServices from "services/account";
 import { showGrowlMessage, errorTracking, getErrorList } from "utils/validate";
 import Button from "components/Button";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const Giftcard: React.FC = () => {
   const {
@@ -285,7 +287,7 @@ const Giftcard: React.FC = () => {
       });
   };
 
-  const changeGiftCardCode = () => {
+  const changeGiftCardCode = (gc_code: string) => {
     setIsGCVerificationDisabled(true);
     setGiftCardState({
       ...giftCardState,
@@ -294,6 +296,14 @@ const Giftcard: React.FC = () => {
     });
     const elem = document.getElementById("gift");
     elem && elem.focus();
+    // apply analytic events on change gc text
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "change_gift_code",
+        gift_card_code: gc_code
+      });
+    }
   };
 
   const sendOtpGiftcard = async (data: any) => {
@@ -393,7 +403,7 @@ const Giftcard: React.FC = () => {
                     {showSendOtp && (
                       <p
                         className={style.loginChange}
-                        onClick={changeGiftCardCode}
+                        onClick={() => changeGiftCardCode(txtvalue)}
                       >
                         Change
                       </p>
