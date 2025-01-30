@@ -121,6 +121,14 @@ const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard, gc_code }) => {
   useEffect(() => {
     if (gc_code) {
       applyGC(gc_code, true);
+      // aplly GA events after activated gc successfully
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "gift_card_activated",
+          gift_card_code: gc_code
+        });
+      }
     }
   }, [gc_code && gc_code]);
 
