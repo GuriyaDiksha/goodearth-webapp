@@ -72,7 +72,7 @@ const WishlistDetailPage = () => {
           ) as HTMLDivElement;
           const rect = elem?.getBoundingClientRect();
           const scrollTop = window.scrollY + rect.top;
-          window.scrollTo({ top: scrollTop - 100, behavior: "smooth" });
+          window.scrollTo({ top: scrollTop - 200, behavior: "smooth" });
         });
       }, 200);
     }
