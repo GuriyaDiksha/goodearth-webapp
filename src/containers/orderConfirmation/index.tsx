@@ -547,6 +547,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                   !confirmData?.coRegistrantName && (
                                     <p>
                                       {confirmData?.registrantName}&#39;s&nbsp;
+                                      <br></br>
                                       {confirmData?.occasion}&nbsp;Registry
                                     </p>
                                   )}
@@ -555,7 +556,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
                                     <p>
                                       {confirmData?.registrantName}&nbsp;&&nbsp;
                                       {confirmData?.coRegistrantName}
-                                      &#39;s&nbsp;
+                                      &#39;s&nbsp;<br></br>
                                       {confirmData?.occasion}&nbsp;Registry
                                     </p>
                                   )}

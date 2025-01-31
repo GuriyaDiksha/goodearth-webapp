@@ -147,7 +147,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                 <p className={styles.bridalInfo}>
                   {data.registrantName && !data.coRegistrantName && (
                     <p className={styles.para}>
-                      {data.registrantName}&#39;s&nbsp;
+                      {data.registrantName}&#39;s&nbsp;<br></br>
                       {data.occasion}&nbsp;Registry&nbsp;
                     </p>
                   )}
@@ -155,7 +155,7 @@ const OnlineOrders: React.FC<OrdersProps> = props => {
                     <p className={styles.para}>
                       {data.registrantName}&nbsp;&&nbsp;
                       {data.coRegistrantName}
-                      &#39;s&nbsp;
+                      &#39;s&nbsp;<br></br>
                       {data.occasion}&nbsp;Registry&nbsp;
                     </p>
                   )}
