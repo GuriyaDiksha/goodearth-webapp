@@ -64,6 +64,18 @@ const WishlistDetailPage = () => {
   // Toggle the accordion's open state
   const handleToggle = (index: any) => {
     setOpenIndex(openIndex === index ? null : index); // Close if already open, else open
+    if (index != 0 && openIndex != index) {
+      setTimeout(() => {
+        requestAnimationFrame(() => {
+          const elem = document.getElementById(
+            `accordion-item-${index}`
+          ) as HTMLDivElement;
+          const rect = elem?.getBoundingClientRect();
+          const scrollTop = window.scrollY + rect.top;
+          window.scrollTo({ top: scrollTop - 150, behavior: "smooth" });
+        });
+      }, 200);
+    }
   };
 
   const emptyWishlistContent = (
@@ -937,6 +949,7 @@ const WishlistDetailPage = () => {
                 <>
                   <div
                     key={listIndex}
+                    id={`accordion-item-${listIndex}`}
                     className={cs("accordion-item", styles.listBlock)}
                   >
                     <div
