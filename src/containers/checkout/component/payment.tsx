@@ -522,6 +522,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       .catch(err => {
         console.group(err);
       });
+    AccountService.fetchGC_CN_Ammount(dispatch);
   }, [currency]);
 
   useEffect(() => {
@@ -714,10 +715,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       </div>
     );
   }, [giftwrapprice]);
-
-  useEffect(() => {
-    AccountService.fetchGC_CN_Ammount(dispatch);
-  }, [isLoggedIn]);
 
   return (
     <>

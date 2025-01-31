@@ -177,6 +177,7 @@ export default {
       curr: string;
       message?: string;
       status?: boolean;
+      activatorEmail: string;
     }>(dispatch, `${__API_HOST__}/myapi/giftcard/check_gift_card_status/`, {
       code
     });
