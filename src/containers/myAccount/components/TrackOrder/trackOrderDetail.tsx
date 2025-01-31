@@ -350,14 +350,17 @@ const TrackDetails: React.FC<OrdersProps> = props => {
                   <div className={styles.title}>shipping address</div>
                   {data.isBridalOrder && (
                     <div className={styles.row}>
-                      <span className={styles.bridalInfo}>
+                      <p className={cs(styles.bridalInfo, styles.para)}>
                         {data.registrantName}
                         &nbsp; & &nbsp;{data.coRegistrantName}
                         {"'s "}
-                        {data.occasion} Registry
-                      </span>
+                        <br></br>
+                        {data.occasion} Registry<br></br>
+                      </p>
                       <span className={styles.bridalMessage}></span>
-                      <span>Address predefined by registrant</span>
+                      <p className={styles.light1}>
+                        Address predefined by registrant
+                      </p>
                     </div>
                   )}
                   {!data.isBridalOrder ? (
