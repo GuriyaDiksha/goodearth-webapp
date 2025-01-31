@@ -16,6 +16,7 @@ import { useSelector, useDispatch } from "react-redux";
 import AccountServices from "services/account";
 import { showGrowlMessage, errorTracking, getErrorList } from "utils/validate";
 import Button from "components/Button";
+import { censorEmail } from "utils/utility";
 
 const Giftcard: React.FC = () => {
   const {
@@ -250,7 +251,15 @@ const Giftcard: React.FC = () => {
           ActivateGCForm.current &&
             ActivateGCForm.current.updateInputsWithError(
               {
-                giftCardCode: [<>{res.message}</>]
+                giftCardCode: [
+                  <>
+                    {res.message?.includes("already activated")
+                      ? `${res.message.replace(/\./g, "")} with ${censorEmail(
+                          res.activatorEmail
+                        )}`
+                      : res.message}
+                  </>
+                ]
               },
               true
             );
