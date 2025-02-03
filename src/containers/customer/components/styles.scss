@@ -6,42 +6,33 @@
 .terms {
   padding-bottom: 80px;
   padding-top: 25px;
- 
-h3 {
-  @include c22-A-I();
+
+  h3 {
+    @include c22-A-I();
     letter-spacing: .5px;
     line-height: 32px;
     padding: 30px 0 15px 0;
     text-transform: capitalize;
-     
-}
-h5 {
-  @include c10-L-R();
-  line-height: 30px;
-  color: #000;
-  text-transform: uppercase;
-  letter-spacing: 0;
-  span {
-    text-transform: none;
+
   }
-}
-p {
-  @include c10-L-R();
-    line-height: 20px;
-    letter-spacing: .5px;
-    // span {
-    //   font-weight: bold;
-    // }
-    a {
-      color: $cerise;
-    }
-}
-ul {
-  li {
+
+  h5 {
     @include c10-L-R();
-    list-style-type: disc;
+    line-height: 30px;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0;
+
+    span {
+      text-transform: none;
+    }
+  }
+
+  p {
+    @include c10-L-R();
     line-height: 20px;
     letter-spacing: .5px;
+
     // span {
     //   font-weight: bold;
     // }
@@ -49,33 +40,61 @@ ul {
       color: $cerise;
     }
   }
-}
-ol {
-  li {
-    a {
-      color: $cerise;
+
+  ul {
+    margin: revert;
+    padding: revert;
+    list-style: disc;
+
+    li {
+      @include c10-L-R();
+      line-height: 20px;
+      letter-spacing: .5px;
+      list-style-type: inherit;
+
+
+
+      // span {
+      //   font-weight: bold;
+      // }
+      a {
+        color: $cerise;
+      }
     }
   }
-}
-ol {
-  li {
-    font-size: 12px;
-    font-family: "LatoFont","Helvetica","Arial";
-    color: #666;
-    letter-spacing: 1px;
-    list-style-type: decimal;
-    line-height: 20px;
-    letter-spacing: .5px;
-    margin-left: 12px;
+
+  ol {
+    li {
+      a {
+        color: $cerise;
+      }
+    }
   }
-}
-.cookie{
-  @include b4_12px_medium_gold_caps();
-  font-weight: 600 ;
-  padding: 20px 40px 20px 0px;
-  cursor: pointer;
-  width: fit-content;
-}
+
+  ol {
+    margin: revert;
+    padding: revert;
+    list-style: decimal;
+
+    li {
+      font-size: 12px;
+      font-family: "LatoFont", "Helvetica", "Arial";
+      color: #666;
+      letter-spacing: 1px;
+      line-height: 20px;
+      letter-spacing: .5px;
+      list-style-type: inherit;
+      // margin-left: 12px;
+    }
+  }
+
+  .cookie {
+    @include b4_12px_medium_gold_caps();
+    font-weight: 600;
+    padding: 20px 40px 20px 0px;
+    cursor: pointer;
+    width: fit-content;
+  }
 
 }
 .table {

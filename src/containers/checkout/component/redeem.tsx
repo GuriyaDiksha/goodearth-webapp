@@ -404,6 +404,7 @@ class Reedem extends React.Component<Props, RedeemState> {
                 isOTPSent={this.props.isOTPSent}
                 setIsOTPSent={this.props.setIsOTPSent}
                 removeError={this.removeError}
+                countryCode={this.props.user.phoneCountryCode}
                 mobile={this.props.mobile}
               />
             </div>

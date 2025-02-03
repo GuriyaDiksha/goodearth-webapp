@@ -601,6 +601,16 @@ const AddressSection: React.FC<AddressProps & {
       setPanCheck(
         "Please confirm that the information you have provided is correct"
       );
+      useEffect(() => {
+        const errorElement = document.getElementById("pancardCheckError");
+        if (errorElement) {
+          errorElement.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+        }
+      }, [panCheck]);
+
       validate = false;
     }
     return validate;
@@ -962,7 +972,9 @@ const AddressSection: React.FC<AddressProps & {
           </div>
 
           {panCheck ? (
-            <span className={globalStyles.errorMsg}>{panCheck}</span>
+            <span id="pancardCheckError" className={globalStyles.errorMsg}>
+              {panCheck}
+            </span>
           ) : (
             ""
           )}

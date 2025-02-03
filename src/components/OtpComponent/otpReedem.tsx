@@ -34,7 +34,8 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
       startTimer: true,
       isOtpSent: false,
       isDisabled: false,
-      attempt_count: 0
+      attempt_count: 0,
+      selectedOption: null
     };
   }
   // timerId: any = 0;
@@ -393,7 +394,11 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
         ></div>
         <hr />
         <NewOtpComponent
-          otpSentVia={`Email ID${this.props.number ? " & Mobile No" : ""}`}
+          otpSentVia={`Email ID${
+            this.props.number && this.props.countryCode == "91"
+              ? " & Mobile No"
+              : ""
+          }`}
           resendOtp={this.resendOtp}
           verifyOtp={this.checkOtpValidation}
           errorMsg={this.state.showerror}
@@ -675,7 +680,7 @@ class OtpReedem extends React.Component<otpRedeemProps, otpState> {
               0 && (
               <li className={styles.emailWrp}>
                 <p>Email ID: {this.props?.email}</p>
-                {number && currencycode === "INR" ? (
+                {number && this.props.countryCode === "91" ? (
                   <p>Mobile No.: +91{number}</p>
                 ) : null}
               </li>
