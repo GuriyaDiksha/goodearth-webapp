@@ -491,6 +491,7 @@ input[type="text"]{
     text-transform: capitalize;
     line-height: 20px;
     padding: 5px 0;
+    overflow-wrap: break-word;
     @media screen and (max-width:767px) {
     font-family: "Montserrat", "sans-serif";
     font-size: 12px !important;
@@ -499,6 +500,7 @@ input[type="text"]{
     text-transform: capitalize;
     line-height: 16px;
     padding: 5px 0;
+    overflow-wrap: break-word;
     
     }
 }
