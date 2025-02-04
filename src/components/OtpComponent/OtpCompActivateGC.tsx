@@ -12,6 +12,9 @@ import CustomerCareInfo from "components/CustomerCareInfo";
 import Loader from "components/Loader";
 import NewOtpComponent from "./NewOtpComponent";
 import Button from "components/Button";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
+
 class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
     super(props);
@@ -150,6 +153,14 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
     this.setState({ showerrorOtp: "" });
     if (this.props.otpFor == "activateGC") {
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "otp_send",
+          gift_card_code: this.props.txtvalue
+        });
+      }
+
       if (
         !this.props.firstName ||
         !this.props.lastName ||
@@ -284,6 +295,16 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     }
   };
 
+  activateGiftCardGTM = (): void => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "gift_card_activated",
+        gift_card_code: this.props.txtvalue
+      });
+    }
+  };
+
   checkOtpValidation = (value: any) => {
     const { otpData } = this.state;
     const newData = otpData;
@@ -312,6 +333,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               );
             } else {
               this.props.updateList(data);
+              // Add an event handler for when the user clicks on the 'Activate Gift Card' button. This handler should ensure the gift card is activated successfully.
+              this.activateGiftCardGTM();
               this.setState({
                 toggleOtp: true,
                 // radioType: "",
@@ -787,6 +810,7 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               uniqueId="activategcid"
               containerClassName={styles.otpWrapperGc}
               disabled={this.state.isDisabled}
+              txtvalue={this.props.txtvalue}
             />
             <hr />
           </>
