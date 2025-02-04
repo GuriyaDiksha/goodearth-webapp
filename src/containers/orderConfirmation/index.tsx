@@ -47,6 +47,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
     const productquantity: number[] = [];
 
     const search = CookieService.getCookie("search") || "";
+    const clickType = localStorage.getItem("clickType");
     const items = result.lines.map((line: any, ind: number) => {
       const index = line.product.categories
         ? line.product.categories.length - 1
@@ -70,7 +71,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         item_category2: arr[arr.length - 1],
         item_category3: line.product.is3DView ? "3d" : "non 3d",
         item_list_id: "",
-        item_list_name: search,
+        item_list_name: search ? `${clickType}-${search}` : "NA",
         item_variant: line.product.size || "",
         item_category4: "",
         price: line.isEgiftCard
