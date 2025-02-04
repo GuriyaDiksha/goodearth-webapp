@@ -910,7 +910,11 @@ class Search extends React.Component<Props, State> {
                                       "clickType",
                                       "Popular Searches"
                                     );
-
+                                    CookieService.setCookie(
+                                      "search",
+                                      cat?.name,
+                                      365
+                                    );
                                     if (
                                       !cat.link &&
                                       this.searchBoxRef &&
