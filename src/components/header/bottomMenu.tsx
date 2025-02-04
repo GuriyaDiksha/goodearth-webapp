@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./styles.scss";
 import cs from "classnames";
 import SelectableDropdownMenu from "../dropdown/selectableDropdownMenu";
@@ -52,8 +52,6 @@ const BottomMenu: React.FC<Props> = ({
   // sortBy,
   showMenu
 }) => {
-  const [bottomOffset, setBottomOffset] = useState("0");
-  const { mobile } = useSelector((state: AppState) => state.device);
   const [isLoading, setIsLoading] = useState(false);
   const scrollDown = useSelector((state: AppState) => state.info.scrollDown);
   const showMobileSort = useSelector(
@@ -125,34 +123,6 @@ const BottomMenu: React.FC<Props> = ({
       });
   };
 
-  // Function to adjust the bottom offset based on viewport changes
-  const adjustBottomPosition = () => {
-    // Check if it's a mobile device
-    // const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-    if (mobile) {
-      // Calculate the safe area inset for mobile (when address bar is shown/hidden)
-      const safeAreaBottom =
-        window.innerHeight - document.documentElement.clientHeight;
-      setBottomOffset(`${safeAreaBottom}px`);
-    } else {
-      // For desktop, set to 0
-      setBottomOffset("0");
-    }
-  };
-
-  // Listen for window resize events to adjust position dynamically
-  useEffect(() => {
-    adjustBottomPosition(); // Adjust initially on mount
-
-    window.addEventListener("resize", adjustBottomPosition); // Adjust on resize
-
-    // Clean up the event listener on component unmount
-    return () => {
-      window.removeEventListener("resize", adjustBottomPosition);
-    };
-  }, []);
-
   return (
     <div
       id="header_container"
@@ -161,7 +131,6 @@ const BottomMenu: React.FC<Props> = ({
           (isPLP && (scrollDown || showMobileSort)) || isSearch || showMenu,
         [styles.index]: isCareer
       })}
-      style={{ bottom: bottomOffset }}
       // onClick={() => {
       // dataLayer.push({
       //   event: "Footer Click",

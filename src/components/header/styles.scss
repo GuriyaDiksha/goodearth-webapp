@@ -30,7 +30,6 @@
   background-color: rgb(249, 248, 245);
   height: 60px;
   transition: bottom 0.3s;
-  padding-bottom: env(safe-area-inset-bottom, 0);
   &.hide {
     bottom: -55px;
   }
