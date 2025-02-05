@@ -60,6 +60,16 @@ html(lang='en')
               });
             });
           }
+        script.
+          window.maker_optimize=window.maker_optimize||{};
+        script(src="https://embed.maker.co/optimize.js?id=CrTSP5dvt" async)
+        style.
+          .maker-anti-flicker {
+            opacity: 0 !important;
+          }
+        script.
+          (function(){document.documentElement.classList.add("maker-anti-flicker");setTimeout(function(){document.documentElement.classList.remove("maker-anti-flicker")},5e3)})();
+          
     body
         noscript.
           <iframe src="https://www.googletagmanager.com/ns.html?id="+!{gtmdata}

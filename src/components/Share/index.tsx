@@ -2,12 +2,8 @@ import React from "react";
 import { useStore } from "react-redux";
 import cs from "classnames";
 import { Props } from "./typings";
-// import Whatsapp from "./whatsapp";
 import Mail from "./mail";
 import CopyLink from "./copyLink";
-
-//import productDertailsStyles from "containers/pdp/components/productDetails/styles.scss";
-// actions
 import globalStyles from "styles/global.scss";
 import styles from "./styles.scss";
 import { showGrowlMessage } from "../../utils/validate";
@@ -39,9 +35,9 @@ const Share: React.FC<Props> = ({
     const userConsent = CookieService.getCookie("consent").split(",");
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
-        event: "link_copied",
+        event: "share_product",
         click_type: productName,
-        link_url: link
+        cta_name: "copy link"
       });
     }
   };

@@ -1254,26 +1254,6 @@ class Header extends React.Component<Props, State> {
             as="font"
             crossOrigin="crossorigin"
           />
-          {/* add some external & internal script and styles */}
-          <style>{`.maker-anti-flicker { opacity: 0 !important; }`}</style>
-          <script>
-            {`
-              (function() {
-                document.documentElement.classList.add("maker-anti-flicker");
-                setTimeout(function() {
-                  document.documentElement.classList.remove("maker-anti-flicker");
-                }, 5000);
-              })();
-            `}
-          </script>
-          <script type="text/javascript">
-            {`window.maker_optimize = window.maker_optimize || {};`}
-          </script>
-          <script
-            src="https://embed.maker.co/optimize.js?id=CrTSP5dvt"
-            async
-          ></script>
-          {/* end some external & internal script and styles */}
         </Helmet>
         <div data-currency="USD">
           <div data-testid="pdp-product-price-prefix"></div>
