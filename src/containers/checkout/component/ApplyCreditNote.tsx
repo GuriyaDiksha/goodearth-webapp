@@ -151,7 +151,7 @@ const ApplyCreditNote: React.FC<Props> = ({ amountCN }) => {
             className={styles.edit}
             onClick={e => onCreditNoteToggle(e, true)}
           >
-            EDIT
+            Apply more
           </div>
         )}
       </div>

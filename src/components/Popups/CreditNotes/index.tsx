@@ -198,6 +198,10 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
             ))}
           </div>
         </div>
+
+        <div className={styles.footerWrp}>
+          <div onClick={onClose}>SAVE & CLOSE</div>
+        </div>
       </div>
     </div>
   );
