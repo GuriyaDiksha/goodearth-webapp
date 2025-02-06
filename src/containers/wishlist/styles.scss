@@ -651,7 +651,7 @@ icon-cross {
 .share-list {
   @include b5_10px_montserrat_charcoal_caps();
   float: right;
-  margin-top: 5px;
+  // margin-top: 5px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -693,9 +693,11 @@ icon-cross {
     
     .open-icon{
       transform: translate(-50%, -50%) rotate(45deg);
+      top: 60%;
     }
     .closed-icon{
       transform: translate(-50%, -50%) rotate(-135deg);
+      top: 44%;
     }
   }
 }
@@ -945,6 +947,7 @@ icon-cross {
     display: flex;
     justify-content: space-between;
     position: relative;
+    align-items: center;
   }
   .wishlist-heading{
     display: flex;
@@ -959,6 +962,7 @@ icon-cross {
     padding-right: 25px;
     max-width: 90%;
     overflow-wrap: break-word;
+    margin-bottom: 0;
     @media(max-width:767px){
       font-size: 18px;
     }
@@ -969,7 +973,7 @@ icon-cross {
     cursor: pointer;
     text-decoration: underline;
     text-underline-offset: 0.3rem;
-    margin-top: 5px;
+    // margin-top: 5px;
     padding-right: 20px;
   }
   .product-block{
@@ -1014,6 +1018,8 @@ icon-cross {
   .edit-delete{
     margin-bottom: 30px;
     padding-left: 5px;
+    display: flex;
+    align-items: center;
     .edit{
       padding-right: 30px;
     }
