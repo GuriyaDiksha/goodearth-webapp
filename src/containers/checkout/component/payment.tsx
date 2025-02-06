@@ -966,6 +966,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                         </label>
                       ]}
                     />
+                    <div className={styles.gcMsg}>
+                      <p className={styles.greyText}>
+                        No Credit Note balance available
+                      </p>
+                    </div>
                   </div>
                 ))}
 
