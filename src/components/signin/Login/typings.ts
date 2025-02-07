@@ -37,5 +37,6 @@ export type loginState = {
   usrWithNoOrder: boolean;
   phoneNo?: string;
   isUserActive?: boolean;
+  invalidDomain?: boolean;
   attempt_count?: number;
 };
