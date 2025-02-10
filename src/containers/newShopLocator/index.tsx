@@ -304,19 +304,7 @@ class ShopLocator extends Component<Props, State> {
             />
           )}
 
-          <div
-            className={styles.header}
-            ref={this.containerRef}
-            style={{
-              display: "flex",
-              overflowX: "auto",
-              scrollBehavior: "smooth",
-              scrollbarWidth: "none",
-              width: "1106px",
-              columnGap: "53px",
-              justifyContent: "start"
-            }}
-          >
+          <div className={styles.header} ref={this.containerRef}>
             {Object.keys(shopData).map((data, i) => (
               <div
                 className={cs(styles.item, {
@@ -327,7 +315,7 @@ class ShopLocator extends Component<Props, State> {
                 id={data}
                 tabIndex={i}
               >
-                {data}
+                {data?.replace(/-/g, " ")}
               </div>
             ))}
           </div>

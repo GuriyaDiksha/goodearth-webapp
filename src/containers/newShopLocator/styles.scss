@@ -77,9 +77,13 @@ $banner-mobile-height:500px;
             width: 100%;
             display: flex;
             align-items: center;
-            justify-content: center;
-            column-gap: 53px;
-
+            justify-content: start;
+            column-gap: 10px;
+            overflow-x: auto;
+            max-width: 1106px;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            margin : 0 20px;
             .slider {
                 display: inline-block;
                 width: 100px;
@@ -105,7 +109,7 @@ $banner-mobile-height:500px;
                 line-height: 70px;
                 cursor: pointer;
                 position: relative;
-
+                white-space: preserve nowrap;
                 &.active {
                     color: $aqua-bold;
                     &::after{
