@@ -50,6 +50,7 @@ export type otpProps = {
   newGiftCard?: () => void;
   isFromCheckBalance?: boolean;
   mobile: boolean;
+  countryCode?: string;
   isLoggedIn?: boolean;
   activatedGcMsg?: string;
 };
@@ -86,6 +87,7 @@ export type otpRedeemProps = {
   closeModal: () => any;
   removeError: () => any;
   mobile?: boolean;
+  countryCode?: string;
 };
 
 export type otpBoxProps = {

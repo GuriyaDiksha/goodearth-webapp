@@ -175,22 +175,25 @@ class Mobilemenu extends React.Component<Props, MobileState> {
           );
           if (spanElement) {
             const childElement = spanElement.querySelector("p, span");
+            let targetElement;
             if (childElement) {
-              const targetElement =
+              targetElement =
                 childElement.tagName.toLowerCase() === "p"
                   ? childElement.querySelector("span") || childElement // If <p> contains a <span>, prioritize the <span>, else the <p>
                   : childElement; // If it's a <span> itself
-              const computedStyle = window.getComputedStyle(targetElement);
-              const spanColor = computedStyle.color;
-              const parentLi = spanElement.closest("li"); // This will find the closest `li` element that contains this `span`
-              if (parentLi) {
-                const viewAllLink = parentLi.querySelector("div > ul > li a");
-                if (
-                  viewAllLink &&
-                  viewAllLink?.textContent?.trim() === "View All"
-                ) {
-                  (viewAllLink as HTMLElement).style.color = spanColor; // Apply the color to the link
-                }
+            } else {
+              targetElement = spanElement;
+            }
+            const computedStyle = window.getComputedStyle(targetElement);
+            const spanColor = computedStyle.color;
+            const parentLi = spanElement.closest("li"); // This will find the closest `li` element that contains this `span`
+            if (parentLi) {
+              const viewAllLink = parentLi.querySelector("div > ul > li a");
+              if (
+                viewAllLink &&
+                viewAllLink?.textContent?.trim() === "View All"
+              ) {
+                (viewAllLink as HTMLElement).style.color = spanColor; // Apply the color to the link
               }
             }
           }
@@ -391,6 +394,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         );
     let k = 0;
     l2MenuData.map((data, j) => {
+      debugger;
       let spanClass =
         this.state.showmenulevel2 && this.state.activeindex2 == k
           ? cs(styles.menulevel2, styles.menulevel2Open)
@@ -398,12 +402,12 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       data.text.toLowerCase() == "winter velvets"
         ? (spanClass += ` ${styles.subheadingImg}`)
         : "";
-      spanClass +=
-        data.text.toLowerCase().indexOf("sale") > -1
-          ? ` ${styles.menucolor}`
-          : "";
+      // spanClass +=
+      //   data.text.toLowerCase().indexOf("sale") > -1
+      //     ? ` ${styles.menucolor}`
+      //     : "";
       html.push(
-        data.link && data.children && data.children.length == 0 ? (
+        data.link && data.children && data.children.length === 0 ? (
           <li key={j + "leftData"} onClick={this.props.clickToggle}>
             <Link
               to={data.link}
@@ -552,9 +556,9 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                             });
                           }}
                           className={cs(
-                            innerdata.text.toLowerCase().indexOf("sale") > -1
-                              ? styles.menucolor
-                              : "",
+                            // innerdata.text.toLowerCase().indexOf("sale") > -1
+                            //   ? styles.menucolor
+                            //   : "",
                             { [styles.highlight]: currentUrl == innerdata.link }
                           )}
                         >
@@ -695,10 +699,10 @@ class Mobilemenu extends React.Component<Props, MobileState> {
       data.name.toLowerCase() == "winter velvets"
         ? (spanClass += ` ${styles.subheadingImg}`)
         : "";
-      spanClass +=
-        data.name.toLowerCase().indexOf("sale") > -1
-          ? ` ${styles.menucolor}`
-          : "";
+      // spanClass +=
+      //   data.name.toLowerCase().indexOf("sale") > -1
+      //     ? ` ${styles.menucolor}`
+      //     : "";
       html.push(
         data.url && data.children.length == 0 ? (
           <li key={j + "leftData"} onClick={this.props.clickToggle}>
@@ -737,7 +741,7 @@ class Mobilemenu extends React.Component<Props, MobileState> {
             >
               {data.children ? (
                 <ul key={data.url}>
-                  {data.url && data.children.length > 1 ? (
+                  {data.url && data.children.length > 0 ? (
                     <li onClick={this.props.clickToggle}>
                       <Link
                         to={data.url}
@@ -770,11 +774,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                             //   innerdata.name
                             // );
                           }}
-                          className={
-                            innerdata.name.toLowerCase().indexOf("sale") > -1
-                              ? styles.menucolor
-                              : ""
-                          }
+                          // className={
+                          //   innerdata.name.toLowerCase().indexOf("sale") > -1
+                          //     ? styles.menucolor
+                          //     : ""
+                          // }
                         >
                           <p>
                             {ReactHtmlParser(
@@ -807,10 +811,10 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         data.name.toLowerCase() == "winter velvets"
           ? (spanClass += ` ${styles.subheadingImg}`)
           : "";
-        spanClass +=
-          data.name.toLowerCase().indexOf("sale") > -1
-            ? ` ${styles.menucolor}`
-            : "";
+        // spanClass +=
+        //   data.name.toLowerCase().indexOf("sale") > -1
+        //     ? ` ${styles.menucolor}`
+        //     : "";
         html.push(
           data.url && data.children.length == 0 ? (
             <li key={data.id} onClick={this.props.clickToggle}>
@@ -882,11 +886,11 @@ class Mobilemenu extends React.Component<Props, MobileState> {
                               //   innerdata.name
                               // );
                             }}
-                            className={
-                              innerdata.name.toLowerCase().indexOf("sale") > -1
-                                ? styles.menucolor
-                                : ""
-                            }
+                            // className={
+                            //   innerdata.name.toLowerCase().indexOf("sale") > -1
+                            //     ? styles.menucolor
+                            //     : ""
+                            // }
                           >
                             <p>
                               {ReactHtmlParser(

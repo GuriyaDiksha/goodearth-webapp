@@ -45,6 +45,7 @@ export type MenuComponentL2L3Data = {
   viewAllLink?: string;
   openInNewTab?: boolean;
   videoSrc?: string;
+  videoThumbnailSrc?: string;
 };
 
 export type MenuComponentTitleData = {

@@ -253,7 +253,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
         <p className={styles.productN}>
           <Link to={product.url}> {product.title} </Link>
         </p>
-        <p className={styles.productN}>
+        <p className={styles.productN1}>
           {info.isSale && product.discount ? (
             <span className={styles.discountprice}>
               {displayPriceWithCommas(
