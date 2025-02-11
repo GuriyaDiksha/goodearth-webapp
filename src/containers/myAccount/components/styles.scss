@@ -483,7 +483,38 @@ input[type="text"]{
     }
   }
 }
+.para {
+    font-family: "Montserrat", "sans-serif";
+    font-size: 12px !important;
+    font-weight: 400;
+    color: #191919;
+    text-transform: capitalize;
+    line-height: 20px;
+    padding: 5px 0;
+    overflow-wrap: break-word;
+    @media screen and (max-width:767px) {
+    font-family: "Montserrat", "sans-serif";
+    font-size: 12px !important;
+    font-weight: 400;
+    color: #191919;
+    text-transform: capitalize;
+    line-height: 16px;
+    padding: 5px 0;
+    overflow-wrap: break-word;
+    
+    }
+}
 
+.light1 {
+  color: tint(#000, 50%);
+  text-transform: capitalize;
+  @media screen and (max-width:767px) {   
+    line-height: 16px;   
+    color: tint(#000, 50%);
+    text-transform: capitalize; 
+    }
+
+}
 .order-add-block {
   border-top: 1px solid tint(#000, 70%);
 }
