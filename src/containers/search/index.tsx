@@ -248,6 +248,11 @@ class Search extends React.Component<
   };
 
   componentDidMount() {
+    const queryString = this.props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const searchValue: any = urlParams.get("q") || "";
+    CookieService.setCookie("search", searchValue, 365);
+
     const that = this;
     util.moveChatDown();
     this.setState({
@@ -300,6 +305,13 @@ class Search extends React.Component<
       const view: string = CookieService.getCookie("plpMobileView") || "grid";
       this.updateMobileView(view);
     }
+  }
+
+  componentDidUpdate() {
+    const queryString = this.props.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const searchValue: any = urlParams.get("q") || "";
+    CookieService.setCookie("search", searchValue, 365);
   }
 
   componentWillUnmount() {
