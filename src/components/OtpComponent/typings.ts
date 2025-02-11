@@ -51,6 +51,7 @@ export type otpProps = {
   isFromCheckBalance?: boolean;
   mobile: boolean;
   isLoggedIn?: boolean;
+  activatedGcMsg?: string;
 };
 
 export type otpRedeemProps = {

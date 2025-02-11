@@ -1096,7 +1096,7 @@ class Header extends React.Component<Props, State> {
       {
         label: isLoggedIn ? "Gift Card & Credit Note" : "Check Balance",
         href: isLoggedIn
-          ? "/account/giftcard-activation"
+          ? "/account/gift-card-credit-notes"
           : "/account/check-balance",
         type: "link",
         value: isLoggedIn ? "Gift Card & Credit Note" : "Check Balance"

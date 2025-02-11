@@ -83,7 +83,8 @@
 }
 
 .mobile-margin {
-    margin: auto 5%;
+    // margin: auto 5%;
+    margin: auto 2%;
 }
 
 .mobile-border {
@@ -262,6 +263,7 @@
     background-color: #E5E5E5;
     padding: 15px 30px;
     cursor: pointer;
+    margin-bottom: 0;
 }
 .tab-btn:hover {
     background-color: #e0e0e0;
@@ -295,6 +297,7 @@
         a {
             cursor: pointer;
             text-decoration: underline;
+            text-underline-offset: 0.3rem;
             @include b4_12px_montserrat_charcoal();
             line-height: 20px;
             letter-spacing: 0.36px;

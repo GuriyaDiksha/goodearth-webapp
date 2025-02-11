@@ -8,16 +8,13 @@
 }
   
 .cn-body{
-padding: 0px 0px 20px 0px !important;
+padding: 0px 0px 50px 0px !important;
 
     .boxWrp{
-        height: 450px;
+        // max-height: 450px;
+        max-height: 410px;
         overflow: auto;
         padding: 0 35px;
-
-        @media screen and (max-width:991px) {
-            height: calc(100vh - 150px);
-        }
 
         &::-webkit-scrollbar {
             // background-color:#fff;
@@ -172,18 +169,21 @@ padding: 0px 0px 20px 0px !important;
    @include b5_10px_montserrat_charcoal();
    line-height: 16px;
    letter-spacing: 0.3px;
-   text-decoration: underline;
-   text-underline-offset: 0.3rem;
    a{
-    color: $charcoal19;
+        color: $charcoal19;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        &:hover{
+            color: $aqua;
+        }
    }
 }
 .giftcard-content{
-    padding: 0 30px;
+    // padding: 0 30px;
 }
 
 .gc-wrp{
-    position: relative
+    position: relative;
 }  
 .login-change{
     @include b5_10px_montserrat_charcoal();

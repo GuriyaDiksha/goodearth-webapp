@@ -48,7 +48,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     basket: { loyalty },
     user: { loyaltyData, isLoggedIn, preferenceData, slab },
     address: { countryData, shippingAddressId, billingAddressId },
-    info: { isSale }
+    info: { isSale },
+    checkout: { GCCNData }
   } = useSelector((state: AppState) => state);
   const PaymentChild: any = useRef<typeof ApplyGiftcard>(null);
   const history = useHistory();
@@ -235,9 +236,23 @@ const PaymentSection: React.FC<PaymentProps> = props => {
         }
       }
       if (!usersubscribevalue) {
+        // Set the error message
         setPolicyError("Please accept the Terms & Conditions");
+
+        // Delay scroll action until the next frame
+        window?.requestAnimationFrame(() => {
+          const policyErrorElement = document.getElementById("policy-error");
+          if (policyErrorElement) {
+            policyErrorElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center"
+            });
+          }
+        });
+
         return false;
       }
+
       if (currency == "GBP" && !subscribegbp) {
         //setGbpError("Please agree to shipping & payment terms.");
         errorTracking(
@@ -507,6 +522,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       .catch(err => {
         console.group(err);
       });
+    AccountService.fetchGC_CN_Ammount(dispatch);
   }, [currency]);
 
   useEffect(() => {
@@ -699,26 +715,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       </div>
     );
   }, [giftwrapprice]);
-
-  const [hasGC, setHasGC] = useState(false);
-  const [amountGC, setAmountGC] = useState("");
-  const [amountCN, setAmountCN] = useState("");
-
-  const fetchGC_CN_Ammount = () => {
-    AccountService.fetchGC_CN_Ammount(dispatch)
-      .then(response => {
-        setHasGC(response.hasGC);
-        setAmountGC(response.availableGCamount);
-        setAmountCN(response.availableCNamount);
-      })
-      .catch(e => {
-        console.log("fetch available_gc_cn API failed =====", e);
-      });
-  };
-
-  useEffect(() => {
-    fetchGC_CN_Ammount();
-  }, [isLoggedIn]);
 
   return (
     <>
@@ -941,17 +937,20 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 */}
 
               {!basket.isOnlyGiftCart && !isGcCheckout && (
-                <ApplyGiftCards hasGC={hasGC} amountGC={amountGC} />
+                <ApplyGiftCards
+                  hasGC={GCCNData.hasGC}
+                  amountGC={GCCNData.availableGCamount}
+                />
               )}
 
               {!basket.isOnlyGiftCart &&
                 !isGcCheckout &&
                 (currency === "INR" ? (
-                  <ApplyCreditNote amountCN={amountCN} />
+                  <ApplyCreditNote amountCN={GCCNData.availableCNamount} />
                 ) : (
                   <div className={globalStyles.marginT20}>
                     <CheckboxWithLabel
-                      id="applyCN"
+                      id="applyCN_international"
                       className={styles.disabledLabel}
                       onChange={() => null}
                       label={[
@@ -967,10 +966,6 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                         </label>
                       ]}
                     />
-                    <div className={styles.gcMsg}></div>
-                    <p className={styles.greyText}>
-                      There are no credit notes linked to international users
-                    </p>
                   </div>
                 ))}
 
@@ -1357,6 +1352,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
             )}
             {policyError && (
               <div
+                id="policy-error"
                 className={cs(globalStyles.errorMsg, globalStyles.marginT20)}
                 data-name="error-msg"
               >

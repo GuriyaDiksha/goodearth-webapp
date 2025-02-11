@@ -44,6 +44,10 @@ export type GC_CN_AmountResponse = {
   availableCNamount: string;
 };
 
+export type GCCNData = {
+  GCCNData: GC_CN_AmountResponse;
+};
+
 export type HeaderData = Array<{
   key: string;
   title: string;

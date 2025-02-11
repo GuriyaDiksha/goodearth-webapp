@@ -490,6 +490,25 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   };
 
   sendOtpApiCall = (formData: any) => {
+    // snipet code only for giftcard
+    if (!this.props.isCredit && !this.props.txtvalue) {
+      this.props.updateError(
+        `Please enter a valid ${
+          this.props.isCredit ? "Credit Note" : "Gift Card"
+        } code`
+      );
+      errorTracking(
+        [
+          `Please enter a valid ${
+            this.props.isCredit ? "Credit Note" : "Gift Card"
+          } code`
+        ],
+        location.href
+      );
+      return false;
+    }
+    // end snipet code only for giftcard
+
     this.setState({
       disable: true,
       showerror: ""
@@ -591,13 +610,19 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               this.props.updateError(message);
               errorTracking([message], location.href);
             }
-          } else if (currStatus == "Active" || currStatus == "Expired") {
-            if (message.includes("Maximum attempts reached")) {
+          } else if (
+            currStatus == "Active" ||
+            currStatus == "Expired" ||
+            currStatus.includes("remaining value of the gift card is zero")
+          ) {
+            if (
+              message.includes("Maximum attempts reached") ||
+              message.includes("exceeded the maximum no. of attempts")
+            ) {
               this.setState({ showerrorOtp: message });
             } else {
               this.props.updateError(message);
             }
-
             errorTracking([message], location.href);
           } else if (currStatus == "Not Activated") {
             this.props.updateError("Gift Card is currently Inactive.");
@@ -1175,18 +1200,68 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 </Formsy>
               </>
             ) : (
-              <Button
-                type="submit"
-                // disabled={this.state.disable}
-                onClick={() =>
-                  this.sendOtpApiCall({
-                    code: this.props.txtvalue,
-                    inputType: "GIFT"
-                  })
-                }
-                label="Check Balance"
-                variant="mediumMedCharcoalCta366"
-              />
+              <>
+                <div className={styles.maxAttemptErrMsg}>
+                  <p
+                    className={
+                      this.state.subscribeError
+                        ? cs(globalStyles.errorMsg, globalStyles.wordCap)
+                        : globalStyles.hidden
+                    }
+                  >
+                    Please agree to the Terms and Conditions before proceeding
+                  </p>
+                  {this.state.showerrorOtp &&
+                    !this.state.showerrorOtp?.includes(
+                      "Maximum attempts reached"
+                    ) && (
+                      <p
+                        id="customererror"
+                        className={
+                          this.state.showerrorOtp
+                            ? cs(globalStyles.errorMsg, globalStyles.wordCap)
+                            : globalStyles.hidden
+                        }
+                      >
+                        {this.state.showerrorOtp}
+                      </p>
+                    )}
+                  <p>{this.state.showerrorOtp ? <CustomerCareInfo /> : ""}</p>
+                </div>
+                <li className={this.state.showerrorOtp ? styles.margintop : ""}>
+                  {this.state.showerrorOtp &&
+                    this.state.showerrorOtp?.includes(
+                      "Maximum attempts reached"
+                    ) && (
+                      <p
+                        id="customererror"
+                        className={
+                          this.state.showerrorOtp
+                            ? cs(
+                                globalStyles.errorMsg,
+                                globalStyles.wordCap,
+                                globalStyles.marginB10
+                              )
+                            : globalStyles.hidden
+                        }
+                      >
+                        {this.state.showerrorOtp}
+                      </p>
+                    )}
+                  <Button
+                    type="submit"
+                    disabled={this.state.disable}
+                    onClick={() =>
+                      this.sendOtpApiCall({
+                        code: this.props.txtvalue,
+                        inputType: "GIFT"
+                      })
+                    }
+                    label="Check Balance"
+                    variant="mediumMedCharcoalCta366"
+                  />
+                </li>
+              </>
             )}
           </div>
         )}
