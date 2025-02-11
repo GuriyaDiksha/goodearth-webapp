@@ -118,6 +118,7 @@ const WishlistButtonpdp: React.FC<Props> = ({
               event: "add_to_wishlist",
               previous_page_url: CookieService.getCookie("prevUrl"),
               list_name: "Default",
+              page_category: "PDP",
               ecommerce: {
                 currency: currency,
                 value: child?.[0].discountedPriceRecords
@@ -170,6 +171,7 @@ const WishlistButtonpdp: React.FC<Props> = ({
               event: "remove_from_wishlist",
               previous_page_url: CookieService.getCookie("prevUrl"),
               list_name: "Default",
+              page_category: "PDP",
               ecommerce: {
                 currency: currency,
                 value: child?.[0].discountedPriceRecords

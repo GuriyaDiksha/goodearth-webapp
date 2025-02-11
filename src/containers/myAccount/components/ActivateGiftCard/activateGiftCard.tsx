@@ -16,6 +16,8 @@ import { useSelector, useDispatch } from "react-redux";
 import AccountServices from "services/account";
 import { showGrowlMessage, errorTracking, getErrorList } from "utils/validate";
 import Button from "components/Button";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const Giftcard: React.FC = () => {
   const {
@@ -135,6 +137,12 @@ const Giftcard: React.FC = () => {
       showSendOtp: false
     });
     // this.props.history.push(this.props.history.location.pathname, {});
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "activate_another_giftcard"
+      });
+    }
   };
   const onClose = (code: string) => {
     let { giftList } = giftCardState;
@@ -292,6 +300,14 @@ const Giftcard: React.FC = () => {
     });
     const elem = document.getElementById("gift");
     elem && elem.focus();
+    const userConsent = CookieService.getCookie("consent").split(",");
+    const giftCardCode: string = giftCardState?.txtvalue || "";
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "change_gift_code",
+        gift_card_code: giftCardCode
+      });
+    }
   };
 
   const sendOtpGiftcard = async (data: any) => {
