@@ -91,7 +91,7 @@ const GiftCardCard = forwardRef<Props, any>(
                     if (userConsent.includes(GA_CALLS)) {
                       dataLayer.push({
                         event: "remove_gift_card",
-                        CN_amount: amount,
+                        GC_amount: amount,
                         date_of_issue: date_created,
                         date_of_redemption: today_in_str,
                         date_of_expiry: expiring_date
@@ -102,7 +102,7 @@ const GiftCardCard = forwardRef<Props, any>(
                     if (userConsent.includes(GA_CALLS)) {
                       dataLayer.push({
                         event: "apply_gift_card",
-                        CN_amount: amount,
+                        GC_amount: amount,
                         date_of_issue: date_created,
                         date_of_redemption: today_in_str,
                         date_of_expiry: expiring_date

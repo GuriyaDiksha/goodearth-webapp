@@ -76,7 +76,7 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
       if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "eventsToSend",
-          eventAction: "giftCard",
+          eventAction: "CreditNote",
           eventCategory: "promoCoupons",
           eventLabel: data.cardId
         });

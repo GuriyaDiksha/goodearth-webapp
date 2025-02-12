@@ -159,7 +159,6 @@ class ShopLocator extends Component<Props, State> {
             currentCity: city || ""
           },
           () => {
-            // debugger
             const ele = document.getElementById(city || "") as HTMLDivElement;
             if (ele) {
               ele?.focus();
