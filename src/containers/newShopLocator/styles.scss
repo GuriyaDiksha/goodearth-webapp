@@ -84,7 +84,7 @@ $banner-mobile-height:500px;
             scroll-behavior: smooth;
             scrollbar-width: none;
             margin : 0 20px;
-            
+
             &.left-fade,
             &.right-fade {
                 mask-image: linear-gradient(to right,
@@ -396,12 +396,9 @@ $banner-mobile-height:500px;
             white-space: nowrap;
             .header{
                 display: flex;
-                // column-gap: 15px;
                 align-items: center;
                 justify-content: start;
-                // padding: 0 20px;
                 margin: 0;
-                // margin-bottom: 0;
                 overflow-x: auto;
                 
                 .item {
