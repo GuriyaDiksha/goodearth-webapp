@@ -88,7 +88,7 @@ class ShopLocator extends Component<Props, State> {
   horizontalScroll = (direction: string) => {
     if (direction === "left" && !this.state.canScrollLeft) return;
     if (direction === "right" && !this.state.canScrollRight) return;
-    const scrollAmount = 300;
+    const scrollAmount = 240;
     const container = (this.containerRef as React.RefObject<HTMLDivElement>)
       .current;
     if (container) {
@@ -290,7 +290,7 @@ class ShopLocator extends Component<Props, State> {
           })}
           id="header-box"
         >
-          {!mobile && !tablet && (
+          {!mobile && (
             <img
               src={prevIcon}
               onClick={() =>
@@ -304,7 +304,14 @@ class ShopLocator extends Component<Props, State> {
             />
           )}
 
-          <div className={styles.header} ref={this.containerRef}>
+          <div
+            className={cs(styles.header, {
+              [styles.leftFade]: this.state.canScrollLeft && !mobile && !tablet,
+              [styles.rightFade]:
+                this.state.canScrollRight && !mobile && !tablet
+            })}
+            ref={this.containerRef}
+          >
             {Object.keys(shopData).map((data, i) => (
               <div
                 className={cs(styles.item, {
@@ -319,7 +326,7 @@ class ShopLocator extends Component<Props, State> {
               </div>
             ))}
           </div>
-          {!mobile && !tablet && (
+          {!mobile && (
             <img
               src={nextIcon}
               onClick={() =>
