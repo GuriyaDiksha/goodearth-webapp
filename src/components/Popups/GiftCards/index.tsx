@@ -91,7 +91,7 @@ const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard, gc_code }) => {
         });
         dataLayer.push({
           event: "gift_card_or_credit_note",
-          click_type: "CREDITNOTE",
+          click_type: "GIFTCARD",
           gift_card_code: data.cardId
         });
       }

@@ -7,11 +7,14 @@ import globalStyles from "styles/global.scss";
 import iconStyles from "styles/iconFonts.scss";
 import { displayPriceWithSeparation } from "utils/utility";
 import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const GiftCardItem = ({
   cardId,
   expiryDate,
   type,
+  cardValue,
   remainingAmount,
   currStatus,
   currency,
@@ -100,6 +103,26 @@ const GiftCardItem = ({
             className={styles.cross}
             onClick={() => {
               closeResult(cardId, cardType);
+              const userConsent = CookieService.getCookie("consent").split(",");
+              if (userConsent.includes(GA_CALLS)) {
+                if (cardType == "CREDITNOTE") {
+                  dataLayer.push({
+                    event: "remove_credit_note",
+                    CN_amount: cardValue,
+                    date_of_issue: "NA",
+                    date_of_redemption: "NA",
+                    date_of_expiry: expiryDate
+                  });
+                } else {
+                  dataLayer.push({
+                    event: "remove_gift_card",
+                    GC_amount: cardValue,
+                    date_of_issue: "NA",
+                    date_of_redemption: "NA",
+                    date_of_expiry: expiryDate
+                  });
+                }
+              }
             }}
           >
             <i

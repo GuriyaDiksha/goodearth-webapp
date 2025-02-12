@@ -394,7 +394,6 @@ class Mobilemenu extends React.Component<Props, MobileState> {
         );
     let k = 0;
     l2MenuData.map((data, j) => {
-      debugger;
       let spanClass =
         this.state.showmenulevel2 && this.state.activeindex2 == k
           ? cs(styles.menulevel2, styles.menulevel2Open)
