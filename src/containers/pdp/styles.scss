@@ -248,6 +248,9 @@ $pdp-top: $header-height;
 .looks-container {
     padding: 0 60px;
 }
+.looks-container-mobile{
+    padding: 0 55px;
+}
 .looks-container-list-view {
     padding: 0 30px;
 }
@@ -259,8 +262,8 @@ $pdp-top: $header-height;
     width: 100%;
 }
 .looks-main-image {
-    padding-top: 10px;
-    padding-left: 21%;
+    // padding-top: 10px;
+    padding-left: 4%;
 }
 
 .list-grid-bar {

@@ -24,13 +24,14 @@ import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import { getProductSliderItems } from "selectors/productSlider";
-import { Settings } from "react-slick";
+import Slider, { Settings } from "react-slick";
 import mapDispatchToProps from "./mappers/actions";
 import MobileSlider from "../../components/MobileSlider";
 import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
 import zoom from "images/zoom.svg";
 // import mobile3d from "images/3d/3DButton.svg";
 import LazyImage from "components/LazyImage";
+import "./index.css";
 import {
   moveChatUp,
   PDP,
@@ -108,6 +109,22 @@ const mapStateToProps = (state: AppState, props: PDPProps) => {
 type Props = PDPProps &
   ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps>;
+const settings = {
+  dots: false,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  arrow: true
+};
+const settings1 = {
+  dots: false,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 1.3,
+  slidesToScroll: 1,
+  arrow: true
+};
 
 class PDPContainer extends React.Component<Props, State> {
   state: State = {
@@ -1244,95 +1261,126 @@ class PDPContainer extends React.Component<Props, State> {
             Shop The Look
           </h2>
           <div className={bootstrap.row}>
-            {!mobile && (
-              <div className={bootstrap.colMd4}>
-                <div className={styles.looksMainImage}>
-                  {/* <Link
+            {/* {!mobile && ( */}
+            <div className={mobile ? bootstrap.colMd5 : bootstrap.colMd4}>
+              <div className={styles.looksMainImage}>
+                {/* <Link
                     to={data.url}
                     // onClick={gtmProductClick}
                   > */}
-                  <LazyImage
-                    alt={data?.altText || data?.title}
-                    aspectRatio="62:93"
-                    src={
-                      data?.lookImageUrl ||
-                      (data?.images?.[0]
-                        ? data?.images?.[0]?.productImage
-                        : "/static/img/noimageplp.png")
-                    }
-                    className={styles.imageResultnew}
-                    // isVisible={}
-                    onError={(e: any) => {
-                      e.target.onerror = null;
-                      e.target.src = noPlpImage;
-                    }}
-                  />
-                  {/* </Link> */}
-                </div>
+                <LazyImage
+                  alt={data?.altText || data?.title}
+                  aspectRatio="62:93"
+                  src={
+                    data?.lookImageUrl ||
+                    (data?.images?.[0]
+                      ? data?.images?.[0]?.productImage
+                      : "/static/img/noimageplp.png")
+                  }
+                  className={styles.imageResultnew}
+                  // isVisible={}
+                  onError={(e: any) => {
+                    e.target.onerror = null;
+                    e.target.src = noPlpImage;
+                  }}
+                />
+                {/* </Link> */}
               </div>
-            )}
+            </div>
+            {/* )} */}
             {mobile ? (
-              filteredLooksProducts &&
-              filteredLooksProducts.map((item, index) => {
-                return (
-                  <div
-                    className={cs(
-                      bootstrap.colMd4,
-                      bootstrap.col6,
-                      styles.setWidth
-                    )}
-                    key={item?.id}
-                  >
-                    <PDPLooksGridItem
-                      page="ShopByLook"
-                      position={index}
-                      product={item}
-                      addedToWishlist={false}
-                      currency={currency}
-                      key={item.id}
-                      mobile={mobile}
-                      isVisible={index < 3 ? true : undefined}
-                      // onClickQuickView={this.onClickQuickView}
-                      // isCorporate={this.state.corporoateGifting}
-                      onEnquireClick={this.onEnquireClick}
-                      notifyMeClick={this.notifyMeClick}
-                    />
-                  </div>
-                );
-              })
+              <div
+                className={cs(bootstrap.colMd7, styles.looksContainerMobile)}
+              >
+                <Slider {...settings1}>
+                  {filteredLooksProducts &&
+                    filteredLooksProducts.map((item, index) => (
+                      <div
+                        className={cs(
+                          // bootstrap.colMd4,
+                          // bootstrap.col6,
+                          styles.setWidth
+                        )}
+                        key={item?.id}
+                      >
+                        <PDPLooksGridItem
+                          page="ShopByLook"
+                          position={index}
+                          product={item}
+                          addedToWishlist={false}
+                          currency={currency}
+                          mobile={mobile}
+                          isVisible={index < 3 ? true : undefined}
+                          onEnquireClick={this.onEnquireClick}
+                          notifyMeClick={this.notifyMeClick}
+                        />
+                      </div>
+                    ))}
+                </Slider>
+              </div>
             ) : (
               <div
                 className={cs(bootstrap.colMd8, styles.looksContainer, {
-                  [styles.looksContainerListView]: mobile
+                  [styles.looksContainerMobile]: mobile
                 })}
               >
-                <div className={bootstrap.row}>
-                  {filteredLooksProducts &&
-                    filteredLooksProducts.map((item, i) => {
-                      return (
-                        <div
-                          key={i}
-                          className={cs(
-                            styles.looksItemContainer,
-                            bootstrap.colMd4
-                          )}
-                        >
-                          <PDPLooksItem
-                            page="ShopByLook"
-                            position={i}
-                            product={item}
-                            addedToWishlist={false}
-                            currency={currency || "INR"}
-                            key={item.id}
-                            mobile={mobile || false}
-                            isCorporate={false}
-                            notifyMeClick={this.notifyMeClick}
-                            onEnquireClick={this.onEnquireClick}
-                          />
-                        </div>
-                      );
-                    })}
-                </div>
+                {filteredLooksProducts && filteredLooksProducts.length > 2 ? (
+                  <Slider {...settings}>
+                    {filteredLooksProducts &&
+                      filteredLooksProducts.map((item, i) => {
+                        return (
+                          <div
+                            key={i}
+                            className={cs(
+                              styles.looksItemContainer
+                              // bootstrap.colMd4
+                            )}
+                          >
+                            <PDPLooksItem
+                              page="ShopByLook"
+                              position={i}
+                              product={item}
+                              addedToWishlist={false}
+                              currency={currency || "INR"}
+                              key={item.id}
+                              mobile={mobile || false}
+                              isCorporate={false}
+                              notifyMeClick={this.notifyMeClick}
+                              onEnquireClick={this.onEnquireClick}
+                            />
+                          </div>
+                        );
+                      })}
+                  </Slider>
+                ) : (
+                  <div className={bootstrap.row}>
+                    {filteredLooksProducts &&
+                      filteredLooksProducts.map((item, i) => {
+                        return (
+                          <div
+                            key={i}
+                            className={cs(
+                              styles.looksItemContainer,
+                              bootstrap.colMd4
+                            )}
+                          >
+                            <PDPLooksItem
+                              page="ShopByLook"
+                              position={i}
+                              product={item}
+                              addedToWishlist={false}
+                              currency={currency || "INR"}
+                              key={item.id}
+                              mobile={mobile || false}
+                              isCorporate={false}
+                              notifyMeClick={this.notifyMeClick}
+                              onEnquireClick={this.onEnquireClick}
+                            />
+                          </div>
+                        );
+                      })}
+                  </div>
+                )}
               </div>
             )}
           </div>
