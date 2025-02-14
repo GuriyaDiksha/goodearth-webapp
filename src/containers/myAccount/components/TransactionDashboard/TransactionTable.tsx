@@ -18,6 +18,8 @@ import { scrollToGivenId } from "utils/validate";
 import { Link } from "react-router-dom";
 import tooltipIcon from "images/tooltip.svg";
 import tooltipOpenIcon from "images/tooltip-open.svg";
+import { GA_CALLS } from "constants/cookieConsent";
+import CookieService from "services/cookie";
 
 type Props = {
   mobile: boolean;
@@ -58,7 +60,6 @@ const TransactionTable = ({ mobile }: Props) => {
   const impactRef = useRef<HTMLInputElement>(null);
   const handleClickOutside = (evt: any) => {
     evt.stopPropagation();
-    console.log(impactRef.current?.contains(evt.target));
     if (impactRef.current && !impactRef.current.contains(evt.target)) {
       setShowTip({ id: showTip["id"], state: false });
     }
@@ -135,6 +136,12 @@ const TransactionTable = ({ mobile }: Props) => {
   };
 
   const downloadPdf = () => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "download_statement"
+      });
+    }
     LoyaltyService.getStatement(dispatch, {
       email,
       DateRangeFilter: dropDownValue,
@@ -180,6 +187,15 @@ const TransactionTable = ({ mobile }: Props) => {
       id: id,
       state: isShow
     });
+  };
+
+  const handleClickGTM = (): void => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "view_details"
+      });
+    }
   };
 
   return (
@@ -565,6 +581,9 @@ const TransactionTable = ({ mobile }: Props) => {
           className={cs(styles.orderLink, {
             [styles.floatLeft]: total_records > 10
           })}
+          onClick={() => {
+            handleClickGTM();
+          }}
         >
           <Link to="/account/my-orders">View all Order details</Link>
         </div>
