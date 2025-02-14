@@ -194,7 +194,7 @@ $pdp-top: $header-height;
 .looks-btn {
     background-color: white;
     @include b4_12px_montserrat_charcoal_caps();
-    line-height: 42px;
+    // line-height: 42px;
     text-align: center;
     font-size: 12px;
     border: none;
@@ -205,7 +205,7 @@ $pdp-top: $header-height;
     transform: translateX(-50%);
     position: absolute ;
     right: 0;
-    padding: 0 10px;
+    padding: 10px 17px;
     opacity: 0.9;
     width: max-content;
     a {
@@ -233,11 +233,14 @@ $pdp-top: $header-height;
 }
 
 .looks-btn-mobile {
-    width: auto;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     bottom: 80px;
+    min-width: 110px;
+    box-shadow: 1px 1px 1px #0000001C;
+    border-radius: 17px;
+    font-size: 12px;
 }
 
 .looks-item-container {

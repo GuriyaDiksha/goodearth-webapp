@@ -18,7 +18,8 @@ import { plpProductClick } from "utils/validate";
 import CookieService from "services/cookie";
 import { displayPriceWithCommas } from "utils/utility";
 import Button from "components/Button";
-
+import { Icons } from "components/dropdown/stories";
+import iconStyles from "styles/iconFonts.scss";
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
 ) => {
@@ -197,6 +198,21 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             </div>
           </Link>
         )}
+        <div
+          className={cs(
+            globalStyles.textCenter,
+            globalStyles.cartIconPositionDesktop,
+            { [globalStyles.cartIconPositionMobile]: mobile }
+          )}
+        >
+          <div
+            className={cs(
+              iconStyles.icon,
+              globalStyles.iconContainer,
+              iconStyles.iconPlpCart
+            )}
+          ></div>
+        </div>
         <Link to={product.url} onClick={gtmProductClick}>
           {/* <MobileSlider>{mobileSlides}</MobileSlider> */}
           <LazyImage

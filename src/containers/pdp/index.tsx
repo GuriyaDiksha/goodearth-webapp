@@ -1460,6 +1460,25 @@ class PDPContainer extends React.Component<Props, State> {
       />
     );
   };
+  handleShopLookPopup = (): void => {
+    const {
+      updateComponentModal,
+      changeModalState,
+      data,
+      currency
+    } = this.props;
+    updateComponentModal(
+      POPUP.SHOPTHELOOKPOPUP,
+      {
+        data,
+        currency,
+        notifyMeClick: this.notifyMeClick,
+        onEnquireClick: this.onEnquireClick
+      },
+      false
+    );
+    changeModalState(true);
+  };
 
   handleLooksClick = (e: any) => {
     const elem = document.getElementById("looks-section");
@@ -1649,9 +1668,13 @@ class PDPContainer extends React.Component<Props, State> {
                   <div
                     id="looks-btn-mobile"
                     className={cs(styles.looksBtnMobile, styles.looksBtn)}
-                    onClick={this.handleLooksClick}
+                    onClick={
+                      mobile && !tablet
+                        ? this.handleShopLookPopup
+                        : this.handleLooksClick
+                    }
                   >
-                    shop the look
+                    shop look
                   </div>
                 )}
                 <div
