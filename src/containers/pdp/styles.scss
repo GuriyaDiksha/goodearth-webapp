@@ -247,7 +247,11 @@ $pdp-top: $header-height;
     margin-top: 10px;
     padding: 0 10px 40px 10px;
 }
-
+.shop-the-look-container{
+    @media screen and (max-width: 767px){
+        display: none;
+    }
+}
 .looks-container {
     padding: 0 60px;
 }
