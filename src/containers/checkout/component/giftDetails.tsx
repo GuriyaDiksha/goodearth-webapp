@@ -13,6 +13,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 const GiftCardItem = ({
   cardId,
   expiryDate,
+  createdDate,
   type,
   cardValue,
   remainingAmount,
@@ -116,7 +117,7 @@ const GiftCardItem = ({
                   dataLayer.push({
                     event: "remove_credit_note",
                     CN_amount: cardValue,
-                    date_of_issue: "NA",
+                    date_of_issue: createdDate,
                     date_of_redemption: today_in_str,
                     date_of_expiry: expiryDate
                   });
@@ -124,7 +125,7 @@ const GiftCardItem = ({
                   dataLayer.push({
                     event: "remove_gift_card",
                     GC_amount: cardValue,
-                    date_of_issue: "NA",
+                    date_of_issue: createdDate,
                     date_of_redemption: today_in_str,
                     date_of_expiry: expiryDate
                   });
