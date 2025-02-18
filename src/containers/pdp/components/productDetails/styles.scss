@@ -175,6 +175,62 @@
         text-underline-offset: 2px;
     }
 }
+.outer-filler-container{
+    border-bottom: 2px solid lightgray;
+    border-top: 2px solid lightgray;
+    margin: 20px 0px;
+    padding: 20px 0px;
+}
+
+
+.filler-image {
+    height: 200px;
+    width: 150px;
+}
+.filler-title{
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 20px;
+}
+
+.filler-price{
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 6px;
+}
+.filler-heading{
+    margin-bottom: 16px;
+}
+.filler-detail-container{
+    margin-inline: 10px;
+}
+
+.filler-size-container{
+    border: none !important;
+    height: auto;
+    color: #191919 !important;
+
+}
+
+.filler-link{
+    margin-top: 20px;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+
+.image-container{
+    position: relative;
+}
+
+.image-container-icon{
+    position:absolute;
+    top: 0px;
+    right:0px;
+    
+}
+
+
 .cushion-error
 {
     font-family: $font-Montserrat;
@@ -248,7 +304,7 @@
 
         &.size {
            // margin-top: 15px;
-            line-height: 25px;
+            line-height: 31px;
         }
 
         &.quantity {
@@ -275,7 +331,7 @@
         padding: 0;
 
         .mobile-wishlist-icon {
-            font-size: 28px;
+            font-size: 22px;
             color: $gold;
             line-height: 50px;
         }

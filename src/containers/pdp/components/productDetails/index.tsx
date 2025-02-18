@@ -84,6 +84,7 @@ import CreateWishlist from "components/WishlistButton/CreateWishlist";
 import { updateComponent, updateModal } from "actions/modal";
 import WishlistService from "services/wishlist";
 import { updateLoader } from "actions/info";
+import { useRef } from "react";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -167,6 +168,7 @@ const ProductDetails: React.FC<Props> = ({
   //   item => item.product.childAttributes[0].id
   // );
   const [addedToBag, setAddedToBag] = useState(false);
+  const [addedFillerToBag, setAddedFillerToBag] = useState(false);
   const [apiTrigger, setApiTrigger] = useState(false);
   const [isStockset, setIsStockset] = useState(false);
   const [pdpLoader, setPdpLoader] = useState(true);
@@ -857,6 +859,108 @@ const ProductDetails: React.FC<Props> = ({
     showError();
   };
 
+  const fillerSectionRef = useRef<HTMLDivElement | null>(null);
+  const addFillerProductToBasket = () => {
+    if (!selectedSize) {
+      setSizeError("Please select a size for the filler product.");
+      errorTracking(
+        ["Please select a size for the filler product."],
+        window.location.href
+      );
+      showError();
+      closeZoomModal();
+    } else {
+      setApiTrigger(true);
+      BasketService.addToBasket(dispatch, fillerProduct.id, quantity) // Assume `true` indicates it's a filler product
+        .then(() => {
+          setApiTrigger(false);
+          setAddedFillerToBag(true);
+          setTimeout(() => {
+            setAddedFillerToBag(false);
+            closeModal ? closeModal() : null;
+          }, 3000);
+          showGrowlMessage(dispatch, MESSAGE.ADD_TO_BAG_SUCCESS);
+          gtmPushAddToBag();
+          closeZoomModal();
+        })
+        .catch(err => {
+          closeZoomModal();
+          setApiTrigger(false);
+          if (typeof err.response.data != "object") {
+            showGrowlMessage(dispatch, err.response.data);
+            errorTracking([err.response.data], window.location.href);
+          }
+        });
+    }
+  };
+
+  const PdpFillerButton = useMemo(() => {
+    let buttonText1: string, action: EventHandler<MouseEvent>;
+    if (corporatePDP) {
+      buttonText1 = "Enquire Now";
+      action = apiTrigger || loading ? () => null : onEnquireClick;
+      // setSizeerror(false);
+    } else if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
+      buttonText1 = "Notify Me";
+      action = apiTrigger || loading ? () => null : notifyMeClick;
+      // setSizeerror(false);
+    } else if (!selectedSize && childAttributes.length > 1) {
+      buttonText1 = "Select Size";
+      action = apiTrigger || loading ? () => null : sizeSelectClick;
+    } else {
+      buttonText1 = addedFillerToBag ? "Added!" : "Add to Bag";
+      action = addedFillerToBag
+        ? () => null
+        : apiTrigger || loading
+        ? () => null
+        : addFillerProductToBasket;
+      // setSizeerror(false);
+    }
+    setPDPButton?.(
+      <PdpButton
+        label={buttonText1}
+        onClick={action}
+        variant={
+          buttonText1 == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta366"
+        }
+      />
+    );
+    if (setPDPButton) {
+      dispatch(
+        updateButtonData(
+          <PdpButton
+            label={buttonText1}
+            onClick={action}
+            variant={
+              buttonText1 == "Notify Me"
+                ? "mediumLightGreyCta"
+                : "mediumAquaCta366"
+            }
+          />
+        )
+      );
+    }
+
+    return (
+      <PdpButton
+        label={buttonText1}
+        onClick={action}
+        variant={
+          buttonText1 == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta366"
+        }
+      />
+    );
+  }, [
+    corporatePDP,
+    selectedSize,
+    addedFillerToBag,
+    quantity,
+    currency,
+    discount,
+    apiTrigger,
+    loading
+  ]);
+
   const Pdpbutton = useMemo(() => {
     let buttonText: string, action: EventHandler<MouseEvent>;
     if (corporatePDP) {
@@ -1528,9 +1632,18 @@ const ProductDetails: React.FC<Props> = ({
                     onClick={e => {
                       if (Object.keys(fillerProduct)?.length > 0) {
                         dispatch(updatefillerProduct(fillerProduct));
-                        dispatch(updateshowFiller(true));
+                        // dispatch(updateshowFiller(true));
                       }
 
+                      // Scroll to the filler product section smoothly
+                      if (fillerSectionRef.current) {
+                        fillerSectionRef.current.scrollIntoView({
+                          behavior: "smooth", // Smooth scroll
+                          block: "center" // Align the section to the center of the screen vertically
+                        });
+                      }
+
+                      // Prevent default link behavior since there’s no URL
                       e.preventDefault();
                     }}
                     to={fillerUrl || "#"}
@@ -1781,8 +1894,244 @@ const ProductDetails: React.FC<Props> = ({
                     {ReactHtmlParser(complianceLine)}
                   </div>
                 </div>
+
+                {/* this is the filler product section */}
+
+                {fillerProduct && (
+                  <div
+                    ref={fillerSectionRef}
+                    className={styles.outerFillerContainer}
+                  >
+                    <h3 className={styles.fillerHeading}>ADD CUSHION FILLER</h3>
+                    <div className={styles.fillerContainer}>
+                      {/* this is for image */}
+                      <div className={styles.imageContainer}>
+                        {fillerProduct.title && (
+                          <img
+                            className={styles.fillerImage}
+                            src={fillerProduct.plpSliderImages[0]}
+                            alt={fillerProduct.title}
+                          />
+                        )}
+
+                        <div
+                          id="docked_div"
+                          className={cs(
+                            styles.imageContainerIcon,
+
+                            {
+                              [styles.spacerQuickview]: isQuickview && withBadge
+                            }
+                          )}
+                        >
+                          <div
+                            className={cs(
+                              bootstrap.col4,
+                              globalStyles.textCenter,
+                              {
+                                [styles.wishlistText]: !mobile,
+                                [styles.wishlistBtnContainer]: mobile,
+                                [globalStyles.voffset1]: mobile,
+                                [bootstrap.colSm2]: !mobile,
+                                [globalStyles.hidden]:
+                                  partner == "Souk" || partner == "Object D Art"
+                                // [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
+                              }
+                            )}
+                          >
+                            <WishlistButtonpdp
+                              gtmListType={"pdp"}
+                              title={fillerProduct.title}
+                              parentWidth={true}
+                              childAttributes={childAttributes}
+                              priceRecords={fillerProduct.priceRecords}
+                              discountedPriceRecords={
+                                fillerProduct.discountedPriceRecords
+                              }
+                              categories={categories}
+                              id={fillerProduct.id}
+                              mobile={mobile}
+                              iconClassName={cs({
+                                [styles.mobileWishlistIcon]: mobile
+                              })}
+                              size={
+                                selectedSize ? selectedSize.size : undefined
+                              }
+                              badgeType={badgeType}
+                              isPdp={isPDP}
+                              closeModal={closeModal}
+                              createWishlistPopup={
+                                mobile
+                                  ? createWishlistPopupMobile
+                                  : createWishlistPopup
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* this is for name or title */}
+                      <div className={styles.fillerDetailContainer}>
+                        <div className={styles.fillerTitle}>
+                          {fillerProduct.title}
+                        </div>
+                        <div>
+                          {/* This is for price section  */}
+                          <div className={styles.fillerPrice}>
+                            {currency === "INR" && (
+                              <span
+                                className={cs(styles.fillerMrp, {
+                                  [globalStyles.gold]:
+                                    badgeType == "b_flat" ||
+                                    (info.isSale &&
+                                      discount &&
+                                      discountedPriceRecords)
+                                })}
+                              >
+                                MRP.
+                              </span>
+                            )}
+
+                            {info.isSale &&
+                            discount &&
+                            discountedPriceRecords ? (
+                              <span className={styles.discountedPrice}>
+                                {displayPriceWithCommas(
+                                  fillerProduct.discountedPriceRecords[
+                                    currency
+                                  ],
+                                  currency
+                                )}
+                                <br />
+                              </span>
+                            ) : (
+                              ""
+                            )}
+                            {info.isSale && discount ? (
+                              <span className={styles.oldPrice}>
+                                {displayPriceWithCommas(
+                                  fillerProduct.priceRecords[currency],
+                                  currency
+                                )}
+                              </span>
+                            ) : (
+                              <span
+                                className={cs(styles.normalPrice, {
+                                  [globalStyles.gold]: badgeType == "B_flat",
+                                  [globalStyles.fontSize16]:
+                                    badgeType == "B_flat"
+                                })}
+                              >
+                                {" "}
+                                {displayPriceWithCommas(
+                                  fillerProduct.priceRecords[currency],
+                                  currency
+                                )}
+                              </span>
+                            )}
+                            {currency === "INR" && (
+                              <p className={styles.incTax}>
+                                (Incl. of all taxes)
+                              </p>
+                            )}
+                          </div>
+
+                          {/* this is for size*/}
+
+                          {showSize
+                            ? !(
+                                invisibleFields &&
+                                invisibleFields.indexOf("size") > -1
+                              ) && (
+                                <div style={{ width: "170px" }}>
+                                  <div
+                                    className={
+                                      mobile ? bootstrap.col12 : bootstrap.col10
+                                    }
+                                  >
+                                    <div className={bootstrap.row}>
+                                      <div>
+                                        <div
+                                          className={cs(
+                                            bootstrap.col12,
+                                            bootstrap.colSm2,
+                                            { [bootstrap.colMd2]: mobile },
+                                            styles.label,
+                                            styles.size,
+                                            { [styles.mobileMargin]: mobile }
+                                          )}
+                                        >
+                                          Size
+                                        </div>
+                                      </div>
+                                      <div
+                                        className={styles.fillerSizeContainer}
+                                      >
+                                        <SizeSelector
+                                          containerClassName={
+                                            styles.fillerSizeContainer
+                                          }
+                                          isCorporatePDP={corporatePDP}
+                                          sizes={childAttributes}
+                                          onChange={onSizeSelect}
+                                          selected={
+                                            selectedSize
+                                              ? selectedSize.id
+                                              : undefined
+                                          }
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )
+                            : ""}
+
+                          {/* this is for add to bag  button */}
+
+                          <div
+                            id="yourElement"
+                            className={cs(globalStyles.voffset1, {
+                              [bootstrap.col8]: !corporatePDP,
+                              [styles.addToBagBtnContainer]: mobile,
+                              [bootstrap.colSm10]: !mobile,
+                              [bootstrap.colSm12]: corporatePDP && mobile
+                            })}
+                          >
+                            {PdpFillerButton}
+                            {onload &&
+                              !info.isSale &&
+                              loyaltyDisabled &&
+                              isQuickview &&
+                              isCeriseUser &&
+                              currency === "INR" && (
+                                <p
+                                  className={cs(
+                                    styles.errorMsg,
+                                    styles.notEligible
+                                  )}
+                                >
+                                  This product is not eligible for cerise
+                                  points.
+                                </p>
+                              )}
+                          </div>
+                        </div>
+
+                        <div className={styles.fillerLink}>
+                          <Link to="/catalogue/category/living/bed-bath_194/?source=plp&category_shop=Home+%3E+Home+Textiles+%3E+White+Essentials">
+                            VIEW ALL CUSHION FILLER
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* this is the filler product section */}
               </div>
             )}
+
             <div
               className={cs(
                 bootstrap.col12,
