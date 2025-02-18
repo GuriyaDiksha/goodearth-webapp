@@ -13,6 +13,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 const GiftCardItem = ({
   cardId,
   expiryDate,
+  createdDate,
   type,
   cardValue,
   remainingAmount,
@@ -38,6 +39,13 @@ const GiftCardItem = ({
   } else if (currStatus == "Expired" && type == "CNI") {
     showExpired = true;
   }
+
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  const yyyy = today.getFullYear();
+  const today_in_str = dd + "/" + mm + "/" + yyyy;
+
   return (
     <div
       id="gc-balance-info"
@@ -109,16 +117,16 @@ const GiftCardItem = ({
                   dataLayer.push({
                     event: "remove_credit_note",
                     CN_amount: cardValue,
-                    date_of_issue: "NA",
-                    date_of_redemption: "NA",
+                    date_of_issue: createdDate,
+                    date_of_redemption: today_in_str,
                     date_of_expiry: expiryDate
                   });
                 } else {
                   dataLayer.push({
                     event: "remove_gift_card",
                     GC_amount: cardValue,
-                    date_of_issue: "NA",
-                    date_of_redemption: "NA",
+                    date_of_issue: createdDate,
+                    date_of_redemption: today_in_str,
                     date_of_expiry: expiryDate
                   });
                 }
