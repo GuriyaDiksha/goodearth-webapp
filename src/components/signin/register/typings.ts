@@ -21,8 +21,8 @@ export type registerState = {
   showFields: boolean;
   successMsg: string;
   showPassword: boolean;
-  minDate: string;
-  maxDate: string;
+  minDate: any;
+  maxDate: any;
   showDOBLabel: boolean;
   passValidLength: boolean;
   passValidUpper: boolean;
@@ -41,6 +41,12 @@ export type registerState = {
   phoneNo?: string;
   countryCodeErr?: string;
   newsLetterChecked: boolean;
+  selectedDate?: any;
+  validationErrors?: {
+    isValidDate?: string;
+    isMinAllowedDate?: string;
+    isMaxAllowedDate?: string;
+  };
 };
 
 export type RegisterProps = {

@@ -429,11 +429,11 @@
 }
 
 @mixin error-msg {
-  font-size: 13px;
+  font-size: 13px!important;
   font-style: italic;
-  color: $cerise;
+  color: $cerise!important;
   font-weight: 400;
-  font-family: $font-Lora;
+  font-family: $font-Lora!important;
   letter-spacing: 0.3px;
   // text-transform: lowercase;
   &::first-letter {
