@@ -144,6 +144,9 @@ class Header extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    const updateProfilePhoneNo = CookieService.getCookie(
+      "updateProfilePhoneNo"
+    );
     const { user } = this.props;
     const isBridalPublicPage =
       this.props.location.pathname.includes("/registry/") &&
@@ -173,10 +176,10 @@ class Header extends React.Component<Props, State> {
         this.setState({ isLoading: false });
       });
     if (
-      typeof document != "undefined" &&
-      user.email &&
-      (!user.gender || !user.country || !user.lastName || !user.firstName)
-      // || !user.phoneNumber
+      (typeof document != "undefined" &&
+        user.email &&
+        (!user.gender || !user.country || !user.lastName || !user.firstName)) ||
+      (!user.phoneNumber && !updateProfilePhoneNo)
     ) {
       this.props.updateProfile();
     }
@@ -253,9 +256,10 @@ class Header extends React.Component<Props, State> {
     observer.observe(document, config);
     this.onScroll();
     if (
-      typeof document != "undefined" &&
-      user.email &&
-      (!user.gender || !user.country || !user.lastName || !user.firstName)
+      (typeof document != "undefined" &&
+        user.email &&
+        (!user.gender || !user.country || !user.lastName || !user.firstName)) ||
+      (!user.phoneNumber && !updateProfilePhoneNo)
     ) {
       document?.body?.classList?.add(globalStyles.noScroll);
     } else {
