@@ -74,10 +74,10 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       showPassword: false,
       minDate: moment(
         new Date().setFullYear(new Date().getFullYear() - 110)
-      ).format("DD MMM YYYY"),
+      ).format("YYYY-MM-DD"),
       maxDate: moment(
         new Date().setFullYear(new Date().getFullYear() - 15)
-      ).format("DD MMM YYYY"),
+      ).format("YYYY-MM-DD"),
       showDOBLabel: false,
       passValidLength: false,
       passValidUpper: false,
@@ -172,6 +172,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   };
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
+    debugger;
     const {
       email,
       // password1,
@@ -195,8 +196,11 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     formData["firstName"] = firstName;
     formData["lastName"] = lastName;
     formData["gender"] = gender;
-    formData["dateOfBirth"] = dateOfBirth
-      ? moment(dateOfBirth).format("YYYY-MM-DD")
+    // formData["dateOfBirth"] = dateOfBirth
+    //   ? moment(dateOfBirth).format("YYYY-MM-DD")
+    //   : null;
+    formData["dateOfBirth"] = this.state.selectedDate
+      ? moment(this.state.selectedDate).format("YYYY-MM-DD")
       : null;
     const countryCode = this.state.countryOptions.filter(
       countryOption => countryOption.value == country
@@ -903,9 +907,11 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
             <label className={styles.dateLable}>Date of Birth</label>
             <DatePicker
               ref={this.datePickerRef} // Attach the ref to DatePicker
-              id="dateOfBirth"
-              dateFormat="dd MMM yyyy"
-              placeholderText="DD MMM YYYY"
+              id="date_of_birth"
+              name="dateOfBirth"
+              className={showFieldsClass}
+              dateFormat="dd/MM/yyyy"
+              placeholderText="DD/MM/YYYY"
               selected={this.state.selectedDate}
               onChange={this.handleDateChange}
               minDate={new Date(this.state.minDate)}

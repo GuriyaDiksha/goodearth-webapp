@@ -15,6 +15,9 @@
 
 .react-datepicker__month-select, .react-datepicker__year-select {
   cursor: pointer;
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+  -moz-appearance: auto !important;
 }
 
 .react-datepicker-wrapper {
@@ -34,6 +37,7 @@
   .react-datepicker-popper {
     width: 100%;
     top: -55px !important;
+    z-index: 3;
   }
   
   .react-datepicker__header {
@@ -88,4 +92,8 @@
     width: auto;
     margin:0;
     padding-right: 5px;
+  }
+  select.react-datepicker__month-select{
+    text-align: right!important;
+    padding-right: 3px!important;
   }
