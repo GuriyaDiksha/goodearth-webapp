@@ -1923,3 +1923,25 @@
   width: 100% !important;
   max-width: 100% !important;
 }
+
+
+// ---------------------shop the look popup----------------------------------
+.shop-the-look {
+  background-color: $white;
+  padding: 0px 10px 30px 10px;
+  .title-wrapper {
+    text-align: right;
+    padding: 20px;
+    position: relative;
+    .shop-title {
+      @include h3_20px_lora_charcoal
+    }
+    .close-icon{
+      position: absolute;
+      right: 24px;
+      top: 26px;
+      width: 13px;
+      height: 13px;
+    }
+  }
+}

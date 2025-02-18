@@ -1,6 +1,9 @@
 import loadable from "@loadable/component";
 import CerisePopup from "components/Popups/CerisePopup";
 
+const ShopTheLookPopup = loadable(() =>
+  import("../components/Popups/ShopTheLook")
+);
 const CurrencyPopup = loadable(() =>
   import("../components/Popups/CurrencyPopup")
 );
@@ -135,7 +138,8 @@ export const popupComponents: { [x: string]: React.ComponentType<any> } = {
   editWishlistName: EditWishlistName,
   deleteWishlist: DeleteWishlist,
   createWishlist: CreateWishlist,
-  addRemoveWishlistNamePopup: AddRemoveWishlistNamePopup
+  addRemoveWishlistNamePopup: AddRemoveWishlistNamePopup,
+  shopTheLookPopup: ShopTheLookPopup
 };
 
 export const enum POPUP {
@@ -181,5 +185,6 @@ export const enum POPUP {
   EDITWISHLISTNAME = "editWishlistName",
   DELETEWISHLIST = "deleteWishlist",
   CREATEWISHLIST = "createWishlist",
-  ADDREMOVEWISHLISTNAMEPOPUP = "addRemoveWishlistNamePopup"
+  ADDREMOVEWISHLISTNAMEPOPUP = "addRemoveWishlistNamePopup",
+  SHOPTHELOOKPOPUP = "shopTheLookPopup"
 }
