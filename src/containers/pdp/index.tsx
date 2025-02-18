@@ -1265,7 +1265,7 @@ class PDPContainer extends React.Component<Props, State> {
             Shop The Look
           </h2>
           <div className={bootstrap.row}>
-            <div className={cs(bootstrap.col4, bootstrap.colMd5)}>
+            <div className={cs(bootstrap.colLg4, bootstrap.colSm5)}>
               <div className={styles.looksMainImage}>
                 {/* <Link
                     to={data.url}
@@ -1292,9 +1292,11 @@ class PDPContainer extends React.Component<Props, State> {
             </div>
 
             <div
-              className={cs(bootstrap.col8, styles.looksContainer, {
-                [bootstrap.col7]: mobile
-              })}
+              className={cs(
+                bootstrap.colLg8,
+                bootstrap.colSm7,
+                styles.looksContainer
+              )}
             >
               {filteredLooksProducts && filteredLooksProducts.length > 2 ? (
                 <Slider {...this.settings}>
@@ -1801,7 +1803,9 @@ class PDPContainer extends React.Component<Props, State> {
           />
         )}
         {this.state.showLooks && this.getLooksSection()}
-        <div className={bootstrap.row}>{this.getPairItWithSection()}</div>
+        <div className={bootstrap.row}>
+          {!this.state.showLooks && this.getPairItWithSection()}
+        </div>
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
         <div className={cs(bootstrap.row)}>
           {!this.state?.showLooks && this.getMoreCollectionProductsSection()}
