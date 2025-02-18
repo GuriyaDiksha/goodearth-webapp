@@ -48,9 +48,6 @@ export default {
     cookies: Cookies,
     bridalKey?: string
   ) {
-    const updateProfilePhoneNo = CookieService.getCookie(
-      "updateProfilePhoneNo"
-    );
     let user: Partial<User> = initialState;
     if (cookies.tkn) {
       const meta: MetaResponse = await this.fetchMeta(
@@ -65,6 +62,9 @@ export default {
       user.isLoggedIn = true;
       user.shippingData = meta.shippingData;
       user.customerGroup = meta.customerGroup;
+      const updateProfilePhoneNo = user.phoneNumber
+        ? user.phoneNumber
+        : CookieService.getCookie("updateProfilePhoneNo");
       if (
         (typeof document != "undefined" &&
           user.email &&
