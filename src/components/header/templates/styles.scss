@@ -269,7 +269,7 @@
     .img {
         width: 100%;
         margin-top: 15px;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
         display: inline-block;
         vertical-align: middle;
     }
@@ -279,13 +279,10 @@
         max-width: 100%;
         .heading {
             border-bottom: none;
-            // padding-left: 20px;
             line-height: 18px;
             display: block;
             @include b4_12px_montserrat_charcoal();
-            white-space: nowrap;
             strong{
-                
                 font-weight: $medium;
             }
         }
