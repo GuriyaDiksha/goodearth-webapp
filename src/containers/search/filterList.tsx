@@ -911,10 +911,10 @@ class FilterList extends React.Component<Props, State> {
         // fixes for filter hide issue on safari
         setTimeout(() => {
           window.scrollTo(50, 0);
-        }, 1000);
+        }, 500);
         setTimeout(() => {
           window.scrollTo(0, 0);
-        }, 2000);
+        }, 1000);
         // end fixes for filter hide issue on safari
       })
       .finally(() => {
