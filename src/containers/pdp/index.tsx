@@ -132,7 +132,7 @@ class PDPContainer extends React.Component<Props, State> {
     showDock: false,
     selectedSize: null,
     pdpButton: null,
-    slidesToShow: window.innerWidth <= 768 ? 1.3 : 3
+    slidesToShow: 3
   };
 
   myref: RefObject<any> = React.createRef();
@@ -145,14 +145,14 @@ class PDPContainer extends React.Component<Props, State> {
   listPath = "";
   imageIntervalID: null | number = null;
 
-  get settings() {
+  get settings(): Settings {
     return {
       dots: false,
       infinite: false,
       speed: 500,
       slidesToShow: this.props.device.mobile ? 1.4 : 3,
       slidesToScroll: 1,
-      arrow: true
+      arrows: true
     };
   }
   onImageClick = (index: number) => {
@@ -291,11 +291,12 @@ class PDPContainer extends React.Component<Props, State> {
     }
   };
   handleResize = throttle(() => {
-    const slidesToShow = window.innerWidth <= 768 ? 1.3 : 3;
-    if (this.state.slidesToShow !== slidesToShow) {
-      this.setState({ slidesToShow });
+    if (typeof window !== "undefined") {
+      const slidesToShow = window.innerWidth <= 768 ? 1.4 : 3;
+      if (this.state.slidesToShow !== slidesToShow) {
+        this.setState({ slidesToShow });
+      }
     }
-    console.log("handle resize");
   }, 200);
 
   componentDidMount() {
@@ -320,6 +321,10 @@ class PDPContainer extends React.Component<Props, State> {
         "Page Name": "PdpView"
       });
     }
+    this.setState({
+      slidesToShow:
+        typeof window !== undefined && window.innerWidth <= 768 ? 1.3 : 3
+    });
 
     const { data, currency } = this.props;
 
