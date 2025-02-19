@@ -430,18 +430,32 @@ const BaseLayout: React.FC = () => {
   //   }
   // }
 
+  // Define the pages where you want to hide the header and footer both
+  const hideHeaderFooterPages = [
+    "/goodearth-corporate-catalogue",
+    "/uaeshop",
+    "/backend-order-error",
+    "/maintenance"
+  ];
+  // Check if the current route matches any of the routes
+  const hideHeaderFooter = hideHeaderFooterPages.includes(pathname);
+
+  // Define the pages where you want to hide footer only
+  const hideFooterPages = ["/cart"];
+  const hideFooterOnly = hideFooterPages.includes(pathname);
+
   const isCheckout =
     pathname.indexOf("/checkout") > -1 ||
     pathname.indexOf("/gc_checkout") > -1 ||
     pathname.indexOf("order/orderconfirmation") > -1;
-  const isCart = pathname == "/cart" || pathname == "/cart/";
-  const isCorporate =
-    pathname == "/goodearth-corporate-catalogue" ||
-    pathname == "/goodearth-corporate-catalogue/";
-  // || pathname == "/cart" || pathname == "/cart/";
+  // const isCart = pathname == "/cart" || pathname == "/cart/";
+  // const isCorporate =
+  //   pathname == "/goodearth-corporate-catalogue" ||
+  //   pathname == "/goodearth-corporate-catalogue/";
+  // const isUaeshop =  pathname == "/uaeshop" || pathname == "/uaeshop/";
   // const confirmation = pathname.indexOf("order/orderconfirmation") > -1;
-  const backOrder = pathname.indexOf("backend-order-error") > -1;
-  const maintenance = pathname.indexOf("maintenance") > -1;
+  // const backOrder = pathname.indexOf("backend-order-error") > -1;
+  // const maintenance = pathname.indexOf("maintenance") > -1;
   const value =
     pathname.indexOf("auth") > -1
       ? false
@@ -451,18 +465,17 @@ const BaseLayout: React.FC = () => {
       ? CookieService.getCookie("auth")
       : true;
 
-  const minimalPage = backOrder || maintenance;
+  // const minimalPage = backOrder || maintenance;
   return (
     <Fragment>
       {/* <Whatsapp /> */}
-      {!value
-        ? ""
-        : !minimalPage &&
-          (isCheckout ? <CheckoutHeader /> : !isCorporate && <Header />)}
+      {value &&
+        !hideHeaderFooter &&
+        (isCheckout ? <CheckoutHeader /> : <Header />)}
       {(isLoading || isCheckoutLoading) && <Loader />}
       <div
         className={
-          minimalPage
+          hideHeaderFooter
             ? ""
             : cs(globalStyles.contentContainer, bootstrap.containerFluid, {
                 //Failsafe if padding is required in other pages than pdp
@@ -481,9 +494,8 @@ const BaseLayout: React.FC = () => {
         </Switch>
       </div>
       {value &&
-        !minimalPage &&
-        !isCorporate &&
-        (isCheckout ? <CheckoutFooter /> : !isCart && <Footer />)}
+        !hideHeaderFooter &&
+        (isCheckout ? <CheckoutFooter /> : !hideFooterOnly && <Footer />)}
       <Modal />
     </Fragment>
   );
