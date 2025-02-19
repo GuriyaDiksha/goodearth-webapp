@@ -1907,11 +1907,13 @@ const ProductDetails: React.FC<Props> = ({
                       {/* this is for image */}
                       <div className={styles.imageContainer}>
                         {fillerProduct.title && (
-                          <img
-                            className={styles.fillerImage}
-                            src={fillerProduct.plpSliderImages[0]}
-                            alt={fillerProduct.title}
-                          />
+                          <Link to={fillerProduct.url}>
+                            <img
+                              className={styles.fillerImage}
+                              src={fillerProduct.plpSliderImages[0]}
+                              alt={fillerProduct.title}
+                            />
+                          </Link>
                         )}
 
                         <div
@@ -1973,7 +1975,9 @@ const ProductDetails: React.FC<Props> = ({
                       {/* this is for name or title */}
                       <div className={styles.fillerDetailContainer}>
                         <div className={styles.fillerTitle}>
-                          {fillerProduct.title}
+                          <Link to={fillerProduct.url}>
+                            {fillerProduct.title}
+                          </Link>
                         </div>
                         <div>
                           {/* This is for price section  */}

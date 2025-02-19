@@ -191,6 +191,9 @@
     font-size: 14px;
     font-weight: 400;
     margin-top: 20px;
+    a{
+        text-decoration: none;
+    }
 }
 
 .filler-price{
@@ -227,6 +230,14 @@
     position:absolute;
     top: 0px;
     right:0px;
+    cursor: pointer;
+
+    @media screen and (max-width: 992px) {
+        position:absolute;
+        top: -6px;
+        right:8px;
+        cursor: pointer;            
+    }
     
 }
 
