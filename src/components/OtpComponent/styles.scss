@@ -290,7 +290,8 @@
       background-color: #fff;
       border: 1px solid #eee;
       width: 100%;
-      padding: 10px;
+      // padding: 10px;
+      padding: 15px 15px;
       font-size: 14px;
       line-height: 25px;
       -webkit-appearance: none;
@@ -823,4 +824,15 @@ padding: 0 !important;
 }
 .ph-err-msg{
   margin-top: 10px;
+}
+
+.activated-gc-msg{
+  @include err_13px_lora_italic_cerise();
+  color: #191919!important;
+  line-height: 16px;
+  letter-spacing: 0.26px;
+  margin-top:25px;
+}
+.max-attempt-err-msg{
+  text-align: left;
 }
