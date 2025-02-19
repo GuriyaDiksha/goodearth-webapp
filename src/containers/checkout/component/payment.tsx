@@ -36,6 +36,8 @@ import Button from "components/Button";
 import { STEP_ORDER } from "../constants";
 import FormTextArea from "components/Formsy/FormTextArea";
 import ApplyCreditNote from "./ApplyCreditNote";
+import ApplyGiftCards from "./ApplyGiftCards";
+import AccountService from "services/account";
 
 const PaymentSection: React.FC<PaymentProps> = props => {
   const data: any = {};
@@ -46,9 +48,10 @@ const PaymentSection: React.FC<PaymentProps> = props => {
     basket: { loyalty },
     user: { loyaltyData, isLoggedIn, preferenceData, slab },
     address: { countryData, shippingAddressId, billingAddressId },
-    info: { isSale }
+    info: { isSale },
+    checkout: { GCCNData }
   } = useSelector((state: AppState) => state);
-  let PaymentChild: any = useRef<typeof ApplyGiftcard>(null);
+  const PaymentChild: any = useRef<typeof ApplyGiftcard>(null);
   const history = useHistory();
   const {
     isActive,
@@ -519,6 +522,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       .catch(err => {
         console.group(err);
       });
+    AccountService.fetchGC_CN_Ammount(dispatch);
   }, [currency]);
 
   useEffect(() => {
@@ -893,7 +897,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   {!basket.isOnlyGiftCart && <hr className={styles.hr} />}
                 </>
               )}
-              <div className={globalStyles.marginT20}>
+              {/* <div className={globalStyles.marginT20}>
                 {!basket.isOnlyGiftCart && !isGcCheckout && (
                   <div className={globalStyles.flex}>
                     <hr className={styles.hr} />
@@ -930,10 +934,45 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                   </div>
                 )}
               </div>
+                */}
+
+              {!basket.isOnlyGiftCart && !isGcCheckout && (
+                <ApplyGiftCards
+                  hasGC={GCCNData.hasGC}
+                  amountGC={GCCNData.availableGCamount}
+                />
+              )}
 
               {!basket.isOnlyGiftCart &&
                 !isGcCheckout &&
-                currency === "INR" && <ApplyCreditNote />}
+                (currency === "INR" ? (
+                  <ApplyCreditNote amountCN={GCCNData.availableCNamount} />
+                ) : (
+                  <div className={globalStyles.marginT20}>
+                    <CheckboxWithLabel
+                      id="applyCN_international"
+                      className={styles.disabledLabel}
+                      onChange={() => null}
+                      label={[
+                        <label
+                          key="applyCN"
+                          htmlFor="applyCN"
+                          className={cs(
+                            styles.formSubheading,
+                            styles.lineHeightLable
+                          )}
+                        >
+                          Apply Credit Note
+                        </label>
+                      ]}
+                    />
+                    <div className={styles.gcMsg}>
+                      <p className={styles.greyText}>
+                        No Credit Note balance available
+                      </p>
+                    </div>
+                  </div>
+                ))}
 
               {/* <div
             className={cs(globalStyles.errorMsg, globalStyles.marginT20)}

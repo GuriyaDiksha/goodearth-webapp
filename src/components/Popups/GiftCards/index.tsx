@@ -7,28 +7,37 @@ import iconStyles from "styles/iconFonts.scss";
 import { Context } from "components/Modal/context";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
-import CreditNoteCard from "./CreditNoteCard";
+import GiftCardCard from "./GiftCardCard";
 import BasketService from "services/basket";
-import { CreditNote } from "containers/myAccount/components/MyCreditNotes/typings";
+import {
+  GiftCard,
+  SortBy,
+  SortType
+} from "containers/myAccount/components/MyCreditNotes/typings";
 import { useHistory } from "react-router";
 import CheckoutService from "services/checkout";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import AccountService from "services/account";
+import { updateComponent, updateModal } from "actions/modal";
+import { POPUP } from "constants/components";
+import { showGrowlMessage } from "utils/validate";
 
 type Props = {
-  data: CreditNote[];
-  setIsactivecreditnote: (x: boolean) => void;
+  data: GiftCard[];
+  setIsactivegiftcard: (x: boolean) => void;
+  gc_code?: string;
 };
 
-const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
+const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard, gc_code }) => {
   const { closeModal } = useContext(Context);
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
   const [activeKey, setActiveKey] = useState("");
-  const [creditnoteList, setCreditnoteList] = useState<CreditNote[]>([]);
+  const [giftcardList, setgiftcardList] = useState<GiftCard[]>([]);
 
   const [error, setError] = useState<{ key: string }[]>([]);
   const {
+    currency,
     device: { mobile },
     user: { isLoggedIn },
     basket: { giftCards }
@@ -37,52 +46,52 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
   const history = useHistory();
   const bodyRef = useRef<any>([]);
 
-  const fetchCreditNotes = () => {
-    AccountService.fetchCreditNotes(dispatch, "expiring_date", "asc", 1, true)
+  const fetchGiftCards = () => {
+    AccountService.fetchGiftCards(dispatch, "expiring_date", "asc", 1, true)
       .then(response => {
         const { results } = response;
-        setCreditnoteList(results.filter(ele => ele?.type !== "GC"));
+        setgiftcardList(results.filter(ele => ele?.type !== "GC"));
       })
       .catch(e => {
         console.log("fetch credit notes API failed =====", e);
       });
   };
 
-  const creditNotes = useMemo(() => {
-    return giftCards?.filter(ele => ele.cardType === "CREDITNOTE");
+  const giftcards = useMemo(() => {
+    return giftCards?.filter(ele => ele.cardType === "GIFTCARD");
   }, [giftCards]);
 
   useEffect(() => {
-    fetchCreditNotes();
-    const cns = creditNotes?.map(ele => ele?.cardId);
+    fetchGiftCards();
+    const cns = giftcards?.map(ele => ele?.cardId);
     setCheckedIds([...cns]);
   }, []);
 
-  const applyCN = async (cn: string) => {
+  const applyGC = async (gc: string, isGCApplied?: boolean) => {
     const data: any = {
-      cardId: cn,
-      type: "CREDITNOTE"
+      cardId: gc,
+      type: "GIFTCARD"
     };
 
     const gift: any = await CheckoutService.applyGiftCard(dispatch, data);
     if (gift.status) {
-      setError({ ...error, [cn]: "" });
+      setError({ ...error, [gc]: "" });
 
-      setCheckedIds([...checkedIds, cn]);
+      setCheckedIds([...checkedIds, gc]);
 
-      fetchCreditNotes();
+      fetchGiftCards();
 
       const userConsent = CookieService.getCookie("consent").split(",");
       if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
           event: "eventsToSend",
-          eventAction: "CreditNote",
+          eventAction: "giftCard",
           eventCategory: "promoCoupons",
           eventLabel: data.cardId
         });
         dataLayer.push({
           event: "gift_card_or_credit_note",
-          click_type: "CREDITNOTE",
+          click_type: "GIFTCARD",
           gift_card_code: data.cardId
         });
       }
@@ -93,20 +102,46 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
         history,
         isLoggedIn
       );
+      //Show  Growl Messsage
+      if (isGCApplied) {
+        const msg = "Success. Gift Card Code Activated & Applied!";
+        showGrowlMessage(dispatch, msg, 7000);
+        AccountService.fetchGC_CN_Ammount(dispatch);
+      }
     } else {
-      setError({ ...error, [cn]: gift?.message });
+      setError({ ...error, [gc]: gift?.message });
+      //Show  Growl Messsage
+      if (isGCApplied) {
+        const msg = "Success. Gift Card Code Activated!";
+        showGrowlMessage(dispatch, msg, 7000);
+      }
     }
   };
 
-  const removeCN = async (cn: string) => {
+  useEffect(() => {
+    if (gc_code) {
+      applyGC(gc_code, true);
+      // aplly GA events after activated gc successfully
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (userConsent.includes(GA_CALLS)) {
+        dataLayer.push({
+          event: "gift_card_activated",
+          gift_card_code: gc_code
+        });
+      }
+    }
+  }, [gc_code && gc_code]);
+
+  const removeGC = async (gc: string) => {
     const data: any = {
-      cardId: cn,
-      type: "CREDITNOTE"
+      cardId: gc,
+      type: "GIFTCARD"
     };
     const res = await CheckoutService.removeGiftCard(dispatch, data);
     if (res) {
-      fetchCreditNotes();
-      setCheckedIds([...checkedIds.filter(ele => ele !== cn)]);
+      fetchGiftCards();
+      setError({ ...error, [gc]: "" });
+      setCheckedIds([...checkedIds.filter(ele => ele !== gc)]);
       await BasketService.fetchBasket(
         dispatch,
         "checkout",
@@ -118,16 +153,16 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
 
   const onCheck = (isApplied: boolean, entry_code: string) => {
     if (isApplied) {
-      removeCN(entry_code);
+      removeGC(entry_code);
     } else {
-      applyCN(entry_code);
+      applyGC(entry_code);
     }
   };
 
   const onClose = () => {
     closeModal();
-    if (creditNotes.length === 0) {
-      setIsactivecreditnote(false);
+    if (giftcards.length === 0) {
+      setIsactivegiftcard(false);
     }
   };
 
@@ -152,6 +187,20 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
     setActiveKey(activeKey !== key ? key : "");
   };
 
+  const activatePopup = () => {
+    dispatch(updateComponent(POPUP.ACTIVATEGIFTCARD, false));
+    dispatch(updateModal(true));
+    if (giftcards.length === 0) {
+      setIsactivegiftcard(false);
+    }
+  };
+
+  //filtered giftcard list by currency and without over balance
+  const filteredgiftcardList = giftcardList?.filter(
+    giftcardList =>
+      giftcardList.currency == currency && giftcardList.message == ""
+  );
+
   return (
     <div>
       <div
@@ -165,7 +214,7 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
         )}
       >
         <div className={styles.headWrp}>
-          <div className={style.creditNoteHead}>Apply credit note</div>
+          <div className={style.creditNoteHead}>Apply gift card</div>
           <div
             className={cs(styles.cross, styles.deliveryIcon)}
             onClick={onClose}
@@ -184,10 +233,13 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
 
         <div className={cs(style.cnBody)}>
           <div className={style.boxWrp}>
-            {creditnoteList?.map(creditNote => (
-              <CreditNoteCard
-                key={creditNote?.entry_code}
-                creditNote={creditNote}
+            <div className={style.activateBox} onClick={activatePopup}>
+              + ACTIVATE NEW GIFT CARD
+            </div>
+            {filteredgiftcardList.map(giftcard => (
+              <GiftCardCard
+                key={giftcard?.entry_code}
+                giftCardData={giftcard}
                 onCheck={onCheck}
                 checkedIds={checkedIds}
                 activeKey={activeKey}
@@ -207,4 +259,4 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
   );
 };
 
-export default CreditNotes;
+export default GiftCards;
