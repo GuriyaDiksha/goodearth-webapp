@@ -37,6 +37,7 @@ const initialState: State = {
 export const basket = (state = initialState, action: BasketActions): State => {
   switch (action.type) {
     case "UPDATE_BASKET": {
+      debugger;
       return {
         ...state,
         ...action.payload
