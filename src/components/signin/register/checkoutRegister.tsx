@@ -172,7 +172,6 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   };
 
   handleSubmit = (model: any, resetForm: any, updateInputsWithError: any) => {
-    debugger;
     const {
       email,
       // password1,
@@ -732,14 +731,23 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     }
 
     // Validate min allowed date
-    if (date && new Date(date).getTime() <= new Date(minDate).getTime()) {
+    // if (date && new Date(date).getTime() <= new Date(minDate).getTime()){
+    if (
+      date &&
+      new Date(moment(date).format("YYYY-MM-DD")).getTime() <=
+        new Date(minDate).getTime()
+    ) {
       newErrors.isMinAllowedDate = "Please enter a valid Date of Birth";
     } else {
       newErrors.isMinAllowedDate = "";
     }
 
     // Validate max allowed date
-    if (date && new Date(date).getTime() >= new Date(maxDate).getTime()) {
+    if (
+      date &&
+      new Date(moment(date).format("YYYY-MM-DD")).getTime() >=
+        new Date(maxDate).getTime()
+    ) {
       newErrors.isMaxAllowedDate = "Age should be at least 15 years";
     } else {
       newErrors.isMaxAllowedDate = "";
@@ -909,7 +917,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               ref={this.datePickerRef} // Attach the ref to DatePicker
               id="date_of_birth"
               name="dateOfBirth"
-              className={showFieldsClass}
+              // dateFormat="dd MMM yyyy"
               dateFormat="dd/MM/yyyy"
               placeholderText="DD/MM/YYYY"
               selected={this.state.selectedDate}
