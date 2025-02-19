@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useMemo } from "react";
 import WishlistService from "services/wishlist";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./styles.scss";
@@ -58,6 +58,25 @@ const WishlistDetailPage = () => {
     products: [],
     id: 0
   });
+
+  const [openIndex, setOpenIndex] = useState(0);
+
+  // Toggle the accordion's open state
+  const handleToggle = (index: any) => {
+    setOpenIndex(openIndex === index ? null : index); // Close if already open, else open
+    if (index != 0 && openIndex != index) {
+      setTimeout(() => {
+        requestAnimationFrame(() => {
+          const elem = document.getElementById(
+            `accordion-item-${index}`
+          ) as HTMLDivElement;
+          const rect = elem?.getBoundingClientRect();
+          const scrollTop = window.scrollY + rect.top;
+          window.scrollTo({ top: scrollTop - 200, behavior: "smooth" });
+        });
+      }, 200);
+    }
+  };
 
   const emptyWishlistContent = (
     <div>
@@ -380,6 +399,7 @@ const WishlistDetailPage = () => {
         event: "add_to_wishlist",
         previous_page_url: CookieService.getCookie("prevUrl"),
         list_name: listName ? listName : "NA",
+        page_category: "Wishlist",
         ecommerce: {
           currency: currency,
           value: productData.discountedPrice
@@ -429,6 +449,7 @@ const WishlistDetailPage = () => {
         event: "remove_from_wishlist",
         previous_page_url: CookieService.getCookie("prevUrl"),
         list_name: listName ? listName : "NA",
+        page_category: "Wishlist",
         ecommerce: {
           currency: currency,
           value: productData.discountedPrice
@@ -507,6 +528,17 @@ const WishlistDetailPage = () => {
       )
     );
     dispatch(updateModal(true));
+  };
+
+  const deletePopup = async (name: string) => {
+    dispatch(
+      updateComponent(POPUP.DELETEWISHLIST, { name, deleteWishlistName }, false)
+    );
+    dispatch(updateModal(true));
+    dataLayer.push({
+      event: "delete_list_initiate",
+      list_name: name ? name : "NA"
+    });
   };
 
   const creatWishlistPopup = (dataLength: number) => {
@@ -915,290 +947,365 @@ const WishlistDetailPage = () => {
             items.map((list, listIndex) => {
               return (
                 <>
-                  <div key={listIndex} className={styles.listBlock}>
-                    <div className={styles.wishlistHead}>
+                  <div
+                    key={listIndex}
+                    id={`accordion-item-${listIndex}`}
+                    className={cs("accordion-item", styles.listBlock)}
+                  >
+                    <div
+                      className={cs("accordion-header", styles.wishlistHead, {
+                        [globalStyles.marginB40]: openIndex != listIndex
+                      })}
+                    >
                       <div className={styles.wishlistHeading}>
                         <h3 className={styles.listName}>
                           {list.name} ({list.products.length})
                         </h3>
-                        {list.name != "Default" && (
-                          <span
-                            className={cs(styles.edit, globalStyles.aquaHover)}
-                            onClick={() => editPopup(list.id, list.name)}
-                          >
-                            Edit
-                          </span>
+                        {!mobile && list.name != "Default" && (
+                          <>
+                            <span
+                              className={cs(
+                                styles.edit,
+                                globalStyles.aquaHover
+                              )}
+                              onClick={() => editPopup(list.id, list.name)}
+                            >
+                              Edit
+                            </span>
+                            <span
+                              className={cs(
+                                styles.edit,
+                                globalStyles.aquaHover
+                              )}
+                              onClick={() => deletePopup(list.name)}
+                            >
+                              Delete
+                            </span>
+                          </>
                         )}
                       </div>
                       {!isShared && (
-                        <div
-                          className={styles.shareList}
-                          onClick={() =>
-                            onSharlinkClick(
-                              list.name,
-                              list.sharable_link,
-                              updateWishlist
-                            )
-                          }
-                        >
-                          <img src={linkIcon} alt="link" />
-                          <span>SHARE LIST</span>
+                        <div className={cs(styles.shareList)}>
+                          <div
+                            className={styles.sharelink}
+                            onClick={() =>
+                              onSharlinkClick(
+                                list.name,
+                                list.sharable_link,
+                                updateWishlist
+                              )
+                            }
+                          >
+                            <img src={linkIcon} alt="link" />
+                            <span>SHARE LIST</span>
+                          </div>
+                          <div
+                            className={styles.arrowRound}
+                            onClick={() => handleToggle(listIndex)}
+                          >
+                            <span
+                              className={cs(
+                                styles.arrow,
+                                openIndex === listIndex
+                                  ? styles.openIcon
+                                  : styles.closedIcon
+                              )}
+                            ></span>
+                          </div>
                         </div>
                       )}
                     </div>
-                    {list.products.length > 0 ? (
-                      <div
-                        className={cs(styles.productBlock, bootstrapStyles.row)}
-                      >
-                        {list.products.map((productData, productIndex) => {
-                          let showStockMessage = false;
-                          if (productData.size) {
-                            const selectedSize = productData.stockDetails.filter(
-                              item => item.size == productData.size
-                            )[0];
-                            showStockMessage =
-                              selectedSize &&
-                              selectedSize.stock > 0 &&
-                              selectedSize.showStockThreshold;
-                          } else {
-                            showStockMessage =
-                              !productData.stockDetails[0].size &&
-                              productData.stockDetails[0].stock > 0 &&
-                              productData.stockDetails[0].showStockThreshold;
-                          }
-                          const stock = productData.size
-                            ? productData.stockDetails.filter(
-                                item => item.size == productData.size
-                              ).length > 0
-                              ? productData.stockDetails.filter(
-                                  item => item.size == productData.size
-                                )[0].stock
-                              : productData.stockDetails[0].stock
-                            : productData.stockDetails[0].stock;
-                          return (
-                            <div
-                              key={productIndex}
+                    {openIndex === listIndex && (
+                      <div className={styles.accordionBody}>
+                        {mobile && list.name != "Default" && (
+                          <div className={styles.editDelete}>
+                            <span
                               className={cs(
-                                styles.productData,
-                                mobile
-                                  ? bootstrapStyles.col6
-                                  : bootstrapStyles.colMd3
+                                styles.edit,
+                                globalStyles.aquaHover
                               )}
+                              onClick={() => editPopup(list.id, list.name)}
                             >
-                              <div className={styles.imagebox}>
-                                {productData.salesBadgeImage && (
-                                  <div
-                                    className={cs(
-                                      {
-                                        [styles.badgePositionPlpMobile]: mobile
-                                      },
-                                      {
-                                        [styles.badgePositionPlp]: !mobile
-                                      }
-                                    )}
-                                  >
-                                    <img src={productData.salesBadgeImage} />
-                                  </div>
-                                )}
-                                {productData?.badge_text && (
-                                  <Link
-                                    to={productData?.productUrl}
-                                    className={cs(
-                                      globalStyles.textCenter,
-                                      globalStyles.badgePositionDesktop,
-                                      globalStyles.pointer
-                                      // styles.badgePosition,
-                                      // {
-                                      //   [globalStyles.badgePositionMobile]: mobile
-                                      // }
-                                    )}
-                                  >
-                                    <div
-                                      className={cs(
-                                        globalStyles.badgeContainer,
-                                        globalStyles.flex
-                                      )}
-                                    >
-                                      {productData?.badge_text}
-                                    </div>
-                                  </Link>
-                                )}
-                                {!isShared && (
-                                  <div>
-                                    <div
-                                      className={cs(styles.iconCloseContainer)}
-                                    >
-                                      <img
-                                        src={cross}
-                                        alt="remove"
-                                        className={cs(styles.iconClose)}
-                                        onClick={() => {
-                                          removeProduct(
-                                            productData.productId,
-                                            list.name,
-                                            productData
-                                          );
-                                        }}
-                                      />
-                                    </div>
-                                    {isLoggedIn && (
+                              Edit
+                            </span>
+                            <span
+                              className={cs(
+                                styles.edit,
+                                globalStyles.aquaHover
+                              )}
+                              onClick={() => deletePopup(list.name)}
+                            >
+                              Delete
+                            </span>
+                          </div>
+                        )}
+                        {list.products.length > 0 ? (
+                          <div
+                            className={cs(
+                              styles.productBlock,
+                              bootstrapStyles.row
+                            )}
+                          >
+                            {list.products.map((productData, productIndex) => {
+                              let showStockMessage = false;
+                              if (productData.size) {
+                                const selectedSize = productData.stockDetails.filter(
+                                  item => item.size == productData.size
+                                )[0];
+                                showStockMessage =
+                                  selectedSize &&
+                                  selectedSize.stock > 0 &&
+                                  selectedSize.showStockThreshold;
+                              } else {
+                                showStockMessage =
+                                  !productData.stockDetails[0].size &&
+                                  productData.stockDetails[0].stock > 0 &&
+                                  productData.stockDetails[0]
+                                    .showStockThreshold;
+                              }
+                              const stock = productData.size
+                                ? productData.stockDetails.filter(
+                                    item => item.size == productData.size
+                                  ).length > 0
+                                  ? productData.stockDetails.filter(
+                                      item => item.size == productData.size
+                                    )[0].stock
+                                  : productData.stockDetails[0].stock
+                                : productData.stockDetails[0].stock;
+                              return (
+                                <div
+                                  key={productIndex}
+                                  className={cs(
+                                    styles.productData
+                                    // mobile
+                                    //   ? bootstrapStyles.col6
+                                    //   : bootstrapStyles.colMd2
+                                  )}
+                                >
+                                  <div className={styles.imagebox}>
+                                    {productData.salesBadgeImage && (
                                       <div
                                         className={cs(
-                                          styles.iconPencilContainer
+                                          {
+                                            [styles.badgePositionPlpMobile]: mobile
+                                          },
+                                          {
+                                            [styles.badgePositionPlp]: !mobile
+                                          }
                                         )}
                                       >
                                         <img
-                                          src={pencilIcon}
-                                          alt="pencilIcon"
-                                          className={cs(styles.iconPencil)}
-                                          onClick={() =>
-                                            mobile
-                                              ? editWishlistItemPopupMobile(
-                                                  productData.productId,
-                                                  list.name
-                                                )
-                                              : editWishlistItemPopup(
-                                                  productData.productId,
-                                                  listIndex,
-                                                  productIndex,
-                                                  list.name
-                                                )
-                                          }
+                                          src={productData.salesBadgeImage}
                                         />
                                       </div>
                                     )}
-                                  </div>
-                                )}
-                                <a href={productData.productUrl}>
-                                  <img
-                                    src={
-                                      productData.productImage
-                                        ? productData.productImage
-                                        : "/static/img/noimageplp.png"
-                                    }
-                                    alt="Others"
-                                    className={styles.productImage}
-                                  />
-                                </a>
-                                <div
-                                  className={cs(
-                                    globalStyles.textCenter,
-                                    globalStyles.cartIconPositionDesktop,
-                                    {
-                                      [globalStyles.cartIconPositionMobile]: mobile
-                                    }
-                                  )}
-                                >
-                                  <div
-                                    className={cs(
-                                      iconStyles.icon,
-                                      globalStyles.iconContainer,
-                                      iconStyles.iconPlpCart
+                                    {productData?.badge_text && (
+                                      <Link
+                                        to={productData?.productUrl}
+                                        className={cs(
+                                          globalStyles.textCenter,
+                                          globalStyles.badgePositionDesktop,
+                                          globalStyles.pointer
+                                          // styles.badgePosition,
+                                          // {
+                                          //   [globalStyles.badgePositionMobile]: mobile
+                                          // }
+                                        )}
+                                      >
+                                        <div
+                                          className={cs(
+                                            globalStyles.badgeContainer,
+                                            globalStyles.flex
+                                          )}
+                                        >
+                                          {productData?.badge_text}
+                                        </div>
+                                      </Link>
                                     )}
-                                    onClick={() =>
-                                      openPopup(
-                                        productData,
-                                        currency,
-                                        isSale,
-                                        mobile,
-                                        isShared,
-                                        productData.productId,
-                                        list.name
-                                      )
-                                    }
-                                  ></div>
-                                </div>
-                                <div className={styles.createWishlistPopup}>
-                                  {activeWishlist == listIndex &&
-                                    activeWishlistItem == productIndex && (
-                                      <CreateWishlist
-                                        hideWishlistPopup={hideWishlistPopup}
-                                        wishlistName={list.name}
-                                        id={pId}
-                                        gtmPushWishlist={(
-                                          addWishlist: boolean,
-                                          listName: string
-                                        ) =>
-                                          gtmPushWishlist(
-                                            addWishlist,
-                                            listName,
-                                            productData
+                                    {!isShared && (
+                                      <div>
+                                        <div
+                                          className={cs(
+                                            styles.iconCloseContainer
+                                          )}
+                                        >
+                                          <img
+                                            src={cross}
+                                            alt="remove"
+                                            className={cs(styles.iconClose)}
+                                            onClick={() => {
+                                              removeProduct(
+                                                productData.productId,
+                                                list.name,
+                                                productData
+                                              );
+                                            }}
+                                          />
+                                        </div>
+                                        {isLoggedIn && (
+                                          <div
+                                            className={cs(
+                                              styles.iconPencilContainer
+                                            )}
+                                          >
+                                            <img
+                                              src={pencilIcon}
+                                              alt="pencilIcon"
+                                              className={cs(styles.iconPencil)}
+                                              onClick={() =>
+                                                mobile
+                                                  ? editWishlistItemPopupMobile(
+                                                      productData.productId,
+                                                      list.name
+                                                    )
+                                                  : editWishlistItemPopup(
+                                                      productData.productId,
+                                                      listIndex,
+                                                      productIndex,
+                                                      list.name
+                                                    )
+                                              }
+                                            />
+                                          </div>
+                                        )}
+                                      </div>
+                                    )}
+                                    <a href={productData.productUrl}>
+                                      <img
+                                        src={
+                                          productData.productImage
+                                            ? productData.productImage
+                                            : "/static/img/noimageplp.png"
+                                        }
+                                        alt="Others"
+                                        className={styles.productImage}
+                                      />
+                                    </a>
+                                    <div
+                                      className={cs(
+                                        globalStyles.textCenter,
+                                        globalStyles.cartIconPositionDesktop,
+                                        {
+                                          [globalStyles.cartIconPositionMobile]: mobile
+                                        }
+                                      )}
+                                    >
+                                      <div
+                                        className={cs(
+                                          iconStyles.icon,
+                                          globalStyles.iconContainer,
+                                          iconStyles.iconPlpCart
+                                        )}
+                                        onClick={() =>
+                                          openPopup(
+                                            productData,
+                                            currency,
+                                            isSale,
+                                            mobile,
+                                            isShared,
+                                            productData.productId,
+                                            list.name
                                           )
                                         }
-                                      />
-                                    )}
-                                </div>
-                              </div>
-                              <div className={styles.imageContent}>
-                                <p className={styles.productN}>
-                                  <a href={productData.productUrl}>
-                                    {productData.productName
-                                      ? productData.productName
-                                      : ""}{" "}
-                                  </a>
-                                </p>
-                                <p
-                                  className={cs(
-                                    styles.productN,
-                                    styles.productPrice
-                                  )}
-                                >
-                                  {isSale && productData.discount ? (
-                                    <span className={styles.discountprice}>
-                                      {productData.discountedPrice
-                                        ? displayPriceWithCommas(
-                                            productData.discountedPrice[
-                                              currency
-                                            ],
-                                            currency
-                                          )
-                                        : ""}{" "}
-                                    </span>
-                                  ) : (
-                                    ""
-                                  )}
-                                  {isSale && productData.discount ? (
-                                    <span className={styles.strikeprice}>
-                                      {displayPriceWithCommas(
-                                        productData.price[currency],
-                                        currency
+                                      ></div>
+                                    </div>
+                                    <div className={styles.createWishlistPopup}>
+                                      {activeWishlist == listIndex &&
+                                        activeWishlistItem == productIndex && (
+                                          <CreateWishlist
+                                            hideWishlistPopup={
+                                              hideWishlistPopup
+                                            }
+                                            wishlistName={list.name}
+                                            id={pId}
+                                            gtmPushWishlist={(
+                                              addWishlist: boolean,
+                                              listName: string
+                                            ) =>
+                                              gtmPushWishlist(
+                                                addWishlist,
+                                                listName,
+                                                productData
+                                              )
+                                            }
+                                          />
+                                        )}
+                                    </div>
+                                  </div>
+                                  <div className={styles.imageContent}>
+                                    <p className={styles.productN}>
+                                      <a href={productData.productUrl}>
+                                        {productData.productName
+                                          ? productData.productName
+                                          : ""}{" "}
+                                      </a>
+                                    </p>
+                                    <p
+                                      className={cs(
+                                        styles.productN,
+                                        styles.productPrice
                                       )}
-                                    </span>
-                                  ) : (
-                                    <span
-                                      className={
-                                        productData.badgeType == "B_flat"
-                                          ? styles.discountprice
-                                          : ""
-                                      }
                                     >
-                                      {displayPriceWithCommas(
-                                        productData.price[currency],
-                                        currency
+                                      {isSale && productData.discount ? (
+                                        <span className={styles.discountprice}>
+                                          {productData.discountedPrice
+                                            ? displayPriceWithCommas(
+                                                productData.discountedPrice[
+                                                  currency
+                                                ],
+                                                currency
+                                              )
+                                            : ""}{" "}
+                                        </span>
+                                      ) : (
+                                        ""
                                       )}
+                                      {isSale && productData.discount ? (
+                                        <span className={styles.strikeprice}>
+                                          {displayPriceWithCommas(
+                                            productData.price[currency],
+                                            currency
+                                          )}
+                                        </span>
+                                      ) : (
+                                        <span
+                                          className={
+                                            productData.badgeType == "B_flat"
+                                              ? styles.discountprice
+                                              : ""
+                                          }
+                                        >
+                                          {displayPriceWithCommas(
+                                            productData.price[currency],
+                                            currency
+                                          )}
+                                        </span>
+                                      )}
+                                    </p>
+                                    <span
+                                      className={cs(
+                                        globalStyles.errorMsg,
+                                        globalStyles.gold,
+                                        styles.errMsg,
+                                        styles.errMsg1
+                                      )}
+                                    >
+                                      {isSale &&
+                                        showStockMessage &&
+                                        `Only ${stock} Left!`}
                                     </span>
-                                  )}
-                                </p>
-                                <span
-                                  className={cs(
-                                    globalStyles.errorMsg,
-                                    globalStyles.gold,
-                                    styles.errMsg,
-                                    styles.errMsg1
-                                  )}
-                                >
-                                  {isSale &&
-                                    showStockMessage &&
-                                    `Only ${stock} Left!`}
-                                </span>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    ) : (
-                      <div className={styles.emptyProductBlock}>
-                        <span>There are no products saved in this list.</span>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <div className={styles.emptyProductBlock}>
+                            <span>
+                              There are no products saved in this list.
+                            </span>
+                          </div>
+                        )}
                       </div>
                     )}
                     <hr className={styles.deviderLine}></hr>
