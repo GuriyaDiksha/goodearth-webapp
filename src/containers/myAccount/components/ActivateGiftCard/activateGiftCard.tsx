@@ -115,7 +115,7 @@ const Giftcard: React.FC = () => {
         newCardBox: false,
         isSuccess: true,
         activatedGcMsg:
-          "This Gift Card has been successfully activated and is now linked to the email address / phone number provided. Gift cards are not transferable."
+          "This Gift Card has been successfully activated and is now linked to the email address provided in your profile. Gift cards are not transferable."
         // txtvalue: ""
       });
       //Show  Growl Messsage
