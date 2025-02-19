@@ -13,16 +13,17 @@ import CheckoutService from "services/checkout";
 import BasketService from "services/basket";
 import { useHistory } from "react-router";
 import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
-import { CreditNote } from "containers/myAccount/components/MyCreditNotes/typings";
+import { GiftCard } from "containers/myAccount/components/MyCreditNotes/typings";
 import { displayPriceWithSeparation } from "utils/utility";
 
 type Props = {
-  amountCN: any;
+  amountGC: any;
+  hasGC: boolean;
 };
 
-const ApplyCreditNote: React.FC<Props> = ({ amountCN }) => {
-  const [isactivecreditnote, setIsactivecreditnote] = useState(false);
-  const [creditnoteList, setCreditnoteList] = useState<CreditNote[]>([]);
+const ApplyCreditNote: React.FC<Props> = ({ hasGC, amountGC }) => {
+  const [isactivegiftcard, setIsactivegiftcard] = useState(false);
+  const [giftcardList, setGiftcardList] = useState<GiftCard[]>([]);
   const {
     basket: { giftCards },
     currency,
@@ -31,15 +32,15 @@ const ApplyCreditNote: React.FC<Props> = ({ amountCN }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const creditNotes = useMemo(() => {
-    return giftCards?.filter(ele => ele.cardType === "CREDITNOTE");
+  const giftCard = useMemo(() => {
+    return giftCards?.filter(ele => ele.cardType === "GIFTCARD");
   }, [giftCards]);
 
-  // const fetchCreditNotes = () => {
-  //   AccountService.fetchCreditNotes(dispatch, "expiring_date", "asc", 1, true)
+  // const fetchGiftCards = () => {
+  //     AccountService.fetchGiftCards(dispatch, "expiring_date", "asc", 1, true)
   //     .then(response => {
   //       const { results } = response;
-  //       setCreditnoteList(results.filter(ele => ele?.type !== "GC"));
+  //       setGiftcardList(results.filter(ele => ele?.type !== "GC"));
   //     })
   //     .catch(e => {
   //       console.log("fetch credit notes API failed =====", e);
@@ -47,27 +48,27 @@ const ApplyCreditNote: React.FC<Props> = ({ amountCN }) => {
   // };
 
   // useEffect(() => {
-  //   fetchCreditNotes();
+  //   fetchGiftCards();
   // }, []);
 
   useEffect(() => {
-    setIsactivecreditnote(!!creditNotes?.length);
-  }, [creditNotes?.length]);
+    setIsactivegiftcard(!!giftCard?.length);
+  }, [giftCard?.length]);
 
-  const onCreditNoteToggle = async (
+  const onGiftCardToggle = async (
     event:
       | React.ChangeEvent<HTMLInputElement>
       | React.MouseEvent<HTMLDivElement, MouseEvent>,
     isEdit?: boolean
   ) => {
     //Open popup and fetch data : On checked true
-    if (!isactivecreditnote || isEdit) {
+    if (!isactivegiftcard || isEdit) {
       dispatch(
         updateComponent(
-          POPUP.CREDITNOTES,
+          POPUP.GIFTCARDS,
           {
-            data: creditnoteList,
-            setIsactivecreditnote
+            data: giftcardList,
+            setIsactivegiftcard
           },
           false
         )
@@ -75,7 +76,7 @@ const ApplyCreditNote: React.FC<Props> = ({ amountCN }) => {
       dispatch(updateModal(true));
     } else {
       //Close popupand remove all CN : On checked false
-      for await (const giftcard of creditNotes) {
+      for await (const giftcard of giftCard) {
         const data: any = {
           cardId: giftcard?.cardId,
           type: giftcard?.cardType
@@ -92,7 +93,7 @@ const ApplyCreditNote: React.FC<Props> = ({ amountCN }) => {
       );
     }
     //Set true or false for checkbox
-    setIsactivecreditnote(isEdit || !isactivecreditnote);
+    setIsactivegiftcard(isEdit || !isactivegiftcard);
   };
 
   //Onclose of individual CN
@@ -113,16 +114,17 @@ const ApplyCreditNote: React.FC<Props> = ({ amountCN }) => {
     }
   };
 
-  // if (creditnoteList?.length === 0) {
+  // if (giftcardList?.length === 0) {
   //   return null;
   // }
 
+  const activatePopup = () => {
+    dispatch(updateComponent(POPUP.ACTIVATEGIFTCARD, false));
+    dispatch(updateModal(true));
+  };
+
   return (
-    <div
-      className={cs(globalStyles.marginT20, {
-        [styles.disableSate]: amountCN <= 0
-      })}
-    >
+    <div className={globalStyles.marginT20}>
       <div
         className={cs(
           bootstrapStyles.colMd6,
@@ -131,50 +133,61 @@ const ApplyCreditNote: React.FC<Props> = ({ amountCN }) => {
         )}
       >
         <CheckboxWithLabel
-          id="applyCN"
-          checked={isactivecreditnote}
-          className={amountCN <= 0 ? styles.disabledLabel : ""}
-          onChange={amountCN > 0 ? onCreditNoteToggle : () => null}
+          id="applyGC"
+          checked={isactivegiftcard}
+          onChange={hasGC && amountGC > 0 ? onGiftCardToggle : activatePopup}
           label={[
             <label
-              key="applyCN"
-              htmlFor="applyCN"
+              key="applyGC"
+              htmlFor="applyGC"
               className={cs(styles.formSubheading, styles.lineHeightLable)}
             >
-              Apply Credit Note
+              Apply Gift Card
             </label>
           ]}
         />
 
-        {isactivecreditnote && !!creditNotes.length && (
-          <div
-            className={styles.edit}
-            onClick={e => onCreditNoteToggle(e, true)}
-          >
+        {isactivegiftcard && !!giftCard.length && (
+          <div className={styles.edit} onClick={e => onGiftCardToggle(e, true)}>
             Apply more
           </div>
         )}
       </div>
 
-      {!isactivecreditnote && (
+      {giftCard.length <= 0 && (
         <div className={styles.gcMsg}>
-          {amountCN > 0 ? (
-            <p
-              className={styles.aquaText}
-            >{`Credit Note(s) worth ${displayPriceWithSeparation(
-              amountCN,
-              currency
-            )} available`}</p>
+          {hasGC ? (
+            amountGC > 0 ? (
+              <p
+                className={styles.aquaText}
+              >{`Gift Card(s) worth ${displayPriceWithSeparation(
+                amountGC,
+                currency
+              )} available`}</p>
+            ) : (
+              <p className={styles.greyText}>
+                {`No <${currency}> balance available for linked Gift Cards.`}
+                <br />
+                <span className={styles.activateLink} onClick={activatePopup}>
+                  Activate Gift Card
+                </span>
+              </p>
+            )
           ) : (
-            <p className={styles.greyText}>No Credit Note balance available</p>
+            <p className={styles.greyText}>
+              No active Gift Cards linked with your account. <br />
+              <span className={styles.activateLink} onClick={activatePopup}>
+                Activate Gift Card
+              </span>
+            </p>
           )}
         </div>
       )}
 
       <div>
-        {isactivecreditnote &&
-          !!creditNotes.length &&
-          creditNotes?.map(ele => (
+        {isactivegiftcard &&
+          !!giftCard.length &&
+          giftCard?.map(ele => (
             <GiftCardItem
               isLoggedIn={isLoggedIn}
               {...ele}

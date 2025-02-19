@@ -29,6 +29,7 @@ export interface GiftListProps extends BalanceProps {
   onClose: (data: string) => void;
   viewOnly?: boolean;
   isLoggedIn: boolean;
+  gc_code?: string;
 }
 
 export type GiftState = {

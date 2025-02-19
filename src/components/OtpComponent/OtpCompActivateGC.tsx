@@ -14,7 +14,6 @@ import NewOtpComponent from "./NewOtpComponent";
 import Button from "components/Button";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
-
 class OtpCompActivateGC extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
     super(props);
@@ -267,11 +266,20 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     //**** both email and phone option for INR GC
     data["otpTo"] =
       // this.props.isIndiaGC && this.state.selectedOption ? "phoneno" : "email";
-      this.props.code == "91" && this.state.selectedOption
+      this.props.code == "91" && this.state.selectedOption == "mobile number"
         ? "phoneno"
         : "email";
     // data["otpTo"] = "email";
     this.sendOtpApiCall(data, false);
+
+    // apply GA events on click of send OTP CTA
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "otp_send",
+        gift_card_code: this.props.txtvalue
+      });
+    }
   };
 
   // onClickRadio = (event: any) => {
@@ -781,6 +789,10 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
                 </p>
               </p>
             ))}
+
+          {this.props.activatedGcMsg && (
+            <p className={styles.activatedGcMsg}>{this.props.activatedGcMsg}</p>
+          )}
         </div>
         <hr />
         {(this.props.otpFor == "activateGC"

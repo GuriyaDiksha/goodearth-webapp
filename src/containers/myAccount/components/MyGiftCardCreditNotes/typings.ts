@@ -38,16 +38,6 @@ export type GiftCard = {
   currency: string;
 };
 
-export type GC_CN_AmountResponse = {
-  hasGC: boolean;
-  availableGCamount: string;
-  availableCNamount: string;
-};
-
-export type GCCNData = {
-  GCCNData: GC_CN_AmountResponse;
-};
-
 export type HeaderData = Array<{
   key: string;
   title: string;

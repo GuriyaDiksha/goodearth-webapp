@@ -808,6 +808,15 @@ class CollectionSpecific extends React.Component<
             {ReactHtmlParser(longDescription)}
           </div>
         </div>
+
+        {specificMaker && (
+          <MakerEnhance
+            user="goodearth"
+            index="3"
+            href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+          />
+        )}
+
         <div className={cs(bootstrap.row, styles.collectionBlock)}>
           <div
             id="product_images"

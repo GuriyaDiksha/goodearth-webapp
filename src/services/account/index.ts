@@ -15,7 +15,12 @@ import { ConfirmResetPasswordResponse } from "containers/resetPassword/typings";
 // import BasketService from "services/basket";
 import { encryptdata, decriptdata } from "utils/validate";
 import { updateUser } from "actions/user";
-import { CreditNoteResponse } from "containers/myAccount/components/MyCreditNotes/typings";
+import {
+  CreditNoteResponse,
+  GiftCardResponse,
+  GC_CN_AmountResponse
+} from "containers/myAccount/components/MyCreditNotes/typings";
+import { update_GC_CN_Amount } from "actions/checkout";
 
 export default {
   fetchProfileData: async (dispatch: Dispatch) => {
@@ -172,6 +177,7 @@ export default {
       curr: string;
       message?: string;
       status?: boolean;
+      activatorEmail: string;
     }>(dispatch, `${__API_HOST__}/myapi/giftcard/check_gift_card_status/`, {
       code
     });
@@ -334,6 +340,28 @@ export default {
       `${__API_HOST__ +
         `/myapi/giftcard/user_creditnote/?sort_by=${sortBy}&sort_type=${sortType}&page=${page}&all=${all}`}`
     );
+    return data;
+  },
+  fetchGiftCards: async (
+    dispatch: Dispatch,
+    sortBy = "expiring_date",
+    sortType = "asc",
+    page = 1,
+    all = false
+  ) => {
+    const data = await API.get<GiftCardResponse>(
+      dispatch,
+      `${__API_HOST__ +
+        `/myapi/giftcard/user_giftcard/?sort_by=${sortBy}&sort_type=${sortType}&page=${page}&all=${all}`}`
+    );
+    return data;
+  },
+  fetchGC_CN_Ammount: async (dispatch: Dispatch) => {
+    const data = await API.get<GC_CN_AmountResponse>(
+      dispatch,
+      `${__API_HOST__ + `/myapi/giftcard/available_gc_cn_amount`}`
+    );
+    dispatch(update_GC_CN_Amount(data));
     return data;
   }
 };
