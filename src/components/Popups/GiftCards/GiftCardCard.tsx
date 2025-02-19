@@ -1,15 +1,13 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect } from "react";
 import cs from "classnames";
 import styles from "./index.scss";
-import { CreditNote } from "containers/myAccount/components/MyCreditNotes/typings";
+import { GiftCard } from "containers/myAccount/components/MyCreditNotes/typings";
 import { displayPriceWithSeparation } from "utils/utility";
-import { AppState } from "reducers/typings";
-import { useSelector } from "react-redux";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 
 type Props = {
-  creditNote: CreditNote;
+  giftCardData: GiftCard;
   onCheck: (e: React.ChangeEvent<HTMLInputElement>, v: string) => void;
   checkedIds: string[];
   activeKey: string;
@@ -17,16 +15,17 @@ type Props = {
   error: { key: string }[];
 };
 
-const CreditNoteCard = forwardRef<Props, any>(
+const GiftCardCard = forwardRef<Props, any>(
   (
     {
-      creditNote: {
+      giftCardData: {
         entry_code,
         remaining_amount,
         date_created,
         expiring_date,
         amount,
-        message
+        message,
+        currency
       },
       checkedIds,
       onCheck,
@@ -36,12 +35,22 @@ const CreditNoteCard = forwardRef<Props, any>(
     },
     ref
   ) => {
-    const { currency } = useSelector((state: AppState) => state);
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, "0");
     const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     const yyyy = today.getFullYear();
     const today_in_str = dd + "/" + mm + "/" + yyyy;
+
+    // useEffect(() => {
+    //   // Scroll to the first element whose has darkBorder class
+    //   const activeElement = document.getElementsByClassName(
+    //     styles.darkBorder
+    //   )[0] as HTMLDivElement;
+
+    //   if (activeElement && activeElement.scrollIntoView) {
+    //     activeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    //   }
+    // }, []);
 
     return (
       <>
@@ -81,8 +90,8 @@ const CreditNoteCard = forwardRef<Props, any>(
                     // Hit Remove credit_note event on click of Apply CTA
                     if (userConsent.includes(GA_CALLS)) {
                       dataLayer.push({
-                        event: "remove_credit_note",
-                        CN_amount: amount,
+                        event: "remove_gift_card",
+                        GC_amount: amount,
                         date_of_issue: date_created,
                         date_of_redemption: today_in_str,
                         date_of_expiry: expiring_date
@@ -92,8 +101,8 @@ const CreditNoteCard = forwardRef<Props, any>(
                     // Hit Apply credit_note event on click of Remove CTA
                     if (userConsent.includes(GA_CALLS)) {
                       dataLayer.push({
-                        event: "apply_credit_note",
-                        CN_amount: amount,
+                        event: "apply_gift_card",
+                        GC_amount: amount,
                         date_of_issue: date_created,
                         date_of_redemption: today_in_str,
                         date_of_expiry: expiring_date
@@ -138,4 +147,4 @@ const CreditNoteCard = forwardRef<Props, any>(
     );
   }
 );
-export default CreditNoteCard;
+export default GiftCardCard;

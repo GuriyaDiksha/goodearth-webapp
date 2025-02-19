@@ -92,6 +92,7 @@ export type BalanceProps = {
   remainingAmount: string;
   code: string;
   expiryDate: string;
+  createdDate: string;
 };
 
 export interface GiftListProps extends BalanceProps {

@@ -1,28 +1,30 @@
 import React, { Fragment, useRef, useState } from "react";
 import cs from "classnames";
 import globalStyles from "styles/global.scss";
-import bootstrapStyles from "../../../../styles/bootstrap/bootstrap-grid.scss";
+import bootstrapStyles from "../../../styles/bootstrap/bootstrap-grid.scss";
 import styles from "../styles.scss";
+import style from "./index.scss";
 import { GiftState } from "./typings";
-import GiftCardItem from "../Balance/giftDetail";
+import GiftCardItem from "containers/myAccount/components/Balance/giftDetail";
+// import GiftCardItem from "containers/checkout/component/giftDetails";
 import { AppState } from "reducers/typings";
 import FormInput from "components/Formsy/FormInput";
 import Formsy from "formsy-react";
 import OtpCompActivateGC from "components/OtpComponent/OtpCompActivateGC";
 import Loader from "components/Loader";
-import { Link } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
 import { useSelector, useDispatch } from "react-redux";
 import AccountServices from "services/account";
 import { showGrowlMessage, errorTracking, getErrorList } from "utils/validate";
 import Button from "components/Button";
-import { censorEmail } from "utils/utility";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
+import { censorEmail } from "utils/utility";
 
 const Giftcard: React.FC = () => {
   const {
     user,
+    currency,
     device: { mobile }
   } = useSelector((state: AppState) => state);
   const [giftCardState, setGiftCardState] = useState<GiftState>({
@@ -43,8 +45,7 @@ const Giftcard: React.FC = () => {
     showSendOtp: false,
     isIndiaGC: false,
     isProceedBtnDisabled: true,
-    isLoading: false,
-    activatedGcMsg: ""
+    isLoading: false
   });
   const [isGCVerificationDisabled, setIsGCVerificationDisabled] = useState(
     false
@@ -115,14 +116,12 @@ const Giftcard: React.FC = () => {
         ...giftCardState,
         giftList: giftList,
         newCardBox: false,
-        isSuccess: true,
-        activatedGcMsg:
-          "This Gift Card has been successfully activated and is now linked to the email address provided in your profile. Gift cards are not transferable."
+        isSuccess: true
         // txtvalue: ""
       });
       //Show  Growl Messsage
-      const msg = "Success. Gift Card Activated!";
-      showGrowlMessage(dispatch, msg, 7000);
+      //   const msg = "Success. Gift Card Activated!";
+      //   showGrowlMessage(dispatch, msg, 7000);
       window.scrollTo(0, 0);
     }
   };
@@ -141,12 +140,6 @@ const Giftcard: React.FC = () => {
       showSendOtp: false
     });
     // this.props.history.push(this.props.history.location.pathname, {});
-    const userConsent = CookieService.getCookie("consent").split(",");
-    if (userConsent.includes(GA_CALLS)) {
-      dataLayer.push({
-        event: "activate_another_giftcard"
-      });
-    }
   };
   const onClose = (code: string) => {
     let { giftList } = giftCardState;
@@ -303,7 +296,7 @@ const Giftcard: React.FC = () => {
       });
   };
 
-  const changeGiftCardCode = () => {
+  const changeGiftCardCode = (gc_code: string) => {
     setIsGCVerificationDisabled(true);
     setGiftCardState({
       ...giftCardState,
@@ -312,12 +305,12 @@ const Giftcard: React.FC = () => {
     });
     const elem = document.getElementById("gift");
     elem && elem.focus();
+    // apply analytic events on change gc text
     const userConsent = CookieService.getCookie("consent").split(",");
-    const giftCardCode: string = giftCardState?.txtvalue || "";
     if (userConsent.includes(GA_CALLS)) {
       dataLayer.push({
         event: "change_gift_code",
-        gift_card_code: giftCardCode
+        gift_card_code: gc_code
       });
     }
   };
@@ -348,8 +341,7 @@ const Giftcard: React.FC = () => {
     giftList,
     disable,
     toggleResetOtpComponent,
-    isIndiaGC,
-    activatedGcMsg
+    isIndiaGC
   } = giftCardState;
 
   return (
@@ -399,7 +391,7 @@ const Giftcard: React.FC = () => {
                       required
                     />
                   </div>
-                  <div className={styles.gcWrp}>
+                  <div className={style.gcWrp}>
                     <FormInput
                       name="giftCardCode"
                       type="text"
@@ -419,8 +411,8 @@ const Giftcard: React.FC = () => {
                     />
                     {showSendOtp && (
                       <p
-                        className={styles.loginChange}
-                        onClick={changeGiftCardCode}
+                        className={style.loginChange}
+                        onClick={() => changeGiftCardCode(txtvalue)}
                       >
                         Change
                       </p>
@@ -455,9 +447,9 @@ const Giftcard: React.FC = () => {
           isIndiaGC={isIndiaGC}
           toggleOtp={toggleOtp}
           otpFor="activateGC"
-          email={isLoggedIn ? user.email : ""}
-          phoneNo={isLoggedIn ? user.phoneNumber : ""}
-          code={isLoggedIn ? user.phoneCountryCode : ""}
+          email={isLoggedIn ? user?.email : ""}
+          phoneNo={isLoggedIn ? user?.phoneNumber : ""}
+          code={isLoggedIn ? user?.phoneCountryCode : ""}
           // validateInputs={this.ActivateGCForm.current ? this.ActivateGCForm.current.submit : () => null}
           // validateInputs={this.scrollToErrors}
           validateEmptyInputs={validateEmptyInputs}
@@ -470,7 +462,6 @@ const Giftcard: React.FC = () => {
           newGiftCard={newGiftcard}
           mobile={mobile}
           isLoggedIn={user?.isLoggedIn}
-          activatedGcMsg={activatedGcMsg}
         />
       )}
       <div className={cs(bootstrapStyles.row, styles.giftDisplay)}>
@@ -483,23 +474,19 @@ const Giftcard: React.FC = () => {
               onClose={onClose}
               key={i}
               conditionalRefresh={conditionalRefresh}
+              gc_code={txtvalue}
             />
+            // <GiftCardItem
+            //   isLoggedIn={isLoggedIn}
+            //   {...data}
+            //   onClose={onClose}
+            //   currency={currency}
+            //   type="crd"
+            //   currStatus={"success"}
+            //   key={data?.code}
+            // />
           );
         })}
-        <div className={cs(styles.loginForm, bootstrapStyles.col12)}>
-          {!newCardBox && (
-            <div
-              className={cs(
-                styles.rtcinfo,
-                globalStyles.pointer,
-                styles.charcoalBtn
-              )}
-              onClick={newGiftcard}
-            >
-              ACTIVATE ANOTHER GIFT CARD
-            </div>
-          )}
-        </div>
       </div>
     </Fragment>
   );

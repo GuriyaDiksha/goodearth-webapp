@@ -1,3 +1,5 @@
+import { Currency } from "typings/currency";
+
 export type PasswordProps = {
   setCurrentSection: () => void;
 };
@@ -19,9 +21,27 @@ export type BalanceProps = {
   code: string;
 };
 
+// export type BalanceProps = {
+//   cardId: string;
+//   cardType: string;
+//   appliedAmount: string;
+//   cardValue: string;
+//   remainingAmount: string;
+//   code: string;
+//   expiryDate: string;
+// };
+
 export interface GiftListProps extends BalanceProps {
   onClose: (data: string) => void;
 }
+
+// export interface GiftListProps extends BalanceProps {
+//   onClose: (data: string, type: string) => void;
+//   currStatus: string;
+//   currency: Currency;
+//   type?: string;
+//   isLoggedIn: boolean;
+// }
 
 export type GiftState = {
   toggleResetOtpComponent: boolean;
@@ -42,5 +62,4 @@ export type GiftState = {
   isIndiaGC: boolean;
   isProceedBtnDisabled: boolean;
   isLoading: boolean;
-  activatedGcMsg: string;
 };
