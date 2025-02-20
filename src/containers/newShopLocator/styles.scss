@@ -88,19 +88,19 @@ $banner-mobile-height:500px;
             &.left-fade,
             &.right-fade {
                 mask-image: linear-gradient(to right,
-                transparent 0, black 200px, black calc(100% - 200px), transparent 100%);
+                transparent 0, black 100px, black calc(100% - 100px), transparent 100%);
                 -webkit-mask-image: linear-gradient(to right,
-                transparent 0, black 200px, black calc(100% - 200px), transparent 100%);
+                transparent 0, black 100px, black calc(100% - 100px), transparent 100%);
             }
             
             &.left-fade:not(.right-fade) {
-                mask-image: linear-gradient(to right, transparent 0, black 200px, black 100%);
-                -webkit-mask-image: linear-gradient(to right, transparent 0, black 200px, black 100%);
+                mask-image: linear-gradient(to right, transparent 0, black 100px, black 100%);
+                -webkit-mask-image: linear-gradient(to right, transparent 0, black 100px, black 100%);
             }
             
            &.right-fade:not(.left-fade) {
-                mask-image: linear-gradient(to right, black 0%, black calc(100% - 200px), transparent 100%);
-                -webkit-mask-image: linear-gradient(to right, black 0%, black calc(100% - 200px), transparent 100%);
+                mask-image: linear-gradient(to right, black 0%, black calc(100% - 100px), transparent 100%);
+                -webkit-mask-image: linear-gradient(to right, black 0%, black calc(100% - 100px), transparent 100%);
             }
             
             .slider {
