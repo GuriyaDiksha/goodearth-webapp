@@ -145,9 +145,10 @@ class Header extends React.Component<Props, State> {
 
   componentDidMount() {
     const { user } = this.props;
+    const userId = CookieService.getCookie("userId");
     const updateProfilePhoneNo = user.phoneNumber
       ? user.phoneNumber
-      : CookieService.getCookie("updateProfilePhoneNo");
+      : CookieService.getCookie(`upp_${userId}`);
     const isBridalPublicPage =
       this.props.location.pathname.includes("/registry/") &&
       !this.props.location.pathname.includes("/account/");
