@@ -1808,9 +1808,7 @@ class PDPContainer extends React.Component<Props, State> {
           />
         )}
         {this.state.showLooks && this.getLooksSection()}
-        <div className={bootstrap.row}>
-          {!this.state.showLooks && this.getPairItWithSection()}
-        </div>
+        <div className={bootstrap.row}>{this.getPairItWithSection()}</div>
         <div className={cs(bootstrap.row)}>{this.getRecommendedSection()}</div>
         <div className={cs(bootstrap.row)}>
           {!this.state?.showLooks && this.getMoreCollectionProductsSection()}

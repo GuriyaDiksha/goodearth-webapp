@@ -26,7 +26,7 @@ $pdp-top: $header-height;
 }
 
 .pdp-container-timer {
-    margin-top: $header-height + $timer-height;
+    margin-top: $header-height + $timer-height - 5px;
     &:not(.mobile) {
         margin-top: $pdp-top + $timer-height;
     }
