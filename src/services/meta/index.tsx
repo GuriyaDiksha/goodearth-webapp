@@ -62,9 +62,11 @@ export default {
       user.isLoggedIn = true;
       user.shippingData = meta.shippingData;
       user.customerGroup = meta.customerGroup;
+
+      const userId = CookieService.getCookie("userId");
       const updateProfilePhoneNo = user.phoneNumber
         ? user.phoneNumber
-        : CookieService.getCookie("updateProfilePhoneNo");
+        : CookieService.getCookie(`upp_${userId}`);
       if (
         (typeof document != "undefined" &&
           user.email &&
