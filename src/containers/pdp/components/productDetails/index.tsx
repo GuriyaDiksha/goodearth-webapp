@@ -19,6 +19,7 @@ import PdpButton from "components/Button/pdpButton";
 import Share from "components/Share";
 // import Accordion from "components/Accordion";
 import WishlistButtonpdp from "components/WishlistButton/wishlistButtonpdp";
+import WishlistButton from "components/WishlistButton";
 
 import ColorSelector from "components/ColorSelector";
 import ReactHtmlParser from "react-html-parser";
@@ -852,6 +853,72 @@ const ProductDetails: React.FC<Props> = ({
     }
   });
 
+  const fillernotifyMeClick = () => {
+    const {
+      childAttributes,
+      categories,
+      collection,
+      priceRecords,
+      title,
+      discount,
+      badgeType,
+      discountedPriceRecords,
+      collections
+    } = fillerProduct;
+
+    let selectedIndex = undefined;
+
+    childAttributes.map((v: { id: number | undefined }, i: any) => {
+      if (v.id === selectedSize?.id) {
+        selectedIndex = i;
+      }
+    });
+    const index = categories.length - 1;
+    let category = categories[index]
+      ? categories[index].replace(/\s/g, "")
+      : "";
+    category = category.replace(/>/g, "/");
+
+    closeZoomModal();
+    updateComponentModal(
+      POPUP.NOTIFYMEPOPUP,
+      {
+        collection: collection,
+        category: category,
+        price: fillerProduct.priceRecords[currency],
+        currency: currency,
+        childAttributes: childAttributes,
+        title: title,
+        discount: discount,
+        badgeType: badgeType,
+        selectedIndex: selectedIndex,
+        discountedPrice: discountPrices,
+        list: "pdp",
+        sliderImages: fillerProduct.plpSliderImages,
+        collections: collections,
+        badge_text: fillerProduct?.badge_text
+      },
+      false
+      // ModalStyles.bottomAlign
+    );
+    changeModalState(true);
+  };
+
+  // Ensure that fillerProduct and childAttributes are properly defined
+
+  let fillerOutOfStock = true;
+  fillerProduct?.childAttributes?.forEach(({ stock }: { stock: number }) => {
+    if (stock > 0) {
+      fillerOutOfStock = false;
+    }
+  });
+  // let fillerOutOfStock = true;
+  // fillerProduct.childAttributes.forEach(({ stock }) => {
+  //   if (stock > 0) {
+  //     allOutOfStock = false;
+  //   }
+  // });
+
   const sizeSelectClick = () => {
     // setSizeerror(true);
     closeZoomModal();
@@ -900,11 +967,14 @@ const ProductDetails: React.FC<Props> = ({
       buttonText1 = "Enquire Now";
       action = apiTrigger || loading ? () => null : onEnquireClick;
       // setSizeerror(false);
-    } else if (allOutOfStock || (selectedSize && selectedSize.stock == 0)) {
+    } else if (
+      fillerOutOfStock ||
+      (fillerProduct && fillerProduct.childAttributes.stock == 0)
+    ) {
       buttonText1 = "Notify Me";
-      action = apiTrigger || loading ? () => null : notifyMeClick;
+      action = apiTrigger || loading ? () => null : fillernotifyMeClick;
       // setSizeerror(false);
-    } else if (!selectedSize && childAttributes.length > 1) {
+    } else if (!fillerProduct && fillerProduct.childAttributes.length > 1) {
       buttonText1 = "Select Size";
       action = apiTrigger || loading ? () => null : sizeSelectClick;
     } else {
@@ -920,6 +990,7 @@ const ProductDetails: React.FC<Props> = ({
       <PdpButton
         label={buttonText1}
         onClick={action}
+        className={styles.fillerAddToBag}
         variant={
           buttonText1 == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta366"
         }
@@ -931,6 +1002,7 @@ const ProductDetails: React.FC<Props> = ({
           <PdpButton
             label={buttonText1}
             onClick={action}
+            className={styles.fillerAddToBag}
             variant={
               buttonText1 == "Notify Me"
                 ? "mediumLightGreyCta"
@@ -945,6 +1017,7 @@ const ProductDetails: React.FC<Props> = ({
       <PdpButton
         label={buttonText1}
         onClick={action}
+        className={styles.fillerAddToBag}
         variant={
           buttonText1 == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta366"
         }
@@ -1611,7 +1684,9 @@ const ProductDetails: React.FC<Props> = ({
             ) : (
               " "
             )}
-            {fillerProduct && !isQuickview ? (
+            {fillerProduct &&
+            fillerProduct.discountedPriceRecords[currency] > 0 &&
+            !isQuickview ? (
               <div
                 className={cs(
                   bootstrap.col12,
@@ -1897,49 +1972,56 @@ const ProductDetails: React.FC<Props> = ({
 
                 {/* this is the filler product section */}
 
-                {fillerProduct && (
-                  <div
-                    ref={fillerSectionRef}
-                    className={styles.outerFillerContainer}
-                  >
-                    <h3 className={styles.fillerHeading}>ADD CUSHION FILLER</h3>
-                    <div className={styles.fillerContainer}>
-                      {/* this is for image */}
-                      <div className={styles.imageContainer}>
-                        {fillerProduct.title && (
-                          <img
-                            className={styles.fillerImage}
-                            src={fillerProduct.plpSliderImages[0]}
-                            alt={fillerProduct.title}
-                          />
-                        )}
-
-                        <div
-                          id="docked_div"
-                          className={cs(
-                            styles.imageContainerIcon,
-
-                            {
-                              [styles.spacerQuickview]: isQuickview && withBadge
-                            }
+                {fillerProduct &&
+                  fillerProduct.discountedPriceRecords[currency] > 0 && (
+                    <div
+                      ref={fillerSectionRef}
+                      className={styles.outerFillerContainer}
+                    >
+                      <h3 className={styles.fillerHeading}>
+                        ADD CUSHION FILLER
+                      </h3>
+                      <div className={styles.fillerContainer}>
+                        {/* this is for image */}
+                        <div className={styles.imageContainer}>
+                          {fillerProduct.title && (
+                            <Link to={fillerProduct.url}>
+                              <img
+                                className={styles.fillerImage}
+                                src={fillerProduct.plpSliderImages[0]}
+                                alt={fillerProduct.title}
+                              />
+                            </Link>
                           )}
-                        >
+
                           <div
+                            id="docked_div"
                             className={cs(
-                              bootstrap.col4,
-                              globalStyles.textCenter,
+                              styles.imageContainerIcon,
+
                               {
-                                [styles.wishlistText]: !mobile,
-                                [styles.wishlistBtnContainer]: mobile,
-                                [globalStyles.voffset1]: mobile,
-                                [bootstrap.colSm2]: !mobile,
-                                [globalStyles.hidden]:
-                                  partner == "Souk" || partner == "Object D Art"
-                                // [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
+                                [styles.spacerQuickview]:
+                                  isQuickview && withBadge
                               }
                             )}
                           >
-                            <WishlistButtonpdp
+                            <div
+                              className={cs(
+                                bootstrap.col4,
+                                globalStyles.textCenter,
+                                {
+                                  [styles.wishlistText]: !mobile,
+                                  [styles.wishlistBtnContainer]: mobile,
+                                  [globalStyles.voffset1]: mobile,
+                                  [bootstrap.colSm2]: !mobile,
+                                  [globalStyles.hidden]:
+                                    partner == "Souk" ||
+                                    partner == "Object D Art"
+                                  // [globalStyles.hidden]: corporatePDP || !showAddToBagMobile
+                                }
+                              )}
+                            >
+                              {/* <WishlistButtonpdp
                               gtmListType={"pdp"}
                               title={fillerProduct.title}
                               parentWidth={true}
@@ -1965,168 +2047,187 @@ const ProductDetails: React.FC<Props> = ({
                                   ? createWishlistPopupMobile
                                   : createWishlistPopup
                               }
-                            />
+                            /> */}
+                              <WishlistButton
+                                gtmListType="Search"
+                                title={fillerProduct.title}
+                                childAttributes={fillerProduct.childAttributes}
+                                priceRecords={fillerProduct.priceRecords}
+                                discountedPriceRecords={
+                                  fillerProduct.discountedPriceRecords
+                                }
+                                categories={fillerProduct.categories}
+                                id={fillerProduct.id}
+                                showText={false}
+                                key={fillerProduct.id}
+                                mobile={mobile}
+                                isPlpTile={true}
+                                badgeType={fillerProduct?.badgeType}
+                              />
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* this is for name or title */}
-                      <div className={styles.fillerDetailContainer}>
-                        <div className={styles.fillerTitle}>
-                          {fillerProduct.title}
-                        </div>
-                        <div>
-                          {/* This is for price section  */}
-                          <div className={styles.fillerPrice}>
-                            {currency === "INR" && (
-                              <span
-                                className={cs(styles.fillerMrp, {
-                                  [globalStyles.gold]:
-                                    badgeType == "b_flat" ||
-                                    (info.isSale &&
-                                      discount &&
-                                      discountedPriceRecords)
-                                })}
-                              >
-                                MRP.
-                              </span>
-                            )}
+                        {/* this is for name or title */}
+                        <div className={styles.fillerDetailContainer}>
+                          <div className={styles.fillerTitle}>
+                            <Link to={fillerProduct.url}>
+                              {fillerProduct.title}
+                            </Link>
+                          </div>
+                          <div>
+                            {/* This is for price section  */}
+                            <div className={styles.fillerPrice}>
+                              {currency === "INR" && (
+                                <span
+                                  className={cs(styles.fillerMrp, {
+                                    [styles.mrpSale]:
+                                      badgeType == "b_flat" ||
+                                      (info.isSale &&
+                                        fillerProduct.discount &&
+                                        fillerProduct.discountedPriceRecords)
+                                  })}
+                                >
+                                  MRP.
+                                </span>
+                              )}
 
-                            {info.isSale &&
-                            discount &&
-                            discountedPriceRecords ? (
-                              <span className={styles.discountedPrice}>
-                                {displayPriceWithCommas(
-                                  fillerProduct.discountedPriceRecords[
+                              {info.isSale &&
+                              fillerProduct.discount &&
+                              fillerProduct.discountedPriceRecords ? (
+                                <span className={styles.discountedPrice}>
+                                  {displayPriceWithCommas(
+                                    fillerProduct.discountedPriceRecords[
+                                      currency
+                                    ],
                                     currency
-                                  ],
-                                  currency
-                                )}
-                                <br />
-                              </span>
-                            ) : (
-                              ""
-                            )}
-                            {info.isSale && discount ? (
-                              <span className={styles.oldPrice}>
-                                {displayPriceWithCommas(
-                                  fillerProduct.priceRecords[currency],
-                                  currency
-                                )}
-                              </span>
-                            ) : (
-                              <span
-                                className={cs(styles.normalPrice, {
-                                  [globalStyles.gold]: badgeType == "B_flat",
-                                  [globalStyles.fontSize16]:
-                                    badgeType == "B_flat"
-                                })}
-                              >
-                                {" "}
-                                {displayPriceWithCommas(
-                                  fillerProduct.priceRecords[currency],
-                                  currency
-                                )}
-                              </span>
-                            )}
-                            {currency === "INR" && (
-                              <p className={styles.incTax}>
-                                (Incl. of all taxes)
-                              </p>
-                            )}
-                          </div>
+                                  )}
+                                </span>
+                              ) : (
+                                ""
+                              )}
+                              {info.isSale && fillerProduct.discount ? (
+                                <span className={styles.oldPrice}>
+                                  {displayPriceWithCommas(
+                                    fillerProduct.priceRecords[currency],
+                                    currency
+                                  )}
+                                </span>
+                              ) : (
+                                <span
+                                  className={cs(styles.normalPrice, {
+                                    [globalStyles.gold]: badgeType == "B_flat",
+                                    [globalStyles.fontSize16]:
+                                      badgeType == "B_flat"
+                                  })}
+                                >
+                                  {" "}
+                                  {displayPriceWithCommas(
+                                    fillerProduct.priceRecords[currency],
+                                    currency
+                                  )}
+                                </span>
+                              )}
+                              {currency === "INR" && (
+                                <p className={styles.incTax}>
+                                  (Incl. of all taxes)
+                                </p>
+                              )}
+                            </div>
 
-                          {/* this is for size*/}
+                            {/* this is for size*/}
 
-                          {showSize
-                            ? !(
-                                invisibleFields &&
-                                invisibleFields.indexOf("size") > -1
-                              ) && (
-                                <div style={{ width: "170px" }}>
-                                  <div
-                                    className={
-                                      mobile ? bootstrap.col12 : bootstrap.col10
-                                    }
-                                  >
-                                    <div className={bootstrap.row}>
-                                      <div>
-                                        <div
-                                          className={cs(
-                                            bootstrap.col12,
-                                            bootstrap.colSm2,
-                                            { [bootstrap.colMd2]: mobile },
-                                            styles.label,
-                                            styles.size,
-                                            { [styles.mobileMargin]: mobile }
-                                          )}
-                                        >
-                                          Size
+                            {showSize
+                              ? !(
+                                  invisibleFields &&
+                                  invisibleFields.indexOf("size") > -1
+                                ) && (
+                                  <div style={{ width: "170px" }}>
+                                    <div
+                                      className={
+                                        mobile
+                                          ? bootstrap.col12
+                                          : bootstrap.col10
+                                      }
+                                    >
+                                      <div className={bootstrap.row}>
+                                        <div>
+                                          <div
+                                            className={cs(
+                                              bootstrap.col12,
+                                              bootstrap.colSm2,
+                                              { [bootstrap.colMd2]: mobile },
+                                              styles.label,
+                                              styles.fillersize,
+                                              { [styles.mobileMargin]: mobile }
+                                            )}
+                                          >
+                                            Size:
+                                          </div>
                                         </div>
-                                      </div>
-                                      <div
-                                        className={styles.fillerSizeContainer}
-                                      >
-                                        <SizeSelector
-                                          containerClassName={
-                                            styles.fillerSizeContainer
-                                          }
-                                          isCorporatePDP={corporatePDP}
-                                          sizes={childAttributes}
-                                          onChange={onSizeSelect}
-                                          selected={
-                                            selectedSize
-                                              ? selectedSize.id
-                                              : undefined
-                                          }
-                                        />
+                                        <div
+                                          className={styles.fillerSizeContainer}
+                                        >
+                                          <SizeSelector
+                                            containerClassName={
+                                              styles.fillerSizeContainer
+                                            }
+                                            isCorporatePDP={corporatePDP}
+                                            sizes={childAttributes}
+                                            onChange={onSizeSelect}
+                                            selected={
+                                              selectedSize
+                                                ? selectedSize.id
+                                                : undefined
+                                            }
+                                          />
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              )
-                            : ""}
+                                )
+                              : ""}
 
-                          {/* this is for add to bag  button */}
+                            {/* this is for add to bag  button */}
 
-                          <div
-                            id="yourElement"
-                            className={cs(globalStyles.voffset1, {
-                              [bootstrap.col8]: !corporatePDP,
-                              [styles.addToBagBtnContainer]: mobile,
-                              [bootstrap.colSm10]: !mobile,
-                              [bootstrap.colSm12]: corporatePDP && mobile
-                            })}
-                          >
-                            {PdpFillerButton}
-                            {onload &&
-                              !info.isSale &&
-                              loyaltyDisabled &&
-                              isQuickview &&
-                              isCeriseUser &&
-                              currency === "INR" && (
-                                <p
-                                  className={cs(
-                                    styles.errorMsg,
-                                    styles.notEligible
-                                  )}
-                                >
-                                  This product is not eligible for cerise
-                                  points.
-                                </p>
-                              )}
+                            <div
+                              id="yourElement"
+                              className={cs(globalStyles.voffset1, {
+                                [bootstrap.col8]: !corporatePDP,
+                                [styles.addToBagBtnContainer]: mobile,
+                                [bootstrap.colSm10]: !mobile,
+                                [bootstrap.colSm12]: corporatePDP && mobile
+                              })}
+                            >
+                              {PdpFillerButton}
+                              {onload &&
+                                !info.isSale &&
+                                loyaltyDisabled &&
+                                isQuickview &&
+                                isCeriseUser &&
+                                currency === "INR" && (
+                                  <p
+                                    className={cs(
+                                      styles.errorMsg,
+                                      styles.notEligible
+                                    )}
+                                  >
+                                    This product is not eligible for cerise
+                                    points.
+                                  </p>
+                                )}
+                            </div>
                           </div>
-                        </div>
 
-                        <div className={styles.fillerLink}>
-                          <Link to="/catalogue/category/living/bed-bath_194/?source=plp&category_shop=Home+%3E+Home+Textiles+%3E+White+Essentials">
-                            VIEW ALL CUSHION FILLER
-                          </Link>
+                          <div className={styles.fillerLink}>
+                            <Link to="/catalogue/category/living/cushion-covers_47/?source=plp&category_shop=Home > Cushion Covers > Fillers">
+                              VIEW ALL CUSHION FILLER
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
                 {/* this is the filler product section */}
               </div>
