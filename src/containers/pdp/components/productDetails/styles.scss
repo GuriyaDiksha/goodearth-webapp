@@ -48,7 +48,20 @@
     font-size: 16px;
 }
 
+.filler-discounted-price {
+    color: $gold;
+    font-family: $font-Montserrat;
+    font-size: 14px;
+}
 .old-price {
+    font-size: 14px;
+    text-decoration: line-through;
+    color: #9f9f9f !important;
+    font-family: $font-Montserrat;
+    padding-left: 8px;
+}
+
+.filler-old-price {
     font-size: 12px;
     text-decoration: line-through;
     color: #191919 !important;
@@ -65,7 +78,11 @@ font-size: 12px;
 }
 
 .normal-price{
-    font-size: 14px;
+    font-size: 16px;
+}
+
+.filler-normal-price{
+    font-size: 14px;;
 }
 .inc-tax{
     font-family: $font-Montserrat;
@@ -198,9 +215,15 @@ font-size: 12px;
 }
 
 .filler-addToBag{
-    background-color: white;
-    border: 1px solid #3C7979;
-    color: #3C7979;
+    background-color:#7EAAA9; ;
+    color:white ;
+    &:hover{
+        background-color: white;
+        border: 1px solid #3C7979;
+        color: #3C7979;
+
+    }
+   
 }
 
 
@@ -219,14 +242,17 @@ font-size: 12px;
 }
 
 .filler-price{
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     margin-top: 6px;
     font-family: $font-Montserrat;
 }
 .filler-heading{
     margin-bottom: 16px;
+    font-size: 14px;
+    font-family: $font-Montserrat;
 }
+
 .filler-detail-container{
     margin-inline: 10px;
 }

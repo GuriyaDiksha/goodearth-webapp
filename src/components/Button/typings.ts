@@ -23,5 +23,7 @@ export type ButtonProps = {
     | "smallGoldCta"
     | "smallLightGreyCta"
     | "outlineSmallMedCharcoalCta"
+    | "filleraddtobag"
+    | "fillernotify"
     | "outlineExtraSmallAquaCta";
 };
