@@ -131,8 +131,7 @@ class PDPContainer extends React.Component<Props, State> {
     imageHover: false,
     showDock: false,
     selectedSize: null,
-    pdpButton: null,
-    slidesToShow: 3
+    pdpButton: null
   };
 
   myref: RefObject<any> = React.createRef();
@@ -145,16 +144,6 @@ class PDPContainer extends React.Component<Props, State> {
   listPath = "";
   imageIntervalID: null | number = null;
 
-  get settings(): Settings {
-    return {
-      dots: false,
-      infinite: false,
-      speed: 500,
-      slidesToShow: this.props.device.mobile ? 1.4 : 3,
-      slidesToScroll: 1,
-      arrows: true
-    };
-  }
   onImageClick = (index: number) => {
     const {
       updateComponentModal,
@@ -290,14 +279,6 @@ class PDPContainer extends React.Component<Props, State> {
       observer.observe(footerStart);
     }
   };
-  handleResize = throttle(() => {
-    if (typeof window !== "undefined") {
-      const slidesToShow = window.innerWidth <= 768 ? 1.4 : 3;
-      if (this.state.slidesToShow !== slidesToShow) {
-        this.setState({ slidesToShow });
-      }
-    }
-  }, 200);
 
   componentDidMount() {
     this.pdpURL = this.props.location.pathname;
@@ -321,10 +302,6 @@ class PDPContainer extends React.Component<Props, State> {
         "Page Name": "PdpView"
       });
     }
-    this.setState({
-      slidesToShow:
-        typeof window !== undefined && window.innerWidth <= 768 ? 1.3 : 3
-    });
 
     const { data, currency } = this.props;
 
@@ -478,13 +455,11 @@ class PDPContainer extends React.Component<Props, State> {
         // }
       }
     });
-    window.addEventListener("resize", this.handleResize);
   }
 
   componentWillUnmount() {
     this.onBeforeUnload();
     document.removeEventListener("scroll", this.onScroll);
-    window.removeEventListener("resize", this.handleResize);
     if (this.props.device.mobile) {
       const elem = document.getElementById("pincode-bar");
       const headerContainer = document.getElementById("header_container");
@@ -1217,6 +1192,16 @@ class PDPContainer extends React.Component<Props, State> {
     const filteredLooksProducts = this.props.data.looksProducts?.filter(
       item => item.priceRecords[currency] != 0
     );
+    const slidesCount = (): number =>
+      !mobile ? (data.lookImageType === "landscape" ? 2 : 3) : 1.4;
+    const configSetting = {
+      dots: false,
+      infinite: false,
+      speed: 500,
+      slidesToShow: slidesCount(),
+      slidesToScroll: 1,
+      arrows: true
+    };
 
     return data ? (
       <>
@@ -1266,11 +1251,21 @@ class PDPContainer extends React.Component<Props, State> {
           </div>
         )} */}
         <div className={cs(styles.shopTheLookContainer)}>
-          <h2 id="looks-section" className={styles.header}>
+          <h2
+            id="looks-section"
+            className={cs(styles.header, globalStyles.paddBottom20)}
+          >
             Shop The Look
           </h2>
           <div className={bootstrap.row}>
-            <div className={cs(bootstrap.colLg4, bootstrap.colSm5)}>
+            <div
+              className={cs(
+                bootstrap.colMd5,
+                data.lookImageType === "landscape"
+                  ? bootstrap.colLg6
+                  : bootstrap.colLg4
+              )}
+            >
               <div className={styles.looksMainImage}>
                 {/* <Link
                     to={data.url}
@@ -1278,7 +1273,9 @@ class PDPContainer extends React.Component<Props, State> {
                   > */}
                 <LazyImage
                   alt={data?.altText || data?.title}
-                  aspectRatio="62:93"
+                  aspectRatio={
+                    data.lookImageType === "landscape" ? "100:52" : "62:93"
+                  }
                   src={
                     data?.lookImageUrl ||
                     (data?.images?.[0]
@@ -1298,23 +1295,20 @@ class PDPContainer extends React.Component<Props, State> {
 
             <div
               className={cs(
-                bootstrap.colLg8,
-                bootstrap.colSm7,
+                bootstrap.colMd7,
+                data.lookImageType === "landscape"
+                  ? bootstrap.colLg6
+                  : bootstrap.colLg8,
+                "slider-container",
                 styles.looksContainer
               )}
             >
               {filteredLooksProducts && filteredLooksProducts.length > 2 ? (
-                <Slider {...this.settings}>
+                <Slider {...configSetting}>
                   {filteredLooksProducts &&
                     filteredLooksProducts.map((item, i) => {
                       return (
-                        <div
-                          key={i}
-                          className={cs(
-                            styles.looksItemContainer
-                            // bootstrap.colMd4
-                          )}
-                        >
+                        <div key={i} className={cs(styles.looksItemContainer)}>
                           <PDPLooksItem
                             page="ShopByLook"
                             position={i}

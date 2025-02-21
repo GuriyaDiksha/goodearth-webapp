@@ -1,4 +1,5 @@
 .sliderContainer {
+  padding-left: 13px;
   .slick-list {
     margin: 0 -5px;
   }

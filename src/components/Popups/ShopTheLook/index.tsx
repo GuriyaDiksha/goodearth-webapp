@@ -22,7 +22,7 @@ const settings = {
   dots: false,
   infinite: false,
   speed: 500,
-  slidesToShow: 2.3,
+  slidesToShow: 2.2,
   slidesToScroll: 1,
   arrows: false
 };
@@ -52,11 +52,11 @@ const ShopTheLookPopup: React.FC<PopupProps> = ({
           )}
         ></i>
       </div>
-      {data?.categories?.[0] === "Home" && (
+      {data?.lookImageType === "landscape" && (
         <div className={bootstrap.row}>
-          <div className={bootstrap.col12}>
+          <div className={cs(bootstrap.col12, styles.shopLandScape)}>
             <LazyImage
-              aspectRatio="100:59"
+              aspectRatio="100:52"
               alt={data?.altText}
               src={
                 data?.lookImageUrl ||

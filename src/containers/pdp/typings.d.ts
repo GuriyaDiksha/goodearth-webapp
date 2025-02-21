@@ -21,7 +21,6 @@ export type State = {
   showDock?: boolean;
   selectedSize?: ChildProductAttributes | null;
   pdpButton?: JSX.Element | null;
-  slidesToShow?: number;
 };
 export interface Settings {
   dots: boolean;
