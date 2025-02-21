@@ -86,6 +86,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import WishlistService from "services/wishlist";
 import { updateLoader } from "actions/info";
 import { useRef } from "react";
+import { childAttributes } from "containers/myAccount/components/Bridal/typings";
 
 const ProductDetails: React.FC<Props> = ({
   data: {
@@ -867,9 +868,8 @@ const ProductDetails: React.FC<Props> = ({
     } = fillerProduct;
 
     let selectedIndex = undefined;
-
-    childAttributes.map((v: { id: number | undefined }, i: any) => {
-      if (v.id === selectedSize?.id) {
+    childAttributes.map((v: childAttributes, i: number) => {
+      if (v.id === fillerProduct?.id) {
         selectedIndex = i;
       }
     });
@@ -990,10 +990,7 @@ const ProductDetails: React.FC<Props> = ({
       <PdpButton
         label={buttonText1}
         onClick={action}
-        className={styles.fillerAddToBag}
-        variant={
-          buttonText1 == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta366"
-        }
+        variant={buttonText1 == "Notify Me" ? "fillernotify" : "filleraddtobag"}
       />
     );
     if (setPDPButton) {
@@ -1002,11 +999,8 @@ const ProductDetails: React.FC<Props> = ({
           <PdpButton
             label={buttonText1}
             onClick={action}
-            className={styles.fillerAddToBag}
             variant={
-              buttonText1 == "Notify Me"
-                ? "mediumLightGreyCta"
-                : "mediumAquaCta366"
+              buttonText1 == "Notify Me" ? "fillernotify" : "filleraddtobag"
             }
           />
         )
@@ -1017,10 +1011,7 @@ const ProductDetails: React.FC<Props> = ({
       <PdpButton
         label={buttonText1}
         onClick={action}
-        className={styles.fillerAddToBag}
-        variant={
-          buttonText1 == "Notify Me" ? "mediumLightGreyCta" : "mediumAquaCta366"
-        }
+        variant={buttonText1 == "Notify Me" ? "fillernotify" : "filleraddtobag"}
       />
     );
   }, [
@@ -2095,7 +2086,7 @@ const ProductDetails: React.FC<Props> = ({
                               {info.isSale &&
                               fillerProduct.discount &&
                               fillerProduct.discountedPriceRecords ? (
-                                <span className={styles.discountedPrice}>
+                                <span className={styles.fillerDiscountedPrice}>
                                   {displayPriceWithCommas(
                                     fillerProduct.discountedPriceRecords[
                                       currency
@@ -2107,7 +2098,7 @@ const ProductDetails: React.FC<Props> = ({
                                 ""
                               )}
                               {info.isSale && fillerProduct.discount ? (
-                                <span className={styles.oldPrice}>
+                                <span className={styles.fillerOldPrice}>
                                   {displayPriceWithCommas(
                                     fillerProduct.priceRecords[currency],
                                     currency
@@ -2115,7 +2106,7 @@ const ProductDetails: React.FC<Props> = ({
                                 </span>
                               ) : (
                                 <span
-                                  className={cs(styles.normalPrice, {
+                                  className={cs(styles.fillerNormalPrice, {
                                     [globalStyles.gold]: badgeType == "B_flat",
                                     [globalStyles.fontSize16]:
                                       badgeType == "B_flat"
@@ -2193,8 +2184,8 @@ const ProductDetails: React.FC<Props> = ({
                             <div
                               id="yourElement"
                               className={cs(globalStyles.voffset1, {
-                                [bootstrap.col8]: !corporatePDP,
-                                [styles.addToBagBtnContainer]: mobile,
+                                // [bootstrap.col8]: !corporatePDP,
+                                // [styles.addToBagBtnContainer]: mobile,
                                 [bootstrap.colSm10]: !mobile,
                                 [bootstrap.colSm12]: corporatePDP && mobile
                               })}
