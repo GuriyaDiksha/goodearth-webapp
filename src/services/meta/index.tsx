@@ -67,7 +67,9 @@ export default {
 
       let upp;
       if (typeof document != "undefined") {
-        upp = CookieService.getCookie(`upp_${user.id}`);
+        upp = user.phoneNumber
+          ? user.phoneNumber
+          : CookieService.getCookie(`upp_${user.id}`);
       }
       if (
         typeof document != "undefined" &&
