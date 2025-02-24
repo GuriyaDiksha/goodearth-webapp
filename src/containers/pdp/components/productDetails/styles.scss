@@ -87,6 +87,16 @@ font-size: 12px;
 .inc-tax{
     font-family: $font-Montserrat;
     font-weight: $regular;
+    font-size: 9px;
+    line-height: 15px;
+    color: #191919;
+    text-transform: initial;
+}
+
+
+.filler-inc-tax{
+    font-family: $font-Montserrat;
+    font-weight: $regular;
     font-size: 8px;
     line-height: 10px;
     color: $charcoal19;
@@ -214,17 +224,17 @@ font-size: 12px;
     padding: 20px 0px;
 }
 
-.filler-addToBag{
-    background-color:#7EAAA9; ;
-    color:white ;
-    &:hover{
-        background-color: white;
-        border: 1px solid #3C7979;
-        color: #3C7979;
+// .filler-addToBag{
+//     background-color:#7EAAA9; ;
+//     color:white ;
+//     &:hover{
+//         background-color: white;
+//         border: 1px solid #3C7979;
+//         color: #3C7979;
 
-    }
+//     }
    
-}
+// }
 
 
 .filler-image {
