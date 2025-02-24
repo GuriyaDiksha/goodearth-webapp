@@ -52,6 +52,7 @@ export type otpProps = {
   mobile: boolean;
   countryCode?: string;
   isLoggedIn?: boolean;
+  activatedGcMsg?: string;
 };
 
 export type otpRedeemProps = {

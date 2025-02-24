@@ -8,6 +8,8 @@ import { useHistory } from "react-router-dom";
 import moment from "moment";
 import { LoyaltyPoints } from "reducers/loyalty/typings";
 import iconStyles from "../../styles/iconFonts.scss";
+import CookieService from "../../services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 type StateData = {
   user: {
@@ -32,6 +34,15 @@ const CeriseCardDetail: React.FC<Props> = ({
   }: StateData = useSelector((state: AppState) => state);
   const history = useHistory();
 
+  const handleClickGTM = (): void => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "view_dashboard"
+      });
+    }
+  };
+
   return (
     <div
       className={cs(styles.ceriseCardLeftWrp, styles.mobileWidth, {
@@ -52,6 +63,7 @@ const CeriseCardDetail: React.FC<Props> = ({
             onClick={e => {
               // e.stopPropagation();
               // onDropDownMenuClick();
+              handleClickGTM();
               history.push("/account/cerise");
               clickToggle && clickToggle();
             }}

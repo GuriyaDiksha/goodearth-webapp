@@ -245,7 +245,7 @@ a {
   text-align: left;
   // height: 15px;
   line-height: 15px;
-  margin-top: 6px;
+  margin-top: 6px!important;
   &.word-cap {
     text-transform: none;
   }
@@ -266,6 +266,9 @@ a {
   opacity: 1 !important;
 }
 
+.opacity-50 {
+  opacity: 0.5 !important;
+}
 
 .hidden {
   display: none;
@@ -367,6 +370,9 @@ font-weight: bold;
 
 .pointer {
   cursor: pointer;
+}
+.cursor-not-allowed{
+  cursor: not-allowed !important;
 }
 
 .line-ht10 {

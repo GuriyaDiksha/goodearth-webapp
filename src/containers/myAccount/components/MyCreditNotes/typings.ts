@@ -15,6 +15,37 @@ export type CreditNote = {
   is_expired: boolean;
   type?: string;
   message?: string;
+  currency: string;
+};
+
+export type GiftCardResponse = {
+  count: number;
+  next: null;
+  previous: null;
+  results: GiftCard[];
+};
+
+export type GiftCard = {
+  date_created: string;
+  entry_code: string;
+  remaining_amount: number;
+  amount: number;
+  applied_amount: number;
+  expiring_date: string;
+  is_expired: boolean;
+  type?: string;
+  message?: string;
+  currency: string;
+};
+
+export type GC_CN_AmountResponse = {
+  hasGC: boolean;
+  availableGCamount: string;
+  availableCNamount: string;
+};
+
+export type GCCNData = {
+  GCCNData: GC_CN_AmountResponse;
 };
 
 export type HeaderData = Array<{

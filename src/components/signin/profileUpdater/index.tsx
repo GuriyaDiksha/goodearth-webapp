@@ -25,6 +25,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import ModalStyles from "components/Modal/styles.scss";
 import SelectDropdown from "components/Formsy/SelectDropdown";
+import CookieService from "services/cookie";
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -322,6 +323,7 @@ class ProfileUpdater extends React.Component<Props, State> {
           localStorage.removeItem("isShareLinkClicked");
         }
         window.scrollTo(0, 0);
+        this.setUpdateProfilePhoneNo();
       })
       .catch(error => {
         const data = error.response?.data;
@@ -458,8 +460,14 @@ class ProfileUpdater extends React.Component<Props, State> {
       });
   };
 
+  setUpdateProfilePhoneNo = () => {
+    const userId = CookieService.getCookie("userId");
+    CookieService.setCookie(`upp_${userId}`, "0123456789", 365);
+  };
+
   render() {
     const {
+      emailId,
       firstName,
       lastName,
       subscribe,
@@ -713,7 +721,14 @@ class ProfileUpdater extends React.Component<Props, State> {
       </Formsy>
     );
     return (
-      <Popup disableClose={true}>
+      <Popup
+        disableClose={
+          emailId && firstName && lastName && gender && country && !phoneNumber
+            ? false
+            : true
+        }
+        setUpdateProfilePhoneNo={this.setUpdateProfilePhoneNo}
+      >
         {/* {this.state.successMsg ? (
           <div className={cs(bootstrapStyles.col10, bootstrapStyles.offset1)}>
             <div className={globalStyles.successMsg}>

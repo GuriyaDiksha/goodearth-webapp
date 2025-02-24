@@ -14,8 +14,13 @@ import BasketService from "services/basket";
 import { useHistory } from "react-router";
 import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
 import { CreditNote } from "containers/myAccount/components/MyCreditNotes/typings";
+import { displayPriceWithSeparation } from "utils/utility";
 
-const ApplyCreditNote = () => {
+type Props = {
+  amountCN: any;
+};
+
+const ApplyCreditNote: React.FC<Props> = ({ amountCN }) => {
   const [isactivecreditnote, setIsactivecreditnote] = useState(false);
   const [creditnoteList, setCreditnoteList] = useState<CreditNote[]>([]);
   const {
@@ -30,20 +35,20 @@ const ApplyCreditNote = () => {
     return giftCards?.filter(ele => ele.cardType === "CREDITNOTE");
   }, [giftCards]);
 
-  const fetchCreditNotes = () => {
-    AccountService.fetchCreditNotes(dispatch, "expiring_date", "asc", 1, true)
-      .then(response => {
-        const { results } = response;
-        setCreditnoteList(results.filter(ele => ele?.type !== "GC"));
-      })
-      .catch(e => {
-        console.log("fetch credit notes API failed =====", e);
-      });
-  };
+  // const fetchCreditNotes = () => {
+  //   AccountService.fetchCreditNotes(dispatch, "expiring_date", "asc", 1, true)
+  //     .then(response => {
+  //       const { results } = response;
+  //       setCreditnoteList(results.filter(ele => ele?.type !== "GC"));
+  //     })
+  //     .catch(e => {
+  //       console.log("fetch credit notes API failed =====", e);
+  //     });
+  // };
 
-  useEffect(() => {
-    fetchCreditNotes();
-  }, []);
+  // useEffect(() => {
+  //   fetchCreditNotes();
+  // }, []);
 
   useEffect(() => {
     setIsactivecreditnote(!!creditNotes?.length);
@@ -108,12 +113,16 @@ const ApplyCreditNote = () => {
     }
   };
 
-  if (creditnoteList?.length === 0) {
-    return null;
-  }
+  // if (creditnoteList?.length === 0) {
+  //   return null;
+  // }
 
   return (
-    <div className={globalStyles.marginT20}>
+    <div
+      className={cs(globalStyles.marginT20, {
+        [styles.disableSate]: amountCN <= 0
+      })}
+    >
       <div
         className={cs(
           bootstrapStyles.colMd6,
@@ -124,7 +133,8 @@ const ApplyCreditNote = () => {
         <CheckboxWithLabel
           id="applyCN"
           checked={isactivecreditnote}
-          onChange={onCreditNoteToggle}
+          className={amountCN <= 0 ? styles.disabledLabel : ""}
+          onChange={amountCN > 0 ? onCreditNoteToggle : () => null}
           label={[
             <label
               key="applyCN"
@@ -141,10 +151,25 @@ const ApplyCreditNote = () => {
             className={styles.edit}
             onClick={e => onCreditNoteToggle(e, true)}
           >
-            EDIT
+            Apply more
           </div>
         )}
       </div>
+
+      {!isactivecreditnote && (
+        <div className={styles.gcMsg}>
+          {amountCN > 0 ? (
+            <p
+              className={styles.aquaText}
+            >{`Credit Note(s) worth ${displayPriceWithSeparation(
+              amountCN,
+              currency
+            )} available`}</p>
+          ) : (
+            <p className={styles.greyText}>No Credit Note balance available</p>
+          )}
+        </div>
+      )}
 
       <div>
         {isactivecreditnote &&

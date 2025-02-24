@@ -13,6 +13,7 @@ import { errorTracking, decriptdata } from "utils/validate";
 import CustomerCareInfo from "components/CustomerCareInfo";
 import NewOtpComponent from "./NewOtpComponent";
 import Button from "components/Button";
+import { censorEmail, censorPhoneNumber } from "utils/utility";
 class OtpComponent extends React.Component<otpProps, otpState> {
   constructor(props: otpProps) {
     super(props);
@@ -36,7 +37,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       },
       startTimer: true,
       isDisabled: false,
-      attempt_count: 0
+      attempt_count: 0,
+      emailInput: "",
+      phoneInput: ""
     };
   }
   // timerId: any = 0;
@@ -262,11 +265,15 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   };
 
   checkOtpValidation = (value: any) => {
-    const { otpData } = this.state;
+    const { otpData, emailInput, phoneInput } = this.state;
     const newData = Object.assign({}, otpData);
     newData["otp"] = value;
     delete newData["inputType"];
     this.setState({ otp: value, showerror: "" });
+
+    !this.props.isCredit &&
+      (emailInput && (newData["email"] = emailInput),
+      phoneInput && (newData["phoneNo"] = phoneInput));
 
     if (this.props.otpFor == "activateGC") {
       this.props.activateGiftCard &&
@@ -483,6 +490,25 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   };
 
   sendOtpApiCall = (formData: any) => {
+    // snipet code only for giftcard
+    if (!this.props.isCredit && !this.props.txtvalue) {
+      this.props.updateError(
+        `Please enter a valid ${
+          this.props.isCredit ? "Credit Note" : "Gift Card"
+        } code`
+      );
+      errorTracking(
+        [
+          `Please enter a valid ${
+            this.props.isCredit ? "Credit Note" : "Gift Card"
+          } code`
+        ],
+        location.href
+      );
+      return false;
+    }
+    // end snipet code only for giftcard
+
     this.setState({
       disable: true,
       showerror: ""
@@ -500,6 +526,14 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             ["attempts"]: data?.attempt_count || 0
           }
         });
+
+        !this.props.isCredit &&
+          this.setState({
+            // otpData: data,
+            emailInput: data.email && data.email,
+            phoneInput: data.phoneNo && data.phoneNo
+          });
+
         if (
           data.inputType == "GIFT" &&
           (data.currStatus == "Invalid-CN" ||
@@ -559,6 +593,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         if (!status) {
           if (
             currStatus == "Invalid-CN" ||
+            currStatus == "Invalid-GC" ||
             INVALID_MSG.includes(currStatus) ||
             currStatus.includes("incorrect")
           ) {
@@ -575,14 +610,22 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               this.props.updateError(message);
               errorTracking([message], location.href);
             }
-          } else if (currStatus == "Active" || currStatus == "Expired") {
-            if (message.includes("Maximum attempts reached")) {
+          } else if (
+            currStatus == "Active" ||
+            currStatus == "Expired" ||
+            currStatus.includes("remaining value of the gift card is zero")
+          ) {
+            if (
+              message.includes("Maximum attempts reached") ||
+              message.includes("exceeded the maximum no. of attempts")
+            ) {
               this.setState({ showerrorOtp: message });
             } else {
               this.props.updateError(message);
             }
-
             errorTracking([message], location.href);
+          } else if (currStatus == "Not Activated") {
+            this.props.updateError("Gift Card is currently Inactive.");
           } else if (email) {
             this.RegisterFormRef1.current?.updateInputsWithError({ email });
             const elem: any = document.getElementById("creditNoteEmail");
@@ -686,22 +729,46 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               : "GIFT CARD CODE"}
           </p>
           <p>{this.props.txtvalue}</p>
-          {radioType == "email" ? (
-            <p className={globalStyles.voffset2}>
-              <strong className={cs(globalStyles.op2, globalStyles.bold)}>
-                {" "}
-                OTP SENT TO EMAIL ADDRESS:
-              </strong>{" "}
-              <br />
-              <p className={styles.overflowEmail}>{otpData.email}</p>
-            </p>
+          {this.props.isCredit ? (
+            radioType == "email" ? (
+              <p className={globalStyles.voffset2}>
+                <strong className={cs(globalStyles.op2, globalStyles.bold)}>
+                  {" "}
+                  OTP SENT TO EMAIL ADDRESS:
+                </strong>{" "}
+                <br />
+                <p className={styles.overflowEmail}>{otpData.email}</p>
+              </p>
+            ) : (
+              <p className={globalStyles.voffset2}>
+                <strong className={cs(globalStyles.op2, globalStyles.bold)}>
+                  OTP SMS SENT TO MOBILE NUMBER:
+                </strong>{" "}
+                <br />
+                <p>{otpData.phoneNo}</p>
+              </p>
+            )
           ) : (
             <p className={globalStyles.voffset2}>
               <strong className={cs(globalStyles.op2, globalStyles.bold)}>
-                OTP SMS SENT TO MOBILE NUMBER:
+                {" "}
+                {this.state.emailInput && this.state.phoneInput
+                  ? "OTP SENT TO EMAIL ADDRESS & MOBILE NUMBER:"
+                  : this.state.emailInput
+                  ? "OTP SENT TO EMAIL ADDRESS:"
+                  : this.state.phoneInput
+                  ? "OTP SMS SENT TO MOBILE NUMBER"
+                  : ""}
               </strong>{" "}
               <br />
-              {otpData.phoneNo}
+              {this.state.emailInput && (
+                <p className={styles.overflowEmail}>
+                  {censorEmail(this.state.emailInput)}
+                </p>
+              )}
+              {this.state.phoneInput && (
+                <p>{censorPhoneNumber(this.state.phoneInput)}</p>
+              )}
             </p>
           )}
         </div>
@@ -713,7 +780,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           : true) && (
           <NewOtpComponent
             otpSentVia={`Email ID${
-              radioType == "number" ? " & Mobile No" : ""
+              radioType == "number" || this.state.phoneInput
+                ? " & Mobile No"
+                : ""
             }`}
             resendOtp={this.resendOtp}
             verifyOtp={this.checkOtpValidation}
@@ -905,165 +974,234 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             ) : (
               ""
             )}
-            <li>
-              <hr />
-            </li>
-            <li className={cs(globalStyles.textLeft, styles.otpText)}>
-              SEND{" "}
-              <span className={globalStyles.aqua}>
-                {" "}
-                ONE TIME PASSWORD (OTP){" "}
-              </span>
-              VIA:
-            </li>
-            <Formsy
-              ref={this.RegisterFormRef}
-              onChange={() => {
-                this.state.disable && this.setState({ disable: false });
-              }}
-              onValidSubmit={this.handleSubmit}
-              onInvalidSubmit={this.handleInvalidSubmit}
-            >
-              <li className={cs("aaa", styles.radiobtn1, styles.xradio)}>
-                <label className={styles.radio1}>
-                  <input
-                    type="radio"
-                    name={this.props.isCredit ? "cca" : "gca"}
-                    value="email"
-                    onClick={e => {
-                      this.onClickRadio(e);
-                    }}
-                    checked={this.state.radioType === "email"}
-                  />
-                  <span
-                    className={cs(
-                      globalStyles.radioIndicator,
-                      styles.checkmark,
-                      {
-                        [styles.top]: this.props.isCredit
-                      }
-                    )}
-                  ></span>
-                </label>
-                <FormInput
-                  name="email"
-                  placeholder={"Email*"}
-                  label={"Email*"}
-                  className={cs(styles.relative, styles.smallInput)}
-                  disable={this.props.isCredit}
-                  inputRef={this.emailInput}
-                  value={this.props.email ? this.props.email : ""}
-                  validations={
-                    radioType == "email"
-                      ? {
-                          isEmail: true,
-                          maxLength: 75
-                        }
-                      : {}
-                  }
-                  validationErrors={{
-                    isEmail: "Please enter a valid Email ID",
-                    maxLength:
-                      "You are allowed to enter upto 75 characters only"
-                  }}
-                  required={
-                    radioType != "email" || this.props.isCredit
-                      ? "isFalse"
-                      : true
-                  }
-                />
-              </li>
-              {!this.props.isFromCheckBalance && (
-                <li
-                  className={cs(
-                    styles.countryCode,
-                    // styles.countryCodeGc,
-                    styles.xradio
-                  )}
-                >
-                  <label className={styles.radio1}>
-                    <input
-                      type="radio"
-                      name={this.props.isCredit ? "cca" : "gca"}
-                      value="number"
-                      onClick={e => {
-                        this.onClickRadio(e);
-                      }}
-                    />
-                    <span className={styles.checkmark}></span>
-                  </label>
-                  <p className={cs(styles.msg, styles.wordCap)}>
-                    For Domestic (Pan-India) phone number only
-                  </p>
-                  <div className={styles.flex}>
-                    <div className={styles.contactCode}>
-                      <input
-                        type="text"
-                        value="+91"
-                        placeholder="Code"
-                        disabled={true}
-                        className={styles.codeInput}
-                      />
-                    </div>
-                    <div className={styles.contactNumber}>
-                      <FormInput
-                        name="phoneNo"
-                        value={this.props.phoneNo ? this.props.phoneNo : ""}
-                        inputRef={this.phoneInput}
-                        placeholder={"Contact Number"}
-                        type="number"
-                        label={"Contact Number"}
-                        validations={
-                          radioType == "number"
-                            ? {
-                                isLength: 10
-                              }
-                            : {}
-                        }
-                        validationErrors={{
-                          isLength: "Please enter a valid Contact Number"
-                        }}
-                        required={radioType != "number" ? "isFalse" : true}
-                        keyDown={e =>
-                          e.which === 69 ? e.preventDefault() : null
-                        }
-                        onPaste={e =>
-                          e?.clipboardData.getData("Text").match(/([e|E])/)
-                            ? e.preventDefault()
-                            : null
-                        }
-                      />
-                    </div>
-                    <p id="selectError" className={cs(styles.errorMsg)}>
-                      {this.state.msgt}
-                    </p>
-                  </div>
+            {this.props.isCredit ? (
+              <>
+                <li>
+                  <hr />
                 </li>
-              )}
-              <li
-                className={cs(styles.subscribe, {
-                  [styles.subscribeGc]: this.props.isFromCheckBalance
-                })}
-              >
-                <FormCheckbox
-                  value={false}
-                  id={"subscrib" + this.props.isCredit}
-                  name="terms"
-                  disable={false}
-                  inputRef={this.subscribeRef}
-                  handleChange={this.chkTermsandC}
-                  label={[
-                    "I agree to receiving e-mails, calls and text messages for service related information. To know more how we keep your data safe, refer to our ",
-                    <Link
-                      key="terms"
-                      to="/customer-assistance/privacy-policy"
-                      target="_blank"
+                <li className={cs(globalStyles.textLeft, styles.otpText)}>
+                  SEND{" "}
+                  <span className={globalStyles.aqua}>
+                    {" "}
+                    ONE TIME PASSWORD (OTP){" "}
+                  </span>
+                  VIA:
+                </li>
+                <Formsy
+                  ref={this.RegisterFormRef}
+                  onChange={() => {
+                    this.state.disable && this.setState({ disable: false });
+                  }}
+                  onValidSubmit={this.handleSubmit}
+                  onInvalidSubmit={this.handleInvalidSubmit}
+                >
+                  <li className={cs(styles.radiobtn1, styles.xradio)}>
+                    <label className={styles.radio1}>
+                      <input
+                        type="radio"
+                        name={this.props.isCredit ? "cca" : "gca"}
+                        value="email"
+                        onClick={e => {
+                          this.onClickRadio(e);
+                        }}
+                        checked={this.state.radioType === "email"}
+                      />
+                      <span
+                        className={cs(
+                          globalStyles.radioIndicator,
+                          styles.checkmark,
+                          {
+                            [styles.top]: this.props.isCredit
+                          }
+                        )}
+                      ></span>
+                    </label>
+                    <FormInput
+                      name="email"
+                      placeholder={"Email*"}
+                      label={"Email*"}
+                      className={cs(styles.relative, styles.smallInput)}
+                      disable={this.props.isCredit}
+                      inputRef={this.emailInput}
+                      value={this.props.email ? this.props.email : ""}
+                      validations={
+                        radioType == "email"
+                          ? {
+                              isEmail: true,
+                              maxLength: 75
+                            }
+                          : {}
+                      }
+                      validationErrors={{
+                        isEmail: "Please enter a valid Email ID",
+                        maxLength:
+                          "You are allowed to enter upto 75 characters only"
+                      }}
+                      required={
+                        radioType != "email" || this.props.isCredit
+                          ? "isFalse"
+                          : true
+                      }
+                    />
+                  </li>
+                  {!this.props.isFromCheckBalance && (
+                    <li
+                      className={cs(
+                        styles.countryCode,
+                        // styles.countryCodeGc,
+                        styles.xradio
+                      )}
                     >
-                      Privacy Policy
-                    </Link>
-                  ]}
-                />
-                <div>
+                      <label className={styles.radio1}>
+                        <input
+                          type="radio"
+                          name={this.props.isCredit ? "cca" : "gca"}
+                          value="number"
+                          onClick={e => {
+                            this.onClickRadio(e);
+                          }}
+                        />
+                        <span className={styles.checkmark}></span>
+                      </label>
+                      <p className={cs(styles.msg, styles.wordCap)}>
+                        For Domestic (Pan-India) phone number only
+                      </p>
+                      <div className={styles.flex}>
+                        <div className={styles.contactCode}>
+                          <input
+                            type="text"
+                            value="+91"
+                            placeholder="Code"
+                            disabled={true}
+                            className={styles.codeInput}
+                          />
+                        </div>
+                        <div className={styles.contactNumber}>
+                          <FormInput
+                            name="phoneNo"
+                            value={this.props.phoneNo ? this.props.phoneNo : ""}
+                            inputRef={this.phoneInput}
+                            placeholder={"Contact Number"}
+                            type="number"
+                            label={"Contact Number"}
+                            validations={
+                              radioType == "number"
+                                ? {
+                                    isLength: 10
+                                  }
+                                : {}
+                            }
+                            validationErrors={{
+                              isLength: "Please enter a valid Contact Number"
+                            }}
+                            required={radioType != "number" ? "isFalse" : true}
+                            keyDown={e =>
+                              e.which === 69 ? e.preventDefault() : null
+                            }
+                            onPaste={e =>
+                              e?.clipboardData.getData("Text").match(/([e|E])/)
+                                ? e.preventDefault()
+                                : null
+                            }
+                          />
+                        </div>
+                        <p id="selectError" className={cs(styles.errorMsg)}>
+                          {this.state.msgt}
+                        </p>
+                      </div>
+                    </li>
+                  )}
+                  <li
+                    className={cs(styles.subscribe, {
+                      [styles.subscribeGc]: this.props.isFromCheckBalance
+                    })}
+                  >
+                    <FormCheckbox
+                      value={false}
+                      id={"subscrib" + this.props.isCredit}
+                      name="terms"
+                      disable={false}
+                      inputRef={this.subscribeRef}
+                      handleChange={this.chkTermsandC}
+                      label={[
+                        "I agree to receiving e-mails, calls and text messages for service related information. To know more how we keep your data safe, refer to our ",
+                        <Link
+                          key="terms"
+                          to="/customer-assistance/privacy-policy"
+                          target="_blank"
+                        >
+                          Privacy Policy
+                        </Link>
+                      ]}
+                    />
+                    <div>
+                      <p
+                        className={
+                          this.state.subscribeError
+                            ? cs(globalStyles.errorMsg, globalStyles.wordCap)
+                            : globalStyles.hidden
+                        }
+                      >
+                        Please agree to the Terms and Conditions before
+                        proceeding
+                      </p>
+                      {this.state.showerrorOtp &&
+                        !this.state.showerrorOtp?.includes(
+                          "Maximum attempts reached"
+                        ) && (
+                          <p
+                            id="customererror"
+                            className={
+                              this.state.showerrorOtp
+                                ? cs(
+                                    globalStyles.errorMsg,
+                                    globalStyles.wordCap
+                                  )
+                                : globalStyles.hidden
+                            }
+                          >
+                            {this.state.showerrorOtp}
+                          </p>
+                        )}
+                      <p>
+                        {this.state.showerrorOtp ? <CustomerCareInfo /> : ""}
+                      </p>
+                    </div>
+                  </li>
+                  <li
+                    className={this.state.showerrorOtp ? styles.margintop : ""}
+                  >
+                    {this.state.showerrorOtp &&
+                      this.state.showerrorOtp?.includes(
+                        "Maximum attempts reached"
+                      ) && (
+                        <p
+                          id="customererror"
+                          className={
+                            this.state.showerrorOtp
+                              ? cs(
+                                  globalStyles.errorMsg,
+                                  globalStyles.wordCap,
+                                  globalStyles.marginB10
+                                )
+                              : globalStyles.hidden
+                          }
+                        >
+                          {this.state.showerrorOtp}
+                        </p>
+                      )}
+                    <Button
+                      type="submit"
+                      disabled={this.state.disable}
+                      label="Send otp"
+                      variant="mediumMedCharcoalCta366"
+                    />
+                  </li>
+                </Formsy>
+              </>
+            ) : (
+              <>
+                <div className={styles.maxAttemptErrMsg}>
                   <p
                     className={
                       this.state.subscribeError
@@ -1090,35 +1228,41 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                     )}
                   <p>{this.state.showerrorOtp ? <CustomerCareInfo /> : ""}</p>
                 </div>
-              </li>
-              <li className={this.state.showerrorOtp ? styles.margintop : ""}>
-                {this.state.showerrorOtp &&
-                  this.state.showerrorOtp?.includes(
-                    "Maximum attempts reached"
-                  ) && (
-                    <p
-                      id="customererror"
-                      className={
-                        this.state.showerrorOtp
-                          ? cs(
-                              globalStyles.errorMsg,
-                              globalStyles.wordCap,
-                              globalStyles.marginB10
-                            )
-                          : globalStyles.hidden
-                      }
-                    >
-                      {this.state.showerrorOtp}
-                    </p>
-                  )}
-                <Button
-                  type="submit"
-                  disabled={this.state.disable}
-                  label="Send otp"
-                  variant="mediumMedCharcoalCta366"
-                />
-              </li>
-            </Formsy>
+                <li className={this.state.showerrorOtp ? styles.margintop : ""}>
+                  {this.state.showerrorOtp &&
+                    this.state.showerrorOtp?.includes(
+                      "Maximum attempts reached"
+                    ) && (
+                      <p
+                        id="customererror"
+                        className={
+                          this.state.showerrorOtp
+                            ? cs(
+                                globalStyles.errorMsg,
+                                globalStyles.wordCap,
+                                globalStyles.marginB10
+                              )
+                            : globalStyles.hidden
+                        }
+                      >
+                        {this.state.showerrorOtp}
+                      </p>
+                    )}
+                  <Button
+                    type="submit"
+                    disabled={this.state.disable}
+                    onClick={() =>
+                      this.sendOtpApiCall({
+                        code: this.props.txtvalue,
+                        inputType: "GIFT"
+                      })
+                    }
+                    label="Check Balance"
+                    variant="mediumMedCharcoalCta366"
+                  />
+                </li>
+              </>
+            )}
           </div>
         )}
       </Fragment>

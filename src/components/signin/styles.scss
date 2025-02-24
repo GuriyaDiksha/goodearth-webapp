@@ -582,3 +582,36 @@ span.checkout-forgot-pass{
     width: 100% !important;
   }
 }
+
+.date-picker{
+  position: relative;
+  margin-bottom: 40px;
+  input{
+    width: 100%;
+    font-family: "Montserrat", "sans-serif";
+    font-size: 12px !important;
+    line-height: 19px;
+    letter-spacing: 0.36px;
+    padding: 0 10px;
+    color: #191919;
+    border: 1px solid #D8D8D8;
+    cursor: pointer;
+  }
+  div[aria-disabled="true"]{
+    color: #ccc!important;
+  }
+  .cal-icon{
+    position: absolute !important;
+    top: 7px;
+    right: 10px;
+    width: auto !important;
+    cursor: pointer;
+  }
+  .date-lable{
+    z-index: 1;
+  }
+}
+.user-gender-picker{
+  position: relative;
+  z-index: 2;
+}

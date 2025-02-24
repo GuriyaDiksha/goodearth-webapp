@@ -32,6 +32,11 @@ import tooltipIcon from "images/tooltip.svg";
 import tooltipOpenIcon from "images/tooltip-open.svg";
 import { CONFIG } from "constants/util";
 import Button from "components/Button";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "../../../styles/reactDatepicker.css";
+import calendarIcon from "../../../images/bridal/icons_bridal-registry-calendar.svg";
+import globalstyles from "styles/global.scss";
 
 const mapStateToProps = (state: AppState) => {
   const isdList = state.address.countryData.map(list => {
@@ -56,6 +61,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
   public static defaultProps = {
     isCheckout: false
   };
+  private datePickerRef: React.RefObject<DatePicker>;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -88,8 +94,15 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
       whatsappChecked: false,
       selectedCountry: "",
       phoneNo: "",
-      newsLetterChecked: false
+      newsLetterChecked: false,
+      selectedDate: null,
+      validationErrors: {
+        isValidDate: "",
+        isMinAllowedDate: "",
+        isMaxAllowedDate: ""
+      }
     };
+    this.datePickerRef = React.createRef();
   }
   static contextType = Context;
   emailRef: RefObject<typeof FormInput> = React.createRef();
@@ -182,8 +195,11 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     formData["firstName"] = firstName;
     formData["lastName"] = lastName;
     formData["gender"] = gender;
-    formData["dateOfBirth"] = dateOfBirth
-      ? moment(dateOfBirth).format("YYYY-MM-DD")
+    // formData["dateOfBirth"] = dateOfBirth
+    //   ? moment(dateOfBirth).format("YYYY-MM-DD")
+    //   : null;
+    formData["dateOfBirth"] = this.state.selectedDate
+      ? moment(this.state.selectedDate).format("YYYY-MM-DD")
       : null;
     const countryCode = this.state.countryOptions.filter(
       countryOption => countryOption.value == country
@@ -702,6 +718,53 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
     }
   };
 
+  // Handle date change
+  handleDateChange = (date: Date | null) => {
+    const { minDate, maxDate } = this.state;
+    const newErrors = { ...this.state.validationErrors };
+
+    // Validate date format
+    if (date && !moment(date).isValid()) {
+      newErrors.isValidDate = "Please enter a valid Date of Birth";
+    } else {
+      newErrors.isValidDate = "";
+    }
+
+    // Validate min allowed date
+    // if (date && new Date(date).getTime() <= new Date(minDate).getTime()){
+    if (
+      date &&
+      new Date(moment(date).format("YYYY-MM-DD")).getTime() <=
+        new Date(minDate).getTime()
+    ) {
+      newErrors.isMinAllowedDate = "Please enter a valid Date of Birth";
+    } else {
+      newErrors.isMinAllowedDate = "";
+    }
+
+    // Validate max allowed date
+    if (
+      date &&
+      new Date(moment(date).format("YYYY-MM-DD")).getTime() >=
+        new Date(maxDate).getTime()
+    ) {
+      newErrors.isMaxAllowedDate = "Age should be at least 15 years";
+    } else {
+      newErrors.isMaxAllowedDate = "";
+    }
+    this.setState({
+      selectedDate: date,
+      validationErrors: newErrors
+    });
+  };
+
+  // Handle button click to manually open the date picker
+  handleDateClick = () => {
+    if (this.datePickerRef.current) {
+      this.datePickerRef.current.setOpen(true); // Open the calendar manually
+    }
+  };
+
   render() {
     const showFieldsClass = this.state.showFields ? "" : styles.disabledInput;
     // const { goLogin } = this.props;
@@ -801,7 +864,7 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               handleChange={this.onGenderSelect}
             />
           </div>
-          <div className={styles.calendarIconContainer}>
+          {/* <div className={styles.calendarIconContainer}>
             <FormInput
               name="dateOfBirth"
               type="date"
@@ -847,6 +910,43 @@ class CheckoutRegisterForm extends React.Component<Props, registerState> {
               }}
               showLabel={true}
             />
+          </div> */}
+          <div className={cs(styles.datePicker)}>
+            <label className={styles.dateLable}>Date of Birth</label>
+            <DatePicker
+              ref={this.datePickerRef} // Attach the ref to DatePicker
+              id="date_of_birth"
+              name="dateOfBirth"
+              // dateFormat="dd MMM yyyy"
+              dateFormat="dd/MM/yyyy"
+              placeholderText="DD/MM/YYYY"
+              selected={this.state.selectedDate}
+              onChange={this.handleDateChange}
+              minDate={new Date(this.state.minDate)}
+              maxDate={new Date(this.state.maxDate)}
+              showMonthDropdown
+              showYearDropdown
+              dropdownMode="select"
+            />
+            <div className={cs(styles.calIcon)} onClick={this.handleDateClick}>
+              <img src={calendarIcon} width="35" height="35" />
+            </div>
+            {/* Display validation error messages */}
+            {this.state.validationErrors?.isValidDate && (
+              <div className={globalstyles.errorMsg}>
+                {this.state.validationErrors?.isValidDate}
+              </div>
+            )}
+            {this.state.validationErrors?.isMinAllowedDate && (
+              <div className={globalstyles.errorMsg}>
+                {this.state.validationErrors?.isMinAllowedDate}
+              </div>
+            )}
+            {this.state.validationErrors?.isMaxAllowedDate && (
+              <div className={globalstyles.errorMsg}>
+                {this.state.validationErrors?.isMaxAllowedDate}
+              </div>
+            )}
           </div>
           <div>
             {/* <div className="select-group text-left">
