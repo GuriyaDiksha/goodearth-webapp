@@ -2120,7 +2120,7 @@ const ProductDetails: React.FC<Props> = ({
                                 </span>
                               )}
                               {currency === "INR" && (
-                                <p className={styles.incTax}>
+                                <p className={styles.fillerIncTax}>
                                   (Incl. of all taxes)
                                 </p>
                               )}
