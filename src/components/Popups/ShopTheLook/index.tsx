@@ -1,5 +1,5 @@
 import { Context } from "components/Modal/context";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import cs from "classnames";
@@ -33,69 +33,82 @@ const ShopTheLookPopup: React.FC<PopupProps> = ({
   notifyMeClick,
   onEnquireClick
 }) => {
-  const { mobile } = useSelector((state: AppState) => state.device);
+  const { mobile, tablet } = useSelector((state: AppState) => state.device);
   const { closeModal } = useContext(Context);
   const filteredLooksProducts = data.looksProducts?.filter(
     (item: any) => item.priceRecords?.[currency] !== 0
   );
+  useEffect(() => {
+    if (!mobile) {
+      closeModal();
+    }
+  }, [mobile, closeModal]);
+
   return (
-    <div className={styles.shopTheLook}>
-      <div onClick={closeModal} className={cs(styles.titleWrapper)}>
-        <div className={cs(globalStyles.textCenter, styles.shopTitle)}>
-          Shop The Look
-        </div>
-        <i
-          className={cs(
-            iconStyles.icon,
-            iconStyles.iconCrossNarrowBig,
-            styles.closeIcon
+    <>
+      {mobile && (
+        <div className={styles.shopTheLook}>
+          <div onClick={closeModal} className={cs(styles.titleWrapper)}>
+            <div className={cs(globalStyles.textCenter, styles.shopTitle)}>
+              Shop The Look
+            </div>
+            <i
+              className={cs(
+                iconStyles.icon,
+                iconStyles.iconCrossNarrowBig,
+                styles.closeIcon
+              )}
+            ></i>
+          </div>
+          {data?.lookImageType === "landscape" && (
+            <div className={bootstrap.row}>
+              <div className={cs(bootstrap.col12, styles.shopLandScape)}>
+                <LazyImage
+                  aspectRatio="100:52"
+                  alt={data?.altText}
+                  src={
+                    data?.lookImageUrl ||
+                    (data?.images?.[0]
+                      ? data?.images?.[0]?.productImage
+                      : "/static/img/noimageplp.png")
+                  }
+                  onError={(e: any): void => {
+                    e.target.onerror = null;
+                    e.target.src = noPlpImage;
+                  }}
+                />
+              </div>
+            </div>
           )}
-        ></i>
-      </div>
-      {data?.lookImageType === "landscape" && (
-        <div className={bootstrap.row}>
-          <div className={cs(bootstrap.col12, styles.shopLandScape)}>
-            <LazyImage
-              aspectRatio="100:52"
-              alt={data?.altText}
-              src={
-                data?.lookImageUrl ||
-                (data?.images?.[0]
-                  ? data?.images?.[0]?.productImage
-                  : "/static/img/noimageplp.png")
-              }
-              onError={(e: any): void => {
-                e.target.onerror = null;
-                e.target.src = noPlpImage;
-              }}
-            />
+          <div className={"sliderContainer"}>
+            <Slider {...settings}>
+              {filteredLooksProducts &&
+                filteredLooksProducts?.map((item: any, i: number) => {
+                  return (
+                    <div
+                      key={item.id}
+                      className={cs(styles.looksItemContainer)}
+                    >
+                      <PDPLooksItem
+                        page="ShopByLook"
+                        position={i}
+                        product={item}
+                        addedToWishlist={false}
+                        currency={currency || "INR"}
+                        key={item.id}
+                        mobile={mobile || false}
+                        isCorporate={false}
+                        notifyMeClick={notifyMeClick}
+                        onEnquireClick={onEnquireClick}
+                      />
+                    </div>
+                  );
+                })}
+            </Slider>
           </div>
         </div>
       )}
-      <div className={"sliderContainer"}>
-        <Slider {...settings}>
-          {filteredLooksProducts &&
-            filteredLooksProducts?.map((item: any, i: number) => {
-              return (
-                <div key={item.id} className={cs(styles.looksItemContainer)}>
-                  <PDPLooksItem
-                    page="ShopByLook"
-                    position={i}
-                    product={item}
-                    addedToWishlist={false}
-                    currency={currency || "INR"}
-                    key={item.id}
-                    mobile={mobile || false}
-                    isCorporate={false}
-                    notifyMeClick={notifyMeClick}
-                    onEnquireClick={onEnquireClick}
-                  />
-                </div>
-              );
-            })}
-        </Slider>
-      </div>
-    </div>
+    </>
   );
 };
 export default ShopTheLookPopup;
