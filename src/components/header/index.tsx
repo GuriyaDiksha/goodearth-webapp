@@ -145,9 +145,6 @@ class Header extends React.Component<Props, State> {
 
   componentDidMount() {
     const { user } = this.props;
-    // const userId = CookieService.getCookie("userId");
-    // const updateProfilePhoneNo = CookieService.getCookie(`upp_${userId}`);
-    // user.phoneNumber ? user.phoneNumber : CookieService.getCookie(`upp_${userId}`);
     const isBridalPublicPage =
       this.props.location.pathname.includes("/registry/") &&
       !this.props.location.pathname.includes("/account/");
@@ -176,13 +173,11 @@ class Header extends React.Component<Props, State> {
         this.setState({ isLoading: false });
       });
     // if (
-    //   (user.isLoggedIn &&
-    //     typeof document != "undefined" &&
-    //     user.email &&
-    //     (!user.gender || !user.country || !user.lastName || !user.firstName || (!user.phoneNumber && !updateProfilePhoneNo)))
-    //     // || (!user.phoneNumber && !updateProfilePhoneNo)
-    // ) {
-    //   this.props.updateProfile();
+    //   typeof document != "undefined" &&
+    //   user.email &&
+    //   (!user.gender || !user.country || !user.lastName || !user.firstName)
+    // ){
+    //  this.props.updateProfile();
     // }
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);

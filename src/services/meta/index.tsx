@@ -62,10 +62,13 @@ export default {
       user.isLoggedIn = true;
       user.shippingData = meta.shippingData;
       user.customerGroup = meta.customerGroup;
+      user.phoneNumber = meta.user.phoneNumber;
+      user.id = meta.user.id;
 
-      const userId = CookieService.getCookie("userId");
-      const updateProfilePhoneNo = CookieService.getCookie(`upp_${userId}`);
-      // user.phoneNumber ? user.phoneNumber : CookieService.getCookie(`upp_${userId}`);
+      let upp;
+      if (typeof document != "undefined") {
+        upp = CookieService.getCookie(`upp_${user.id}`);
+      }
       if (
         typeof document != "undefined" &&
         user.email &&
@@ -73,7 +76,7 @@ export default {
           !user.country ||
           !user.lastName ||
           !user.firstName ||
-          (!user.phoneNumber && !updateProfilePhoneNo))
+          (!user.phoneNumber && !upp))
       ) {
         dispatch(updateComponent(POPUP.PROFILEUPDATER, null, true));
         dispatch(updateModal(true));
