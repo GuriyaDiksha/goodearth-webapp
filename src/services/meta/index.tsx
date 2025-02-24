@@ -65,12 +65,10 @@ export default {
       user.phoneNumber = meta.user.phoneNumber;
       user.id = meta.user.id;
 
-      // let upp;
-      // if (typeof document != "undefined") {
-      //   upp = user.phoneNumber
-      //     ? user.phoneNumber
-      //     : CookieService.getCookie(`upp_${user.id}`);
-      // }
+      let upp;
+      if (typeof window != "undefined") {
+        upp = CookieService.getCookie(`upp_${user.id}`);
+      }
       if (
         typeof document != "undefined" &&
         user.email &&
@@ -78,7 +76,7 @@ export default {
           !user.country ||
           !user.lastName ||
           !user.firstName ||
-          (!user.phoneNumber && !CookieService.getCookie(`upp_${user.id}`)))
+          (!user.phoneNumber && !upp))
       ) {
         dispatch(updateComponent(POPUP.PROFILEUPDATER, null, true));
         dispatch(updateModal(true));
