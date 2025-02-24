@@ -145,10 +145,9 @@ class Header extends React.Component<Props, State> {
 
   componentDidMount() {
     const { user } = this.props;
-    const userId = CookieService.getCookie("userId");
-    const updateProfilePhoneNo = user.phoneNumber
-      ? user.phoneNumber
-      : CookieService.getCookie(`upp_${userId}`);
+    // const userId = CookieService.getCookie("userId");
+    // const updateProfilePhoneNo = CookieService.getCookie(`upp_${userId}`);
+    // user.phoneNumber ? user.phoneNumber : CookieService.getCookie(`upp_${userId}`);
     const isBridalPublicPage =
       this.props.location.pathname.includes("/registry/") &&
       !this.props.location.pathname.includes("/account/");
@@ -176,14 +175,15 @@ class Header extends React.Component<Props, State> {
       .finally(() => {
         this.setState({ isLoading: false });
       });
-    if (
-      (typeof document != "undefined" &&
-        user.email &&
-        (!user.gender || !user.country || !user.lastName || !user.firstName)) ||
-      (!user.phoneNumber && !updateProfilePhoneNo)
-    ) {
-      this.props.updateProfile();
-    }
+    // if (
+    //   (user.isLoggedIn &&
+    //     typeof document != "undefined" &&
+    //     user.email &&
+    //     (!user.gender || !user.country || !user.lastName || !user.firstName || (!user.phoneNumber && !updateProfilePhoneNo)))
+    //     // || (!user.phoneNumber && !updateProfilePhoneNo)
+    // ) {
+    //   this.props.updateProfile();
+    // }
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get("loginpopup");
@@ -257,10 +257,10 @@ class Header extends React.Component<Props, State> {
     observer.observe(document, config);
     this.onScroll();
     if (
-      (typeof document != "undefined" &&
-        user.email &&
-        (!user.gender || !user.country || !user.lastName || !user.firstName)) ||
-      (!user.phoneNumber && !updateProfilePhoneNo)
+      typeof document != "undefined" &&
+      user.email &&
+      (!user.gender || !user.country || !user.lastName || !user.firstName)
+      // || (!user.phoneNumber && !updateProfilePhoneNo)
     ) {
       document?.body?.classList?.add(globalStyles.noScroll);
     } else {

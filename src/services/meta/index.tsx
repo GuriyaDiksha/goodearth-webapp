@@ -48,6 +48,7 @@ export default {
     cookies: Cookies,
     bridalKey?: string
   ) {
+    debugger;
     let user: Partial<User> = initialState;
     if (cookies.tkn) {
       const meta: MetaResponse = await this.fetchMeta(
@@ -64,17 +65,16 @@ export default {
       user.customerGroup = meta.customerGroup;
 
       const userId = CookieService.getCookie("userId");
-      const updateProfilePhoneNo = user.phoneNumber
-        ? user.phoneNumber
-        : CookieService.getCookie(`upp_${userId}`);
+      const updateProfilePhoneNo = CookieService.getCookie(`upp_${userId}`);
+      // user.phoneNumber ? user.phoneNumber : CookieService.getCookie(`upp_${userId}`);
       if (
-        (typeof document != "undefined" &&
-          user.email &&
-          (!user.gender ||
-            !user.country ||
-            !user.lastName ||
-            !user.firstName)) ||
-        (!user.phoneNumber && !updateProfilePhoneNo)
+        typeof document != "undefined" &&
+        user.email &&
+        (!user.gender ||
+          !user.country ||
+          !user.lastName ||
+          !user.firstName ||
+          (!user.phoneNumber && !updateProfilePhoneNo))
       ) {
         dispatch(updateComponent(POPUP.PROFILEUPDATER, null, true));
         dispatch(updateModal(true));
