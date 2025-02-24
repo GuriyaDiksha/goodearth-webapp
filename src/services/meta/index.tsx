@@ -48,7 +48,6 @@ export default {
     cookies: Cookies,
     bridalKey?: string
   ) {
-    debugger;
     let user: Partial<User> = initialState;
     if (cookies.tkn) {
       const meta: MetaResponse = await this.fetchMeta(
