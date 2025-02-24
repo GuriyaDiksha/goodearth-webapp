@@ -1961,7 +1961,7 @@
 // ---------------------shop the look popup----------------------------------
 .shop-the-look {
   background-color: $white;
-  padding: 0px 10px 30px 10px;
+  padding-bottom: 2px;
   .title-wrapper {
     text-align: right;
     padding: 20px;
@@ -1976,5 +1976,8 @@
       width: 13px;
       height: 13px;
     }
+  }
+  .shop-land-scape{
+    padding: 0 15px 15px 15px;
   }
 }

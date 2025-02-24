@@ -1,4 +1,12 @@
-.slick-prev:before,
-.slick-next:before {
-    color: #9F9F9F;
+.slider-container {
+  .slick-prev:before,
+  .slick-next:before {
+    color: #9f9f9f;
+  }
+  .slick-next{
+    right: -32px;
+  }
+  .slick-prev{
+    left: -32px;
+  }
 }
