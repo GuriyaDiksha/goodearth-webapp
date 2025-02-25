@@ -67,6 +67,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 // import pdp_top from "images/3d/pdp_top.svg";
 import button_image from "images/3d/button_image.svg";
 import Mobile360 from "./../../icons/360mobile.svg";
+import ShopTheLookPopup from "components/Popups/ShopTheLook";
 // import ReactPlayer from "react-player";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
@@ -131,7 +132,8 @@ class PDPContainer extends React.Component<Props, State> {
     imageHover: false,
     showDock: false,
     selectedSize: null,
-    pdpButton: null
+    pdpButton: null,
+    shopShopLookPopup: false
   };
 
   myref: RefObject<any> = React.createRef();
@@ -1433,23 +1435,14 @@ class PDPContainer extends React.Component<Props, State> {
     );
   };
   handleShopLookPopup = (): void => {
-    const {
-      updateComponentModal,
-      changeModalState,
-      data,
-      currency
-    } = this.props;
-    updateComponentModal(
-      POPUP.SHOPTHELOOKPOPUP,
-      {
-        data,
-        currency,
-        notifyMeClick: this.notifyMeClick,
-        onEnquireClick: this.onEnquireClick
-      },
-      false
-    );
-    changeModalState(true);
+    this.setState({
+      shopShopLookPopup: true
+    });
+  };
+  closeShopLookPopUp = (): void => {
+    this.setState({
+      shopShopLookPopup: false
+    });
   };
 
   handleLooksClick = (e: any) => {
@@ -1799,6 +1792,16 @@ class PDPContainer extends React.Component<Props, State> {
             user="goodearth"
             index="1"
             href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+          />
+        )}
+        {this.state.shopShopLookPopup && (
+          <ShopTheLookPopup
+            data={data}
+            currency={currency}
+            notifyMeClick={this.notifyMeClick}
+            onEnquireClick={this.onEnquireClick}
+            closeShopLookPopUp={this.closeShopLookPopUp}
+            isOpen={this.state.shopShopLookPopup}
           />
         )}
         {this.state.showLooks && this.getLooksSection()}

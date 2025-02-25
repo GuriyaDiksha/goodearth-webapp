@@ -21,6 +21,7 @@ export type State = {
   showDock?: boolean;
   selectedSize?: ChildProductAttributes | null;
   pdpButton?: JSX.Element | null;
+  shopShopLookPopup?: boolean;
 };
 export interface Settings {
   dots: boolean;
