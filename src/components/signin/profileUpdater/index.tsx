@@ -462,7 +462,10 @@ class ProfileUpdater extends React.Component<Props, State> {
 
   setUpdateProfilePhoneNo = () => {
     const userId = CookieService.getCookie("userId");
-    CookieService.setCookie(`upp_${userId}`, "0123456789", 365);
+    if (typeof document != "undefined" && typeof window != "undefined") {
+      CookieService.setCookie(`upp_${userId}`, "0123456789", 365);
+      console.log("set upp cokkie.....");
+    }
   };
 
   render() {

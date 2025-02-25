@@ -66,14 +66,14 @@ export default {
       user.id = meta.user.id;
 
       let upp;
-      if (typeof window != "undefined") {
+      if (typeof document != "undefined" && typeof window != "undefined") {
         upp = user.phoneNumber
           ? user.phoneNumber
           : CookieService.getCookie(`upp_${user.id}`);
-        console.log("upp cookie =======", upp);
+        console.log("upp cookie value ==", upp);
       } else {
-        upp = user.phoneNumber && user.phoneNumber;
-        console.log("upp phone =======", upp);
+        upp = user.phoneNumber ? user.phoneNumber : "";
+        console.log("upp phoneNo. value ==", upp);
       }
       if (
         typeof document != "undefined" &&
