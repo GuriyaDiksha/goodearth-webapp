@@ -643,9 +643,9 @@ const OrderSummary: React.FC<OrderProps> = props => {
   useEffect(() => {
     if (mobile || tablet) {
       if (checkoutOrderSummaryStatus) {
-        document.body.classList.add(globalStyles.noScroll);
+        document?.body?.classList.add(globalStyles.noScroll);
       } else {
-        document.body.classList.remove(globalStyles.noScroll);
+        document?.body?.classList.remove(globalStyles.noScroll);
       }
     }
   }, [checkoutOrderSummaryStatus]);
@@ -654,7 +654,7 @@ const OrderSummary: React.FC<OrderProps> = props => {
     if (mobile && hasOutOfStockItems()) {
       setTimeout(() => {
         document
-          .getElementsByClassName(styles.textRemoveItems)[0]
+          ?.getElementsByClassName(styles.textRemoveItems)[0]
           ?.scrollIntoView({ behavior: "smooth" });
       }, 200);
     }
@@ -675,9 +675,11 @@ const OrderSummary: React.FC<OrderProps> = props => {
   };
 
   const resetInfoPopupCookie = () => {
-    const cookieString =
-      "checkoutinfopopup3=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-    document.cookie = cookieString;
+    if (typeof document != "undefined" && typeof window != "undefined") {
+      const cookieString =
+        "checkoutinfopopup3=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+      document.cookie = cookieString;
+    }
   };
   const chkshipping = (event: any) => {
     const {
