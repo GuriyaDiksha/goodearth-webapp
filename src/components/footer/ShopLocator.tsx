@@ -51,7 +51,8 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
 
   const redirectToShop = (e: React.MouseEvent, data: any) => {
     if (data.label) {
-      history.push("/Cafe-Shop/" + data.label);
+      const stateName: string = data?.label.replace(/\s+/g, "-"); // Converts spaces to hyphens and makes lowercase
+      history.push("/Cafe-Shop/" + stateName);
       const userConsent = CookieService.getCookie("consent").split(",");
       if (userConsent.includes(GA_CALLS)) {
         dataLayer.push({
@@ -172,7 +173,7 @@ export const ShopLocator: React.FC<ShopLocatorProps> = ({
                       key={index}
                       onClick={e => redirectToShop(e, data)}
                     >
-                      <a>{data.label}</a>
+                      <a>{data?.label.replace(/-/g, " ")}</a>
                     </li>
                   );
                 }
