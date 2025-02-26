@@ -3,11 +3,23 @@ import styles from "./styles.scss";
 import Header from "./Components/header";
 import Rewards from "./Components/rewards";
 import { useHistory } from "react-router";
-import Address from "./Components/address";
+// import Address from "./Components/address";
 import Button from "components/Button";
+import CookieService from "services/cookie";
+import { GA_CALLS } from "constants/cookieConsent";
 
 const CeriseDashboard = () => {
   const history = useHistory();
+
+  const handleViewStatement = (): void => {
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "view_statement"
+      });
+    }
+    history.push("/account/cerise/transaction");
+  };
 
   return (
     <div className={styles.ceriseDashboard}>
@@ -20,7 +32,7 @@ const CeriseDashboard = () => {
         </p>
         <Button
           variant="smallMedCharcoalCta"
-          onClick={() => history.push("/account/cerise/transaction")}
+          onClick={handleViewStatement}
           label={"VIEW STATEMENT"}
         />
       </div>

@@ -10,6 +10,8 @@ import { updateIsLoyaltyFilterOpen } from "actions/info";
 import globalStyles from "../../../../../styles/global.scss";
 import Button from "components/Button";
 import CheckboxWithLabel from "components/CheckboxWithLabel";
+import { GA_CALLS } from "constants/cookieConsent";
+import CookieService from "services/cookie";
 
 const FilterDropdown = ({
   id,
@@ -80,6 +82,38 @@ const FilterDropdown = ({
   }, [value]);
 
   const { ref } = useOutsideDetection<HTMLDivElement>(onOutsideClick);
+  const handleFilterSelectionGTM = (
+    filterType: string,
+    filterValue: string
+  ): void => {
+    const getUpdatedFilterValue = (filterValue: string): string => {
+      switch (filterValue) {
+        case "RD":
+          return "redeemed";
+        case "ER":
+          return "earned";
+        case "ALL":
+          return "all";
+        case "L3M":
+          return "last 3 months";
+        case "L6M":
+          return "last 6 months";
+        case "L12M":
+          return "last 1 year";
+        default:
+          return "unknown";
+      }
+    };
+    const updatedFilterValue = getUpdatedFilterValue(filterValue);
+    const userConsent = CookieService.getCookie("consent").split(",");
+    if (userConsent.includes(GA_CALLS)) {
+      dataLayer.push({
+        event: "filter_applied",
+        filter_type: filterType?.toLowerCase(),
+        filter_value: updatedFilterValue
+      });
+    }
+  };
 
   return (
     <div className={cs(styles.container)} ref={ref}>
@@ -126,6 +160,7 @@ const FilterDropdown = ({
                       handleCheckbox && handleCheckbox(item?.value);
                     } else {
                       handleItemClick(item);
+                      handleFilterSelectionGTM("filter by year", item?.value);
                     }
                   }
                 }}
@@ -168,6 +203,7 @@ const FilterDropdown = ({
               <Button
                 onClick={e => {
                   handleItemClick(value);
+                  handleFilterSelectionGTM("filter by transaction", value);
                 }}
                 label={"Apply Selection"}
                 variant="smallAquaCta"
@@ -191,8 +227,10 @@ const FilterDropdown = ({
                   setOpenState(!menuOpen);
                   if (isCheckBox) {
                     handleItemClick(value);
+                    handleFilterSelectionGTM("filter by transaction", value);
                   } else {
                     handleItemClick({ value });
+                    handleFilterSelectionGTM("filter by year", value);
                   }
                 }}
                 label={isCheckBox ? "apply selection" : "apply sort by"}

@@ -64,9 +64,11 @@ class MainLogin extends React.Component<Props, loginState> {
       usrWithNoOrder: false,
       phoneNo: "",
       isUserActive: true,
+      invalidDomain: false,
       attempt_count: 0
     };
   }
+
   static contextType = Context;
   emailInput: RefObject<HTMLInputElement> = React.createRef();
   passwordInput: RefObject<HTMLInputElement> = React.createRef();
@@ -94,6 +96,9 @@ class MainLogin extends React.Component<Props, loginState> {
       if (data) {
         localStorage.setItem("isNewsSubscribed", data.subscribe);
       }
+      this.setState({
+        invalidDomain: data.invalidDomain
+      });
 
       if (data.otpSent) {
         this.setState({
@@ -616,7 +621,8 @@ class MainLogin extends React.Component<Props, loginState> {
             {this.state.showerror ? (
               <p className={cs(styles.errorMsg, styles.mainLoginError)}>
                 {this.state.showerror}
-                {!this.state.isUserActive && (
+
+                {!this.state.isUserActive && !this.state.invalidDomain && (
                   <a
                     className={cs(styles.underlineText)}
                     href="mailto:customercare@goodearth.in"
