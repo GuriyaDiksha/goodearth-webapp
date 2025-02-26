@@ -396,6 +396,9 @@ const BaseLayout: React.FC = () => {
               )
             );
             dispatch(updateModal(true));
+            if (countryName.toLowerCase() === "united arab emirates") {
+              history.push("/uaeshop");
+            }
           }
         })
         .catch(error => {

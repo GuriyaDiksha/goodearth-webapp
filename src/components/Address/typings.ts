@@ -34,6 +34,7 @@ export type AddressFormData = {
   phoneNumber: string;
   isDefaultForShipping: boolean;
   isDefaultForBilling: boolean;
+  isShippingCountry: boolean;
   line1: string;
   line2: string;
   state: string;
