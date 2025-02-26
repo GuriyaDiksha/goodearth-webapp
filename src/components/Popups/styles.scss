@@ -1956,3 +1956,46 @@
   width: 100% !important;
   max-width: 100% !important;
 }
+
+
+// ---------------------shop the look popup----------------------------------
+.shop-modal-container{
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top:0;
+  left:0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000010;
+  .shop-the-look {
+    background-color: $white;
+    padding-bottom: 2px;
+    transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      top: unset;
+      left: unset;
+      transform: unset;
+      bottom: 0;
+      position: fixed;
+    }
+    .title-wrapper {
+      text-align: right;
+      padding: 20px;
+      position: relative;
+      .shop-title {
+        @include h3_20px_lora_charcoal
+      }
+      .close-icon{
+        position: absolute;
+        right: 24px;
+        top: 26px;
+        width: 13px;
+        height: 13px;
+      }
+    }
+    .shop-land-scape{
+      padding: 0 15px 15px 15px;
+    }
+  }
+}

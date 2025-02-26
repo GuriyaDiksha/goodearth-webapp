@@ -172,14 +172,13 @@ class Header extends React.Component<Props, State> {
       .finally(() => {
         this.setState({ isLoading: false });
       });
-    if (
-      typeof document != "undefined" &&
-      user.email &&
-      (!user.gender || !user.country || !user.lastName || !user.firstName)
-      // || !user.phoneNumber
-    ) {
-      this.props.updateProfile();
-    }
+    // if (
+    //   typeof document != "undefined" &&
+    //   user.email &&
+    //   (!user.gender || !user.country || !user.lastName || !user.firstName)
+    // ){
+    //  this.props.updateProfile();
+    // }
     const queryString = this.props.location.search;
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get("loginpopup");
@@ -256,6 +255,7 @@ class Header extends React.Component<Props, State> {
       typeof document != "undefined" &&
       user.email &&
       (!user.gender || !user.country || !user.lastName || !user.firstName)
+      // || (!user.phoneNumber && !updateProfilePhoneNo)
     ) {
       document?.body?.classList?.add(globalStyles.noScroll);
     } else {
