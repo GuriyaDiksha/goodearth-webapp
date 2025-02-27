@@ -249,12 +249,20 @@ $pdp-top: $header-height;
     padding: 0 10px 40px 10px;
 }
 .shop-the-look-container{
+    padding: 0 8%;
+    @media screen and (max-width: 992px){
+        padding: 0;
+    }
     @media screen and (max-width: 767px){
         display: none;
     }
 }
 .looks-container {
-    padding: 0 60px;
+    padding-left: 40px;
+    @media screen and (max-width: 992px){
+        padding-right: 45px;
+    }
+    
 }
 .looks-container-mobile{
     padding: 0 55px;

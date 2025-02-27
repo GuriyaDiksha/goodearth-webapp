@@ -1268,7 +1268,7 @@ class PDPContainer extends React.Component<Props, State> {
                   : bootstrap.colLg4
               )}
             >
-              <div className={styles.looksMainImage}>
+              <div className={cs({ [styles.looksMainImage]: mobile })}>
                 {/* <Link
                     to={data.url}
                     // onClick={gtmProductClick}
@@ -1276,7 +1276,7 @@ class PDPContainer extends React.Component<Props, State> {
                 <LazyImage
                   alt={data?.altText || data?.title}
                   aspectRatio={
-                    data.lookImageType === "landscape" ? "100:52" : "62:93"
+                    data.lookImageType === "landscape" ? "100:49" : "62:93"
                   }
                   src={
                     data?.lookImageUrl ||
@@ -1305,7 +1305,7 @@ class PDPContainer extends React.Component<Props, State> {
                 styles.looksContainer
               )}
             >
-              {filteredLooksProducts && filteredLooksProducts.length > 2 ? (
+              {filteredLooksProducts && filteredLooksProducts.length > 1 ? (
                 <Slider {...configSetting}>
                   {filteredLooksProducts &&
                     filteredLooksProducts.map((item, i) => {
@@ -1336,7 +1336,9 @@ class PDPContainer extends React.Component<Props, State> {
                           key={i}
                           className={cs(
                             styles.looksItemContainer,
-                            bootstrap.colMd4
+                            data.lookImageType === "landscape"
+                              ? bootstrap.colLg6
+                              : bootstrap.colLg4
                           )}
                         >
                           <PDPLooksItem
