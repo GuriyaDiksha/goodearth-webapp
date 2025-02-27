@@ -50,7 +50,12 @@ const FormPage: React.FC = () => {
         .then((response: any) => {
           if (response.showWebsite) {
             CookieService.setCookie("auth", "true", 365);
-            history.push("/");
+            const countryName = CookieService.getCookie("country");
+            if (countryName.toLowerCase() === "united arab emirates") {
+              history.push("/uaeshop");
+            } else {
+              history.push("/");
+            }
           }
         })
         .catch(err => {
