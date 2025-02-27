@@ -26,7 +26,8 @@ const settings = {
   speed: 500,
   slidesToShow: 2.2,
   slidesToScroll: 1,
-  arrows: false
+  arrows: false,
+  initialSlides: 0
 };
 
 const ShopTheLookPopup: React.FC<PopupProps> = ({
@@ -74,7 +75,7 @@ const ShopTheLookPopup: React.FC<PopupProps> = ({
               <div className={bootstrap.row}>
                 <div className={cs(bootstrap.col12, styles.shopLandScape)}>
                   <LazyImage
-                    aspectRatio="100:52"
+                    aspectRatio="100:48"
                     alt={data?.altText}
                     src={
                       data?.lookImageUrl ||
@@ -110,6 +111,7 @@ const ShopTheLookPopup: React.FC<PopupProps> = ({
                           isCorporate={false}
                           notifyMeClick={notifyMeClick}
                           onEnquireClick={onEnquireClick}
+                          closeShopLookPopUp={closeShopLookPopUp}
                         />
                       </div>
                     );
