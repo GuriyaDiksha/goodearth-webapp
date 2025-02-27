@@ -34,7 +34,8 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
     position,
     page,
     onEnquireClick,
-    notifyMeClick
+    notifyMeClick,
+    closeShopLookPopUp
   } = props;
   // const {} = useStore({state:App})
   // const [primaryimage, setPrimaryimage] = useState(true);
@@ -242,7 +243,13 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           </div>
         )}
         {button}
-        <Link to={product.url} onClick={gtmProductClick}>
+        <Link
+          to={product.url}
+          onClick={() => {
+            gtmProductClick();
+            if (closeShopLookPopUp) closeShopLookPopUp();
+          }}
+        >
           {/* <MobileSlider>{mobileSlides}</MobileSlider> */}
           <LazyImage
             aspectRatio="62:93"

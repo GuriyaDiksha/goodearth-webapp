@@ -5,8 +5,10 @@
   }
   .slick-next{
     right: -32px;
+    top: 41%;
   }
   .slick-prev{
     left: -32px;
+    top: 41%;
   }
 }
