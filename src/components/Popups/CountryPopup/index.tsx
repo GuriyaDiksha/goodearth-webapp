@@ -117,7 +117,10 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
     });
     closeModal();
     setTimeout(() => {
-      if (country.toLowerCase() === "united arab emirates") {
+      if (
+        history.location.pathname != "/auth" &&
+        country.toLowerCase() === "united arab emirates"
+      ) {
         history.push("/uaeshop");
       }
     }, 1000);
