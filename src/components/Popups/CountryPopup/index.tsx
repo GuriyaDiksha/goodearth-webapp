@@ -22,6 +22,7 @@ import CookieService from "services/cookie";
 import { countryCurrencyCode } from "constants/currency";
 import { updateOpenCookiePopup } from "actions/info";
 import { updateRegion } from "actions/widget";
+import { useHistory } from "react-router";
 
 type CountryOptions = {
   value: string;
@@ -31,6 +32,7 @@ type CountryOptions = {
 };
 
 const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
+  const history = useHistory();
   const { closeModal } = useContext(Context);
   const dispatch = useDispatch();
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
@@ -114,6 +116,11 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
       dispatch(updateOpenCookiePopup(true));
     });
     closeModal();
+    setTimeout(() => {
+      if (country.toLowerCase() === "united arab emirates") {
+        history.push("/uaeshop");
+      }
+    }, 1000);
   };
 
   return (
