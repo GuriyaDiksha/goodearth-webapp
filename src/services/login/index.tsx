@@ -670,8 +670,8 @@ export default {
             if (
               data.currency.code == "INR" ||
               data.currency.code == "GBP" ||
-              data.currency.code == "SGD" ||
-              data.currency.code == "AED"
+              data.currency.code == "SGD"
+              // || data.currency.code == "AED"
             ) {
               resolve(data.currency.code);
             } else {

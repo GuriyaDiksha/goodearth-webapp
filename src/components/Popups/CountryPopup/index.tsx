@@ -116,14 +116,6 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
       dispatch(updateOpenCookiePopup(true));
     });
     closeModal();
-    setTimeout(() => {
-      if (
-        history.location.pathname != "/auth" &&
-        country.toLowerCase() === "united arab emirates"
-      ) {
-        history.push("/uaeshop");
-      }
-    }, 1000);
   };
 
   return (
@@ -183,7 +175,12 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
                     options={countryOptions}
                     allowFilter={true}
                     inputRef={countryRef}
-                    value={selectedCountry?.country}
+                    value={
+                      selectedCountry?.country.toLowerCase() ===
+                      "united arab emirates"
+                        ? "United States"
+                        : selectedCountry?.country
+                    }
                     onInputClick={flag => setContainerHeighFixed(flag)}
                   />
                 </div>
