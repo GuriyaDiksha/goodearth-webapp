@@ -802,9 +802,7 @@ class Footer extends React.Component<Props, FooterState> {
                             className={styles.country}
                           >
                             {this.props.country.toLowerCase() ===
-                              "united arab emirates" ||
-                            this.state?.country?.toLowerCase() ===
-                              "united arab emirates"
+                            "united arab emirates"
                               ? "United States"
                               : this.props.country || this.state?.country}
                           </p>
@@ -1281,7 +1279,10 @@ class Footer extends React.Component<Props, FooterState> {
                         onClick={this.openCountryPopup}
                         className={styles.country}
                       >
-                        {this.props.country || this.state?.country}
+                        {this.props.country.toLowerCase() ===
+                        "united arab emirates"
+                          ? "United States"
+                          : this.props.country || this.state?.country}
                       </p>
                     </div>
                   </div>
