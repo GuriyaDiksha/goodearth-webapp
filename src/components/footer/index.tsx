@@ -192,7 +192,11 @@ class Footer extends React.Component<Props, FooterState> {
     }
     this.setState({
       isConsentSave: CookieService.getCookie("consent") !== "",
-      country: CookieService.getCookie("country")
+      country:
+        CookieService.getCookie("country").toLowerCase() ===
+        "united arab emirates"
+          ? "United States"
+          : CookieService.getCookie("country")
     });
     this.checkPopupVisibility();
     // Optional: Check visibility every minute
