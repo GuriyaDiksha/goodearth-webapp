@@ -389,7 +389,7 @@ const BaseLayout: React.FC = () => {
 
             dispatch(updateOpenCookiePopup(true));
           } else if (countryName.toLowerCase() === "united arab emirates") {
-            if (isUAEpage) {
+            if (isUAEpage && location.pathname != "/auth") {
               history.push("/uaeshop");
             }
             if (curr != "error") {
