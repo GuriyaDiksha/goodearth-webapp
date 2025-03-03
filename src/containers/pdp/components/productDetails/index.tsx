@@ -991,7 +991,7 @@ const ProductDetails: React.FC<Props> = ({
         label={buttonText1}
         onClick={action}
         variant={
-          buttonText1 == "Notify Me" ? "smallLightGreyCta" : "smallAquaCta"
+          buttonText1 == "Notify Me" ? "smallLightGreyCta" : "smallWhiteCta"
         }
       />
     );
@@ -1002,7 +1002,7 @@ const ProductDetails: React.FC<Props> = ({
             label={buttonText1}
             onClick={action}
             variant={
-              buttonText1 == "Notify Me" ? "smallLightGreyCta" : "smallAquaCta"
+              buttonText1 == "Notify Me" ? "smallLightGreyCta" : "smallWhiteCta"
             }
           />
         )
@@ -1014,7 +1014,7 @@ const ProductDetails: React.FC<Props> = ({
         label={buttonText1}
         onClick={action}
         variant={
-          buttonText1 == "Notify Me" ? "smallLightGreyCta" : "smallAquaCta"
+          buttonText1 == "Notify Me" ? "smallLightGreyCta" : "smallWhiteCta"
         }
       />
     );
@@ -2193,6 +2193,7 @@ const ProductDetails: React.FC<Props> = ({
                                 [bootstrap.colSm10]: !mobile,
                                 [bootstrap.colSm12]: corporatePDP && mobile
                               })}
+                              style={{ marginLeft: "-3px" }}
                             >
                               {PdpFillerButton}
                               {onload &&
