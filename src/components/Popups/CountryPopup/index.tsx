@@ -23,6 +23,7 @@ import { countryCurrencyCode } from "constants/currency";
 import { updateOpenCookiePopup } from "actions/info";
 import { updateRegion } from "actions/widget";
 import { useHistory } from "react-router";
+import { isAEDDisabled } from "typings/currency";
 
 type CountryOptions = {
   value: string;
@@ -175,9 +176,11 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
                     options={countryOptions}
                     allowFilter={true}
                     inputRef={countryRef}
+                    // value={selectedCountry?.country}
                     value={
+                      isAEDDisabled &&
                       selectedCountry?.country.toLowerCase() ===
-                      "united arab emirates"
+                        "united arab emirates"
                         ? "United States"
                         : selectedCountry?.country
                     }
