@@ -19,6 +19,7 @@ export type ButtonProps = {
     | "mediumMedCharcoalCta366"
     | "outlineMediumMedCharcoalCta366"
     | "smallAquaCta"
+    | "smallWhiteCta"
     | "smallMedCharcoalCta"
     | "smallGoldCta"
     | "smallLightGreyCta"

@@ -133,6 +133,18 @@
     }
 }
 
+.small-white-cta{
+    @include small_white_cta();
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+        background-color:$aqua;
+        color: $white;}
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+
 .small-med-charcoal-cta{
     @include small_med_charcoal_cta();
     &:hover:not(.stop-hover) {
