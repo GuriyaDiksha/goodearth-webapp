@@ -29,6 +29,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 import CheckoutFooter from "containers/checkout/checkoutFooter";
 import { updateOpenCookiePopup } from "actions/info";
 import { updateRegion } from "actions/widget";
+import { isAEDDisabled } from "typings/currency";
 // import { CUST } from "constants/util";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
@@ -388,7 +389,10 @@ const BaseLayout: React.FC = () => {
             }
 
             dispatch(updateOpenCookiePopup(true));
-          } else if (countryName.toLowerCase() === "united arab emirates") {
+          } else if (
+            isAEDDisabled &&
+            countryName.toLowerCase() === "united arab emirates"
+          ) {
             if (isUAEpage && location.pathname != "/auth") {
               history.push("/uaeshop");
             }
