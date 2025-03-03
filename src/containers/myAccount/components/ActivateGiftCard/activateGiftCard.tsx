@@ -249,25 +249,12 @@ const Giftcard: React.FC = () => {
           ...giftCardState,
           isLoading: false
         });
-        if (res.currStatus === "Not Activated") {
-          setGiftCardState({
-            ...giftCardState,
-            showSendOtp: true,
-            isIndiaGC: res.curr === "INR"
-          });
-        } else {
+
+        if (res.status === false) {
           ActivateGCForm.current &&
             ActivateGCForm.current.updateInputsWithError(
               {
-                giftCardCode: [
-                  <>
-                    {res.message?.includes("already activated")
-                      ? `${res.message.replace(/\./g, "")} with ${censorEmail(
-                          res.activatorEmail
-                        )}`
-                      : res.message}
-                  </>
-                ]
+                giftCardCode: [res.message || "An error occurred"]
               },
               true
             );
@@ -275,6 +262,34 @@ const Giftcard: React.FC = () => {
             ...giftCardState,
             isProceedBtnDisabled: true
           });
+        } else {
+          if (res.currStatus === "Not Activated") {
+            setGiftCardState({
+              ...giftCardState,
+              showSendOtp: true,
+              isIndiaGC: res.curr === "INR"
+            });
+          } else {
+            ActivateGCForm.current &&
+              ActivateGCForm.current.updateInputsWithError(
+                {
+                  giftCardCode: [
+                    <>
+                      {res.message?.includes("already activated")
+                        ? `${res.message.replace(/\./g, "")} with ${censorEmail(
+                            res.activatorEmail
+                          )}`
+                        : res.message}
+                    </>
+                  ]
+                },
+                true
+              );
+            setGiftCardState({
+              ...giftCardState,
+              isProceedBtnDisabled: true
+            });
+          }
         }
       })
       .catch(err => {
