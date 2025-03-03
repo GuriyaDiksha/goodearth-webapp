@@ -252,15 +252,7 @@ const Giftcard: React.FC = () => {
           ActivateGCForm.current &&
             ActivateGCForm.current.updateInputsWithError(
               {
-                giftCardCode: [
-                  <>
-                    {res.message?.includes("already activated")
-                      ? `${res.message.replace(/\./g, "")} with ${censorEmail(
-                          res.activatorEmail
-                        )}`
-                      : res.message}
-                  </>
-                ]
+                giftCardCode: res?.message || "An error occurred"
               },
               true
             );
@@ -401,6 +393,7 @@ const Giftcard: React.FC = () => {
                       id="gift"
                       value={txtvalue}
                       handleChange={e => handleChange(e, "txtvalue")}
+                      keyDown={e => e.key === " " && e.preventDefault()}
                       disable={showSendOtp}
                       onFocus={() => {
                         if (!showSendOtp) {

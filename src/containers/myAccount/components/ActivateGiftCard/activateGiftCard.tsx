@@ -425,11 +425,7 @@ const Giftcard: React.FC = () => {
                       value={txtvalue}
                       handleChange={e => handleChange(e, "txtvalue")}
                       disable={showSendOtp}
-                      onFocus={() => {
-                        if (!showSendOtp) {
-                          setIsGCVerificationDisabled(false);
-                        }
-                      }}
+                      keyDown={e => e.key === " " && e.preventDefault()}
                       required={!isGCVerificationDisabled}
                     />
                     {showSendOtp && (
