@@ -38,6 +38,7 @@ import LoginService from "services/login";
 import BridalService from "services/bridal";
 import { result } from "lodash";
 import { updateCheckoutLoader, updateLoader } from "actions/info";
+import { isAEDDisabled } from "typings/currency";
 
 export default {
   showForgotPassword: function(
@@ -670,8 +671,8 @@ export default {
             if (
               data.currency.code == "INR" ||
               data.currency.code == "GBP" ||
-              data.currency.code == "SGD"
-              // || data.currency.code == "AED"
+              data.currency.code == "SGD" ||
+              (!isAEDDisabled && data.currency.code == "AED")
             ) {
               resolve(data.currency.code);
             } else {

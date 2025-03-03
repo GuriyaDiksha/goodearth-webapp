@@ -1,7 +1,7 @@
 export type Currency = "USD" | "INR" | "GBP" | "AED" | "SGD";
 
 // Flag to control the inclusion of AED
-const isAEDEnabled = false;
+export const isAEDDisabled = true;
 
 // Define the type with optional AED based on the flag
 type CurrencyCode = {
@@ -16,6 +16,6 @@ export const currencyCode: CurrencyCode = {
   INR: [8377],
   USD: [36],
   GBP: [163],
-  ...(isAEDEnabled ? { AED: [65, 69, 68] } : {}),
+  ...(!isAEDDisabled ? { AED: [65, 69, 68] } : {}),
   SGD: [83, 36]
 };
