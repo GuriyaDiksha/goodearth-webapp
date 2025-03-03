@@ -1440,11 +1440,13 @@ class PDPContainer extends React.Component<Props, State> {
     this.setState({
       shopShopLookPopup: true
     });
+    document.body.classList.add(globalStyles.noScroll);
   };
   closeShopLookPopUp = (): void => {
     this.setState({
       shopShopLookPopup: false
     });
+    document.body.classList.remove(globalStyles.noScroll);
   };
 
   handleLooksClick = (e: any) => {
