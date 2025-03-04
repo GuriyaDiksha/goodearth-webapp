@@ -53,15 +53,14 @@ const GiftCardCard = forwardRef<Props, any>(
     // }, []);
 
     useEffect(() => {
-      if (error?.[entry_code] && errorRef.current) {
+      if (error[entry_code] && errorRef.current) {
         errorRef.current.scrollIntoView({
           behavior: "smooth",
           block: "center"
         });
         errorRef.current.focus();
       }
-    }, [error, entry_code]);
-
+    }, [error[entry_code]]);
     return (
       <>
         <div
@@ -152,9 +151,11 @@ const GiftCardCard = forwardRef<Props, any>(
             </div>
           )}
         </div>
-        <p ref={errorRef} tabIndex={-1} className={styles.errorMsg}>
-          {error?.[entry_code]}
-        </p>
+        {error?.[entry_code] && (
+          <p ref={errorRef} className={styles.errorMsg} tabIndex={-1}>
+            {error[entry_code]}
+          </p>
+        )}
       </>
     );
   }
