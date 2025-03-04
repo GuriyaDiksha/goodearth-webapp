@@ -29,6 +29,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 import CheckoutFooter from "containers/checkout/checkoutFooter";
 import { updateOpenCookiePopup } from "actions/info";
 import { updateRegion } from "actions/widget";
+import { isAEDDisabled } from "typings/currency";
 // import { CUST } from "constants/util";
 // import * as _ from "lodash";
 const BaseLayout: React.FC = () => {
@@ -56,6 +57,7 @@ const BaseLayout: React.FC = () => {
   const [prevUrl, setPrevUrl] = useState("");
   const dominList = ["dv", "stg", "pprod"];
   // const flower = [flowerimg1, flowerimg2, flowerimg3, flowerimg4];
+  const [isUAEpage, setIsUAEpage] = useState(true);
   const getPWADisplayMode = () => {
     const isStandalone = window.matchMedia("(display-mode: standalone)")
       .matches;
@@ -387,6 +389,52 @@ const BaseLayout: React.FC = () => {
             }
 
             dispatch(updateOpenCookiePopup(true));
+          } else if (
+            isAEDDisabled &&
+            countryName.toLowerCase() === "united arab emirates"
+          ) {
+            if (isUAEpage && location.pathname != "/auth") {
+              history.push("/uaeshop");
+            }
+            if (curr != "error") {
+              if (curr && !cookieCurrency) {
+                const goCurrencyValue: any = curr;
+                if (
+                  goCurrencyValue.toString().toLowerCase() !=
+                  currency.toString().toLowerCase()
+                ) {
+                  const data: any = {
+                    currency: goCurrencyValue.toString().toUpperCase()
+                  };
+                  LoginService.changeCurrency(dispatch, data).then(res => {
+                    setTimeout(() => {
+                      LoginService.reloadPage(
+                        dispatch,
+                        data?.currency,
+                        customerGroup
+                      );
+                    }, 2000);
+                  });
+                } else {
+                  CookieService.setCookie(
+                    "currency",
+                    goCurrencyValue.toString().toUpperCase(),
+                    365
+                  );
+                  dispatch(
+                    updateRegion({
+                      region: "United Arab Emirates",
+                      ip: "",
+                      country: "United Arab Emirates"
+                    })
+                  );
+                }
+              }
+            } else {
+              CookieService.setCookie("currency", "AED", 365);
+            }
+
+            dispatch(updateOpenCookiePopup(true));
           } else {
             dispatch(
               updateComponent(
@@ -466,6 +514,14 @@ const BaseLayout: React.FC = () => {
       : true;
 
   // const minimalPage = backOrder || maintenance;
+
+  // redirection on UAEshop Page whne uae country encountered
+  useEffect(() => {
+    if (location.pathname != "/uaeshop") {
+      setIsUAEpage(false);
+    }
+  }, [pathname]);
+
   return (
     <Fragment>
       {/* <Whatsapp /> */}

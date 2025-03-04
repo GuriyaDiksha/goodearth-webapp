@@ -22,6 +22,8 @@ import CookieService from "services/cookie";
 import { countryCurrencyCode } from "constants/currency";
 import { updateOpenCookiePopup } from "actions/info";
 import { updateRegion } from "actions/widget";
+import { useHistory } from "react-router";
+import { isAEDDisabled } from "typings/currency";
 
 type CountryOptions = {
   value: string;
@@ -31,6 +33,7 @@ type CountryOptions = {
 };
 
 const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
+  const history = useHistory();
   const { closeModal } = useContext(Context);
   const dispatch = useDispatch();
   const [countryOptions, setCountryOptions] = useState<CountryOptions[]>([]);
@@ -173,7 +176,14 @@ const CountryPopup: React.FC<{ initSection: number }> = ({ initSection }) => {
                     options={countryOptions}
                     allowFilter={true}
                     inputRef={countryRef}
-                    value={selectedCountry?.country}
+                    // value={selectedCountry?.country}
+                    value={
+                      isAEDDisabled &&
+                      selectedCountry?.country.toLowerCase() ===
+                        "united arab emirates"
+                        ? "United States"
+                        : selectedCountry?.country
+                    }
                     onInputClick={flag => setContainerHeighFixed(flag)}
                   />
                 </div>

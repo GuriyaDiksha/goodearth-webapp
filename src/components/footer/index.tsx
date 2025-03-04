@@ -26,6 +26,7 @@ import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import NewsletterModal from "./NewsletterModal";
 import Newsletter from "./Newsletter";
+import { isAEDDisabled } from "typings/currency";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -192,7 +193,12 @@ class Footer extends React.Component<Props, FooterState> {
     }
     this.setState({
       isConsentSave: CookieService.getCookie("consent") !== "",
-      country: CookieService.getCookie("country")
+      country:
+        isAEDDisabled &&
+        CookieService.getCookie("country").toLowerCase() ===
+          "united arab emirates"
+          ? "United States"
+          : CookieService.getCookie("country")
     });
     this.checkPopupVisibility();
     // Optional: Check visibility every minute
