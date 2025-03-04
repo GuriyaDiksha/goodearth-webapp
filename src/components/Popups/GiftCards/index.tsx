@@ -22,6 +22,7 @@ import AccountService from "services/account";
 import { updateComponent, updateModal } from "actions/modal";
 import { POPUP } from "constants/components";
 import { showGrowlMessage } from "utils/validate";
+import { updateCheckoutLoader } from "actions/info";
 
 type Props = {
   data: GiftCard[];
@@ -68,6 +69,7 @@ const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard, gc_code }) => {
   }, []);
 
   const applyGC = async (gc: string, isGCApplied?: boolean) => {
+    dispatch(updateCheckoutLoader(true));
     const data: any = {
       cardId: gc,
       type: "GIFTCARD"
@@ -79,7 +81,7 @@ const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard, gc_code }) => {
 
       setCheckedIds([...checkedIds, gc]);
 
-      fetchGiftCards();
+      // fetchGiftCards();
 
       const userConsent = CookieService.getCookie("consent").split(",");
       if (userConsent.includes(GA_CALLS)) {
@@ -96,12 +98,17 @@ const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard, gc_code }) => {
         });
       }
 
-      await BasketService.fetchBasket(
+      const basketRes = await BasketService.fetchBasket(
         dispatch,
         "checkout",
         history,
         isLoggedIn
       );
+
+      if (basketRes) {
+        dispatch(updateCheckoutLoader(false));
+      }
+
       //Show  Growl Messsage
       if (isGCApplied) {
         const msg = "Success. Gift Card Code Activated & Applied!";
@@ -133,21 +140,25 @@ const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard, gc_code }) => {
   }, [gc_code && gc_code]);
 
   const removeGC = async (gc: string) => {
+    dispatch(updateCheckoutLoader(true));
     const data: any = {
       cardId: gc,
       type: "GIFTCARD"
     };
     const res = await CheckoutService.removeGiftCard(dispatch, data);
     if (res) {
-      fetchGiftCards();
+      // fetchGiftCards();
       setError({ ...error, [gc]: "" });
       setCheckedIds([...checkedIds.filter(ele => ele !== gc)]);
-      await BasketService.fetchBasket(
+      const basketRes = await BasketService.fetchBasket(
         dispatch,
         "checkout",
         history,
         isLoggedIn
       );
+      if (basketRes) {
+        dispatch(updateCheckoutLoader(false));
+      }
     }
   };
 

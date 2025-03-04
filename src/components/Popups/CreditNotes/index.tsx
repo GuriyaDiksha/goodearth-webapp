@@ -15,6 +15,7 @@ import CheckoutService from "services/checkout";
 import CookieService from "services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import AccountService from "services/account";
+import { updateCheckoutLoader } from "actions/info";
 
 type Props = {
   data: CreditNote[];
@@ -59,6 +60,7 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
   }, []);
 
   const applyCN = async (cn: string) => {
+    dispatch(updateCheckoutLoader(true));
     const data: any = {
       cardId: cn,
       type: "CREDITNOTE"
@@ -87,18 +89,22 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
         });
       }
 
-      await BasketService.fetchBasket(
+      const basketRes = await BasketService.fetchBasket(
         dispatch,
         "checkout",
         history,
         isLoggedIn
       );
+      if (basketRes) {
+        dispatch(updateCheckoutLoader(false));
+      }
     } else {
       setError({ ...error, [cn]: gift?.message });
     }
   };
 
   const removeCN = async (cn: string) => {
+    dispatch(updateCheckoutLoader(true));
     const data: any = {
       cardId: cn,
       type: "CREDITNOTE"
@@ -107,12 +113,15 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
     if (res) {
       fetchCreditNotes();
       setCheckedIds([...checkedIds.filter(ele => ele !== cn)]);
-      await BasketService.fetchBasket(
+      const basketRes = await BasketService.fetchBasket(
         dispatch,
         "checkout",
         history,
         isLoggedIn
       );
+      if (basketRes) {
+        dispatch(updateCheckoutLoader(false));
+      }
     }
   };
 
