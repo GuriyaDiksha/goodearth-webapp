@@ -138,7 +138,8 @@ const Giftcard: React.FC = () => {
       isSuccess: false,
       giftList: [],
       txtvalue: "",
-      showSendOtp: false
+      showSendOtp: false,
+      activatedGcMsg: ""
     });
     // this.props.history.push(this.props.history.location.pathname, {});
     const userConsent = CookieService.getCookie("consent").split(",");
