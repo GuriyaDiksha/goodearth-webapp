@@ -242,17 +242,11 @@ const Giftcard: React.FC = () => {
           ...giftCardState,
           isLoading: false
         });
-        if (res.currStatus === "Not Activated") {
-          setGiftCardState({
-            ...giftCardState,
-            showSendOtp: true,
-            isIndiaGC: res.curr === "INR"
-          });
-        } else {
+        if (res.status === false) {
           ActivateGCForm.current &&
             ActivateGCForm.current.updateInputsWithError(
               {
-                giftCardCode: res?.message || "An error occurred"
+                giftCardCode: [res.message || "An error occurred"]
               },
               true
             );
@@ -260,6 +254,26 @@ const Giftcard: React.FC = () => {
             ...giftCardState,
             isProceedBtnDisabled: true
           });
+        } else {
+          if (res.currStatus === "Not Activated") {
+            setGiftCardState({
+              ...giftCardState,
+              showSendOtp: true,
+              isIndiaGC: res.curr === "INR"
+            });
+          } else {
+            ActivateGCForm.current &&
+              ActivateGCForm.current.updateInputsWithError(
+                {
+                  giftCardCode: res?.message || "An error occurred"
+                },
+                true
+              );
+            setGiftCardState({
+              ...giftCardState,
+              isProceedBtnDisabled: true
+            });
+          }
         }
       })
       .catch(err => {
