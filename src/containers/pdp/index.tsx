@@ -1268,28 +1268,24 @@ class PDPContainer extends React.Component<Props, State> {
                   : bootstrap.colLg4
               )}
             >
-              <div className={cs({ [styles.looksMainImage]: mobile })}>
+              <div
+                className={cs(globalStyles.paddBottom20, {
+                  [styles.looksMainImage]: mobile
+                })}
+              >
                 {/* <Link
                     to={data.url}
                     // onClick={gtmProductClick}
                   > */}
-                <LazyImage
+                <img
                   alt={data?.altText || data?.title}
-                  aspectRatio={
-                    data.lookImageType === "landscape" ? "100:49" : "62:93"
-                  }
                   src={
                     data?.lookImageUrl ||
                     (data?.images?.[0]
                       ? data?.images?.[0]?.productImage
                       : "/static/img/noimageplp.png")
                   }
-                  className={styles.imageResultnew}
-                  // isVisible={}
-                  onError={(e: any) => {
-                    e.target.onerror = null;
-                    e.target.src = noPlpImage;
-                  }}
+                  className={cs(globalStyles.imgResponsive)}
                 />
                 {/* </Link> */}
               </div>
