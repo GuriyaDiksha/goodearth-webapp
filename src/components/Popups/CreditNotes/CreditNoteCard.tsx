@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 import cs from "classnames";
 import styles from "./index.scss";
 import { CreditNote } from "containers/myAccount/components/MyCreditNotes/typings";
@@ -37,11 +37,22 @@ const CreditNoteCard = forwardRef<Props, any>(
     ref
   ) => {
     const { currency } = useSelector((state: AppState) => state);
+    const errorRef = useRef<HTMLParagraphElement | null>(null);
     const today = new Date();
     const dd = String(today.getDate()).padStart(2, "0");
     const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     const yyyy = today.getFullYear();
     const today_in_str = dd + "/" + mm + "/" + yyyy;
+
+    useEffect(() => {
+      if (error[entry_code] && errorRef.current) {
+        errorRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+        errorRef.current.focus();
+      }
+    }, [error[entry_code]]);
 
     return (
       <>
@@ -133,7 +144,11 @@ const CreditNoteCard = forwardRef<Props, any>(
             </div>
           )}
         </div>
-        <p className={styles.errorMsg}>{error?.[entry_code]}</p>
+        {error?.[entry_code] && (
+          <p ref={errorRef} className={styles.errorMsg}>
+            {error?.[entry_code]}
+          </p>
+        )}
       </>
     );
   }

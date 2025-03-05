@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect } from "react";
+import React, { forwardRef, useEffect, useRef } from "react";
 import cs from "classnames";
 import styles from "./index.scss";
 import { GiftCard } from "containers/myAccount/components/MyCreditNotes/typings";
@@ -40,7 +40,7 @@ const GiftCardCard = forwardRef<Props, any>(
     const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     const yyyy = today.getFullYear();
     const today_in_str = dd + "/" + mm + "/" + yyyy;
-
+    const errorRef = useRef<HTMLParagraphElement | null>(null);
     // useEffect(() => {
     //   // Scroll to the first element whose has darkBorder class
     //   const activeElement = document.getElementsByClassName(
@@ -52,6 +52,15 @@ const GiftCardCard = forwardRef<Props, any>(
     //   }
     // }, []);
 
+    useEffect(() => {
+      if (error[entry_code] && errorRef.current) {
+        errorRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+        errorRef.current.focus();
+      }
+    }, [error[entry_code]]);
     return (
       <>
         <div
@@ -142,7 +151,11 @@ const GiftCardCard = forwardRef<Props, any>(
             </div>
           )}
         </div>
-        <p className={styles.errorMsg}>{error?.[entry_code]}</p>
+        {error?.[entry_code] && (
+          <p ref={errorRef} className={styles.errorMsg} tabIndex={-1}>
+            {error[entry_code]}
+          </p>
+        )}
       </>
     );
   }
