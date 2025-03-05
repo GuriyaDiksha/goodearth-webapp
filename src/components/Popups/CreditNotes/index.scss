@@ -151,7 +151,11 @@
         .error-msg{
             text-align: left;
             margin: 5px 0 15px 0;
-            @include err_13px_lora_italic_cerise();
+            letter-spacing: 0 !important;
+            font-family: $font-Lora !important; 
+            font-size: 13px !important;
+            color: $cerise !important;
+            font-style: italic !important;
         }
 
     }
