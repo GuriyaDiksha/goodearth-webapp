@@ -160,6 +160,9 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
 
     setActiveKey(activeKey !== key ? key : "");
   };
+  const filterCreditNoteList = (creditnoteList || []).filter(
+    creditNote => creditNote.message === ""
+  );
 
   return (
     <div>
@@ -193,7 +196,7 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
 
         <div className={cs(style.cnBody)}>
           <div className={style.boxWrp}>
-            {creditnoteList?.map(creditNote => (
+            {filterCreditNoteList?.map(creditNote => (
               <CreditNoteCard
                 key={creditNote?.entry_code}
                 creditNote={creditNote}
