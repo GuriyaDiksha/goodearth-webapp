@@ -81,7 +81,7 @@ const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard, gc_code }) => {
 
       setCheckedIds([...checkedIds, gc]);
 
-      // fetchGiftCards();
+      fetchGiftCards();
 
       const userConsent = CookieService.getCookie("consent").split(",");
       if (userConsent.includes(GA_CALLS)) {
@@ -117,6 +117,7 @@ const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard, gc_code }) => {
       }
     } else {
       setError({ ...error, [gc]: gift?.message });
+      dispatch(updateCheckoutLoader(false));
       //Show  Growl Messsage
       if (isGCApplied) {
         const msg = "Success. Gift Card Code Activated!";
@@ -147,7 +148,7 @@ const GiftCards: React.FC<Props> = ({ data, setIsactivegiftcard, gc_code }) => {
     };
     const res = await CheckoutService.removeGiftCard(dispatch, data);
     if (res) {
-      // fetchGiftCards();
+      fetchGiftCards();
       setError({ ...error, [gc]: "" });
       setCheckedIds([...checkedIds.filter(ele => ele !== gc)]);
       const basketRes = await BasketService.fetchBasket(
