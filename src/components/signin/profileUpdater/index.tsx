@@ -743,7 +743,7 @@ class ProfileUpdater extends React.Component<Props, State> {
         )} */}
         <FormContainer
           heading="Update Profile"
-          subheading="Update your profile details for an enhanced shopping experience."
+          subheading="Just a few more details! Update your profile for a personalised experience."
           formContent={formContent}
         />
         {/* {this.state.disableSelectedbox && <Loader />} */}
