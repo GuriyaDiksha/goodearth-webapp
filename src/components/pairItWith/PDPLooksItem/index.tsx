@@ -315,13 +315,12 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           )}
         </p>
 
-        {sizeExit && (
+        {!mobile && sizeExit && (
           <div
             className={cs(
               styles.productSizeList,
               // { [styles.productSizeListMobile]: mobile },
-              bootstrapStyles.row,
-              { [globalStyles.opacity1]: mobile }
+              bootstrapStyles.row
             )}
           >
             <div className={styles.productSize}> size</div>
