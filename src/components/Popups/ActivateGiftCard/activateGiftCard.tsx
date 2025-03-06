@@ -98,7 +98,7 @@ const Giftcard: React.FC = () => {
         setGiftCardState({ ...giftCardState, lastName: value });
         break;
       case "txtvalue":
-        setGiftCardState({ ...giftCardState, txtvalue: value });
+        setGiftCardState({ ...giftCardState, txtvalue: value.trim() });
     }
   };
 
@@ -405,7 +405,7 @@ const Giftcard: React.FC = () => {
                       label="Gift Card Code"
                       blur={e => errorOnBlur(e)}
                       id="gift"
-                      value={txtvalue}
+                      value={txtvalue.trim()}
                       handleChange={e => handleChange(e, "txtvalue")}
                       keyDown={e => e.key === " " && e.preventDefault()}
                       disable={showSendOtp}
