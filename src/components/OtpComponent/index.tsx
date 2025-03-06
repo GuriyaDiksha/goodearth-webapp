@@ -595,7 +595,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             currStatus == "Invalid-CN" ||
             currStatus == "Invalid-GC" ||
             INVALID_MSG.includes(currStatus) ||
-            currStatus.includes("incorrect")
+            currStatus.includes("incorrect") ||
+            currStatus == "Invalid code"
           ) {
             let errorMessage = `The entered ${
               this.props.isCredit ? "Credit Note" : "Gift Card"
