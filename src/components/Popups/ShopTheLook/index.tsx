@@ -74,19 +74,15 @@ const ShopTheLookPopup: React.FC<PopupProps> = ({
             {data?.lookImageType === "landscape" && (
               <div className={bootstrap.row}>
                 <div className={cs(bootstrap.col12, styles.shopLandScape)}>
-                  <LazyImage
-                    aspectRatio="100:48"
-                    alt={data?.altText}
+                  <img
+                    alt={data?.altText || data?.title}
                     src={
                       data?.lookImageUrl ||
                       (data?.images?.[0]
                         ? data?.images?.[0]?.productImage
                         : "/static/img/noimageplp.png")
                     }
-                    onError={(e: any): void => {
-                      e.target.onerror = null;
-                      e.target.src = noPlpImage;
-                    }}
+                    className={cs(globalStyles.imgResponsive)}
                   />
                 </div>
               </div>
