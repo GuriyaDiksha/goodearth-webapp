@@ -54,13 +54,16 @@ const GiftCardCard = forwardRef<Props, any>(
 
     useEffect(() => {
       if (error[entry_code] && errorRef.current) {
-        errorRef.current.scrollIntoView({
-          behavior: "smooth",
-          block: "center"
-        });
-        errorRef.current.focus();
+        setTimeout(() => {
+          errorRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+          errorRef.current?.focus();
+        }, 100); // Small delay to ensure UI updates
       }
-    }, [error[entry_code]]);
+    }, [error, error[entry_code]]);
+
     return (
       <>
         <div
