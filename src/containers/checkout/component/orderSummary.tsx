@@ -22,6 +22,7 @@ import freeShippingInfoIcon from "../../../images/free_shipping_info.svg";
 import Loader from "components/Loader";
 import ModalStyles from "components/Modal/styles.scss";
 import { countWishlist } from "actions/wishlist";
+import { updateCheckoutLoader } from "actions/info";
 
 const OrderSummary: React.FC<OrderProps> = props => {
   const {
@@ -406,17 +407,35 @@ const OrderSummary: React.FC<OrderProps> = props => {
 
   const removeGiftCard = async (data: FormData) => {
     setLoading(true);
+    dispatch(updateCheckoutLoader(true));
     const response = await CheckoutService.removeGiftCard(dispatch, data);
-    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    const basketRes = await BasketService.fetchBasket(
+      dispatch,
+      "checkout",
+      history,
+      isLoggedIn
+    );
     setLoading(false);
+    if (basketRes) {
+      dispatch(updateCheckoutLoader(false));
+    }
     return response;
   };
 
   const removeRedeem = async () => {
     setLoading(true);
+    dispatch(updateCheckoutLoader(true));
     const response = await CheckoutService.removeRedeem(dispatch);
-    BasketService.fetchBasket(dispatch, "checkout", history, isLoggedIn);
+    const basketRes = await BasketService.fetchBasket(
+      dispatch,
+      "checkout",
+      history,
+      isLoggedIn
+    );
     setLoading(false);
+    if (basketRes) {
+      dispatch(updateCheckoutLoader(false));
+    }
     return response;
   };
 

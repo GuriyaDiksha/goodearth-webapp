@@ -100,6 +100,7 @@ const CreditNotes: React.FC<Props> = ({ data, setIsactivecreditnote }) => {
       }
     } else {
       setError({ ...error, [cn]: gift?.message });
+      dispatch(updateCheckoutLoader(false));
     }
   };
 
