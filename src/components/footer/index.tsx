@@ -27,6 +27,7 @@ import { POPUP } from "constants/components";
 import NewsletterModal from "./NewsletterModal";
 import Newsletter from "./Newsletter";
 import { isAEDDisabled } from "typings/currency";
+import LoginService from "services/login";
 
 const mapStateToProps = (state: AppState) => {
   return {
@@ -71,6 +72,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         )
       );
       dispatch(updateModal(true));
+    },
+    getClientIpCurrency: () => {
+      LoginService.getClientIpCurrency(dispatch);
     }
   };
 };
@@ -168,6 +172,7 @@ class Footer extends React.Component<Props, FooterState> {
   }
 
   componentDidMount() {
+    console.log("country===", this.props.country, this.state.country);
     let headingLength = 0;
     let subHeadingLength = 0;
     this.props.data.footerList.map(e => {
@@ -193,6 +198,7 @@ class Footer extends React.Component<Props, FooterState> {
     }
     this.setState({
       isConsentSave: CookieService.getCookie("consent") !== "",
+      // country: CookieService.getCookie("country"),
       country:
         isAEDDisabled &&
         CookieService.getCookie("country").toLowerCase() ===
@@ -203,6 +209,14 @@ class Footer extends React.Component<Props, FooterState> {
     this.checkPopupVisibility();
     // Optional: Check visibility every minute
     this.interval = window.setInterval(this.checkPopupVisibility, 60000);
+
+    if (
+      isAEDDisabled &&
+      this.state?.country?.toLowerCase() === "united arab emirates"
+    ) {
+      CookieService.setCookie("country", "");
+      this.props.getClientIpCurrency();
+    }
   }
 
   componentDidUpdate(
