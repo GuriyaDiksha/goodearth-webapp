@@ -202,7 +202,8 @@ class Footer extends React.Component<Props, FooterState> {
       country:
         isAEDDisabled &&
         CookieService.getCookie("country").toLowerCase() ===
-          "united arab emirates"
+          "united arab emirates" &&
+        CookieService.getCookie("countryCode") == "AE"
           ? "United States"
           : CookieService.getCookie("country")
     });
@@ -210,13 +211,14 @@ class Footer extends React.Component<Props, FooterState> {
     // Optional: Check visibility every minute
     this.interval = window.setInterval(this.checkPopupVisibility, 60000);
 
-    if (
-      isAEDDisabled &&
-      this.state?.country?.toLowerCase() === "united arab emirates"
-    ) {
-      CookieService.setCookie("country", "");
-      this.props.getClientIpCurrency();
-    }
+    setTimeout(() => {
+      if (
+        isAEDDisabled &&
+        this.state?.country?.toLowerCase() === "united arab emirates"
+      ) {
+        this.props.getClientIpCurrency();
+      }
+    }, 1000);
   }
 
   componentDidUpdate(
