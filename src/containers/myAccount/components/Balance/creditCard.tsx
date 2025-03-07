@@ -42,7 +42,7 @@ class CreditNote extends React.Component<Props, GiftState> {
   changeValue = (event: any) => {
     this.state.disable && this.setState({ disable: false });
     this.setState({
-      txtvalue: event.target.value
+      txtvalue: event.target.value.trim()
     });
     if (this.state.error) {
       this.setState({ error: "" });

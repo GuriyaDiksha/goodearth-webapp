@@ -590,6 +590,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         const { status, currStatus, message, email } = decriptdata(
           error.response.data
         );
+        this.setState({ showerrorOtp: "" });
         if (!status) {
           if (
             currStatus == "Invalid-CN" ||

@@ -97,7 +97,7 @@ const Giftcard: React.FC = () => {
         setGiftCardState({ ...giftCardState, lastName: value });
         break;
       case "txtvalue":
-        setGiftCardState({ ...giftCardState, txtvalue: value });
+        setGiftCardState({ ...giftCardState, txtvalue: value?.trim() });
     }
   };
 
