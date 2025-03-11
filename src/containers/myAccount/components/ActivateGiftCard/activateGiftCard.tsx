@@ -97,7 +97,7 @@ const Giftcard: React.FC = () => {
         setGiftCardState({ ...giftCardState, lastName: value });
         break;
       case "txtvalue":
-        setGiftCardState({ ...giftCardState, txtvalue: value });
+        setGiftCardState({ ...giftCardState, txtvalue: value?.trim() });
     }
   };
 
@@ -138,7 +138,8 @@ const Giftcard: React.FC = () => {
       isSuccess: false,
       giftList: [],
       txtvalue: "",
-      showSendOtp: false
+      showSendOtp: false,
+      activatedGcMsg: ""
     });
     // this.props.history.push(this.props.history.location.pathname, {});
     const userConsent = CookieService.getCookie("consent").split(",");
@@ -249,25 +250,12 @@ const Giftcard: React.FC = () => {
           ...giftCardState,
           isLoading: false
         });
-        if (res.currStatus === "Not Activated") {
-          setGiftCardState({
-            ...giftCardState,
-            showSendOtp: true,
-            isIndiaGC: res.curr === "INR"
-          });
-        } else {
+
+        if (res.status === false) {
           ActivateGCForm.current &&
             ActivateGCForm.current.updateInputsWithError(
               {
-                giftCardCode: [
-                  <>
-                    {res.message?.includes("already activated")
-                      ? `${res.message.replace(/\./g, "")} with ${censorEmail(
-                          res.activatorEmail
-                        )}`
-                      : res.message}
-                  </>
-                ]
+                giftCardCode: [res.message || "An error occurred"]
               },
               true
             );
@@ -275,6 +263,34 @@ const Giftcard: React.FC = () => {
             ...giftCardState,
             isProceedBtnDisabled: true
           });
+        } else {
+          if (res.currStatus === "Not Activated") {
+            setGiftCardState({
+              ...giftCardState,
+              showSendOtp: true,
+              isIndiaGC: res.curr === "INR"
+            });
+          } else {
+            ActivateGCForm.current &&
+              ActivateGCForm.current.updateInputsWithError(
+                {
+                  giftCardCode: [
+                    <>
+                      {res.message?.includes("already activated")
+                        ? `${res.message.replace(/\./g, "")} with ${censorEmail(
+                            res.activatorEmail
+                          )}`
+                        : res.message}
+                    </>
+                  ]
+                },
+                true
+              );
+            setGiftCardState({
+              ...giftCardState,
+              isProceedBtnDisabled: true
+            });
+          }
         }
       })
       .catch(err => {
@@ -410,11 +426,7 @@ const Giftcard: React.FC = () => {
                       value={txtvalue}
                       handleChange={e => handleChange(e, "txtvalue")}
                       disable={showSendOtp}
-                      onFocus={() => {
-                        if (!showSendOtp) {
-                          setIsGCVerificationDisabled(false);
-                        }
-                      }}
+                      keyDown={e => e.key === " " && e.preventDefault()}
                       required={!isGCVerificationDisabled}
                     />
                     {showSendOtp && (

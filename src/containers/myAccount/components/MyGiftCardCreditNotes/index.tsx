@@ -194,7 +194,7 @@ const GiftCardCreditNotes: React.FC<Props> = ({ setCurrentSection }) => {
           <>
             <div className={styles.noDataContainer}>
               <div className={styles.noDataContent}>
-                <p>No active Credit Note(s) available.</p>
+                <p>No Credit Note(s) available.</p>
               </div>
             </div>
           </>
