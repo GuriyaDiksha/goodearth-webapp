@@ -1259,7 +1259,7 @@ class PDPContainer extends React.Component<Props, State> {
           >
             Shop The Look
           </h2>
-          <div className={bootstrap.row}>
+          <div className={cs(bootstrap.row, globalStyles.paddBottom20)}>
             <div
               className={cs(
                 bootstrap.colMd5,
@@ -1269,7 +1269,7 @@ class PDPContainer extends React.Component<Props, State> {
               )}
             >
               <div
-                className={cs(globalStyles.paddBottom20, {
+                className={cs({
                   [styles.looksMainImage]: mobile
                 })}
               >
@@ -1285,7 +1285,13 @@ class PDPContainer extends React.Component<Props, State> {
                       ? data?.images?.[0]?.productImage
                       : "/static/img/noimageplp.png")
                   }
-                  className={cs(globalStyles.imgResponsive)}
+                  className={cs(globalStyles.paddR30)}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    aspectRatio:
+                      data.lookImageType === "landscape" ? "93/65" : "59/80"
+                  }}
                 />
                 {/* </Link> */}
               </div>
