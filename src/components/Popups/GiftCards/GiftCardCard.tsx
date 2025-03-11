@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import cs from "classnames";
 import styles from "./index.scss";
 import { GiftCard } from "containers/myAccount/components/MyCreditNotes/typings";
@@ -8,11 +8,14 @@ import { GA_CALLS } from "constants/cookieConsent";
 
 type Props = {
   giftCardData: GiftCard;
-  onCheck: (e: React.ChangeEvent<HTMLInputElement>, v: string) => void;
+  onCheck: (
+    e: React.ChangeEvent<HTMLInputElement> | boolean,
+    v: string
+  ) => void;
   checkedIds: string[];
   activeKey: string;
   setActiveKey: (x: string) => void;
-  error: { key: string }[];
+  error: { [key: string]: string };
 };
 
 const GiftCardCard = forwardRef<Props, any>(
@@ -40,17 +43,72 @@ const GiftCardCard = forwardRef<Props, any>(
     const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
     const yyyy = today.getFullYear();
     const today_in_str = dd + "/" + mm + "/" + yyyy;
+    const errorRef = useRef<HTMLParagraphElement | null>(null);
+    const [lastClicked, setLastClicked] = useState<string | null>(null);
 
-    // useEffect(() => {
-    //   // Scroll to the first element whose has darkBorder class
-    //   const activeElement = document.getElementsByClassName(
-    //     styles.darkBorder
-    //   )[0] as HTMLDivElement;
+    // Separate useEffect for initial errors on component mount
+    useEffect(() => {
+      if (error && error[entry_code] && errorRef.current) {
+        errorRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+        errorRef.current?.focus();
+      }
+    }, []); // Empty dependency array for mount only
 
-    //   if (activeElement && activeElement.scrollIntoView) {
-    //     activeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    //   }
-    // }, []);
+    // This effect handles errors that appear after clicking the Apply button
+    useEffect(() => {
+      if (
+        lastClicked === entry_code &&
+        error &&
+        error[entry_code] &&
+        errorRef.current
+      ) {
+        // Only scroll if this specific card was just clicked and has an error
+        setTimeout(() => {
+          errorRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+          errorRef.current?.focus();
+        }, 100);
+        // Reset lastClicked after scrolling
+        setLastClicked(null);
+      }
+    }, [error, lastClicked, entry_code]);
+
+    const handleApplyClick = () => {
+      // Set this card as the last clicked one before calling onCheck
+      setLastClicked(entry_code);
+
+      onCheck(checkedIds.includes(entry_code), entry_code);
+
+      const userConsent = CookieService.getCookie("consent").split(",");
+      if (checkedIds.includes(entry_code)) {
+        // Hit Remove credit_note event on click of Apply CTA
+        if (userConsent.includes(GA_CALLS)) {
+          dataLayer.push({
+            event: "remove_gift_card",
+            GC_amount: amount,
+            date_of_issue: date_created,
+            date_of_redemption: today_in_str,
+            date_of_expiry: expiring_date
+          });
+        }
+      } else {
+        // Hit Apply credit_note event on click of Remove CTA
+        if (userConsent.includes(GA_CALLS)) {
+          dataLayer.push({
+            event: "apply_gift_card",
+            GC_amount: amount,
+            date_of_issue: date_created,
+            date_of_redemption: today_in_str,
+            date_of_expiry: expiring_date
+          });
+        }
+      }
+    };
 
     return (
       <>
@@ -81,35 +139,7 @@ const GiftCardCard = forwardRef<Props, any>(
                 className={cs(styles.apply, {
                   [styles.active]: checkedIds.includes(entry_code)
                 })}
-                onClick={() => {
-                  onCheck(checkedIds.includes(entry_code), entry_code);
-                  const userConsent = CookieService.getCookie("consent").split(
-                    ","
-                  );
-                  if (checkedIds.includes(entry_code)) {
-                    // Hit Remove credit_note event on click of Apply CTA
-                    if (userConsent.includes(GA_CALLS)) {
-                      dataLayer.push({
-                        event: "remove_gift_card",
-                        GC_amount: amount,
-                        date_of_issue: date_created,
-                        date_of_redemption: today_in_str,
-                        date_of_expiry: expiring_date
-                      });
-                    }
-                  } else {
-                    // Hit Apply credit_note event on click of Remove CTA
-                    if (userConsent.includes(GA_CALLS)) {
-                      dataLayer.push({
-                        event: "apply_gift_card",
-                        GC_amount: amount,
-                        date_of_issue: date_created,
-                        date_of_redemption: today_in_str,
-                        date_of_expiry: expiring_date
-                      });
-                    }
-                  }
-                }}
+                onClick={handleApplyClick}
               >
                 {checkedIds.includes(entry_code) ? "REMOVE" : "APPLY"}
               </p>
@@ -142,7 +172,16 @@ const GiftCardCard = forwardRef<Props, any>(
             </div>
           )}
         </div>
-        <p className={styles.errorMsg}>{error?.[entry_code]}</p>
+        {error && error[entry_code] && (
+          <p
+            ref={errorRef}
+            className={styles.errorMsg}
+            tabIndex={-1}
+            id={`error-${entry_code}`}
+          >
+            {error[entry_code]}
+          </p>
+        )}
       </>
     );
   }

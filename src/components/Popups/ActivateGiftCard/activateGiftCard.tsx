@@ -98,7 +98,7 @@ const Giftcard: React.FC = () => {
         setGiftCardState({ ...giftCardState, lastName: value });
         break;
       case "txtvalue":
-        setGiftCardState({ ...giftCardState, txtvalue: value });
+        setGiftCardState({ ...giftCardState, txtvalue: value.trim() });
     }
   };
 
@@ -242,25 +242,11 @@ const Giftcard: React.FC = () => {
           ...giftCardState,
           isLoading: false
         });
-        if (res.currStatus === "Not Activated") {
-          setGiftCardState({
-            ...giftCardState,
-            showSendOtp: true,
-            isIndiaGC: res.curr === "INR"
-          });
-        } else {
+        if (res.status === false) {
           ActivateGCForm.current &&
             ActivateGCForm.current.updateInputsWithError(
               {
-                giftCardCode: [
-                  <>
-                    {res.message?.includes("already activated")
-                      ? `${res.message.replace(/\./g, "")} with ${censorEmail(
-                          res.activatorEmail
-                        )}`
-                      : res.message}
-                  </>
-                ]
+                giftCardCode: [res.message || "An error occurred"]
               },
               true
             );
@@ -268,6 +254,26 @@ const Giftcard: React.FC = () => {
             ...giftCardState,
             isProceedBtnDisabled: true
           });
+        } else {
+          if (res.currStatus === "Not Activated") {
+            setGiftCardState({
+              ...giftCardState,
+              showSendOtp: true,
+              isIndiaGC: res.curr === "INR"
+            });
+          } else {
+            ActivateGCForm.current &&
+              ActivateGCForm.current.updateInputsWithError(
+                {
+                  giftCardCode: res?.message || "An error occurred"
+                },
+                true
+              );
+            setGiftCardState({
+              ...giftCardState,
+              isProceedBtnDisabled: true
+            });
+          }
         }
       })
       .catch(err => {
@@ -399,8 +405,9 @@ const Giftcard: React.FC = () => {
                       label="Gift Card Code"
                       blur={e => errorOnBlur(e)}
                       id="gift"
-                      value={txtvalue}
+                      value={txtvalue.trim()}
                       handleChange={e => handleChange(e, "txtvalue")}
+                      keyDown={e => e.key === " " && e.preventDefault()}
                       disable={showSendOtp}
                       onFocus={() => {
                         if (!showSendOtp) {

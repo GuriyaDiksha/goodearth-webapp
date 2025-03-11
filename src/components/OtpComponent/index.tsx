@@ -590,12 +590,14 @@ class OtpComponent extends React.Component<otpProps, otpState> {
         const { status, currStatus, message, email } = decriptdata(
           error.response.data
         );
+        this.setState({ showerrorOtp: "" });
         if (!status) {
           if (
             currStatus == "Invalid-CN" ||
             currStatus == "Invalid-GC" ||
             INVALID_MSG.includes(currStatus) ||
-            currStatus.includes("incorrect")
+            currStatus.includes("incorrect") ||
+            currStatus == "Invalid code"
           ) {
             let errorMessage = `The entered ${
               this.props.isCredit ? "Credit Note" : "Gift Card"
