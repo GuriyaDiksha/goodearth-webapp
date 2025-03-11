@@ -86,16 +86,16 @@ body:has(.mobile) {
   // max-width: 556px;
   margin: auto;
   min-height: 160px;
-  @media(min-width:768px){
-    max-width: 556px;
-  }
+  // @media(max-width:1290px){
+  //   max-width: 556px !important;
+  // }
 
   &.checkout{
     width: 755px;
     max-width: 755px;
-    @media screen and (max-width:992px) {
+    @media screen and (max-width:1290px) {
       width: 100%;
-      
+
     }
   }
 
