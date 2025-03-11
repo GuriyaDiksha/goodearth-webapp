@@ -15,6 +15,7 @@ import { useHistory } from "react-router";
 import bootstrapStyles from "styles/bootstrap/bootstrap-grid.scss";
 import { GiftCard } from "containers/myAccount/components/MyCreditNotes/typings";
 import { displayPriceWithSeparation } from "utils/utility";
+import { updateCheckoutLoader } from "actions/info";
 
 type Props = {
   amountGC: any;
@@ -98,6 +99,7 @@ const ApplyCreditNote: React.FC<Props> = ({ hasGC, amountGC }) => {
 
   //Onclose of individual CN
   const onClose = async (code: string, type: string) => {
+    dispatch(updateCheckoutLoader(true));
     const data: any = {
       cardId: code,
       type: type
@@ -105,12 +107,16 @@ const ApplyCreditNote: React.FC<Props> = ({ hasGC, amountGC }) => {
 
     const gift: any = await CheckoutService.removeGiftCard(dispatch, data);
     if (gift.status) {
-      await BasketService.fetchBasket(
+      const basketRes = await BasketService.fetchBasket(
         dispatch,
         "checkout",
         history,
         isLoggedIn
       );
+
+      if (basketRes) {
+        dispatch(updateCheckoutLoader(false));
+      }
     }
   };
 
