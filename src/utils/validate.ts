@@ -757,7 +757,7 @@ export function productImpression(
         event: "view_item_list",
         previous_page_url: CookieService.getCookie("prevUrl"),
         ecommerce: {
-          items: childAttr
+          items: [childAttr]
         }
       });
     }
@@ -1107,7 +1107,7 @@ export function PDP(data: any, currency: Currency, isSale?: boolean) {
         event: "view_item",
         previous_page_url: CookieService.getCookie("prevUrl"),
         ecommerce: {
-          items: childAttr
+          items: [childAttr]
         }
       });
       dataLayer.push({ ecommerce: null });
@@ -1380,7 +1380,7 @@ export function plpProductClick(
       dataLayer.push({
         event: "select_item",
         ecommerce: {
-          items: childAttr
+          items: [childAttr]
         }
       });
     }
