@@ -305,6 +305,14 @@ class Search extends React.Component<
       const view: string = CookieService.getCookie("plpMobileView") || "grid";
       this.updateMobileView(view);
     }
+    // fixes for filter hide issue on safari
+    setTimeout(() => {
+      window.scrollTo(50, 0);
+    }, 500);
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 1000);
+    // end fixes for filter hide issue on safari
   }
 
   componentDidUpdate() {

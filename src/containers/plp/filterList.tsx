@@ -818,6 +818,14 @@ class FilterList extends React.Component<Props, State> {
       changeLoader?.(false);
       this.createList(plpList, false);
       this.props.updateFacets(this.getSortedFacets(plpList.results.facets));
+      // fixes for filter hide issue on safari
+      setTimeout(() => {
+        window.scrollTo(50, 0);
+      }, 500);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 1000);
+      // end fixes for filter hide issue on safari
     });
 
     if (categoryShop && isUpdateTemplate) {

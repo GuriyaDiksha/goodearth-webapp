@@ -15,6 +15,9 @@
 
 .react-datepicker__month-select, .react-datepicker__year-select {
   cursor: pointer;
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+  -moz-appearance: auto !important;
 }
 
 .react-datepicker-wrapper {
@@ -34,6 +37,7 @@
   .react-datepicker-popper {
     width: 100%;
     top: -55px !important;
+    z-index: 3;
   }
   
   .react-datepicker__header {
@@ -69,4 +73,27 @@
 
   .react-datepicker__day, .react-datepicker__navigation, .react-datepicker__day-name{
     width: 10% !important;
+  }
+  
+  /* month yaers dropdown css */
+  .react-datepicker__current-month.react-datepicker__current-month--hasYearDropdown.react-datepicker__current-month--hasMonthDropdown{
+    display: none;
+  }
+  .react-datepicker__header__dropdown.react-datepicker__header__dropdown--select select{
+    padding: 0;
+    text-align: center;
+    height: auto;
+    background: #fbfaff;
+    border: none;
+    font-weight: 600;
+  }
+  .react-datepicker__month-dropdown-container.react-datepicker__month-dropdown-container--select,
+  .react-datepicker__year-dropdown-container.react-datepicker__year-dropdown-container--select{
+    width: auto;
+    margin:0;
+    padding-right: 5px;
+  }
+  select.react-datepicker__month-select{
+    text-align: right!important;
+    padding-right: 3px!important;
   }

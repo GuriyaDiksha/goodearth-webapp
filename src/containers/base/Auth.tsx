@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import CookieService from "services/cookie";
 import "./auth.css";
+import { isAEDDisabled } from "typings/currency";
 
 const FormPage: React.FC = () => {
   const [password, setPassword] = useState("");
@@ -50,7 +51,15 @@ const FormPage: React.FC = () => {
         .then((response: any) => {
           if (response.showWebsite) {
             CookieService.setCookie("auth", "true", 365);
-            history.push("/");
+            const countryName = CookieService.getCookie("country");
+            if (
+              isAEDDisabled &&
+              countryName.toLowerCase() === "united arab emirates"
+            ) {
+              history.push("/uaeshop");
+            } else {
+              history.push("/");
+            }
           }
         })
         .catch(err => {

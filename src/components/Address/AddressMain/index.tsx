@@ -157,7 +157,7 @@ const AddressMain: React.FC<Props> = props => {
     if (mode == "list" && scrollPos != null) {
       if (editAddressData) {
         // focus on address-item-id
-        const elem = document.getElementById(
+        const elem = document?.getElementById(
           `address-item-${editAddressData.id}`
         );
         if (elem) {
@@ -169,7 +169,7 @@ const AddressMain: React.FC<Props> = props => {
           behavior: "smooth"
         });
         if (innerScrollPos != null) {
-          const elem = document.getElementsByClassName(
+          const elem = document?.getElementsByClassName(
             myAccountStyles.accountFormBgMobile
           )?.[0];
           if (elem) {
@@ -202,7 +202,7 @@ const AddressMain: React.FC<Props> = props => {
       });
       dispatch(updateAddressMode("edit"));
       setScrollPos(window.scrollY);
-      const elem = document.getElementsByClassName(
+      const elem = document?.getElementsByClassName(
         myAccountStyles.accountFormBgMobile
       )?.[0];
       if (elem) {
@@ -336,7 +336,7 @@ const AddressMain: React.FC<Props> = props => {
     dispatch(isFormModuleOpen(false));
     setTimeout(() => {
       if (addressId) {
-        document.getElementById(`address-item-${addressId}`)?.scrollIntoView({
+        document?.getElementById(`address-item-${addressId}`)?.scrollIntoView({
           behavior: "smooth",
           block: "end",
           inline: "start"

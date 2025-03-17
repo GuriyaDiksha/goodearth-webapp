@@ -429,11 +429,11 @@
 }
 
 @mixin error-msg {
-  font-size: 13px;
+  font-size: 13px!important;
   font-style: italic;
-  color: $cerise;
+  color: $cerise!important;
   font-weight: 400;
-  font-family: $font-Lora;
+  font-family: $font-Lora!important;
   letter-spacing: 0.3px;
   // text-transform: lowercase;
   &::first-letter {
@@ -929,6 +929,14 @@ $list: $grey 92%, $white 8%;
   font-weight: $regular;
   text-transform: uppercase;
   color: $white;
+}
+
+@mixin b3_14px_caps_aqua{
+  font-family: $font-Montserrat;
+  font-size: 14px;
+  font-weight: $regular;
+  text-transform: uppercase;
+  color: $aqua;
 }
 
 @mixin b3_14px_caps_gold{
@@ -1434,6 +1442,14 @@ $list: $grey 92%, $white 8%;
   border: 1px solid $aqua;
   text-transform: uppercase;
   @include b3_14px_caps_white();
+}
+
+@mixin small_white_cta{
+  @include small_cta();
+  background-color: $white;
+  border: 1px solid $aqua;
+  text-transform: uppercase;
+  @include b3_14px_caps_aqua();
 }
 
 @mixin small_med_charcoal_cta{

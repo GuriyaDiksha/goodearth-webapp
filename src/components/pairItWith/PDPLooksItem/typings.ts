@@ -14,4 +14,5 @@ export type PLPResultItemProps = {
   page: string;
   onEnquireClick: (id: number, partner?: string) => void;
   notifyMeClick: (product: PLPProductItem) => void;
+  closeShopLookPopUp?: () => void;
 };

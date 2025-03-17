@@ -38,6 +38,8 @@
         @include disabled_cta();
     }
 }
+ 
+
 .large-light-grey-cta{
     @include large_light_grey_cta();
    
@@ -125,6 +127,18 @@
         @media screen and (min-width:992px) {
         background-color: transparent;
         color: $aqua;}
+    }
+    &:disabled{
+        @include disabled_cta();
+    }
+}
+
+.small-white-cta{
+    @include small_white_cta();
+    &:hover:not(.stop-hover) {
+        @media screen and (min-width:992px) {
+        background-color:$aqua;
+        color: $white;}
     }
     &:disabled{
         @include disabled_cta();

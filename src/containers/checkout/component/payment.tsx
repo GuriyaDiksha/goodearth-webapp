@@ -241,7 +241,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
 
         // Delay scroll action until the next frame
         window?.requestAnimationFrame(() => {
-          const policyErrorElement = document.getElementById("policy-error");
+          const policyErrorElement = document?.getElementById("policy-error");
           if (policyErrorElement) {
             policyErrorElement.scrollIntoView({
               behavior: "smooth",
@@ -399,7 +399,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
           }
           setLineItemError(msg);
           errorTracking([msg], location.href);
-          document.getElementById("payment-section")?.scrollIntoView();
+          document?.getElementById("payment-section")?.scrollIntoView();
           setIsLoading(false);
           const errData = error.response?.data;
           if (
@@ -454,7 +454,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
       }
       setPaymentError("Please select a Payment Method");
       errorTracking(["Please select a Payment Method"], location.href);
-      document.getElementById("payment-section")?.scrollIntoView();
+      document?.getElementById("payment-section")?.scrollIntoView();
     }
   };
 

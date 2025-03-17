@@ -196,7 +196,7 @@ const PDPImagesContainer: React.FC<Props> = ({
                   className={styles.looksBtn}
                   onClick={e => handleLooksClick(e)}
                 >
-                  shop the look
+                  shop look
                 </div>
               )}
             </div>

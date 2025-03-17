@@ -294,15 +294,17 @@ const AddressItem: React.FC<Props> = props => {
       }
       id={`address-item-${address.id}`}
       onClick={() => {
-        if (!(props.isGcCheckout && currency != address.currency)) {
-          (currentCallBackComponent == "checkout-billing" ||
-            currentCallBackComponent == "checkout-shipping") &&
-            markAsDefault(address);
-        }
+        address.isShippingCountry
+          ? !(props.isGcCheckout && currency != address.currency) &&
+            (currentCallBackComponent == "checkout-billing" ||
+              currentCallBackComponent == "checkout-shipping") &&
+              markAsDefault(address)
+          : null;
       }}
     >
       <div
         className={cs(
+          { [styles.diabledAddress]: !address.isShippingCountry },
           styles.addressItemContainer,
           props.isGcCheckout && currency != address.currency
             ? styles.fadedContainer
@@ -465,7 +467,9 @@ const AddressItem: React.FC<Props> = props => {
                       className={styles.radio}
                       id={address.id.toString()}
                       onClick={() => {
-                        markAsDefault(address);
+                        address.isShippingCountry
+                          ? markAsDefault(address)
+                          : null;
                         // setDefaultAddress(id);
                       }}
                     >
@@ -481,7 +485,9 @@ const AddressItem: React.FC<Props> = props => {
                         name={address.id.toString()}
                         type="radio"
                         onChange={() => {
-                          markAsDefault(address);
+                          address.isShippingCountry
+                            ? markAsDefault(address)
+                            : null;
                           //setDefaultAddress(id);
                         }}
                       />
@@ -521,12 +527,12 @@ const AddressItem: React.FC<Props> = props => {
                       className={styles.radio}
                       id={address.id.toString()}
                       onClick={() => {
-                        if (
-                          !(props.isGcCheckout && currency != address.currency)
-                        ) {
-                          markAsDefault(address);
-                          // setDefaultAddress(id);
-                        }
+                        address.isShippingCountry
+                          ? !(
+                              props.isGcCheckout && currency != address.currency
+                            ) && markAsDefault(address)
+                          : null;
+                        // setDefaultAddress(id);
                       }}
                     >
                       <input
@@ -541,14 +547,15 @@ const AddressItem: React.FC<Props> = props => {
                         name={address.id.toString()}
                         type="radio"
                         onChange={() => {
-                          if (
-                            !(
-                              props.isGcCheckout && currency != address.currency
-                            )
-                          ) {
-                            markAsDefault(address);
-                            // setDefaultAddress(id);
-                          }
+                          address.isShippingCountry
+                            ? !(
+                                props.isGcCheckout &&
+                                currency != address.currency
+                              ) &&
+                              !address.isShippingCountry &&
+                              markAsDefault(address)
+                            : null;
+                          // setDefaultAddress(id);
                         }}
                       />
                       <span className={styles.checkmark}></span>
@@ -602,9 +609,11 @@ const AddressItem: React.FC<Props> = props => {
                       : address.id.toString()
                   }
                   onClick={() => {
-                    if (!(props.isGcCheckout && currency != address.currency)) {
-                      markAsDefault(address);
-                    }
+                    address.isShippingCountry
+                      ? !(props.isGcCheckout && currency != address.currency) &&
+                        !address.isShippingCountry &&
+                        markAsDefault(address)
+                      : null;
                   }}
                 >
                   <input
@@ -635,11 +644,11 @@ const AddressItem: React.FC<Props> = props => {
                     }
                     type="radio"
                     onChange={() => {
-                      if (
-                        !(props.isGcCheckout && currency != address.currency)
-                      ) {
-                        markAsDefault(address);
-                      }
+                      address.isShippingCountry
+                        ? !(
+                            props.isGcCheckout && currency != address.currency
+                          ) && markAsDefault(address)
+                        : null;
                     }}
                   />
                   <span className={styles.checkmark}></span>
@@ -747,74 +756,76 @@ const AddressItem: React.FC<Props> = props => {
               M: {`${address.phoneCountryCode} ${address.phoneNumber}`}
             </div>
             {/* ================== Edit and Delete ======================== */}
-            <div className={cs(styles.edit)}>
-              {!(address.isTulsi || address.isBackendOrder) &&
-                !(props.isGcCheckout && currency != address.currency) && (
+            {address.isShippingCountry && (
+              <div className={cs(styles.edit)}>
+                {!(address.isTulsi || address.isBackendOrder) &&
+                  !(props.isGcCheckout && currency != address.currency) && (
+                    <span
+                      className={cs(styles.action, {
+                        [styles.addressEdit]: billingEditDisable
+                      })}
+                      onClick={event => {
+                        event.stopPropagation();
+                        if (
+                          billingEditDisable ||
+                          props.currentCallBackComponent == "cerise"
+                        ) {
+                          history.push("/account/address");
+                          false;
+                        } else {
+                          openAddressForm(address);
+                          dispatch(isFormModuleOpen(true));
+                        }
+                      }}
+                    >
+                      EDIT
+                    </span>
+                  )}
+                {!(
+                  currentCallBackComponent == "bridal" ||
+                  currentCallBackComponent == "bridal-edit" ||
+                  address.isBridal ||
+                  address.isBackendOrder ||
+                  props.isOnlyAddress ||
+                  address.isTulsi ||
+                  props.currentCallBackComponent == "cerise" ||
+                  currentCallBackComponent == "checkout-shipping" ||
+                  currentCallBackComponent == "checkout-billing"
+                ) && (
                   <span
-                    className={cs(styles.action, {
-                      [styles.addressEdit]: billingEditDisable
+                    className={cs(styles.separator, {
+                      [styles.checkoutFix]:
+                        currentCallBackComponent == "bridal" ||
+                        currentCallBackComponent == "bridal-edit"
                     })}
-                    onClick={event => {
-                      event.stopPropagation();
-                      if (
-                        billingEditDisable ||
-                        props.currentCallBackComponent == "cerise"
-                      ) {
-                        history.push("/account/address");
-                        false;
-                      } else {
-                        openAddressForm(address);
-                        dispatch(isFormModuleOpen(true));
-                      }
-                    }}
                   >
-                    EDIT
+                    |
                   </span>
                 )}
-              {!(
-                currentCallBackComponent == "bridal" ||
-                currentCallBackComponent == "bridal-edit" ||
-                address.isBridal ||
-                address.isBackendOrder ||
-                props.isOnlyAddress ||
-                address.isTulsi ||
-                props.currentCallBackComponent == "cerise" ||
-                currentCallBackComponent == "checkout-shipping" ||
-                currentCallBackComponent == "checkout-billing"
-              ) && (
-                <span
-                  className={cs(styles.separator, {
-                    [styles.checkoutFix]:
-                      currentCallBackComponent == "bridal" ||
-                      currentCallBackComponent == "bridal-edit"
-                  })}
-                >
-                  |
-                </span>
-              )}
-              {!(
-                currentCallBackComponent == "bridal" ||
-                currentCallBackComponent == "bridal-edit" ||
-                address.isBridal ||
-                props.isOnlyAddress ||
-                address.isBackendOrder ||
-                address.isTulsi ||
-                props.currentCallBackComponent == "cerise" ||
-                currentCallBackComponent == "checkout-shipping" ||
-                currentCallBackComponent == "checkout-billing"
-              ) && (
-                <span
-                  className={cs(styles.action, {
-                    [styles.checkoutFix]:
-                      currentCallBackComponent == "bridal" ||
-                      currentCallBackComponent == "bridal-edit"
-                  })}
-                  onClick={deleteAddress}
-                >
-                  DELETE
-                </span>
-              )}
-            </div>
+                {!(
+                  currentCallBackComponent == "bridal" ||
+                  currentCallBackComponent == "bridal-edit" ||
+                  address.isBridal ||
+                  props.isOnlyAddress ||
+                  address.isBackendOrder ||
+                  address.isTulsi ||
+                  props.currentCallBackComponent == "cerise" ||
+                  currentCallBackComponent == "checkout-shipping" ||
+                  currentCallBackComponent == "checkout-billing"
+                ) && (
+                  <span
+                    className={cs(styles.action, {
+                      [styles.checkoutFix]:
+                        currentCallBackComponent == "bridal" ||
+                        currentCallBackComponent == "bridal-edit"
+                    })}
+                    onClick={deleteAddress}
+                  >
+                    DELETE
+                  </span>
+                )}
+              </div>
+            )}
           </div>
           {currentCallBackComponent !== "account" &&
             currentCallBackComponent !== "checkout-billing" &&
@@ -847,6 +858,11 @@ const AddressItem: React.FC<Props> = props => {
         )}
       {deleteError && (
         <div className={globalStyles.errorMsg}>{deleteError}</div>
+      )}
+      {!address.isShippingCountry && (
+        <div className={globalStyles.errorMsg}>
+          Shipping to the UAE is currently unavailable.
+        </div>
       )}
     </div>
   );

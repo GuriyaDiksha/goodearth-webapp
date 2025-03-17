@@ -30,7 +30,7 @@ const SizeSelector: React.FC<Props> = ({
       return (
         <div
           key={sku}
-          className={cs(styles.sizeButton, sizeClassName, {
+          className={cs(styles.sizeButton, sizeClassName, containerClassName, {
             [styles.selected]: id === selected,
             [styles.unavailable]: stock === 0 && !isCorporatePDP,
             [styles.cushionSelectPadding]: presentIn === true
@@ -44,7 +44,7 @@ const SizeSelector: React.FC<Props> = ({
         </div>
       );
     });
-  }, [sizes, selected]);
+  }, [sizes, selected, containerClassName]);
   return (
     <div className={cs(styles.sizeSelector, containerClassName)}>
       {sizesHTML}

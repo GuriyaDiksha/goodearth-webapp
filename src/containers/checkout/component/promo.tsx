@@ -77,7 +77,7 @@ const PromoSection: React.FC<PromoProps> = props => {
   };
 
   useEffect(() => {
-    document.getElementById("promo-section")?.scrollIntoView();
+    document?.getElementById("promo-section")?.scrollIntoView();
   }, []);
 
   useEffect(() => {

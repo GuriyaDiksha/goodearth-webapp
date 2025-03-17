@@ -35,6 +35,7 @@ export interface PLPProductItem {
   groupedProductsCount?: number;
   is3dimage?: string;
   badge_text?: string;
+  lookImageType?: "landscape" | "portrait" | string;
 }
 
 export interface PartialProductItem extends PLPProductItem {
@@ -101,6 +102,7 @@ export interface ChildProductAttributes extends PartialChildProductAttributes {
   isBridalProduct: boolean;
   othersBasketCount: number;
   showStockThreshold: boolean;
+  stock: number;
 }
 
 export type ProductAttributes = {

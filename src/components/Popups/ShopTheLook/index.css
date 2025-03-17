@@ -1,0 +1,13 @@
+.sliderContainer {
+  padding-bottom: 10px;
+  padding-left: 16px;
+  .slick-list {
+    margin: 0 -5px;
+  }
+  .slick-slide:not(:last-child) > div {
+    padding-right: 7px;
+  }
+  .slick-slide:last-child > div {
+    padding-right: 3px;
+  }
+}
