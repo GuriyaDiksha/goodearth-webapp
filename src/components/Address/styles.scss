@@ -1056,4 +1056,11 @@ div > .address-in-use {
     }
   }
 }
+.diabled-address{
+  opacity: 0.5;
+  cursor: auto;
+  .address-item-checkout{
+    cursor: auto;
+  }
+}
 

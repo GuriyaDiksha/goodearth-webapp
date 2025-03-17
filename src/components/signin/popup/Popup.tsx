@@ -12,10 +12,10 @@ import { updateNextUrl } from "actions/info";
 import { useLocation, useHistory } from "react-router";
 import { Link } from "react-router-dom";
 
-const Popup: React.FC<{ disableClose?: boolean }> = ({
-  disableClose,
-  children
-}) => {
+const Popup: React.FC<{
+  disableClose?: boolean;
+  setUpdateProfilePhoneNo?: any;
+}> = ({ disableClose, setUpdateProfilePhoneNo, children }) => {
   const dispatch = useDispatch();
   const close = useContext(Context).closeModal;
   const [isSuccessMsg, setIsSuccessMsg] = useState(false);
@@ -26,6 +26,7 @@ const Popup: React.FC<{ disableClose?: boolean }> = ({
   const closePopup = () => {
     dispatch(updateNextUrl(""));
     close();
+    setUpdateProfilePhoneNo && setUpdateProfilePhoneNo();
   };
   const { popupBgUrl } = useSelector((state: AppState) => state.info);
 

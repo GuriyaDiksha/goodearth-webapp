@@ -343,9 +343,11 @@ class Checkout extends React.Component<Props, State> {
   };
 
   setInfoPopupCookie() {
-    const cookieString =
-      "checkoutinfopopup3=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
-    document.cookie = cookieString;
+    if (typeof document != "undefined" && typeof window != "undefined") {
+      const cookieString =
+        "checkoutinfopopup3=show; expires=Sat, 01 Jan 2050 00:00:01 UTC; path=/";
+      document.cookie = cookieString;
+    }
     // this.setState({
     //     showInfoPopup: 'show'
     // })
@@ -802,7 +804,7 @@ class Checkout extends React.Component<Props, State> {
 
   showErrorMsg() {
     setTimeout(() => {
-      const firstErrorField = document.getElementsByClassName(
+      const firstErrorField = document?.getElementsByClassName(
         "error-msg"
       )[0] as HTMLDivElement;
 
@@ -815,7 +817,7 @@ class Checkout extends React.Component<Props, State> {
 
   showErrorMsgs = () => {
     setTimeout(() => {
-      const firstErrorField = document.getElementsByClassName(
+      const firstErrorField = document?.getElementsByClassName(
         globalStyles.errorMsg
       )[0] as HTMLInputElement;
 
@@ -1099,28 +1101,28 @@ class Checkout extends React.Component<Props, State> {
                     this.props.showPromo &&
                     this.props.basket.voucherDiscounts.length === 0
                   ) {
-                    document.getElementById("promo-section")?.scrollIntoView({
+                    document?.getElementById("promo-section")?.scrollIntoView({
                       block: "center",
                       behavior: "smooth"
                     });
                   } else {
-                    if (document.getElementById("cerise-section")) {
+                    if (document?.getElementById("cerise-section")) {
                       document
-                        .getElementById("cerise-section")
+                        ?.getElementById("cerise-section")
                         ?.scrollIntoView({
                           block: "center",
                           behavior: "smooth"
                         });
-                    } else if (document.getElementById("gifting-section")) {
+                    } else if (document?.getElementById("gifting-section")) {
                       document
-                        .getElementById("gifting-section")
+                        ?.getElementById("gifting-section")
                         ?.scrollIntoView({
                           block: "center",
                           behavior: "smooth"
                         });
                     } else {
                       document
-                        .getElementById("payment-section")
+                        ?.getElementById("payment-section")
                         ?.scrollIntoView({
                           block: "center",
                           behavior: "smooth"

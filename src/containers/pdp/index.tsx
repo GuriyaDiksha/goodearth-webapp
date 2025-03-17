@@ -24,13 +24,14 @@ import bootstrap from "styles/bootstrap/bootstrap-grid.scss";
 import styles from "./styles.scss";
 import globalStyles from "styles/global.scss";
 import { getProductSliderItems } from "selectors/productSlider";
-import { Settings } from "react-slick";
+import Slider, { Settings } from "react-slick";
 import mapDispatchToProps from "./mappers/actions";
 import MobileSlider from "../../components/MobileSlider";
 import { HEADER_HEIGHT, SECONDARY_HEADER_HEIGHT } from "constants/heights";
 import zoom from "images/zoom.svg";
 // import mobile3d from "images/3d/3DButton.svg";
 import LazyImage from "components/LazyImage";
+import "./index.css";
 import {
   moveChatUp,
   PDP,
@@ -66,6 +67,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 // import pdp_top from "images/3d/pdp_top.svg";
 import button_image from "images/3d/button_image.svg";
 import Mobile360 from "./../../icons/360mobile.svg";
+import ShopTheLookPopup from "components/Popups/ShopTheLook";
 // import ReactPlayer from "react-player";
 
 const PDP_TOP_OFFSET = HEADER_HEIGHT + SECONDARY_HEADER_HEIGHT;
@@ -130,7 +132,8 @@ class PDPContainer extends React.Component<Props, State> {
     imageHover: false,
     showDock: false,
     selectedSize: null,
-    pdpButton: null
+    pdpButton: null,
+    shopShopLookPopup: false
   };
 
   myref: RefObject<any> = React.createRef();
@@ -1183,7 +1186,7 @@ class PDPContainer extends React.Component<Props, State> {
   getLooksSection = () => {
     const {
       currency,
-      device: { mobile },
+      device: { mobile, tablet },
       data
     } = this.props;
 
@@ -1191,6 +1194,16 @@ class PDPContainer extends React.Component<Props, State> {
     const filteredLooksProducts = this.props.data.looksProducts?.filter(
       item => item.priceRecords[currency] != 0
     );
+    const slidesCount = (): number =>
+      !mobile ? (data.lookImageType === "landscape" ? 2 : 3) : 1.4;
+    const configSetting = {
+      dots: false,
+      infinite: false,
+      speed: 500,
+      slidesToShow: slidesCount(),
+      slidesToScroll: 1,
+      arrows: true
+    };
 
     return data ? (
       <>
@@ -1239,73 +1252,84 @@ class PDPContainer extends React.Component<Props, State> {
             </div>
           </div>
         )} */}
-        <div>
-          <h2 id="looks-section" className={styles.header}>
+        <div className={cs(styles.shopTheLookContainer)}>
+          <h2
+            id="looks-section"
+            className={cs(styles.header, globalStyles.paddBottom20)}
+          >
             Shop The Look
           </h2>
-          <div className={bootstrap.row}>
-            {!mobile && (
-              <div className={bootstrap.colMd4}>
-                <div className={styles.looksMainImage}>
-                  {/* <Link
+          <div className={cs(bootstrap.row, globalStyles.paddBottom20)}>
+            <div
+              className={cs(
+                bootstrap.colMd5,
+                data.lookImageType === "landscape"
+                  ? bootstrap.colLg6
+                  : bootstrap.colLg4
+              )}
+            >
+              <div
+                className={cs({
+                  [styles.looksMainImage]: mobile
+                })}
+              >
+                {/* <Link
                     to={data.url}
                     // onClick={gtmProductClick}
                   > */}
-                  <LazyImage
-                    alt={data?.altText || data?.title}
-                    aspectRatio="62:93"
-                    src={
-                      data?.lookImageUrl ||
-                      (data?.images?.[0]
-                        ? data?.images?.[0]?.productImage
-                        : "/static/img/noimageplp.png")
-                    }
-                    className={styles.imageResultnew}
-                    // isVisible={}
-                    onError={(e: any) => {
-                      e.target.onerror = null;
-                      e.target.src = noPlpImage;
-                    }}
-                  />
-                  {/* </Link> */}
-                </div>
+                <img
+                  alt={data?.altText || data?.title}
+                  src={
+                    data?.lookImageUrl ||
+                    (data?.images?.[0]
+                      ? data?.images?.[0]?.productImage
+                      : "/static/img/noimageplp.png")
+                  }
+                  className={cs(globalStyles.paddR30)}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    aspectRatio:
+                      data.lookImageType === "landscape" ? "93/65" : "59/80"
+                  }}
+                />
+                {/* </Link> */}
               </div>
-            )}
-            {mobile ? (
-              filteredLooksProducts &&
-              filteredLooksProducts.map((item, index) => {
-                return (
-                  <div
-                    className={cs(
-                      bootstrap.colMd4,
-                      bootstrap.col6,
-                      styles.setWidth
-                    )}
-                    key={item?.id}
-                  >
-                    <PDPLooksGridItem
-                      page="ShopByLook"
-                      position={index}
-                      product={item}
-                      addedToWishlist={false}
-                      currency={currency}
-                      key={item.id}
-                      mobile={mobile}
-                      isVisible={index < 3 ? true : undefined}
-                      // onClickQuickView={this.onClickQuickView}
-                      // isCorporate={this.state.corporoateGifting}
-                      onEnquireClick={this.onEnquireClick}
-                      notifyMeClick={this.notifyMeClick}
-                    />
-                  </div>
-                );
-              })
-            ) : (
-              <div
-                className={cs(bootstrap.colMd8, styles.looksContainer, {
-                  [styles.looksContainerListView]: mobile
-                })}
-              >
+            </div>
+
+            <div
+              className={cs(
+                bootstrap.colMd7,
+                data.lookImageType === "landscape"
+                  ? bootstrap.colLg6
+                  : bootstrap.colLg8,
+                "slider-container",
+                styles.looksContainer
+              )}
+            >
+              {filteredLooksProducts && filteredLooksProducts.length > 1 ? (
+                <Slider {...configSetting}>
+                  {filteredLooksProducts &&
+                    filteredLooksProducts.map((item, i) => {
+                      return (
+                        <div key={i} className={cs(styles.looksItemContainer)}>
+                          <PDPLooksItem
+                            page="ShopByLook"
+                            position={i}
+                            product={item}
+                            addedToWishlist={false}
+                            currency={currency || "INR"}
+                            key={item.id}
+                            mobile={mobile || false}
+                            isCorporate={false}
+                            notifyMeClick={this.notifyMeClick}
+                            onEnquireClick={this.onEnquireClick}
+                          />
+                        </div>
+                      );
+                    })}
+                </Slider>
+              ) : (
                 <div className={bootstrap.row}>
                   {filteredLooksProducts &&
                     filteredLooksProducts.map((item, i) => {
@@ -1314,7 +1338,9 @@ class PDPContainer extends React.Component<Props, State> {
                           key={i}
                           className={cs(
                             styles.looksItemContainer,
-                            bootstrap.colMd4
+                            data.lookImageType === "landscape"
+                              ? bootstrap.colLg6
+                              : bootstrap.colLg4
                           )}
                         >
                           <PDPLooksItem
@@ -1333,8 +1359,8 @@ class PDPContainer extends React.Component<Props, State> {
                       );
                     })}
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </>
@@ -1411,6 +1437,18 @@ class PDPContainer extends React.Component<Props, State> {
         currency={currency}
       />
     );
+  };
+  handleShopLookPopup = (): void => {
+    this.setState({
+      shopShopLookPopup: true
+    });
+    document.body.classList.add(globalStyles.noScroll);
+  };
+  closeShopLookPopUp = (): void => {
+    this.setState({
+      shopShopLookPopup: false
+    });
+    document.body.classList.remove(globalStyles.noScroll);
   };
 
   handleLooksClick = (e: any) => {
@@ -1601,9 +1639,13 @@ class PDPContainer extends React.Component<Props, State> {
                   <div
                     id="looks-btn-mobile"
                     className={cs(styles.looksBtnMobile, styles.looksBtn)}
-                    onClick={this.handleLooksClick}
+                    onClick={
+                      mobile && !tablet
+                        ? this.handleShopLookPopup
+                        : this.handleLooksClick
+                    }
                   >
-                    shop the look
+                    shop look
                   </div>
                 )}
                 <div
@@ -1756,6 +1798,16 @@ class PDPContainer extends React.Component<Props, State> {
             user="goodearth"
             index="1"
             href={`${window.location.origin}${this.props.location.pathname}?${this.props.location.search}`}
+          />
+        )}
+        {this.state.shopShopLookPopup && (
+          <ShopTheLookPopup
+            data={data}
+            currency={currency}
+            notifyMeClick={this.notifyMeClick}
+            onEnquireClick={this.onEnquireClick}
+            closeShopLookPopUp={this.closeShopLookPopUp}
+            isOpen={this.state.shopShopLookPopup}
           />
         )}
         {this.state.showLooks && this.getLooksSection()}

@@ -26,7 +26,7 @@ $pdp-top: $header-height;
 }
 
 .pdp-container-timer {
-    margin-top: $header-height + $timer-height;
+    margin-top: $header-height + $timer-height - 5px;
     &:not(.mobile) {
         margin-top: $pdp-top + $timer-height;
     }
@@ -194,20 +194,21 @@ $pdp-top: $header-height;
 .looks-btn {
     background-color: white;
     @include b4_12px_montserrat_charcoal_caps();
-    line-height: 42px;
+    // line-height: 42px;
     text-align: center;
     font-size: 12px;
     border: none;
-    border-radius: 0;
+    border-radius: 17px;
     cursor: pointer;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     position: absolute ;
     right: 0;
-    padding: 0 10px;
+    padding: 10px 16px 9px 17px;
     opacity: 0.9;
     width: max-content;
+    box-shadow: 1px 1px 1px #0000001C;
     a {
       color: #fff;
       display: inline-block;
@@ -233,20 +234,38 @@ $pdp-top: $header-height;
 }
 
 .looks-btn-mobile {
-    width: auto;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 80px;
+    bottom: 25px;
+    min-width: 110px;
+    box-shadow: 1px 1px 1px #0000001C;
+    border-radius: 17px;
+    font-size: 12px;
 }
 
 .looks-item-container {
-    margin-top: 10px;
+    // margin-top: 10px;
     padding: 0 10px 40px 10px;
 }
-
+.shop-the-look-container{
+    padding: 0 8%;
+    @media screen and (max-width: 992px){
+        padding: 0;
+    }
+    @media screen and (max-width: 767px){
+        display: none;
+    }
+}
 .looks-container {
-    padding: 0 60px;
+    padding-left: 5px;
+    @media screen and (max-width: 992px){
+        padding-right: 45px;
+    }
+    
+}
+.looks-container-mobile{
+    padding: 0 55px;
 }
 .looks-container-list-view {
     padding: 0 30px;
@@ -259,8 +278,7 @@ $pdp-top: $header-height;
     width: 100%;
 }
 .looks-main-image {
-    padding-top: 10px;
-    padding-left: 21%;
+    padding-left: 20px !important;
 }
 
 .list-grid-bar {

@@ -36,6 +36,11 @@
     }
     .product-size-list{
         display: flex;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    &:hover .product-size-list {
+        opacity: 1;
     }
 }
 

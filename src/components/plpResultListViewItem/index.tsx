@@ -233,7 +233,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
               id={product.id}
               showText={false}
               key={product.id}
-              mobile={false} //sending false becuase icon height will be same as desktop
+              mobile={mobile} //sending false becuase icon height will be same as desktop
               isPlpTile={true}
               badgeType={product?.badgeType}
             />

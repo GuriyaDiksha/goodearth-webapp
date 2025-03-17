@@ -18,7 +18,8 @@ import { plpProductClick } from "utils/validate";
 import CookieService from "services/cookie";
 import { displayPriceWithCommas } from "utils/utility";
 import Button from "components/Button";
-
+import { Icons } from "components/dropdown/stories";
+import iconStyles from "styles/iconFonts.scss";
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
 ) => {
@@ -33,7 +34,8 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
     position,
     page,
     onEnquireClick,
-    notifyMeClick
+    notifyMeClick,
+    closeShopLookPopUp
   } = props;
   // const {} = useStore({state:App})
   // const [primaryimage, setPrimaryimage] = useState(true);
@@ -70,28 +72,30 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   };
 
   const button = useMemo(() => {
-    let buttonText: string, action: EventHandler<MouseEvent>;
+    // let buttonText: string;
+    let action: EventHandler<MouseEvent>;
     if (isCorporate) {
-      buttonText = "Enquire Now";
-      action = e => {
-        e.preventDefault();
+      // buttonText = "Enquire Now";
+      action = () => {
+        // e.preventDefault();
         onEnquireClick(product.id, product.partner);
       };
     } else if (allOutOfStock) {
-      buttonText = "Notify Me";
-      action = e => {
-        e.preventDefault();
+      // buttonText = "Notify Me";
+      action = () => {
+        // e.preventDefault();
         notifyMeClick(product);
       };
     } else {
-      buttonText = "Add to Bag";
-      action = e => {
-        e.preventDefault();
+      // buttonText = "Add to Bag";
+      action = () => {
+        // e.preventDefault();
         notifyMeClick(product);
       };
     }
     return (
-      <Button
+      <>
+        {/* <Button
         className={cs(
           // styles.addToBagListView,
           // styles.shopTheLookCta,
@@ -105,7 +109,24 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             ? "outlineSmallMedCharcoalCta"
             : "outlineExtraSmallAquaCta"
         }
-      />
+      /> */}
+        <div
+          className={cs(
+            globalStyles.textCenter,
+            globalStyles.cartIconPositionDesktop,
+            { [globalStyles.cartIconPositionMobile]: mobile }
+          )}
+        >
+          <div
+            className={cs(
+              iconStyles.icon,
+              globalStyles.iconContainer,
+              iconStyles.iconPlpCart
+            )}
+            onClick={e => action(e)}
+          ></div>
+        </div>
+      </>
     );
   }, []);
   const isStockAvailable = isCorporate || product.inStock;
@@ -197,7 +218,38 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             </div>
           </Link>
         )}
-        <Link to={product.url} onClick={gtmProductClick}>
+        {!isCorporate && (
+          <div
+            className={cs(
+              globalStyles.textCenter,
+              globalStyles.desktopWishlist,
+              { [globalStyles.mobileWishlistPlp]: mobile }
+            )}
+          >
+            <WishlistButton
+              gtmListType="Search"
+              title={product.title}
+              childAttributes={product.childAttributes}
+              priceRecords={product.priceRecords}
+              discountedPriceRecords={product.discountedPriceRecords}
+              categories={product.categories}
+              id={product.id}
+              showText={false}
+              key={product.id}
+              mobile={false}
+              badgeType={product?.badgeType}
+              isPlpTile={true}
+            />
+          </div>
+        )}
+        {button}
+        <Link
+          to={product.url}
+          onClick={() => {
+            gtmProductClick();
+            if (closeShopLookPopUp) closeShopLookPopUp();
+          }}
+        >
           {/* <MobileSlider>{mobileSlides}</MobileSlider> */}
           <LazyImage
             aspectRatio="62:93"
@@ -263,7 +315,7 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
           )}
         </p>
 
-        {sizeExit && (
+        {!mobile && sizeExit && (
           <div
             className={cs(
               styles.productSizeList,
@@ -293,35 +345,6 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             </div>
           </div>
         )}
-        <div className={cs(styles.actions, bootstrapStyles.row)}>
-          {button}
-          {!isCorporate && (
-            <div
-              className={cs(
-                globalStyles.textCenter,
-                bootstrapStyles.col3
-                // globalStyles.mobileWishlist,
-                // {
-                //   [styles.wishlistBtnContainer]: mobile
-                // }
-              )}
-            >
-              <WishlistButton
-                gtmListType="Search"
-                title={product.title}
-                childAttributes={product.childAttributes}
-                priceRecords={product.priceRecords}
-                discountedPriceRecords={product.discountedPriceRecords}
-                categories={product.categories}
-                id={product.id}
-                showText={false}
-                key={product.id}
-                mobile={false}
-                badgeType={product?.badgeType}
-              />
-            </div>
-          )}
-        </div>
       </div>
     </div>
   );
