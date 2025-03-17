@@ -28,11 +28,28 @@ const ShareWishlistLink: React.FC<Props> = ({
   sharable_link,
   updateWishlistData
 }) => {
+  const dispatch = useDispatch();
   const { mobile } = useSelector((state: AppState) => state.device);
   const { firstName, lastName } = useSelector((state: AppState) => state.user);
-  // const { wishlist_link } = useSelector((state: AppState) => state.wishlist);
-  const [wishlist_link, setWishlist_link] = useState(sharable_link);
-  const dispatch = useDispatch();
+
+  const [wishlist_link, setWishlistLink] = useState(sharable_link);
+  const [listTitle, setListTitle] = useState(listName);
+
+  useEffect(() => {
+    const fetchWishlistData = async () => {
+      try {
+        const res = await WishlistService.updateWishlist(dispatch);
+        setWishlistLink(res.data[0].sharable_link);
+        setListTitle(res.data[0].name);
+      } catch (error) {
+        console.error("Error fetching wishlist data:", error);
+      }
+    };
+
+    if (!sharable_link) {
+      fetchWishlistData();
+    }
+  }, [dispatch, listName, sharable_link]);
 
   const gaCall = (click_type: string) => {
     const userConsent = CookieService.getCookie("consent").split(",");
@@ -114,14 +131,14 @@ const ShareWishlistLink: React.FC<Props> = ({
       dispatch,
       listName
     );
-    setWishlist_link(res.wishlist_link);
+    setWishlistLink(res.wishlist_link);
     updateWishlistData();
   };
 
   const deleteLink = async () => {
     gaCall("Delete Link");
     await WishlistService.deleteSharedWishlistLink(dispatch, listName);
-    setWishlist_link("");
+    setWishlistLink("");
     updateWishlistData();
     dataLayer.push({
       event: "delete_link",
@@ -165,7 +182,7 @@ const ShareWishlistLink: React.FC<Props> = ({
                 </h2> */}
                 <h2 className={styles.h2Popup}>
                   Share saved items <br /> &apos;
-                  {listName ? listName : "Default"}&apos;
+                  {listName ? listName : listTitle}&apos;
                 </h2>
               </div>
               {!wishlist_link && (
