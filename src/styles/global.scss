@@ -560,18 +560,408 @@ font-weight: bold;
   }
 }
 
-.cart-icon-position-desktop{
+
+
+// .cart-icon-position-desktop{
+//   position: absolute;
+//   right: 10px;
+//   bottom: 12px;
+//   z-index: 2;
+//   cursor: pointer;
+//   display: flex;
+//   align-items: center;
+//   background-color: #7EAAA9;
+//   gap: 10px;
+
+//   border-radius: 20px;
+
+//   img{
+//     box-shadow: 0px 1px 1px #00000038;
+//     border-radius: 50%;
+//   }
+ 
+//   div:last-child{
+//     display: none;
+//   }
+//   &:hover div:last-child{
+//     display: block;
+//   }
+// }
+
+
+// .cart-icon-position-desktop {
+//   position: absolute;
+//   right: 10px;
+//   bottom: 12px;
+//   z-index: 2;
+//   cursor: pointer;
+//   display: flex;
+//   align-items: center;
+//   background-color: #7EAAA9;
+//   // gap: 10px;
+//   border-radius: 20px;
+//   // padding: 10px;
+//   transition: width 0.6s ease-in-out;
+
+//   img {
+//     box-shadow: 0px 1px 1px #00000038;
+//     border-radius: 50%;
+//     transition: transform 0.6s ease-in-out;
+    
+//   }
+
+//   div:last-child {
+//     opacity: 0;
+//     width: 0;
+//     overflow: hidden;
+//     white-space: nowrap;
+//     transition: opacity 0.6s ease-in-out, width 0.6s ease-in-out;
+//   }
+
+//   &:hover {
+//     width: auto;
+//     padding-right: 1px;
+    
+    
+//     img {
+//       transform: scale(1.1);
+      
+//     }
+
+//     div:last-child {
+//       opacity: 1;
+//       width: 100px; /* Adjust width based on your text size */
+//     }
+//   }
+// }
+
+
+
+// .cart-icon-position-desktop {
+//   position: absolute;
+//   right: 10px;
+//   bottom: 12px;
+//   z-index: 2;
+//   cursor: pointer;
+//   display: flex;
+//   align-items: center;
+//   background-color: #7EAAA9;
+//   border-radius: 20px;
+//   transition: width 0.6s ease-in-out;
+
+//   .icon-container {  /* Target the circle wrapper */
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     border-radius: 50%;
+//     background: #7EAAA9;  /* Ensure circle color */
+//     // box-shadow: 0px 1px 1px #00000038; /* Border effect */
+//     transition: box-shadow 0.6s ease-in-out, transform 0.6s ease-in-out; 
+    
+//   }
+
+//   div:last-child {
+//     opacity: 0;
+//     width: 0;
+//     overflow: hidden;
+//     white-space: nowrap;
+//     transition: opacity 0.6s ease-in-out, width 0.6s ease-in-out;
+//   }
+
+//   &:hover {
+//     width: auto;
+//     padding-right: 1px;
+
+//     .icon-container {  /* Remove the border effect on hover */
+//       box-shadow: none;
+//       transform: scale(1.1); 
+//       border: none;
+//     }
+
+//     div:last-child {
+//       opacity: 1;
+//       width: 100px; /* Adjust width based on your text size */
+//     }
+//   }
+// }
+
+
+// working fine
+// .cart-icon-position-desktop {
+//   position: absolute;
+//   right: 10px;
+//   bottom: 12px;
+//   z-index: 2;
+//   cursor: pointer;
+//   display: flex;
+//   align-items: center;
+//   background-color: #7EAAA9;
+//   border-radius: 20px;
+//   transition: width 0.4s ease-in-out, transform 0.4s ease-in-out;  /* Smooth expansion */
+
+//   .icon-container {  
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     border-radius: 50%;
+//     background: #7EAAA9;  
+//     transition: none;  /* No scaling effect on circle alone */
+//   }
+
+//   div:last-child {
+//     opacity: 0;
+//     width: 0;
+//     overflow: hidden;
+//     white-space: nowrap;
+//     transition: opacity 0.4s ease-in-out, width 0.4s ease-in-out;
+//   }
+
+//   /* Hover effect applied to the entire container */
+//   &:hover {
+//     width: auto;
+//     padding-right: 1px;
+//     transform: scale(1); /* Scale the entire container, not just the circle */
+//     gap: 4px;
+
+//     .icon-container {  
+//       box-shadow: none;  
+//       border: none;  /* Ensure no border appears */
+//     }
+
+//     div:last-child {
+//       opacity: 1;
+//       width: 100px; /* Adjust width based on your text size */
+//     }
+//   }
+//   &:not(:hover){
+//     // transform: scale(1);
+//     // box-shadow: none;
+//     // border: none;
+//     transform: scale(1);        /* Shrinks back smoothly as a whole */
+    
+
+  
+// }
+
+// }
+
+
+
+.cart-icon-position-desktop {
   position: absolute;
   right: 10px;
   bottom: 12px;
   z-index: 2;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  background-color: #7EAAA9;
+  border-radius: 20px;
+  transition: width 0.4s ease-in-out, transform 0.4s ease-in-out;  /* Smooth expansion */
 
-  img{
-    box-shadow: 0px 1px 1px #00000038;
+  .icon-container {  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;   /* Rounded size */
+    width: 30px;    /* Rounded size */
     border-radius: 50%;
+    background: #7EAAA9;  
+    transition: none;  /* No scaling effect on circle alone */
+    overflow: hidden; /* Ensure the image doesn't exceed the container */
+    
+    img {
+      width: 15px !important;
+      height: 15px !important;
+      object-fit: contain; 
+      filter: brightness(0) invert(1); /* Keep the image's aspect ratio */
+    }
   }
+
+  div:last-child {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: opacity 0.4s ease-in-out, width 0.4s ease-in-out;
+  }
+
+  /* Hover effect applied to the entire container */
+  &:hover {
+    width: auto;
+    padding-right: 1px;
+    transform: scale(1); /* Scale the entire container, not just the circle */
+    
+
+    .icon-container {  
+      box-shadow: none;  
+      border: none;  /* Ensure no border appears */
+    }
+
+    div:last-child {
+      opacity: 1;
+      width: 100px; /* Adjust width based on your text size */
+    }
+    
+  }
+  &:not(:hover) {
+    transform: scale(1);        /* Shrinks back smoothly as a whole */
+  }
+
+  
 }
+
+
+
+
+
+// .cart-icon-position-desktop {
+//   position: absolute;
+//   right: 10px;
+//   bottom: 12px;
+//   z-index: 2;
+//   cursor: pointer;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   background-color: #7EAAA9;
+//   gap: 10px;
+//   border-radius: 50%;
+//   // padding: 10px;
+//   transition: all 0.3s ease-in-out;
+//   width: 40px; /* Initial width for the circle */
+//   height: 40px;
+//   overflow: hidden;
+// }
+
+// .cart-icon-position-desktop img {
+//   box-shadow: 0px 1px 1px #00000038;
+//   border-radius: 50%;
+//   width: 24px; /* Adjust icon size */
+//   height: 24px;
+
+//   transition: all 0.3s ease-in-out;
+// }
+
+// .cart-icon-position-desktop div:last-child {
+//   display: none;
+//   white-space: nowrap;
+//   opacity: 0;
+//   transition: opacity 0.3s ease-in-out;
+// }
+
+// .cart-icon-position-desktop:hover {
+//   width: 40px;
+//   height: 40px;
+// }
+
+// .cart-icon-position-desktop:hover div:last-child {
+//   display: block;
+//   opacity: 1;
+// }
+
+
+
+
+// .cart-icon-position-desktop {
+//   position: absolute;
+//   right: 10px;
+//   bottom: 12px;
+//   z-index: 2;
+//   cursor: pointer;
+//   display: flex;
+//   align-items: center;
+//   background-color: #7EAAA9;
+//   gap: 10px;
+//   border-radius: 20px;
+//   // transition: background-color 1s ease-in-out, padding-left 1s ease-in-out;
+//   transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+ 
+  
+
+//   img {
+//     box-shadow: 0px 1px 1px #00000038;
+//     border-radius: 50%;
+    
+//   }
+
+//   div:last-child {
+//     // display: none;
+//     visibility: hidden;
+//     opacity: 0;
+    
+//     transition: opacity 1s ease-in-out;
+//     // transition: visibility 0s linear 1s, opacity 1s ease-in-out;
+    
+//   }
+//   &:hover{
+//     transform: translateX(-10px);
+//   }
+
+//   &:hover div:last-child {
+//     // display: block;
+//     // opacity: 1;
+
+//     visibility: visible;
+//     opacity: 1;
+//     // transform: translateX(-10px);
+//     // transition: transform 1s ease-in-out;
+//   }
+// }
+
+// .cart-icon-position-desktop {
+//   position: absolute;
+//   right: 10px;
+//   bottom: 12px;
+//   z-index: 2;
+//   cursor: pointer;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   background-color: #7EAAA9;
+//   gap: 10px;
+//   border-radius: 50px; /* Initially circular */
+//   width: 40px; /* Small circular size */
+//   height: 40px;
+//   overflow: hidden; /* Hide text initially */
+//   transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
+// }
+
+// .cart-icon-position-desktop:hover {
+//   width: 140px; /* Expand smoothly */
+//   border-radius: 50px; /* Keep rounded shape */
+// }
+
+// .icon-container {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   transition: transform 0.5s ease-in-out;
+// }
+
+// .cart-icon-position-desktop:hover .icon-container {
+//   transform: translateX(10px); /* Move icon left smoothly */
+// }
+
+// .add-text {
+//   opacity: 0;
+//   white-space: nowrap;
+//   transition: opacity 0.3s ease-in-out;
+// }
+
+// .cart-icon-position-desktop:hover .add-text {
+//   opacity: 1; /* Fade in text */
+//   transition-delay: 0.2s; /* Delay to sync with expansion */
+// }
+
+
+
+
+
+
+
+
+
 
 .three-sixty-container{
   background-color: transparent;

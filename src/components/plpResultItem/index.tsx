@@ -26,7 +26,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 import PlpResultImageSlider from "components/PlpResultImageSlider";
 import plpThreeSixty from "./../../icons/plp-three-sixty.svg";
 import iconStyles from "styles/iconFonts.scss";
-
+import addToBAg from "../../icons/GE- Icons-134.svg";
 const PlpResultItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
 ) => {
@@ -227,17 +227,34 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           //   [styles.wishlistBtnContainer]: mobile
           // }
         )}
+        onClick={() => gaCall(action)}
       >
-        <div
+        {/* <div
           className={cs(
             iconStyles.icon,
             globalStyles.iconContainer,
-            iconStyles.iconPlpCart
+            iconStyles.iconPlpCart,
           )}
           onClick={() => gaCall(action)}
-        ></div>
+        ></div> */}
+        <div
+          className={cs(
+            globalStyles.iconContainer
+
+            // iconStyles.iconPlpCart,
+          )}
+        >
+          <img src={addToBAg} />
+        </div>
+
+        <div
+          className={cs(styles.addText, { [styles.forMobile]: mobile })}
+          onClick={() => gaCall(action)}
+        >
+          Add to Bag
+        </div>
       </div>
-      // <Button
+      // <Buttons
       //   className={cs(
       //     styles.addToBagListView,
       //     // styles.productBtn,
