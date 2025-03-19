@@ -5,6 +5,7 @@ import globalStyles from "../../../styles/global.scss";
 import styles from "../styles.scss";
 import cs from "classnames";
 import { Props } from "./typings";
+import { currencyCodes } from "constants/currency";
 
 const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
   const [labelClass, setLabelClass] = useState(false);
@@ -47,6 +48,19 @@ const FormSelect: React.FC<Props & InjectedProps<string | null>> = props => {
         return (
           <option key={option.label} value={option.value}>
             {option.label}
+            {props.countryData && props.countryData[option.label]
+              ? ` (${props.countryData[option.label]} ${
+                  props.currencyCharCode
+                    ? String.fromCharCode(
+                        ...currencyCodes[
+                          props.countryData[
+                            option.label
+                          ] as keyof typeof currencyCodes
+                        ]
+                      )
+                    : ""
+                })`
+              : ""}
           </option>
         );
       })

@@ -3,6 +3,8 @@ import { RefObject } from "react";
 export type Props = {
   name: string;
   value?: string;
+  currencyCharCode?: number[];
+  countryData?: Record<string, string>;
   options: {
     value: string;
     label: string;
