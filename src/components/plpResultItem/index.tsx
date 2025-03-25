@@ -251,7 +251,7 @@ const PlpResultItem: React.FC<PLPResultItemProps> = (
           className={cs(styles.addText, { [styles.forMobile]: mobile })}
           onClick={() => gaCall(action)}
         >
-          Add to Bag
+          ADD TO BAG
         </div>
       </div>
       // <Buttons
