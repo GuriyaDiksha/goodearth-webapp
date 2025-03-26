@@ -286,26 +286,37 @@ class ProfileUpdater extends React.Component<Props, State> {
       phoneNumber
     } = model;
     const formData: any = {};
-    formData["gender"] = gender || "";
-    formData["firstName"] = firstName;
-    formData["lastName"] = lastName;
+    // formData["gender"] = gender || "";
+    // formData["firstName"] = firstName;
+    // formData["lastName"] = lastName;
     const countryCode = this.state.countryOptions.filter(
       countryOption => countryOption.value == country
     )[0].code2;
-    formData["country"] = countryCode;
+    formData["country"] = this.state.data.country ? "" : countryCode;
+    // formData["country"] = countryCode;
     if (countryCode == "IN") {
-      formData["state"] = state || "";
+      // formData["state"] = state || "";
+      formData["state"] = this.state.data.state ? "" : state || "";
     }
 
     if (phoneCountryCode && phoneNumber) {
-      formData["phoneNumber"] = phoneNumber;
-      formData["phoneCountryCode"] = phoneCountryCode;
+      // formData["phoneNumber"] = phoneNumber;
+      // formData["phoneCountryCode"] = phoneCountryCode;
+      formData["phoneNumber"] = this.state.data.phoneNumber ? "" : phoneNumber;
+      formData["phoneCountryCode"] = this.state.data.phoneCountryCode
+        ? ""
+        : phoneCountryCode;
     }
 
     formData["subscribe"] = subscribe;
     this.setState({
       showerror: ""
     });
+    // Check if fields are disabled before adding them to formData
+    // For firstName and lastName, check if they're already set (which means disabled)
+    formData["firstName"] = this.state.data.firstName ? "" : firstName;
+    formData["lastName"] = this.state.data.lastName ? "" : lastName;
+    formData["gender"] = this.state.data.gender ? "" : gender || "";
     this.props
       .updateProfileData(formData)
       .then(data => {
