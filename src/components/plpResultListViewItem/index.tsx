@@ -22,6 +22,7 @@ import { GA_CALLS } from "constants/cookieConsent";
 import iconStyles from "styles/iconFonts.scss";
 import plpThreeSixty from "./../../icons/plp-three-sixty.svg";
 import PlpResultImageSlider from "components/PlpResultImageSlider";
+import addToBAg from "../../icons/GE- Icons-134.svg";
 
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
@@ -124,27 +125,69 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
       action = () => notifyMeClick(product);
     }
     return (
+      // --------
+      // <div
+      //     className={cs(
+      //       globalStyles.textCenter,
+      //       globalStyles.cartIconPositionDesktop,
+      //       globalStyles.listRightBottomPosition,
+      //       { [globalStyles.cartIconPositionMobile]: mobile }
+      //       // styles.wishlistBtnContainer
+      //       // {
+      //       //   [styles.wishlistBtnContainer]: mobile
+      //       // }
+      //     )}
+      //   >
+      //     <div
+      //       className={cs(
+      //         iconStyles.icon,
+      //         globalStyles.iconContainer,
+      //         iconStyles.iconPlpCart
+      //       )}
+      //       onClick={() => gaCall(action)}
+      //     ></div>
+      //   </div>
+
       <div
         className={cs(
           globalStyles.textCenter,
           globalStyles.cartIconPositionDesktop,
-          globalStyles.listRightBottomPosition,
           { [globalStyles.cartIconPositionMobile]: mobile }
           // styles.wishlistBtnContainer
           // {
           //   [styles.wishlistBtnContainer]: mobile
           // }
         )}
+        onClick={() => gaCall(action)}
       >
+        {/* <div
+      className={cs(
+        iconStyles.icon,
+        globalStyles.iconContainer,
+        iconStyles.iconPlpCart,
+      )}
+      onClick={() => gaCall(action)}
+    ></div> */}
         <div
           className={cs(
-            iconStyles.icon,
-            globalStyles.iconContainer,
-            iconStyles.iconPlpCart
+            globalStyles.iconContainer
+
+            // iconStyles.iconPlpCart,
           )}
+        >
+          <img src={addToBAg} />
+        </div>
+
+        <div
+          className={cs(styles.addText, { [styles.forMobile]: mobile })}
           onClick={() => gaCall(action)}
-        ></div>
+        >
+          ADD TO BAG
+        </div>
       </div>
+
+      // --------
+
       // <Button
       //   className={cs(
       //     styles.addToBagListView,
