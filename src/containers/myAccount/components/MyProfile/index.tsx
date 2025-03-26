@@ -216,7 +216,7 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     resetForm: any,
     updateInputsWithError: any
   ) => {
-    const { updateProfile, countryOptions } = profileState;
+    const { updateProfile, countryOptions, stateOptions } = profileState;
     if (!updateProfile) return false;
     const {
       firstName,
@@ -232,26 +232,72 @@ const MyProfile: React.FC<ProfileProps> = ({ setCurrentSection }) => {
     } = model;
 
     const formData: any = {};
-    formData["firstName"] = firstName || "";
-    formData["lastName"] = lastName || "";
-    if (phoneCountryCode && phoneNumber) {
+    // formData["firstName"] = firstName || "";
+    // formData["lastName"] = lastName || "";
+    // if (phoneCountryCode && phoneNumber) {
+    //   formData["phoneCountryCode"] = phoneCountryCode;
+    //   formData["phoneNumber"] = phoneNumber;
+    // }
+    // formData["gender"] = gender || "";
+    // formData["panPassportNumber"] = panPassportNumber || "";
+    // formData["dateOfBirth"] = dateOfBirth
+    //   ? moment(dateOfBirth).format("YYYY-MM-DD")
+    //   : null;
+    // formData["subscribe"] = subscribe;
+    // const countryCode = countryOptions.filter(
+    //   countryOption => countryOption?.value == country
+    // )[0]?.code2;
+    // formData["country"] = countryCode;
+    // if (countryCode == "IN") {
+    //   formData["state"] = state || "";
+    // }
+    // formData["whatsappSubscribe"] = preferenceData?.whatsappSubscribe;
+    // Check if fields are disabled and send empty values if they are
+    formData["firstName"] = data?.firstName ? "" : firstName || "";
+    formData["lastName"] = data?.lastName ? "" : lastName || "";
+    if (
+      !data?.phoneCountryCode &&
+      !data?.phoneNumber &&
+      phoneCountryCode &&
+      phoneNumber
+    ) {
       formData["phoneCountryCode"] = phoneCountryCode;
       formData["phoneNumber"] = phoneNumber;
+    } else {
+      // If either field is disabled, send empty values for both phone fields
+      if (data?.phoneCountryCode || data?.phoneNumber) {
+        formData["phoneCountryCode"] = "";
+        formData["phoneNumber"] = "";
+      }
     }
-    formData["gender"] = gender || "";
-    formData["panPassportNumber"] = panPassportNumber || "";
-    formData["dateOfBirth"] = dateOfBirth
+    formData["gender"] = data?.gender ? "" : gender || "";
+    formData["panPassportNumber"] = data?.panPassportNumber
+      ? ""
+      : panPassportNumber || "";
+    formData["dateOfBirth"] = data?.dateOfBirth
+      ? ""
+      : dateOfBirth
       ? moment(dateOfBirth).format("YYYY-MM-DD")
       : null;
     formData["subscribe"] = subscribe;
+
+    // For country and state, check if they're disabled
     const countryCode = countryOptions.filter(
       countryOption => countryOption?.value == country
     )[0]?.code2;
-    formData["country"] = countryCode;
+
+    // Always include country in payload, empty if disabled
+    formData["country"] =
+      countryOptions.length > 0 && data?.country ? "" : countryCode;
+
+    // Always include state in payload if country is India
     if (countryCode == "IN") {
-      formData["state"] = state || "";
+      formData["state"] =
+        stateOptions.length > 0 && data?.state ? "" : state || "";
     }
-    formData["whatsappSubscribe"] = preferenceData?.whatsappSubscribe;
+
+    formData["whatsappSubscribe"] = preferenceData?.whatsappSubscribe || false;
+
     setProfileState({
       ...profileState,
       showerror: ""
