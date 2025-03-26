@@ -298,7 +298,7 @@ const AddressItem: React.FC<Props> = props => {
           ? !(props.isGcCheckout && currency != address.currency) &&
             (currentCallBackComponent == "checkout-billing" ||
               currentCallBackComponent == "checkout-shipping") &&
-              markAsDefault(address)
+            markAsDefault(address)
           : null;
       }}
     >
@@ -860,7 +860,7 @@ const AddressItem: React.FC<Props> = props => {
         <div className={globalStyles.errorMsg}>{deleteError}</div>
       )}
       {!address.isShippingCountry && (
-        <div className={globalStyles.errorMsg}>
+        <div className={cs(globalStyles.errorMsg, styles.currencyUnavailable)}>
           Shipping to the UAE is currently unavailable.
         </div>
       )}
