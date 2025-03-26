@@ -11,6 +11,9 @@ import {
 import { useSelector } from "react-redux";
 import { AppState } from "reducers/typings";
 import { useHistory, useLocation } from "react-router-dom";
+import { isAEDDisabled } from "typings/currency";
+import { countryCurrencyCode } from "constants/currency";
+import CookieService from "services/cookie";
 
 const DropdownMenu = ({
   align,
@@ -34,6 +37,15 @@ const DropdownMenu = ({
   useEffect(() => {
     setCurrentValue(value);
   }, [value]);
+
+  useEffect(() => {
+    const curCountryCode = CookieService.getCookie("countryCode");
+    setTimeout(() => {
+      if (isAEDDisabled && curCountryCode != "AE" && value == "AED") {
+        setCurrentValue(countryCurrencyCode?.[curCountryCode || "IN"]);
+      }
+    }, 1000);
+  }, []);
 
   const onChangeValue = (
     val: string | undefined,
