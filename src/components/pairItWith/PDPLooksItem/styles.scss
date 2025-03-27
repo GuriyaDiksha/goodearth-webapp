@@ -256,3 +256,16 @@
         line-height: 38px;
     }
 }
+
+
+.add-text{
+    // @include b3_14px_montserrat_white()
+    font-family: "Montserrat", "sans-serif";
+    font-size: 12px !important;
+    font-weight: 400;
+    color: #fff;
+}
+
+.for-mobile{
+    display: none;
+}

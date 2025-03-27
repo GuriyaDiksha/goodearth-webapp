@@ -20,6 +20,7 @@ import { displayPriceWithCommas } from "utils/utility";
 import Button from "components/Button";
 import { Icons } from "components/dropdown/stories";
 import iconStyles from "styles/iconFonts.scss";
+import addBag from "../../../icons/GE- Icons-134.svg";
 const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
   props: PLPResultItemProps
 ) => {
@@ -117,14 +118,31 @@ const PlpResultListViewItem: React.FC<PLPResultItemProps> = (
             { [globalStyles.cartIconPositionMobile]: mobile }
           )}
         >
-          <div
+          {/* <div
             className={cs(
               iconStyles.icon,
               globalStyles.iconContainer,
               iconStyles.iconPlpCart
             )}
             onClick={e => action(e)}
-          ></div>
+          ></div> */}
+
+          <div
+            className={cs(
+              globalStyles.iconContainer
+
+              // iconStyles.iconPlpCart,
+            )}
+          >
+            <img onClick={e => action(e)} src={addBag} />
+          </div>
+
+          <div
+            className={cs(styles.addText, { [styles.forMobile]: mobile })}
+            onClick={e => action(e)}
+          >
+            ADD TO BAG
+          </div>
         </div>
       </>
     );
