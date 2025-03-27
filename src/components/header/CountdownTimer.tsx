@@ -80,7 +80,7 @@ const CountdownTimer: React.FC = () => {
 
   return (
     <div id="ge-timer" className={styles.countdownTimer}>
-      <div className={bootstrap.row}>
+      <div className={cs(bootstrap.row, styles.textWrapper)}>
         <div
           className={cs(
             bootstrap.col,
