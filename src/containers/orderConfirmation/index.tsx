@@ -112,7 +112,8 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
         coupon: result.offerDisounts?.[0]?.name,
         dimension12: line.product?.color,
         item_category: category?.split(">")?.join("|"),
-        collection_category: line?.product?.collection
+        collection_category: line?.product?.collection,
+        country_custom: CookieService.getCookie("country")
       };
     });
 
@@ -177,6 +178,7 @@ const orderConfirmation: React.FC<{ oid: string }> = props => {
           : line.product.pricerecords[result.currency as Currency],
         quantity: line.quantity,
         collection_category: line?.product?.collection,
+        country_custom: CookieService.getCookie("country"),
         price_range: "NA"
       };
     });
