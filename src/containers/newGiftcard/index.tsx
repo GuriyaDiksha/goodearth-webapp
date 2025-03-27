@@ -637,6 +637,8 @@ class NewGiftcard extends React.Component<Props, State> {
                       required
                       label=""
                       value={selectedCountry}
+                      countryData={this.state.countryData}
+                      currencyCharCode={this.state.currencyCharCode}
                       placeholder="Select Country"
                       options={list}
                       handleChange={this.onCountrySelect}
