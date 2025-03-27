@@ -1709,6 +1709,10 @@ ul.inner-menu-mobile {
   background-color:#f3f3f3;
   color: $cerise;
   font-family: $font-Montserrat;
+  .text-wrapper {
+      margin-left: 0px;
+      margin-right: 0px;
+  }
   .timer-txt {
     font-size: 12px;
     line-height: 40px;
@@ -2060,6 +2064,10 @@ div[data-currency="USD"] div[data-testid="pdp-product-price-suffix"] {
     justify-content: space-between;
 
   }
+}
+.menu-for-tablet{
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 @media(min-width:768px)and(max-width:992px){
   .menu-for-tablet{
