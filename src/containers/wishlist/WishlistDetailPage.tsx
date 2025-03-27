@@ -248,7 +248,7 @@ const WishlistDetailPage = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }, 700);
     }
-  }, []);
+  }, [currency]);
 
   useEffect(() => {
     const wishlistTotal = sharedItems.map(item => {
