@@ -1217,6 +1217,17 @@ const WishlistDetailPage = () => {
                                         className={cs(styles.addText, {
                                           [styles.forMobile]: mobile
                                         })}
+                                        onClick={() =>
+                                          openPopup(
+                                            productData,
+                                            currency,
+                                            isSale,
+                                            mobile,
+                                            isShared,
+                                            productData.productId,
+                                            list.name
+                                          )
+                                        }
                                       >
                                         ADD TO BAG
                                       </div>
