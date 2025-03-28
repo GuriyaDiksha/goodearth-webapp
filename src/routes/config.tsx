@@ -255,6 +255,12 @@ const routes: RouteConfig = [
     exact: true
   },
   {
+    path: ROUTES.SIGNUPS25,
+    component: loadable(() => import("containers/SignUps25")),
+    action: async () => null,
+    exact: true
+  },
+  {
     path: ROUTES.INTERNATIONALSALE,
     component: loadable(() => import("containers/InternationalSale")),
     action: async () => null,
