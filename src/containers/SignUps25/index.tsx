@@ -227,7 +227,7 @@ const SignUps25: React.FC = () => {
         styles.loginForm
       )}
     >
-      <h4 className={styles.SignupTitle}>
+      <h4 className={styles.signupTitle}>
         Sign up to our weekly newsletter and get exclusive preview to new
         collections, stories of style and inspiration, and special offers in
         store and online!
