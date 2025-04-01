@@ -30,6 +30,7 @@ import linkIcon from "./../../images/linkIcon.svg";
 import CookieService from "../../services/cookie";
 import { GA_CALLS } from "constants/cookieConsent";
 import { useHistory } from "react-router-dom";
+import addToBAg from "../../icons/GE- Icons-134.svg";
 
 const WishlistDetailPage = () => {
   const dispatch = useDispatch();
@@ -1194,9 +1195,9 @@ const WishlistDetailPage = () => {
                                     >
                                       <div
                                         className={cs(
-                                          iconStyles.icon,
-                                          globalStyles.iconContainer,
-                                          iconStyles.iconPlpCart
+                                          // iconStyles.icon,
+                                          globalStyles.iconContainer
+                                          // iconStyles.iconPlpCart
                                         )}
                                         onClick={() =>
                                           openPopup(
@@ -1209,7 +1210,27 @@ const WishlistDetailPage = () => {
                                             list.name
                                           )
                                         }
-                                      ></div>
+                                      >
+                                        <img src={addToBAg} />
+                                      </div>
+                                      <div
+                                        className={cs(styles.addText, {
+                                          [styles.forMobile]: mobile
+                                        })}
+                                        onClick={() =>
+                                          openPopup(
+                                            productData,
+                                            currency,
+                                            isSale,
+                                            mobile,
+                                            isShared,
+                                            productData.productId,
+                                            list.name
+                                          )
+                                        }
+                                      >
+                                        ADD TO BAG
+                                      </div>
                                     </div>
                                     <div className={styles.createWishlistPopup}>
                                       {activeWishlist == listIndex &&
