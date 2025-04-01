@@ -347,6 +347,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
               : line.product.priceRecords[currency as Currency],
             quantity: line.quantity,
             collection_category: line?.product?.collections?.join("|"),
+            country_custom: CookieService.getCookie("country"),
             price_range: "NA"
           };
         });

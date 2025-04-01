@@ -751,6 +751,7 @@ const AddressSection: React.FC<AddressProps & {
         price: line?.product?.priceRecords[currency],
         quantity: line?.quantity,
         collection_category: line?.product?.collections?.join("|"),
+        country_custom: CookieService.getCookie("country"),
         price_range: "NA"
       };
     });
