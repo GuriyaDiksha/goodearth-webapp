@@ -769,7 +769,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 </p>
               )}
               {this.state.phoneInput && (
-                <p>{censorPhoneNumber(this.state.phoneInput)}</p>
+                <p>{censorPhoneNumber(`+91${this.state.phoneInput}`)}</p>
               )}
             </p>
           )}
