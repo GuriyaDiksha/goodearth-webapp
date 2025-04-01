@@ -602,7 +602,11 @@ const PaymentSection: React.FC<PaymentProps> = props => {
   // }, [currency]);
 
   const onMethodChange = (event: any, method: any) => {
-    if (event.target.checked) {
+    // if (event.target.checked) {
+    //   setCurrentmethod(method);
+    //   setPaymentError("");
+    // }
+    if (event.target === event.currentTarget) {
       setCurrentmethod(method);
       setPaymentError("");
     }
@@ -1146,44 +1150,102 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                 {isPaymentNeeded && (
                   <>
                     <div className={styles.title}>SELECT PAYMENT METHOD</div>
-                    {getMethods.map(function(method, index) {
-                      return (
-                        <div className={globalStyles.marginT20} key={index}>
-                          <label
+                    <div className={styles.paymentMthodsWrapper}>
+                      {getMethods.map(function(method, index) {
+                        return (
+                          <div
                             className={cs(
-                              globalStyles.flex,
-                              globalStyles.crossCenter
-                            )}
-                          >
-                            <div className={styles.marginR10}>
-                              <span className={styles.radio}>
-                                <input
-                                  type="radio"
-                                  value={method.mode}
-                                  checked={
-                                    method.mode == currentmethod.mode
-                                      ? true
-                                      : false
-                                  }
-                                  onChange={event =>
-                                    onMethodChange(event, method)
-                                  }
-                                />
-                                <span className={styles.indicator}></span>
-                              </span>
-                            </div>
-                            <div
-                              className={cs(styles.paymentTitle, {
-                                [styles.selectedValue]:
+                              globalStyles.marginT20,
+                              styles.paymentItem,
+                              {
+                                [styles.active]:
                                   method.mode == currentmethod.mode
-                              })}
+                              }
+                            )}
+                            key={index}
+                            onClick={event => onMethodChange(event, method)}
+                          >
+                            <img src={method.icon} />
+                            <div
+                              className={cs(styles.paymentTitle)}
+                              onClick={event => onMethodChange(event, method)}
                             >
                               {method.value}
                             </div>
-                          </label>
+                            {/* <label
+                              className={cs(
+                                globalStyles.flex,
+                                globalStyles.crossCenter
+                              )}
+                            >
+                              <div className={styles.marginR10}>
+                                <span className={styles.radio}>
+                                  <input
+                                    type="radio"
+                                    value={method.mode}
+                                    checked={
+                                      method.mode == currentmethod.mode
+                                        ? true
+                                        : false
+                                    }
+                                    onChange={event =>
+                                      onMethodChange(event, method)
+                                    }
+                                  />
+                                  <span className={styles.indicator}></span>
+                                </span>
+                              </div>
+                              <div
+                                className={cs(styles.paymentTitle, {
+                                  [styles.selectedValue]:
+                                    method.mode == currentmethod.mode
+                                })}
+                              >
+                                {method.value}
+                              </div>
+                            </label> */}
+                          </div>
+                        );
+                      })}
+                      {currency == "INR" && (
+                        <div
+                          className={cs(
+                            globalStyles.marginT20,
+                            styles.paymentItem,
+                            {
+                              [styles.active]: currentmethod.mode == "NA"
+                            }
+                          )}
+                          key={4}
+                          onClick={event =>
+                            onMethodChange(event, {
+                              icon: "",
+                              key: "razorpay",
+                              mode: "NA",
+                              value: "Credit/Debit"
+                            })
+                          }
+                        >
+                          <div
+                            className={cs(
+                              styles.paymentTitle,
+                              styles.otherPaymentMode
+                            )}
+                            onClick={event =>
+                              onMethodChange(event, {
+                                icon: "",
+                                key: "razorpay",
+                                mode: "NA",
+                                value: "Credit/Debit"
+                              })
+                            }
+                          >
+                            Other <br />
+                            Modes
+                          </div>
                         </div>
-                      );
-                    })}
+                      )}
+                    </div>
                   </>
                 )}
 
