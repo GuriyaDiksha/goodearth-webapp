@@ -31,9 +31,21 @@ const application = (
     </ConnectedRouter>
   </Provider>
 );
-
 window.onload = () => {
   // const root = document.getElementById("main");
+  const rootMainId = document.getElementById("main");
+  if (!rootMainId) return;
+
+  // Initially set overflow-x to hidden to fix initial screen shrink issue
+  rootMainId.style.overflowX = "hidden";
+
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 0) {
+      rootMainId.style.overflowX = "visible"; // Allow horizontal scrolling when scrolling down
+    } else {
+      rootMainId.style.overflowX = "hidden"; // Keep it hidden when at the top
+    }
+  });
   const container = document.getElementById("main")!;
   hydrateRoot(container, application);
   const updatedDevice = getDevice(window.navigator.userAgent);
