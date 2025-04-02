@@ -146,8 +146,8 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     }
     data["inputType"] = "CNI";
     data["code"] = this.props.txtvalue;
-    data["otpTo"] =
-      this.state.radioType == "number" ? "phoneno" : this.state.radioType;
+    // data["otpTo"] =
+    //   this.state.radioType == "number" ? "phoneno" : this.state.radioType;
     this.sendOtpApiCall(data, false);
   };
 
@@ -218,14 +218,16 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
     // } else {
     //   data["email"] = email;
     // }
-    data["email"] = email;
-    data["inputType"] = "GIFT";
     data["code"] = this.props.txtvalue;
-    data["otpTo"] = "email";
+    data["email"] = email;
+
+    // data["inputType"] = "GIFT";
+    // data["otpTo"] = "email";
     // data["otpTo"] =
     // this.props.code == "91" && this.state.selectedOption == "mobile number"
     //   ? "phoneno"
     //   : "email";
+
     if (this.props.otpFor == "activateGC") {
       data["firstName"] = this.props.firstName;
       data["lastName"] = this.props.lastName;

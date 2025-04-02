@@ -142,8 +142,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     }
     data["inputType"] = "CNI";
     data["code"] = this.props.txtvalue;
-    data["otpTo"] =
-      this.state.radioType == "number" ? "phoneno" : this.state.radioType;
+    // data["otpTo"] =
+    //   this.state.radioType == "number" ? "phoneno" : this.state.radioType;
     this.sendOtpApiCall(data);
   };
 
@@ -238,8 +238,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       data["lastName"] = this.props.lastName;
       // this.sendOtpApiCall(data);
     }
-    data["otpTo"] =
-      this.state.radioType == "number" ? "phoneno" : this.state.radioType;
+    // data["otpTo"] =
+    //   this.state.radioType == "number" ? "phoneno" : this.state.radioType;
     this.sendOtpApiCall(data);
   };
 
@@ -271,9 +271,10 @@ class OtpComponent extends React.Component<otpProps, otpState> {
     delete newData["inputType"];
     this.setState({ otp: value, showerror: "" });
 
-    !this.props.isCredit &&
-      (emailInput && (newData["email"] = emailInput),
-      phoneInput && (newData["phoneNo"] = phoneInput));
+    // !this.props.isCredit &&(
+    //   emailInput && (newData["email"] = emailInput),
+    //   phoneInput && (newData["phoneNo"] = phoneInput)
+    // );
 
     if (this.props.otpFor == "activateGC") {
       this.props.activateGiftCard &&
@@ -302,7 +303,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                 // radioType: "",
                 showerrorOtp: "",
                 showerror: "",
-                disable: true
+                disable: true,
+                emailInput: data.email,
+                phoneInput: data.phoneNo
               });
             }
             // this.props.toggleOtp(false);
@@ -527,12 +530,12 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           }
         });
 
-        !this.props.isCredit &&
-          this.setState({
-            // otpData: data,
-            emailInput: data.email && data.email,
-            phoneInput: data.phoneNo && data.phoneNo
-          });
+        // !this.props.isCredit &&
+        //   this.setState({
+        //     // otpData: data,
+        //     emailInput: data.email && data.email,
+        //     phoneInput: data.phoneNo && data.phoneNo
+        //   });
 
         if (
           data.inputType == "GIFT" &&
@@ -575,7 +578,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
           this.setState(
             {
               toggleOtp: true,
-              otpData: formData
+              otpData: formData,
+              emailInput: data.email && data.email,
+              phoneInput: data.phoneNo && data.phoneNo
             },
             () => {
               // this.timer();
