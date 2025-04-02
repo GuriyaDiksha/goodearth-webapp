@@ -736,7 +736,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               : "GIFT CARD CODE"}
           </p>
           <p>{this.props.txtvalue}</p>
-          {this.props.isCredit ? (
+
+          {/* {this.props.isCredit ? (
             radioType == "email" ? (
               <p className={globalStyles.voffset2}>
                 <strong className={cs(globalStyles.op2, globalStyles.bold)}>
@@ -744,7 +745,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   OTP SENT TO EMAIL ADDRESS:
                 </strong>{" "}
                 <br />
-                <p className={styles.overflowEmail}>{otpData.email}</p>
+                <p className={styles.overflowEmail}>{this.state.emailInput}</p>
               </p>
             ) : (
               <p className={globalStyles.voffset2}>
@@ -752,32 +753,34 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   OTP SMS SENT TO MOBILE NUMBER:
                 </strong>{" "}
                 <br />
-                <p>{otpData.phoneNo}</p>
+                <p>{this.state.phoneInput}</p>
               </p>
             )
-          ) : (
-            <p className={globalStyles.voffset2}>
-              <strong className={cs(globalStyles.op2, globalStyles.bold)}>
-                {" "}
-                {this.state.emailInput && this.state.phoneInput
-                  ? "OTP SENT TO EMAIL ADDRESS & MOBILE NUMBER:"
-                  : this.state.emailInput
-                  ? "OTP SENT TO EMAIL ADDRESS:"
-                  : this.state.phoneInput
-                  ? "OTP SMS SENT TO MOBILE NUMBER"
-                  : ""}
-              </strong>{" "}
-              <br />
-              {this.state.emailInput && (
-                <p className={styles.overflowEmail}>
-                  {censorEmail(this.state.emailInput)}
-                </p>
-              )}
-              {this.state.phoneInput && (
-                <p>{censorPhoneNumber(`+91${this.state.phoneInput}`)}</p>
-              )}
-            </p>
-          )}
+          ) : ( */}
+
+          <p className={globalStyles.voffset2}>
+            <strong className={cs(globalStyles.op2, globalStyles.bold)}>
+              {" "}
+              {this.state.emailInput && this.state.phoneInput
+                ? "OTP SENT TO EMAIL ADDRESS & MOBILE NUMBER:"
+                : this.state.emailInput
+                ? "OTP SENT TO EMAIL ADDRESS:"
+                : this.state.phoneInput
+                ? "OTP SMS SENT TO MOBILE NUMBER"
+                : ""}
+            </strong>{" "}
+            <br />
+            {this.state.emailInput && (
+              <p className={styles.overflowEmail}>
+                {censorEmail(this.state.emailInput)}
+              </p>
+            )}
+            {this.state.phoneInput && (
+              <p>{censorPhoneNumber(`+91${this.state.phoneInput}`)}</p>
+            )}
+          </p>
+
+          {/* )} */}
         </div>
         <hr />
         {(this.props.otpFor == "activateGC"
@@ -949,7 +952,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
             )}
             id="gc-input"
           >
-            {this.props.isCredit ? (
+            {/* {this.props.isCredit ? (
               <Formsy
                 ref={this.RegisterFormRef1}
                 onChange={() => {
@@ -980,8 +983,9 @@ class OtpComponent extends React.Component<otpProps, otpState> {
               </Formsy>
             ) : (
               ""
-            )}
-            {this.props.isCredit ? (
+            )} */}
+
+            {/* {this.props.isCredit ? (
               <>
                 <li>
                   <hr />
@@ -1269,7 +1273,70 @@ class OtpComponent extends React.Component<otpProps, otpState> {
                   />
                 </li>
               </>
-            )}
+            )} */}
+
+            <>
+              <div className={styles.maxAttemptErrMsg}>
+                <p
+                  className={
+                    this.state.subscribeError
+                      ? cs(globalStyles.errorMsg, globalStyles.wordCap)
+                      : globalStyles.hidden
+                  }
+                >
+                  Please agree to the Terms and Conditions before proceeding
+                </p>
+                {this.state.showerrorOtp &&
+                  !this.state.showerrorOtp?.includes(
+                    "Maximum attempts reached"
+                  ) && (
+                    <p
+                      id="customererror"
+                      className={
+                        this.state.showerrorOtp
+                          ? cs(globalStyles.errorMsg, globalStyles.wordCap)
+                          : globalStyles.hidden
+                      }
+                    >
+                      {this.state.showerrorOtp}
+                    </p>
+                  )}
+                <p>{this.state.showerrorOtp ? <CustomerCareInfo /> : ""}</p>
+              </div>
+              <li className={this.state.showerrorOtp ? styles.margintop : ""}>
+                {this.state.showerrorOtp &&
+                  this.state.showerrorOtp?.includes(
+                    "Maximum attempts reached"
+                  ) && (
+                    <p
+                      id="customererror"
+                      className={
+                        this.state.showerrorOtp
+                          ? cs(
+                              globalStyles.errorMsg,
+                              globalStyles.wordCap,
+                              globalStyles.marginB10
+                            )
+                          : globalStyles.hidden
+                      }
+                    >
+                      {this.state.showerrorOtp}
+                    </p>
+                  )}
+                <Button
+                  type="submit"
+                  disabled={this.state.disable}
+                  onClick={() =>
+                    this.sendOtpApiCall({
+                      code: this.props.txtvalue,
+                      inputType: this.props.isCredit ? "CNI" : "GIFT"
+                    })
+                  }
+                  label="Check Balance"
+                  variant="mediumMedCharcoalCta366"
+                />
+              </li>
+            </>
           </div>
         )}
       </Fragment>
