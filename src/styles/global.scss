@@ -631,12 +631,12 @@ font-weight: bold;
     transform: scale(1);        /* Shrinks back smoothly as a whole */
   }
   
-  @media (max-width: 768px) {
-    .icon-container {
-      height: 25px !important;
-      width: 25px !important;
-    }
-  }
+  // @media (max-width: 768px) {
+  //   .icon-container {
+  //     height: 25px !important;
+  //     width: 25px !important;
+  //   }
+  // }
 
   
 }
