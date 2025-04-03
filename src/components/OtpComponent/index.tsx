@@ -493,8 +493,8 @@ class OtpComponent extends React.Component<otpProps, otpState> {
   };
 
   sendOtpApiCall = (formData: any) => {
-    // snipet code only for giftcard
-    if (!this.props.isCredit && !this.props.txtvalue) {
+    // snipet code when blank gn cn code pass
+    if (!this.props.txtvalue) {
       this.props.updateError(
         `Please enter a valid ${
           this.props.isCredit ? "Credit Note" : "Gift Card"
@@ -510,7 +510,7 @@ class OtpComponent extends React.Component<otpProps, otpState> {
       );
       return false;
     }
-    // end snipet code only for giftcard
+    // end snipet
 
     this.setState({
       disable: true,

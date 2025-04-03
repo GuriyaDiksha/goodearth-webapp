@@ -795,8 +795,11 @@ class OtpCompActivateGC extends React.Component<otpProps, otpState> {
               // otpSentVia={this.props.isIndiaGC ? "mobile number" : "email"}
               // otpSentVia={"email"}
               otpSentVia={
-                this.props.code == "91" ? this.state.selectedOption : "email"
+                // this.props.code == "91" ? this.state.selectedOption : "email 111"
                 // this.props.isIndiaGC ? this.state.selectedOption : "email"
+                otpData.email && this.state.activatedPhoneNo
+                  ? "Email ID & Mobile No"
+                  : "Email ID"
               }
               resendOtp={this.resendOtp}
               verifyOtp={this.checkOtpValidation}
