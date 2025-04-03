@@ -1213,7 +1213,7 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                             globalStyles.marginT20,
                             styles.paymentItem,
                             {
-                              [styles.active]: currentmethod.mode == "NA"
+                              [styles.active]: currentmethod.mode == "CASH"
                             }
                           )}
                           key={4}
@@ -1221,8 +1221,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                             onMethodChange(event, {
                               icon: "",
                               key: "razorpay",
-                              mode: "NA",
-                              value: "Credit/Debit"
+                              mode: "CASH",
+                              value: "WALLETS"
                             })
                           }
                         >
@@ -1235,8 +1235,8 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                               onMethodChange(event, {
                                 icon: "",
                                 key: "razorpay",
-                                mode: "NA",
-                                value: "Credit/Debit"
+                                mode: "CASH",
+                                value: "WALLETS"
                               })
                             }
                           >
