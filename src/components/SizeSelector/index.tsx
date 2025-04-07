@@ -13,7 +13,8 @@ const SizeSelector: React.FC<Props> = ({
   sizeClassName,
   isCorporatePDP,
   containerClassName,
-  presentIn
+  presentIn,
+  fillerproduct = true
 }) => {
   const getSizeClickHandler = useCallback(
     child => {
@@ -32,7 +33,8 @@ const SizeSelector: React.FC<Props> = ({
           key={sku}
           className={cs(styles.sizeButton, sizeClassName, containerClassName, {
             [styles.selected]: id === selected,
-            [styles.unavailable]: stock === 0 && !isCorporatePDP,
+            [styles.unavailable]:
+              stock === 0 && !isCorporatePDP && fillerproduct == !false,
             [styles.cushionSelectPadding]: presentIn === true
           })}
           onClick={getSizeClickHandler(child)}

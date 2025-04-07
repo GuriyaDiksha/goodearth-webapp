@@ -11,4 +11,5 @@ export type Props = {
   isCorporatePDP?: boolean;
   containerClassName?: string;
   presentIn?: boolean;
+  fillerproduct?: boolean;
 };
