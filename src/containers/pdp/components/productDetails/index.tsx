@@ -2168,13 +2168,11 @@ const ProductDetails: React.FC<Props> = ({
                                               styles.fillerSizeContainer
                                             }
                                             isCorporatePDP={corporatePDP}
-                                            sizes={childAttributes}
-                                            onChange={onSizeSelect}
-                                            selected={
-                                              selectedSize
-                                                ? selectedSize.id
-                                                : undefined
+                                            sizes={
+                                              fillerProduct.childAttributes
                                             }
+                                            onChange={onSizeSelect}
+                                            selected={fillerProduct.id}
                                           />
                                         </div>
                                       </div>
