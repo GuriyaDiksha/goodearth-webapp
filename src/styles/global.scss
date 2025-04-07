@@ -593,8 +593,8 @@ font-weight: bold;
     overflow: hidden; /* Ensure the image doesn't exceed the container */
     
     img {
-      width: 14px !important;
-      height: 13px !important;
+      width: 17px !important;
+      height: 17px !important;
       object-fit: contain; 
       filter: brightness(0) invert(1); /* Keep the image's aspect ratio */
     }
