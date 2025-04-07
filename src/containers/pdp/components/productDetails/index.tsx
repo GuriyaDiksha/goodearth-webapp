@@ -2173,6 +2173,7 @@ const ProductDetails: React.FC<Props> = ({
                                             }
                                             onChange={onSizeSelect}
                                             selected={fillerProduct.id}
+                                            fillerproduct={false}
                                           />
                                         </div>
                                       </div>
