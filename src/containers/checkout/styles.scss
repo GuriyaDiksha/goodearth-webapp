@@ -279,7 +279,7 @@ hr {
 }
 
 .title {
-  font-size: 14px;
+  @include b4_12px_montserrat_charcoal_caps();
   span {
     color: $charcoal19 !important;
     opacity: 1;
@@ -1706,4 +1706,36 @@ span.add-new-address {
 }
 .disable-sate .gc_msg{
   color: #9F9F9F!important;
+}
+.payment-mthods-wrapper{
+  display: flex;
+  margin-bottom: 25px;
+  .payment-item{
+    margin-right: 10px;
+    border: 1px solid #E5E5E5;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    width: 130px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+  }
+  .payment-item.active{
+    border: 1px solid #4C4C4C;
+  }
+  img{
+    width: 40px;
+  }
+  img,
+  .payment-title{
+    position: relative;
+    z-index: -1;
+  }
+  .other-payment-mode{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }

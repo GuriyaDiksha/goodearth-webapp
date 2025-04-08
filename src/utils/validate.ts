@@ -216,6 +216,7 @@ export function dataForBilling(data: Basket, currency: Currency) {
           price: realPrice,
           quantity: prod.quantity,
           collection_category: product?.collections?.join("|"),
+          country_custom: CookieService.getCookie("country"),
           price_range: "NA"
         }
       );
@@ -361,6 +362,7 @@ export function proceedTocheckout(
           price: realPrice,
           quantity: 1,
           collection_category: product?.collections?.join("|"),
+          country_custom: CookieService.getCookie("country"),
           price_range: "NA"
         }
       );
@@ -483,6 +485,7 @@ export function proceedForPayment(
           price: product.priceRecords[currency],
           quantity: 1,
           collection_category: product?.collections?.join("|"),
+          country_custom: CookieService.getCookie("country"),
           price_range: "NA"
         }
       );
