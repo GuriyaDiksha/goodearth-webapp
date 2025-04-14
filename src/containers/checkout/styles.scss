@@ -1710,8 +1710,15 @@ span.add-new-address {
 .payment-mthods-wrapper{
   display: flex;
   margin-bottom: 25px;
+  flex-direction: row;
+  gap: 10px; 
+  @media(max-width:991px){
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 85%;
+  }
   .payment-item{
-    margin-right: 10px;
+    background: #F9F8F5;
     border: 1px solid #E5E5E5;
     border-radius: 5px;
     padding: 10px;
@@ -1722,7 +1729,8 @@ span.add-new-address {
     z-index: 1;
   }
   .payment-item.active{
-    border: 1px solid #4C4C4C;
+    background: transparent;
+    border: 1px solid $aqua;
   }
   img{
     width: 40px;

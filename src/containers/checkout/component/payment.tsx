@@ -1165,45 +1165,19 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                             key={index}
                             onClick={event => onMethodChange(event, method)}
                           >
-                            <img src={method.icon} />
+                            <img
+                              src={
+                                method.mode == currentmethod.mode
+                                  ? method.activeIcon
+                                  : method.icon
+                              }
+                            />
                             <div
                               className={cs(styles.paymentTitle)}
                               onClick={event => onMethodChange(event, method)}
                             >
                               {method.value}
                             </div>
-                            {/* <label
-                              className={cs(
-                                globalStyles.flex,
-                                globalStyles.crossCenter
-                              )}
-                            >
-                              <div className={styles.marginR10}>
-                                <span className={styles.radio}>
-                                  <input
-                                    type="radio"
-                                    value={method.mode}
-                                    checked={
-                                      method.mode == currentmethod.mode
-                                        ? true
-                                        : false
-                                    }
-                                    onChange={event =>
-                                      onMethodChange(event, method)
-                                    }
-                                  />
-                                  <span className={styles.indicator}></span>
-                                </span>
-                              </div>
-                              <div
-                                className={cs(styles.paymentTitle, {
-                                  [styles.selectedValue]:
-                                    method.mode == currentmethod.mode
-                                })}
-                              >
-                                {method.value}
-                              </div>
-                            </label> */}
                           </div>
                         );
                       })}
