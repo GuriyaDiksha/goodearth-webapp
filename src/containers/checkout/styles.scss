@@ -280,6 +280,7 @@ hr {
 
 .title {
   @include b4_12px_montserrat_charcoal_caps();
+  padding-bottom: 10px;
   span {
     color: $charcoal19 !important;
     opacity: 1;
@@ -1709,7 +1710,7 @@ span.add-new-address {
 }
 .payment-mthods-wrapper{
   display: flex;
-  margin-bottom: 25px;
+  margin-bottom: 40px;
   flex-direction: row;
   gap: 10px; 
   @media(max-width:991px){
@@ -1727,6 +1728,7 @@ span.add-new-address {
     cursor: pointer;
     position: relative;
     z-index: 1;
+    margin-top: 5px;
   }
   .payment-item.active{
     background: transparent;

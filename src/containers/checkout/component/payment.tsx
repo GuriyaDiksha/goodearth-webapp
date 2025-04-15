@@ -1154,14 +1154,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       {getMethods.map(function(method, index) {
                         return (
                           <div
-                            className={cs(
-                              globalStyles.marginT20,
-                              styles.paymentItem,
-                              {
-                                [styles.active]:
-                                  method.mode == currentmethod.mode
-                              }
-                            )}
+                            className={cs(styles.paymentItem, {
+                              [styles.active]: method.mode == currentmethod.mode
+                            })}
                             key={index}
                             onClick={event => onMethodChange(event, method)}
                           >
@@ -1183,13 +1178,9 @@ const PaymentSection: React.FC<PaymentProps> = props => {
                       })}
                       {currency == "INR" && (
                         <div
-                          className={cs(
-                            globalStyles.marginT20,
-                            styles.paymentItem,
-                            {
-                              [styles.active]: currentmethod.mode == "CASH"
-                            }
-                          )}
+                          className={cs(styles.paymentItem, {
+                            [styles.active]: currentmethod.mode == "CASH"
+                          })}
                           key={4}
                           onClick={event =>
                             onMethodChange(event, {
